@@ -1,0 +1,17 @@
+{
+  "name": "new-life-monorepo",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Monorepo for New Life Solutions",
+  "scripts": {
+    "dev": "cd apps/web && npm run dev",
+    "build": "cd apps/web && npm run build",
+    "preview": "cd apps/web && npm run preview",
+    "check": "cd apps/web && npm run check",
+    "install:web": "cd apps/web && npm install",
+    "install:all": "npm run install:web"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

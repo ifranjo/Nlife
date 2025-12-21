@@ -1,0 +1,68 @@
+---
+import type { Tool } from '../../lib/tools';
+
+interface Props {
+  tool: Tool;
+}
+
+const { tool } = Astro.props;
+
+const tierClass = {
+  free: 'tag-free',
+  pro: 'tag-pro',
+  coming: 'tag-coming'
+}[tool.tier];
+
+const tierLabel = {
+  free: 'Free',
+  pro: 'Pro',
+  coming: 'Coming Soon'
+}[tool.tier];
+
+const isDisabled = tool.tier === 'coming';
+---
+
+<a
+  href={isDisabled ? undefined : tool.href}
+  class:list={[
+    'glass-card block p-6 group relative overflow-hidden',
+    { 'cursor-not-allowed opacity-60': isDisabled, 'cursor-pointer': !isDisabled }
+  ]}
+>
+  <!-- Gradient overlay on hover -->
+  <div
+    class:list={[
+      'absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300',
+      `bg-gradient-to-br ${tool.color}`
+    ]}
+    style="opacity: 0.05;"
+  ></div>
+
+  <div class="relative z-10">
+    <!-- Header: Icon + Tag -->
+    <div class="flex items-start justify-between mb-4">
+      <div class="text-4xl">{tool.icon}</div>
+      <span class:list={['tag', tierClass]}>{tierLabel}</span>
+    </div>
+
+    <!-- Title -->
+    <h3 class="text-xl font-bold text-white mb-2 group-hover:text-indigo-300 transition-colors">
+      {tool.name}
+    </h3>
+
+    <!-- Description -->
+    <p class="text-slate-400 text-sm leading-relaxed">
+      {tool.description}
+    </p>
+
+    <!-- Arrow indicator -->
+    {!isDisabled && (
+      <div class="mt-4 flex items-center text-indigo-400 text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity">
+        <span>Open tool</span>
+        <svg class="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
+      </div>
+    )}
+  </div>
+</a>

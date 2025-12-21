@@ -1,0 +1,77 @@
+# ╔═══════════════════════════════════════════════════════════════════════════════╗
+# ║  DOCKER COMPOSE - Desarrollo Local                                            ║
+# ║                                                                               ║
+# ║  COMANDOS:                                                                    ║
+# ║  ─────────                                                                    ║
+# ║  docker compose up        → Inicia todos los servicios                       ║
+# ║  docker compose up -d     → Inicia en background                             ║
+# ║  docker compose down      → Para todos los servicios                         ║
+# ║  docker compose logs -f   → Ver logs en tiempo real                          ║
+# ║                                                                               ║
+# ║  AÑADIR NUEVO SERVICIO:                                                       ║
+# ║  ──────────────────────                                                       ║
+# ║  1. Copia services/api-template → services/api-tu-servicio                   ║
+# ║  2. Añade entrada aquí abajo                                                 ║
+# ║  3. docker compose up --build                                                ║
+# ╚═══════════════════════════════════════════════════════════════════════════════╝
+
+version: '3.8'
+
+services:
+  # ════════════════════════════════════════════════════════════════
+  # WEB: Frontend Astro (desarrollo)
+  # ════════════════════════════════════════════════════════════════
+  web:
+    build:
+      context: ./apps/web
+      dockerfile: Dockerfile.dev
+    ports:
+      - "4321:4321"
+    volumes:
+      - ./apps/web/src:/app/src
+      - ./apps/web/public:/app/public
+    environment:
+      - NODE_ENV=development
+
+  # ════════════════════════════════════════════════════════════════
+  # API-TEMPLATE: Ejemplo de microservicio
+  # Descomenta cuando lo necesites
+  # ════════════════════════════════════════════════════════════════
+  # api-example:
+  #   build:
+  #     context: ./services/api-template
+  #   ports:
+  #     - "3001:3000"
+  #   environment:
+  #     - SERVICE_NAME=api-example
+  #     - PORT=3000
+
+  # ════════════════════════════════════════════════════════════════
+  # FUTURO: API de autenticación
+  # ════════════════════════════════════════════════════════════════
+  # api-auth:
+  #   build:
+  #     context: ./services/api-auth
+  #   ports:
+  #     - "3002:3000"
+  #   environment:
+  #     - SERVICE_NAME=api-auth
+  #     - JWT_SECRET=${JWT_SECRET}
+
+  # ════════════════════════════════════════════════════════════════
+  # FUTURO: API de procesamiento PDF
+  # ════════════════════════════════════════════════════════════════
+  # api-pdf:
+  #   build:
+  #     context: ./services/api-pdf
+  #   ports:
+  #     - "3003:3000"
+  #   environment:
+  #     - SERVICE_NAME=api-pdf
+
+# ════════════════════════════════════════════════════════════════
+# REDES: Comunicación entre servicios
+# ════════════════════════════════════════════════════════════════
+networks:
+  default:
+    name: new-life-network

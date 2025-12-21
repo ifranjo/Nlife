@@ -1,0 +1,53 @@
+---
+const currentYear = new Date().getFullYear();
+---
+
+<footer id="about" class="py-12 px-4 sm:px-6 lg:px-8 border-t border-white/10">
+  <div class="max-w-6xl mx-auto">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+      <!-- Brand -->
+      <div>
+        <div class="flex items-center gap-2 mb-4">
+          <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center">
+            <span class="text-white font-bold text-sm">NL</span>
+          </div>
+          <span class="text-white font-bold text-lg">New Life Solutions</span>
+        </div>
+        <p class="text-slate-400 text-sm leading-relaxed">
+          Building useful tools for the modern web. Free, fast, and privacy-focused.
+        </p>
+      </div>
+
+      <!-- Quick Links -->
+      <div>
+        <h4 class="text-white font-semibold mb-4">Quick Links</h4>
+        <ul class="space-y-2">
+          <li><a href="#tools" class="text-slate-400 hover:text-white transition-colors text-sm">All Tools</a></li>
+          <li><a href="/tools/pdf-merge" class="text-slate-400 hover:text-white transition-colors text-sm">PDF Merge</a></li>
+          <li><a href="#" class="text-slate-400 hover:text-white transition-colors text-sm">Privacy Policy</a></li>
+          <li><a href="#" class="text-slate-400 hover:text-white transition-colors text-sm">Terms of Service</a></li>
+        </ul>
+      </div>
+
+      <!-- Contact -->
+      <div>
+        <h4 class="text-white font-semibold mb-4">Connect</h4>
+        <ul class="space-y-2">
+          <li><a href="#" class="text-slate-400 hover:text-white transition-colors text-sm">Twitter</a></li>
+          <li><a href="#" class="text-slate-400 hover:text-white transition-colors text-sm">GitHub</a></li>
+          <li><a href="mailto:hello@newlifesolutions.io" class="text-slate-400 hover:text-white transition-colors text-sm">Contact Us</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Bottom bar -->
+    <div class="pt-8 border-t border-white/10 flex flex-col sm:flex-row justify-between items-center gap-4">
+      <p class="text-slate-500 text-sm">
+        &copy; {currentYear} New Life Solutions. All rights reserved.
+      </p>
+      <p class="text-slate-600 text-xs">
+        Made with <span class="text-red-400">&#9829;</span> for the modern web
+      </p>
+    </div>
+  </div>
+</footer>

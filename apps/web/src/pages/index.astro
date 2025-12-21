@@ -1,0 +1,259 @@
+---
+import '../styles/global.css';
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Something is coming." />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>NEW LIFE</title>
+    <style>
+      :root {
+        --bg: #0a0a0a;
+        --text: #e0e0e0;
+        --accent: #ffffff;
+        --dim: #333333;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: 'Courier New', monospace;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        position: relative;
+      }
+
+      /* Grid background */
+      .grid-bg {
+        position: fixed;
+        inset: 0;
+        background-image:
+          linear-gradient(var(--dim) 1px, transparent 1px),
+          linear-gradient(90deg, var(--dim) 1px, transparent 1px);
+        background-size: 50px 50px;
+        opacity: 0.15;
+        z-index: 0;
+      }
+
+      /* Scanlines */
+      .scanlines {
+        position: fixed;
+        inset: 0;
+        background: repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 2px,
+          rgba(0, 0, 0, 0.1) 2px,
+          rgba(0, 0, 0, 0.1) 4px
+        );
+        pointer-events: none;
+        z-index: 100;
+      }
+
+      .container {
+        position: relative;
+        z-index: 10;
+        text-align: center;
+        padding: 2rem;
+      }
+
+      /* Main symbol */
+      .symbol {
+        font-size: 4rem;
+        margin-bottom: 2rem;
+        animation: pulse 3s ease-in-out infinite;
+        filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.3));
+      }
+
+      @keyframes pulse {
+        0%, 100% { opacity: 0.7; transform: scale(1); }
+        50% { opacity: 1; transform: scale(1.05); }
+      }
+
+      /* Title */
+      .title {
+        font-size: 1.5rem;
+        letter-spacing: 1em;
+        font-weight: 300;
+        margin-bottom: 3rem;
+        text-transform: uppercase;
+        animation: glitch 5s infinite;
+      }
+
+      @keyframes glitch {
+        0%, 95%, 100% {
+          text-shadow: none;
+          transform: translate(0);
+        }
+        96% {
+          text-shadow: -2px 0 #ff0000, 2px 0 #00ffff;
+          transform: translate(-2px, 0);
+        }
+        97% {
+          text-shadow: 2px 0 #ff0000, -2px 0 #00ffff;
+          transform: translate(2px, 0);
+        }
+        98% {
+          text-shadow: none;
+          transform: translate(0);
+        }
+      }
+
+      /* Dots */
+      .dots {
+        display: flex;
+        justify-content: center;
+        gap: 0.75rem;
+        margin-bottom: 3rem;
+      }
+
+      .dot {
+        width: 6px;
+        height: 6px;
+        background: var(--dim);
+        animation: dotPulse 2s infinite;
+      }
+
+      .dot:nth-child(1) { animation-delay: 0s; }
+      .dot:nth-child(2) { animation-delay: 0.2s; }
+      .dot:nth-child(3) { animation-delay: 0.4s; }
+      .dot:nth-child(4) { animation-delay: 0.6s; }
+      .dot:nth-child(5) { animation-delay: 0.8s; }
+      .dot:nth-child(6) { animation-delay: 1s; }
+      .dot:nth-child(7) { animation-delay: 1.2s; }
+
+      @keyframes dotPulse {
+        0%, 100% { background: var(--dim); }
+        50% { background: var(--accent); }
+      }
+
+      /* Enter button */
+      .enter-btn {
+        display: inline-block;
+        padding: 1rem 3rem;
+        border: 1px solid var(--dim);
+        background: transparent;
+        color: var(--text);
+        font-family: inherit;
+        font-size: 0.875rem;
+        letter-spacing: 0.5em;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+      }
+
+      .enter-btn:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+        box-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
+      }
+
+      /* Footer symbol */
+      .footer-symbol {
+        position: fixed;
+        bottom: 2rem;
+        font-size: 1.5rem;
+        opacity: 0.3;
+        animation: rotate 20s linear infinite;
+      }
+
+      @keyframes rotate {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+      }
+
+      /* Coordinates */
+      .coords {
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        font-size: 0.625rem;
+        color: var(--dim);
+        letter-spacing: 0.2em;
+      }
+
+      /* Version */
+      .version {
+        position: fixed;
+        bottom: 2rem;
+        left: 2rem;
+        font-size: 0.625rem;
+        color: var(--dim);
+        letter-spacing: 0.2em;
+      }
+
+      /* Status indicator */
+      .status {
+        position: fixed;
+        top: 2rem;
+        right: 2rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.625rem;
+        color: var(--dim);
+        letter-spacing: 0.2em;
+      }
+
+      .status-dot {
+        width: 6px;
+        height: 6px;
+        background: #00ff00;
+        border-radius: 50%;
+        animation: blink 2s infinite;
+      }
+
+      @keyframes blink {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.3; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="grid-bg"></div>
+    <div class="scanlines"></div>
+
+    <div class="status">
+      <span class="status-dot"></span>
+      <span>ONLINE</span>
+    </div>
+
+    <div class="container">
+      <div class="symbol">◈</div>
+
+      <h1 class="title">New Life</h1>
+
+      <div class="dots">
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+      </div>
+
+      <a href="/hub" class="enter-btn">Enter</a>
+    </div>
+
+    <div class="footer-symbol">∞</div>
+
+    <div class="version">v0.0.1</div>
+    <div class="coords">41.40N 2.17E</div>
+  </body>
+</html>
