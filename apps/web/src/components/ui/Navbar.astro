@@ -1,32 +1,25 @@
 ---
 ---
 
-<nav class="fixed top-0 left-0 right-0 z-50 glass">
-  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="flex items-center justify-between h-16">
+<nav class="fixed top-0 left-0 right-0 z-50 border-b border-[var(--border)] bg-[var(--bg)]/90 backdrop-blur-sm">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="flex items-center justify-between h-14">
       <!-- Logo -->
-      <a href="/" class="flex items-center gap-2 group">
-        <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center group-hover:scale-105 transition-transform">
-          <span class="text-white font-bold text-sm">NL</span>
-        </div>
-        <span class="text-white font-bold text-lg hidden sm:block">New Life Solutions</span>
+      <a href="/" class="flex items-center gap-3 group">
+        <span class="text-xl opacity-60 group-hover:opacity-100 transition-opacity">◈</span>
+        <span class="text-xs tracking-[0.3em] uppercase text-[var(--text-dim)] group-hover:text-[var(--text)] transition-colors">
+          New Life
+        </span>
       </a>
 
       <!-- Nav links -->
-      <div class="flex items-center gap-6">
-        <a href="/#tools" class="text-slate-300 hover:text-white transition-colors text-sm font-medium">
-          Tools
-        </a>
-        <a href="/#about" class="text-slate-300 hover:text-white transition-colors text-sm font-medium">
-          About
-        </a>
-        <a
-          href="#"
-          class="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-indigo-500 to-purple-500 text-white text-sm font-semibold hover:opacity-90 transition-opacity"
-        >
-          <span>Pro</span>
-          <span class="px-1.5 py-0.5 bg-white/20 rounded text-xs">Soon</span>
-        </a>
+      <div class="flex items-center gap-8">
+        <a href="/hub" class="nav-link">Tools</a>
+        <a href="/hub#about" class="nav-link">About</a>
+        <div class="flex items-center gap-2 text-[var(--text-muted)]">
+          <span class="status-dot"></span>
+          <span class="text-[0.625rem] tracking-[0.15em] uppercase">Online</span>
+        </div>
       </div>
     </div>
   </div>

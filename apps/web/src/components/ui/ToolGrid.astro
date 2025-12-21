@@ -1,41 +1,87 @@
 ---
 import ToolCard from './ToolCard.astro';
 import { tools } from '../../lib/tools';
+
+// Separate tools by availability
+const freeTools = tools.filter(t => t.tier === 'free');
+const proTools = tools.filter(t => t.tier === 'pro');
+const comingTools = tools.filter(t => t.tier === 'coming');
 ---
 
-<section id="tools" class="py-20 px-4 sm:px-6 lg:px-8">
-  <div class="max-w-6xl mx-auto">
+<section id="tools" class="py-20 px-6">
+  <div class="max-w-5xl mx-auto">
     <!-- Section header -->
-    <div class="text-center mb-12">
-      <h2 class="text-3xl sm:text-4xl font-bold text-white mb-4">
-        Our Tools
-      </h2>
-      <p class="text-slate-400 max-w-xl mx-auto">
-        Pick a tool and get started in seconds. No registration, no hassle.
+    <div class="text-center mb-16">
+      <div class="text-3xl mb-4 opacity-60">◇</div>
+      <h2 class="text-xl uppercase tracking-[0.3em] mb-4">Tools</h2>
+      <p class="text-[var(--text-dim)] text-sm max-w-md mx-auto">
+        Select a tool to begin. No registration required.
       </p>
     </div>
 
-    <!-- Filter tabs (optional, for future) -->
-    <div class="flex justify-center gap-2 mb-10">
-      <button class="px-4 py-2 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 text-sm font-medium">
-        All
-      </button>
-      <button class="px-4 py-2 rounded-full text-slate-400 hover:text-white hover:bg-white/5 text-sm font-medium transition-colors">
-        Documents
-      </button>
-      <button class="px-4 py-2 rounded-full text-slate-400 hover:text-white hover:bg-white/5 text-sm font-medium transition-colors">
-        Media
-      </button>
-      <button class="px-4 py-2 rounded-full text-slate-400 hover:text-white hover:bg-white/5 text-sm font-medium transition-colors">
-        AI Tools
-      </button>
-    </div>
+    <!-- Free Tools -->
+    {freeTools.length > 0 && (
+      <div class="mb-16">
+        <div class="flex items-center gap-4 mb-6">
+          <span class="text-[0.625rem] text-[var(--success)] uppercase tracking-[0.2em]">Available</span>
+          <div class="flex-1 h-px bg-[var(--border)]"></div>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {freeTools.map((tool) => (
+            <ToolCard tool={tool} />
+          ))}
+        </div>
+      </div>
+    )}
 
-    <!-- Tools grid -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      {tools.map((tool) => (
-        <ToolCard tool={tool} />
-      ))}
+    <!-- Pro Tools -->
+    {proTools.length > 0 && (
+      <div class="mb-16">
+        <div class="flex items-center gap-4 mb-6">
+          <span class="text-[0.625rem] text-[var(--warning)] uppercase tracking-[0.2em]">Pro</span>
+          <div class="flex-1 h-px bg-[var(--border)]"></div>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {proTools.map((tool) => (
+            <ToolCard tool={tool} />
+          ))}
+        </div>
+      </div>
+    )}
+
+    <!-- Coming Soon -->
+    {comingTools.length > 0 && (
+      <div>
+        <div class="flex items-center gap-4 mb-6">
+          <span class="text-[0.625rem] text-[var(--text-muted)] uppercase tracking-[0.2em]">Coming Soon</span>
+          <div class="flex-1 h-px bg-[var(--border)]"></div>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {comingTools.map((tool) => (
+            <ToolCard tool={tool} />
+          ))}
+        </div>
+      </div>
+    )}
+  </div>
+</section>
+
+<!-- About Section -->
+<section id="about" class="py-20 px-6 border-t border-[var(--border)]">
+  <div class="max-w-2xl mx-auto text-center">
+    <div class="text-3xl mb-6 opacity-60">∞</div>
+    <h2 class="text-xl uppercase tracking-[0.3em] mb-6">About</h2>
+    <p class="text-[var(--text-dim)] text-sm leading-relaxed mb-8">
+      New Life Solutions provides browser-based tools that respect your privacy.
+      All processing happens locally on your device. Your files never leave your browser.
+      No accounts. No tracking. No data collection.
+    </p>
+    <div class="flex justify-center gap-8 text-[0.625rem] text-[var(--text-muted)] uppercase tracking-[0.15em]">
+      <span>Browser-Based</span>
+      <span>•</span>
+      <span>No Upload</span>
+      <span>•</span>
+      <span>100% Private</span>
     </div>
   </div>
 </section>

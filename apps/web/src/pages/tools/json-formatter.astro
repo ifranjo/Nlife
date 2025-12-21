@@ -2,14 +2,14 @@
 import Layout from '../../layouts/Layout.astro';
 import Navbar from '../../components/ui/Navbar.astro';
 import Footer from '../../components/ui/Footer.astro';
-import QrGenerator from '../../components/tools/QrGenerator';
+import JsonFormatter from '../../components/tools/JsonFormatter';
 ---
 
-<Layout title="QR Generator - New Life Solutions" description="Generate customizable QR codes. Browser-based, private, free." image="/thumbnails/qr-generator.svg">
+<Layout title="JSON Formatter - New Life Solutions" description="Format, minify, and validate JSON. Browser-based, private, free." image="/thumbnails/json-formatter.svg">
   <Navbar />
 
   <main class="pt-20 pb-16 px-6 min-h-screen">
-    <div class="max-w-5xl mx-auto">
+    <div class="max-w-6xl mx-auto">
       <!-- Header -->
       <div class="text-center mb-12">
         <a
@@ -23,13 +23,13 @@ import QrGenerator from '../../components/tools/QrGenerator';
         </a>
 
         <div class="w-12 h-12 mx-auto mb-4">
-          <img src="/thumbnails/qr-generator.svg" alt="QR Generator" class="w-full h-full" />
+          <img src="/thumbnails/json-formatter.svg" alt="JSON Formatter" class="w-full h-full" />
         </div>
-        <h1 class="text-xl uppercase tracking-[0.3em] mb-4">QR Generator</h1>
+        <h1 class="text-xl uppercase tracking-[0.3em] mb-4">JSON Formatter</h1>
 
         <p class="text-[var(--text-dim)] text-sm max-w-md mx-auto mb-6">
-          Generate QR codes for URLs, text, WiFi, and contacts.
-          <span class="text-[var(--text)]">Everything happens in your browser.</span>
+          Format, minify, and validate JSON data with detailed error reporting.
+          <span class="text-[var(--text)]">All processing happens in your browser.</span>
         </p>
 
         <div class="flex items-center justify-center gap-4">
@@ -39,7 +39,7 @@ import QrGenerator from '../../components/tools/QrGenerator';
       </div>
 
       <!-- Tool -->
-      <QrGenerator client:load />
+      <JsonFormatter client:load />
     </div>
   </main>
 

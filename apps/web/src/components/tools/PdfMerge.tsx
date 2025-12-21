@@ -154,7 +154,7 @@ export default function PdfMerge() {
         onDrop={handleDrop}
         onClick={() => fileInputRef.current?.click()}
         className={`
-          drop-zone rounded-2xl p-12 text-center cursor-pointer
+          drop-zone rounded-2xl p-12 text-center cursor-pointer animate-fadeIn
           ${isDragging ? 'drag-over' : ''}
         `}
       >
@@ -193,14 +193,14 @@ export default function PdfMerge() {
           {files.map((file, index) => (
             <div
               key={file.id}
-              className="glass-card p-4 flex items-center gap-4"
+              className="glass-card glass-card-hover p-4 flex items-center gap-4 file-item"
             >
               {/* Order controls */}
               <div className="flex flex-col gap-1">
                 <button
                   onClick={() => moveFile(index, 'up')}
                   disabled={index === 0}
-                  className="p-1 text-slate-400 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                  className="p-1 text-slate-400 hover:text-white hover:scale-110 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
                 >
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
@@ -209,7 +209,7 @@ export default function PdfMerge() {
                 <button
                   onClick={() => moveFile(index, 'down')}
                   disabled={index === files.length - 1}
-                  className="p-1 text-slate-400 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                  className="p-1 text-slate-400 hover:text-white hover:scale-110 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
                 >
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />

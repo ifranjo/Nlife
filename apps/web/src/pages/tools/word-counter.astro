@@ -2,14 +2,14 @@
 import Layout from '../../layouts/Layout.astro';
 import Navbar from '../../components/ui/Navbar.astro';
 import Footer from '../../components/ui/Footer.astro';
-import QrGenerator from '../../components/tools/QrGenerator';
+import WordCounter from '../../components/tools/WordCounter';
 ---
 
-<Layout title="QR Generator - New Life Solutions" description="Generate customizable QR codes. Browser-based, private, free." image="/thumbnails/qr-generator.svg">
+<Layout title="Word Counter - New Life Solutions" description="Count words, characters, sentences, and paragraphs. Free online word counter with reading time." image="/thumbnails/word-counter.svg">
   <Navbar />
 
   <main class="pt-20 pb-16 px-6 min-h-screen">
-    <div class="max-w-5xl mx-auto">
+    <div class="max-w-3xl mx-auto">
       <!-- Header -->
       <div class="text-center mb-12">
         <a
@@ -23,23 +23,23 @@ import QrGenerator from '../../components/tools/QrGenerator';
         </a>
 
         <div class="w-12 h-12 mx-auto mb-4">
-          <img src="/thumbnails/qr-generator.svg" alt="QR Generator" class="w-full h-full" />
+          <img src="/thumbnails/word-counter.svg" alt="Word Counter" class="w-full h-full" />
         </div>
-        <h1 class="text-xl uppercase tracking-[0.3em] mb-4">QR Generator</h1>
+        <h1 class="text-xl uppercase tracking-[0.3em] mb-4">Word Counter</h1>
 
         <p class="text-[var(--text-dim)] text-sm max-w-md mx-auto mb-6">
-          Generate QR codes for URLs, text, WiFi, and contacts.
-          <span class="text-[var(--text)]">Everything happens in your browser.</span>
+          Count words, characters, sentences, and paragraphs.
+          <span class="text-[var(--text)]">Plus reading time and keyword density.</span>
         </p>
 
         <div class="flex items-center justify-center gap-4">
           <span class="tag tag-free">Free</span>
-          <span class="text-[0.625rem] text-[var(--text-muted)] uppercase tracking-[0.15em]">No signup</span>
+          <span class="text-[0.625rem] text-[var(--text-muted)] uppercase tracking-[0.15em]">Real-time</span>
         </div>
       </div>
 
       <!-- Tool -->
-      <QrGenerator client:load />
+      <WordCounter client:load />
     </div>
   </main>
 

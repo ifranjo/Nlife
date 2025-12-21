@@ -1,57 +1,66 @@
 ---
+import { tools } from '../../lib/tools';
+
+// Calculate dynamic stats
+const freeTools = tools.filter(t => t.tier === 'free');
+const toolCount = freeTools.length;
 ---
 
-<section class="relative pt-20 pb-16 px-4 sm:px-6 lg:px-8">
+<section class="relative pt-32 pb-20 px-6">
   <div class="max-w-4xl mx-auto text-center">
-    <!-- Badge -->
-    <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass mb-8">
-      <span class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
-      <span class="text-sm text-slate-300">All tools running smoothly</span>
-    </div>
+    <!-- Symbol -->
+    <div class="text-5xl mb-8 pulse">◈</div>
 
-    <!-- Main heading -->
-    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight mb-6">
-      <span class="text-white">Smart Tools for</span>
-      <br />
-      <span class="gradient-text">Modern Problems</span>
+    <!-- Title -->
+    <h1 class="text-2xl sm:text-3xl tracking-[0.5em] uppercase mb-6 glitch">
+      New Life
     </h1>
 
+    <!-- Dots -->
+    <div class="flex justify-center gap-3 mb-8">
+      {[0, 1, 2, 3, 4, 5, 6].map((i) => (
+        <span
+          class="w-1.5 h-1.5 bg-[var(--text-muted)]"
+          style={`animation: dotPulse 2s infinite; animation-delay: ${i * 0.15}s`}
+        />
+      ))}
+    </div>
+
     <!-- Subtitle -->
-    <p class="text-lg sm:text-xl text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed">
-      A growing collection of powerful tools to simplify your digital workflow.
-      <span class="text-white font-medium">Free to use.</span> No signup required.
+    <p class="text-[var(--text-dim)] max-w-xl mx-auto mb-12 text-sm tracking-wide leading-relaxed">
+      A collection of tools designed to simplify your digital workflow.
+      <span class="text-[var(--text)]">Free. Private. Browser-based.</span>
     </p>
 
-    <!-- CTA buttons -->
-    <div class="flex flex-col sm:flex-row gap-4 justify-center">
-      <a href="#tools" class="btn-primary inline-flex items-center justify-center">
-        <span>Explore Tools</span>
-        <svg class="w-5 h-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-        </svg>
-      </a>
-      <a
-        href="#about"
-        class="inline-flex items-center justify-center px-6 py-3 rounded-lg border border-slate-600 text-slate-300 font-semibold hover:bg-white/5 hover:border-slate-500 transition-all"
-      >
-        Learn More
-      </a>
-    </div>
-  </div>
+    <!-- CTA -->
+    <a href="#tools" class="btn-primary">
+      <span>Explore Tools</span>
+      <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 9l-7 7-7-7" />
+      </svg>
+    </a>
 
-  <!-- Stats -->
-  <div class="max-w-3xl mx-auto mt-16 grid grid-cols-3 gap-4">
-    <div class="text-center">
-      <div class="text-3xl font-bold text-white">6+</div>
-      <div class="text-sm text-slate-400">Tools Available</div>
-    </div>
-    <div class="text-center">
-      <div class="text-3xl font-bold text-white">100%</div>
-      <div class="text-sm text-slate-400">Privacy Focused</div>
-    </div>
-    <div class="text-center">
-      <div class="text-3xl font-bold text-white">0</div>
-      <div class="text-sm text-slate-400">Data Stored</div>
+    <!-- Stats -->
+    <div class="mt-20 grid grid-cols-3 gap-8 max-w-lg mx-auto">
+      <div class="text-center">
+        <div class="text-2xl text-[var(--text)] mb-1">{toolCount}</div>
+        <div class="text-[0.625rem] text-[var(--text-muted)] uppercase tracking-[0.15em]">Free Tools</div>
+      </div>
+      <div class="text-center">
+        <div class="text-2xl text-[var(--text)] mb-1">100%</div>
+        <div class="text-[0.625rem] text-[var(--text-muted)] uppercase tracking-[0.15em]">Private</div>
+      </div>
+      <div class="text-center">
+        <div class="text-2xl text-[var(--text)] mb-1">$0</div>
+        <div class="text-[0.625rem] text-[var(--text-muted)] uppercase tracking-[0.15em]">Cost</div>
+      </div>
     </div>
   </div>
 </section>
+
+<style>
+  @keyframes dotPulse {
+    0%, 100% { background: var(--text-muted); }
+    50% { background: var(--accent); }
+  }
+</style>

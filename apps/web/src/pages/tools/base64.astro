@@ -2,14 +2,14 @@
 import Layout from '../../layouts/Layout.astro';
 import Navbar from '../../components/ui/Navbar.astro';
 import Footer from '../../components/ui/Footer.astro';
-import QrGenerator from '../../components/tools/QrGenerator';
+import Base64Tool from '../../components/tools/Base64Tool';
 ---
 
-<Layout title="QR Generator - New Life Solutions" description="Generate customizable QR codes. Browser-based, private, free." image="/thumbnails/qr-generator.svg">
+<Layout title="Base64 Encoder/Decoder - New Life Solutions" description="Encode and decode Base64 data. Convert text and files to/from Base64. Browser-based, private, free." image="/thumbnails/base64.svg">
   <Navbar />
 
   <main class="pt-20 pb-16 px-6 min-h-screen">
-    <div class="max-w-5xl mx-auto">
+    <div class="max-w-4xl mx-auto">
       <!-- Header -->
       <div class="text-center mb-12">
         <a
@@ -23,13 +23,13 @@ import QrGenerator from '../../components/tools/QrGenerator';
         </a>
 
         <div class="w-12 h-12 mx-auto mb-4">
-          <img src="/thumbnails/qr-generator.svg" alt="QR Generator" class="w-full h-full" />
+          <img src="/thumbnails/base64.svg" alt="Base64 Encoder/Decoder" class="w-full h-full" />
         </div>
-        <h1 class="text-xl uppercase tracking-[0.3em] mb-4">QR Generator</h1>
+        <h1 class="text-xl uppercase tracking-[0.3em] mb-4">Base64 Encoder/Decoder</h1>
 
         <p class="text-[var(--text-dim)] text-sm max-w-md mx-auto mb-6">
-          Generate QR codes for URLs, text, WiFi, and contacts.
-          <span class="text-[var(--text)]">Everything happens in your browser.</span>
+          Encode text and files to Base64, or decode Base64 back to original format.
+          <span class="text-[var(--text)]">All processing is client-side.</span>
         </p>
 
         <div class="flex items-center justify-center gap-4">
@@ -39,7 +39,7 @@ import QrGenerator from '../../components/tools/QrGenerator';
       </div>
 
       <!-- Tool -->
-      <QrGenerator client:load />
+      <Base64Tool client:load />
     </div>
   </main>
 

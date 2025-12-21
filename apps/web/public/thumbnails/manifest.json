@@ -1,0 +1,101 @@
+{
+  "generated": "2025-12-21T18:30:00Z",
+  "agent": "Kimi K2 Computer Use + Claude Opus 4.5",
+  "designSystem": "Enigmatic Dark",
+  "strokeColor": "#e0e0e0",
+  "strokeWidth": "2",
+  "format": "SVG",
+  "assets": [
+    {
+      "id": "pdf-merge",
+      "file": "pdf-merge.svg",
+      "source": "lucide.dev",
+      "icon": "file-stack",
+      "license": "MIT"
+    },
+    {
+      "id": "pdf-split",
+      "file": "pdf-split.svg",
+      "source": "lucide.dev",
+      "icon": "scissors",
+      "license": "MIT"
+    },
+    {
+      "id": "image-compress",
+      "file": "image-compress.svg",
+      "source": "lucide.dev",
+      "icon": "image-down",
+      "license": "MIT"
+    },
+    {
+      "id": "qr-generator",
+      "file": "qr-generator.svg",
+      "source": "lucide.dev",
+      "icon": "qr-code",
+      "license": "MIT"
+    },
+    {
+      "id": "base64",
+      "file": "base64.svg",
+      "source": "lucide.dev",
+      "icon": "binary",
+      "license": "MIT"
+    },
+    {
+      "id": "json-formatter",
+      "file": "json-formatter.svg",
+      "source": "lucide.dev",
+      "icon": "braces",
+      "license": "MIT"
+    },
+    {
+      "id": "text-case",
+      "file": "text-case.svg",
+      "source": "lucide.dev",
+      "icon": "case-sensitive",
+      "license": "MIT"
+    },
+    {
+      "id": "word-counter",
+      "file": "word-counter.svg",
+      "source": "lucide.dev",
+      "icon": "text-cursor-input",
+      "license": "MIT"
+    },
+    {
+      "id": "lorem-ipsum",
+      "file": "lorem-ipsum.svg",
+      "source": "lucide.dev",
+      "icon": "text",
+      "license": "MIT"
+    },
+    {
+      "id": "hash-generator",
+      "file": "hash-generator.svg",
+      "source": "lucide.dev",
+      "icon": "hash",
+      "license": "MIT"
+    },
+    {
+      "id": "color-converter",
+      "file": "color-converter.svg",
+      "source": "lucide.dev",
+      "icon": "palette",
+      "license": "MIT"
+    },
+    {
+      "id": "translator",
+      "file": "translator.svg",
+      "source": "lucide.dev",
+      "icon": "languages",
+      "license": "MIT"
+    },
+    {
+      "id": "video-avatar",
+      "file": "video-avatar.svg",
+      "source": "lucide.dev",
+      "icon": "user-round-video",
+      "license": "MIT"
+    }
+  ]
+}

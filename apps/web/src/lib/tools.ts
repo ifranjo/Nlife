@@ -3,6 +3,7 @@ export interface Tool {
   name: string;
   description: string;
   icon: string;
+  thumbnail: string;
   category: 'document' | 'media' | 'ai' | 'utility';
   tier: 'free' | 'pro' | 'coming';
   href: string;
@@ -10,11 +11,15 @@ export interface Tool {
 }
 
 export const tools: Tool[] = [
+  // ═══════════════════════════════════════════════════════════════
+  // DOCUMENT TOOLS
+  // ═══════════════════════════════════════════════════════════════
   {
     id: 'pdf-merge',
     name: 'PDF Merge',
     description: 'Combine multiple PDFs into a single document. Fast, secure, and completely free.',
     icon: '📄',
+    thumbnail: '/thumbnails/pdf-merge.svg',
     category: 'document',
     tier: 'free',
     href: '/tools/pdf-merge',
@@ -25,26 +30,129 @@ export const tools: Tool[] = [
     name: 'PDF Split',
     description: 'Split PDFs into individual pages or extract specific page ranges. Download as ZIP.',
     icon: '✂️',
+    thumbnail: '/thumbnails/pdf-split.svg',
     category: 'document',
     tier: 'free',
     href: '/tools/pdf-split',
     color: 'from-orange-500 to-yellow-500'
   },
+
+  // ═══════════════════════════════════════════════════════════════
+  // MEDIA TOOLS
+  // ═══════════════════════════════════════════════════════════════
   {
     id: 'image-compress',
     name: 'Image Compress',
     description: 'Compress images up to 90% smaller. Supports PNG, JPEG, WebP. Batch processing with ZIP download.',
     icon: '🖼️',
+    thumbnail: '/thumbnails/image-compress.svg',
     category: 'media',
     tier: 'free',
     href: '/tools/image-compress',
     color: 'from-green-500 to-emerald-500'
   },
+
+  // ═══════════════════════════════════════════════════════════════
+  // UTILITY TOOLS
+  // ═══════════════════════════════════════════════════════════════
+  {
+    id: 'qr-generator',
+    name: 'QR Generator',
+    description: 'Generate customizable QR codes for links, text, and contact info.',
+    icon: '📱',
+    thumbnail: '/thumbnails/qr-generator.svg',
+    category: 'utility',
+    tier: 'free',
+    href: '/tools/qr-generator',
+    color: 'from-indigo-500 to-violet-500'
+  },
+  {
+    id: 'base64',
+    name: 'Base64 Encoder/Decoder',
+    description: 'Encode and decode Base64 data. Convert text and files to/from Base64 format.',
+    icon: '🔐',
+    thumbnail: '/thumbnails/base64.svg',
+    category: 'utility',
+    tier: 'free',
+    href: '/tools/base64',
+    color: 'from-slate-500 to-gray-500'
+  },
+  {
+    id: 'json-formatter',
+    name: 'JSON Formatter',
+    description: 'Format, validate, and beautify JSON data. Minify or prettify with syntax highlighting.',
+    icon: '{ }',
+    thumbnail: '/thumbnails/json-formatter.svg',
+    category: 'utility',
+    tier: 'free',
+    href: '/tools/json-formatter',
+    color: 'from-amber-500 to-yellow-500'
+  },
+  {
+    id: 'text-case',
+    name: 'Text Case Converter',
+    description: 'Convert text between UPPERCASE, lowercase, Title Case, camelCase, snake_case, and more.',
+    icon: '🔤',
+    thumbnail: '/thumbnails/text-case.svg',
+    category: 'utility',
+    tier: 'free',
+    href: '/tools/text-case',
+    color: 'from-teal-500 to-cyan-500'
+  },
+  {
+    id: 'word-counter',
+    name: 'Word Counter',
+    description: 'Count words, characters, sentences, and paragraphs. Includes reading time and keyword density.',
+    icon: '📊',
+    thumbnail: '/thumbnails/word-counter.svg',
+    category: 'utility',
+    tier: 'free',
+    href: '/tools/word-counter',
+    color: 'from-blue-500 to-indigo-500'
+  },
+  {
+    id: 'lorem-ipsum',
+    name: 'Lorem Ipsum Generator',
+    description: 'Generate placeholder text for your designs. Create paragraphs, sentences, or words.',
+    icon: '📝',
+    thumbnail: '/thumbnails/lorem-ipsum.svg',
+    category: 'utility',
+    tier: 'free',
+    href: '/tools/lorem-ipsum',
+    color: 'from-violet-500 to-purple-500'
+  },
+  {
+    id: 'hash-generator',
+    name: 'Hash Generator',
+    description: 'Generate MD5, SHA-1, SHA-256, SHA-384, and SHA-512 hashes using Web Crypto API.',
+    icon: '#️⃣',
+    thumbnail: '/thumbnails/hash-generator.svg',
+    category: 'utility',
+    tier: 'free',
+    href: '/tools/hash-generator',
+    color: 'from-rose-500 to-red-500'
+  },
+  {
+    id: 'color-converter',
+    name: 'Color Converter',
+    description: 'Convert colors between HEX, RGB, and HSL formats with live preview and CSS output.',
+    icon: '🎨',
+    thumbnail: '/thumbnails/color-converter.svg',
+    category: 'utility',
+    tier: 'free',
+    href: '/tools/color-converter',
+    color: 'from-pink-500 to-rose-500'
+  },
+
+  // ═══════════════════════════════════════════════════════════════
+  // AI/PRO TOOLS (require backend)
+  // ═══════════════════════════════════════════════════════════════
   {
     id: 'translator',
     name: 'AI Translator',
     description: 'Translate text between 100+ languages with AI-powered accuracy.',
     icon: '🌍',
+    thumbnail: '/thumbnails/translator.svg',
     category: 'ai',
     tier: 'pro',
     href: '/tools/translator',
@@ -55,21 +163,12 @@ export const tools: Tool[] = [
     name: 'Video Avatar',
     description: 'Create AI-powered video avatars for presentations and content.',
     icon: '🎬',
+    thumbnail: '/thumbnails/video-avatar.svg',
     category: 'ai',
     tier: 'pro',
     href: '/tools/video-avatar',
     color: 'from-purple-500 to-pink-500'
   },
-  {
-    id: 'qr-generator',
-    name: 'QR Generator',
-    description: 'Generate customizable QR codes for links, text, and contact info.',
-    icon: '📱',
-    category: 'utility',
-    tier: 'free',
-    href: '/tools/qr-generator',
-    color: 'from-indigo-500 to-violet-500'
-  }
 ];
 
 export const getToolsByCategory = (category: Tool['category']) =>

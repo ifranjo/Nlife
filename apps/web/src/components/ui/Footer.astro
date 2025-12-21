@@ -1,52 +1,47 @@
 ---
-const currentYear = new Date().getFullYear();
+const year = new Date().getFullYear();
 ---
 
-<footer id="about" class="py-12 px-4 sm:px-6 lg:px-8 border-t border-white/10">
-  <div class="max-w-6xl mx-auto">
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
-      <!-- Brand -->
-      <div>
-        <div class="flex items-center gap-2 mb-4">
-          <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center">
-            <span class="text-white font-bold text-sm">NL</span>
-          </div>
-          <span class="text-white font-bold text-lg">New Life Solutions</span>
-        </div>
-        <p class="text-slate-400 text-sm leading-relaxed">
-          Building useful tools for the modern web. Free, fast, and privacy-focused.
-        </p>
+<footer class="border-t border-[var(--border)] py-8 px-6">
+  <div class="max-w-5xl mx-auto">
+    <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+      <!-- Left -->
+      <div class="flex items-center gap-3">
+        <span class="text-lg opacity-40 cursor-default group relative">
+          ◈
+          <!-- Easter egg: learning project badge -->
+          <span class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-2
+                       bg-[#0a0a0f]/95 border border-[var(--border)] rounded-lg
+                       opacity-0 group-hover:opacity-100 transition-opacity duration-300
+                       pointer-events-none whitespace-nowrap text-[0.5rem] uppercase tracking-[0.15em]
+                       text-[var(--text-muted)] shadow-xl backdrop-blur-sm z-50">
+            <span class="block text-[var(--text-dim)] mb-1">Learning Project</span>
+            <span class="block text-[0.45rem] opacity-60">Astro 5 · React 19 · Tailwind v4 · TypeScript</span>
+          </span>
+        </span>
+        <span class="text-[0.625rem] text-[var(--text-muted)] uppercase tracking-[0.2em]">
+          New Life Solutions
+        </span>
       </div>
 
-      <!-- Quick Links -->
-      <div>
-        <h4 class="text-white font-semibold mb-4">Quick Links</h4>
-        <ul class="space-y-2">
-          <li><a href="#tools" class="text-slate-400 hover:text-white transition-colors text-sm">All Tools</a></li>
-          <li><a href="/tools/pdf-merge" class="text-slate-400 hover:text-white transition-colors text-sm">PDF Merge</a></li>
-          <li><a href="#" class="text-slate-400 hover:text-white transition-colors text-sm">Privacy Policy</a></li>
-          <li><a href="#" class="text-slate-400 hover:text-white transition-colors text-sm">Terms of Service</a></li>
-        </ul>
+      <!-- Center -->
+      <div class="flex items-center gap-6 text-[0.625rem] text-[var(--text-muted)] uppercase tracking-[0.15em]">
+        <a href="/hub" class="hover:text-[var(--text)] transition-colors">Tools</a>
+        <a href="/hub#about" class="hover:text-[var(--text)] transition-colors">About</a>
       </div>
 
-      <!-- Contact -->
-      <div>
-        <h4 class="text-white font-semibold mb-4">Connect</h4>
-        <ul class="space-y-2">
-          <li><a href="#" class="text-slate-400 hover:text-white transition-colors text-sm">Twitter</a></li>
-          <li><a href="#" class="text-slate-400 hover:text-white transition-colors text-sm">GitHub</a></li>
-          <li><a href="mailto:hello@newlifesolutions.io" class="text-slate-400 hover:text-white transition-colors text-sm">Contact Us</a></li>
-        </ul>
+      <!-- Right -->
+      <div class="flex items-center gap-4 text-[0.625rem] text-[var(--text-muted)]">
+        <span class="uppercase tracking-[0.15em]">v0.0.1</span>
+        <span class="opacity-40">|</span>
+        <span class="coords">41.40N 2.17E</span>
       </div>
     </div>
 
-    <!-- Bottom bar -->
-    <div class="pt-8 border-t border-white/10 flex flex-col sm:flex-row justify-between items-center gap-4">
-      <p class="text-slate-500 text-sm">
-        &copy; {currentYear} New Life Solutions. All rights reserved.
-      </p>
-      <p class="text-slate-600 text-xs">
-        Made with <span class="text-red-400">&#9829;</span> for the modern web
+    <!-- Copyright -->
+    <div class="mt-6 text-center">
+      <p class="text-[0.5rem] text-[var(--text-muted)] uppercase tracking-[0.2em]">
+        &copy; {year} New Life Solutions. All rights reserved.
       </p>
     </div>
   </div>
