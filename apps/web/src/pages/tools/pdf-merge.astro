@@ -1,47 +1,152 @@
 ---
+/**
+ * PDF Merge - AI-Native Tool Page
+ *
+ * Optimized for LLM extraction with:
+ * - TL;DR answer box (50-70 words)
+ * - Semantic Q&A sections
+ * - Full schema markup (SoftwareApplication, HowTo, FAQPage)
+ */
 import Layout from '../../layouts/Layout.astro';
 import Navbar from '../../components/ui/Navbar.astro';
 import Footer from '../../components/ui/Footer.astro';
+import AnswerBox from '../../components/seo/AnswerBox.astro';
+import QASections from '../../components/seo/QASections.astro';
+import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
 import PdfMerge from '../../components/tools/PdfMerge';
+
+// Tool metadata
+const tool = {
+  id: 'pdf-merge',
+  name: 'PDF Merge',
+  category: 'document' as const,
+  url: '/tools/pdf-merge'
+};
+
+// AI-optimized content
+const seoContent = {
+  // Page meta
+  title: 'Merge PDF Files Online Free — No Upload, 100% Private | New Life Solutions',
+  description: 'Combine multiple PDF files into one document directly in your browser. No upload to servers, no signup, no watermarks. Free PDF merger that works offline.',
+
+  // TL;DR Answer Box (50-70 words - this is what AI extracts)
+  answerBox: {
+    title: 'Merge PDF Files Online — Free, Private, No Upload',
+    queryTarget: 'How to Merge PDF Files Online Free',
+    tldr: `Drag and drop your PDF files below to combine them into a single document. All processing happens directly in your browser—your files never leave your device. Reorder pages by dragging, remove unwanted files, then download your merged PDF instantly. No signup required, no file size limits, no watermarks. Works completely offline.`,
+    trustSignals: [
+      '100% browser-based',
+      'Files never uploaded',
+      'Works offline',
+      'No signup needed'
+    ]
+  },
+
+  // Q&A Sections
+  qa: {
+    whatIs: {
+      answer: `PDF Merge is a free browser-based tool that combines multiple PDF documents into a single file. Unlike traditional PDF mergers that upload your files to remote servers, this tool processes everything locally using JavaScript and the pdf-lib library. Your documents stay on your device throughout the entire process.`,
+      context: `Ideal for combining invoices, contracts, reports, or any documents you need in a single PDF.`
+    },
+    howItWorks: {
+      steps: [
+        'Drag and drop PDF files onto the upload area, or click to browse your files',
+        'Reorder files by dragging them into your preferred sequence',
+        'Remove any unwanted files by clicking the X button',
+        'Click "Merge PDFs" to combine all files into one document',
+        'Download your merged PDF instantly—no email required'
+      ]
+    },
+    whyBrowserBased: {
+      benefits: [
+        'Privacy first: Files never leave your device or get uploaded to any server',
+        'Speed: No upload/download wait times—processing is instant',
+        'Security: No risk of data breaches or third-party access to your documents',
+        'Offline capable: Works without internet connection after page loads',
+        'No limits: Merge as many PDFs as you want, no daily quotas or file size caps'
+      ]
+    },
+    faqs: [
+      {
+        question: 'Is there a file size limit for merging PDFs?',
+        answer: `There's no enforced file size limit. However, very large files (100MB+) may be slower to process depending on your device's memory. For best performance, we recommend keeping individual files under 50MB.`
+      },
+      {
+        question: 'Are my PDF files uploaded to a server?',
+        answer: `No. All processing happens entirely in your browser using JavaScript. Your files never leave your device. You can verify this by disconnecting from the internet after the page loads—the tool will still work.`
+      },
+      {
+        question: 'Can I merge password-protected PDFs?',
+        answer: `Currently, password-protected PDFs must be unlocked before merging. We recommend using a PDF password remover first, then merging the unlocked files.`
+      },
+      {
+        question: 'What browsers are supported?',
+        answer: `PDF Merge works in all modern browsers including Chrome, Firefox, Safari, and Edge. For best performance, use the latest version of your preferred browser.`
+      },
+      {
+        question: 'Can I reorder pages from different PDFs?',
+        answer: `Yes. After adding your PDFs, you can drag and drop to reorder entire files. For page-level reordering, use our PDF Split tool to extract specific pages, then merge them in your desired order.`
+      }
+    ]
+  }
+};
+
+// Schema data
+const schemaData = {
+  toolId: tool.id,
+  toolName: tool.name,
+  description: seoContent.description,
+  category: tool.category,
+  steps: seoContent.qa.howItWorks.steps,
+  faqs: seoContent.qa.faqs,
+  url: tool.url
+};
 ---
 
-<Layout title="PDF Merge - New Life Solutions" description="Combine multiple PDF files into one. Browser-based, private, free." image="/thumbnails/pdf-merge.svg">
+<Layout
+  title={seoContent.title}
+  description={seoContent.description}
+  image="/thumbnails/pdf-merge.svg"
+>
+  <!-- Schema Markup for AI extraction -->
+  <SchemaMarkup {...schemaData} />
+
   <Navbar />
 
   <main class="pt-20 pb-16 px-6 min-h-screen">
     <div class="max-w-3xl mx-auto">
-      <!-- Header -->
-      <div class="text-center mb-12">
-        <a
-          href="/hub"
-          class="inline-flex items-center gap-2 text-[var(--text-muted)] hover:text-[var(--text)] transition-colors mb-8 text-xs uppercase tracking-[0.15em]"
-        >
-          <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-          </svg>
-          Back
-        </a>
 
-        <div class="w-12 h-12 mx-auto mb-4">
-          <img src="/thumbnails/pdf-merge.svg" alt="PDF Merge" class="w-full h-full" />
-        </div>
-        <h1 class="text-xl uppercase tracking-[0.3em] mb-4">PDF Merge</h1>
+      <!-- Answer Box: AI extracts this first -->
+      <AnswerBox
+        title={seoContent.answerBox.title}
+        tldr={seoContent.answerBox.tldr}
+        toolName={tool.name}
+        queryTarget={seoContent.answerBox.queryTarget}
+        trustSignals={seoContent.answerBox.trustSignals}
+      />
 
-        <p class="text-[var(--text-dim)] text-sm max-w-md mx-auto mb-6">
-          Combine multiple PDF files into a single document.
-          <span class="text-[var(--text)]">Files never leave your browser.</span>
-        </p>
+      <!-- Tool Component -->
+      <section class="tool-section" aria-label="PDF Merge Tool">
+        <PdfMerge client:load />
+      </section>
 
-        <div class="flex items-center justify-center gap-4">
-          <span class="tag tag-free">Free</span>
-          <span class="text-[0.625rem] text-[var(--text-muted)] uppercase tracking-[0.15em]">No signup</span>
-        </div>
-      </div>
+      <!-- Q&A Sections: Semantic structure for AI -->
+      <QASections
+        toolName={tool.name}
+        whatIs={seoContent.qa.whatIs}
+        howItWorks={seoContent.qa.howItWorks}
+        whyBrowserBased={seoContent.qa.whyBrowserBased}
+        faqs={seoContent.qa.faqs}
+      />
 
-      <!-- Tool -->
-      <PdfMerge client:load />
     </div>
   </main>
 
   <Footer />
 </Layout>
+
+<style>
+  .tool-section {
+    margin: 2rem 0;
+  }
+</style>

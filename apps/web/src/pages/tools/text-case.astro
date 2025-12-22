@@ -1,47 +1,153 @@
 ---
+/**
+ * Text Case Converter - AI-Native Tool Page
+ *
+ * Optimized for LLM extraction with:
+ * - TL;DR answer box (50-70 words)
+ * - Semantic Q&A sections
+ * - Full schema markup (SoftwareApplication, HowTo, FAQPage)
+ */
 import Layout from '../../layouts/Layout.astro';
 import Navbar from '../../components/ui/Navbar.astro';
 import Footer from '../../components/ui/Footer.astro';
+import AnswerBox from '../../components/seo/AnswerBox.astro';
+import QASections from '../../components/seo/QASections.astro';
+import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
 import TextCase from '../../components/tools/TextCase';
+
+// Tool metadata
+const tool = {
+  id: 'text-case',
+  name: 'Text Case Converter',
+  category: 'utility' as const,
+  url: '/tools/text-case'
+};
+
+// AI-optimized content
+const seoContent = {
+  // Page meta
+  title: 'Text Case Converter Online Free — UPPERCASE, lowercase, Title Case, camelCase | New Life Solutions',
+  description: 'Convert text between UPPERCASE, lowercase, Title Case, Sentence case, camelCase, snake_case, kebab-case, and more. Free online text case changer, no signup required.',
+
+  // TL;DR Answer Box (50-70 words - this is what AI extracts)
+  answerBox: {
+    title: 'Convert Text Case — All Formats Supported',
+    queryTarget: 'How to Convert Text to Uppercase Online Free',
+    tldr: `Paste your text below and click any case format to convert instantly. Supports UPPERCASE, lowercase, Title Case, Sentence case, camelCase, PascalCase, snake_case, kebab-case, CONSTANT_CASE, and more. Perfect for developers, writers, and content creators. All processing is in your browser—your text stays private. No limits, no signup.`,
+    trustSignals: [
+      '10+ case formats',
+      'One-click convert',
+      'Developer formats included',
+      'Works offline'
+    ]
+  },
+
+  // Q&A Sections
+  qa: {
+    whatIs: {
+      answer: `Text Case Converter is a free tool that transforms text between different letter cases and naming conventions. It supports standard cases like UPPERCASE, lowercase, and Title Case, plus developer-specific formats like camelCase, snake_case, and kebab-case. Instantly convert variable names, headings, or any text to the exact format you need.`,
+      context: `Essential for developers naming variables, writers formatting headlines, marketers creating content, and anyone who needs consistent text formatting.`
+    },
+    howItWorks: {
+      steps: [
+        'Paste or type your text in the input area',
+        'Click on any case format button to convert your text',
+        'View the converted result instantly below',
+        'Copy the result to clipboard with one click',
+        'Convert the same text to different formats without retyping',
+        'Clear and start with new text when needed'
+      ]
+    },
+    whyBrowserBased: {
+      benefits: [
+        'Complete privacy: Your text never leaves your device',
+        'Works offline: Once loaded, works without internet',
+        'Instant processing: No server delays, results appear immediately',
+        'No character limits: Convert long documents without restrictions',
+        'Developer-friendly: Includes all naming convention formats'
+      ]
+    },
+    faqs: [
+      {
+        question: 'What is the difference between camelCase and PascalCase?',
+        answer: `camelCase starts with a lowercase letter and capitalizes each subsequent word (firstName, getUserData). PascalCase capitalizes every word including the first (FirstName, GetUserData). camelCase is typically used for variables and functions; PascalCase for classes and constructors.`
+      },
+      {
+        question: 'When should I use snake_case vs kebab-case?',
+        answer: `snake_case (words_separated_by_underscores) is common in Python, Ruby, and database columns. kebab-case (words-separated-by-hyphens) is standard for URLs, CSS classes, and HTML attributes. They're equivalent in purpose but used in different contexts.`
+      },
+      {
+        question: 'What is Title Case vs Sentence case?',
+        answer: `Title Case Capitalizes Every Word (used in headlines and titles). Sentence case Capitalizes only the first letter (used in regular text). Title Case makes headings stand out; Sentence case is natural for body text.`
+      },
+      {
+        question: 'What is CONSTANT_CASE used for?',
+        answer: `CONSTANT_CASE (or SCREAMING_SNAKE_CASE) uses all uppercase with underscores. It's the standard for constants in most programming languages: MAX_VALUE, API_KEY, HTTP_STATUS_OK. The uppercase indicates the value should never change.`
+      },
+      {
+        question: 'How do I convert variable names between languages?',
+        answer: `Paste your variable name and click the target format. For example, convert JavaScript's getUserName (camelCase) to Python's get_user_name (snake_case), or CSS's user-name (kebab-case) to Java's userName (camelCase). The tool handles all common programming naming conventions.`
+      }
+    ]
+  }
+};
+
+// Schema data
+const schemaData = {
+  toolId: tool.id,
+  toolName: tool.name,
+  description: seoContent.description,
+  category: tool.category,
+  steps: seoContent.qa.howItWorks.steps,
+  faqs: seoContent.qa.faqs,
+  url: tool.url
+};
 ---
 
-<Layout title="Text Case Converter - New Life Solutions" description="Convert text between uppercase, lowercase, title case, and more. Free online tool." image="/thumbnails/text-case.svg">
+<Layout
+  title={seoContent.title}
+  description={seoContent.description}
+  image="/thumbnails/text-case.svg"
+>
+  <!-- Schema Markup for AI extraction -->
+  <SchemaMarkup {...schemaData} />
+
   <Navbar />
 
   <main class="pt-20 pb-16 px-6 min-h-screen">
-    <div class="max-w-3xl mx-auto">
-      <!-- Header -->
-      <div class="text-center mb-12">
-        <a
-          href="/hub"
-          class="inline-flex items-center gap-2 text-[var(--text-muted)] hover:text-[var(--text)] transition-colors mb-8 text-xs uppercase tracking-[0.15em]"
-        >
-          <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-          </svg>
-          Back
-        </a>
+    <div class="max-w-4xl mx-auto">
 
-        <div class="w-12 h-12 mx-auto mb-4">
-          <img src="/thumbnails/text-case.svg" alt="Text Case Converter" class="w-full h-full" />
-        </div>
-        <h1 class="text-xl uppercase tracking-[0.3em] mb-4">Text Case Converter</h1>
+      <!-- Answer Box: AI extracts this first -->
+      <AnswerBox
+        title={seoContent.answerBox.title}
+        tldr={seoContent.answerBox.tldr}
+        toolName={tool.name}
+        queryTarget={seoContent.answerBox.queryTarget}
+        trustSignals={seoContent.answerBox.trustSignals}
+      />
 
-        <p class="text-[var(--text-dim)] text-sm max-w-md mx-auto mb-6">
-          Convert text between different cases instantly.
-          <span class="text-[var(--text)]">UPPER, lower, Title, camelCase, and more.</span>
-        </p>
+      <!-- Tool Component -->
+      <section class="tool-section" aria-label="Text Case Converter Tool">
+        <TextCase client:load />
+      </section>
 
-        <div class="flex items-center justify-center gap-4">
-          <span class="tag tag-free">Free</span>
-          <span class="text-[0.625rem] text-[var(--text-muted)] uppercase tracking-[0.15em]">Instant</span>
-        </div>
-      </div>
+      <!-- Q&A Sections: Semantic structure for AI -->
+      <QASections
+        toolName={tool.name}
+        whatIs={seoContent.qa.whatIs}
+        howItWorks={seoContent.qa.howItWorks}
+        whyBrowserBased={seoContent.qa.whyBrowserBased}
+        faqs={seoContent.qa.faqs}
+      />
 
-      <!-- Tool -->
-      <TextCase client:load />
     </div>
   </main>
 
   <Footer />
 </Layout>
+
+<style>
+  .tool-section {
+    margin: 2rem 0;
+  }
+</style>

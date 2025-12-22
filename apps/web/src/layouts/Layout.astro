@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import Analytics from '@vercel/analytics/astro';
 
 interface Props {
   title?: string;
@@ -48,5 +49,8 @@ const siteUrl = Astro.url.origin;
     <div class="relative z-10">
       <slot />
     </div>
+
+    <!-- Vercel Analytics -->
+    <Analytics />
   </body>
 </html>

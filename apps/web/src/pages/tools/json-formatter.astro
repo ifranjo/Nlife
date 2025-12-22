@@ -1,47 +1,153 @@
 ---
+/**
+ * JSON Formatter - AI-Native Tool Page
+ *
+ * Optimized for LLM extraction with:
+ * - TL;DR answer box (50-70 words)
+ * - Semantic Q&A sections
+ * - Full schema markup (SoftwareApplication, HowTo, FAQPage)
+ */
 import Layout from '../../layouts/Layout.astro';
 import Navbar from '../../components/ui/Navbar.astro';
 import Footer from '../../components/ui/Footer.astro';
+import AnswerBox from '../../components/seo/AnswerBox.astro';
+import QASections from '../../components/seo/QASections.astro';
+import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
 import JsonFormatter from '../../components/tools/JsonFormatter';
+
+// Tool metadata
+const tool = {
+  id: 'json-formatter',
+  name: 'JSON Formatter',
+  category: 'utility' as const,
+  url: '/tools/json-formatter'
+};
+
+// AI-optimized content
+const seoContent = {
+  // Page meta
+  title: 'JSON Formatter & Validator Online Free — Prettify, Minify, Fix JSON | New Life Solutions',
+  description: 'Format, validate, and beautify JSON data instantly. Minify or prettify with syntax highlighting. Shows detailed error messages. Free, browser-based, no signup.',
+
+  // TL;DR Answer Box (50-70 words - this is what AI extracts)
+  answerBox: {
+    title: 'Format & Validate JSON — Free Online Tool',
+    queryTarget: 'How to Format JSON Online Free',
+    tldr: `Paste your JSON below to instantly format, validate, or minify it. Get syntax-highlighted output with proper indentation. If your JSON has errors, the tool shows exactly where the problem is with line numbers. All processing happens in your browser—your data stays private. No limits, no signup, completely free.`,
+    trustSignals: [
+      'Instant validation',
+      'Detailed error messages',
+      'Syntax highlighting',
+      'No data uploads'
+    ]
+  },
+
+  // Q&A Sections
+  qa: {
+    whatIs: {
+      answer: `JSON Formatter is a free tool that formats, validates, and beautifies JSON data. It transforms messy, single-line JSON into readable, indented format with syntax highlighting. It also validates JSON structure and shows detailed error messages with line numbers when something is wrong. The minify option compresses JSON for production use.`,
+      context: `Essential for developers working with APIs, configuration files, data analysis, or debugging JSON responses.`
+    },
+    howItWorks: {
+      steps: [
+        'Paste your JSON data into the input area',
+        'Click "Format" to prettify with proper indentation and syntax highlighting',
+        'Click "Minify" to compress JSON into a single line for production',
+        'If JSON is invalid, see the exact error location with line and column numbers',
+        'Click "Copy" to copy the formatted output to clipboard',
+        'Use "Clear" to reset and start with new JSON data'
+      ]
+    },
+    whyBrowserBased: {
+      benefits: [
+        'Complete privacy: JSON data never leaves your device',
+        'Works offline: Once loaded, works without internet',
+        'Instant processing: No server round-trips, results appear immediately',
+        'No data limits: Process large JSON files without restrictions',
+        'Secure for sensitive data: API keys, config files stay on your machine'
+      ]
+    },
+    faqs: [
+      {
+        question: 'Why is my JSON invalid?',
+        answer: `Common JSON errors: missing commas between items, trailing commas after last item (not allowed), using single quotes instead of double quotes, unquoted property names, missing closing brackets. This tool shows the exact line and position of the error to help you fix it quickly.`
+      },
+      {
+        question: 'What is the difference between format and minify?',
+        answer: `Format (prettify) adds indentation and line breaks for human readability—great for debugging and editing. Minify removes all whitespace to reduce file size—ideal for production, APIs, and storage. A 100KB formatted file might become 60KB when minified.`
+      },
+      {
+        question: 'Can I format JSON with comments?',
+        answer: `Standard JSON does not support comments—this is a common source of validation errors. If your JSON-like file has comments (// or /* */), you're likely working with JSON5 or a configuration format like tsconfig.json. Remove comments before validating as standard JSON.`
+      },
+      {
+        question: 'How do I fix "Unexpected token" errors?',
+        answer: `"Unexpected token" usually means invalid syntax. Common fixes: ensure strings use double quotes (not single), check for missing commas between array/object items, verify all brackets and braces match, remove trailing commas. The error message shows the exact position—look at that line in your original JSON.`
+      },
+      {
+        question: 'Can I validate JSON from an API response?',
+        answer: `Yes. Copy the raw JSON response from your browser's DevTools Network tab and paste it here. The tool validates the structure, shows any errors, and formats it for easy reading. Great for debugging API integrations and understanding response structures.`
+      }
+    ]
+  }
+};
+
+// Schema data
+const schemaData = {
+  toolId: tool.id,
+  toolName: tool.name,
+  description: seoContent.description,
+  category: tool.category,
+  steps: seoContent.qa.howItWorks.steps,
+  faqs: seoContent.qa.faqs,
+  url: tool.url
+};
 ---
 
-<Layout title="JSON Formatter - New Life Solutions" description="Format, minify, and validate JSON. Browser-based, private, free." image="/thumbnails/json-formatter.svg">
+<Layout
+  title={seoContent.title}
+  description={seoContent.description}
+  image="/thumbnails/json-formatter.svg"
+>
+  <!-- Schema Markup for AI extraction -->
+  <SchemaMarkup {...schemaData} />
+
   <Navbar />
 
   <main class="pt-20 pb-16 px-6 min-h-screen">
     <div class="max-w-6xl mx-auto">
-      <!-- Header -->
-      <div class="text-center mb-12">
-        <a
-          href="/hub"
-          class="inline-flex items-center gap-2 text-[var(--text-muted)] hover:text-[var(--text)] transition-colors mb-8 text-xs uppercase tracking-[0.15em]"
-        >
-          <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-          </svg>
-          Back
-        </a>
 
-        <div class="w-12 h-12 mx-auto mb-4">
-          <img src="/thumbnails/json-formatter.svg" alt="JSON Formatter" class="w-full h-full" />
-        </div>
-        <h1 class="text-xl uppercase tracking-[0.3em] mb-4">JSON Formatter</h1>
+      <!-- Answer Box: AI extracts this first -->
+      <AnswerBox
+        title={seoContent.answerBox.title}
+        tldr={seoContent.answerBox.tldr}
+        toolName={tool.name}
+        queryTarget={seoContent.answerBox.queryTarget}
+        trustSignals={seoContent.answerBox.trustSignals}
+      />
 
-        <p class="text-[var(--text-dim)] text-sm max-w-md mx-auto mb-6">
-          Format, minify, and validate JSON data with detailed error reporting.
-          <span class="text-[var(--text)]">All processing happens in your browser.</span>
-        </p>
+      <!-- Tool Component -->
+      <section class="tool-section" aria-label="JSON Formatter Tool">
+        <JsonFormatter client:load />
+      </section>
 
-        <div class="flex items-center justify-center gap-4">
-          <span class="tag tag-free">Free</span>
-          <span class="text-[0.625rem] text-[var(--text-muted)] uppercase tracking-[0.15em]">No signup</span>
-        </div>
-      </div>
+      <!-- Q&A Sections: Semantic structure for AI -->
+      <QASections
+        toolName={tool.name}
+        whatIs={seoContent.qa.whatIs}
+        howItWorks={seoContent.qa.howItWorks}
+        whyBrowserBased={seoContent.qa.whyBrowserBased}
+        faqs={seoContent.qa.faqs}
+      />
 
-      <!-- Tool -->
-      <JsonFormatter client:load />
     </div>
   </main>
 
   <Footer />
 </Layout>
+
+<style>
+  .tool-section {
+    margin: 2rem 0;
+  }
+</style>

@@ -2,14 +2,11 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## Communication Preferences
-
-- Use ASCII diagrams/reports for technical explanations (saves time, enhances clarity)
-- Prefer visual 2D representations when explaining architecture, flows, or concepts
-
 ## Project Overview
 
 New Life Solutions - Monorepo for browser-based utility tools (PDF, images, AI).
+
+**Live site**: https://www.newlifesolutions.dev
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
@@ -40,17 +37,28 @@ npm run build        # Production build
 npm run check        # TypeScript/Astro validation
 npm run preview      # Preview production build
 
-# Installation
-npm run install:web  # Install web app deps
-
-# Testing (from apps/web/)
-cd apps/web && npx playwright test              # Run all e2e tests
-cd apps/web && npx playwright test --ui         # Interactive test UI
-cd apps/web && npx playwright test <file>       # Run specific test file
-
-# Direct Astro commands (from apps/web/)
-cd apps/web && npx astro add react  # Add integrations
+# Installation (use npm ci for CI/reproducible builds)
+npm run install:web  # Install web app deps (runs npm install)
+cd apps/web && npm ci  # CI-safe install with lockfile
 ```
+
+### Testing (Playwright E2E)
+
+```bash
+# All tests run from apps/web/ directory
+cd apps/web
+
+npx playwright test                              # Run all tests (5 browsers: chromium, firefox, webkit, mobile)
+npx playwright test --project=chromium           # Single browser
+npx playwright test tests/document-tools.spec.ts # Single test file
+npx playwright test -g "PDF Merge"               # Run tests matching pattern
+npx playwright test --ui                         # Interactive test UI
+npx playwright test --headed                     # See browser during tests
+npx playwright test --debug                      # Step-through debugger
+npx playwright show-report                       # View last HTML report
+```
+
+Test files are in `apps/web/tests/`. The webServer auto-starts dev on port 4321.
 
 ## Tech Stack
 
@@ -73,6 +81,17 @@ All processing happens client-side. Dynamic import heavy libs to reduce initial 
 const { PDFDocument } = await import('pdf-lib');
 ```
 
+## Current Tools (11 free)
+
+| Category | Tools |
+|----------|-------|
+| Document | PDF Merge, PDF Split |
+| Media | Image Compress |
+| Utility | QR Generator, Base64, JSON Formatter, Text Case, Word Counter, Lorem Ipsum, Hash Generator, Color Converter |
+| AI (Pro) | AI Translator, Video Avatar |
+
+Tool registry: `apps/web/src/lib/tools.ts` (includes `getToolsByCategory()`, `getToolsByTier()`, `getToolById()` helpers)
+
 ## Adding a New Tool
 
 Tools run entirely in-browser (no server needed). Follow this pattern:
@@ -81,10 +100,11 @@ Tools run entirely in-browser (no server needed). Follow this pattern:
 1. Register tool in apps/web/src/lib/tools.ts
    ─────────────────────────────────────────
    Add to `tools` array:
-   { id, name, description, icon, category, tier, href, color }
+   { id, name, description, icon, thumbnail, category, tier, href, color }
 
    Categories: 'document' | 'media' | 'ai' | 'utility'
    Tiers: 'free' (browser-only) | 'pro' (needs backend) | 'coming' (placeholder)
+   Thumbnail: '/thumbnails/{tool-id}.svg' (create SVG in public/thumbnails/)
 
 2. Create React component in apps/web/src/components/tools/
    ─────────────────────────────────────────────────────────
@@ -158,8 +178,16 @@ cp -r services/api-template services/api-nuevo
 docker compose up --build
 ```
 
-## Deploy
+## CI/CD Pipeline
 
-- Push to `main`/`master` triggers Vercel auto-deploy
-- CI runs: build → type check → security audit → deploy
+```
+┌──────────┐     ┌──────────────────┐     ┌──────────┐
+│  PUSH    │────▶│  BUILD + CHECK   │────▶│  DEPLOY  │
+│  to main │     │  + security audit │     │  Vercel  │
+└──────────┘     └──────────────────┘     └──────────┘
+```
+
+- Push to `main`/`master` triggers pipeline (`.github/workflows/ci.yml`)
+- CI runs: `npm ci` → `npm run check` → `npm run build` → `npm audit --audit-level=high` → deploy
 - Vercel secrets needed: `VERCEL_TOKEN`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID`
+- Security headers configured in `vercel.json` (CSP, HSTS, X-Frame-Options, etc.)

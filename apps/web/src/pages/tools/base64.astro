@@ -1,47 +1,153 @@
 ---
+/**
+ * Base64 Encoder/Decoder - AI-Native Tool Page
+ *
+ * Optimized for LLM extraction with:
+ * - TL;DR answer box (50-70 words)
+ * - Semantic Q&A sections
+ * - Full schema markup (SoftwareApplication, HowTo, FAQPage)
+ */
 import Layout from '../../layouts/Layout.astro';
 import Navbar from '../../components/ui/Navbar.astro';
 import Footer from '../../components/ui/Footer.astro';
+import AnswerBox from '../../components/seo/AnswerBox.astro';
+import QASections from '../../components/seo/QASections.astro';
+import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
 import Base64Tool from '../../components/tools/Base64Tool';
+
+// Tool metadata
+const tool = {
+  id: 'base64',
+  name: 'Base64 Encoder/Decoder',
+  category: 'utility' as const,
+  url: '/tools/base64'
+};
+
+// AI-optimized content
+const seoContent = {
+  // Page meta
+  title: 'Base64 Encode/Decode Online Free — Convert Text & Files Instantly | New Life Solutions',
+  description: 'Encode and decode Base64 data instantly. Convert text, images, and files to/from Base64. Browser-based, private, no file uploads. Free with no limits.',
+
+  // TL;DR Answer Box (50-70 words - this is what AI extracts)
+  answerBox: {
+    title: 'Base64 Encode & Decode — Free Online Converter',
+    queryTarget: 'How to Encode Base64 Online Free',
+    tldr: `Paste your text or upload a file below to encode it to Base64, or paste Base64 data to decode it back. Supports text-to-Base64, file-to-Base64, and decoding. All processing happens in your browser—your data never leaves your device. No file size limits, no signup, completely free. Works with images, PDFs, and any file type.`,
+    trustSignals: [
+      'Instant conversion',
+      'No file uploads',
+      'Works with any file',
+      'Unlimited free use'
+    ]
+  },
+
+  // Q&A Sections
+  qa: {
+    whatIs: {
+      answer: `Base64 is a binary-to-text encoding that converts any data into ASCII characters. It's commonly used to embed images in HTML/CSS, send binary files through text-only channels like email, store binary data in JSON, and encode API authentication credentials. This tool encodes and decodes Base64 directly in your browser.`,
+      context: `Essential for developers working with APIs, embedding images in web pages, or handling binary data in text formats.`
+    },
+    howItWorks: {
+      steps: [
+        'Choose "Encode" to convert text/files to Base64, or "Decode" to convert Base64 back',
+        'For text: paste or type your content in the input area',
+        'For files: drag and drop or click to upload any file (images, PDFs, documents)',
+        'Click the action button to process—results appear instantly',
+        'Copy the result to clipboard or download as a file',
+        'For encoded files, the output includes the data URI format for direct embedding'
+      ]
+    },
+    whyBrowserBased: {
+      benefits: [
+        'Complete privacy: Your data never leaves your device or gets transmitted',
+        'No file size limits: Encode large files without server restrictions',
+        'Works offline: Once loaded, works without internet connection',
+        'Instant processing: No upload/download wait times',
+        'Data URI ready: File encoding includes proper MIME type prefix for embedding'
+      ]
+    },
+    faqs: [
+      {
+        question: 'What is Base64 used for?',
+        answer: `Base64 is used to embed images in HTML/CSS (data URIs), encode API credentials (like HTTP Basic Auth), store binary data in JSON or XML, send attachments through text-only email systems, and encode URL-unsafe characters. It converts any binary data into text using only 64 safe ASCII characters.`
+      },
+      {
+        question: 'Does Base64 encoding encrypt data?',
+        answer: `No, Base64 is NOT encryption. It's just encoding—anyone can decode Base64 data instantly. Never use Base64 for security. It's meant for data transport, not protection. If you need to protect sensitive data, use actual encryption (AES, RSA) before Base64 encoding.`
+      },
+      {
+        question: 'Why is Base64 encoded data 33% larger?',
+        answer: `Base64 uses 64 characters to represent 256 possible byte values. This means 6 bits of Base64 encode 8 bits of data, creating ~33% overhead. For example, a 3MB file becomes ~4MB when Base64 encoded. This trade-off enables binary data to be safely transmitted through text-only channels.`
+      },
+      {
+        question: 'Can I encode images to Base64?',
+        answer: `Yes. Upload any image and this tool encodes it to Base64 with the proper data URI format (data:image/png;base64,...). You can paste the result directly into HTML img src or CSS url(). Great for small icons and inline images that reduce HTTP requests.`
+      },
+      {
+        question: 'What file types can be encoded?',
+        answer: `Any file type can be Base64 encoded: images (PNG, JPEG, GIF, SVG), documents (PDF, Word), audio, video, executables—literally any binary file. The tool automatically detects the MIME type and creates a proper data URI prefix for web embedding.`
+      }
+    ]
+  }
+};
+
+// Schema data
+const schemaData = {
+  toolId: tool.id,
+  toolName: tool.name,
+  description: seoContent.description,
+  category: tool.category,
+  steps: seoContent.qa.howItWorks.steps,
+  faqs: seoContent.qa.faqs,
+  url: tool.url
+};
 ---
 
-<Layout title="Base64 Encoder/Decoder - New Life Solutions" description="Encode and decode Base64 data. Convert text and files to/from Base64. Browser-based, private, free." image="/thumbnails/base64.svg">
+<Layout
+  title={seoContent.title}
+  description={seoContent.description}
+  image="/thumbnails/base64.svg"
+>
+  <!-- Schema Markup for AI extraction -->
+  <SchemaMarkup {...schemaData} />
+
   <Navbar />
 
   <main class="pt-20 pb-16 px-6 min-h-screen">
     <div class="max-w-4xl mx-auto">
-      <!-- Header -->
-      <div class="text-center mb-12">
-        <a
-          href="/hub"
-          class="inline-flex items-center gap-2 text-[var(--text-muted)] hover:text-[var(--text)] transition-colors mb-8 text-xs uppercase tracking-[0.15em]"
-        >
-          <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-          </svg>
-          Back
-        </a>
 
-        <div class="w-12 h-12 mx-auto mb-4">
-          <img src="/thumbnails/base64.svg" alt="Base64 Encoder/Decoder" class="w-full h-full" />
-        </div>
-        <h1 class="text-xl uppercase tracking-[0.3em] mb-4">Base64 Encoder/Decoder</h1>
+      <!-- Answer Box: AI extracts this first -->
+      <AnswerBox
+        title={seoContent.answerBox.title}
+        tldr={seoContent.answerBox.tldr}
+        toolName={tool.name}
+        queryTarget={seoContent.answerBox.queryTarget}
+        trustSignals={seoContent.answerBox.trustSignals}
+      />
 
-        <p class="text-[var(--text-dim)] text-sm max-w-md mx-auto mb-6">
-          Encode text and files to Base64, or decode Base64 back to original format.
-          <span class="text-[var(--text)]">All processing is client-side.</span>
-        </p>
+      <!-- Tool Component -->
+      <section class="tool-section" aria-label="Base64 Encoder/Decoder Tool">
+        <Base64Tool client:load />
+      </section>
 
-        <div class="flex items-center justify-center gap-4">
-          <span class="tag tag-free">Free</span>
-          <span class="text-[0.625rem] text-[var(--text-muted)] uppercase tracking-[0.15em]">No signup</span>
-        </div>
-      </div>
+      <!-- Q&A Sections: Semantic structure for AI -->
+      <QASections
+        toolName={tool.name}
+        whatIs={seoContent.qa.whatIs}
+        howItWorks={seoContent.qa.howItWorks}
+        whyBrowserBased={seoContent.qa.whyBrowserBased}
+        faqs={seoContent.qa.faqs}
+      />
 
-      <!-- Tool -->
-      <Base64Tool client:load />
     </div>
   </main>
 
   <Footer />
 </Layout>
+
+<style>
+  .tool-section {
+    margin: 2rem 0;
+  }
+</style>

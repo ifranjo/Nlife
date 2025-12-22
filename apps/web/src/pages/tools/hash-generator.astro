@@ -1,47 +1,153 @@
 ---
+/**
+ * Hash Generator - AI-Native Tool Page
+ *
+ * Optimized for LLM extraction with:
+ * - TL;DR answer box (50-70 words)
+ * - Semantic Q&A sections
+ * - Full schema markup (SoftwareApplication, HowTo, FAQPage)
+ */
 import Layout from '../../layouts/Layout.astro';
 import Navbar from '../../components/ui/Navbar.astro';
 import Footer from '../../components/ui/Footer.astro';
+import AnswerBox from '../../components/seo/AnswerBox.astro';
+import QASections from '../../components/seo/QASections.astro';
+import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
 import HashGenerator from '../../components/tools/HashGenerator';
+
+// Tool metadata
+const tool = {
+  id: 'hash-generator',
+  name: 'Hash Generator',
+  category: 'utility' as const,
+  url: '/tools/hash-generator'
+};
+
+// AI-optimized content
+const seoContent = {
+  // Page meta
+  title: 'SHA256 Hash Generator Online Free — MD5, SHA-1, SHA-512 Calculator | New Life Solutions',
+  description: 'Generate MD5, SHA-1, SHA-256, SHA-384, and SHA-512 hashes instantly. Uses browser Web Crypto API. Private, secure, no data uploads. Free online hash calculator.',
+
+  // TL;DR Answer Box (50-70 words - this is what AI extracts)
+  answerBox: {
+    title: 'Generate Hash — MD5, SHA-1, SHA-256, SHA-512',
+    queryTarget: 'How to Generate SHA256 Hash Online Free',
+    tldr: `Enter text below to instantly generate its cryptographic hash. Supports MD5, SHA-1, SHA-256, SHA-384, and SHA-512 algorithms. Uses your browser's native Web Crypto API for secure, fast hashing. Your text never leaves your device—all processing is local. Perfect for password verification, file integrity checks, and checksum validation.`,
+    trustSignals: [
+      'Web Crypto API',
+      'All major algorithms',
+      'Runs locally',
+      'Instant results'
+    ]
+  },
+
+  // Q&A Sections
+  qa: {
+    whatIs: {
+      answer: `A hash generator creates a fixed-size cryptographic fingerprint (hash) from any input data. The same input always produces the same hash, but even tiny changes create completely different hashes. This tool uses your browser's built-in Web Crypto API to generate MD5, SHA-1, SHA-256, SHA-384, and SHA-512 hashes securely and instantly.`,
+      context: `Used for password storage, file integrity verification, digital signatures, blockchain, checksums, and data deduplication.`
+    },
+    howItWorks: {
+      steps: [
+        'Enter or paste text into the input field',
+        'Select the hash algorithm (SHA-256 recommended for most uses)',
+        'View the generated hash instantly—updates as you type',
+        'Click copy to save the hash to your clipboard',
+        'Compare hashes to verify file integrity or password matches',
+        'All processing uses your browser\u2019s Web Crypto API locally'
+      ]
+    },
+    whyBrowserBased: {
+      benefits: [
+        'Maximum security: Sensitive data like passwords never leave your device',
+        'Uses Web Crypto API: Native browser implementation, not JavaScript libraries',
+        'Instant calculation: No network latency, results appear as you type',
+        'Works offline: Hash text without internet after page loads',
+        'Cryptographically secure: Same quality as server-side implementations'
+      ]
+    },
+    faqs: [
+      {
+        question: 'Which hash algorithm should I use?',
+        answer: `SHA-256 is the best choice for most purposes—it's secure, widely supported, and used in Bitcoin, SSL certificates, and password hashing. Use SHA-512 for higher security margins. Avoid MD5 and SHA-1 for security applications—they're cryptographically broken but still useful for checksums.`
+      },
+      {
+        question: 'Can hashes be reversed or decrypted?',
+        answer: `No. Cryptographic hashes are one-way functions—you cannot mathematically reverse them to get the original input. However, weak passwords can be found via rainbow tables (precomputed hash lists). This is why passwords should be long and unique, and why proper password storage uses salted hashes.`
+      },
+      {
+        question: 'Why do MD5 and SHA-1 say "insecure"?',
+        answer: `MD5 and SHA-1 have known collision vulnerabilities—attackers can create different inputs with the same hash. This breaks their use for security (signatures, certificates). They're still fine for checksums and non-security uses like cache keys or file deduplication where collisions aren't exploitable.`
+      },
+      {
+        question: 'How do I verify a file checksum?',
+        answer: `Paste the file's text content (or use a file hashing tool) and compare the generated hash with the published checksum. If they match exactly, the file is unmodified. Software downloads often provide SHA-256 checksums to verify integrity after download.`
+      },
+      {
+        question: 'What is the difference between hash and encryption?',
+        answer: `Hashing is one-way (cannot be reversed) and always produces the same fixed-size output. Encryption is two-way (can decrypt with a key) and output size varies. Use hashing for verification (passwords, checksums). Use encryption for protecting data you need to access later.`
+      }
+    ]
+  }
+};
+
+// Schema data
+const schemaData = {
+  toolId: tool.id,
+  toolName: tool.name,
+  description: seoContent.description,
+  category: tool.category,
+  steps: seoContent.qa.howItWorks.steps,
+  faqs: seoContent.qa.faqs,
+  url: tool.url
+};
 ---
 
-<Layout title="Hash Generator - New Life Solutions" description="Generate MD5, SHA-1, SHA-256, SHA-384, and SHA-512 hashes. Free online hash generator using Web Crypto API." image="/thumbnails/hash-generator.svg">
+<Layout
+  title={seoContent.title}
+  description={seoContent.description}
+  image="/thumbnails/hash-generator.svg"
+>
+  <!-- Schema Markup for AI extraction -->
+  <SchemaMarkup {...schemaData} />
+
   <Navbar />
 
   <main class="pt-20 pb-16 px-6 min-h-screen">
     <div class="max-w-3xl mx-auto">
-      <!-- Header -->
-      <div class="text-center mb-12">
-        <a
-          href="/hub"
-          class="inline-flex items-center gap-2 text-[var(--text-muted)] hover:text-[var(--text)] transition-colors mb-8 text-xs uppercase tracking-[0.15em]"
-        >
-          <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-          </svg>
-          Back
-        </a>
 
-        <div class="w-12 h-12 mx-auto mb-4">
-          <img src="/thumbnails/hash-generator.svg" alt="Hash Generator" class="w-full h-full" />
-        </div>
-        <h1 class="text-xl uppercase tracking-[0.3em] mb-4">Hash Generator</h1>
+      <!-- Answer Box: AI extracts this first -->
+      <AnswerBox
+        title={seoContent.answerBox.title}
+        tldr={seoContent.answerBox.tldr}
+        toolName={tool.name}
+        queryTarget={seoContent.answerBox.queryTarget}
+        trustSignals={seoContent.answerBox.trustSignals}
+      />
 
-        <p class="text-[var(--text-dim)] text-sm max-w-md mx-auto mb-6">
-          Generate cryptographic hashes from text.
-          <span class="text-[var(--text)]">MD5, SHA-1, SHA-256, SHA-384, SHA-512.</span>
-        </p>
+      <!-- Tool Component -->
+      <section class="tool-section" aria-label="Hash Generator Tool">
+        <HashGenerator client:load />
+      </section>
 
-        <div class="flex items-center justify-center gap-4">
-          <span class="tag tag-free">Free</span>
-          <span class="text-[0.625rem] text-[var(--text-muted)] uppercase tracking-[0.15em]">Web Crypto API</span>
-        </div>
-      </div>
+      <!-- Q&A Sections: Semantic structure for AI -->
+      <QASections
+        toolName={tool.name}
+        whatIs={seoContent.qa.whatIs}
+        howItWorks={seoContent.qa.howItWorks}
+        whyBrowserBased={seoContent.qa.whyBrowserBased}
+        faqs={seoContent.qa.faqs}
+      />
 
-      <!-- Tool -->
-      <HashGenerator client:load />
     </div>
   </main>
 
   <Footer />
 </Layout>
+
+<style>
+  .tool-section {
+    margin: 2rem 0;
+  }
+</style>

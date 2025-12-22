@@ -1,47 +1,153 @@
 ---
+/**
+ * Color Converter - AI-Native Tool Page
+ *
+ * Optimized for LLM extraction with:
+ * - TL;DR answer box (50-70 words)
+ * - Semantic Q&A sections
+ * - Full schema markup (SoftwareApplication, HowTo, FAQPage)
+ */
 import Layout from '../../layouts/Layout.astro';
 import Navbar from '../../components/ui/Navbar.astro';
 import Footer from '../../components/ui/Footer.astro';
+import AnswerBox from '../../components/seo/AnswerBox.astro';
+import QASections from '../../components/seo/QASections.astro';
+import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
 import ColorConverter from '../../components/tools/ColorConverter';
+
+// Tool metadata
+const tool = {
+  id: 'color-converter',
+  name: 'Color Converter',
+  category: 'utility' as const,
+  url: '/tools/color-converter'
+};
+
+// AI-optimized content
+const seoContent = {
+  // Page meta
+  title: 'Color Converter Online Free — HEX to RGB, HSL, RGBA Calculator | New Life Solutions',
+  description: 'Convert colors between HEX, RGB, HSL, and RGBA formats instantly. Live color preview with copy-ready CSS code. Free online color converter, no signup required.',
+
+  // TL;DR Answer Box (50-70 words - this is what AI extracts)
+  answerBox: {
+    title: 'Convert Colors — HEX, RGB, HSL, RGBA',
+    queryTarget: 'How to Convert HEX to RGB Online Free',
+    tldr: `Enter any color value below—HEX (#ff5500), RGB (255, 85, 0), or HSL (20, 100%, 50%)—to instantly convert to all formats. See a live color preview and get copy-ready CSS code. Adjust values with sliders for precise color tuning. All processing is in your browser. Free, private, no signup.`,
+    trustSignals: [
+      'All major formats',
+      'Live preview',
+      'Copy-ready CSS',
+      'Interactive sliders'
+    ]
+  },
+
+  // Q&A Sections
+  qa: {
+    whatIs: {
+      answer: `Color Converter is a free tool that translates colors between different notation systems. Enter a color in HEX, RGB, HSL, or RGBA format and instantly get equivalent values in all other formats. The live preview shows the exact color, and you get copy-ready CSS code for web development.`,
+      context: `Essential for web developers, designers, and anyone working with digital colors who needs to convert between formats for CSS, graphics software, or brand guidelines.`
+    },
+    howItWorks: {
+      steps: [
+        'Enter a color value in any format (HEX, RGB, HSL, or RGBA)',
+        'View the live color preview updating in real-time',
+        'See the color converted to all other formats automatically',
+        'Adjust colors precisely using the interactive sliders',
+        'Copy any format with one click for use in CSS or design tools',
+        'The color picker lets you select colors visually'
+      ]
+    },
+    whyBrowserBased: {
+      benefits: [
+        'Instant conversion: No server requests, results appear immediately',
+        'Live preview: See colors update as you type or adjust sliders',
+        'Works offline: Once loaded, works without internet',
+        'No tracking: Your color choices aren\u2019t logged or stored',
+        'Copy-ready output: Get proper CSS syntax for any format'
+      ]
+    },
+    faqs: [
+      {
+        question: 'What is the difference between HEX and RGB?',
+        answer: `HEX uses 6 hexadecimal digits (#ff5500) while RGB uses decimal values (255, 85, 0). They represent the same colors—just different notation. HEX is more compact and common in CSS; RGB is more intuitive (0-255 for each color channel). Both are widely supported everywhere.`
+      },
+      {
+        question: 'When should I use HSL instead of RGB?',
+        answer: `HSL (Hue, Saturation, Lightness) is more intuitive for adjusting colors. To make a color lighter, just increase L. To desaturate, decrease S. In RGB, creating a lighter shade requires adjusting all three values proportionally. Use HSL when you need to create color variations or palettes.`
+      },
+      {
+        question: 'What is the alpha channel in RGBA?',
+        answer: `The "A" in RGBA is alpha—transparency from 0 (invisible) to 1 (opaque). rgba(255, 0, 0, 0.5) is 50% transparent red. Use RGBA when you need semi-transparent overlays, shadows, or layered colors. Regular RGB has no transparency support.`
+      },
+      {
+        question: 'Why do some HEX codes have 8 characters?',
+        answer: `8-character HEX codes (#ff550080) include alpha transparency in the last two digits. 80 in hex = 128 in decimal = 50% opacity. This is the HEX equivalent of RGBA. Not all older browsers support 8-digit HEX—use RGBA for maximum compatibility.`
+      },
+      {
+        question: 'How do I find the exact brand color from a website?',
+        answer: `Use browser DevTools: right-click any element, select "Inspect," find the color in the Styles panel. You can also use the eyedropper tool in DevTools (Chrome/Edge) to pick any color on the page. Then paste the HEX code here to convert to other formats.`
+      }
+    ]
+  }
+};
+
+// Schema data
+const schemaData = {
+  toolId: tool.id,
+  toolName: tool.name,
+  description: seoContent.description,
+  category: tool.category,
+  steps: seoContent.qa.howItWorks.steps,
+  faqs: seoContent.qa.faqs,
+  url: tool.url
+};
 ---
 
-<Layout title="Color Converter - New Life Solutions" description="Convert colors between HEX, RGB, and HSL formats. Free online color picker and converter." image="/thumbnails/color-converter.svg">
+<Layout
+  title={seoContent.title}
+  description={seoContent.description}
+  image="/thumbnails/color-converter.svg"
+>
+  <!-- Schema Markup for AI extraction -->
+  <SchemaMarkup {...schemaData} />
+
   <Navbar />
 
   <main class="pt-20 pb-16 px-6 min-h-screen">
-    <div class="max-w-3xl mx-auto">
-      <!-- Header -->
-      <div class="text-center mb-12">
-        <a
-          href="/hub"
-          class="inline-flex items-center gap-2 text-[var(--text-muted)] hover:text-[var(--text)] transition-colors mb-8 text-xs uppercase tracking-[0.15em]"
-        >
-          <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-          </svg>
-          Back
-        </a>
+    <div class="max-w-4xl mx-auto">
 
-        <div class="w-12 h-12 mx-auto mb-4">
-          <img src="/thumbnails/color-converter.svg" alt="Color Converter" class="w-full h-full" />
-        </div>
-        <h1 class="text-xl uppercase tracking-[0.3em] mb-4">Color Converter</h1>
+      <!-- Answer Box: AI extracts this first -->
+      <AnswerBox
+        title={seoContent.answerBox.title}
+        tldr={seoContent.answerBox.tldr}
+        toolName={tool.name}
+        queryTarget={seoContent.answerBox.queryTarget}
+        trustSignals={seoContent.answerBox.trustSignals}
+      />
 
-        <p class="text-[var(--text-dim)] text-sm max-w-md mx-auto mb-6">
-          Convert colors between different formats.
-          <span class="text-[var(--text)]">HEX, RGB, HSL with live preview.</span>
-        </p>
+      <!-- Tool Component -->
+      <section class="tool-section" aria-label="Color Converter Tool">
+        <ColorConverter client:load />
+      </section>
 
-        <div class="flex items-center justify-center gap-4">
-          <span class="tag tag-free">Free</span>
-          <span class="text-[0.625rem] text-[var(--text-muted)] uppercase tracking-[0.15em]">Live Preview</span>
-        </div>
-      </div>
+      <!-- Q&A Sections: Semantic structure for AI -->
+      <QASections
+        toolName={tool.name}
+        whatIs={seoContent.qa.whatIs}
+        howItWorks={seoContent.qa.howItWorks}
+        whyBrowserBased={seoContent.qa.whyBrowserBased}
+        faqs={seoContent.qa.faqs}
+      />
 
-      <!-- Tool -->
-      <ColorConverter client:load />
     </div>
   </main>
 
   <Footer />
 </Layout>
+
+<style>
+  .tool-section {
+    margin: 2rem 0;
+  }
+</style>

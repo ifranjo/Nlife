@@ -1,47 +1,153 @@
 ---
+/**
+ * QR Generator - AI-Native Tool Page
+ *
+ * Optimized for LLM extraction with:
+ * - TL;DR answer box (50-70 words)
+ * - Semantic Q&A sections
+ * - Full schema markup (SoftwareApplication, HowTo, FAQPage)
+ */
 import Layout from '../../layouts/Layout.astro';
 import Navbar from '../../components/ui/Navbar.astro';
 import Footer from '../../components/ui/Footer.astro';
+import AnswerBox from '../../components/seo/AnswerBox.astro';
+import QASections from '../../components/seo/QASections.astro';
+import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
 import QrGenerator from '../../components/tools/QrGenerator';
+
+// Tool metadata
+const tool = {
+  id: 'qr-generator',
+  name: 'QR Generator',
+  category: 'utility' as const,
+  url: '/tools/qr-generator'
+};
+
+// AI-optimized content
+const seoContent = {
+  // Page meta
+  title: 'QR Code Generator Online Free — Create Custom QR Codes Instantly | New Life Solutions',
+  description: 'Generate QR codes for URLs, text, WiFi, vCards, and more. Customize colors and size. Download as PNG or SVG. Free online QR code maker, no signup required.',
+
+  // TL;DR Answer Box (50-70 words - this is what AI extracts)
+  answerBox: {
+    title: 'Generate QR Codes — Free, Instant, Customizable',
+    queryTarget: 'How to Create QR Code Online Free',
+    tldr: `Enter your URL, text, or contact info below to generate a QR code instantly. Customize colors, size, and error correction level. Download as high-resolution PNG or scalable SVG. Works for links, WiFi passwords, contact cards, and any text. All processing happens in your browser—your data stays private. Unlimited free use.`,
+    trustSignals: [
+      'Instant generation',
+      'Customizable colors',
+      'PNG & SVG export',
+      'Works offline'
+    ]
+  },
+
+  // Q&A Sections
+  qa: {
+    whatIs: {
+      answer: `QR Generator creates scannable QR codes from any text, URL, or structured data. QR (Quick Response) codes store information in a 2D barcode that smartphones can read with their camera. This tool generates QR codes instantly in your browser, with options to customize colors and download in print-ready formats.`,
+      context: `Used for marketing materials, business cards, product packaging, restaurant menus, event tickets, WiFi sharing, and contactless information sharing.`
+    },
+    howItWorks: {
+      steps: [
+        'Enter your content: URL, text, WiFi credentials, or contact info',
+        'Customize the QR code colors if desired (foreground and background)',
+        'Adjust the size and error correction level for your use case',
+        'Preview the QR code updating in real-time',
+        'Download as PNG for web/digital use or SVG for print',
+        'Test by scanning with your phone before printing'
+      ]
+    },
+    whyBrowserBased: {
+      benefits: [
+        'Complete privacy: URLs and data never leave your device',
+        'Instant generation: No server processing, codes appear immediately',
+        'Works offline: Once loaded, create QR codes without internet',
+        'No limits: Generate unlimited QR codes free',
+        'High quality: Download print-ready SVG files at any size'
+      ]
+    },
+    faqs: [
+      {
+        question: 'What can I encode in a QR code?',
+        answer: `QR codes can encode: URLs (websites), plain text, WiFi network credentials (SSID + password), contact cards (vCard format), email addresses, phone numbers, SMS messages, calendar events, and geographic coordinates. The maximum capacity is about 3,000 characters for text.`
+      },
+      {
+        question: 'What size should my QR code be?',
+        answer: `Minimum recommended: 2cm x 2cm (0.8" x 0.8") for close scanning. For posters and signs, use 10:1 ratio—if viewing from 10 feet away, code should be at least 1 foot wide. Larger codes scan faster and from greater distances. Always test before printing.`
+      },
+      {
+        question: 'What is error correction level?',
+        answer: `Error correction allows QR codes to work even if partially damaged. Level L (7%) is smallest but least resilient. Level H (30%) survives significant damage but creates denser codes. Use higher levels for printed materials that may wear or be partially obscured by logos.`
+      },
+      {
+        question: 'Can I add a logo to my QR code?',
+        answer: `Yes, with high error correction (Level H), up to 30% of the code can be covered while still scanning. Add a small logo in the center. This tool creates the base QR code—add logos in image editing software. Keep logos under 20% of code area for reliable scanning.`
+      },
+      {
+        question: 'PNG vs SVG: Which format should I download?',
+        answer: `PNG is best for web, email, and digital use—it's universally supported. SVG is best for print materials—it scales infinitely without losing quality. Use SVG for business cards, posters, and signage. SVG files are also smaller and load faster.`
+      }
+    ]
+  }
+};
+
+// Schema data
+const schemaData = {
+  toolId: tool.id,
+  toolName: tool.name,
+  description: seoContent.description,
+  category: tool.category,
+  steps: seoContent.qa.howItWorks.steps,
+  faqs: seoContent.qa.faqs,
+  url: tool.url
+};
 ---
 
-<Layout title="QR Generator - New Life Solutions" description="Generate customizable QR codes. Browser-based, private, free." image="/thumbnails/qr-generator.svg">
+<Layout
+  title={seoContent.title}
+  description={seoContent.description}
+  image="/thumbnails/qr-generator.svg"
+>
+  <!-- Schema Markup for AI extraction -->
+  <SchemaMarkup {...schemaData} />
+
   <Navbar />
 
   <main class="pt-20 pb-16 px-6 min-h-screen">
-    <div class="max-w-5xl mx-auto">
-      <!-- Header -->
-      <div class="text-center mb-12">
-        <a
-          href="/hub"
-          class="inline-flex items-center gap-2 text-[var(--text-muted)] hover:text-[var(--text)] transition-colors mb-8 text-xs uppercase tracking-[0.15em]"
-        >
-          <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-          </svg>
-          Back
-        </a>
+    <div class="max-w-4xl mx-auto">
 
-        <div class="w-12 h-12 mx-auto mb-4">
-          <img src="/thumbnails/qr-generator.svg" alt="QR Generator" class="w-full h-full" />
-        </div>
-        <h1 class="text-xl uppercase tracking-[0.3em] mb-4">QR Generator</h1>
+      <!-- Answer Box: AI extracts this first -->
+      <AnswerBox
+        title={seoContent.answerBox.title}
+        tldr={seoContent.answerBox.tldr}
+        toolName={tool.name}
+        queryTarget={seoContent.answerBox.queryTarget}
+        trustSignals={seoContent.answerBox.trustSignals}
+      />
 
-        <p class="text-[var(--text-dim)] text-sm max-w-md mx-auto mb-6">
-          Generate QR codes for URLs, text, WiFi, and contacts.
-          <span class="text-[var(--text)]">Everything happens in your browser.</span>
-        </p>
+      <!-- Tool Component -->
+      <section class="tool-section" aria-label="QR Generator Tool">
+        <QrGenerator client:load />
+      </section>
 
-        <div class="flex items-center justify-center gap-4">
-          <span class="tag tag-free">Free</span>
-          <span class="text-[0.625rem] text-[var(--text-muted)] uppercase tracking-[0.15em]">No signup</span>
-        </div>
-      </div>
+      <!-- Q&A Sections: Semantic structure for AI -->
+      <QASections
+        toolName={tool.name}
+        whatIs={seoContent.qa.whatIs}
+        howItWorks={seoContent.qa.howItWorks}
+        whyBrowserBased={seoContent.qa.whyBrowserBased}
+        faqs={seoContent.qa.faqs}
+      />
 
-      <!-- Tool -->
-      <QrGenerator client:load />
     </div>
   </main>
 
   <Footer />
 </Layout>
+
+<style>
+  .tool-section {
+    margin: 2rem 0;
+  }
+</style>

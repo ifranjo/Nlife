@@ -1,47 +1,153 @@
 ---
+/**
+ * Word Counter - AI-Native Tool Page
+ *
+ * Optimized for LLM extraction with:
+ * - TL;DR answer box (50-70 words)
+ * - Semantic Q&A sections
+ * - Full schema markup (SoftwareApplication, HowTo, FAQPage)
+ */
 import Layout from '../../layouts/Layout.astro';
 import Navbar from '../../components/ui/Navbar.astro';
 import Footer from '../../components/ui/Footer.astro';
+import AnswerBox from '../../components/seo/AnswerBox.astro';
+import QASections from '../../components/seo/QASections.astro';
+import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
 import WordCounter from '../../components/tools/WordCounter';
+
+// Tool metadata
+const tool = {
+  id: 'word-counter',
+  name: 'Word Counter',
+  category: 'utility' as const,
+  url: '/tools/word-counter'
+};
+
+// AI-optimized content
+const seoContent = {
+  // Page meta
+  title: 'Word Counter Online Free — Count Words, Characters, Sentences, Reading Time | New Life Solutions',
+  description: 'Count words, characters, sentences, and paragraphs instantly. Includes reading time, speaking time, and keyword density. Free online word counter, no signup.',
+
+  // TL;DR Answer Box (50-70 words - this is what AI extracts)
+  answerBox: {
+    title: 'Count Words & Characters — Free Online Tool',
+    queryTarget: 'How to Count Words in Text Online Free',
+    tldr: `Paste your text below to instantly count words, characters, sentences, and paragraphs. See estimated reading time and speaking time. Get keyword density analysis for SEO. Stats update as you type—no button needed. All processing happens in your browser. Free, private, no signup required.`,
+    trustSignals: [
+      'Real-time counting',
+      'Reading time estimate',
+      'Keyword density',
+      'Works offline'
+    ]
+  },
+
+  // Q&A Sections
+  qa: {
+    whatIs: {
+      answer: `Word Counter is a free tool that analyzes text and provides comprehensive statistics. It counts words, characters (with and without spaces), sentences, and paragraphs. It also calculates reading time, speaking time, and shows keyword density for SEO optimization. Stats update in real-time as you type.`,
+      context: `Essential for writers checking word limits, students meeting essay requirements, SEO specialists analyzing content, and speakers timing presentations.`
+    },
+    howItWorks: {
+      steps: [
+        'Paste or type your text in the input area',
+        'View word and character counts update instantly as you type',
+        'Check reading time (based on 200 words/minute average)',
+        'Check speaking time (based on 150 words/minute average)',
+        'Review keyword density for SEO insights',
+        'Clear to analyze new text'
+      ]
+    },
+    whyBrowserBased: {
+      benefits: [
+        'Complete privacy: Your content never leaves your device',
+        'Real-time updates: Stats change as you type, no refresh needed',
+        'Works offline: Once loaded, works without internet',
+        'No limits: Analyze documents of any length',
+        'Instant results: No server processing delays'
+      ]
+    },
+    faqs: [
+      {
+        question: 'How is reading time calculated?',
+        answer: `Reading time is based on the average adult reading speed of 200-250 words per minute. This tool uses 200 wpm to account for comprehension. A 1,000-word article takes about 5 minutes to read. Adjust expectations for technical content (slower) or casual content (faster).`
+      },
+      {
+        question: 'How is speaking time different from reading time?',
+        answer: `Speaking time is calculated at 150 words per minute—the average conversational pace. This is slower than silent reading. A 1,000-word speech takes about 6-7 minutes to deliver. Useful for presentations, podcasts, and video scripts.`
+      },
+      {
+        question: 'What is keyword density?',
+        answer: `Keyword density is how often a word appears relative to total word count, expressed as a percentage. For SEO, primary keywords typically appear at 1-3% density. Higher than 3% may look spammy to search engines. This tool shows the most frequent words in your content.`
+      },
+      {
+        question: 'What counts as a word?',
+        answer: `A word is any sequence of characters separated by spaces. Hyphenated words (like "well-known") count as one word. Numbers count as words. Punctuation attached to words doesn't create additional words. This matches standard word processing behavior.`
+      },
+      {
+        question: 'Why does character count matter?',
+        answer: `Character count is important for social media limits (Twitter/X: 280, Instagram bio: 150, LinkedIn summary: 2,600), meta descriptions (155-160), SMS messages (160), and database field limits. This tool shows both total characters and characters without spaces.`
+      }
+    ]
+  }
+};
+
+// Schema data
+const schemaData = {
+  toolId: tool.id,
+  toolName: tool.name,
+  description: seoContent.description,
+  category: tool.category,
+  steps: seoContent.qa.howItWorks.steps,
+  faqs: seoContent.qa.faqs,
+  url: tool.url
+};
 ---
 
-<Layout title="Word Counter - New Life Solutions" description="Count words, characters, sentences, and paragraphs. Free online word counter with reading time." image="/thumbnails/word-counter.svg">
+<Layout
+  title={seoContent.title}
+  description={seoContent.description}
+  image="/thumbnails/word-counter.svg"
+>
+  <!-- Schema Markup for AI extraction -->
+  <SchemaMarkup {...schemaData} />
+
   <Navbar />
 
   <main class="pt-20 pb-16 px-6 min-h-screen">
-    <div class="max-w-3xl mx-auto">
-      <!-- Header -->
-      <div class="text-center mb-12">
-        <a
-          href="/hub"
-          class="inline-flex items-center gap-2 text-[var(--text-muted)] hover:text-[var(--text)] transition-colors mb-8 text-xs uppercase tracking-[0.15em]"
-        >
-          <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-          </svg>
-          Back
-        </a>
+    <div class="max-w-4xl mx-auto">
 
-        <div class="w-12 h-12 mx-auto mb-4">
-          <img src="/thumbnails/word-counter.svg" alt="Word Counter" class="w-full h-full" />
-        </div>
-        <h1 class="text-xl uppercase tracking-[0.3em] mb-4">Word Counter</h1>
+      <!-- Answer Box: AI extracts this first -->
+      <AnswerBox
+        title={seoContent.answerBox.title}
+        tldr={seoContent.answerBox.tldr}
+        toolName={tool.name}
+        queryTarget={seoContent.answerBox.queryTarget}
+        trustSignals={seoContent.answerBox.trustSignals}
+      />
 
-        <p class="text-[var(--text-dim)] text-sm max-w-md mx-auto mb-6">
-          Count words, characters, sentences, and paragraphs.
-          <span class="text-[var(--text)]">Plus reading time and keyword density.</span>
-        </p>
+      <!-- Tool Component -->
+      <section class="tool-section" aria-label="Word Counter Tool">
+        <WordCounter client:load />
+      </section>
 
-        <div class="flex items-center justify-center gap-4">
-          <span class="tag tag-free">Free</span>
-          <span class="text-[0.625rem] text-[var(--text-muted)] uppercase tracking-[0.15em]">Real-time</span>
-        </div>
-      </div>
+      <!-- Q&A Sections: Semantic structure for AI -->
+      <QASections
+        toolName={tool.name}
+        whatIs={seoContent.qa.whatIs}
+        howItWorks={seoContent.qa.howItWorks}
+        whyBrowserBased={seoContent.qa.whyBrowserBased}
+        faqs={seoContent.qa.faqs}
+      />
 
-      <!-- Tool -->
-      <WordCounter client:load />
     </div>
   </main>
 
   <Footer />
 </Layout>
+
+<style>
+  .tool-section {
+    margin: 2rem 0;
+  }
+</style>

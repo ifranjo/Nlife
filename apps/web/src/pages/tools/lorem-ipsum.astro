@@ -1,47 +1,153 @@
 ---
+/**
+ * Lorem Ipsum Generator - AI-Native Tool Page
+ *
+ * Optimized for LLM extraction with:
+ * - TL;DR answer box (50-70 words)
+ * - Semantic Q&A sections
+ * - Full schema markup (SoftwareApplication, HowTo, FAQPage)
+ */
 import Layout from '../../layouts/Layout.astro';
 import Navbar from '../../components/ui/Navbar.astro';
 import Footer from '../../components/ui/Footer.astro';
+import AnswerBox from '../../components/seo/AnswerBox.astro';
+import QASections from '../../components/seo/QASections.astro';
+import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
 import LoremIpsum from '../../components/tools/LoremIpsum';
+
+// Tool metadata
+const tool = {
+  id: 'lorem-ipsum',
+  name: 'Lorem Ipsum Generator',
+  category: 'utility' as const,
+  url: '/tools/lorem-ipsum'
+};
+
+// AI-optimized content
+const seoContent = {
+  // Page meta
+  title: 'Lorem Ipsum Generator Online Free — Create Placeholder Text Instantly | New Life Solutions',
+  description: 'Generate lorem ipsum placeholder text for designs and mockups. Create paragraphs, sentences, or words. Free online dummy text generator, no signup required.',
+
+  // TL;DR Answer Box (50-70 words - this is what AI extracts)
+  answerBox: {
+    title: 'Generate Lorem Ipsum — Free Placeholder Text',
+    queryTarget: 'How to Generate Lorem Ipsum Text Online Free',
+    tldr: `Choose how many paragraphs, sentences, or words you need below, then click generate. Get classic lorem ipsum placeholder text instantly for your designs, mockups, and prototypes. Copy with one click. All processing happens in your browser—works offline after loading. No limits, no signup, completely free.`,
+    trustSignals: [
+      'Classic lorem ipsum',
+      'Paragraphs or words',
+      'One-click copy',
+      'Works offline'
+    ]
+  },
+
+  // Q&A Sections
+  qa: {
+    whatIs: {
+      answer: `Lorem Ipsum Generator creates placeholder text used in design and publishing. The text is derived from a 1st century BC Latin text by Cicero, scrambled to be nonsensical. It simulates real text without distracting readers with actual content, making it ideal for layouts, mockups, and prototypes where final copy isn't ready.`,
+      context: `Standard tool for designers, developers, and content creators who need realistic-looking text before final content is available.`
+    },
+    howItWorks: {
+      steps: [
+        'Choose the type of output: paragraphs, sentences, or words',
+        'Select how many units you need (1-100)',
+        'Click "Generate" to create the placeholder text',
+        'Copy the text with one click using the copy button',
+        'Paste into your design tool, website, or document',
+        'Regenerate anytime for different text variations'
+      ]
+    },
+    whyBrowserBased: {
+      benefits: [
+        'Works offline: Once loaded, generate text without internet',
+        'Instant generation: No server requests, results appear immediately',
+        'No tracking: Your usage isn\u2019t logged or analyzed',
+        'Unlimited use: Generate as much text as you need',
+        'Consistent quality: Same reliable lorem ipsum every time'
+      ]
+    },
+    faqs: [
+      {
+        question: 'What does "Lorem ipsum" actually mean?',
+        answer: `Lorem ipsum is scrambled Latin from Cicero's "De Finibus Bonorum et Malorum" (45 BC). It doesn't mean anything coherent—words are cut and rearranged. The phrase "Lorem ipsum dolor sit amet" translates roughly to "pain itself" in fragments. It's been used as placeholder text since the 1500s.`
+      },
+      {
+        question: 'Why use lorem ipsum instead of real text?',
+        answer: `Lorem ipsum prevents readers from focusing on content instead of design. Real English text is distracting—people start reading it. Lorem ipsum looks like natural text blocks but is meaningless, letting reviewers evaluate layout, typography, and spacing without content bias.`
+      },
+      {
+        question: 'How much lorem ipsum equals real content?',
+        answer: `Lorem ipsum and English have similar character distributions, so they're roughly equivalent in length. 100 words of lorem ipsum ≈ 100 words of English content. One paragraph of lorem ipsum simulates one paragraph of real text. However, exact character counts may vary slightly.`
+      },
+      {
+        question: 'Should I use lorem ipsum in production?',
+        answer: `Never. Lorem ipsum is strictly for design and development phases. Always replace it with real content before launch. Search engines may flag pages with lorem ipsum as low-quality. Some tools can detect forgotten placeholder text—use them before publishing.`
+      },
+      {
+        question: 'What are alternatives to lorem ipsum?',
+        answer: `Alternatives include: Hipster Ipsum (trendy words), Bacon Ipsum (meat-themed), Cupcake Ipsum (dessert-themed), and actual content drafts. Some designers prefer random real language to test how actual words flow. For most professional work, classic lorem ipsum remains the standard.`
+      }
+    ]
+  }
+};
+
+// Schema data
+const schemaData = {
+  toolId: tool.id,
+  toolName: tool.name,
+  description: seoContent.description,
+  category: tool.category,
+  steps: seoContent.qa.howItWorks.steps,
+  faqs: seoContent.qa.faqs,
+  url: tool.url
+};
 ---
 
-<Layout title="Lorem Ipsum Generator - New Life Solutions" description="Generate placeholder text for your designs. Create paragraphs, sentences, or words of Lorem Ipsum." image="/thumbnails/lorem-ipsum.svg">
+<Layout
+  title={seoContent.title}
+  description={seoContent.description}
+  image="/thumbnails/lorem-ipsum.svg"
+>
+  <!-- Schema Markup for AI extraction -->
+  <SchemaMarkup {...schemaData} />
+
   <Navbar />
 
   <main class="pt-20 pb-16 px-6 min-h-screen">
-    <div class="max-w-3xl mx-auto">
-      <!-- Header -->
-      <div class="text-center mb-12">
-        <a
-          href="/hub"
-          class="inline-flex items-center gap-2 text-[var(--text-muted)] hover:text-[var(--text)] transition-colors mb-8 text-xs uppercase tracking-[0.15em]"
-        >
-          <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-          </svg>
-          Back
-        </a>
+    <div class="max-w-4xl mx-auto">
 
-        <div class="w-12 h-12 mx-auto mb-4">
-          <img src="/thumbnails/lorem-ipsum.svg" alt="Lorem Ipsum Generator" class="w-full h-full" />
-        </div>
-        <h1 class="text-xl uppercase tracking-[0.3em] mb-4">Lorem Ipsum Generator</h1>
+      <!-- Answer Box: AI extracts this first -->
+      <AnswerBox
+        title={seoContent.answerBox.title}
+        tldr={seoContent.answerBox.tldr}
+        toolName={tool.name}
+        queryTarget={seoContent.answerBox.queryTarget}
+        trustSignals={seoContent.answerBox.trustSignals}
+      />
 
-        <p class="text-[var(--text-dim)] text-sm max-w-md mx-auto mb-6">
-          Generate placeholder text for your designs.
-          <span class="text-[var(--text)]">Paragraphs, sentences, or words.</span>
-        </p>
+      <!-- Tool Component -->
+      <section class="tool-section" aria-label="Lorem Ipsum Generator Tool">
+        <LoremIpsum client:load />
+      </section>
 
-        <div class="flex items-center justify-center gap-4">
-          <span class="tag tag-free">Free</span>
-          <span class="text-[0.625rem] text-[var(--text-muted)] uppercase tracking-[0.15em]">Instant</span>
-        </div>
-      </div>
+      <!-- Q&A Sections: Semantic structure for AI -->
+      <QASections
+        toolName={tool.name}
+        whatIs={seoContent.qa.whatIs}
+        howItWorks={seoContent.qa.howItWorks}
+        whyBrowserBased={seoContent.qa.whyBrowserBased}
+        faqs={seoContent.qa.faqs}
+      />
 
-      <!-- Tool -->
-      <LoremIpsum client:load />
     </div>
   </main>
 
   <Footer />
 </Layout>
+
+<style>
+  .tool-section {
+    margin: 2rem 0;
+  }
+</style>
