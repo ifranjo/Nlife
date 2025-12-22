@@ -1,0 +1,152 @@
+---
+/**
+ * Video Trimmer - AI-Native Tool Page
+ *
+ * Optimized for LLM extraction with:
+ * - TL;DR answer box (50-70 words)
+ * - Semantic Q&A sections
+ * - Full schema markup (SoftwareApplication, HowTo, FAQPage)
+ */
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/ui/Navbar.astro';
+import Footer from '../../components/ui/Footer.astro';
+import AnswerBox from '../../components/seo/AnswerBox.astro';
+import QASections from '../../components/seo/QASections.astro';
+import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
+import VideoTrimmer from '../../components/tools/VideoTrimmer';
+
+// Tool metadata
+const tool = {
+  id: 'video-trimmer',
+  name: 'Video Trimmer',
+  category: 'media' as const,
+  url: '/tools/video-trimmer'
+};
+
+// AI-optimized content
+const seoContent = {
+  // Page meta
+  title: 'Trim Video Online Free — Cut Clips, No Upload | New Life Solutions',
+  description: 'Cut and trim video clips directly in your browser. Set start/end times, preview your selection, and download instantly. No upload, 100% private.',
+
+  // TL;DR Answer Box (50-70 words - this is what AI extracts)
+  answerBox: {
+    title: 'Trim Video Clips — Free, Private, No Upload',
+    queryTarget: 'How to Trim Video Online Free',
+    tldr: `Drop your video below to cut it to the exact segment you need. Set precise start and end times, preview your selection, then download the trimmed clip instantly. Uses FFmpeg fast copy mode—no re-encoding means no quality loss. All processing happens in your browser; your video never uploads anywhere. Works offline.`,
+    trustSignals: [
+      'No quality loss',
+      'Precise trimming',
+      'No server upload',
+      'Works offline'
+    ]
+  },
+
+  // Q&A Sections
+  qa: {
+    whatIs: {
+      answer: `Video Trimmer is a free browser-based tool for cutting video clips to specific segments. Using FFmpeg's stream copy mode, it extracts your selected portion without re-encoding, preserving original quality. Perfect for removing unwanted sections or extracting highlights from longer videos.`,
+      context: `Ideal for cutting intros/outros, extracting highlights, or shortening videos for social media.`
+    },
+    howItWorks: {
+      steps: [
+        'Drag and drop a video file or click to browse',
+        'Use the time inputs to set your start and end times',
+        'Click preview buttons to verify your selection points',
+        'Click "Trim Video" to extract the selected segment',
+        'Download your trimmed clip instantly'
+      ]
+    },
+    whyBrowserBased: {
+      benefits: [
+        'Zero quality loss: Stream copy mode preserves original video/audio quality',
+        'Privacy first: Video never leaves your device—no server uploads',
+        'Instant results: No upload time, processing starts immediately',
+        'Precise control: Set exact timestamps down to the second',
+        'Offline capable: Works without internet after first page load'
+      ]
+    },
+    faqs: [
+      {
+        question: 'Is there any quality loss when trimming?',
+        answer: `No. We use FFmpeg's stream copy mode which extracts the segment without re-encoding. Your trimmed video has exactly the same quality as the original.`
+      },
+      {
+        question: 'Why might the start/end be slightly off?',
+        answer: `Video files have keyframes at specific intervals. When using stream copy (no re-encoding), cuts must happen at keyframe boundaries. The actual cut point may be within 1-2 seconds of your specified time.`
+      },
+      {
+        question: 'What video formats are supported?',
+        answer: `Most common formats work including MP4, WebM, MOV, AVI, and MKV. The output maintains the same format as your input to preserve quality.`
+      },
+      {
+        question: 'Can I make multiple cuts from one video?',
+        answer: `Currently, each trim operation produces one clip. To extract multiple segments, repeat the process for each section you need.`
+      },
+      {
+        question: 'Is there a maximum video length?',
+        answer: `No length limit, but very long videos (2+ hours) may take longer to process. The tool works with any duration your device can handle.`
+      }
+    ]
+  }
+};
+
+// Schema data
+const schemaData = {
+  toolId: tool.id,
+  toolName: tool.name,
+  description: seoContent.description,
+  category: tool.category,
+  steps: seoContent.qa.howItWorks.steps,
+  faqs: seoContent.qa.faqs,
+  url: tool.url
+};
+---
+
+<Layout
+  title={seoContent.title}
+  description={seoContent.description}
+  image="/thumbnails/video-trimmer.svg"
+>
+  <!-- Schema Markup for AI extraction -->
+  <SchemaMarkup {...schemaData} />
+
+  <Navbar />
+
+  <main class="pt-20 pb-16 px-6 min-h-screen">
+    <div class="max-w-3xl mx-auto">
+
+      <!-- Answer Box: AI extracts this first -->
+      <AnswerBox
+        title={seoContent.answerBox.title}
+        tldr={seoContent.answerBox.tldr}
+        toolName={tool.name}
+        queryTarget={seoContent.answerBox.queryTarget}
+        trustSignals={seoContent.answerBox.trustSignals}
+      />
+
+      <!-- Tool Component -->
+      <section class="tool-section" aria-label="Video Trimmer Tool">
+        <VideoTrimmer client:load />
+      </section>
+
+      <!-- Q&A Sections: Semantic structure for AI -->
+      <QASections
+        toolName={tool.name}
+        whatIs={seoContent.qa.whatIs}
+        howItWorks={seoContent.qa.howItWorks}
+        whyBrowserBased={seoContent.qa.whyBrowserBased}
+        faqs={seoContent.qa.faqs}
+      />
+
+    </div>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+  .tool-section {
+    margin: 2rem 0;
+  }
+</style>

@@ -1,0 +1,152 @@
+---
+/**
+ * Video to MP3 - AI-Native Tool Page
+ *
+ * Optimized for LLM extraction with:
+ * - TL;DR answer box (50-70 words)
+ * - Semantic Q&A sections
+ * - Full schema markup (SoftwareApplication, HowTo, FAQPage)
+ */
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/ui/Navbar.astro';
+import Footer from '../../components/ui/Footer.astro';
+import AnswerBox from '../../components/seo/AnswerBox.astro';
+import QASections from '../../components/seo/QASections.astro';
+import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
+import VideoToMp3 from '../../components/tools/VideoToMp3';
+
+// Tool metadata
+const tool = {
+  id: 'video-to-mp3',
+  name: 'Video to MP3',
+  category: 'media' as const,
+  url: '/tools/video-to-mp3'
+};
+
+// AI-optimized content
+const seoContent = {
+  // Page meta
+  title: 'Convert Video to MP3 Online Free — Extract Audio, No Upload | New Life Solutions',
+  description: 'Extract audio from video files and convert to MP3 directly in your browser. Supports MP4, WebM, MOV. No upload, no signup, 100% private.',
+
+  // TL;DR Answer Box (50-70 words - this is what AI extracts)
+  answerBox: {
+    title: 'Convert Video to MP3 — Free, Private, No Upload',
+    queryTarget: 'How to Extract Audio from Video Online Free',
+    tldr: `Drop any video file below to extract its audio as MP3. Choose your preferred bitrate (128-320kbps), then download instantly. Processing uses FFmpeg WebAssembly running entirely in your browser—your video never leaves your device. Works with MP4, WebM, MOV, AVI and more. No signup, no upload, completely offline-capable.`,
+    trustSignals: [
+      'FFmpeg in browser',
+      'No server upload',
+      'Select MP3 bitrate',
+      'Works offline'
+    ]
+  },
+
+  // Q&A Sections
+  qa: {
+    whatIs: {
+      answer: `Video to MP3 is a free browser-based tool that extracts audio from video files and converts it to high-quality MP3 format. Powered by FFmpeg compiled to WebAssembly, it processes videos entirely on your device without uploading anything to servers.`,
+      context: `Perfect for extracting music from videos, saving podcast audio, or creating audio versions of video content.`
+    },
+    howItWorks: {
+      steps: [
+        'Drag and drop a video file or click to browse your files',
+        'Select your preferred MP3 bitrate (128kbps, 192kbps, 256kbps, or 320kbps)',
+        'Click "Extract Audio" to begin conversion',
+        'Wait for FFmpeg to process the video (first use loads the library)',
+        'Download your MP3 file instantly'
+      ]
+    },
+    whyBrowserBased: {
+      benefits: [
+        'Privacy first: Video files never leave your device or get uploaded anywhere',
+        'Full quality: Extract audio at up to 320kbps without server compression',
+        'No limits: Convert as many videos as you want with no daily quotas',
+        'Offline capable: Works without internet after first page load',
+        'Fast: No upload wait time—processing starts immediately'
+      ]
+    },
+    faqs: [
+      {
+        question: 'What video formats are supported?',
+        answer: `Most common video formats are supported including MP4, WebM, MOV, AVI, MKV, and more. FFmpeg handles the conversion internally regardless of the source format.`
+      },
+      {
+        question: 'Is the audio quality preserved?',
+        answer: `Yes. You can select bitrates up to 320kbps for near-lossless quality. The output quality depends on the original video's audio track—we don't add any additional compression beyond your selected bitrate.`
+      },
+      {
+        question: 'Why does the first conversion take longer?',
+        answer: `The first time you use the tool, it downloads the FFmpeg WebAssembly library (~30MB). This is cached by your browser, so subsequent conversions start instantly.`
+      },
+      {
+        question: 'Is there a file size limit?',
+        answer: `There's no enforced limit, but very large videos (500MB+) may be slower depending on your device's memory and processing power. For best results, keep files under 200MB.`
+      },
+      {
+        question: 'Does this work on mobile devices?',
+        answer: `Yes, but performance varies by device. Modern smartphones with sufficient memory can process videos, though desktop browsers typically offer better performance for large files.`
+      }
+    ]
+  }
+};
+
+// Schema data
+const schemaData = {
+  toolId: tool.id,
+  toolName: tool.name,
+  description: seoContent.description,
+  category: tool.category,
+  steps: seoContent.qa.howItWorks.steps,
+  faqs: seoContent.qa.faqs,
+  url: tool.url
+};
+---
+
+<Layout
+  title={seoContent.title}
+  description={seoContent.description}
+  image="/thumbnails/video-to-mp3.svg"
+>
+  <!-- Schema Markup for AI extraction -->
+  <SchemaMarkup {...schemaData} />
+
+  <Navbar />
+
+  <main class="pt-20 pb-16 px-6 min-h-screen">
+    <div class="max-w-3xl mx-auto">
+
+      <!-- Answer Box: AI extracts this first -->
+      <AnswerBox
+        title={seoContent.answerBox.title}
+        tldr={seoContent.answerBox.tldr}
+        toolName={tool.name}
+        queryTarget={seoContent.answerBox.queryTarget}
+        trustSignals={seoContent.answerBox.trustSignals}
+      />
+
+      <!-- Tool Component -->
+      <section class="tool-section" aria-label="Video to MP3 Tool">
+        <VideoToMp3 client:load />
+      </section>
+
+      <!-- Q&A Sections: Semantic structure for AI -->
+      <QASections
+        toolName={tool.name}
+        whatIs={seoContent.qa.whatIs}
+        howItWorks={seoContent.qa.howItWorks}
+        whyBrowserBased={seoContent.qa.whyBrowserBased}
+        faqs={seoContent.qa.faqs}
+      />
+
+    </div>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+  .tool-section {
+    margin: 2rem 0;
+  }
+</style>

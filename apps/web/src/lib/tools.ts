@@ -89,6 +89,30 @@ export const tools: Tool[] = [
     href: '/tools/document-scanner',
     color: 'from-violet-500 to-purple-500'
   },
+  {
+    id: 'pdf-to-word',
+    name: 'PDF to Word',
+    description: 'Convert PDF files to editable Word documents (.docx). Extracts text and preserves formatting.',
+    icon: '📝',
+    thumbnail: '/thumbnails/pdf-to-word.svg',
+    category: 'document',
+    tier: 'free',
+    href: '/tools/pdf-to-word',
+    color: 'from-blue-500 to-indigo-500',
+    popular: true
+  },
+  {
+    id: 'resume-builder',
+    name: 'Resume Builder',
+    description: 'Create professional resumes in minutes. Multiple templates, instant PDF download.',
+    icon: '📋',
+    thumbnail: '/thumbnails/resume-builder.svg',
+    category: 'document',
+    tier: 'free',
+    href: '/tools/resume-builder',
+    color: 'from-emerald-500 to-green-500',
+    popular: true
+  },
 
   // ═══════════════════════════════════════════════════════════════
   // MEDIA TOOLS
@@ -117,6 +141,67 @@ export const tools: Tool[] = [
     tier: 'free',
     href: '/tools/background-remover',
     color: 'from-fuchsia-500 to-pink-500'
+  },
+  {
+    id: 'video-to-mp3',
+    name: 'Video to MP3',
+    description: 'Extract audio from any video file. Convert MP4, WebM, MOV to high-quality MP3. No upload needed.',
+    icon: '🎵',
+    thumbnail: '/thumbnails/video-to-mp3.svg',
+    category: 'media',
+    tier: 'free',
+    href: '/tools/video-to-mp3',
+    color: 'from-purple-500 to-indigo-500',
+    tags: ['video', 'audio', 'mp3', 'convert', 'extract']
+  },
+  {
+    id: 'video-compressor',
+    name: 'Video Compressor',
+    description: 'Compress video files up to 90% smaller. Perfect for sharing. H.264 encoding in your browser.',
+    icon: '📹',
+    thumbnail: '/thumbnails/video-compressor.svg',
+    category: 'media',
+    tier: 'free',
+    href: '/tools/video-compressor',
+    color: 'from-green-500 to-teal-500',
+    tags: ['video', 'compress', 'reduce', 'size', 'h264']
+  },
+  {
+    id: 'video-trimmer',
+    name: 'Video Trimmer',
+    description: 'Cut and trim video clips instantly. Set start/end times, preview, and download. No quality loss.',
+    icon: '✂️',
+    thumbnail: '/thumbnails/video-trimmer.svg',
+    category: 'media',
+    tier: 'free',
+    href: '/tools/video-trimmer',
+    color: 'from-orange-500 to-red-500',
+    tags: ['video', 'trim', 'cut', 'clip', 'edit']
+  },
+  {
+    id: 'remove-vocals',
+    name: 'Vocal Remover',
+    description: 'Remove vocals from songs to create instrumentals. Uses audio phase cancellation. Works offline.',
+    icon: '🎤',
+    thumbnail: '/thumbnails/remove-vocals.svg',
+    category: 'media',
+    tier: 'free',
+    href: '/tools/remove-vocals',
+    color: 'from-pink-500 to-rose-500',
+    tags: ['audio', 'vocals', 'karaoke', 'instrumental', 'music']
+  },
+  {
+    id: 'audio-transcription',
+    name: 'Audio Transcription',
+    description: 'Transcribe speech to text with Whisper AI. Supports 10+ languages. Runs 100% in your browser.',
+    icon: '🎙️',
+    thumbnail: '/thumbnails/audio-transcription.svg',
+    category: 'ai',
+    tier: 'free',
+    href: '/tools/audio-transcription',
+    color: 'from-blue-500 to-cyan-500',
+    tags: ['audio', 'transcription', 'speech', 'text', 'whisper', 'ai'],
+    popular: true
   },
 
   // ═══════════════════════════════════════════════════════════════

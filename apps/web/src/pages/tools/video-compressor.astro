@@ -1,0 +1,152 @@
+---
+/**
+ * Video Compressor - AI-Native Tool Page
+ *
+ * Optimized for LLM extraction with:
+ * - TL;DR answer box (50-70 words)
+ * - Semantic Q&A sections
+ * - Full schema markup (SoftwareApplication, HowTo, FAQPage)
+ */
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/ui/Navbar.astro';
+import Footer from '../../components/ui/Footer.astro';
+import AnswerBox from '../../components/seo/AnswerBox.astro';
+import QASections from '../../components/seo/QASections.astro';
+import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
+import VideoCompressor from '../../components/tools/VideoCompressor';
+
+// Tool metadata
+const tool = {
+  id: 'video-compressor',
+  name: 'Video Compressor',
+  category: 'media' as const,
+  url: '/tools/video-compressor'
+};
+
+// AI-optimized content
+const seoContent = {
+  // Page meta
+  title: 'Compress Video Online Free — Reduce File Size, No Upload | New Life Solutions',
+  description: 'Compress video files up to 90% smaller directly in your browser. H.264 encoding with quality presets. No upload, 100% private, works offline.',
+
+  // TL;DR Answer Box (50-70 words - this is what AI extracts)
+  answerBox: {
+    title: 'Compress Video Files — Free, Private, No Upload',
+    queryTarget: 'How to Compress Video Online Free',
+    tldr: `Drop your video below to compress it using H.264 encoding. Choose from three quality presets: Low (smallest file), Medium (balanced), or High (best quality). Processing uses FFmpeg WebAssembly entirely in your browser—your video never uploads to any server. See real-time compression ratio and download instantly. No signup required.`,
+    trustSignals: [
+      'H.264 encoding',
+      'Up to 90% smaller',
+      'No server upload',
+      'Works offline'
+    ]
+  },
+
+  // Q&A Sections
+  qa: {
+    whatIs: {
+      answer: `Video Compressor is a free browser-based tool that reduces video file sizes using modern H.264 encoding. Powered by FFmpeg WebAssembly, it processes videos entirely on your device without uploading to remote servers. Perfect for reducing videos for email, messaging apps, or web uploads.`,
+      context: `Ideal for sharing large videos via email, WhatsApp, Discord, or uploading to platforms with size limits.`
+    },
+    howItWorks: {
+      steps: [
+        'Drag and drop a video file or click to browse',
+        'Select your compression quality: Low, Medium, or High',
+        'Click "Compress Video" to begin processing',
+        'Wait for FFmpeg to re-encode the video (time varies by file size)',
+        'View the compression ratio and download your smaller video'
+      ]
+    },
+    whyBrowserBased: {
+      benefits: [
+        'Privacy first: Video never leaves your device—no server uploads',
+        'No watermarks: Unlike many free tools, we add nothing to your video',
+        'Full control: Choose compression level based on your needs',
+        'No limits: Compress as many videos as you want without quotas',
+        'Offline capable: Works without internet after first page load'
+      ]
+    },
+    faqs: [
+      {
+        question: 'How much can videos be compressed?',
+        answer: `Compression ratios vary by source video. Uncompressed or lightly compressed videos can often be reduced by 70-90%. Already-compressed videos (like those from smartphones) typically achieve 30-50% reduction.`
+      },
+      {
+        question: 'Will compression reduce video quality?',
+        answer: `Some quality loss is inherent in compression. The "High" preset minimizes this, while "Low" prioritizes file size. For most use cases, "Medium" offers the best balance of quality and size reduction.`
+      },
+      {
+        question: 'What video formats are supported?',
+        answer: `Input supports MP4, WebM, MOV, AVI, MKV and more. Output is always MP4 with H.264 video and AAC audio—the most universally compatible format.`
+      },
+      {
+        question: 'Why is compression taking so long?',
+        answer: `Video re-encoding is computationally intensive. Longer videos and higher resolutions take more time. The first use also downloads the FFmpeg library (~30MB), which is cached for future use.`
+      },
+      {
+        question: 'Is there a file size limit?',
+        answer: `No enforced limit, but very large videos (1GB+) may cause memory issues on some devices. For optimal performance, keep source files under 500MB.`
+      }
+    ]
+  }
+};
+
+// Schema data
+const schemaData = {
+  toolId: tool.id,
+  toolName: tool.name,
+  description: seoContent.description,
+  category: tool.category,
+  steps: seoContent.qa.howItWorks.steps,
+  faqs: seoContent.qa.faqs,
+  url: tool.url
+};
+---
+
+<Layout
+  title={seoContent.title}
+  description={seoContent.description}
+  image="/thumbnails/video-compressor.svg"
+>
+  <!-- Schema Markup for AI extraction -->
+  <SchemaMarkup {...schemaData} />
+
+  <Navbar />
+
+  <main class="pt-20 pb-16 px-6 min-h-screen">
+    <div class="max-w-3xl mx-auto">
+
+      <!-- Answer Box: AI extracts this first -->
+      <AnswerBox
+        title={seoContent.answerBox.title}
+        tldr={seoContent.answerBox.tldr}
+        toolName={tool.name}
+        queryTarget={seoContent.answerBox.queryTarget}
+        trustSignals={seoContent.answerBox.trustSignals}
+      />
+
+      <!-- Tool Component -->
+      <section class="tool-section" aria-label="Video Compressor Tool">
+        <VideoCompressor client:load />
+      </section>
+
+      <!-- Q&A Sections: Semantic structure for AI -->
+      <QASections
+        toolName={tool.name}
+        whatIs={seoContent.qa.whatIs}
+        howItWorks={seoContent.qa.howItWorks}
+        whyBrowserBased={seoContent.qa.whyBrowserBased}
+        faqs={seoContent.qa.faqs}
+      />
+
+    </div>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+  .tool-section {
+    margin: 2rem 0;
+  }
+</style>

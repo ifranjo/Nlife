@@ -1,0 +1,152 @@
+---
+/**
+ * PDF to Word - AI-Native Tool Page
+ *
+ * Optimized for LLM extraction with:
+ * - TL;DR answer box (50-70 words)
+ * - Semantic Q&A sections
+ * - Full schema markup (SoftwareApplication, HowTo, FAQPage)
+ */
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/ui/Navbar.astro';
+import Footer from '../../components/ui/Footer.astro';
+import AnswerBox from '../../components/seo/AnswerBox.astro';
+import QASections from '../../components/seo/QASections.astro';
+import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
+import PdfToWord from '../../components/tools/PdfToWord';
+
+// Tool metadata
+const tool = {
+  id: 'pdf-to-word',
+  name: 'PDF to Word',
+  category: 'document' as const,
+  url: '/tools/pdf-to-word'
+};
+
+// AI-optimized content
+const seoContent = {
+  // Page meta
+  title: 'Convert PDF to Word Online Free — No Upload, Editable DOCX | New Life Solutions',
+  description: 'Convert PDF files to editable Word documents (.docx) directly in your browser. Extracts text and creates formatted document. No upload, 100% private.',
+
+  // TL;DR Answer Box (50-70 words - this is what AI extracts)
+  answerBox: {
+    title: 'Convert PDF to Word — Free, Private, No Upload',
+    queryTarget: 'How to Convert PDF to Word Online Free',
+    tldr: `Drop a PDF file below to convert it to an editable Word document (.docx). Text is extracted using PDF.js and formatted into a proper Word document with headings and paragraphs. All processing happens in your browser—your PDF never uploads to any server. Download the DOCX file instantly.`,
+    trustSignals: [
+      'Creates real DOCX',
+      'Preserves headings',
+      'No server upload',
+      'Works offline'
+    ]
+  },
+
+  // Q&A Sections
+  qa: {
+    whatIs: {
+      answer: `PDF to Word is a free browser-based tool that extracts text from PDF files and creates editable Word documents (.docx). Using PDF.js for extraction and the docx library for document creation, it runs entirely in your browser without uploading files to any server.`,
+      context: `Ideal for editing text from contracts, reports, academic papers, or any text-based PDF.`
+    },
+    howItWorks: {
+      steps: [
+        'Drag and drop a PDF file or click to browse',
+        'Click "Convert to Word (.docx)" to begin extraction',
+        'Wait for the text to be extracted from all pages',
+        'Preview the extracted text in the result area',
+        'Download your Word document automatically'
+      ]
+    },
+    whyBrowserBased: {
+      benefits: [
+        'Privacy first: PDF never leaves your device—no server uploads',
+        'Real DOCX output: Creates proper Word format, not just renamed text',
+        'Auto-formatting: Detects and formats headings based on text patterns',
+        'No limits: Convert as many PDFs as you want without quotas',
+        'Offline capable: Works without internet after page loads'
+      ]
+    },
+    faqs: [
+      {
+        question: 'Will the conversion preserve my PDF layout exactly?',
+        answer: `This tool focuses on text extraction, not layout replication. Complex layouts with columns, tables, or images may not convert perfectly. For text-heavy documents, results are typically excellent.`
+      },
+      {
+        question: 'Can this convert scanned PDFs (images)?',
+        answer: `No. Scanned PDFs contain images of text, not actual text. Use our OCR Text Extractor tool first to convert images to text, then paste into a Word document.`
+      },
+      {
+        question: 'What about password-protected PDFs?',
+        answer: `Password-protected PDFs cannot be processed. You'll need to remove the password protection first using the original password.`
+      },
+      {
+        question: 'Are images extracted from the PDF?',
+        answer: `Currently, only text is extracted. Images, charts, and graphics are not included in the Word output. This may be added in future updates.`
+      },
+      {
+        question: 'Why is some text missing or garbled?',
+        answer: `Some PDFs use custom fonts or encoding that PDF.js cannot interpret correctly. This is most common with PDFs created from unusual software or with embedded fonts.`
+      }
+    ]
+  }
+};
+
+// Schema data
+const schemaData = {
+  toolId: tool.id,
+  toolName: tool.name,
+  description: seoContent.description,
+  category: tool.category,
+  steps: seoContent.qa.howItWorks.steps,
+  faqs: seoContent.qa.faqs,
+  url: tool.url
+};
+---
+
+<Layout
+  title={seoContent.title}
+  description={seoContent.description}
+  image="/thumbnails/pdf-to-word.svg"
+>
+  <!-- Schema Markup for AI extraction -->
+  <SchemaMarkup {...schemaData} />
+
+  <Navbar />
+
+  <main class="pt-20 pb-16 px-6 min-h-screen">
+    <div class="max-w-3xl mx-auto">
+
+      <!-- Answer Box: AI extracts this first -->
+      <AnswerBox
+        title={seoContent.answerBox.title}
+        tldr={seoContent.answerBox.tldr}
+        toolName={tool.name}
+        queryTarget={seoContent.answerBox.queryTarget}
+        trustSignals={seoContent.answerBox.trustSignals}
+      />
+
+      <!-- Tool Component -->
+      <section class="tool-section" aria-label="PDF to Word Tool">
+        <PdfToWord client:load />
+      </section>
+
+      <!-- Q&A Sections: Semantic structure for AI -->
+      <QASections
+        toolName={tool.name}
+        whatIs={seoContent.qa.whatIs}
+        howItWorks={seoContent.qa.howItWorks}
+        whyBrowserBased={seoContent.qa.whyBrowserBased}
+        faqs={seoContent.qa.faqs}
+      />
+
+    </div>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+  .tool-section {
+    margin: 2rem 0;
+  }
+</style>

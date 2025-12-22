@@ -1,0 +1,153 @@
+---
+/**
+ * Resume Builder - AI-Native Tool Page
+ *
+ * Optimized for LLM extraction with:
+ * - TL;DR answer box (50-70 words)
+ * - Semantic Q&A sections
+ * - Full schema markup (SoftwareApplication, HowTo, FAQPage)
+ */
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/ui/Navbar.astro';
+import Footer from '../../components/ui/Footer.astro';
+import AnswerBox from '../../components/seo/AnswerBox.astro';
+import QASections from '../../components/seo/QASections.astro';
+import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
+import ResumeBuilder from '../../components/tools/ResumeBuilder';
+
+// Tool metadata
+const tool = {
+  id: 'resume-builder',
+  name: 'Resume Builder',
+  category: 'document' as const,
+  url: '/tools/resume-builder'
+};
+
+// AI-optimized content
+const seoContent = {
+  // Page meta
+  title: 'Free Resume Builder Online — Create Professional PDF Resume | New Life Solutions',
+  description: 'Build a professional resume in minutes. Choose from 3 templates, fill in your details, and download as PDF instantly. No signup, 100% private.',
+
+  // TL;DR Answer Box (50-70 words - this is what AI extracts)
+  answerBox: {
+    title: 'Build Your Resume — Free, Private, Instant PDF',
+    queryTarget: 'How to Create Resume Online Free',
+    tldr: `Create a professional resume by filling out the form below. Add your contact info, work experience, education, and skills. Choose from Modern, Classic, or Minimal templates. Click generate to instantly download a polished PDF resume. All processing happens in your browser—your personal data never uploads anywhere.`,
+    trustSignals: [
+      '3 professional templates',
+      'Instant PDF download',
+      'No signup needed',
+      'Data stays private'
+    ]
+  },
+
+  // Q&A Sections
+  qa: {
+    whatIs: {
+      answer: `Resume Builder is a free browser-based tool for creating professional resumes. Fill in your information, choose a template style, and generate a formatted PDF instantly. Using jsPDF for document creation, everything runs in your browser—your personal data never leaves your device.`,
+      context: `Perfect for job seekers, students, or anyone needing a quick, professional resume without complex software.`
+    },
+    howItWorks: {
+      steps: [
+        'Select your preferred template style: Modern, Classic, or Minimal',
+        'Fill in your personal information (name, email, phone, location)',
+        'Write a brief professional summary',
+        'Add your work experience with job titles, companies, and descriptions',
+        'Include your education and list your skills',
+        'Click "Generate Resume PDF" to download instantly'
+      ]
+    },
+    whyBrowserBased: {
+      benefits: [
+        'Complete privacy: Personal information never uploads to any server',
+        'Instant results: Generate PDF immediately without waiting',
+        'No account needed: No signup, no email verification, no tracking',
+        'Multiple templates: Professional designs for different industries',
+        'Unlimited edits: Adjust and regenerate as many times as needed'
+      ]
+    },
+    faqs: [
+      {
+        question: 'Is my resume data saved anywhere?',
+        answer: `No. Your information exists only in your browser while you're using the tool. When you close the page, the data is gone. We recommend downloading your PDF before leaving.`
+      },
+      {
+        question: 'Can I save my resume to edit later?',
+        answer: `Currently, resume data isn't saved between sessions. We recommend keeping your information in a separate document so you can quickly re-enter it for future updates.`
+      },
+      {
+        question: 'Which template should I use?',
+        answer: `Modern: Clean, contemporary design good for tech and creative fields. Classic: Traditional format preferred in corporate and formal industries. Minimal: Simple, elegant design that works across all fields.`
+      },
+      {
+        question: 'Can I add a photo to my resume?',
+        answer: `Currently, photos are not supported. In many regions (especially the US), photos on resumes are discouraged to prevent bias in hiring.`
+      },
+      {
+        question: 'Is the PDF ATS-friendly?',
+        answer: `Yes. The generated PDF uses standard text formatting that Applicant Tracking Systems can read. Avoid overly complex layouts in your descriptions to ensure best compatibility.`
+      }
+    ]
+  }
+};
+
+// Schema data
+const schemaData = {
+  toolId: tool.id,
+  toolName: tool.name,
+  description: seoContent.description,
+  category: tool.category,
+  steps: seoContent.qa.howItWorks.steps,
+  faqs: seoContent.qa.faqs,
+  url: tool.url
+};
+---
+
+<Layout
+  title={seoContent.title}
+  description={seoContent.description}
+  image="/thumbnails/resume-builder.svg"
+>
+  <!-- Schema Markup for AI extraction -->
+  <SchemaMarkup {...schemaData} />
+
+  <Navbar />
+
+  <main class="pt-20 pb-16 px-6 min-h-screen">
+    <div class="max-w-3xl mx-auto">
+
+      <!-- Answer Box: AI extracts this first -->
+      <AnswerBox
+        title={seoContent.answerBox.title}
+        tldr={seoContent.answerBox.tldr}
+        toolName={tool.name}
+        queryTarget={seoContent.answerBox.queryTarget}
+        trustSignals={seoContent.answerBox.trustSignals}
+      />
+
+      <!-- Tool Component -->
+      <section class="tool-section" aria-label="Resume Builder Tool">
+        <ResumeBuilder client:load />
+      </section>
+
+      <!-- Q&A Sections: Semantic structure for AI -->
+      <QASections
+        toolName={tool.name}
+        whatIs={seoContent.qa.whatIs}
+        howItWorks={seoContent.qa.howItWorks}
+        whyBrowserBased={seoContent.qa.whyBrowserBased}
+        faqs={seoContent.qa.faqs}
+      />
+
+    </div>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+  .tool-section {
+    margin: 2rem 0;
+  }
+</style>

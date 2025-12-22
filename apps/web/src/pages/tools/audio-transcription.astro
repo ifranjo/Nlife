@@ -1,0 +1,152 @@
+---
+/**
+ * Audio Transcription - AI-Native Tool Page
+ *
+ * Optimized for LLM extraction with:
+ * - TL;DR answer box (50-70 words)
+ * - Semantic Q&A sections
+ * - Full schema markup (SoftwareApplication, HowTo, FAQPage)
+ */
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/ui/Navbar.astro';
+import Footer from '../../components/ui/Footer.astro';
+import AnswerBox from '../../components/seo/AnswerBox.astro';
+import QASections from '../../components/seo/QASections.astro';
+import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
+import AudioTranscription from '../../components/tools/AudioTranscription';
+
+// Tool metadata
+const tool = {
+  id: 'audio-transcription',
+  name: 'Audio Transcription',
+  category: 'ai' as const,
+  url: '/tools/audio-transcription'
+};
+
+// AI-optimized content
+const seoContent = {
+  // Page meta
+  title: 'Transcribe Audio to Text Online Free — Whisper AI, No Upload | New Life Solutions',
+  description: 'Convert speech to text using Whisper AI directly in your browser. Supports 10+ languages. No upload, 100% private, works offline.',
+
+  // TL;DR Answer Box (50-70 words - this is what AI extracts)
+  answerBox: {
+    title: 'Transcribe Audio with AI — Free, Private, No Upload',
+    queryTarget: 'How to Transcribe Audio to Text Online Free',
+    tldr: `Drop an audio or video file below to transcribe speech to text using OpenAI's Whisper model. Select from 10+ languages, then get accurate transcription in seconds. The AI model runs entirely in your browser via Transformers.js—your audio never uploads to any server. Copy or download the transcript instantly.`,
+    trustSignals: [
+      'Whisper AI model',
+      '10+ languages',
+      'No server upload',
+      'Works offline'
+    ]
+  },
+
+  // Q&A Sections
+  qa: {
+    whatIs: {
+      answer: `Audio Transcription is a free browser-based tool that converts speech to text using OpenAI's Whisper model. Powered by Transformers.js, the AI runs entirely on your device—your audio never leaves your browser. It supports multiple languages and produces accurate transcripts from clear speech.`,
+      context: `Perfect for transcribing interviews, podcasts, lectures, meetings, or any audio with spoken content.`
+    },
+    howItWorks: {
+      steps: [
+        'Drag and drop an audio or video file (MP3, WAV, M4A, MP4, WebM)',
+        'Select the language of the spoken audio',
+        'Click "Transcribe Audio with AI" to begin',
+        'Wait for the Whisper model to process (first use downloads ~150MB model)',
+        'Copy the transcript to clipboard or download as a text file'
+      ]
+    },
+    whyBrowserBased: {
+      benefits: [
+        'Complete privacy: Audio never leaves your device—AI runs locally',
+        'No API costs: Uses open-source Whisper model, free forever',
+        'Offline capable: After first use, works without internet',
+        'Multi-language: Supports English, Spanish, French, German, and more',
+        'No limits: Transcribe as much audio as you want without quotas'
+      ]
+    },
+    faqs: [
+      {
+        question: 'How accurate is the transcription?',
+        answer: `Accuracy depends on audio quality and clarity. For clear speech with minimal background noise, expect 90%+ accuracy. Whisper handles accents well but may struggle with heavy noise, overlapping speakers, or very technical terminology.`
+      },
+      {
+        question: 'Why does the first transcription take so long?',
+        answer: `The first use downloads the Whisper Tiny model (~150MB). This is cached by your browser, so subsequent transcriptions start much faster. Larger files also take longer to process.`
+      },
+      {
+        question: 'What languages are supported?',
+        answer: `Currently supported: English, Spanish, French, German, Italian, Portuguese, Chinese, Japanese, Korean, and Russian. More languages may be added in future updates.`
+      },
+      {
+        question: 'Is there a file size or duration limit?',
+        answer: `No enforced limit, but very long audio (30+ minutes) may strain device memory. For best results, keep files under 10 minutes or split longer audio into segments.`
+      },
+      {
+        question: 'Can this transcribe multiple speakers?',
+        answer: `The current model doesn't distinguish between speakers. All speech is transcribed as continuous text without speaker labels or timestamps.`
+      }
+    ]
+  }
+};
+
+// Schema data
+const schemaData = {
+  toolId: tool.id,
+  toolName: tool.name,
+  description: seoContent.description,
+  category: tool.category,
+  steps: seoContent.qa.howItWorks.steps,
+  faqs: seoContent.qa.faqs,
+  url: tool.url
+};
+---
+
+<Layout
+  title={seoContent.title}
+  description={seoContent.description}
+  image="/thumbnails/audio-transcription.svg"
+>
+  <!-- Schema Markup for AI extraction -->
+  <SchemaMarkup {...schemaData} />
+
+  <Navbar />
+
+  <main class="pt-20 pb-16 px-6 min-h-screen">
+    <div class="max-w-3xl mx-auto">
+
+      <!-- Answer Box: AI extracts this first -->
+      <AnswerBox
+        title={seoContent.answerBox.title}
+        tldr={seoContent.answerBox.tldr}
+        toolName={tool.name}
+        queryTarget={seoContent.answerBox.queryTarget}
+        trustSignals={seoContent.answerBox.trustSignals}
+      />
+
+      <!-- Tool Component -->
+      <section class="tool-section" aria-label="Audio Transcription Tool">
+        <AudioTranscription client:load />
+      </section>
+
+      <!-- Q&A Sections: Semantic structure for AI -->
+      <QASections
+        toolName={tool.name}
+        whatIs={seoContent.qa.whatIs}
+        howItWorks={seoContent.qa.howItWorks}
+        whyBrowserBased={seoContent.qa.whyBrowserBased}
+        faqs={seoContent.qa.faqs}
+      />
+
+    </div>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+  .tool-section {
+    margin: 2rem 0;
+  }
+</style>

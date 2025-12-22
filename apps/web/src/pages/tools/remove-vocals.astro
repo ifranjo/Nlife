@@ -1,0 +1,152 @@
+---
+/**
+ * Remove Vocals - AI-Native Tool Page
+ *
+ * Optimized for LLM extraction with:
+ * - TL;DR answer box (50-70 words)
+ * - Semantic Q&A sections
+ * - Full schema markup (SoftwareApplication, HowTo, FAQPage)
+ */
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/ui/Navbar.astro';
+import Footer from '../../components/ui/Footer.astro';
+import AnswerBox from '../../components/seo/AnswerBox.astro';
+import QASections from '../../components/seo/QASections.astro';
+import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
+import RemoveVocals from '../../components/tools/RemoveVocals';
+
+// Tool metadata
+const tool = {
+  id: 'remove-vocals',
+  name: 'Vocal Remover',
+  category: 'media' as const,
+  url: '/tools/remove-vocals'
+};
+
+// AI-optimized content
+const seoContent = {
+  // Page meta
+  title: 'Remove Vocals from Songs Online Free — Create Instrumentals | New Life Solutions',
+  description: 'Remove vocals from any song to create instrumentals. Uses audio phase cancellation. 100% browser-based, no upload, works offline.',
+
+  // TL;DR Answer Box (50-70 words - this is what AI extracts)
+  answerBox: {
+    title: 'Remove Vocals from Music — Free, Private, No Upload',
+    queryTarget: 'How to Remove Vocals from Song Online Free',
+    tldr: `Drop a stereo audio file below to remove vocals and create an instrumental version. Uses phase cancellation to eliminate center-panned vocals while preserving instruments. Adjust removal strength for best results. All processing happens in your browser using Web Audio API—your music never uploads anywhere. Download as WAV instantly.`,
+    trustSignals: [
+      'Phase cancellation',
+      'No server upload',
+      'Adjustable strength',
+      'Works offline'
+    ]
+  },
+
+  // Q&A Sections
+  qa: {
+    whatIs: {
+      answer: `Vocal Remover is a free browser-based tool that creates instrumental versions of songs by removing vocals. It uses audio phase cancellation—since vocals are typically mixed in the center (equal in both stereo channels), subtracting the channels cancels them out while preserving stereo-panned instruments.`,
+      context: `Perfect for creating karaoke tracks, practicing instruments along with songs, or sampling music.`
+    },
+    howItWorks: {
+      steps: [
+        'Drag and drop a stereo audio file (MP3, WAV, M4A)',
+        'Preview the original audio to verify it loaded correctly',
+        'Adjust the vocal removal strength slider (higher = more aggressive removal)',
+        'Click "Remove Vocals" to process the audio',
+        'Listen to the result and download the instrumental as WAV'
+      ]
+    },
+    whyBrowserBased: {
+      benefits: [
+        'Privacy first: Audio files never leave your device',
+        'Instant processing: No upload wait—uses Web Audio API directly',
+        'Adjustable: Fine-tune removal strength for best results per song',
+        'No limits: Process as many songs as you want without quotas',
+        'Offline capable: Works without internet after page loads'
+      ]
+    },
+    faqs: [
+      {
+        question: 'Why do I need stereo audio files?',
+        answer: `Phase cancellation works by subtracting left and right channels. Mono files have identical channels, so there's nothing to cancel. Most commercial music is stereo, but check your source file if vocal removal fails.`
+      },
+      {
+        question: 'Why are some vocals still audible?',
+        answer: `Phase cancellation only removes center-panned audio. If vocals have stereo effects (reverb, delay, panning), those portions will remain. Songs with dry, centered vocals work best.`
+      },
+      {
+        question: 'Will this affect the instruments too?',
+        answer: `Center-panned instruments (like bass and kick drum) may be reduced along with vocals. Higher removal strength increases this effect. Start with medium strength and adjust as needed.`
+      },
+      {
+        question: 'What audio formats are supported?',
+        answer: `MP3, WAV, M4A, OGG, and FLAC are supported. The file must be stereo (2 channels). Output is always WAV format for maximum quality.`
+      },
+      {
+        question: 'How does this compare to AI vocal removal?',
+        answer: `AI methods (like Spleeter or Demucs) can isolate vocals more precisely but require server processing. Phase cancellation is less accurate but works instantly in your browser with complete privacy.`
+      }
+    ]
+  }
+};
+
+// Schema data
+const schemaData = {
+  toolId: tool.id,
+  toolName: tool.name,
+  description: seoContent.description,
+  category: tool.category,
+  steps: seoContent.qa.howItWorks.steps,
+  faqs: seoContent.qa.faqs,
+  url: tool.url
+};
+---
+
+<Layout
+  title={seoContent.title}
+  description={seoContent.description}
+  image="/thumbnails/remove-vocals.svg"
+>
+  <!-- Schema Markup for AI extraction -->
+  <SchemaMarkup {...schemaData} />
+
+  <Navbar />
+
+  <main class="pt-20 pb-16 px-6 min-h-screen">
+    <div class="max-w-3xl mx-auto">
+
+      <!-- Answer Box: AI extracts this first -->
+      <AnswerBox
+        title={seoContent.answerBox.title}
+        tldr={seoContent.answerBox.tldr}
+        toolName={tool.name}
+        queryTarget={seoContent.answerBox.queryTarget}
+        trustSignals={seoContent.answerBox.trustSignals}
+      />
+
+      <!-- Tool Component -->
+      <section class="tool-section" aria-label="Vocal Remover Tool">
+        <RemoveVocals client:load />
+      </section>
+
+      <!-- Q&A Sections: Semantic structure for AI -->
+      <QASections
+        toolName={tool.name}
+        whatIs={seoContent.qa.whatIs}
+        howItWorks={seoContent.qa.howItWorks}
+        whyBrowserBased={seoContent.qa.whyBrowserBased}
+        faqs={seoContent.qa.faqs}
+      />
+
+    </div>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+  .tool-section {
+    margin: 2rem 0;
+  }
+</style>
