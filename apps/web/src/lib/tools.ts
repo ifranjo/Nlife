@@ -8,6 +8,9 @@ export interface Tool {
   tier: 'free' | 'pro' | 'coming';
   href: string;
   color: string;
+  tags?: string[];
+  popular?: boolean;
+  releaseDate?: string;
 }
 
 export const tools: Tool[] = [
@@ -200,30 +203,10 @@ export const tools: Tool[] = [
   },
 
   // ═══════════════════════════════════════════════════════════════
-  // AI/PRO TOOLS (require backend)
+  // AI/PRO TOOLS - REMOVED (legal/ethical concerns with video avatars)
+  // Future browser-based AI tools will be added here after review
+  // See: docs/plans/browser-ai-tools-roadmap.md
   // ═══════════════════════════════════════════════════════════════
-  {
-    id: 'translator',
-    name: 'AI Translator',
-    description: 'Translate text between 100+ languages with AI-powered accuracy.',
-    icon: '🌍',
-    thumbnail: '/thumbnails/translator.svg',
-    category: 'ai',
-    tier: 'pro',
-    href: '/tools/translator',
-    color: 'from-blue-500 to-cyan-500'
-  },
-  {
-    id: 'video-avatar',
-    name: 'Video Avatar',
-    description: 'Create AI-powered video avatars for presentations and content.',
-    icon: '🎬',
-    thumbnail: '/thumbnails/video-avatar.svg',
-    category: 'ai',
-    tier: 'pro',
-    href: '/tools/video-avatar',
-    color: 'from-purple-500 to-pink-500'
-  },
 ];
 
 export const getToolsByCategory = (category: Tool['category']) =>
