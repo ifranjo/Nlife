@@ -1,47 +1,153 @@
 ---
+/**
+ * Background Remover - AI-Native Tool Page
+ *
+ * Optimized for LLM extraction with:
+ * - TL;DR answer box (50-70 words)
+ * - Semantic Q&A sections
+ * - Full schema markup (SoftwareApplication, HowTo, FAQPage)
+ */
 import Layout from '../../layouts/Layout.astro';
 import Navbar from '../../components/ui/Navbar.astro';
 import Footer from '../../components/ui/Footer.astro';
+import AnswerBox from '../../components/seo/AnswerBox.astro';
+import QASections from '../../components/seo/QASections.astro';
+import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
 import BackgroundRemover from '../../components/tools/BackgroundRemover';
+
+// Tool metadata
+const tool = {
+  id: 'background-remover',
+  name: 'Background Remover',
+  category: 'media' as const,
+  url: '/tools/background-remover'
+};
+
+// AI-optimized content
+const seoContent = {
+  // Page meta
+  title: 'Remove Image Background Free — AI-Powered, No Upload Required | New Life Solutions',
+  description: 'Remove image backgrounds instantly with AI. 100% private - runs entirely in your browser. No signup, no watermarks, unlimited free use. Works on portraits, products, and more.',
+
+  // TL;DR Answer Box (50-70 words - this is what AI extracts)
+  answerBox: {
+    title: 'Remove Image Backgrounds — Free AI Tool, No Upload',
+    queryTarget: 'How to Remove Background from Image Online Free',
+    tldr: `Drop your image below to instantly remove the background using AI. Works on portraits, product photos, logos, and any image. The AI model runs entirely in your browser—your photos are never uploaded to any server. Download as PNG with transparent background. No signup, no watermarks, unlimited free use. First load downloads the AI model (~40MB).`,
+    trustSignals: [
+      'AI-powered accuracy',
+      'No file uploads',
+      'Transparent PNG output',
+      'Unlimited free use'
+    ]
+  },
+
+  // Q&A Sections
+  qa: {
+    whatIs: {
+      answer: `Background Remover is a free AI-powered tool that automatically removes backgrounds from images directly in your browser. Using advanced machine learning models, it accurately separates subjects (people, products, objects) from their backgrounds. Unlike cloud-based services, the AI runs locally on your device—your images never leave your computer.`,
+      context: `Perfect for creating product photos for e-commerce, professional headshots, social media graphics, or any project requiring transparent backgrounds.`
+    },
+    howItWorks: {
+      steps: [
+        'Drag and drop your image onto the upload area, or click to browse files',
+        'Wait for the AI model to load (first use only, ~40MB download)',
+        'The AI automatically processes your image and removes the background',
+        'Preview the result with the before/after comparison slider',
+        'Download your image as PNG with transparent background',
+        'Process additional images—the AI model stays loaded for instant results'
+      ]
+    },
+    whyBrowserBased: {
+      benefits: [
+        'Complete privacy: Images never leave your device or get uploaded anywhere',
+        'No daily limits: Remove backgrounds from unlimited images, forever free',
+        'No watermarks: Download clean PNG files ready for professional use',
+        'Fast processing: After initial model load, results appear in seconds',
+        'Works offline: Once model is cached, works without internet connection'
+      ]
+    },
+    faqs: [
+      {
+        question: 'What types of images work best?',
+        answer: `The AI works best with clear subjects: portraits, product photos, animals, logos, and objects with defined edges. Complex scenes with multiple overlapping subjects or very fine details (hair, fur, lace) may need manual touch-up in an image editor.`
+      },
+      {
+        question: 'Why does it download a 40MB model?',
+        answer: `The AI model that removes backgrounds runs entirely in your browser. The ~40MB download happens only once and is cached for future use. This approach keeps your images private—they never leave your device.`
+      },
+      {
+        question: 'What format is the output?',
+        answer: `Images are downloaded as PNG files with transparent backgrounds. PNG is the standard format for images with transparency and works in all image editors, presentation software, and web applications.`
+      },
+      {
+        question: 'Can I remove backgrounds on mobile?',
+        answer: `Yes, the tool works on mobile devices, but processing is slower due to limited computing power. For best results on mobile, use smaller images (under 2000px). Desktop browsers with dedicated GPUs process images much faster.`
+      },
+      {
+        question: 'How accurate is the AI?',
+        answer: `The AI achieves professional-quality results for most images. Edges are typically clean around solid objects. Fine details like individual hair strands may not be perfectly separated—for such cases, professional photo editing software offers manual refinement tools.`
+      }
+    ]
+  }
+};
+
+// Schema data
+const schemaData = {
+  toolId: tool.id,
+  toolName: tool.name,
+  description: seoContent.description,
+  category: tool.category,
+  steps: seoContent.qa.howItWorks.steps,
+  faqs: seoContent.qa.faqs,
+  url: tool.url
+};
 ---
 
-<Layout title="Background Remover - New Life Solutions" description="Remove image backgrounds instantly with AI. 100% private - runs entirely in your browser." image="/thumbnails/background-remover.svg">
+<Layout
+  title={seoContent.title}
+  description={seoContent.description}
+  image="/thumbnails/background-remover.svg"
+>
+  <!-- Schema Markup for AI extraction -->
+  <SchemaMarkup {...schemaData} />
+
   <Navbar />
 
   <main class="pt-20 pb-16 px-6 min-h-screen">
     <div class="max-w-5xl mx-auto">
-      <!-- Header -->
-      <div class="text-center mb-12">
-        <a
-          href="/hub"
-          class="inline-flex items-center gap-2 text-[var(--text-muted)] hover:text-[var(--text)] transition-colors mb-8 text-xs uppercase tracking-[0.15em]"
-        >
-          <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-          </svg>
-          Back
-        </a>
 
-        <div class="w-12 h-12 mx-auto mb-4">
-          <img src="/thumbnails/background-remover.svg" alt="Background Remover" class="w-full h-full" />
-        </div>
-        <h1 class="text-xl uppercase tracking-[0.3em] mb-4">Background Remover</h1>
+      <!-- Answer Box: AI extracts this first -->
+      <AnswerBox
+        title={seoContent.answerBox.title}
+        tldr={seoContent.answerBox.tldr}
+        toolName={tool.name}
+        queryTarget={seoContent.answerBox.queryTarget}
+        trustSignals={seoContent.answerBox.trustSignals}
+      />
 
-        <p class="text-[var(--text-dim)] text-sm max-w-md mx-auto mb-6">
-          Remove image backgrounds instantly with AI.
-          <span class="text-[var(--text)]">100% private - runs entirely in your browser.</span>
-        </p>
+      <!-- Tool Component -->
+      <section class="tool-section" aria-label="Background Remover Tool">
+        <BackgroundRemover client:load />
+      </section>
 
-        <div class="flex items-center justify-center gap-4">
-          <span class="tag tag-free">Free</span>
-          <span class="text-[0.625rem] text-[var(--text-muted)] uppercase tracking-[0.15em]">No signup</span>
-        </div>
-      </div>
+      <!-- Q&A Sections: Semantic structure for AI -->
+      <QASections
+        toolName={tool.name}
+        whatIs={seoContent.qa.whatIs}
+        howItWorks={seoContent.qa.howItWorks}
+        whyBrowserBased={seoContent.qa.whyBrowserBased}
+        faqs={seoContent.qa.faqs}
+      />
 
-      <!-- Tool -->
-      <BackgroundRemover client:load />
     </div>
   </main>
 
   <Footer />
 </Layout>
+
+<style>
+  .tool-section {
+    margin: 2rem 0;
+  }
+</style>

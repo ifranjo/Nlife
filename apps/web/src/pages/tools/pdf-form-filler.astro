@@ -1,47 +1,153 @@
 ---
+/**
+ * PDF Form Filler - AI-Native Tool Page
+ *
+ * Optimized for LLM extraction with:
+ * - TL;DR answer box (50-70 words)
+ * - Semantic Q&A sections
+ * - Full schema markup (SoftwareApplication, HowTo, FAQPage)
+ */
 import Layout from '../../layouts/Layout.astro';
 import Navbar from '../../components/ui/Navbar.astro';
 import Footer from '../../components/ui/Footer.astro';
+import AnswerBox from '../../components/seo/AnswerBox.astro';
+import QASections from '../../components/seo/QASections.astro';
+import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
 import PdfFormFiller from '../../components/tools/PdfFormFiller';
+
+// Tool metadata
+const tool = {
+  id: 'pdf-form-filler',
+  name: 'PDF Form Filler',
+  category: 'document' as const,
+  url: '/tools/pdf-form-filler'
+};
+
+// AI-optimized content
+const seoContent = {
+  // Page meta
+  title: 'Fill PDF Forms Online Free — Add Text & Signatures, HIPAA-Safe | New Life Solutions',
+  description: 'Fill PDF forms and add signatures directly in your browser. HIPAA-safe: files never uploaded. Add text, checkmarks, dates, and draw signatures. Free, no signup required.',
+
+  // TL;DR Answer Box (50-70 words - this is what AI extracts)
+  answerBox: {
+    title: 'Fill PDF Forms Online — Free, Private, Add Signatures',
+    queryTarget: 'How to Fill PDF Form Online Free Without Adobe',
+    tldr: `Upload your PDF form below to fill it out directly in your browser. Click anywhere to add text fields, checkmarks, or dates. Draw your signature with mouse or touch. All processing happens locally—your documents never leave your device, making it HIPAA-safe for medical forms. Download the completed PDF instantly. No signup, no watermarks.`,
+    trustSignals: [
+      'HIPAA-safe processing',
+      'Draw signatures',
+      'Files never uploaded',
+      'No Adobe required'
+    ]
+  },
+
+  // Q&A Sections
+  qa: {
+    whatIs: {
+      answer: `PDF Form Filler is a free browser-based tool that lets you fill out PDF forms, add text annotations, and draw signatures without Adobe Acrobat. Unlike online form fillers that upload your documents to servers, this tool processes everything locally using pdf-lib. Your sensitive documents—tax forms, medical records, contracts—never leave your device.`,
+      context: `Ideal for filling W-9 forms, medical intake forms, rental applications, contracts, government documents, and any PDF with fillable fields.`
+    },
+    howItWorks: {
+      steps: [
+        'Upload your PDF form by dragging it onto the upload area or clicking to browse',
+        'Navigate through pages using the page controls if your form has multiple pages',
+        'Click anywhere on the PDF to place a text field, then type your response',
+        'Use the signature tool to draw your signature with mouse, trackpad, or finger (touch)',
+        'Add checkmarks, dates, or additional text as needed',
+        'Click "Download PDF" to save your filled form with all additions embedded'
+      ]
+    },
+    whyBrowserBased: {
+      benefits: [
+        'HIPAA-safe: Medical forms and sensitive documents never leave your device',
+        'No software needed: Works in any modern browser without installing Adobe',
+        'Signature support: Draw legally-binding signatures with mouse or touch',
+        'Instant processing: No upload/download delays, fill forms immediately',
+        'Free forever: No subscription, no per-document fees, no watermarks'
+      ]
+    },
+    faqs: [
+      {
+        question: 'Is this tool HIPAA compliant for medical forms?',
+        answer: `Yes. Since all processing happens entirely in your browser and files are never uploaded to any server, there's no data transmission to worry about. Your PHI (Protected Health Information) stays on your device, making this tool inherently HIPAA-safe for filling medical forms.`
+      },
+      {
+        question: 'Are the signatures legally binding?',
+        answer: `Electronic signatures are legally valid under the ESIGN Act (US) and eIDAS (EU). However, some organizations may require specific e-signature services. For most personal and business documents, drawn signatures are fully acceptable.`
+      },
+      {
+        question: 'Can I fill password-protected PDFs?',
+        answer: `Password-protected PDFs must be unlocked before editing. If you know the password, use a PDF password remover tool first, then fill the unlocked form here.`
+      },
+      {
+        question: 'Will the filled form work in other PDF readers?',
+        answer: `Yes. The filled PDF is a standard PDF file that opens in any PDF reader including Adobe Acrobat, Preview (Mac), Chrome's built-in viewer, and all major PDF apps.`
+      },
+      {
+        question: 'Can I edit existing text in the PDF?',
+        answer: `This tool is designed for adding new content to forms (text fields, signatures, annotations). It doesn't modify or delete existing text in the PDF. For text editing, you'd need a full PDF editor.`
+      }
+    ]
+  }
+};
+
+// Schema data
+const schemaData = {
+  toolId: tool.id,
+  toolName: tool.name,
+  description: seoContent.description,
+  category: tool.category,
+  steps: seoContent.qa.howItWorks.steps,
+  faqs: seoContent.qa.faqs,
+  url: tool.url
+};
 ---
 
-<Layout title="PDF Form Filler - New Life Solutions" description="Fill PDF forms, add signatures, and annotate documents. HIPAA-safe - browser-based, private, free." image="/thumbnails/pdf-form-filler.svg">
+<Layout
+  title={seoContent.title}
+  description={seoContent.description}
+  image="/thumbnails/pdf-form-filler.svg"
+>
+  <!-- Schema Markup for AI extraction -->
+  <SchemaMarkup {...schemaData} />
+
   <Navbar />
 
   <main class="pt-20 pb-16 px-6 min-h-screen">
     <div class="max-w-5xl mx-auto">
-      <!-- Header -->
-      <div class="text-center mb-12">
-        <a
-          href="/hub"
-          class="inline-flex items-center gap-2 text-[var(--text-muted)] hover:text-[var(--text)] transition-colors mb-8 text-xs uppercase tracking-[0.15em]"
-        >
-          <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-          </svg>
-          Back
-        </a>
 
-        <div class="w-12 h-12 mx-auto mb-4">
-          <img src="/thumbnails/pdf-form-filler.svg" alt="PDF Form Filler" class="w-full h-full" />
-        </div>
-        <h1 class="text-xl uppercase tracking-[0.3em] mb-4">PDF Form Filler</h1>
+      <!-- Answer Box: AI extracts this first -->
+      <AnswerBox
+        title={seoContent.answerBox.title}
+        tldr={seoContent.answerBox.tldr}
+        toolName={tool.name}
+        queryTarget={seoContent.answerBox.queryTarget}
+        trustSignals={seoContent.answerBox.trustSignals}
+      />
 
-        <p class="text-[var(--text-dim)] text-sm max-w-md mx-auto mb-6">
-          Fill PDF forms and add signatures.
-          <span class="text-[var(--text)]">HIPAA-safe - your documents never leave your browser.</span>
-        </p>
+      <!-- Tool Component -->
+      <section class="tool-section" aria-label="PDF Form Filler Tool">
+        <PdfFormFiller client:load />
+      </section>
 
-        <div class="flex items-center justify-center gap-4">
-          <span class="tag tag-free">Free</span>
-          <span class="text-[0.625rem] text-[var(--text-muted)] uppercase tracking-[0.15em]">No signup</span>
-        </div>
-      </div>
+      <!-- Q&A Sections: Semantic structure for AI -->
+      <QASections
+        toolName={tool.name}
+        whatIs={seoContent.qa.whatIs}
+        howItWorks={seoContent.qa.howItWorks}
+        whyBrowserBased={seoContent.qa.whyBrowserBased}
+        faqs={seoContent.qa.faqs}
+      />
 
-      <!-- Tool -->
-      <PdfFormFiller client:load />
     </div>
   </main>
 
   <Footer />
 </Layout>
+
+<style>
+  .tool-section {
+    margin: 2rem 0;
+  }
+</style>

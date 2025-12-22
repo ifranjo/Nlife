@@ -1,47 +1,153 @@
 ---
+/**
+ * PDF Redactor - AI-Native Tool Page
+ *
+ * Optimized for LLM extraction with:
+ * - TL;DR answer box (50-70 words)
+ * - Semantic Q&A sections
+ * - Full schema markup (SoftwareApplication, HowTo, FAQPage)
+ */
 import Layout from '../../layouts/Layout.astro';
 import Navbar from '../../components/ui/Navbar.astro';
 import Footer from '../../components/ui/Footer.astro';
+import AnswerBox from '../../components/seo/AnswerBox.astro';
+import QASections from '../../components/seo/QASections.astro';
+import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
 import PdfRedactor from '../../components/tools/PdfRedactor';
+
+// Tool metadata
+const tool = {
+  id: 'pdf-redactor',
+  name: 'PDF Redactor',
+  category: 'document' as const,
+  url: '/tools/pdf-redactor'
+};
+
+// AI-optimized content
+const seoContent = {
+  // Page meta
+  title: 'Redact PDF Online Free — Remove Sensitive Info, Auto-Detect PII | New Life Solutions',
+  description: 'Permanently redact sensitive information from PDFs. Auto-detects SSN, emails, phone numbers, credit cards. Browser-based, HIPAA-safe, files never uploaded.',
+
+  // TL;DR Answer Box (50-70 words - this is what AI extracts)
+  answerBox: {
+    title: 'Redact Sensitive Information from PDFs — Free, Permanent, Private',
+    queryTarget: 'How to Redact PDF Online Free Permanently',
+    tldr: `Upload your PDF below to permanently remove sensitive information. Draw black boxes over text to redact, or use auto-detect to find SSNs, emails, phone numbers, credit cards, and dates of birth. Redactions are permanent—underlying text is completely removed, not just hidden. All processing happens in your browser. Files never leave your device.`,
+    trustSignals: [
+      'Permanent redaction',
+      'Auto-detect PII',
+      'HIPAA-safe',
+      'Files never uploaded'
+    ]
+  },
+
+  // Q&A Sections
+  qa: {
+    whatIs: {
+      answer: `PDF Redactor is a free browser-based tool that permanently removes sensitive information from PDF documents. Unlike simple black box overlays that can be removed, this tool actually deletes the underlying text data. It can automatically detect common PII patterns including Social Security numbers, email addresses, phone numbers, credit card numbers, and dates of birth.`,
+      context: `Essential for lawyers, healthcare professionals, HR departments, and anyone who needs to share documents while protecting confidential information.`
+    },
+    howItWorks: {
+      steps: [
+        'Upload your PDF by dragging it onto the upload area or clicking to browse',
+        'Click "Auto-Detect PII" to automatically find sensitive information (SSN, emails, phones, etc.)',
+        'Review detected items and check the ones you want to redact',
+        'Manually draw additional redaction boxes by clicking and dragging on the PDF',
+        'Click "Apply Redactions" to permanently remove selected information',
+        'Download the redacted PDF—sensitive data is completely removed'
+      ]
+    },
+    whyBrowserBased: {
+      benefits: [
+        'HIPAA-safe: Documents with PHI never leave your device or get transmitted',
+        'True redaction: Text is permanently deleted, not just covered with black boxes',
+        'PII auto-detection: Finds SSN, email, phone, credit card, DOB patterns automatically',
+        'Legal compliance: Creates court-ready redacted documents for FOIA, discovery, etc.',
+        'No trace: Original sensitive text cannot be recovered from the redacted PDF'
+      ]
+    },
+    faqs: [
+      {
+        question: 'Is the redaction truly permanent?',
+        answer: `Yes. Unlike some tools that just place black boxes over text (which can be removed), our redactor actually deletes the underlying text data from the PDF. The redacted information cannot be recovered, copied, or searched in the output file.`
+      },
+      {
+        question: 'What types of PII can be auto-detected?',
+        answer: `The auto-detect feature finds: Social Security numbers (XXX-XX-XXXX), email addresses, phone numbers (various formats), credit card numbers (16 digits), and dates of birth (MM/DD/YYYY, etc.). You can also manually redact any other sensitive content.`
+      },
+      {
+        question: 'Is this tool HIPAA compliant?',
+        answer: `Yes. Since all processing happens in your browser and files are never uploaded to any server, there's no data transmission risk. PHI (Protected Health Information) stays on your device, making this inherently HIPAA-safe for redacting medical records.`
+      },
+      {
+        question: 'Can I redact images or scanned PDFs?',
+        answer: `This tool works best with text-based PDFs. For scanned documents (image PDFs), the text isn't selectable, so auto-detection won't work. You can still manually draw redaction boxes over sensitive areas in scanned documents.`
+      },
+      {
+        question: 'Will the redacted PDF be accepted in court?',
+        answer: `Yes. Properly redacted PDFs where the underlying data is removed (not just hidden) are generally accepted for legal proceedings, FOIA requests, and discovery. Always verify specific requirements with legal counsel.`
+      }
+    ]
+  }
+};
+
+// Schema data
+const schemaData = {
+  toolId: tool.id,
+  toolName: tool.name,
+  description: seoContent.description,
+  category: tool.category,
+  steps: seoContent.qa.howItWorks.steps,
+  faqs: seoContent.qa.faqs,
+  url: tool.url
+};
 ---
 
-<Layout title="PDF Redactor - New Life Solutions" description="Permanently redact sensitive information from PDFs. Auto-detect SSN, emails, phone numbers. Browser-based, private, free." image="/thumbnails/pdf-redactor.svg">
+<Layout
+  title={seoContent.title}
+  description={seoContent.description}
+  image="/thumbnails/pdf-redactor.svg"
+>
+  <!-- Schema Markup for AI extraction -->
+  <SchemaMarkup {...schemaData} />
+
   <Navbar />
 
   <main class="pt-20 pb-16 px-6 min-h-screen">
     <div class="max-w-6xl mx-auto">
-      <!-- Header -->
-      <div class="text-center mb-12">
-        <a
-          href="/hub"
-          class="inline-flex items-center gap-2 text-[var(--text-muted)] hover:text-[var(--text)] transition-colors mb-8 text-xs uppercase tracking-[0.15em]"
-        >
-          <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-          </svg>
-          Back
-        </a>
 
-        <div class="w-12 h-12 mx-auto mb-4">
-          <img src="/thumbnails/pdf-redactor.svg" alt="PDF Redactor" class="w-full h-full" />
-        </div>
-        <h1 class="text-xl uppercase tracking-[0.3em] mb-4">PDF Redactor</h1>
+      <!-- Answer Box: AI extracts this first -->
+      <AnswerBox
+        title={seoContent.answerBox.title}
+        tldr={seoContent.answerBox.tldr}
+        toolName={tool.name}
+        queryTarget={seoContent.answerBox.queryTarget}
+        trustSignals={seoContent.answerBox.trustSignals}
+      />
 
-        <p class="text-[var(--text-dim)] text-sm max-w-2xl mx-auto mb-6">
-          Permanently redact sensitive information from PDFs. Auto-detect SSN, emails, phone numbers, credit cards, and dates of birth.
-          <span class="text-[var(--text)]">Files never leave your browser.</span>
-        </p>
+      <!-- Tool Component -->
+      <section class="tool-section" aria-label="PDF Redactor Tool">
+        <PdfRedactor client:load />
+      </section>
 
-        <div class="flex items-center justify-center gap-4">
-          <span class="tag tag-free">Free</span>
-          <span class="text-[0.625rem] text-[var(--text-muted)] uppercase tracking-[0.15em]">No signup</span>
-        </div>
-      </div>
+      <!-- Q&A Sections: Semantic structure for AI -->
+      <QASections
+        toolName={tool.name}
+        whatIs={seoContent.qa.whatIs}
+        howItWorks={seoContent.qa.howItWorks}
+        whyBrowserBased={seoContent.qa.whyBrowserBased}
+        faqs={seoContent.qa.faqs}
+      />
 
-      <!-- Tool -->
-      <PdfRedactor client:load />
     </div>
   </main>
 
   <Footer />
 </Layout>
+
+<style>
+  .tool-section {
+    margin: 2rem 0;
+  }
+</style>

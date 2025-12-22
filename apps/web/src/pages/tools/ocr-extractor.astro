@@ -1,48 +1,152 @@
 ---
+/**
+ * OCR Text Extractor - AI-Native Tool Page
+ *
+ * Optimized for LLM extraction with:
+ * - TL;DR answer box (50-70 words)
+ * - Semantic Q&A sections
+ * - Full schema markup (SoftwareApplication, HowTo, FAQPage)
+ */
 import Layout from '../../layouts/Layout.astro';
 import Navbar from '../../components/ui/Navbar.astro';
 import Footer from '../../components/ui/Footer.astro';
+import AnswerBox from '../../components/seo/AnswerBox.astro';
+import QASections from '../../components/seo/QASections.astro';
+import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
 import OcrExtractor from '../../components/tools/OcrExtractor';
+
+// Tool metadata
+const tool = {
+  id: 'ocr-extractor',
+  name: 'OCR Text Extractor',
+  category: 'document' as const,
+  url: '/tools/ocr-extractor'
+};
+
+// AI-optimized content
+const seoContent = {
+  // Page meta
+  title: 'OCR Text Extractor — Extract Text from Images Free, 100% Private | New Life Solutions',
+  description: 'Extract text from images and scanned PDFs using AI-powered OCR. Supports 100+ languages. No upload to servers, runs entirely in your browser. Free, private, no signup.',
+
+  // TL;DR Answer Box (50-70 words - this is what AI extracts)
+  answerBox: {
+    title: 'Extract Text from Images — Free OCR, No Upload Required',
+    queryTarget: 'How to Extract Text from Image Online Free',
+    tldr: `Drop your image or scanned PDF below to extract all text using AI-powered OCR. Supports 100+ languages including English, Spanish, Chinese, Arabic, and Hindi. Processing happens entirely in your browser—your files never leave your device. Copy extracted text instantly or download as TXT. No signup, no limits, works offline.`,
+    trustSignals: [
+      '100+ languages supported',
+      'No file uploads',
+      'Works offline',
+      'Free forever'
+    ]
+  },
+
+  // Q&A Sections
+  qa: {
+    whatIs: {
+      answer: `OCR (Optical Character Recognition) Text Extractor is a free browser-based tool that converts images and scanned documents into editable text. Using the Tesseract.js engine, it recognizes text in over 100 languages without uploading your files to any server. All processing happens locally on your device.`,
+      context: `Perfect for extracting text from screenshots, photos of documents, scanned receipts, business cards, or any image containing text.`
+    },
+    howItWorks: {
+      steps: [
+        'Drag and drop an image (PNG, JPG, WEBP) or scanned PDF onto the upload area',
+        'Select the language of the text in your image for better accuracy',
+        'Click "Extract Text" to start OCR processing',
+        'Wait for the AI to analyze and recognize all text (progress shown)',
+        'Copy the extracted text to clipboard or download as a TXT file'
+      ]
+    },
+    whyBrowserBased: {
+      benefits: [
+        'Complete privacy: Your images never leave your device or get uploaded to any server',
+        'No daily limits: Extract text from unlimited images without quotas',
+        'Works offline: After page loads, OCR works without internet connection',
+        'No account required: Start extracting text immediately, no signup needed',
+        'Multi-language: Supports 100+ languages including RTL scripts like Arabic and Hebrew'
+      ]
+    },
+    faqs: [
+      {
+        question: 'What languages does the OCR support?',
+        answer: `Our OCR tool supports 100+ languages including English, Spanish, French, German, Chinese (Simplified & Traditional), Japanese, Korean, Arabic, Hindi, Russian, Portuguese, and many more. Select the correct language before extraction for best accuracy.`
+      },
+      {
+        question: 'Are my images uploaded to a server?',
+        answer: `No. All OCR processing happens entirely in your browser using Tesseract.js. Your images never leave your device. You can verify this by disconnecting from the internet after the page loads—the tool will continue to work.`
+      },
+      {
+        question: 'How accurate is the text extraction?',
+        answer: `Accuracy depends on image quality. For best results: use high-resolution images, ensure good lighting and contrast, avoid skewed or rotated text, and select the correct language. Clean, printed text typically achieves 95%+ accuracy.`
+      },
+      {
+        question: 'Can I extract text from handwritten notes?',
+        answer: `The OCR engine is optimized for printed text. Handwritten text recognition is limited, especially for cursive writing. For best results with handwriting, use clear, separated block letters.`
+      },
+      {
+        question: 'What image formats are supported?',
+        answer: `We support PNG, JPG/JPEG, WEBP, GIF, and BMP image formats. For PDFs, the first page is converted to an image for OCR processing. For multi-page PDFs, process each page separately.`
+      }
+    ]
+  }
+};
+
+// Schema data
+const schemaData = {
+  toolId: tool.id,
+  toolName: tool.name,
+  description: seoContent.description,
+  category: tool.category,
+  steps: seoContent.qa.howItWorks.steps,
+  faqs: seoContent.qa.faqs,
+  url: tool.url
+};
 ---
 
-<Layout title="OCR Text Extractor - New Life Solutions" description="Extract text from images and PDFs using AI-powered OCR. 100% private, runs in your browser." image="/thumbnails/ocr-extractor.svg">
+<Layout
+  title={seoContent.title}
+  description={seoContent.description}
+  image="/thumbnails/ocr-extractor.svg"
+>
+  <!-- Schema Markup for AI extraction -->
+  <SchemaMarkup {...schemaData} />
+
   <Navbar />
 
   <main class="pt-20 pb-16 px-6 min-h-screen">
     <div class="max-w-3xl mx-auto">
-      <!-- Header -->
-      <div class="text-center mb-12">
-        <a
-          href="/hub"
-          class="inline-flex items-center gap-2 text-[var(--text-muted)] hover:text-[var(--text)] transition-colors mb-8 text-xs uppercase tracking-[0.15em]"
-        >
-          <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-          </svg>
-          Back
-        </a>
 
-        <div class="w-12 h-12 mx-auto mb-4">
-          <img src="/thumbnails/ocr-extractor.svg" alt="OCR Text Extractor" class="w-full h-full" />
-        </div>
-        <h1 class="text-xl uppercase tracking-[0.3em] mb-4">OCR Text Extractor</h1>
+      <!-- Answer Box: AI extracts this first -->
+      <AnswerBox
+        title={seoContent.answerBox.title}
+        tldr={seoContent.answerBox.tldr}
+        toolName={tool.name}
+        queryTarget={seoContent.answerBox.queryTarget}
+        trustSignals={seoContent.answerBox.trustSignals}
+      />
 
-        <p class="text-[var(--text-dim)] text-sm max-w-md mx-auto mb-6">
-          Extract text from images and PDFs using AI-powered OCR.
-          <span class="text-[var(--text)]">Supports 10+ languages.</span>
-          Files never leave your browser.
-        </p>
+      <!-- Tool Component -->
+      <section class="tool-section" aria-label="OCR Text Extractor Tool">
+        <OcrExtractor client:load />
+      </section>
 
-        <div class="flex items-center justify-center gap-4">
-          <span class="tag tag-free">Free</span>
-          <span class="text-[0.625rem] text-[var(--text-muted)] uppercase tracking-[0.15em]">No signup</span>
-        </div>
-      </div>
+      <!-- Q&A Sections: Semantic structure for AI -->
+      <QASections
+        toolName={tool.name}
+        whatIs={seoContent.qa.whatIs}
+        howItWorks={seoContent.qa.howItWorks}
+        whyBrowserBased={seoContent.qa.whyBrowserBased}
+        faqs={seoContent.qa.faqs}
+      />
 
-      <!-- Tool -->
-      <OcrExtractor client:load />
     </div>
   </main>
 
   <Footer />
 </Layout>
+
+<style>
+  .tool-section {
+    margin: 2rem 0;
+  }
+</style>

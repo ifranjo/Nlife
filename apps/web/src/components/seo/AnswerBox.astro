@@ -1,0 +1,152 @@
+---
+/**
+ * AnswerBox - AI-optimized TL;DR section for tool pages
+ *
+ * This component is designed for LLM extraction:
+ * - First 50-70 words answer the query directly
+ * - Schema.org HowTo markup for machine readability
+ * - Trust signals reinforce E-E-A-T
+ */
+
+interface Props {
+  title: string;           // H1: "Merge PDF Files Online — Free, Private, No Upload"
+  tldr: string;            // 50-70 word direct answer
+  toolName: string;        // "PDF Merge"
+  queryTarget: string;     // "How to Merge PDF Files Online Free"
+  trustSignals?: string[]; // ["100% browser-based", "No data collection", "Works offline"]
+}
+
+const {
+  title,
+  tldr,
+  toolName,
+  queryTarget,
+  trustSignals = [
+    "100% browser-based",
+    "No data collection",
+    "Works offline"
+  ]
+} = Astro.props;
+---
+
+<section
+  class="answer-box"
+  itemscope
+  itemtype="https://schema.org/HowTo"
+  aria-label="Quick answer"
+>
+  <!-- Hidden structured data for AI extraction -->
+  <meta itemprop="name" content={queryTarget} />
+
+  <a
+    href="/hub"
+    class="back-link"
+  >
+    <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+    </svg>
+    Back to Tools
+  </a>
+
+  <h1 itemprop="description" class="answer-title">
+    {title}
+  </h1>
+
+  <p class="tldr" itemprop="text">
+    {tldr}
+  </p>
+
+  <div class="trust-signals" role="list" aria-label="Features">
+    {trustSignals.map((signal) => (
+      <span class="trust-signal" role="listitem">
+        <svg class="check-icon" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+        </svg>
+        {signal}
+      </span>
+    ))}
+  </div>
+</section>
+
+<style>
+  .answer-box {
+    text-align: center;
+    margin-bottom: 2rem;
+    padding: 2rem;
+    border: 1px solid var(--border);
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.02) 0%,
+      rgba(255, 255, 255, 0.05) 100%
+    );
+    border-radius: 0;
+  }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.625rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin-bottom: 1.5rem;
+    transition: color 0.2s ease;
+  }
+
+  .back-link:hover {
+    color: var(--text);
+  }
+
+  .answer-title {
+    font-size: 1.25rem;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    color: var(--text);
+  }
+
+  .tldr {
+    font-size: 0.9375rem;
+    line-height: 1.7;
+    color: var(--text-dim);
+    max-width: 36rem;
+    margin: 0 auto 1.5rem;
+  }
+
+  .trust-signals {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  .trust-signal {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+  }
+
+  .check-icon {
+    width: 0.875rem;
+    height: 0.875rem;
+    color: #22c55e;
+  }
+
+  @media (max-width: 640px) {
+    .answer-box {
+      padding: 1.5rem 1rem;
+    }
+
+    .trust-signals {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+  }
+</style>
