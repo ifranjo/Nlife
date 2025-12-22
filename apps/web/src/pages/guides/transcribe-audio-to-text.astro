@@ -1,0 +1,236 @@
+---
+/**
+ * Guide: How to Transcribe Audio to Text Free
+ * Target query: "transcribe audio", "speech to text", "audio transcription free"
+ */
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/ui/Navbar.astro';
+import Footer from '../../components/ui/Footer.astro';
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What languages are supported for transcription?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "English, Spanish, French, German, Italian, Portuguese, Chinese, Japanese, Korean, Russian, and 90+ more languages via OpenAI's Whisper AI model."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is my audio uploaded to a server?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. The Whisper AI model runs entirely in your browser using WebAssembly. Your audio never leaves your device."
+      }
+    }
+  ]
+};
+---
+
+<Layout
+  title="How to Transcribe Audio to Text Free - AI Speech Recognition | New Life"
+  description="Convert speech to text using free AI-powered transcription. Supports 100+ languages, runs entirely in your browser. No upload, no signup required."
+>
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+
+  <Navbar />
+
+  <main class="pt-20 pb-16 px-6 min-h-screen">
+    <article class="max-w-3xl mx-auto">
+
+      <!-- Breadcrumb -->
+      <nav class="text-sm text-[var(--text-muted)] mb-6">
+        <a href="/" class="hover:text-[var(--accent)]">Home</a>
+        <span class="mx-2">/</span>
+        <a href="/guides" class="hover:text-[var(--accent)]">Guides</a>
+        <span class="mx-2">/</span>
+        <span>Transcribe Audio</span>
+      </nav>
+
+      <!-- Header -->
+      <header class="mb-8">
+        <span class="inline-block px-3 py-1 bg-blue-500/20 text-blue-400 rounded text-sm font-medium mb-4">
+          AI Guide
+        </span>
+        <h1 class="text-4xl font-bold text-[var(--text)] mb-4">
+          How to Transcribe Audio to Text Free
+        </h1>
+        <p class="text-xl text-[var(--text-muted)]">
+          Convert speech to text using OpenAI's Whisper AI. 100+ languages, runs locally in your browser.
+        </p>
+      </header>
+
+      <!-- Quick Answer -->
+      <div class="bg-blue-500/10 border border-blue-500/30 rounded-xl p-6 mb-8">
+        <h2 class="text-lg font-semibold text-blue-400 mb-2">Quick Answer</h2>
+        <p class="text-[var(--text)]">
+          Use our <a href="/tools/audio-transcription" class="text-blue-400 underline">free audio transcription tool</a>. Upload any audio/video file, select the language, and let Whisper AI convert speech to text. First use downloads a ~150MB model (cached for future use).
+        </p>
+      </div>
+
+      <!-- Steps -->
+      <section class="mb-10">
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-6">Step-by-Step Instructions</h2>
+
+        <div class="space-y-6">
+          <div class="flex gap-4">
+            <div class="flex-shrink-0 w-10 h-10 bg-[var(--accent)] text-[var(--bg)] rounded-full flex items-center justify-center font-bold">
+              1
+            </div>
+            <div>
+              <h3 class="text-lg font-semibold text-[var(--text)] mb-2">Upload Audio or Video</h3>
+              <p class="text-[var(--text-muted)]">
+                Go to the <a href="/tools/audio-transcription" class="text-[var(--accent)]">transcription tool</a>. Drop an audio file (MP3, WAV, M4A) or video file (MP4, WebM). Audio will be extracted automatically from videos.
+              </p>
+            </div>
+          </div>
+
+          <div class="flex gap-4">
+            <div class="flex-shrink-0 w-10 h-10 bg-[var(--accent)] text-[var(--bg)] rounded-full flex items-center justify-center font-bold">
+              2
+            </div>
+            <div>
+              <h3 class="text-lg font-semibold text-[var(--text)] mb-2">Select Language</h3>
+              <p class="text-[var(--text-muted)]">
+                Choose the audio's language from the dropdown. Whisper AI supports 100+ languages including English, Spanish, French, German, Chinese, Japanese, and more.
+              </p>
+            </div>
+          </div>
+
+          <div class="flex gap-4">
+            <div class="flex-shrink-0 w-10 h-10 bg-[var(--accent)] text-[var(--bg)] rounded-full flex items-center justify-center font-bold">
+              3
+            </div>
+            <div>
+              <h3 class="text-lg font-semibold text-[var(--text)] mb-2">Transcribe and Copy/Download</h3>
+              <p class="text-[var(--text-muted)]">
+                Click "Transcribe Audio with AI". First time downloads the model (~150MB). Copy the text to clipboard or download as a .txt file.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <div class="bg-[var(--bg-secondary)] rounded-xl p-8 text-center mb-10 border border-[var(--border)]">
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-4">Transcribe Your Audio Now</h2>
+        <p class="text-[var(--text-muted)] mb-6">
+          Powered by Whisper AI. Free, private, no signup.
+        </p>
+        <a
+          href="/tools/audio-transcription"
+          class="inline-block px-8 py-4 bg-[var(--accent)] text-[var(--bg)] rounded-lg font-semibold hover:opacity-90 transition-opacity text-lg"
+        >
+          Open Transcription Tool
+        </a>
+      </div>
+
+      <!-- Features -->
+      <section class="mb-10">
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-4">Key Features</h2>
+        <div class="grid md:grid-cols-2 gap-4">
+          <div class="bg-[var(--bg-secondary)] rounded-lg p-4 border border-[var(--border)]">
+            <h3 class="font-semibold text-[var(--text)] mb-2">100+ Languages</h3>
+            <p class="text-sm text-[var(--text-muted)]">Powered by OpenAI's Whisper model, supporting virtually any spoken language.</p>
+          </div>
+          <div class="bg-[var(--bg-secondary)] rounded-lg p-4 border border-[var(--border)]">
+            <h3 class="font-semibold text-[var(--text)] mb-2">100% Private</h3>
+            <p class="text-sm text-[var(--text-muted)]">AI runs in your browser. Audio never leaves your device or touches any server.</p>
+          </div>
+          <div class="bg-[var(--bg-secondary)] rounded-lg p-4 border border-[var(--border)]">
+            <h3 class="font-semibold text-[var(--text)] mb-2">Works Offline</h3>
+            <p class="text-sm text-[var(--text-muted)]">After downloading the model once, transcription works without internet.</p>
+          </div>
+          <div class="bg-[var(--bg-secondary)] rounded-lg p-4 border border-[var(--border)]">
+            <h3 class="font-semibold text-[var(--text)] mb-2">Video Support</h3>
+            <p class="text-sm text-[var(--text-muted)]">Upload video files - audio is automatically extracted for transcription.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- FAQ -->
+      <section class="mb-10">
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-6">Frequently Asked Questions</h2>
+        <div class="space-y-4">
+          <details class="bg-[var(--bg-secondary)] rounded-lg border border-[var(--border)]">
+            <summary class="px-6 py-4 cursor-pointer font-medium text-[var(--text)]">
+              What languages are supported?
+            </summary>
+            <p class="px-6 pb-4 text-[var(--text-muted)]">
+              100+ languages including English, Spanish, French, German, Italian, Portuguese, Chinese, Japanese, Korean, Russian, Arabic, Hindi, and many more via OpenAI's Whisper model.
+            </p>
+          </details>
+          <details class="bg-[var(--bg-secondary)] rounded-lg border border-[var(--border)]">
+            <summary class="px-6 py-4 cursor-pointer font-medium text-[var(--text)]">
+              Is my audio uploaded to a server?
+            </summary>
+            <p class="px-6 pb-4 text-[var(--text-muted)]">
+              No. The Whisper AI model runs entirely in your browser using WebAssembly. Your audio is processed locally and never leaves your device.
+            </p>
+          </details>
+          <details class="bg-[var(--bg-secondary)] rounded-lg border border-[var(--border)]">
+            <summary class="px-6 py-4 cursor-pointer font-medium text-[var(--text)]">
+              Why is the first transcription slow?
+            </summary>
+            <p class="px-6 pb-4 text-[var(--text-muted)]">
+              First use downloads the Whisper AI model (~150MB). This is cached in your browser, so future transcriptions start immediately.
+            </p>
+          </details>
+          <details class="bg-[var(--bg-secondary)] rounded-lg border border-[var(--border)]">
+            <summary class="px-6 py-4 cursor-pointer font-medium text-[var(--text)]">
+              How accurate is the transcription?
+            </summary>
+            <p class="px-6 pb-4 text-[var(--text-muted)]">
+              Whisper AI is highly accurate for clear speech. Background noise, multiple speakers, or accents may reduce accuracy. Best results with single speaker, minimal background noise.
+            </p>
+          </details>
+        </div>
+      </section>
+
+      <!-- Use Cases -->
+      <section class="mb-10">
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-4">Popular Use Cases</h2>
+        <div class="flex flex-wrap gap-3">
+          <span class="px-4 py-2 bg-[var(--bg-secondary)] rounded-lg text-[var(--text-muted)] border border-[var(--border)]">
+            Meeting notes
+          </span>
+          <span class="px-4 py-2 bg-[var(--bg-secondary)] rounded-lg text-[var(--text-muted)] border border-[var(--border)]">
+            Interview transcription
+          </span>
+          <span class="px-4 py-2 bg-[var(--bg-secondary)] rounded-lg text-[var(--text-muted)] border border-[var(--border)]">
+            Podcast show notes
+          </span>
+          <span class="px-4 py-2 bg-[var(--bg-secondary)] rounded-lg text-[var(--text-muted)] border border-[var(--border)]">
+            Video subtitles
+          </span>
+          <span class="px-4 py-2 bg-[var(--bg-secondary)] rounded-lg text-[var(--text-muted)] border border-[var(--border)]">
+            Lecture notes
+          </span>
+        </div>
+      </section>
+
+      <!-- Related -->
+      <section>
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-4">Related Tools</h2>
+        <div class="flex flex-wrap gap-3">
+          <a href="/tools/ocr-extractor" class="px-4 py-2 bg-[var(--bg-secondary)] rounded-lg text-[var(--text-muted)] hover:text-[var(--accent)] border border-[var(--border)]">
+            OCR Text Extractor
+          </a>
+          <a href="/tools/video-to-mp3" class="px-4 py-2 bg-[var(--bg-secondary)] rounded-lg text-[var(--text-muted)] hover:text-[var(--accent)] border border-[var(--border)]">
+            Video to MP3
+          </a>
+          <a href="/tools/word-counter" class="px-4 py-2 bg-[var(--bg-secondary)] rounded-lg text-[var(--text-muted)] hover:text-[var(--accent)] border border-[var(--border)]">
+            Word Counter
+          </a>
+        </div>
+      </section>
+
+    </article>
+  </main>
+
+  <Footer />
+</Layout>

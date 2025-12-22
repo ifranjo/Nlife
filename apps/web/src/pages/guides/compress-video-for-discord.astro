@@ -1,0 +1,252 @@
+---
+/**
+ * Guide: How to Compress Video for Discord
+ * Target query: "compress video for discord", "discord video limit", "reduce video size"
+ */
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/ui/Navbar.astro';
+import Footer from '../../components/ui/Footer.astro';
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is Discord's video file size limit?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Discord free tier: 25MB. Nitro Basic: 50MB. Nitro: 500MB. Our compressor can reduce most videos to fit these limits."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Will compression reduce video quality?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Some quality loss is normal when compressing. Use our 'High' quality setting to minimize visible degradation while still reducing file size."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is my video uploaded to a server?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. All compression happens in your browser using FFmpeg WebAssembly. Your video never leaves your device."
+      }
+    }
+  ]
+};
+---
+
+<Layout
+  title="How to Compress Video for Discord (Under 25MB) Free | New Life"
+  description="Learn how to reduce video file size for Discord's 25MB limit. Free browser-based compressor with no upload required. Works for WhatsApp, email, and more."
+>
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+
+  <Navbar />
+
+  <main class="pt-20 pb-16 px-6 min-h-screen">
+    <article class="max-w-3xl mx-auto">
+
+      <!-- Breadcrumb -->
+      <nav class="text-sm text-[var(--text-muted)] mb-6">
+        <a href="/" class="hover:text-[var(--accent)]">Home</a>
+        <span class="mx-2">/</span>
+        <a href="/guides" class="hover:text-[var(--accent)]">Guides</a>
+        <span class="mx-2">/</span>
+        <span>Compress Video for Discord</span>
+      </nav>
+
+      <!-- Header -->
+      <header class="mb-8">
+        <span class="inline-block px-3 py-1 bg-purple-500/20 text-purple-400 rounded text-sm font-medium mb-4">
+          Video Guide
+        </span>
+        <h1 class="text-4xl font-bold text-[var(--text)] mb-4">
+          How to Compress Video for Discord
+        </h1>
+        <p class="text-xl text-[var(--text-muted)]">
+          Reduce video file size to fit Discord's 25MB limit. No upload, no watermark, completely free.
+        </p>
+      </header>
+
+      <!-- Discord Limits Info -->
+      <div class="bg-purple-500/10 border border-purple-500/30 rounded-xl p-6 mb-8">
+        <h2 class="text-lg font-semibold text-purple-400 mb-3">Discord File Size Limits</h2>
+        <div class="grid grid-cols-3 gap-4 text-center">
+          <div>
+            <div class="text-2xl font-bold text-[var(--text)]">25MB</div>
+            <div class="text-sm text-[var(--text-muted)]">Free</div>
+          </div>
+          <div>
+            <div class="text-2xl font-bold text-[var(--text)]">50MB</div>
+            <div class="text-sm text-[var(--text-muted)]">Nitro Basic</div>
+          </div>
+          <div>
+            <div class="text-2xl font-bold text-[var(--text)]">500MB</div>
+            <div class="text-sm text-[var(--text-muted)]">Nitro</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Steps -->
+      <section class="mb-10">
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-6">Step-by-Step Instructions</h2>
+
+        <div class="space-y-6">
+          <div class="flex gap-4">
+            <div class="flex-shrink-0 w-10 h-10 bg-[var(--accent)] text-[var(--bg)] rounded-full flex items-center justify-center font-bold">
+              1
+            </div>
+            <div>
+              <h3 class="text-lg font-semibold text-[var(--text)] mb-2">Open the Video Compressor</h3>
+              <p class="text-[var(--text-muted)]">
+                Go to our <a href="/tools/video-compressor" class="text-[var(--accent)]">free video compressor</a>. Drop your video file or click to browse.
+              </p>
+            </div>
+          </div>
+
+          <div class="flex gap-4">
+            <div class="flex-shrink-0 w-10 h-10 bg-[var(--accent)] text-[var(--bg)] rounded-full flex items-center justify-center font-bold">
+              2
+            </div>
+            <div>
+              <h3 class="text-lg font-semibold text-[var(--text)] mb-2">Choose Quality Setting</h3>
+              <p class="text-[var(--text-muted)]">
+                Select compression level: <strong>Low</strong> (smallest file), <strong>Medium</strong> (balanced), or <strong>High</strong> (best quality). For Discord, start with Medium.
+              </p>
+            </div>
+          </div>
+
+          <div class="flex gap-4">
+            <div class="flex-shrink-0 w-10 h-10 bg-[var(--accent)] text-[var(--bg)] rounded-full flex items-center justify-center font-bold">
+              3
+            </div>
+            <div>
+              <h3 class="text-lg font-semibold text-[var(--text)] mb-2">Compress and Download</h3>
+              <p class="text-[var(--text-muted)]">
+                Click "Compress Video". Processing happens in your browser. Download when complete and upload to Discord.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <div class="bg-[var(--bg-secondary)] rounded-xl p-8 text-center mb-10 border border-[var(--border)]">
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-4">Compress Your Video Now</h2>
+        <p class="text-[var(--text-muted)] mb-6">
+          Free, private, works with any video format.
+        </p>
+        <a
+          href="/tools/video-compressor"
+          class="inline-block px-8 py-4 bg-[var(--accent)] text-[var(--bg)] rounded-lg font-semibold hover:opacity-90 transition-opacity text-lg"
+        >
+          Open Video Compressor
+        </a>
+      </div>
+
+      <!-- Tips -->
+      <section class="mb-10">
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-4">Tips for Best Results</h2>
+        <ul class="space-y-3 text-[var(--text-muted)]">
+          <li class="flex gap-3">
+            <span class="text-[var(--accent)]">1.</span>
+            <span><strong>Trim first</strong> - Use our <a href="/tools/video-trimmer" class="text-[var(--accent)]">video trimmer</a> to cut unnecessary parts before compressing.</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="text-[var(--accent)]">2.</span>
+            <span><strong>Start with Medium</strong> - If the file is still too large, try Low quality setting.</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="text-[var(--accent)]">3.</span>
+            <span><strong>Check resolution</strong> - 720p is usually sufficient for Discord. Higher resolutions = larger files.</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="text-[var(--accent)]">4.</span>
+            <span><strong>Short is sweet</strong> - Aim for clips under 30 seconds for best file size.</span>
+          </li>
+        </ul>
+      </section>
+
+      <!-- FAQ -->
+      <section class="mb-10">
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-6">Frequently Asked Questions</h2>
+        <div class="space-y-4">
+          <details class="bg-[var(--bg-secondary)] rounded-lg border border-[var(--border)]">
+            <summary class="px-6 py-4 cursor-pointer font-medium text-[var(--text)]">
+              What is Discord's video file size limit?
+            </summary>
+            <p class="px-6 pb-4 text-[var(--text-muted)]">
+              Discord free tier: 25MB. Nitro Basic: 50MB. Nitro: 500MB. Our compressor can typically reduce videos by 50-90% to fit these limits.
+            </p>
+          </details>
+          <details class="bg-[var(--bg-secondary)] rounded-lg border border-[var(--border)]">
+            <summary class="px-6 py-4 cursor-pointer font-medium text-[var(--text)]">
+              Will compression reduce video quality?
+            </summary>
+            <p class="px-6 pb-4 text-[var(--text-muted)]">
+              Some quality loss is inherent to compression. Use the "High" quality setting to minimize visible degradation. For most Discord use cases, the difference is barely noticeable.
+            </p>
+          </details>
+          <details class="bg-[var(--bg-secondary)] rounded-lg border border-[var(--border)]">
+            <summary class="px-6 py-4 cursor-pointer font-medium text-[var(--text)]">
+              Is my video uploaded to a server?
+            </summary>
+            <p class="px-6 pb-4 text-[var(--text-muted)]">
+              No. All compression happens locally in your browser using FFmpeg WebAssembly. Your video never leaves your device until you choose to share it.
+            </p>
+          </details>
+          <details class="bg-[var(--bg-secondary)] rounded-lg border border-[var(--border)]">
+            <summary class="px-6 py-4 cursor-pointer font-medium text-[var(--text)]">
+              What video formats are supported?
+            </summary>
+            <p class="px-6 pb-4 text-[var(--text-muted)]">
+              MP4, WebM, MOV, AVI, and most common video formats. Output is always MP4 (H.264) for maximum compatibility.
+            </p>
+          </details>
+        </div>
+      </section>
+
+      <!-- Also Works For -->
+      <section class="mb-10">
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-4">Also Works For</h2>
+        <div class="flex flex-wrap gap-3">
+          <span class="px-4 py-2 bg-[var(--bg-secondary)] rounded-lg text-[var(--text-muted)] border border-[var(--border)]">
+            WhatsApp (16MB)
+          </span>
+          <span class="px-4 py-2 bg-[var(--bg-secondary)] rounded-lg text-[var(--text-muted)] border border-[var(--border)]">
+            Email (25MB typical)
+          </span>
+          <span class="px-4 py-2 bg-[var(--bg-secondary)] rounded-lg text-[var(--text-muted)] border border-[var(--border)]">
+            Telegram (2GB)
+          </span>
+          <span class="px-4 py-2 bg-[var(--bg-secondary)] rounded-lg text-[var(--text-muted)] border border-[var(--border)]">
+            Slack (varies)
+          </span>
+        </div>
+      </section>
+
+      <!-- Related -->
+      <section>
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-4">Related Tools</h2>
+        <div class="flex flex-wrap gap-3">
+          <a href="/tools/video-trimmer" class="px-4 py-2 bg-[var(--bg-secondary)] rounded-lg text-[var(--text-muted)] hover:text-[var(--accent)] border border-[var(--border)]">
+            Video Trimmer
+          </a>
+          <a href="/tools/video-to-mp3" class="px-4 py-2 bg-[var(--bg-secondary)] rounded-lg text-[var(--text-muted)] hover:text-[var(--accent)] border border-[var(--border)]">
+            Video to MP3
+          </a>
+          <a href="/tools/image-compress" class="px-4 py-2 bg-[var(--bg-secondary)] rounded-lg text-[var(--text-muted)] hover:text-[var(--accent)] border border-[var(--border)]">
+            Image Compress
+          </a>
+        </div>
+      </section>
+
+    </article>
+  </main>
+
+  <Footer />
+</Layout>
