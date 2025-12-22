@@ -1,0 +1,163 @@
+---
+/**
+ * Programmatic SEO: Compress Video for Email
+ * Target: "compress video for email", "reduce video size email", "email video attachment"
+ */
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/ui/Navbar.astro';
+import Footer from '../../components/ui/Footer.astro';
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "How to Compress Videos for Email Attachments",
+  "description": "Reduce video file size to fit email attachment limits. Works with Gmail, Outlook, and other email providers.",
+  "step": [
+    { "@type": "HowToStep", "text": "Upload your video file" },
+    { "@type": "HowToStep", "text": "Select target size (under 25MB for most email)" },
+    { "@type": "HowToStep", "text": "Click Compress to reduce file size" },
+    { "@type": "HowToStep", "text": "Download and attach to your email" }
+  ]
+};
+---
+
+<Layout
+  title="Compress Video for Email Free - Reduce Video Size | New Life"
+  description="Compress videos to fit email attachment limits. Reduce video size for Gmail (25MB), Outlook (20MB), and other email services. Free, browser-based."
+>
+  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+  <Navbar />
+
+  <main class="pt-20 pb-16 px-6 min-h-screen">
+    <article class="max-w-3xl mx-auto">
+      <nav class="text-sm text-[var(--text-muted)] mb-6">
+        <a href="/" class="hover:text-[var(--accent)]">Home</a>
+        <span class="mx-2">/</span>
+        <a href="/tools/video-compressor" class="hover:text-[var(--accent)]">Video Compressor</a>
+        <span class="mx-2">/</span>
+        <span>Email</span>
+      </nav>
+
+      <header class="mb-8">
+        <span class="inline-block px-3 py-1 bg-blue-500/20 text-blue-400 rounded text-sm font-medium mb-4">
+          Email Use Case
+        </span>
+        <h1 class="text-4xl font-bold text-[var(--text)] mb-4">
+          Compress Video for Email Attachments
+        </h1>
+        <p class="text-xl text-[var(--text-muted)]">
+          Reduce video file size to fit Gmail, Outlook, Yahoo, and other email attachment limits.
+        </p>
+      </header>
+
+      <div class="bg-blue-500/10 border border-blue-500/30 rounded-xl p-6 mb-8">
+        <h2 class="text-lg font-semibold text-blue-400 mb-3">Email Attachment Limits</h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+          <div>
+            <div class="text-2xl font-bold text-[var(--text)]">25MB</div>
+            <div class="text-sm text-[var(--text-muted)]">Gmail</div>
+          </div>
+          <div>
+            <div class="text-2xl font-bold text-[var(--text)]">20MB</div>
+            <div class="text-sm text-[var(--text-muted)]">Outlook</div>
+          </div>
+          <div>
+            <div class="text-2xl font-bold text-[var(--text)]">25MB</div>
+            <div class="text-sm text-[var(--text-muted)]">Yahoo</div>
+          </div>
+          <div>
+            <div class="text-2xl font-bold text-[var(--text)]">20MB</div>
+            <div class="text-sm text-[var(--text-muted)]">iCloud</div>
+          </div>
+        </div>
+      </div>
+
+      <section class="mb-10">
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-4">Why Compress Videos for Email?</h2>
+        <ul class="space-y-3 text-[var(--text-muted)]">
+          <li class="flex gap-3">
+            <span class="text-blue-400">•</span>
+            <span><strong class="text-[var(--text)]">Bypass attachment limits</strong> - Most emails cap at 20-25MB</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="text-blue-400">•</span>
+            <span><strong class="text-[var(--text)]">Faster sending</strong> - Smaller files upload and send quicker</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="text-blue-400">•</span>
+            <span><strong class="text-[var(--text)]">Recipient-friendly</strong> - Downloads faster on their end</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="text-blue-400">•</span>
+            <span><strong class="text-[var(--text)]">No cloud links needed</strong> - Send directly as attachment</span>
+          </li>
+        </ul>
+      </section>
+
+      <div class="bg-[var(--bg-secondary)] rounded-xl p-8 text-center mb-10 border border-[var(--border)]">
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-4">Compress Your Video Now</h2>
+        <p class="text-[var(--text-muted)] mb-6">Free, secure, works in your browser.</p>
+        <a
+          href="/tools/video-compressor"
+          class="inline-block px-8 py-4 bg-[var(--accent)] text-[var(--bg)] rounded-lg font-semibold hover:opacity-90 transition-opacity text-lg"
+        >
+          Open Video Compressor
+        </a>
+      </div>
+
+      <section class="mb-10">
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-4">Recommended Settings for Email</h2>
+        <div class="bg-[var(--bg-secondary)] rounded-lg p-6 border border-[var(--border)]">
+          <table class="w-full text-sm">
+            <thead>
+              <tr class="text-left text-[var(--text-muted)]">
+                <th class="pb-3">Video Length</th>
+                <th class="pb-3">Target Size</th>
+                <th class="pb-3">Quality</th>
+              </tr>
+            </thead>
+            <tbody class="text-[var(--text)]">
+              <tr class="border-t border-[var(--border)]">
+                <td class="py-3">Under 1 min</td>
+                <td>15-20MB</td>
+                <td>High (720p)</td>
+              </tr>
+              <tr class="border-t border-[var(--border)]">
+                <td class="py-3">1-3 minutes</td>
+                <td>15-20MB</td>
+                <td>Medium (480p)</td>
+              </tr>
+              <tr class="border-t border-[var(--border)]">
+                <td class="py-3">3-5 minutes</td>
+                <td>20-25MB</td>
+                <td>Medium (480p)</td>
+              </tr>
+              <tr class="border-t border-[var(--border)]">
+                <td class="py-3">5+ minutes</td>
+                <td>Consider cloud link</td>
+                <td>-</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-4">Related Tools</h2>
+        <div class="flex flex-wrap gap-3">
+          <a href="/tools/video-trimmer" class="px-4 py-2 bg-[var(--bg-secondary)] rounded-lg text-[var(--text-muted)] hover:text-[var(--accent)] border border-[var(--border)]">
+            Trim Video
+          </a>
+          <a href="/tools/video-to-mp3" class="px-4 py-2 bg-[var(--bg-secondary)] rounded-lg text-[var(--text-muted)] hover:text-[var(--accent)] border border-[var(--border)]">
+            Extract Audio Only
+          </a>
+          <a href="/use-cases/compress-video-whatsapp" class="px-4 py-2 bg-[var(--bg-secondary)] rounded-lg text-[var(--text-muted)] hover:text-[var(--accent)] border border-[var(--border)]">
+            Compress for WhatsApp
+          </a>
+        </div>
+      </section>
+    </article>
+  </main>
+
+  <Footer />
+</Layout>

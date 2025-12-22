@@ -1,0 +1,130 @@
+---
+/**
+ * Programmatic SEO: PDF Merge for Invoices
+ * Target: "merge invoices pdf", "combine invoice pdfs", "merge multiple invoices"
+ */
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/ui/Navbar.astro';
+import Footer from '../../components/ui/Footer.astro';
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "How to Merge Invoices into One PDF",
+  "description": "Combine multiple invoice PDFs into a single document for accounting, tax filing, or record keeping.",
+  "step": [
+    { "@type": "HowToStep", "text": "Upload your invoice PDFs" },
+    { "@type": "HowToStep", "text": "Arrange invoices in chronological order" },
+    { "@type": "HowToStep", "text": "Click Merge to combine into one PDF" },
+    { "@type": "HowToStep", "text": "Download your merged invoice document" }
+  ]
+};
+---
+
+<Layout
+  title="Merge Invoice PDFs Free - Combine Multiple Invoices | New Life"
+  description="Merge multiple invoice PDFs into one document. Perfect for accounting, tax preparation, and record keeping. Free, secure, browser-based."
+>
+  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+  <Navbar />
+
+  <main class="pt-20 pb-16 px-6 min-h-screen">
+    <article class="max-w-3xl mx-auto">
+      <nav class="text-sm text-[var(--text-muted)] mb-6">
+        <a href="/" class="hover:text-[var(--accent)]">Home</a>
+        <span class="mx-2">/</span>
+        <a href="/tools/pdf-merge" class="hover:text-[var(--accent)]">PDF Merge</a>
+        <span class="mx-2">/</span>
+        <span>Invoices</span>
+      </nav>
+
+      <header class="mb-8">
+        <span class="inline-block px-3 py-1 bg-emerald-500/20 text-emerald-400 rounded text-sm font-medium mb-4">
+          Business Use Case
+        </span>
+        <h1 class="text-4xl font-bold text-[var(--text)] mb-4">
+          Merge Invoice PDFs into One Document
+        </h1>
+        <p class="text-xl text-[var(--text-muted)]">
+          Combine multiple invoices for accounting, tax filing, expense reports, or client billing.
+        </p>
+      </header>
+
+      <div class="bg-emerald-500/10 border border-emerald-500/30 rounded-xl p-6 mb-8">
+        <h2 class="text-lg font-semibold text-emerald-400 mb-2">Quick Solution</h2>
+        <p class="text-[var(--text)]">
+          Use our <a href="/tools/pdf-merge" class="text-emerald-400 underline">free PDF merger</a> to combine all your invoices. Drag, drop, arrange, merge. No signup, no watermarks, 100% free.
+        </p>
+      </div>
+
+      <section class="mb-10">
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-4">Why Merge Invoice PDFs?</h2>
+        <div class="grid md:grid-cols-2 gap-4">
+          <div class="bg-[var(--bg-secondary)] rounded-lg p-4 border border-[var(--border)]">
+            <h3 class="font-semibold text-[var(--text)] mb-2">Tax Preparation</h3>
+            <p class="text-sm text-[var(--text-muted)]">Combine all vendor invoices into one file for easy submission to your accountant or tax software.</p>
+          </div>
+          <div class="bg-[var(--bg-secondary)] rounded-lg p-4 border border-[var(--border)]">
+            <h3 class="font-semibold text-[var(--text)] mb-2">Expense Reports</h3>
+            <p class="text-sm text-[var(--text-muted)]">Merge receipts and invoices for reimbursement requests - one PDF, all expenses.</p>
+          </div>
+          <div class="bg-[var(--bg-secondary)] rounded-lg p-4 border border-[var(--border)]">
+            <h3 class="font-semibold text-[var(--text)] mb-2">Client Billing</h3>
+            <p class="text-sm text-[var(--text-muted)]">Combine multiple invoices into a consolidated statement for your clients.</p>
+          </div>
+          <div class="bg-[var(--bg-secondary)] rounded-lg p-4 border border-[var(--border)]">
+            <h3 class="font-semibold text-[var(--text)] mb-2">Record Keeping</h3>
+            <p class="text-sm text-[var(--text-muted)]">Organize monthly or quarterly invoices into single archive files.</p>
+          </div>
+        </div>
+      </section>
+
+      <div class="bg-[var(--bg-secondary)] rounded-xl p-8 text-center mb-10 border border-[var(--border)]">
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-4">Merge Your Invoices Now</h2>
+        <p class="text-[var(--text-muted)] mb-6">Free, secure, no signup required.</p>
+        <a
+          href="/tools/pdf-merge"
+          class="inline-block px-8 py-4 bg-[var(--accent)] text-[var(--bg)] rounded-lg font-semibold hover:opacity-90 transition-opacity text-lg"
+        >
+          Open PDF Merger
+        </a>
+      </div>
+
+      <section class="mb-10">
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-4">How It Works</h2>
+        <ol class="space-y-4 text-[var(--text-muted)]">
+          <li class="flex gap-3">
+            <span class="flex-shrink-0 w-8 h-8 bg-[var(--accent)] text-[var(--bg)] rounded-full flex items-center justify-center font-bold text-sm">1</span>
+            <span><strong class="text-[var(--text)]">Upload</strong> - Drag and drop your invoice PDFs into the tool</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="flex-shrink-0 w-8 h-8 bg-[var(--accent)] text-[var(--bg)] rounded-full flex items-center justify-center font-bold text-sm">2</span>
+            <span><strong class="text-[var(--text)]">Arrange</strong> - Reorder invoices by date or vendor</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="flex-shrink-0 w-8 h-8 bg-[var(--accent)] text-[var(--bg)] rounded-full flex items-center justify-center font-bold text-sm">3</span>
+            <span><strong class="text-[var(--text)]">Merge</strong> - Click to combine into one PDF</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="flex-shrink-0 w-8 h-8 bg-[var(--accent)] text-[var(--bg)] rounded-full flex items-center justify-center font-bold text-sm">4</span>
+            <span><strong class="text-[var(--text)]">Download</strong> - Get your merged invoice document</span>
+          </li>
+        </ol>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-4">Related Tools</h2>
+        <div class="flex flex-wrap gap-3">
+          <a href="/tools/pdf-split" class="px-4 py-2 bg-[var(--bg-secondary)] rounded-lg text-[var(--text-muted)] hover:text-[var(--accent)] border border-[var(--border)]">
+            Split PDF
+          </a>
+          <a href="/tools/ocr-extractor" class="px-4 py-2 bg-[var(--bg-secondary)] rounded-lg text-[var(--text-muted)] hover:text-[var(--accent)] border border-[var(--border)]">
+            Extract Text from Invoice
+          </a>
+        </div>
+      </section>
+    </article>
+  </main>
+
+  <Footer />
+</Layout>
