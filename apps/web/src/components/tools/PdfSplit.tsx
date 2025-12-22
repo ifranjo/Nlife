@@ -163,7 +163,7 @@ export default function PdfSplit() {
           zip.file(`${fileName}_page_${pageIndices[0] + 1}.pdf`, pdfBytes);
         } else {
           // For range/extract, download single file directly
-          const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+          const blob = new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' });
           const url = URL.createObjectURL(blob);
           const link = document.createElement('a');
           link.href = url;

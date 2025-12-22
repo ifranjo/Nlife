@@ -196,7 +196,7 @@ export default function PdfFormFiller() {
     );
   };
 
-  const handleCanvasClick = (e: React.MouseEvent<HTMLCanvasElement>) => {
+  const handleCanvasClick = (e: React.MouseEvent<HTMLElement>) => {
     if (toolMode === 'form' || !previewCanvasRef.current) return;
 
     const canvas = previewCanvasRef.current;
@@ -470,7 +470,7 @@ export default function PdfFormFiller() {
       }
 
       const filledPdfBytes = await pdf.save();
-      const blob = new Blob([filledPdfBytes.buffer], { type: 'application/pdf' });
+      const blob = new Blob([new Uint8Array(filledPdfBytes)], { type: 'application/pdf' });
       const url = URL.createObjectURL(blob);
 
       // Download

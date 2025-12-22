@@ -129,7 +129,7 @@ export default function OcrExtractor() {
         // Note: pdf-lib doesn't render, so we'll use a different approach
         // We need to create a data URL from the PDF
         const pdfBytes = await pdfDoc.save();
-        const blob = new Blob([pdfBytes.buffer], { type: 'application/pdf' });
+        const blob = new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' });
         imageData = new File([blob], 'temp.pdf', { type: 'application/pdf' });
       }
 
@@ -249,7 +249,7 @@ export default function OcrExtractor() {
       });
 
       const pdfBytes = await pdfDoc.save();
-      const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+      const blob = new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' });
       const url = URL.createObjectURL(blob);
 
       const link = document.createElement('a');

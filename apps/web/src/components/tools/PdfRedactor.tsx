@@ -176,7 +176,7 @@ export default function PdfRedactor() {
         await page.render({
           canvasContext: context,
           viewport: viewport,
-        }).promise;
+        } as Parameters<typeof page.render>[0]).promise;
 
         renderedPages.push({
           pageIndex: i - 1,
@@ -404,7 +404,7 @@ export default function PdfRedactor() {
       }
 
       const redactedPdfBytes = await pdfDoc.save();
-      const blob = new Blob([redactedPdfBytes.buffer], { type: 'application/pdf' });
+      const blob = new Blob([new Uint8Array(redactedPdfBytes)], { type: 'application/pdf' });
       const url = URL.createObjectURL(blob);
 
       // Download
@@ -724,7 +724,7 @@ export default function PdfRedactor() {
                         className="border border-slate-700 rounded-lg max-w-full"
                       />
                       <div
-                        ref={(el) => (overlayRefs.current[currentPage] = el)}
+                        ref={(el) => { overlayRefs.current[currentPage] = el; }}
                         onMouseDown={(e) => handleMouseDown(e, currentPage)}
                         onMouseMove={(e) => handleMouseMove(e, currentPage)}
                         onMouseUp={(e) => handleMouseUp(e, currentPage)}
