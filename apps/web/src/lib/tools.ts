@@ -36,6 +36,50 @@ export const tools: Tool[] = [
     href: '/tools/pdf-split',
     color: 'from-orange-500 to-yellow-500'
   },
+  {
+    id: 'pdf-redactor',
+    name: 'PDF Redactor',
+    description: 'Permanently redact sensitive information from PDFs. Auto-detect SSN, emails, phone numbers.',
+    icon: '🔒',
+    thumbnail: '/thumbnails/pdf-redactor.svg',
+    category: 'document',
+    tier: 'free',
+    href: '/tools/pdf-redactor',
+    color: 'from-red-500 to-rose-500'
+  },
+  {
+    id: 'pdf-form-filler',
+    name: 'PDF Form Filler',
+    description: 'Fill PDF forms and add signatures. HIPAA-safe - your documents never leave your browser.',
+    icon: '✍️',
+    thumbnail: '/thumbnails/pdf-form-filler.svg',
+    category: 'document',
+    tier: 'free',
+    href: '/tools/pdf-form-filler',
+    color: 'from-emerald-500 to-teal-500'
+  },
+  {
+    id: 'ocr-extractor',
+    name: 'OCR Text Extractor',
+    description: 'Extract text from images and PDFs using AI-powered OCR. 100% private, runs in your browser.',
+    icon: '📝',
+    thumbnail: '/thumbnails/ocr-extractor.svg',
+    category: 'document',
+    tier: 'free',
+    href: '/tools/ocr-extractor',
+    color: 'from-cyan-500 to-blue-500'
+  },
+  {
+    id: 'document-scanner',
+    name: 'Document Scanner',
+    description: 'Scan documents with your camera. Auto edge detection and PDF export. Works offline.',
+    icon: '📷',
+    thumbnail: '/thumbnails/document-scanner.svg',
+    category: 'document',
+    tier: 'free',
+    href: '/tools/document-scanner',
+    color: 'from-violet-500 to-purple-500'
+  },
 
   // ═══════════════════════════════════════════════════════════════
   // MEDIA TOOLS
@@ -50,6 +94,17 @@ export const tools: Tool[] = [
     tier: 'free',
     href: '/tools/image-compress',
     color: 'from-green-500 to-emerald-500'
+  },
+  {
+    id: 'background-remover',
+    name: 'Background Remover',
+    description: 'Remove image backgrounds instantly with AI. 100% private - runs entirely in your browser.',
+    icon: '✂️',
+    thumbnail: '/thumbnails/background-remover.svg',
+    category: 'media',
+    tier: 'free',
+    href: '/tools/background-remover',
+    color: 'from-fuchsia-500 to-pink-500'
   },
 
   // ═══════════════════════════════════════════════════════════════

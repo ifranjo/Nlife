@@ -1,0 +1,245 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/ui/Navbar.astro';
+import Footer from '../../components/ui/Footer.astro';
+import DocumentScanner from '../../components/tools/DocumentScanner';
+---
+
+<Layout title="Document Scanner - New Life Solutions">
+  <Navbar />
+
+  <main class="pt-20 pb-16 px-6 min-h-screen">
+    <div class="max-w-5xl mx-auto">
+      <!-- Back to Hub -->
+      <a
+        href="/hub"
+        class="inline-flex items-center gap-2 text-slate-400 hover:text-white transition-colors mb-8 group"
+      >
+        <svg
+          class="w-5 h-5 group-hover:-translate-x-1 transition-transform"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M15 19l-7-7 7-7"
+          />
+        </svg>
+        <span>Back to Tool Hub</span>
+      </a>
+
+      <!-- Tool Header -->
+      <div class="text-center mb-12">
+        <div class="text-6xl mb-4 animate-fadeIn">📷</div>
+        <h1 class="text-4xl md:text-5xl font-bold text-white mb-4 animate-fadeIn">
+          Document Scanner
+        </h1>
+        <p class="text-lg text-slate-400 max-w-2xl mx-auto animate-fadeIn">
+          Scan documents with your camera. Auto edge detection, perspective correction,
+          and export to PDF or images. Works completely offline.
+        </p>
+      </div>
+
+      <!-- Features -->
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-12">
+        <div class="glass-card p-4 text-center">
+          <div class="text-2xl mb-2">📸</div>
+          <h3 class="text-sm font-semibold text-white mb-1">Auto Detection</h3>
+          <p class="text-xs text-slate-400">Automatically detect document edges</p>
+        </div>
+        <div class="glass-card p-4 text-center">
+          <div class="text-2xl mb-2">🔄</div>
+          <h3 class="text-sm font-semibold text-white mb-1">Perspective Fix</h3>
+          <p class="text-xs text-slate-400">Correct skewed or angled photos</p>
+        </div>
+        <div class="glass-card p-4 text-center">
+          <div class="text-2xl mb-2">✨</div>
+          <h3 class="text-sm font-semibold text-white mb-1">Enhancement</h3>
+          <p class="text-xs text-slate-400">Adjust brightness, contrast, B&W</p>
+        </div>
+        <div class="glass-card p-4 text-center">
+          <div class="text-2xl mb-2">📄</div>
+          <h3 class="text-sm font-semibold text-white mb-1">Multi-Page PDF</h3>
+          <p class="text-xs text-slate-400">Combine all scans into one PDF</p>
+        </div>
+      </div>
+
+      <!-- Tool Component -->
+      <DocumentScanner client:load />
+
+      <!-- Usage Guide -->
+      <div class="mt-12 glass-card p-6">
+        <h3 class="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
+          <span>How to Use</span>
+        </h3>
+        <div class="space-y-3 text-slate-300 text-sm">
+          <div class="flex gap-3">
+            <span class="text-violet-400 font-semibold">1.</span>
+            <p><strong>Start Camera</strong> - Click the button to activate your device camera</p>
+          </div>
+          <div class="flex gap-3">
+            <span class="text-violet-400 font-semibold">2.</span>
+            <p><strong>Position Document</strong> - Place the document in view. The tool will automatically detect edges (green outline)</p>
+          </div>
+          <div class="flex gap-3">
+            <span class="text-violet-400 font-semibold">3.</span>
+            <p><strong>Adjust Settings</strong> - Use brightness, contrast, and B&W filters to enhance readability</p>
+          </div>
+          <div class="flex gap-3">
+            <span class="text-violet-400 font-semibold">4.</span>
+            <p><strong>Capture</strong> - Click capture button to scan the page. Add more pages as needed</p>
+          </div>
+          <div class="flex gap-3">
+            <span class="text-violet-400 font-semibold">5.</span>
+            <p><strong>Download</strong> - Export as PDF (all pages combined) or as individual images in a ZIP file</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tips -->
+      <div class="mt-6 glass-card p-6">
+        <h3 class="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
+            />
+          </svg>
+          <span>Pro Tips</span>
+        </h3>
+        <ul class="space-y-2 text-slate-300 text-sm list-disc list-inside">
+          <li>Use good lighting for best results - natural light works great</li>
+          <li>Place document on a contrasting background (dark document on light surface or vice versa)</li>
+          <li>Keep camera parallel to the document to reduce perspective distortion</li>
+          <li>Enable B&W mode for text documents to reduce file size and improve readability</li>
+          <li>Reorder pages by dragging them in the scanned pages section</li>
+          <li>Click on thumbnails to preview the full-size image</li>
+        </ul>
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+  .glass-card {
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%);
+    color: white;
+    font-weight: 600;
+    padding: 12px 24px;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+  }
+
+  .btn-primary:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(139, 92, 246, 0.3);
+  }
+
+  .btn-primary:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fadeIn {
+    animation: fadeIn 0.5s ease-out forwards;
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .spinner {
+    animation: spin 1s linear infinite;
+  }
+
+  /* Camera video styling */
+  video {
+    display: block;
+    max-width: 100%;
+  }
+
+  /* Range input styling */
+  input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 6px;
+    background: rgba(148, 163, 184, 0.3);
+    border-radius: 3px;
+    outline: none;
+  }
+
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  input[type="range"]::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+    box-shadow: 0 0 10px rgba(139, 92, 246, 0.5);
+  }
+
+  input[type="range"]::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%);
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s ease;
+  }
+
+  input[type="range"]::-moz-range-thumb:hover {
+    transform: scale(1.2);
+    box-shadow: 0 0 10px rgba(139, 92, 246, 0.5);
+  }
+
+  /* Checkbox styling */
+  input[type="checkbox"] {
+    accent-color: #8b5cf6;
+    cursor: pointer;
+  }
+</style>
