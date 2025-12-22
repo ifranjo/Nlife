@@ -26,7 +26,10 @@ export const tools: Tool[] = [
     category: 'document',
     tier: 'free',
     href: '/tools/pdf-merge',
-    color: 'from-red-500 to-orange-500'
+    color: 'from-red-500 to-orange-500',
+    tags: ['pdf', 'merge', 'combine', 'document'],
+    popular: true,
+    releaseDate: '2024-12-01'
   },
   {
     id: 'pdf-split',
@@ -37,7 +40,10 @@ export const tools: Tool[] = [
     category: 'document',
     tier: 'free',
     href: '/tools/pdf-split',
-    color: 'from-orange-500 to-yellow-500'
+    color: 'from-orange-500 to-yellow-500',
+    tags: ['pdf', 'split', 'extract', 'pages'],
+    popular: true,
+    releaseDate: '2024-12-05'
   },
   {
     id: 'pdf-redactor',
@@ -96,7 +102,10 @@ export const tools: Tool[] = [
     category: 'media',
     tier: 'free',
     href: '/tools/image-compress',
-    color: 'from-green-500 to-emerald-500'
+    color: 'from-green-500 to-emerald-500',
+    tags: ['image', 'compress', 'optimize', 'png', 'jpeg', 'webp'],
+    popular: true,
+    releaseDate: '2024-12-10'
   },
   {
     id: 'background-remover',
@@ -122,7 +131,10 @@ export const tools: Tool[] = [
     category: 'utility',
     tier: 'free',
     href: '/tools/qr-generator',
-    color: 'from-indigo-500 to-violet-500'
+    color: 'from-indigo-500 to-violet-500',
+    tags: ['qr', 'code', 'generator', 'barcode'],
+    popular: true,
+    releaseDate: '2024-12-15'
   },
   {
     id: 'base64',

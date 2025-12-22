@@ -2,15 +2,83 @@
 import Layout from '../layouts/Layout.astro';
 import Navbar from '../components/ui/Navbar.astro';
 import Hero from '../components/ui/Hero.astro';
-import ToolGrid from '../components/ui/ToolGrid.astro';
+import { ToolHub } from '../components/tools/ToolHub';
 import Footer from '../components/ui/Footer.astro';
+import { tools } from '../lib/tools';
+
+// SEO metadata
+const title = 'Tool Hub - New Life Solutions';
+const description = 'Browse all 11+ free browser-based tools for PDF, image, and document processing. 100% private, no uploads required.';
 ---
 
-<Layout>
+<Layout title={title} description={description}>
   <Navbar />
   <main class="pt-16">
     <Hero />
-    <ToolGrid />
+
+    <!-- Tool Hub with Search and Filters -->
+    <section id="tools" class="py-20 px-6">
+      <div class="max-w-7xl mx-auto">
+        <!-- SEO-friendly heading structure -->
+        <div class="text-center mb-16">
+          <div class="text-3xl mb-4 opacity-60">◇</div>
+          <h1 class="text-2xl uppercase tracking-[0.3em] mb-4">Tool Hub</h1>
+          <p class="text-[var(--text-dim)] text-sm max-w-2xl mx-auto leading-relaxed">
+            Browse our collection of 11+ free browser-based tools. Search, filter by category,
+            or sort by popularity to find exactly what you need.
+          </p>
+        </div>
+
+        <!-- Interactive Tool Hub Component -->
+        <ToolHub client:load tools={tools} />
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 px-6 border-t border-[var(--border)]">
+      <div class="max-w-2xl mx-auto text-center">
+        <div class="text-3xl mb-6 opacity-60">∞</div>
+        <h2 class="text-xl uppercase tracking-[0.3em] mb-6">About Our Tools</h2>
+        <p class="text-[var(--text-dim)] text-sm leading-relaxed mb-8">
+          New Life Solutions provides browser-based tools that respect your privacy.
+          All processing happens locally on your device. Your files never leave your browser.
+          No accounts. No tracking. No data collection.
+        </p>
+        <div class="flex justify-center gap-8 text-[0.625rem] text-[var(--text-muted)] uppercase tracking-[0.15em]">
+          <span>Browser-Based</span>
+          <span>•</span>
+          <span>No Upload</span>
+          <span>•</span>
+          <span>100% Private</span>
+        </div>
+      </div>
+    </section>
   </main>
   <Footer />
 </Layout>
+
+<!-- SEO: Canonical URL to prevent duplicate content issues with query parameters -->
+<link rel="canonical" href="https://www.newlifesolutions.dev/hub" />
+
+<!-- JSON-LD Structured Data for SEO -->
+<script type="application/ld+json" set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": title,
+  "description": description,
+  "url": "https://www.newlifesolutions.dev/hub",
+  "about": {
+    "@type": "Thing",
+    "name": "Browser-based productivity tools"
+  },
+  "mainEntity": {
+    "@type": "ItemList",
+    "itemListElement": tools.slice(0, 5).map((tool, index) => ({
+      "@type": "ListItem",
+      "position": index + 1,
+      "name": tool.name,
+      "description": tool.description,
+      "url": `https://www.newlifesolutions.dev${tool.href}`
+    }))
+  }
+})} />
