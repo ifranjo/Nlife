@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { FFmpeg } from '@ffmpeg/ffmpeg';
 import { fetchFile, toBlobURL } from '@ffmpeg/util';
 import ToolFeedback from '../ui/ToolFeedback';
+import { validateVideoFile, sanitizeFilename, createSafeErrorMessage } from '../../lib/security';
 
 type Status = 'idle' | 'loading' | 'processing' | 'done' | 'error';
 
@@ -48,8 +49,10 @@ export default function VideoTrimmer() {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    if (!file.type.startsWith('video/')) {
-      setError('Please select a video file');
+    // Security validation
+    const validation = validateVideoFile(file);
+    if (!validation.valid) {
+      setError(validation.error || 'Invalid video file');
       return;
     }
 
@@ -105,17 +108,18 @@ export default function VideoTrimmer() {
       await ffmpeg.deleteFile(inputName);
       await ffmpeg.deleteFile(outputName);
     } catch (err) {
-      console.error('Trim error:', err);
-      setError('Trimming failed. Try re-encoding option.');
+      setError(createSafeErrorMessage(err, 'Trimming failed. Try re-encoding option.'));
       setStatus('error');
     }
   };
 
   const handleDownload = () => {
     if (!outputUrl || !videoFile) return;
+    const baseName = sanitizeFilename(videoFile.name.replace(/\.[^.]+$/, ''));
+    const ext = videoFile.name.split('.').pop() || 'mp4';
     const a = document.createElement('a');
     a.href = outputUrl;
-    a.download = videoFile.name.replace(/(\.[^.]+)$/, '_trimmed$1');
+    a.download = `${baseName}_trimmed.${ext}`;
     a.click();
   };
 

@@ -15,6 +15,16 @@ export const FILE_LIMITS = {
     types: ['image/png', 'image/jpeg', 'image/webp', 'image/gif'] as const,
     extensions: ['.png', '.jpg', '.jpeg', '.webp', '.gif'] as const,
   },
+  video: {
+    maxSize: 500 * 1024 * 1024, // 500MB
+    types: ['video/mp4', 'video/webm', 'video/quicktime', 'video/x-msvideo', 'video/x-matroska'] as const,
+    extensions: ['.mp4', '.webm', '.mov', '.avi', '.mkv'] as const,
+  },
+  audio: {
+    maxSize: 100 * 1024 * 1024, // 100MB
+    types: ['audio/mpeg', 'audio/wav', 'audio/mp4', 'audio/ogg', 'audio/webm', 'audio/flac'] as const,
+    extensions: ['.mp3', '.wav', '.m4a', '.ogg', '.webm', '.flac'] as const,
+  },
 } as const;
 
 // Magic bytes signatures for file type verification
@@ -212,4 +222,56 @@ export function isUrlSafe(
   } catch {
     return false;
   }
+}
+
+/**
+ * Validates video files (size and MIME type check only - no magic bytes for video)
+ */
+export function validateVideoFile(file: File): ValidationResult {
+  const limits = FILE_LIMITS.video;
+
+  if (!validateFileSize(file, limits.maxSize)) {
+    const maxMB = limits.maxSize / (1024 * 1024);
+    return { valid: false, error: `Video exceeds ${maxMB}MB limit` };
+  }
+
+  // Check if MIME type starts with video/
+  if (!file.type.startsWith('video/')) {
+    return { valid: false, error: 'Please select a valid video file' };
+  }
+
+  return { valid: true };
+}
+
+/**
+ * Validates audio files (size and MIME type check only)
+ */
+export function validateAudioFile(file: File): ValidationResult {
+  const limits = FILE_LIMITS.audio;
+
+  if (!validateFileSize(file, limits.maxSize)) {
+    const maxMB = limits.maxSize / (1024 * 1024);
+    return { valid: false, error: `Audio exceeds ${maxMB}MB limit` };
+  }
+
+  // Check if MIME type starts with audio/ or is video (for extracting audio from video)
+  if (!file.type.startsWith('audio/') && !file.type.startsWith('video/')) {
+    return { valid: false, error: 'Please select a valid audio file' };
+  }
+
+  return { valid: true };
+}
+
+/**
+ * Sanitizes user-provided text content (for display, not storage)
+ * Strips potentially dangerous content while preserving readable text
+ */
+export function sanitizeTextContent(text: string, maxLength = 50000): string {
+  return text
+    // Remove null bytes
+    .replace(/\0/g, '')
+    // Remove control characters except newlines and tabs
+    .replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, '')
+    // Limit length to prevent memory issues
+    .slice(0, maxLength);
 }

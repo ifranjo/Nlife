@@ -1,5 +1,6 @@
 import { useState, useRef } from 'react';
 import ToolFeedback from '../ui/ToolFeedback';
+import { validateAudioFile, sanitizeFilename, createSafeErrorMessage, sanitizeTextContent } from '../../lib/security';
 
 type Status = 'idle' | 'loading' | 'transcribing' | 'done' | 'error';
 
@@ -31,8 +32,10 @@ export default function AudioTranscription() {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    if (!file.type.startsWith('audio/') && !file.type.startsWith('video/')) {
-      setError('Please select an audio or video file');
+    // Security validation (accepts both audio and video for audio extraction)
+    const validation = validateAudioFile(file);
+    if (!validation.valid) {
+      setError(validation.error || 'Invalid audio file');
       return;
     }
 
@@ -91,11 +94,12 @@ export default function AudioTranscription() {
         return_timestamps: false,
       });
 
-      setTranscript(result.text);
+      // Sanitize transcription output
+      const sanitizedTranscript = sanitizeTextContent(result.text);
+      setTranscript(sanitizedTranscript);
       setStatus('done');
     } catch (err) {
-      console.error('Transcription error:', err);
-      setError('Transcription failed. Try a smaller audio file or different format.');
+      setError(createSafeErrorMessage(err, 'Transcription failed. Try a smaller audio file or different format.'));
       setStatus('error');
     }
   };
@@ -105,11 +109,12 @@ export default function AudioTranscription() {
   };
 
   const handleDownload = () => {
+    const baseName = audioFile ? sanitizeFilename(audioFile.name.replace(/\.[^.]+$/, '')) : 'transcript';
     const blob = new Blob([transcript], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = (audioFile?.name || 'transcript') + '.txt';
+    a.download = `${baseName}.txt`;
     a.click();
     URL.revokeObjectURL(url);
   };

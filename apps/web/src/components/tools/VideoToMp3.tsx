@@ -2,6 +2,7 @@ import { useState, useRef } from 'react';
 import { FFmpeg } from '@ffmpeg/ffmpeg';
 import { fetchFile, toBlobURL } from '@ffmpeg/util';
 import ToolFeedback from '../ui/ToolFeedback';
+import { validateVideoFile, sanitizeFilename, createSafeErrorMessage } from '../../lib/security';
 
 type ConversionStatus = 'idle' | 'loading' | 'converting' | 'done' | 'error';
 
@@ -50,8 +51,10 @@ export default function VideoToMp3() {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    if (!file.type.startsWith('video/')) {
-      setError('Please select a video file');
+    // Security validation
+    const validation = validateVideoFile(file);
+    if (!validation.valid) {
+      setError(validation.error || 'Invalid video file');
       return;
     }
 
@@ -74,7 +77,8 @@ export default function VideoToMp3() {
     const ffmpeg = ffmpegRef.current;
 
     try {
-      const inputName = 'input' + videoFile.name.substring(videoFile.name.lastIndexOf('.'));
+      // Use safe internal filenames (not user-provided)
+      const inputName = 'input.video';
       const outputName = 'output.mp3';
 
       await ffmpeg.writeFile(inputName, await fetchFile(videoFile));
@@ -98,8 +102,7 @@ export default function VideoToMp3() {
       await ffmpeg.deleteFile(inputName);
       await ffmpeg.deleteFile(outputName);
     } catch (err) {
-      console.error('Conversion error:', err);
-      setError('Conversion failed. The video format may not be supported.');
+      setError(createSafeErrorMessage(err, 'Conversion failed. The video format may not be supported.'));
       setStatus('error');
     }
   };
@@ -107,9 +110,11 @@ export default function VideoToMp3() {
   const handleDownload = () => {
     if (!audioUrl || !videoFile) return;
 
+    // Sanitize filename for download
+    const baseName = sanitizeFilename(videoFile.name.replace(/\.[^.]+$/, ''));
     const a = document.createElement('a');
     a.href = audioUrl;
-    a.download = videoFile.name.replace(/\.[^.]+$/, '') + '.mp3';
+    a.download = `${baseName}.mp3`;
     a.click();
   };
 

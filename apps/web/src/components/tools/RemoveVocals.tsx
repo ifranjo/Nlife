@@ -1,5 +1,6 @@
 import { useState, useRef } from 'react';
 import ToolFeedback from '../ui/ToolFeedback';
+import { validateAudioFile, sanitizeFilename, createSafeErrorMessage } from '../../lib/security';
 
 type Status = 'idle' | 'processing' | 'done' | 'error';
 
@@ -16,8 +17,10 @@ export default function RemoveVocals() {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    if (!file.type.startsWith('audio/')) {
-      setError('Please select an audio file');
+    // Security validation
+    const validation = validateAudioFile(file);
+    if (!validation.valid) {
+      setError(validation.error || 'Invalid audio file');
       return;
     }
 
@@ -77,8 +80,7 @@ export default function RemoveVocals() {
       setProcessedUrl(URL.createObjectURL(wavBlob));
       setStatus('done');
     } catch (err) {
-      console.error('Processing error:', err);
-      setError('Failed to process audio. Try a different file.');
+      setError(createSafeErrorMessage(err, 'Failed to process audio. Try a different file.'));
       setStatus('error');
     }
   };
@@ -141,9 +143,10 @@ export default function RemoveVocals() {
 
   const handleDownload = () => {
     if (!processedUrl || !audioFile) return;
+    const baseName = sanitizeFilename(audioFile.name.replace(/\.[^.]+$/, ''));
     const a = document.createElement('a');
     a.href = processedUrl;
-    a.download = audioFile.name.replace(/\.[^.]+$/, '_instrumental.wav');
+    a.download = `${baseName}_instrumental.wav`;
     a.click();
   };
 

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Document, Packer, Paragraph, TextRun, HeadingLevel } from 'docx';
 import ToolFeedback from '../ui/ToolFeedback';
+import { validateFile, sanitizeFilename, createSafeErrorMessage, sanitizeTextContent } from '../../lib/security';
 
 type Status = 'idle' | 'processing' | 'done' | 'error';
 
@@ -11,12 +12,14 @@ export default function PdfToWord() {
   const [extractedText, setExtractedText] = useState<string>('');
   const [pageCount, setPageCount] = useState(0);
 
-  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    if (file.type !== 'application/pdf') {
-      setError('Please select a PDF file');
+    // Security validation with magic bytes check
+    const validation = await validateFile(file, 'pdf');
+    if (!validation.valid) {
+      setError(validation.error || 'Invalid PDF file');
       return;
     }
 
@@ -53,10 +56,12 @@ export default function PdfToWord() {
       }
 
       const fullText = textContent.join('\n\n');
-      setExtractedText(fullText);
+      // Sanitize extracted text
+      const sanitizedText = sanitizeTextContent(fullText);
+      setExtractedText(sanitizedText);
 
       // Create Word document
-      const paragraphs = fullText.split('\n\n').map((para, index) => {
+      const paragraphs = sanitizedText.split('\n\n').map((para, index) => {
         // Check if it looks like a heading (short, possibly all caps)
         const isHeading = para.length < 100 && para === para.toUpperCase() && para.length > 3;
 
@@ -83,16 +88,16 @@ export default function PdfToWord() {
 
       const blob = await Packer.toBlob(doc);
       const url = URL.createObjectURL(blob);
+      const baseName = sanitizeFilename(pdfFile.name.replace('.pdf', ''));
       const a = document.createElement('a');
       a.href = url;
-      a.download = pdfFile.name.replace('.pdf', '.docx');
+      a.download = `${baseName}.docx`;
       a.click();
       URL.revokeObjectURL(url);
 
       setStatus('done');
     } catch (err) {
-      console.error('Conversion error:', err);
-      setError('Conversion failed. The PDF may be scanned or protected.');
+      setError(createSafeErrorMessage(err, 'Conversion failed. The PDF may be scanned or protected.'));
       setStatus('error');
     }
   };
