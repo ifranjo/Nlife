@@ -1,0 +1,152 @@
+---
+/**
+ * Subtitle Generator - AI-Native Tool Page
+ *
+ * Optimized for LLM extraction with:
+ * - TL;DR answer box (50-70 words)
+ * - Semantic Q&A sections
+ * - Full schema markup (SoftwareApplication, HowTo, FAQPage)
+ */
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/ui/Navbar.astro';
+import Footer from '../../components/ui/Footer.astro';
+import AnswerBox from '../../components/seo/AnswerBox.astro';
+import QASections from '../../components/seo/QASections.astro';
+import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
+import SubtitleGenerator from '../../components/tools/SubtitleGenerator';
+
+// Tool metadata
+const tool = {
+  id: 'subtitle-generator',
+  name: 'Subtitle Generator',
+  category: 'ai' as const,
+  url: '/tools/subtitle-generator'
+};
+
+// AI-optimized content
+const seoContent = {
+  // Page meta
+  title: 'Generate Subtitles Online Free — AI SRT/VTT Export, No Upload | New Life Solutions',
+  description: 'Create subtitles from video or audio using Whisper AI. Export as SRT or VTT format. 100% private, runs in browser, no upload required.',
+
+  // TL;DR Answer Box (50-70 words - this is what AI extracts)
+  answerBox: {
+    title: 'Generate Subtitles with AI — Free SRT & VTT Export',
+    queryTarget: 'How to Generate Subtitles from Video for Free',
+    tldr: `Upload a video or audio file to automatically generate timestamped subtitles using OpenAI's Whisper AI. Choose from 10+ languages, then export as SRT for video editors or VTT for web players. Preview subtitles synced with video playback. All processing runs in your browser—your media never uploads to any server.`,
+    trustSignals: [
+      'Whisper AI model',
+      'SRT & VTT export',
+      'No server upload',
+      'Works offline'
+    ]
+  },
+
+  // Q&A Sections
+  qa: {
+    whatIs: {
+      answer: `Subtitle Generator is a free browser-based tool that creates timestamped subtitles from video or audio files using OpenAI's Whisper AI. It outputs industry-standard SRT and VTT formats compatible with all major video players and editing software. The AI runs entirely on your device for complete privacy.`,
+      context: `Perfect for creating captions for YouTube videos, adding subtitles to presentations, or making content accessible to deaf and hard-of-hearing viewers.`
+    },
+    howItWorks: {
+      steps: [
+        'Drag and drop a video or audio file (MP4, WebM, MOV, MP3, WAV, M4A)',
+        'Select the language of the spoken content',
+        'Click "Generate Subtitles with AI" to begin processing',
+        'Preview the subtitles synced with video playback (for video files)',
+        'Download as SRT for video editors or VTT for web players'
+      ]
+    },
+    whyBrowserBased: {
+      benefits: [
+        'Complete privacy: Media never leaves your device—AI runs locally',
+        'Industry formats: Export SRT (universal) or VTT (web standard)',
+        'Live preview: See subtitles synced with video before downloading',
+        'Multi-language: Supports English, Spanish, French, German, and more',
+        'No limits: Generate subtitles for as many files as you want'
+      ]
+    },
+    faqs: [
+      {
+        question: 'What is the difference between SRT and VTT formats?',
+        answer: `SRT (SubRip) is the most widely supported format, compatible with virtually all video editors and players. VTT (WebVTT) is the web standard used by HTML5 video players and supports additional styling. For YouTube uploads, use SRT. For websites, use VTT.`
+      },
+      {
+        question: 'How accurate are the generated subtitles?',
+        answer: `Accuracy depends on audio clarity. Clear speech with minimal background noise achieves 90%+ accuracy. The Whisper model handles accents well but may need manual corrections for heavy noise, overlapping speakers, or technical terminology.`
+      },
+      {
+        question: 'Can I edit the subtitles after generation?',
+        answer: `Currently, subtitles cannot be edited directly in the tool. Download the SRT or VTT file and edit it in any text editor—the format is human-readable. You can adjust timing and text as needed.`
+      },
+      {
+        question: 'Why is the first generation slow?',
+        answer: `The first use downloads the Whisper Tiny AI model (~150MB). This is cached by your browser for future use. Subsequent generations start much faster. Longer media files also require more processing time.`
+      },
+      {
+        question: 'What languages are supported for subtitle generation?',
+        answer: `English, Spanish, French, German, Italian, Portuguese, Chinese, Japanese, Korean, and Russian are currently supported. The AI automatically transcribes speech in the selected language.`
+      }
+    ]
+  }
+};
+
+// Schema data
+const schemaData = {
+  toolId: tool.id,
+  toolName: tool.name,
+  description: seoContent.description,
+  category: tool.category,
+  steps: seoContent.qa.howItWorks.steps,
+  faqs: seoContent.qa.faqs,
+  url: tool.url
+};
+---
+
+<Layout
+  title={seoContent.title}
+  description={seoContent.description}
+  image="/thumbnails/subtitle-generator.svg"
+>
+  <!-- Schema Markup for AI extraction -->
+  <SchemaMarkup {...schemaData} />
+
+  <Navbar />
+
+  <main class="pt-20 pb-16 px-6 min-h-screen">
+    <div class="max-w-3xl mx-auto">
+
+      <!-- Answer Box: AI extracts this first -->
+      <AnswerBox
+        title={seoContent.answerBox.title}
+        tldr={seoContent.answerBox.tldr}
+        toolName={tool.name}
+        queryTarget={seoContent.answerBox.queryTarget}
+        trustSignals={seoContent.answerBox.trustSignals}
+      />
+
+      <!-- Tool Component -->
+      <section class="tool-section" aria-label="Subtitle Generator Tool">
+        <SubtitleGenerator client:load />
+      </section>
+
+      <!-- Q&A Sections: Semantic structure for AI -->
+      <QASections
+        toolName={tool.name}
+        whatIs={seoContent.qa.whatIs}
+        howItWorks={seoContent.qa.howItWorks}
+        whyBrowserBased={seoContent.qa.whyBrowserBased}
+        faqs={seoContent.qa.faqs}
+      />
+
+    </div>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+  .tool-section {
+    margin: 2rem 0;
+  }
+</style>

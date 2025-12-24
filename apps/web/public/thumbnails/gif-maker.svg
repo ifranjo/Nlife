@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
+  <rect width="120" height="120" rx="16" fill="#1a1a2e"/>
+  <rect x="20" y="30" width="80" height="50" rx="6" fill="#16213e" stroke="#0f3460" stroke-width="2"/>
+  <polygon points="50,45 50,70 70,57.5" fill="#e94560"/>
+  <rect x="25" y="85" width="70" height="6" rx="3" fill="#0f3460"/>
+  <rect x="25" y="85" width="40" height="6" rx="3" fill="#00d9ff"/>
+  <circle cx="65" cy="88" r="5" fill="#e94560" stroke="#1a1a2e" stroke-width="2"/>
+  <text x="60" y="22" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#00d9ff" text-anchor="middle">GIF</text>
+</svg>

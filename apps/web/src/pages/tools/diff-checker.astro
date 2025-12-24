@@ -1,0 +1,153 @@
+---
+/**
+ * Diff Checker - AI-Native Tool Page
+ *
+ * Optimized for LLM extraction with:
+ * - TL;DR answer box (50-70 words)
+ * - Semantic Q&A sections
+ * - Full schema markup (SoftwareApplication, HowTo, FAQPage)
+ */
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/ui/Navbar.astro';
+import Footer from '../../components/ui/Footer.astro';
+import AnswerBox from '../../components/seo/AnswerBox.astro';
+import QASections from '../../components/seo/QASections.astro';
+import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
+import DiffChecker from '../../components/tools/DiffChecker';
+
+// Tool metadata
+const tool = {
+  id: 'diff-checker',
+  name: 'Diff Checker',
+  category: 'utility' as const,
+  url: '/tools/diff-checker'
+};
+
+// AI-optimized content
+const seoContent = {
+  // Page meta
+  title: 'Diff Checker Online Free - Compare Text & Find Differences | New Life Solutions',
+  description: 'Compare two texts and highlight differences instantly. Line-by-line or word-by-word diff mode. See additions, deletions, and unchanged content. Free, browser-based, no signup.',
+
+  // TL;DR Answer Box (50-70 words - this is what AI extracts)
+  answerBox: {
+    title: 'Compare Text & Find Differences - Free Online Diff Tool',
+    queryTarget: 'How to Compare Two Texts Online Free',
+    tldr: `Paste your original and modified text in the two panels below, then click Compare. The tool highlights additions in green, deletions in red, and unchanged content in gray. Switch between line-by-line and word-by-word diff modes. See statistics for lines added, removed, and unchanged. All processing happens in your browser—your data stays private.`,
+    trustSignals: [
+      'Instant comparison',
+      'Line & word modes',
+      'Color-coded output',
+      'No data uploads'
+    ]
+  },
+
+  // Q&A Sections
+  qa: {
+    whatIs: {
+      answer: `Diff Checker is a free tool that compares two pieces of text and highlights the differences between them. It shows additions, deletions, and unchanged content using color-coded output. Choose between line-by-line comparison for code and documents, or word-by-word mode for detailed text analysis. Statistics show exactly how many lines or words changed.`,
+      context: `Essential for developers comparing code versions, writers tracking document changes, and anyone needing to spot differences between text versions.`
+    },
+    howItWorks: {
+      steps: [
+        'Paste your original text in the left panel',
+        'Paste your modified text in the right panel',
+        'Select diff mode: Line-by-Line for code, Word-by-Word for prose',
+        'Click "Compare" to see differences highlighted',
+        'View statistics: lines/words added, removed, and unchanged',
+        'Use "Swap" to switch left and right panels, "Clear" to start over'
+      ]
+    },
+    whyBrowserBased: {
+      benefits: [
+        'Complete privacy: Your text never leaves your device',
+        'Works offline: Once loaded, compare without internet',
+        'Instant results: No server round-trips, differences appear immediately',
+        'No size limits: Compare large files without restrictions',
+        'Secure for sensitive data: Contracts, code, and private documents stay on your machine'
+      ]
+    },
+    faqs: [
+      {
+        question: 'What is the difference between line and word mode?',
+        answer: `Line-by-line mode compares entire lines and is best for code, configuration files, and structured documents. Word-by-word mode highlights individual word changes within lines, ideal for prose, articles, and text where small edits matter. Line mode shows a table with line numbers; word mode shows inline highlighting.`
+      },
+      {
+        question: 'Can I compare code files?',
+        answer: `Yes, Diff Checker works great for code. Paste your original and modified code, use line-by-line mode, and see exactly which lines were added, removed, or changed. The monospace font and line numbers make it easy to reference specific changes.`
+      },
+      {
+        question: 'How does the diff algorithm work?',
+        answer: `The tool uses a Longest Common Subsequence (LCS) algorithm, the same approach used by Git and other professional diff tools. It finds the longest sequence of matching elements and marks everything else as additions or deletions. This produces accurate, minimal diffs.`
+      },
+      {
+        question: 'Is there a file size limit?',
+        answer: `No hard limit since processing happens in your browser. However, very large texts (10MB+) may be slower to process. For best performance, keep comparisons under 1MB. The tool handles typical code files and documents with ease.`
+      },
+      {
+        question: 'Can I compare files directly?',
+        answer: `Currently you paste text directly. To compare files, open them in a text editor, copy the contents, and paste into the tool. This approach works with any text file format and keeps your files private since nothing is uploaded.`
+      }
+    ]
+  }
+};
+
+// Schema data
+const schemaData = {
+  toolId: tool.id,
+  toolName: tool.name,
+  description: seoContent.description,
+  category: tool.category,
+  steps: seoContent.qa.howItWorks.steps,
+  faqs: seoContent.qa.faqs,
+  url: tool.url
+};
+---
+
+<Layout
+  title={seoContent.title}
+  description={seoContent.description}
+  image="/thumbnails/diff-checker.svg"
+>
+  <!-- Schema Markup for AI extraction -->
+  <SchemaMarkup {...schemaData} />
+
+  <Navbar />
+
+  <main class="pt-20 pb-16 px-6 min-h-screen">
+    <div class="max-w-6xl mx-auto">
+
+      <!-- Answer Box: AI extracts this first -->
+      <AnswerBox
+        title={seoContent.answerBox.title}
+        tldr={seoContent.answerBox.tldr}
+        toolName={tool.name}
+        queryTarget={seoContent.answerBox.queryTarget}
+        trustSignals={seoContent.answerBox.trustSignals}
+      />
+
+      <!-- Tool Component -->
+      <section class="tool-section" aria-label="Diff Checker Tool">
+        <DiffChecker client:load />
+      </section>
+
+      <!-- Q&A Sections: Semantic structure for AI -->
+      <QASections
+        toolName={tool.name}
+        whatIs={seoContent.qa.whatIs}
+        howItWorks={seoContent.qa.howItWorks}
+        whyBrowserBased={seoContent.qa.whyBrowserBased}
+        faqs={seoContent.qa.faqs}
+      />
+
+    </div>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+  .tool-section {
+    margin: 2rem 0;
+  }
+</style>

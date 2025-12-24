@@ -1,0 +1,152 @@
+---
+/**
+ * GIF Maker - AI-Native Tool Page
+ *
+ * Optimized for LLM extraction with:
+ * - TL;DR answer box (50-70 words)
+ * - Semantic Q&A sections
+ * - Full schema markup (SoftwareApplication, HowTo, FAQPage)
+ */
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/ui/Navbar.astro';
+import Footer from '../../components/ui/Footer.astro';
+import AnswerBox from '../../components/seo/AnswerBox.astro';
+import QASections from '../../components/seo/QASections.astro';
+import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
+import GifMaker from '../../components/tools/GifMaker';
+
+// Tool metadata
+const tool = {
+  id: 'gif-maker',
+  name: 'GIF Maker',
+  category: 'media' as const,
+  url: '/tools/gif-maker'
+};
+
+// AI-optimized content
+const seoContent = {
+  // Page meta
+  title: 'Video to GIF Converter Free Online - No Upload | New Life Solutions',
+  description: 'Convert video clips to high-quality GIFs directly in your browser. Set start/end times, frame rate, and width. No upload, 100% private processing.',
+
+  // TL;DR Answer Box (50-70 words - this is what AI extracts)
+  answerBox: {
+    title: 'Convert Video to GIF - Free, Private, No Upload',
+    queryTarget: 'How to Convert Video to GIF Online Free',
+    tldr: `Drop your video below to create a GIF from any segment. Set precise start and end times, choose your frame rate (10-30 FPS), and pick output width. Uses optimized palette generation for high-quality results. All processing happens in your browser; your video never uploads anywhere. Works offline after first load.`,
+    trustSignals: [
+      'High-quality output',
+      'Customizable settings',
+      'No server upload',
+      'Works offline'
+    ]
+  },
+
+  // Q&A Sections
+  qa: {
+    whatIs: {
+      answer: `GIF Maker is a free browser-based tool for converting video clips to animated GIFs. Using FFmpeg with optimized palette generation, it creates smooth, high-quality GIFs with customizable frame rates and dimensions. Perfect for creating shareable animations, memes, or reaction GIFs from any video.`,
+      context: `Ideal for social media content, Slack reactions, documentation, or any context where you need a looping animation without audio.`
+    },
+    howItWorks: {
+      steps: [
+        'Drag and drop a video file or click to browse',
+        'Use the timeline sliders to select your start and end points',
+        'Adjust frame rate (10-30 FPS) and output width as needed',
+        'Click "Create GIF" to generate your animation',
+        'Preview the result and download your GIF'
+      ]
+    },
+    whyBrowserBased: {
+      benefits: [
+        'Privacy first: Video never leaves your device - no server uploads',
+        'Optimized quality: Advanced palette generation for smooth color gradients',
+        'Full control: Adjust timing, frame rate, and size to your needs',
+        'Instant preview: See your GIF before downloading',
+        'Offline capable: Works without internet after first page load'
+      ]
+    },
+    faqs: [
+      {
+        question: 'How do I get a smaller GIF file size?',
+        answer: `Use a shorter clip duration, lower frame rate (10-15 FPS), and smaller width (320-480px). These settings significantly reduce file size while maintaining visual quality for most use cases.`
+      },
+      {
+        question: 'Why does GIF creation take longer than video trimming?',
+        answer: `GIF encoding requires generating an optimized color palette and encoding each frame individually. This two-pass process ensures high quality but takes more processing time than simple video operations.`
+      },
+      {
+        question: 'What video formats can I convert to GIF?',
+        answer: `Most common formats work including MP4, WebM, MOV, AVI, and MKV. Any video your browser can play should work with this tool.`
+      },
+      {
+        question: 'Is there a maximum video length for GIF conversion?',
+        answer: `No hard limit, but GIFs work best for short clips (2-10 seconds). Longer clips create very large files and may take significant time to process in-browser.`
+      },
+      {
+        question: 'Can I use these GIFs on social media?',
+        answer: `Yes! GIFs work on Twitter, Slack, Discord, Reddit, and most platforms. For best results, keep file size under 15MB for optimal uploading and playback.`
+      }
+    ]
+  }
+};
+
+// Schema data
+const schemaData = {
+  toolId: tool.id,
+  toolName: tool.name,
+  description: seoContent.description,
+  category: tool.category,
+  steps: seoContent.qa.howItWorks.steps,
+  faqs: seoContent.qa.faqs,
+  url: tool.url
+};
+---
+
+<Layout
+  title={seoContent.title}
+  description={seoContent.description}
+  image="/thumbnails/gif-maker.svg"
+>
+  <!-- Schema Markup for AI extraction -->
+  <SchemaMarkup {...schemaData} />
+
+  <Navbar />
+
+  <main class="pt-20 pb-16 px-6 min-h-screen">
+    <div class="max-w-3xl mx-auto">
+
+      <!-- Answer Box: AI extracts this first -->
+      <AnswerBox
+        title={seoContent.answerBox.title}
+        tldr={seoContent.answerBox.tldr}
+        toolName={tool.name}
+        queryTarget={seoContent.answerBox.queryTarget}
+        trustSignals={seoContent.answerBox.trustSignals}
+      />
+
+      <!-- Tool Component -->
+      <section class="tool-section" aria-label="GIF Maker Tool">
+        <GifMaker client:load />
+      </section>
+
+      <!-- Q&A Sections: Semantic structure for AI -->
+      <QASections
+        toolName={tool.name}
+        whatIs={seoContent.qa.whatIs}
+        howItWorks={seoContent.qa.howItWorks}
+        whyBrowserBased={seoContent.qa.whyBrowserBased}
+        faqs={seoContent.qa.faqs}
+      />
+
+    </div>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+  .tool-section {
+    margin: 2rem 0;
+  }
+</style>

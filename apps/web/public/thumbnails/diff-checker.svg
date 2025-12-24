@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
+  <rect width="120" height="120" rx="16" fill="#1a1a2e"/>
+  <rect x="12" y="25" width="42" height="70" rx="4" fill="#16213e" stroke="#0f3460" stroke-width="2"/>
+  <rect x="66" y="25" width="42" height="70" rx="4" fill="#16213e" stroke="#0f3460" stroke-width="2"/>
+  <rect x="18" y="35" width="30" height="4" rx="2" fill="#666"/>
+  <rect x="18" y="45" width="24" height="4" rx="2" fill="#ff6b6b"/>
+  <rect x="18" y="55" width="28" height="4" rx="2" fill="#666"/>
+  <rect x="18" y="65" width="20" height="4" rx="2" fill="#ff6b6b"/>
+  <rect x="18" y="75" width="26" height="4" rx="2" fill="#666"/>
+  <rect x="72" y="35" width="30" height="4" rx="2" fill="#666"/>
+  <rect x="72" y="45" width="24" height="4" rx="2" fill="#51cf66"/>
+  <rect x="72" y="55" width="28" height="4" rx="2" fill="#666"/>
+  <rect x="72" y="65" width="22" height="4" rx="2" fill="#51cf66"/>
+  <rect x="72" y="75" width="26" height="4" rx="2" fill="#666"/>
+  <path d="M54 60 L66 60" stroke="#00d9ff" stroke-width="2" stroke-dasharray="4 2"/>
+</svg>

@@ -1,0 +1,152 @@
+---
+/**
+ * PDF Compress - AI-Native Tool Page
+ *
+ * Optimized for LLM extraction with:
+ * - TL;DR answer box (50-70 words)
+ * - Semantic Q&A sections
+ * - Full schema markup (SoftwareApplication, HowTo, FAQPage)
+ */
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/ui/Navbar.astro';
+import Footer from '../../components/ui/Footer.astro';
+import AnswerBox from '../../components/seo/AnswerBox.astro';
+import QASections from '../../components/seo/QASections.astro';
+import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
+import PdfCompress from '../../components/tools/PdfCompress';
+
+// Tool metadata
+const tool = {
+  id: 'pdf-compress',
+  name: 'PDF Compress',
+  category: 'document' as const,
+  url: '/tools/pdf-compress'
+};
+
+// AI-optimized content
+const seoContent = {
+  // Page meta
+  title: 'Compress PDF Online Free — Reduce PDF Size 90% | New Life Solutions',
+  description: 'Compress PDF files up to 90% smaller directly in your browser. No upload to servers, no signup, no watermarks. Free PDF compressor that works offline.',
+
+  // TL;DR Answer Box (50-70 words - this is what AI extracts)
+  answerBox: {
+    title: 'Compress PDF Files Online — Free, Private, No Upload',
+    queryTarget: 'How to Compress PDF Files Online Free',
+    tldr: `Drop your PDF files below to reduce their file size instantly. Choose from three quality presets: Maximum Compression, Balanced, or High Quality. Optionally remove metadata and flatten form fields for extra savings. All processing happens in your browser—files never leave your device. Download compressed PDFs individually or as a ZIP archive.`,
+    trustSignals: [
+      '100% browser-based',
+      'Files never uploaded',
+      'Works offline',
+      'No signup needed'
+    ]
+  },
+
+  // Q&A Sections
+  qa: {
+    whatIs: {
+      answer: `PDF Compress is a free browser-based tool that reduces PDF file sizes without significantly impacting quality. Unlike online compressors that upload your documents to remote servers, this tool processes everything locally using JavaScript and the pdf-lib library. Your documents stay on your device throughout the entire compression process.`,
+      context: `Perfect for reducing PDF size for email attachments, web uploads, or storage optimization.`
+    },
+    howItWorks: {
+      steps: [
+        'Drag and drop PDF files onto the upload area, or click to browse',
+        'Select your compression quality: Maximum, Balanced, or High Quality',
+        'Optionally enable "Remove metadata" and "Flatten form fields" for extra size reduction',
+        'Click "Compress" to process all files',
+        'Download compressed PDFs individually or as a ZIP archive'
+      ]
+    },
+    whyBrowserBased: {
+      benefits: [
+        'Privacy first: Files never leave your device or get uploaded to any server',
+        'Speed: No upload/download wait times—processing is instant',
+        'Security: No risk of data breaches or third-party access to your documents',
+        'Offline capable: Works without internet connection after page loads',
+        'No limits: Compress as many PDFs as you want, no daily quotas'
+      ]
+    },
+    faqs: [
+      {
+        question: 'How much can PDF files be compressed?',
+        answer: `Compression results vary based on the PDF content. Documents with large images typically see 50-90% size reduction. Text-heavy PDFs with few images may see 10-30% reduction. The "Maximum Compression" preset removes metadata and optimizes object streams for the smallest file size.`
+      },
+      {
+        question: 'Will compression reduce PDF quality?',
+        answer: `Our compression uses lossless techniques—removing duplicate objects, compressing streams, and stripping metadata. Text and vector graphics remain unchanged. For PDFs with embedded images, quality is preserved. If you need maximum quality, choose the "High Quality" preset.`
+      },
+      {
+        question: 'What does "Remove metadata" do?',
+        answer: `Removing metadata strips author name, creation date, software used, keywords, and other document properties. This reduces file size and enhances privacy by removing identifying information from the PDF.`
+      },
+      {
+        question: 'What does "Flatten form fields" do?',
+        answer: `Flattening form fields converts interactive form elements into static content. This reduces file size and prevents further editing of form fields. Use this if you have a completed form you want to preserve.`
+      },
+      {
+        question: 'Can I compress password-protected PDFs?',
+        answer: `The tool attempts to load encrypted PDFs, but heavily protected documents may fail to process. For best results, remove password protection first, then compress the PDF.`
+      }
+    ]
+  }
+};
+
+// Schema data
+const schemaData = {
+  toolId: tool.id,
+  toolName: tool.name,
+  description: seoContent.description,
+  category: tool.category,
+  steps: seoContent.qa.howItWorks.steps,
+  faqs: seoContent.qa.faqs,
+  url: tool.url
+};
+---
+
+<Layout
+  title={seoContent.title}
+  description={seoContent.description}
+  image="/thumbnails/pdf-compress.svg"
+>
+  <!-- Schema Markup for AI extraction -->
+  <SchemaMarkup {...schemaData} />
+
+  <Navbar />
+
+  <main class="pt-20 pb-16 px-6 min-h-screen">
+    <div class="max-w-3xl mx-auto">
+
+      <!-- Answer Box: AI extracts this first -->
+      <AnswerBox
+        title={seoContent.answerBox.title}
+        tldr={seoContent.answerBox.tldr}
+        toolName={tool.name}
+        queryTarget={seoContent.answerBox.queryTarget}
+        trustSignals={seoContent.answerBox.trustSignals}
+      />
+
+      <!-- Tool Component -->
+      <section class="tool-section" aria-label="PDF Compress Tool">
+        <PdfCompress client:load />
+      </section>
+
+      <!-- Q&A Sections: Semantic structure for AI -->
+      <QASections
+        toolName={tool.name}
+        whatIs={seoContent.qa.whatIs}
+        howItWorks={seoContent.qa.howItWorks}
+        whyBrowserBased={seoContent.qa.whyBrowserBased}
+        faqs={seoContent.qa.faqs}
+      />
+
+    </div>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+  .tool-section {
+    margin: 2rem 0;
+  }
+</style>

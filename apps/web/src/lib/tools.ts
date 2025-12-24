@@ -54,6 +54,31 @@ export const tools: Tool[] = [
     ]
   },
   {
+    id: 'pdf-compress',
+    name: 'PDF Compress',
+    description: 'Compress PDF files up to 90% smaller. Remove metadata, flatten forms, batch processing with ZIP download.',
+    icon: '📦',
+    thumbnail: '/thumbnails/pdf-compress.svg',
+    category: 'document',
+    tier: 'free',
+    href: '/tools/pdf-compress',
+    color: 'from-amber-500 to-orange-500',
+    tags: ['pdf', 'compress', 'reduce', 'optimize', 'size'],
+    popular: true,
+    releaseDate: '2024-12-24',
+    seo: {
+      title: 'Compress PDF Online Free - Reduce Size 90% | New Life',
+      metaDescription: 'Compress PDF files up to 90% smaller instantly. Remove metadata, flatten forms. 100% free, no upload to servers. Works offline.',
+      h1: 'Compress PDF Files Online - Free & Private',
+      keywords: ['compress pdf', 'reduce pdf size', 'pdf compressor online', 'shrink pdf free']
+    },
+    faq: [
+      { question: 'How much can PDF files be compressed?', answer: 'Compression varies by content. Image-heavy PDFs see 50-90% reduction. Text-only PDFs see 10-30% reduction.' },
+      { question: 'Will compression reduce PDF quality?', answer: 'We use lossless techniques. Text and vectors stay sharp. Choose "High Quality" preset for minimal impact.' },
+      { question: 'What does removing metadata do?', answer: 'Strips author, creation date, and document properties. Reduces size and enhances privacy.' }
+    ]
+  },
+  {
     id: 'pdf-split',
     name: 'PDF Split',
     description: 'Split PDFs into individual pages or extract specific page ranges. Download as ZIP.',
@@ -333,6 +358,29 @@ export const tools: Tool[] = [
     ]
   },
   {
+    id: 'gif-maker',
+    name: 'GIF Maker',
+    description: 'Convert video clips to high-quality GIFs. Set timing, frame rate, and size. Perfect for memes and reactions.',
+    icon: 'GIF',
+    thumbnail: '/thumbnails/gif-maker.svg',
+    category: 'media',
+    tier: 'free',
+    href: '/tools/gif-maker',
+    color: 'from-purple-500 to-pink-500',
+    tags: ['video', 'gif', 'convert', 'animation', 'meme'],
+    seo: {
+      title: 'Video to GIF Converter Free Online - No Upload | New Life',
+      metaDescription: 'Convert video clips to high-quality GIFs in your browser. Set start/end times, frame rate, and width. 100% free, no upload required.',
+      h1: 'Convert Video to GIF Online - Free Tool',
+      keywords: ['video to gif', 'gif maker', 'convert video to gif', 'gif converter online free']
+    },
+    faq: [
+      { question: 'How do I get a smaller GIF file size?', answer: 'Use shorter clips, lower frame rate (10-15 FPS), and smaller width (320-480px).' },
+      { question: 'What video formats can I convert?', answer: 'MP4, WebM, MOV, AVI, and most common video formats work.' },
+      { question: 'Can I use these GIFs on social media?', answer: 'Yes! Works on Twitter, Slack, Discord, Reddit, and most platforms.' }
+    ]
+  },
+  {
     id: 'remove-vocals',
     name: 'Vocal Remover',
     description: 'Remove vocals from songs to create instrumentals. Uses audio phase cancellation. Works offline.',
@@ -377,6 +425,29 @@ export const tools: Tool[] = [
       { question: 'What languages are supported?', answer: 'English, Spanish, French, German, Italian, Portuguese, Chinese, Japanese, Korean, Russian, and more.' },
       { question: 'Is my audio sent to a server?', answer: 'No, Whisper AI runs entirely in your browser. Your audio stays private.' },
       { question: 'How accurate is the transcription?', answer: 'Very accurate for clear speech. Background noise may reduce accuracy.' }
+    ]
+  },
+  {
+    id: 'subtitle-generator',
+    name: 'Subtitle Generator',
+    description: 'Generate subtitles from video or audio with Whisper AI. Export as SRT or VTT format. 100% browser-based.',
+    icon: 'CC',
+    thumbnail: '/thumbnails/subtitle-generator.svg',
+    category: 'ai',
+    tier: 'free',
+    href: '/tools/subtitle-generator',
+    color: 'from-indigo-500 to-purple-500',
+    tags: ['subtitles', 'captions', 'srt', 'vtt', 'whisper', 'ai', 'video'],
+    seo: {
+      title: 'Generate Subtitles Free - AI SRT/VTT Export | New Life',
+      metaDescription: 'Create subtitles from video or audio using Whisper AI. Export as SRT or VTT. 100% free, no upload, runs in browser.',
+      h1: 'Generate Subtitles with AI - Free SRT & VTT Export',
+      keywords: ['subtitle generator', 'generate subtitles', 'srt generator', 'vtt generator', 'auto subtitles free']
+    },
+    faq: [
+      { question: 'What subtitle formats are supported?', answer: 'Export as SRT (universal, works everywhere) or VTT (web standard for HTML5 video players).' },
+      { question: 'Are my videos uploaded to a server?', answer: 'No, all AI processing happens locally in your browser. Your media files never leave your device.' },
+      { question: 'Can I use these subtitles on YouTube?', answer: 'Yes, download the SRT file and upload it directly to YouTube Studio for your videos.' }
     ]
   },
 
@@ -556,12 +627,81 @@ export const tools: Tool[] = [
       { question: 'Can I pick colors visually?', answer: 'Yes, use the color picker or enter values manually.' }
     ]
   },
+  {
+    id: 'password-generator',
+    name: 'Password Generator',
+    description: 'Generate strong, secure random passwords. Customize length, character types. Uses Web Crypto API.',
+    icon: '🔑',
+    thumbnail: '/thumbnails/password-generator.svg',
+    category: 'utility',
+    tier: 'free',
+    href: '/tools/password-generator',
+    color: 'from-emerald-500 to-cyan-500',
+    tags: ['password', 'security', 'generator', 'random', 'crypto'],
+    popular: true,
+    seo: {
+      title: 'Password Generator Free Online - Secure Random | New Life',
+      metaDescription: 'Generate strong, secure random passwords instantly. Customize length (8-128), character types. Uses Web Crypto API. 100% private.',
+      h1: 'Generate Secure Passwords - Free Online Tool',
+      keywords: ['password generator', 'random password', 'secure password', 'strong password generator']
+    },
+    faq: [
+      { question: 'How secure are the generated passwords?', answer: 'Extremely secure. We use Web Crypto API (crypto.getRandomValues) for cryptographically secure random generation.' },
+      { question: 'Are my passwords saved anywhere?', answer: 'No. Passwords are generated entirely in your browser. We have no server, no database, and no way to see your passwords.' },
+      { question: 'What makes a password strong?', answer: 'Length (16+ characters) and variety (uppercase, lowercase, numbers, symbols). Our strength indicator helps you create uncrackable passwords.' }
+    ]
+  },
 
   // ═══════════════════════════════════════════════════════════════
-  // AI/PRO TOOLS - REMOVED (legal/ethical concerns with video avatars)
-  // Future browser-based AI tools will be added here after review
-  // See: docs/plans/browser-ai-tools-roadmap.md
+  // AI TOOLS
   // ═══════════════════════════════════════════════════════════════
+  {
+    id: 'object-remover',
+    name: 'AI Object Remover',
+    description: 'Remove unwanted objects from photos with AI. Click to select, then erase. 100% private.',
+    icon: '\u{1F3AF}',
+    thumbnail: '/thumbnails/object-remover.svg',
+    category: 'ai',
+    tier: 'free',
+    href: '/tools/object-remover',
+    color: 'from-cyan-500 to-blue-500',
+    tags: ['ai', 'object removal', 'photo edit', 'erase', 'remove'],
+    popular: false,
+    seo: {
+      title: 'Remove Objects from Photos Free - AI Object Remover | New Life',
+      metaDescription: 'Remove unwanted objects from photos using AI. Click on any object to erase it. 100% private, runs in browser. No signup, no watermarks.',
+      h1: 'AI Object Remover - Erase Unwanted Objects from Photos',
+      keywords: ['remove object from photo', 'erase object', 'object remover', 'ai photo editor', 'remove people from photo']
+    },
+    faq: [
+      { question: 'How does AI object removal work?', answer: 'Click on any object and AI (Segment Anything Model) automatically selects it. Then content-aware fill seamlessly removes it.' },
+      { question: 'Is my photo uploaded to a server?', answer: 'No, all AI processing happens locally in your browser. Your photos never leave your device.' },
+      { question: 'What objects can I remove?', answer: 'People, animals, text, logos, background elements - any distinct object with clear boundaries.' }
+    ]
+  },
+  {
+    id: 'diff-checker',
+    name: 'Diff Checker',
+    description: 'Compare two texts and highlight differences. Line-by-line or word-by-word diff mode with statistics.',
+    icon: '🔍',
+    thumbnail: '/thumbnails/diff-checker.svg',
+    category: 'utility',
+    tier: 'free',
+    href: '/tools/diff-checker',
+    color: 'from-cyan-500 to-teal-500',
+    tags: ['diff', 'compare', 'text', 'code', 'difference'],
+    seo: {
+      title: 'Diff Checker Online Free - Compare Text | New Life',
+      metaDescription: 'Compare two texts and find differences instantly. Line-by-line or word-by-word mode. Color-coded additions and deletions. Free, private, browser-based.',
+      h1: 'Compare Text & Find Differences Online',
+      keywords: ['diff checker', 'compare text', 'text diff', 'find differences', 'code compare']
+    },
+    faq: [
+      { question: 'What is the difference between line and word mode?', answer: 'Line mode compares entire lines (best for code). Word mode highlights individual word changes (best for prose).' },
+      { question: 'Can I compare code files?', answer: 'Yes, paste code in both panels. Line mode with line numbers works great for code review.' },
+      { question: 'Is there a size limit?', answer: 'No hard limit. Processing happens in your browser, so large texts may be slower but will work.' }
+    ]
+  },
 ];
 
 export const getToolsByCategory = (category: Tool['category']) =>

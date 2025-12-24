@@ -1,0 +1,145 @@
+---
+/**
+ * AI Object Remover - Tool Page
+ *
+ * Optimized for LLM extraction with:
+ * - TL;DR answer box (50-70 words)
+ * - Semantic Q&A sections
+ * - Full schema markup (SoftwareApplication, HowTo, FAQPage)
+ */
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/ui/Navbar.astro';
+import Footer from '../../components/ui/Footer.astro';
+import AnswerBox from '../../components/seo/AnswerBox.astro';
+import QASections from '../../components/seo/QASections.astro';
+import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
+import ObjectRemover from '../../components/tools/ObjectRemover';
+
+// Tool metadata
+const tool = {
+  id: 'object-remover',
+  name: 'AI Object Remover',
+  category: 'ai' as const,
+  url: '/tools/object-remover'
+};
+
+// AI-optimized content
+const seoContent = {
+  // Page meta
+  title: 'Remove Objects from Photos Free - AI Object Remover | New Life Solutions',
+  description: 'Remove unwanted objects from photos using AI. Click on any object to erase it instantly. 100% private - runs entirely in your browser. No signup, no watermarks.',
+
+  // TL;DR Answer Box (50-70 words - this is what AI extracts)
+  answerBox: {
+    title: 'AI Object Remover - Remove Unwanted Objects from Photos Free',
+    queryTarget: 'How to Remove Objects from Photos Online Free',
+    tldr: `Upload your image below and click on any object to remove it using AI. The Segment Anything Model (SAM) identifies objects with a single click, then smart content-aware fill removes them seamlessly. Everything runs in your browser - your photos are never uploaded. No signup, no watermarks, unlimited free use. First load downloads the AI model (~100MB).`,
+    trustSignals: [
+      'AI-powered accuracy',
+      'No file uploads',
+      'One-click selection',
+      'Unlimited free use'
+    ]
+  },
+
+  // Q&A Sections
+  qa: {
+    whatIs: {
+      answer: `AI Object Remover is a free tool that lets you erase unwanted objects from photos with a single click. It uses the Segment Anything Model (SAM) to intelligently detect and select objects, then applies content-aware fill to seamlessly remove them. Unlike cloud services, everything runs locally in your browser - your images stay private.`,
+      context: `Perfect for removing photobombers, distracting background elements, unwanted text, or any object that shouldn't be in your photo.`
+    },
+    howItWorks: {
+      steps: [
+        'Upload your image by dragging and dropping or clicking to browse',
+        'Wait for the AI model to load (first use only, ~100MB download)',
+        'Click on the object you want to remove - AI automatically creates a mask',
+        'Review the red overlay showing the area to be removed',
+        'Click "Remove Object" to apply content-aware fill',
+        'Download your clean image as PNG'
+      ]
+    },
+    whyBrowserBased: {
+      benefits: [
+        'Complete privacy: Your photos never leave your device or get uploaded anywhere',
+        'No daily limits: Remove objects from unlimited images, forever free',
+        'No watermarks: Download clean images ready for any use',
+        'Instant selection: AI identifies objects with a single click',
+        'Works offline: Once the model is cached, works without internet'
+      ]
+    },
+    faqs: [
+      {
+        question: 'What types of objects can I remove?',
+        answer: `The AI can select almost any object: people, animals, vehicles, text, logos, background elements, and more. It works best with distinct objects that have clear boundaries. For best results, click in the center of the object you want to remove.`
+      },
+      {
+        question: 'Why does it download a 100MB model?',
+        answer: `The AI model (Segment Anything) that identifies objects runs entirely in your browser. The ~100MB download happens only once and is cached for future use. This approach keeps your photos private - they never leave your device.`
+      },
+      {
+        question: 'How good is the object removal?',
+        answer: `The AI generates accurate masks with single-click selection. The content-aware fill works well for simple backgrounds (sky, grass, walls). Complex textures or patterns may show some artifacts - professional editing software offers more control for difficult cases.`
+      }
+    ]
+  }
+};
+
+// Schema data
+const schemaData = {
+  toolId: tool.id,
+  toolName: tool.name,
+  description: seoContent.description,
+  category: tool.category,
+  steps: seoContent.qa.howItWorks.steps,
+  faqs: seoContent.qa.faqs,
+  url: tool.url
+};
+---
+
+<Layout
+  title={seoContent.title}
+  description={seoContent.description}
+  image="/thumbnails/object-remover.svg"
+>
+  <!-- Schema Markup for AI extraction -->
+  <SchemaMarkup {...schemaData} />
+
+  <Navbar />
+
+  <main class="pt-20 pb-16 px-6 min-h-screen">
+    <div class="max-w-4xl mx-auto">
+
+      <!-- Answer Box: AI extracts this first -->
+      <AnswerBox
+        title={seoContent.answerBox.title}
+        tldr={seoContent.answerBox.tldr}
+        toolName={tool.name}
+        queryTarget={seoContent.answerBox.queryTarget}
+        trustSignals={seoContent.answerBox.trustSignals}
+      />
+
+      <!-- Tool Component -->
+      <section class="tool-section" aria-label="AI Object Remover Tool">
+        <ObjectRemover client:load />
+      </section>
+
+      <!-- Q&A Sections: Semantic structure for AI -->
+      <QASections
+        toolName={tool.name}
+        whatIs={seoContent.qa.whatIs}
+        howItWorks={seoContent.qa.howItWorks}
+        whyBrowserBased={seoContent.qa.whyBrowserBased}
+        faqs={seoContent.qa.faqs}
+      />
+
+    </div>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+  .tool-section {
+    margin: 2rem 0;
+  }
+</style>
