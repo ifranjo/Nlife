@@ -9,12 +9,16 @@ interface Props {
 }
 
 const {
-  title = 'New Life Solutions',
-  description = 'Smart tools for modern problems. Free, private, browser-based.',
+  title = 'New Life Solutions - Free Online Tools 2025',
+  description = 'Free browser-based tools for PDF, images, video & more. 100% private, no uploads. Works offline. Updated December 2025.',
   image = '/og-default.png'
 } = Astro.props;
 
 const siteUrl = Astro.url.origin;
+
+// Current date for freshness signals (GEO 2025 best practice)
+const currentDate = new Date().toISOString();
+const currentYear = new Date().getFullYear();
 ---
 
 <!DOCTYPE html>
@@ -26,19 +30,38 @@ const siteUrl = Astro.url.origin;
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{title}</title>
 
+    <!-- Freshness signals for GEO/AEO (Dec 2025) -->
+    <meta name="date" content={currentDate} />
+    <meta name="revised" content={currentDate} />
+
     <!-- Open Graph -->
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content="article" />
     <meta property="og:image" content={`${siteUrl}${image}`} />
     <meta property="og:url" content={Astro.url.href} />
     <meta property="og:site_name" content="New Life Solutions" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Article freshness (critical for AI citations) -->
+    <meta property="article:published_time" content="2024-12-01T00:00:00Z" />
+    <meta property="article:modified_time" content={currentDate} />
+    <meta property="article:author" content="New Life Solutions" />
+    <meta property="article:section" content="Technology" />
+    <meta property="article:tag" content="free online tools" />
+    <meta property="article:tag" content="browser-based" />
+    <meta property="article:tag" content={`${currentYear}`} />
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={`${siteUrl}${image}`} />
+    <meta name="twitter:site" content="@newlifesolutions" />
+
+    <!-- Additional SEO signals -->
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <link rel="canonical" href={Astro.url.href} />
   </head>
   <body>
     <!-- Background effects -->

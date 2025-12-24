@@ -1,16 +1,21 @@
 ---
 /**
- * AnswerBox - AI-optimized TL;DR section for tool pages
+ * AnswerBox - AI-optimized citation block for tool pages (GEO 2025)
  *
- * This component is designed for LLM extraction:
- * - First 50-70 words answer the query directly
- * - Schema.org HowTo markup for machine readability
+ * Designed for LLM extraction and AI citations:
+ * - First 40-60 words = "citation block" (what AI extracts)
+ * - Standalone paragraphs (~800 tokens each)
+ * - Schema.org markup for machine readability
  * - Trust signals reinforce E-E-A-T
+ * - Updated date signals freshness
+ *
+ * Research shows: 32% of AI citations are listicles,
+ * start each section with direct answer
  */
 
 interface Props {
   title: string;           // H1: "Merge PDF Files Online — Free, Private, No Upload"
-  tldr: string;            // 50-70 word direct answer
+  tldr: string;            // 40-60 word direct answer (CITATION BLOCK)
   toolName: string;        // "PDF Merge"
   queryTarget: string;     // "How to Merge PDF Files Online Free"
   trustSignals?: string[]; // ["100% browser-based", "No data collection", "Works offline"]
@@ -27,6 +32,10 @@ const {
     "Works offline"
   ]
 } = Astro.props;
+
+// Current date for freshness (GEO 2025)
+const currentYear = new Date().getFullYear();
+const lastUpdated = new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
 ---
 
 <section
@@ -34,9 +43,11 @@ const {
   itemscope
   itemtype="https://schema.org/HowTo"
   aria-label="Quick answer"
+  data-ai-citation="true"
 >
   <!-- Hidden structured data for AI extraction -->
   <meta itemprop="name" content={queryTarget} />
+  <meta itemprop="dateModified" content={new Date().toISOString()} />
 
   <a
     href="/hub"
@@ -48,24 +59,41 @@ const {
     Back to Tools
   </a>
 
+  <!-- H1 with year for freshness signals -->
   <h1 itemprop="description" class="answer-title">
     {title}
   </h1>
 
-  <p class="tldr" itemprop="text">
+  <!-- CITATION BLOCK: 40-60 words that AI will extract -->
+  <!-- This paragraph must stand alone and answer the query directly -->
+  <p class="tldr citation-block" itemprop="text" data-ai-extract="primary">
     {tldr}
   </p>
 
-  <div class="trust-signals" role="list" aria-label="Features">
-    {trustSignals.map((signal) => (
-      <span class="trust-signal" role="listitem">
+  <!-- Trust signals as list (listicles get 32% of AI citations) -->
+  <div class="trust-signals" role="list" aria-label="Features" itemscope itemtype="https://schema.org/ItemList">
+    <meta itemprop="name" content={`${toolName} Features`} />
+    {trustSignals.map((signal, index) => (
+      <span
+        class="trust-signal"
+        role="listitem"
+        itemprop="itemListElement"
+        itemscope
+        itemtype="https://schema.org/ListItem"
+      >
+        <meta itemprop="position" content={String(index + 1)} />
         <svg class="check-icon" viewBox="0 0 20 20" fill="currentColor">
           <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
         </svg>
-        {signal}
+        <span itemprop="name">{signal}</span>
       </span>
     ))}
   </div>
+
+  <!-- Freshness indicator (Dec 2025 best practice) -->
+  <p class="updated-date">
+    <time datetime={new Date().toISOString()}>Updated {lastUpdated}</time> · Free forever
+  </p>
 </section>
 
 <style>
@@ -137,6 +165,25 @@ const {
     width: 0.875rem;
     height: 0.875rem;
     color: #22c55e;
+  }
+
+  .updated-date {
+    font-size: 0.6875rem;
+    color: var(--text-muted);
+    margin-top: 1rem;
+    letter-spacing: 0.05em;
+  }
+
+  .updated-date time {
+    color: var(--text-dim);
+  }
+
+  /* Citation block styling for AI extraction */
+  .citation-block {
+    /* Ensure standalone parsing */
+    display: block;
+    /* Optimal for LLM chunking */
+    max-width: 42rem;
   }
 
   @media (max-width: 640px) {

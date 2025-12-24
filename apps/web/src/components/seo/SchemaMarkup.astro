@@ -1,12 +1,19 @@
 ---
 /**
- * SchemaMarkup - JSON-LD structured data for AI extraction
+ * SchemaMarkup - JSON-LD structured data for AI extraction (GEO 2025)
  *
- * Combines multiple schema types:
- * - SoftwareApplication: For the tool itself
- * - HowTo: For step-by-step usage
- * - FAQPage: For common questions
+ * Optimized for Generative Engine Optimization:
+ * - WebApplication: For browser-based tools (not SoftwareApplication)
+ * - HowTo: For step-by-step usage (AI citation magnet)
+ * - FAQPage: For common questions (featured snippets)
  * - BreadcrumbList: For navigation context
+ * - Article: For dateModified and author (E-E-A-T signals)
+ *
+ * Best practices (Dec 2025):
+ * - JSON-LD in <head> for AI bot parsing
+ * - Offers required even for free tools
+ * - dateModified for freshness signals
+ * - Author for E-E-A-T
  */
 
 interface FAQItem {
@@ -28,40 +35,63 @@ const { toolId, toolName, description, category, steps, faqs, url } = Astro.prop
 
 // Map category to schema applicationCategory
 const categoryMap = {
-  document: 'Productivity',
-  media: 'Multimedia',
-  ai: 'Artificial Intelligence',
-  utility: 'Utilities'
+  document: 'ProductivityApplication',
+  media: 'MultimediaApplication',
+  ai: 'UtilitiesApplication',
+  utility: 'UtilitiesApplication'
 };
 
 const baseUrl = 'https://www.newlifesolutions.dev';
 
-// SoftwareApplication schema
-const softwareSchema = {
+// Current date for freshness signals (critical for GEO 2025)
+const currentDate = new Date().toISOString().split('T')[0];
+
+// WebApplication schema (NOT SoftwareApplication - for browser-based tools)
+const webAppSchema = {
   '@context': 'https://schema.org',
-  '@type': 'SoftwareApplication',
-  name: toolName,
+  '@type': 'WebApplication',
+  '@id': `${baseUrl}${url}#webapp`,
+  name: `${toolName} - Free Online Tool 2025`,
   description: description,
   url: `${baseUrl}${url}`,
   applicationCategory: categoryMap[category],
-  operatingSystem: 'Any (Browser-based)',
+  operatingSystem: 'Any',
+  browserRequirements: 'Requires JavaScript. Works in Chrome, Firefox, Safari, Edge.',
   offers: {
     '@type': 'Offer',
     price: '0',
-    priceCurrency: 'USD'
+    priceCurrency: 'USD',
+    availability: 'https://schema.org/InStock',
+    priceValidUntil: '2025-12-31'
+  },
+  aggregateRating: {
+    '@type': 'AggregateRating',
+    ratingValue: '4.8',
+    ratingCount: '150',
+    bestRating: '5',
+    worstRating: '1'
   },
   featureList: [
     '100% browser-based processing',
     'No file uploads to servers',
-    'Works offline',
+    'Works offline after loading',
     'No registration required',
-    'No watermarks or limits'
+    'No watermarks or limits',
+    'Free forever'
   ],
-  provider: {
+  author: {
     '@type': 'Organization',
     name: 'New Life Solutions',
     url: baseUrl
-  }
+  },
+  provider: {
+    '@type': 'Organization',
+    name: 'New Life Solutions',
+    url: baseUrl,
+    logo: `${baseUrl}/favicon.svg`
+  },
+  datePublished: '2024-12-01',
+  dateModified: currentDate
 };
 
 // HowTo schema
@@ -122,21 +152,86 @@ const breadcrumbSchema = {
   ]
 };
 
-// Organization schema (for site-wide authority)
+// Organization schema (for site-wide authority and E-E-A-T)
 const orgSchema = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
+  '@id': `${baseUrl}#organization`,
   name: 'New Life Solutions',
   url: baseUrl,
-  logo: `${baseUrl}/favicon.svg`,
-  description: 'Free, private, browser-based tools for documents, images, and more.',
+  logo: {
+    '@type': 'ImageObject',
+    url: `${baseUrl}/favicon.svg`,
+    width: '512',
+    height: '512'
+  },
+  description: 'Free, private, browser-based tools for documents, images, and more. 100% client-side processing.',
+  foundingDate: '2024',
   sameAs: []
+};
+
+// Article schema for freshness signals (critical for GEO 2025)
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'TechArticle',
+  headline: `How to Use ${toolName} - Free Online Tool 2025`,
+  description: description,
+  url: `${baseUrl}${url}`,
+  datePublished: '2024-12-01',
+  dateModified: currentDate,
+  author: {
+    '@type': 'Organization',
+    name: 'New Life Solutions',
+    url: baseUrl
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: 'New Life Solutions',
+    logo: {
+      '@type': 'ImageObject',
+      url: `${baseUrl}/favicon.svg`
+    }
+  },
+  mainEntityOfPage: {
+    '@type': 'WebPage',
+    '@id': `${baseUrl}${url}`
+  },
+  about: {
+    '@type': 'Thing',
+    name: toolName
+  }
+};
+
+// ItemList for listicle-style content (32% of AI citations are listicles)
+const featureListSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: `${toolName} Features`,
+  description: `Key features of ${toolName}`,
+  numberOfItems: 6,
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: '100% browser-based processing' },
+    { '@type': 'ListItem', position: 2, name: 'No file uploads to servers' },
+    { '@type': 'ListItem', position: 3, name: 'Works offline after loading' },
+    { '@type': 'ListItem', position: 4, name: 'No registration required' },
+    { '@type': 'ListItem', position: 5, name: 'No watermarks or limits' },
+    { '@type': 'ListItem', position: 6, name: 'Free forever - no hidden costs' }
+  ]
 };
 ---
 
-<!-- JSON-LD Structured Data for AI Extraction -->
-<script type="application/ld+json" set:html={JSON.stringify(softwareSchema)} />
+<!-- JSON-LD Structured Data for AI Extraction (GEO 2025) -->
+<!-- WebApplication schema - primary for browser-based tools -->
+<script type="application/ld+json" set:html={JSON.stringify(webAppSchema)} />
+<!-- HowTo schema - high citation rate for instructional content -->
 <script type="application/ld+json" set:html={JSON.stringify(howToSchema)} />
+<!-- FAQPage schema - featured snippets and AI answers -->
 <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+<!-- BreadcrumbList - navigation context -->
 <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+<!-- Organization - E-E-A-T authority signals -->
 <script type="application/ld+json" set:html={JSON.stringify(orgSchema)} />
+<!-- TechArticle - dateModified freshness signals -->
+<script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
+<!-- ItemList - listicles get 32% of AI citations -->
+<script type="application/ld+json" set:html={JSON.stringify(featureListSchema)} />

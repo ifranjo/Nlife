@@ -1,0 +1,80 @@
+# robots.txt - New Life Solutions
+# Updated: December 2025
+# Policy: Allow AI search bots, standard crawlers
+
+# Default: Allow all
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /_astro/
+
+# =============================================================================
+# AI SEARCH BOTS - ALLOWED (for AI search visibility/GEO)
+# =============================================================================
+
+# OpenAI - ChatGPT Search
+User-agent: OAI-SearchBot
+Allow: /
+
+# OpenAI - ChatGPT User queries
+User-agent: ChatGPT-User
+Allow: /
+
+# Perplexity AI - Search
+User-agent: PerplexityBot
+Allow: /
+
+# Anthropic - Claude Web Search
+User-agent: ClaudeBot
+Allow: /
+
+# Microsoft - Copilot
+User-agent: Applebot-Extended
+Allow: /
+
+# You.com
+User-agent: YouBot
+Allow: /
+
+# =============================================================================
+# AI TRAINING BOTS - BLOCKED (training only, no search benefit)
+# =============================================================================
+
+# OpenAI - GPT Training
+User-agent: GPTBot
+Disallow: /
+
+# Google - AI Training (separate from search)
+User-agent: Google-Extended
+Disallow: /
+
+# Common Crawl - Training datasets
+User-agent: CCBot
+Disallow: /
+
+# Meta - AI Training
+User-agent: Meta-ExternalAgent
+Disallow: /
+
+# Bytedance
+User-agent: Bytespider
+Disallow: /
+
+# =============================================================================
+# STANDARD SEARCH ENGINE BOTS - ALLOWED
+# =============================================================================
+
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+# Sitemap
+Sitemap: https://www.newlifesolutions.dev/sitemap.xml
