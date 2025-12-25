@@ -7,6 +7,7 @@ import Navbar from '../../components/ui/Navbar.astro';
 import Footer from '../../components/ui/Footer.astro';
 import AnswerBox from '../../components/seo/AnswerBox.astro';
 import QASections from '../../components/seo/QASections.astro';
+import RelatedTools from '../../components/seo/RelatedTools.astro';
 import { getToolById } from '../../lib/tools';
 import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
 import AudiogramMaker from '../../components/tools/AudiogramMaker';
@@ -137,6 +138,9 @@ const schemaData = {
         faqs={seoContent.qa.faqs}
         stats={toolData?.stats}
       />
+
+      <!-- Related Tools -->
+      <RelatedTools currentToolId="audiogram-maker" />
 
     </div>
   </main>

@@ -3,6 +3,7 @@ import Layout from '../../layouts/Layout.astro';
 import Navbar from '../../components/ui/Navbar.astro';
 import Footer from '../../components/ui/Footer.astro';
 import PdfSplit from '../../components/tools/PdfSplit';
+import RelatedTools from '../../components/seo/RelatedTools.astro';
 ---
 
 <Layout title="PDF Split - New Life Solutions" description="Split PDF files into individual pages. Browser-based, private, free." image="/thumbnails/pdf-split.svg">
@@ -40,6 +41,9 @@ import PdfSplit from '../../components/tools/PdfSplit';
 
       <!-- Tool -->
       <PdfSplit client:load />
+
+      <!-- Related Tools -->
+      <RelatedTools currentToolId="pdf-split" />
     </div>
   </main>
 

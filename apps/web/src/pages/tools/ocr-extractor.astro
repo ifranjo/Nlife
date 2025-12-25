@@ -15,6 +15,7 @@ import QASections from '../../components/seo/QASections.astro';
 import { getToolById } from '../../lib/tools';
 import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
 import OcrExtractor from '../../components/tools/OcrExtractor';
+import RelatedTools from '../../components/seo/RelatedTools.astro';
 
 // Tool metadata
 const tool = {
@@ -143,6 +144,9 @@ const schemaData = {
         faqs={seoContent.qa.faqs}
         stats={toolData?.stats}
       />
+
+      <!-- Related Tools -->
+      <RelatedTools currentToolId="ocr-extractor" />
 
     </div>
   </main>
