@@ -32,6 +32,8 @@ node ANALYTICS/seo-dashboard.mjs --json
 | `performance-monitor.mjs` | Core Web Vitals via PageSpeed API | ~2min |
 | `index-status.mjs` | Search engine indexing readiness | ~15s |
 | `broken-links.mjs` | Crawls & validates all links | ~3min |
+| `keyword-tracker.mjs` | Track keyword rankings & trends | ~30s |
+| `competitor-analysis.mjs` | Market intelligence vs 5 competitors | ~30s |
 
 ### SEO Tools (from scripts/)
 
@@ -230,3 +232,42 @@ When adding new monitors:
 2. Use consistent color coding
 3. Return proper exit codes
 4. Add to this README
+
+### Keyword Rank Tracker
+
+```bash
+# Live keyword ranking check
+node ANALYTICS/keyword-tracker.mjs
+
+# Daily tracking (saves to history)
+node ANALYTICS/keyword-tracker.mjs --daily
+
+# View trend report
+node ANALYTICS/keyword-tracker.mjs --report
+
+# Include competitor positions
+node ANALYTICS/keyword-tracker.mjs --competitors
+
+# Show only position change alerts
+node ANALYTICS/keyword-tracker.mjs --alerts
+
+# Export to JSON
+node ANALYTICS/keyword-tracker.mjs --json
+```
+
+Features:
+- Tracks 25+ target keywords across PDF, Image, Audio, Video categories
+- Historical tracking with trend visualization
+- Position change alerts (gains, drops, new rankings, lost rankings)
+- Competitor position comparison
+- Visibility score (percentage of keywords in Top 10)
+
+Data Storage:
+- `keyword-history.json` - Historical ranking data (90 days retained)
+- `keyword-report-YYYY-MM-DD.json` - Daily reports (with `--json`)
+
+API Setup (optional, for real SERP data):
+1. Create project at console.cloud.google.com
+2. Enable Custom Search API
+3. Create search engine at cse.google.com
+4. Set `GOOGLE_CSE_API_KEY` and `GOOGLE_CSE_CX` environment variables
