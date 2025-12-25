@@ -34,6 +34,42 @@ const FORMAT_MIME: Record<OutputFormat, string> = {
   webp: 'image/webp',
 };
 
+// Safari fallback for OffscreenCanvas
+const createCanvas = (width: number, height: number): OffscreenCanvas | HTMLCanvasElement => {
+  if (typeof OffscreenCanvas !== 'undefined') {
+    return new OffscreenCanvas(width, height);
+  }
+  // Safari fallback
+  const canvas = document.createElement('canvas');
+  canvas.width = width;
+  canvas.height = height;
+  return canvas;
+};
+
+const canvasToBlob = async (
+  canvas: OffscreenCanvas | HTMLCanvasElement,
+  type: string,
+  quality: number
+): Promise<Blob> => {
+  if (canvas instanceof OffscreenCanvas) {
+    return canvas.convertToBlob({ type, quality });
+  }
+  // Safari fallback using HTMLCanvasElement.toBlob
+  return new Promise<Blob>((resolve, reject) => {
+    (canvas as HTMLCanvasElement).toBlob(
+      (blob) => {
+        if (blob) {
+          resolve(blob);
+        } else {
+          reject(new Error('Failed to convert canvas to blob'));
+        }
+      },
+      type,
+      quality
+    );
+  });
+};
+
 export default function FileConverter() {
   const [files, setFiles] = useState<ImageFile[]>([]);
   const [isDragging, setIsDragging] = useState(false);
@@ -114,7 +150,7 @@ export default function FileConverter() {
     qualityPercent: number
   ): Promise<Blob> => {
     const img = await createImageBitmap(file);
-    const canvas = new OffscreenCanvas(img.width, img.height);
+    const canvas = createCanvas(img.width, img.height);
     const ctx = canvas.getContext('2d');
 
     if (!ctx) {
@@ -130,10 +166,7 @@ export default function FileConverter() {
     ctx.drawImage(img, 0, 0);
 
     const mimeType = FORMAT_MIME[format];
-    const blob = await canvas.convertToBlob({
-      type: mimeType,
-      quality: qualityPercent / 100,
-    });
+    const blob = await canvasToBlob(canvas, mimeType, qualityPercent / 100);
 
     return blob;
   };

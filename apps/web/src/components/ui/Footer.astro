@@ -24,10 +24,10 @@ const year = new Date().getFullYear();
         </span>
       </div>
 
-      <!-- Center -->
-      <div class="flex items-center gap-6 text-[0.625rem] text-[var(--text-muted)] uppercase tracking-[0.15em]">
-        <a href="/hub" class="hover:text-[var(--text)] transition-colors">Tools</a>
-        <a href="/hub#about" class="hover:text-[var(--text)] transition-colors">About</a>
+      <!-- Center (44px+ touch targets for WCAG compliance) -->
+      <div class="flex items-center gap-2 sm:gap-6 text-[0.625rem] text-[var(--text-muted)] uppercase tracking-[0.15em]">
+        <a href="/hub" class="hover:text-[var(--text)] transition-colors min-h-[44px] flex items-center px-3">Tools</a>
+        <a href="/hub#about" class="hover:text-[var(--text)] transition-colors min-h-[44px] flex items-center px-3">About</a>
       </div>
 
       <!-- Right -->

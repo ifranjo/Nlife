@@ -246,6 +246,24 @@ export default function PdfFormFiller() {
     }
   };
 
+  // Helper to get position from mouse or touch event
+  const getCanvasPosition = (
+    e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>,
+    rect: DOMRect
+  ) => {
+    if ('touches' in e) {
+      const touch = e.touches[0] || e.changedTouches[0];
+      return {
+        x: touch.clientX - rect.left,
+        y: touch.clientY - rect.top,
+      };
+    }
+    return {
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top,
+    };
+  };
+
   // Signature drawing
   const startDrawing = (e: React.MouseEvent<HTMLCanvasElement>) => {
     if (signatureMode !== 'draw' || !signatureCanvasRef.current) return;
@@ -275,6 +293,42 @@ export default function PdfFormFiller() {
   };
 
   const stopDrawing = () => {
+    setIsDrawing(false);
+  };
+
+  // Touch event handlers for signature canvas
+  const handleTouchStart = (e: React.TouchEvent<HTMLCanvasElement>) => {
+    if (signatureMode !== 'draw' || !signatureCanvasRef.current) return;
+    e.preventDefault(); // Prevent scrolling
+    setIsDrawing(true);
+    const canvas = signatureCanvasRef.current;
+    const rect = canvas.getBoundingClientRect();
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    const pos = getCanvasPosition(e, rect);
+    ctx.beginPath();
+    ctx.moveTo(pos.x, pos.y);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent<HTMLCanvasElement>) => {
+    if (!isDrawing || signatureMode !== 'draw' || !signatureCanvasRef.current) return;
+    e.preventDefault(); // Prevent scrolling
+    const canvas = signatureCanvasRef.current;
+    const rect = canvas.getBoundingClientRect();
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    const pos = getCanvasPosition(e, rect);
+    ctx.lineTo(pos.x, pos.y);
+    ctx.strokeStyle = '#000000';
+    ctx.lineWidth = 2;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+    ctx.stroke();
+  };
+
+  const handleTouchEnd = () => {
     setIsDrawing(false);
   };
 
@@ -890,7 +944,11 @@ export default function PdfFormFiller() {
                   onMouseMove={draw}
                   onMouseUp={stopDrawing}
                   onMouseLeave={stopDrawing}
+                  onTouchStart={handleTouchStart}
+                  onTouchMove={handleTouchMove}
+                  onTouchEnd={handleTouchEnd}
                   className="w-full cursor-crosshair"
+                  style={{ touchAction: 'none' }}
                 />
               </div>
             ) : (

@@ -1,5 +1,7 @@
-import { useState, useRef, useCallback, useEffect } from 'react';
+import { useState, useRef, useCallback, useEffect, useMemo } from 'react';
+import DOMPurify from 'dompurify';
 import { createSafeErrorMessage, sanitizeFilename } from '../../lib/security';
+import { copyToClipboard } from '../../lib/clipboard';
 
 interface SvgStats {
   originalSize: number;
@@ -310,14 +312,14 @@ export default function SvgEditor() {
   }, []);
 
   // Copy to clipboard
-  const copyToClipboard = useCallback(async () => {
+  const handleCopyToClipboard = useCallback(async () => {
     if (!outputSvg) return;
 
-    try {
-      await navigator.clipboard.writeText(outputSvg);
+    const success = await copyToClipboard(outputSvg);
+    if (success) {
       setCopySuccess(true);
       setTimeout(() => setCopySuccess(false), 2000);
-    } catch {
+    } else {
       setError('Failed to copy to clipboard');
     }
   }, [outputSvg]);
@@ -556,7 +558,7 @@ export default function SvgEditor() {
               {outputSvg && (
                 <>
                   <button
-                    onClick={copyToClipboard}
+                    onClick={handleCopyToClipboard}
                     className={`
                       text-xs px-3 py-1.5 rounded-lg transition-all flex items-center gap-1.5
                       ${copySuccess
@@ -595,7 +597,7 @@ export default function SvgEditor() {
             </div>
           </div>
 
-          {/* Preview */}
+          {/* Preview - SVG sanitized with DOMPurify for XSS protection */}
           <div
             ref={previewRef}
             className="w-full h-48 bg-slate-900 border border-slate-700 rounded-lg flex items-center justify-center overflow-hidden mb-4"
@@ -608,12 +610,12 @@ export default function SvgEditor() {
             {outputSvg ? (
               <div
                 className="max-w-full max-h-full p-4"
-                dangerouslySetInnerHTML={{ __html: outputSvg }}
+                dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(outputSvg, { USE_PROFILES: { svg: true, svgFilters: true } }) }}
               />
             ) : inputSvg && isValidSvg(inputSvg) ? (
               <div
                 className="max-w-full max-h-full p-4 opacity-50"
-                dangerouslySetInnerHTML={{ __html: inputSvg }}
+                dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(inputSvg, { USE_PROFILES: { svg: true, svgFilters: true } }) }}
               />
             ) : (
               <span className="text-slate-600 text-sm">SVG preview will appear here</span>

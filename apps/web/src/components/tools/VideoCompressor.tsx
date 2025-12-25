@@ -1,10 +1,25 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { FFmpeg } from '@ffmpeg/ffmpeg';
 import { fetchFile, toBlobURL } from '@ffmpeg/util';
 import ToolFeedback from '../ui/ToolFeedback';
 import { validateVideoFile, sanitizeFilename, createSafeErrorMessage } from '../../lib/security';
 
 type Status = 'idle' | 'loading' | 'processing' | 'done' | 'error';
+
+interface SharedArrayBufferCheck {
+  supported: boolean;
+  message?: string;
+}
+
+const checkSharedArrayBuffer = (): SharedArrayBufferCheck => {
+  if (typeof SharedArrayBuffer === 'undefined') {
+    return {
+      supported: false,
+      message: 'Your browser does not support SharedArrayBuffer, which is required for video processing. Please try using Chrome, Firefox, or Edge with the latest updates.',
+    };
+  }
+  return { supported: true };
+};
 
 export default function VideoCompressor() {
   const [status, setStatus] = useState<Status>('idle');
@@ -16,6 +31,15 @@ export default function VideoCompressor() {
   const [quality, setQuality] = useState('medium');
   const ffmpegRef = useRef<FFmpeg | null>(null);
   const [ffmpegLoaded, setFfmpegLoaded] = useState(false);
+  const [sharedArrayBufferSupported, setSharedArrayBufferSupported] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    const check = checkSharedArrayBuffer();
+    setSharedArrayBufferSupported(check.supported);
+    if (!check.supported) {
+      setError(check.message || 'SharedArrayBuffer not supported');
+    }
+  }, []);
 
   const qualitySettings: Record<string, { crf: string; preset: string; label: string }> = {
     low: { crf: '32', preset: 'fast', label: 'Low (Smallest file)' },
@@ -25,6 +49,14 @@ export default function VideoCompressor() {
 
   const loadFFmpeg = async () => {
     if (ffmpegRef.current && ffmpegLoaded) return;
+
+    // Check SharedArrayBuffer support before loading FFmpeg
+    const sabCheck = checkSharedArrayBuffer();
+    if (!sabCheck.supported) {
+      setError(sabCheck.message || 'SharedArrayBuffer not supported');
+      setStatus('error');
+      return;
+    }
 
     setStatus('loading');
     const ffmpeg = new FFmpeg();
@@ -58,6 +90,9 @@ export default function VideoCompressor() {
       setError(validation.error || 'Invalid video file');
       return;
     }
+
+    // Cleanup previous URL to prevent memory leaks
+    if (outputUrl) URL.revokeObjectURL(outputUrl);
 
     setVideoFile(file);
     setError(null);
@@ -148,6 +183,40 @@ export default function VideoCompressor() {
     ? Math.round((1 - outputSize / videoFile.size) * 100)
     : 0;
 
+  // Show unsupported message if SharedArrayBuffer is not available
+  if (sharedArrayBufferSupported === false) {
+    return (
+      <div className="space-y-6">
+        <div className="bg-amber-500/10 border border-amber-500/30 rounded-lg p-6">
+          <div className="flex items-start gap-4">
+            <span className="text-3xl">⚠️</span>
+            <div className="space-y-3">
+              <h3 className="text-amber-400 font-semibold text-lg">Browser Feature Not Available</h3>
+              <p className="text-[var(--text)]">
+                Your browser does not support <code className="bg-[var(--bg-secondary)] px-1.5 py-0.5 rounded text-sm">SharedArrayBuffer</code>,
+                which is required for video processing with FFmpeg.
+              </p>
+              <div className="text-sm text-[var(--text-muted)] space-y-2">
+                <p><strong>This can happen when:</strong></p>
+                <ul className="list-disc list-inside space-y-1 ml-2">
+                  <li>Using an older browser version</li>
+                  <li>The site is missing required security headers (COOP/COEP)</li>
+                  <li>Using certain privacy-focused browsers or extensions</li>
+                </ul>
+                <p className="mt-3"><strong>Try these solutions:</strong></p>
+                <ul className="list-disc list-inside space-y-1 ml-2">
+                  <li>Use the latest version of Chrome, Firefox, or Edge</li>
+                  <li>Disable browser extensions that may block features</li>
+                  <li>Try opening the page in a private/incognito window</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-6">
       {/* Upload */}
@@ -158,7 +227,7 @@ export default function VideoCompressor() {
           onChange={handleFileSelect}
           className="hidden"
           id="video-compress-upload"
-          disabled={status === 'processing' || status === 'loading'}
+          disabled={status === 'processing' || status === 'loading' || sharedArrayBufferSupported === false}
         />
         <label htmlFor="video-compress-upload" className="cursor-pointer block">
           <div className="text-4xl mb-4">🗜️</div>
@@ -267,6 +336,8 @@ export default function VideoCompressor() {
 
           <button
             onClick={() => {
+              // Cleanup URL to prevent memory leaks
+              if (outputUrl) URL.revokeObjectURL(outputUrl);
               setVideoFile(null);
               setOutputUrl(null);
               setStatus('idle');

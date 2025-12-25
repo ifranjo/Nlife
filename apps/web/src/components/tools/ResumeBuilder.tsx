@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import ToolFeedback from '../ui/ToolFeedback';
+import { sanitizeFilename } from '../../lib/security';
 
 interface ResumeData {
   name: string;
@@ -199,7 +200,8 @@ export default function ResumeBuilder() {
       doc.text(skillsLines, 20, y);
     }
 
-    doc.save(`${data.name || 'resume'}.pdf`);
+    const safeName = sanitizeFilename(data.name || 'resume');
+    doc.save(`${safeName}.pdf`);
     setGenerated(true);
   };
 

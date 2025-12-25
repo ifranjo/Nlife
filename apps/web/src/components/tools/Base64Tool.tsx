@@ -4,6 +4,7 @@ import {
   createSafeErrorMessage,
   generateDownloadFilename,
 } from '../../lib/security';
+import { copyToClipboard } from '../../lib/clipboard';
 
 type Mode = 'encode' | 'decode';
 type InputType = 'text' | 'file';
@@ -198,18 +199,18 @@ export default function Base64Tool() {
   }, [selectedFile]);
 
   // Copy to clipboard
-  const copyToClipboard = useCallback(async () => {
+  const handleCopyToClipboard = useCallback(async () => {
     const textToCopy = textOutput || fileOutput;
     if (!textToCopy) {
       setError('Nothing to copy');
       return;
     }
 
-    try {
-      await navigator.clipboard.writeText(textToCopy);
+    const success = await copyToClipboard(textToCopy);
+    if (success) {
       setCopySuccess(true);
       setTimeout(() => setCopySuccess(false), 2000);
-    } catch {
+    } else {
       setError('Failed to copy to clipboard');
     }
   }, [textOutput, fileOutput]);
@@ -376,7 +377,7 @@ export default function Base64Tool() {
                   {mode === 'encode' ? 'Base64 Output' : 'Decoded Text'}
                 </label>
                 <button
-                  onClick={copyToClipboard}
+                  onClick={handleCopyToClipboard}
                   className="flex items-center gap-2 px-3 py-1.5 text-sm rounded-lg bg-slate-800/50 text-slate-300 border border-slate-700/30 hover:border-cyan-500/50 transition-all"
                 >
                   {copySuccess ? (
@@ -462,7 +463,7 @@ export default function Base64Tool() {
                 </label>
                 <div className="flex gap-2">
                   <button
-                    onClick={copyToClipboard}
+                    onClick={handleCopyToClipboard}
                     className="flex items-center gap-2 px-3 py-1.5 text-sm rounded-lg bg-slate-800/50 text-slate-300 border border-slate-700/30 hover:border-cyan-500/50 transition-all"
                   >
                     {copySuccess ? (

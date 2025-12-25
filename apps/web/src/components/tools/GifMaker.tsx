@@ -69,6 +69,10 @@ export default function GifMaker() {
       return;
     }
 
+    // Cleanup previous URLs to prevent memory leaks
+    if (videoUrl) URL.revokeObjectURL(videoUrl);
+    if (outputUrl) URL.revokeObjectURL(outputUrl);
+
     setVideoFile(file);
     setVideoUrl(URL.createObjectURL(file));
     setError(null);
@@ -104,6 +108,10 @@ export default function GifMaker() {
       setError(validation.error || 'Invalid video file');
       return;
     }
+
+    // Cleanup previous URLs to prevent memory leaks
+    if (videoUrl) URL.revokeObjectURL(videoUrl);
+    if (outputUrl) URL.revokeObjectURL(outputUrl);
 
     setVideoFile(file);
     setVideoUrl(URL.createObjectURL(file));
@@ -439,6 +447,9 @@ export default function GifMaker() {
 
           <button
             onClick={() => {
+              // Cleanup URLs to prevent memory leaks
+              if (videoUrl) URL.revokeObjectURL(videoUrl);
+              if (outputUrl) URL.revokeObjectURL(outputUrl);
               setVideoFile(null);
               setVideoUrl(null);
               setOutputUrl(null);

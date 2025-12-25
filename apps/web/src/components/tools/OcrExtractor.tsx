@@ -5,6 +5,7 @@ import {
   createSafeErrorMessage,
   generateDownloadFilename,
 } from '../../lib/security';
+import { copyToClipboard } from '../../lib/clipboard';
 
 interface OcrResult {
   text: string;
@@ -282,14 +283,14 @@ export default function OcrExtractor() {
     }
   };
 
-  const copyToClipboard = async () => {
+  const handleCopyToClipboard = async () => {
     if (!result) return;
 
-    try {
-      await navigator.clipboard.writeText(result.text);
+    const success = await copyToClipboard(result.text);
+    if (success) {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
-    } catch (err) {
+    } else {
       setError('Failed to copy to clipboard');
     }
   };
@@ -585,7 +586,7 @@ export default function OcrExtractor() {
             <div className="flex items-center justify-between mb-4">
               <h4 className="text-sm font-medium text-slate-300">Extracted Text</h4>
               <button
-                onClick={copyToClipboard}
+                onClick={handleCopyToClipboard}
                 className={`px-3 py-1.5 text-sm rounded-lg transition-colors flex items-center gap-2 ${copied
                     ? 'text-green-400 bg-green-500/10'
                     : 'text-cyan-400 hover:text-cyan-300 hover:bg-cyan-500/10'
@@ -633,7 +634,7 @@ export default function OcrExtractor() {
             </button>
 
             <button
-              onClick={copyToClipboard}
+              onClick={handleCopyToClipboard}
               className={`flex-1 px-6 py-3 rounded-lg font-medium transition-all flex items-center justify-center gap-2 ${copied
                   ? 'bg-green-500 text-white'
                   : 'bg-gradient-to-r from-violet-500 to-purple-500 text-white hover:shadow-lg hover:shadow-violet-500/25'

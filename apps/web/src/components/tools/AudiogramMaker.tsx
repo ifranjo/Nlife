@@ -5,6 +5,19 @@ import ToolFeedback from '../ui/ToolFeedback';
 import { validateAudioFile, validateFile, sanitizeFilename, createSafeErrorMessage } from '../../lib/security';
 
 type Status = 'idle' | 'loading' | 'analyzing' | 'rendering' | 'done' | 'error';
+
+// Helper to ensure AudioContext is resumed (required for iOS Safari)
+const ensureAudioContext = async (ctx: AudioContext): Promise<AudioContext> => {
+  if (ctx.state === 'suspended') {
+    try {
+      await ctx.resume();
+    } catch (err) {
+      console.warn('Failed to resume AudioContext:', err);
+      throw new Error('Audio playback is blocked. Please tap the screen and try again.');
+    }
+  }
+  return ctx;
+};
 type AspectRatio = '1:1' | '9:16' | '16:9';
 type WaveformStyle = 'bars' | 'line' | 'circular';
 
@@ -78,6 +91,9 @@ export default function AudiogramMaker() {
 
       reader.onload = async (e) => {
         try {
+          // Ensure AudioContext is resumed (iOS Safari requirement)
+          await ensureAudioContext(audioContext);
+
           const arrayBuffer = e.target?.result as ArrayBuffer;
           const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
 

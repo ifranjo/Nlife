@@ -3,6 +3,7 @@ import { marked } from 'marked';
 import hljs from 'highlight.js';
 import DOMPurify from 'dompurify';
 import { createSafeErrorMessage } from '../../lib/security';
+import { copyToClipboard } from '../../lib/clipboard';
 
 // Sample markdown content
 const SAMPLE_MARKDOWN = `# Welcome to Markdown Editor
@@ -261,11 +262,11 @@ ${htmlContent}
 
   // Copy markdown to clipboard
   const copyMarkdown = useCallback(async () => {
-    try {
-      await navigator.clipboard.writeText(markdown);
+    const success = await copyToClipboard(markdown);
+    if (success) {
       setCopySuccess(true);
       setTimeout(() => setCopySuccess(false), 2000);
-    } catch (err) {
+    } else {
       setError('Failed to copy to clipboard');
     }
   }, [markdown]);

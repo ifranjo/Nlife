@@ -5,6 +5,19 @@ import ToolFeedback from '../ui/ToolFeedback';
 import { validateAudioFile, sanitizeFilename, createSafeErrorMessage } from '../../lib/security';
 
 type Status = 'idle' | 'loading' | 'analyzing' | 'processing' | 'done' | 'error';
+
+// Helper to ensure AudioContext is resumed (required for iOS Safari)
+const ensureAudioContext = async (ctx: AudioContext): Promise<AudioContext> => {
+  if (ctx.state === 'suspended') {
+    try {
+      await ctx.resume();
+    } catch (err) {
+      console.warn('Failed to resume AudioContext:', err);
+      throw new Error('Audio playback is blocked. Please tap the screen and try again.');
+    }
+  }
+  return ctx;
+};
 type ExportFormat = 'mp3' | 'wav';
 
 interface WaveformData {
@@ -73,6 +86,9 @@ export default function AudioWaveformEditor() {
 
       reader.onload = async (e) => {
         try {
+          // Ensure AudioContext is resumed (iOS Safari requirement)
+          await ensureAudioContext(audioContext);
+
           const arrayBuffer = e.target?.result as ArrayBuffer;
           const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
 
@@ -357,6 +373,87 @@ export default function AudioWaveformEditor() {
     setIsDragging(null);
   };
 
+  // Helper to get position from mouse or touch event
+  const getCanvasX = (
+    e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>,
+    rect: DOMRect
+  ): number => {
+    if ('touches' in e) {
+      const touch = e.touches[0] || e.changedTouches[0];
+      return touch.clientX - rect.left;
+    }
+    return e.clientX - rect.left;
+  };
+
+  // Touch event handlers for waveform selection
+  const handleCanvasTouchStart = (e: React.TouchEvent<HTMLCanvasElement>) => {
+    if (!canvasRef.current || !duration) return;
+    e.preventDefault(); // Prevent scrolling
+
+    const rect = canvasRef.current.getBoundingClientRect();
+    const x = getCanvasX(e, rect);
+    const time = (x / rect.width) * duration;
+
+    const startX = (selectionStart / duration) * rect.width;
+    const endX = (selectionEnd / duration) * rect.width;
+
+    // Check if touching on handles or region
+    if (Math.abs(x - startX) < 20) { // Larger touch target
+      setIsDragging('start');
+    } else if (Math.abs(x - endX) < 20) { // Larger touch target
+      setIsDragging('end');
+    } else if (x > startX && x < endX) {
+      setIsDragging('region');
+      setDragStartX(x);
+      setDragStartSelection({ start: selectionStart, end: selectionEnd });
+    } else {
+      // Tap to set selection point
+      if (time < (selectionStart + selectionEnd) / 2) {
+        setSelectionStart(Math.max(0, time));
+      } else {
+        setSelectionEnd(Math.min(duration, time));
+      }
+    }
+  };
+
+  const handleCanvasTouchMove = (e: React.TouchEvent<HTMLCanvasElement>) => {
+    if (!isDragging || !canvasRef.current || !duration) return;
+    e.preventDefault(); // Prevent scrolling
+
+    const rect = canvasRef.current.getBoundingClientRect();
+    const x = getCanvasX(e, rect);
+    const time = Math.max(0, Math.min(duration, (x / rect.width) * duration));
+
+    if (isDragging === 'start') {
+      setSelectionStart(Math.min(time, selectionEnd - 0.1));
+    } else if (isDragging === 'end') {
+      setSelectionEnd(Math.max(time, selectionStart + 0.1));
+    } else if (isDragging === 'region') {
+      const dx = x - dragStartX;
+      const dt = (dx / rect.width) * duration;
+      const regionLength = dragStartSelection.end - dragStartSelection.start;
+
+      let newStart = dragStartSelection.start + dt;
+      let newEnd = dragStartSelection.end + dt;
+
+      if (newStart < 0) {
+        newStart = 0;
+        newEnd = regionLength;
+      }
+      if (newEnd > duration) {
+        newEnd = duration;
+        newStart = duration - regionLength;
+      }
+
+      setSelectionStart(newStart);
+      setSelectionEnd(newEnd);
+    }
+  };
+
+  const handleCanvasTouchEnd = () => {
+    setIsDragging(null);
+  };
+
   // Playback controls
   const togglePlayback = () => {
     if (!audioRef.current) return;
@@ -555,6 +652,9 @@ export default function AudioWaveformEditor() {
               onMouseMove={handleCanvasMouseMove}
               onMouseUp={handleCanvasMouseUp}
               onMouseLeave={handleCanvasMouseUp}
+              onTouchStart={handleCanvasTouchStart}
+              onTouchMove={handleCanvasTouchMove}
+              onTouchEnd={handleCanvasTouchEnd}
               className="w-full rounded cursor-crosshair"
               style={{ touchAction: 'none' }}
             />

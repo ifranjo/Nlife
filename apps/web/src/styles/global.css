@@ -1258,3 +1258,203 @@ body {
   color: var(--text);
   opacity: 0.38;
 }
+
+/* ============================================
+   MOBILE TOUCH OPTIMIZATIONS
+   WCAG 2.1 compliant touch targets & safe areas
+   ============================================ */
+
+/* === SAFE AREA INSETS (iPhone notch/Dynamic Island) === */
+body {
+  /* Apply safe area padding for devices with notches */
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+}
+
+/* Fixed navbar needs safe area consideration */
+nav.fixed {
+  padding-top: env(safe-area-inset-top);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+}
+
+/* Footer safe area for bottom navigation bar devices */
+footer {
+  padding-bottom: calc(2rem + env(safe-area-inset-bottom));
+}
+
+/* === MINIMUM TOUCH TARGETS (44px WCAG 2.1 Level AA) === */
+
+/* All interactive elements get minimum 44px touch target */
+button,
+a,
+input[type="file"] + label,
+input[type="checkbox"],
+input[type="radio"],
+select,
+.clickable,
+[role="button"],
+[role="link"],
+[role="tab"],
+[role="menuitem"] {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* Inline links can be smaller but need adequate line height */
+p a,
+li a,
+span a {
+  min-height: auto;
+  min-width: auto;
+  display: inline;
+  padding: 0.25rem 0;
+}
+
+/* Navigation links - ensure adequate touch targets */
+.nav-link {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 0.75rem;
+}
+
+/* Form inputs need adequate height */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="search"],
+input[type="url"],
+input[type="tel"],
+textarea,
+select {
+  min-height: 44px;
+  padding: 0.75rem 1rem;
+}
+
+/* File upload labels/buttons */
+input[type="file"] {
+  min-height: 44px;
+}
+
+/* Tool cards are already large enough, ensure tappable */
+.tool-card {
+  min-height: 44px;
+}
+
+/* Tags and small elements - use padding to increase touch area */
+.tag {
+  min-height: 32px;
+  padding: 0.5rem 0.75rem;
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Status indicators - not interactive, no minimum needed */
+.status-dot {
+  min-height: auto;
+  min-width: auto;
+}
+
+/* === TOUCH FEEDBACK (Active States for Mobile) === */
+
+/* Touch devices: provide visual feedback on press */
+@media (hover: none) and (pointer: coarse) {
+  /* Scale down slightly on touch */
+  button:active,
+  a:active,
+  .tool-card:active,
+  .btn-primary:active,
+  .btn-secondary:active,
+  .clickable:active,
+  [role="button"]:active {
+    transform: scale(0.97);
+    opacity: 0.9;
+    transition: transform 100ms ease-out, opacity 100ms ease-out;
+  }
+
+  /* Drop zone active state */
+  .drop-zone:active {
+    transform: scale(0.99);
+    border-color: var(--accent);
+  }
+
+  /* Glass card active feedback */
+  .glass-card:active {
+    transform: scale(0.98);
+    opacity: 0.95;
+  }
+
+  /* Nav links active feedback */
+  .nav-link:active {
+    opacity: 0.7;
+  }
+
+  /* Disable hover effects that interfere with touch */
+  .tool-card:hover {
+    transform: none;
+  }
+
+  .tool-card:active {
+    transform: scale(0.98);
+    border-color: var(--card-accent, var(--border-glass-hover));
+    box-shadow: 0 0 20px var(--card-accent, rgba(255, 255, 255, 0.05));
+  }
+}
+
+/* === TOUCH-SPECIFIC UTILITIES === */
+
+/* Prevent text selection on interactive elements (mobile) */
+.no-select {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+
+/* Optimize for touch scrolling */
+.touch-scroll {
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+
+/* Prevent accidental zoom on double-tap (for buttons/inputs) */
+.no-double-tap-zoom {
+  touch-action: manipulation;
+}
+
+/* Apply manipulation to common interactive elements */
+button,
+a,
+input,
+select,
+textarea,
+.btn-primary,
+.btn-secondary,
+.tool-card,
+.drop-zone {
+  touch-action: manipulation;
+}
+
+/* === MOBILE SPACING ADJUSTMENTS === */
+
+@media (max-width: 640px) {
+  /* Increase button padding on mobile for easier tapping */
+  .btn-primary,
+  .btn-secondary {
+    padding: 1rem 1.5rem;
+    min-height: 48px; /* Slightly larger on mobile */
+  }
+
+  /* Increase nav link touch area */
+  .nav-link {
+    padding: 0.75rem 1rem;
+  }
+
+  /* Larger drop zone padding */
+  .drop-zone {
+    padding: 2rem 1.5rem;
+  }
+}

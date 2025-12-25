@@ -1,5 +1,6 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { createSafeErrorMessage } from '../../lib/security';
+import { copyToClipboard } from '../../lib/clipboard';
 
 type Language = 'javascript' | 'typescript' | 'css' | 'html' | 'json' | 'sql';
 type IndentType = '2spaces' | '4spaces' | 'tabs';
@@ -304,14 +305,14 @@ export default function CodeBeautifier() {
   }, []);
 
   // Copy to clipboard
-  const copyToClipboard = useCallback(async () => {
+  const handleCopyToClipboard = useCallback(async () => {
     if (!output) return;
 
-    try {
-      await navigator.clipboard.writeText(output);
+    const success = await copyToClipboard(output);
+    if (success) {
       setCopySuccess(true);
       setTimeout(() => setCopySuccess(false), 2000);
-    } catch (err) {
+    } else {
       setError({ message: 'Failed to copy to clipboard' });
     }
   }, [output]);
@@ -521,7 +522,7 @@ export default function CodeBeautifier() {
               {output && (
                 <>
                   <button
-                    onClick={copyToClipboard}
+                    onClick={handleCopyToClipboard}
                     className={`
                       text-xs px-3 py-1.5 rounded-lg transition-all flex items-center gap-1.5
                       ${copySuccess

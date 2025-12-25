@@ -1,9 +1,23 @@
 import { useState, useRef, useEffect } from 'react';
 import ToolFeedback from '../ui/ToolFeedback';
 import { validateAudioFile, validateVideoFile, sanitizeFilename, createSafeErrorMessage, sanitizeTextContent } from '../../lib/security';
+import { copyToClipboard } from '../../lib/clipboard';
 
 type Status = 'idle' | 'loading' | 'transcribing' | 'done' | 'error';
 type ExportFormat = 'srt' | 'vtt';
+
+// Helper to ensure AudioContext is resumed (required for iOS Safari)
+const ensureAudioContext = async (ctx: AudioContext): Promise<AudioContext> => {
+  if (ctx.state === 'suspended') {
+    try {
+      await ctx.resume();
+    } catch (err) {
+      console.warn('Failed to resume AudioContext:', err);
+      throw new Error('Audio playback is blocked. Please tap the screen and try again.');
+    }
+  }
+  return ctx;
+};
 
 interface SubtitleChunk {
   index: number;
@@ -147,6 +161,9 @@ export default function SubtitleGenerator() {
 
       // Convert media file to audio data
       const audioContext = new AudioContext({ sampleRate: 16000 });
+      // Ensure AudioContext is resumed (iOS Safari requirement)
+      await ensureAudioContext(audioContext);
+
       const arrayBuffer = await mediaFile.arrayBuffer();
       const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
 
@@ -210,7 +227,7 @@ export default function SubtitleGenerator() {
 
   const handleCopySubtitles = async (format: ExportFormat) => {
     const content = format === 'srt' ? generateSRT(subtitles) : generateVTT(subtitles);
-    await navigator.clipboard.writeText(content);
+    await copyToClipboard(content);
   };
 
   const formatSize = (bytes: number) => {

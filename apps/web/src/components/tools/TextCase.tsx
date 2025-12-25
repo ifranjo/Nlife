@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { copyToClipboard } from '../../lib/clipboard';
 
 type CaseType = 'upper' | 'lower' | 'title' | 'sentence' | 'toggle' | 'camel' | 'snake' | 'kebab';
 
@@ -61,9 +62,11 @@ export default function TextCase() {
 
   const handleCopy = async () => {
     if (!output) return;
-    await navigator.clipboard.writeText(output);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    const success = await copyToClipboard(output);
+    if (success) {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
   };
 
   const handleClear = () => {

@@ -4,6 +4,19 @@ import { validateAudioFile, sanitizeFilename, createSafeErrorMessage } from '../
 
 type Status = 'idle' | 'processing' | 'done' | 'error';
 
+// Helper to ensure AudioContext is resumed (required for iOS Safari)
+const ensureAudioContext = async (ctx: AudioContext): Promise<AudioContext> => {
+  if (ctx.state === 'suspended') {
+    try {
+      await ctx.resume();
+    } catch (err) {
+      console.warn('Failed to resume AudioContext:', err);
+      throw new Error('Audio playback is blocked. Please tap the screen and try again.');
+    }
+  }
+  return ctx;
+};
+
 export default function RemoveVocals() {
   const [status, setStatus] = useState<Status>('idle');
   const [error, setError] = useState<string | null>(null);
@@ -24,6 +37,10 @@ export default function RemoveVocals() {
       return;
     }
 
+    // Cleanup previous URLs to prevent memory leaks
+    if (originalUrl) URL.revokeObjectURL(originalUrl);
+    if (processedUrl) URL.revokeObjectURL(processedUrl);
+
     setAudioFile(file);
     setOriginalUrl(URL.createObjectURL(file));
     setProcessedUrl(null);
@@ -41,6 +58,9 @@ export default function RemoveVocals() {
       // Create audio context
       const audioContext = new AudioContext();
       audioContextRef.current = audioContext;
+
+      // Ensure AudioContext is resumed (iOS Safari requirement)
+      await ensureAudioContext(audioContext);
 
       // Decode audio file
       const arrayBuffer = await audioFile.arrayBuffer();
@@ -258,6 +278,9 @@ export default function RemoveVocals() {
 
           <button
             onClick={() => {
+              // Cleanup URLs to prevent memory leaks
+              if (originalUrl) URL.revokeObjectURL(originalUrl);
+              if (processedUrl) URL.revokeObjectURL(processedUrl);
               setAudioFile(null);
               setOriginalUrl(null);
               setProcessedUrl(null);

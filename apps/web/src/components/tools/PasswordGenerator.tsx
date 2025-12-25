@@ -1,4 +1,5 @@
 import { useState, useCallback, useEffect } from 'react';
+import { copyToClipboard } from '../../lib/clipboard';
 
 interface PasswordOptions {
   length: number;
@@ -118,9 +119,11 @@ export default function PasswordGenerator() {
 
   const handleCopy = async () => {
     if (!password) return;
-    await navigator.clipboard.writeText(password);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    const success = await copyToClipboard(password);
+    if (success) {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
   };
 
   const updateOption = <K extends keyof PasswordOptions>(key: K, value: PasswordOptions[K]) => {

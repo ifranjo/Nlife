@@ -6,6 +6,21 @@ import { validateVideoFile, sanitizeFilename, createSafeErrorMessage } from '../
 
 type Status = 'idle' | 'loading' | 'processing' | 'done' | 'error';
 
+interface SharedArrayBufferCheck {
+  supported: boolean;
+  message?: string;
+}
+
+const checkSharedArrayBuffer = (): SharedArrayBufferCheck => {
+  if (typeof SharedArrayBuffer === 'undefined') {
+    return {
+      supported: false,
+      message: 'Your browser does not support SharedArrayBuffer, which is required for video processing. Please try using Chrome, Firefox, or Edge with the latest updates.',
+    };
+  }
+  return { supported: true };
+};
+
 export default function VideoTrimmer() {
   const [status, setStatus] = useState<Status>('idle');
   const [progress, setProgress] = useState(0);
@@ -20,9 +35,26 @@ export default function VideoTrimmer() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const ffmpegRef = useRef<FFmpeg | null>(null);
   const [ffmpegLoaded, setFfmpegLoaded] = useState(false);
+  const [sharedArrayBufferSupported, setSharedArrayBufferSupported] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    const check = checkSharedArrayBuffer();
+    setSharedArrayBufferSupported(check.supported);
+    if (!check.supported) {
+      setError(check.message || 'SharedArrayBuffer not supported');
+    }
+  }, []);
 
   const loadFFmpeg = async () => {
     if (ffmpegRef.current && ffmpegLoaded) return;
+
+    // Check SharedArrayBuffer support before loading FFmpeg
+    const sabCheck = checkSharedArrayBuffer();
+    if (!sabCheck.supported) {
+      setError(sabCheck.message || 'SharedArrayBuffer not supported');
+      setStatus('error');
+      return;
+    }
 
     setStatus('loading');
     const ffmpeg = new FFmpeg();
@@ -56,6 +88,10 @@ export default function VideoTrimmer() {
       setError(validation.error || 'Invalid video file');
       return;
     }
+
+    // Cleanup previous URLs to prevent memory leaks
+    if (videoUrl) URL.revokeObjectURL(videoUrl);
+    if (outputUrl) URL.revokeObjectURL(outputUrl);
 
     setVideoFile(file);
     setVideoUrl(URL.createObjectURL(file));
@@ -181,6 +217,40 @@ export default function VideoTrimmer() {
     }
   };
 
+  // Show unsupported message if SharedArrayBuffer is not available
+  if (sharedArrayBufferSupported === false) {
+    return (
+      <div className="space-y-6">
+        <div className="bg-amber-500/10 border border-amber-500/30 rounded-lg p-6">
+          <div className="flex items-start gap-4">
+            <span className="text-3xl">⚠️</span>
+            <div className="space-y-3">
+              <h3 className="text-amber-400 font-semibold text-lg">Browser Feature Not Available</h3>
+              <p className="text-[var(--text)]">
+                Your browser does not support <code className="bg-[var(--bg-secondary)] px-1.5 py-0.5 rounded text-sm">SharedArrayBuffer</code>,
+                which is required for video processing with FFmpeg.
+              </p>
+              <div className="text-sm text-[var(--text-muted)] space-y-2">
+                <p><strong>This can happen when:</strong></p>
+                <ul className="list-disc list-inside space-y-1 ml-2">
+                  <li>Using an older browser version</li>
+                  <li>The site is missing required security headers (COOP/COEP)</li>
+                  <li>Using certain privacy-focused browsers or extensions</li>
+                </ul>
+                <p className="mt-3"><strong>Try these solutions:</strong></p>
+                <ul className="list-disc list-inside space-y-1 ml-2">
+                  <li>Use the latest version of Chrome, Firefox, or Edge</li>
+                  <li>Disable browser extensions that may block features</li>
+                  <li>Try opening the page in a private/incognito window</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-6">
       {/* Upload */}
@@ -192,6 +262,7 @@ export default function VideoTrimmer() {
             onChange={handleFileSelect}
             className="hidden"
             id="video-trim-upload"
+            disabled={sharedArrayBufferSupported === false}
           />
           <label htmlFor="video-trim-upload" className="cursor-pointer block">
             <div className="text-4xl mb-4">✂️</div>
@@ -360,6 +431,9 @@ export default function VideoTrimmer() {
 
           <button
             onClick={() => {
+              // Cleanup URLs to prevent memory leaks
+              if (videoUrl) URL.revokeObjectURL(videoUrl);
+              if (outputUrl) URL.revokeObjectURL(outputUrl);
               setVideoFile(null);
               setVideoUrl(null);
               setOutputUrl(null);

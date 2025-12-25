@@ -1,8 +1,22 @@
 import { useState, useRef } from 'react';
 import ToolFeedback from '../ui/ToolFeedback';
 import { validateAudioFile, sanitizeFilename, createSafeErrorMessage, sanitizeTextContent } from '../../lib/security';
+import { copyToClipboard } from '../../lib/clipboard';
 
 type Status = 'idle' | 'loading' | 'transcribing' | 'done' | 'error';
+
+// Helper to ensure AudioContext is resumed (required for iOS Safari)
+const ensureAudioContext = async (ctx: AudioContext): Promise<AudioContext> => {
+  if (ctx.state === 'suspended') {
+    try {
+      await ctx.resume();
+    } catch (err) {
+      console.warn('Failed to resume AudioContext:', err);
+      throw new Error('Audio playback is blocked. Please tap the screen and try again.');
+    }
+  }
+  return ctx;
+};
 
 export default function AudioTranscription() {
   const [status, setStatus] = useState<Status>('idle');
@@ -38,6 +52,9 @@ export default function AudioTranscription() {
       setError(validation.error || 'Invalid audio file');
       return;
     }
+
+    // Cleanup previous URL to prevent memory leaks
+    if (audioUrl) URL.revokeObjectURL(audioUrl);
 
     setAudioFile(file);
     setAudioUrl(URL.createObjectURL(file));
@@ -80,6 +97,9 @@ export default function AudioTranscription() {
 
       // Convert audio file to proper format
       const audioContext = new AudioContext({ sampleRate: 16000 });
+      // Ensure AudioContext is resumed (iOS Safari requirement)
+      await ensureAudioContext(audioContext);
+
       const arrayBuffer = await audioFile.arrayBuffer();
       const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
 
@@ -105,7 +125,7 @@ export default function AudioTranscription() {
   };
 
   const handleCopy = async () => {
-    await navigator.clipboard.writeText(transcript);
+    await copyToClipboard(transcript);
   };
 
   const handleDownload = () => {
@@ -237,6 +257,8 @@ export default function AudioTranscription() {
 
           <button
             onClick={() => {
+              // Cleanup URL to prevent memory leaks
+              if (audioUrl) URL.revokeObjectURL(audioUrl);
               setAudioFile(null);
               setAudioUrl(null);
               setTranscript('');

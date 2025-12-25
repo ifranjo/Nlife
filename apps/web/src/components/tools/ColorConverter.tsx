@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { copyToClipboard } from '../../lib/clipboard';
 
 interface RGB { r: number; g: number; b: number; }
 interface HSL { h: number; s: number; l: number; }
@@ -113,9 +114,11 @@ export default function ColorConverter() {
   };
 
   const handleCopy = async (format: string, value: string) => {
-    await navigator.clipboard.writeText(value);
-    setCopied(format);
-    setTimeout(() => setCopied(null), 2000);
+    const success = await copyToClipboard(value);
+    if (success) {
+      setCopied(format);
+      setTimeout(() => setCopied(null), 2000);
+    }
   };
 
   const hexValue = hex.toUpperCase();

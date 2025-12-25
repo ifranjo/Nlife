@@ -1,4 +1,5 @@
 import { useState, useCallback } from 'react';
+import { copyToClipboard } from '../../lib/clipboard';
 
 type HashAlgorithm = 'MD5' | 'SHA-1' | 'SHA-256' | 'SHA-384' | 'SHA-512';
 
@@ -165,9 +166,11 @@ export default function HashGenerator() {
 
   const handleCopy = async (algo: HashAlgorithm) => {
     if (!hashes[algo]) return;
-    await navigator.clipboard.writeText(hashes[algo]);
-    setCopiedAlgo(algo);
-    setTimeout(() => setCopiedAlgo(null), 2000);
+    const success = await copyToClipboard(hashes[algo]);
+    if (success) {
+      setCopiedAlgo(algo);
+      setTimeout(() => setCopiedAlgo(null), 2000);
+    }
   };
 
   return (

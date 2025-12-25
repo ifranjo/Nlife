@@ -218,27 +218,53 @@ export default function PdfRedactor() {
     }
   };
 
-  const handleMouseDown = (
-    e: React.MouseEvent<HTMLDivElement>,
-    pageIndex: number
+  // Helper to get position from mouse or touch event
+  const getEventPosition = (
+    e: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>,
+    rect: DOMRect
   ) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-
-    setIsDrawing(true);
-    setDrawStart({ x, y });
+    if ('touches' in e) {
+      const touch = e.touches[0] || e.changedTouches[0];
+      return {
+        x: touch.clientX - rect.left,
+        y: touch.clientY - rect.top,
+      };
+    }
+    return {
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top,
+    };
   };
 
-  const handleMouseMove = (
-    e: React.MouseEvent<HTMLDivElement>,
+  const handleDrawStart = (
+    e: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>,
+    pageIndex: number
+  ) => {
+    // Prevent default to stop scrolling on touch devices
+    if ('touches' in e) {
+      e.preventDefault();
+    }
+
+    const rect = e.currentTarget.getBoundingClientRect();
+    const pos = getEventPosition(e, rect);
+
+    setIsDrawing(true);
+    setDrawStart({ x: pos.x, y: pos.y });
+  };
+
+  const handleDrawMove = (
+    e: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>,
     pageIndex: number
   ) => {
     if (!isDrawing || !drawStart) return;
 
+    // Prevent default to stop scrolling on touch devices
+    if ('touches' in e) {
+      e.preventDefault();
+    }
+
     const rect = e.currentTarget.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
+    const pos = getEventPosition(e, rect);
 
     // Update temporary drawing box (visual feedback)
     const overlay = overlayRefs.current[pageIndex];
@@ -249,10 +275,10 @@ export default function PdfRedactor() {
       const tempBox = document.createElement('div');
       tempBox.className = 'temp-redaction-box';
       tempBox.style.position = 'absolute';
-      tempBox.style.left = `${Math.min(drawStart.x, x)}px`;
-      tempBox.style.top = `${Math.min(drawStart.y, y)}px`;
-      tempBox.style.width = `${Math.abs(x - drawStart.x)}px`;
-      tempBox.style.height = `${Math.abs(y - drawStart.y)}px`;
+      tempBox.style.left = `${Math.min(drawStart.x, pos.x)}px`;
+      tempBox.style.top = `${Math.min(drawStart.y, pos.y)}px`;
+      tempBox.style.width = `${Math.abs(pos.x - drawStart.x)}px`;
+      tempBox.style.height = `${Math.abs(pos.y - drawStart.y)}px`;
       tempBox.style.border = '2px dashed #ef4444';
       tempBox.style.backgroundColor = 'rgba(239, 68, 68, 0.2)';
       tempBox.style.pointerEvents = 'none';
@@ -260,26 +286,25 @@ export default function PdfRedactor() {
     }
   };
 
-  const handleMouseUp = (
-    e: React.MouseEvent<HTMLDivElement>,
+  const handleDrawEnd = (
+    e: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>,
     pageIndex: number
   ) => {
     if (!isDrawing || !drawStart) return;
 
     const rect = e.currentTarget.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
+    const pos = getEventPosition(e, rect);
 
-    const width = Math.abs(x - drawStart.x);
-    const height = Math.abs(y - drawStart.y);
+    const width = Math.abs(pos.x - drawStart.x);
+    const height = Math.abs(pos.y - drawStart.y);
 
     // Only create box if it has meaningful size
     if (width > 10 && height > 10) {
       const newBox: RedactionBox = {
         id: generateId(),
         pageIndex,
-        x: Math.min(drawStart.x, x),
-        y: Math.min(drawStart.y, y),
+        x: Math.min(drawStart.x, pos.x),
+        y: Math.min(drawStart.y, pos.y),
         width,
         height,
         type: 'manual',
@@ -297,6 +322,38 @@ export default function PdfRedactor() {
     setIsDrawing(false);
     setDrawStart(null);
   };
+
+  // Legacy mouse event handlers for backward compatibility
+  const handleMouseDown = (
+    e: React.MouseEvent<HTMLDivElement>,
+    pageIndex: number
+  ) => handleDrawStart(e, pageIndex);
+
+  const handleMouseMove = (
+    e: React.MouseEvent<HTMLDivElement>,
+    pageIndex: number
+  ) => handleDrawMove(e, pageIndex);
+
+  const handleMouseUp = (
+    e: React.MouseEvent<HTMLDivElement>,
+    pageIndex: number
+  ) => handleDrawEnd(e, pageIndex);
+
+  // Touch event handlers
+  const handleTouchStart = (
+    e: React.TouchEvent<HTMLDivElement>,
+    pageIndex: number
+  ) => handleDrawStart(e, pageIndex);
+
+  const handleTouchMove = (
+    e: React.TouchEvent<HTMLDivElement>,
+    pageIndex: number
+  ) => handleDrawMove(e, pageIndex);
+
+  const handleTouchEnd = (
+    e: React.TouchEvent<HTMLDivElement>,
+    pageIndex: number
+  ) => handleDrawEnd(e, pageIndex);
 
   const addDetectedPIIAsRedaction = (pii: DetectedPII) => {
     const newBox: RedactionBox = {
@@ -728,10 +785,14 @@ export default function PdfRedactor() {
                         onMouseDown={(e) => handleMouseDown(e, currentPage)}
                         onMouseMove={(e) => handleMouseMove(e, currentPage)}
                         onMouseUp={(e) => handleMouseUp(e, currentPage)}
+                        onTouchStart={(e) => handleTouchStart(e, currentPage)}
+                        onTouchMove={(e) => handleTouchMove(e, currentPage)}
+                        onTouchEnd={(e) => handleTouchEnd(e, currentPage)}
                         className="absolute top-0 left-0 w-full h-full cursor-crosshair"
                         style={{
                           width: pages[currentPage].width,
                           height: pages[currentPage].height,
+                          touchAction: 'none',
                         }}
                       >
                         {/* Render existing redaction boxes */}
