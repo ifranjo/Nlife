@@ -16,6 +16,7 @@ import { getToolById } from '../../lib/tools';
 import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
 import RelatedTools from '../../components/seo/RelatedTools.astro';
 import ComparisonTable from '../../components/seo/ComparisonTable.astro';
+import TrustBar from '../../components/ui/TrustBar.astro';
 import PdfMerge from '../../components/tools/PdfMerge';
 
 // Tool metadata
@@ -134,6 +135,7 @@ const schemaData = {
       <!-- Tool Component -->
       <section class="tool-section" aria-label="PDF Merge Tool">
         <PdfMerge client:load />
+        <TrustBar signals={seoContent.answerBox.trustSignals} />
       </section>
 
       <!-- Comparison Table: GEO optimization (32% of AI citations) -->

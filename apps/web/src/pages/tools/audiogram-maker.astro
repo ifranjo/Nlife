@@ -3,6 +3,7 @@
  * Audiogram Maker - AI-Native Tool Page
  */
 import Layout from '../../layouts/Layout.astro';
+import TrustBar from '../../components/ui/TrustBar.astro';
 import Navbar from '../../components/ui/Navbar.astro';
 import Footer from '../../components/ui/Footer.astro';
 import AnswerBox from '../../components/seo/AnswerBox.astro';
@@ -128,6 +129,7 @@ const schemaData = {
 
       <section class="tool-section" aria-label="Audiogram Maker Tool">
         <AudiogramMaker client:load />
+        <TrustBar signals={seoContent.answerBox.trustSignals} />
       </section>
 
       <QASections

@@ -1,8 +1,12 @@
 ---
 /**
- * AnswerBox - Clean AI-friendly answer block
- * Simplified for performance (Dec 2025)
+ * AnswerBox - Minimal header with hover tooltip
+ *
+ * Clean UX: Just title + ? icon
+ * SEO preserved: TL;DR text in DOM (inside tooltip)
  */
+
+import HelpTooltip from '../ui/HelpTooltip.astro';
 
 interface Props {
   title: string;
@@ -12,108 +16,55 @@ interface Props {
   trustSignals?: string[];
 }
 
-const {
-  title,
-  tldr,
-  toolName,
-  trustSignals = ["100% browser-based", "No uploads", "Works offline"]
-} = Astro.props;
-
-const lastUpdated = new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+const { title, tldr, toolName } = Astro.props;
 ---
 
-<section class="answer-box" aria-label="Quick answer">
-  <a href="/hub" class="back-link">
-    ← Back to Tools
-  </a>
+<section class="answer-box" aria-label="Tool header">
+  <a href="/hub" class="back-link">← Back to Tools</a>
 
-  <h1 class="answer-title">{title}</h1>
-
-  <p class="tldr">{tldr}</p>
-
-  <div class="trust-signals">
-    {trustSignals.map(signal => (
-      <span class="trust-signal">
-        <svg class="check-icon" viewBox="0 0 20 20" fill="currentColor">
-          <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-        </svg>
-        {signal}
-      </span>
-    ))}
+  <div class="title-row">
+    <h1 class="answer-title">{title}</h1>
+    <HelpTooltip content={tldr} id={`${toolName.toLowerCase().replace(/\s+/g, '-')}-help`} />
   </div>
-
-  <p class="updated-date">Updated {lastUpdated} · Free forever</p>
 </section>
 
 <style>
   .answer-box {
     text-align: center;
-    margin-bottom: 2rem;
-    padding: 2rem;
-    border: 1px solid var(--border);
-    background: rgba(255, 255, 255, 0.02);
+    margin-bottom: 1rem;
+    padding: 1.5rem 1rem 0.5rem;
   }
 
   .back-link {
     display: inline-block;
     color: var(--text-muted);
     text-decoration: none;
-    font-size: 0.625rem;
+    font-size: 0.5625rem;
     text-transform: uppercase;
     letter-spacing: 0.15em;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
   }
 
   .back-link:hover { color: var(--text); }
 
+  .title-row {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+  }
+
   .answer-title {
-    font-size: 1.25rem;
+    font-size: 1.125rem;
     font-weight: 400;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    margin-bottom: 1rem;
     color: var(--text);
-  }
-
-  .tldr {
-    font-size: 0.9375rem;
-    line-height: 1.7;
-    color: var(--text-dim);
-    max-width: 36rem;
-    margin: 0 auto 1.5rem;
-  }
-
-  .trust-signals {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 1rem;
-  }
-
-  .trust-signal {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.375rem;
-    font-size: 0.6875rem;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--text-muted);
-  }
-
-  .check-icon {
-    width: 0.875rem;
-    height: 0.875rem;
-    color: #22c55e;
-  }
-
-  .updated-date {
-    font-size: 0.6875rem;
-    color: var(--text-muted);
-    margin-top: 1rem;
+    margin: 0;
   }
 
   @media (max-width: 640px) {
-    .answer-box { padding: 1.5rem 1rem; }
-    .trust-signals { flex-direction: column; gap: 0.5rem; }
+    .answer-box { padding: 1rem 0.5rem 0.25rem; }
+    .answer-title { font-size: 1rem; }
   }
 </style>

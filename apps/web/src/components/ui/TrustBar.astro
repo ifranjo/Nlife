@@ -1,0 +1,87 @@
+---
+/**
+ * TrustBar - Minimal trust signals below tool
+ * Small icons with hover labels
+ */
+
+interface Props {
+  signals?: string[];
+}
+
+const { signals = ['100% browser-based', 'No uploads', 'Works offline', 'No signup'] } = Astro.props;
+
+// Map signals to icons
+const iconMap: Record<string, string> = {
+  'browser': '🌐',
+  'upload': '🔒',
+  'offline': '⚡',
+  'signup': '✓',
+  'free': '∞',
+  'private': '🛡️',
+  'limit': '∞'
+};
+
+function getIcon(signal: string): string {
+  const lower = signal.toLowerCase();
+  if (lower.includes('browser')) return iconMap.browser;
+  if (lower.includes('upload') || lower.includes('private')) return iconMap.upload;
+  if (lower.includes('offline')) return iconMap.offline;
+  if (lower.includes('signup') || lower.includes('account')) return iconMap.signup;
+  if (lower.includes('free')) return iconMap.free;
+  if (lower.includes('limit')) return iconMap.limit;
+  return '✓';
+}
+---
+
+<div class="trust-bar">
+  {signals.map(signal => (
+    <span class="trust-item" title={signal}>
+      <span class="trust-icon">{getIcon(signal)}</span>
+      <span class="trust-label">{signal}</span>
+    </span>
+  ))}
+</div>
+
+<style>
+  .trust-bar {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    padding: 0.75rem 0;
+    margin-top: 0.5rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .trust-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    font-size: 0.625rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    cursor: default;
+  }
+
+  .trust-icon {
+    font-size: 0.75rem;
+    opacity: 0.7;
+  }
+
+  .trust-label {
+    opacity: 0;
+    max-width: 0;
+    overflow: hidden;
+    transition: all 0.2s ease;
+  }
+
+  .trust-item:hover .trust-label {
+    opacity: 1;
+    max-width: 10rem;
+  }
+
+  @media (max-width: 640px) {
+    .trust-bar { gap: 1rem; flex-wrap: wrap; }
+    .trust-label { opacity: 1; max-width: none; }
+  }
+</style>

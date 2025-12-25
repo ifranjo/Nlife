@@ -1,0 +1,131 @@
+---
+/**
+ * HelpTooltip - Minimal ? icon with hover content
+ *
+ * SEO: Content is in DOM (crawlable) but visually hidden until hover
+ * A11y: Focusable, keyboard accessible, aria-describedby
+ */
+
+interface Props {
+  content: string;
+  id?: string;
+  size?: 'sm' | 'md';
+}
+
+const { content, id = 'help-tooltip', size = 'md' } = Astro.props;
+const sizeClass = size === 'sm' ? 'help-sm' : 'help-md';
+---
+
+<span class={`help-tooltip ${sizeClass}`}>
+  <button
+    type="button"
+    class="help-trigger"
+    aria-describedby={id}
+    aria-label="More information"
+  >
+    ?
+  </button>
+  <span id={id} class="help-content" role="tooltip">
+    {content}
+  </span>
+</span>
+
+<style>
+  .help-tooltip {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    margin-left: 0.5rem;
+  }
+
+  .help-trigger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    background: transparent;
+    color: var(--text-muted);
+    cursor: help;
+    font-family: inherit;
+    font-weight: 500;
+    transition: all 0.2s ease;
+  }
+
+  .help-sm .help-trigger {
+    width: 1rem;
+    height: 1rem;
+    font-size: 0.625rem;
+  }
+
+  .help-md .help-trigger {
+    width: 1.25rem;
+    height: 1.25rem;
+    font-size: 0.75rem;
+  }
+
+  .help-trigger:hover,
+  .help-trigger:focus {
+    border-color: var(--text-muted);
+    color: var(--text);
+    outline: none;
+  }
+
+  .help-content {
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    left: 50%;
+    transform: translateX(-50%);
+    width: max-content;
+    max-width: 20rem;
+    padding: 0.75rem 1rem;
+    background: rgba(20, 20, 20, 0.98);
+    border: 1px solid var(--border);
+    border-radius: 0.25rem;
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    color: var(--text-dim);
+    text-align: left;
+    z-index: 100;
+
+    /* Hidden by default but in DOM for SEO */
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.15s ease, visibility 0.15s ease;
+  }
+
+  .help-content::before {
+    content: '';
+    position: absolute;
+    top: -0.375rem;
+    left: 50%;
+    transform: translateX(-50%) rotate(45deg);
+    width: 0.625rem;
+    height: 0.625rem;
+    background: rgba(20, 20, 20, 0.98);
+    border-left: 1px solid var(--border);
+    border-top: 1px solid var(--border);
+  }
+
+  .help-trigger:hover + .help-content,
+  .help-trigger:focus + .help-content,
+  .help-content:hover {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  @media (max-width: 640px) {
+    .help-content {
+      max-width: 16rem;
+      left: auto;
+      right: -0.5rem;
+      transform: none;
+    }
+    .help-content::before {
+      left: auto;
+      right: 0.75rem;
+    }
+  }
+</style>

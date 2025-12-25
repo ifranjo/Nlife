@@ -89,6 +89,9 @@ const currentYear = new Date().getFullYear();
     <slot name="head" />
   </head>
   <body>
+    <!-- Skip link for keyboard navigation (WCAG 2.4.1) -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
     <!-- Background effects -->
     <div class="grid-bg"></div>
     <div class="scanlines"></div>
@@ -97,6 +100,41 @@ const currentYear = new Date().getFullYear();
     <div class="relative z-10">
       <slot />
     </div>
+
+    <!-- Persistent aria-live region for screen reader announcements (WCAG) -->
+    <!-- IMPORTANT: This element must exist in DOM on page load, never remove -->
+    <div
+      id="status-announcer"
+      role="status"
+      aria-live="polite"
+      aria-atomic="true"
+      class="sr-only"
+    ></div>
+
+    <!-- Alert region for urgent announcements -->
+    <div
+      id="alert-announcer"
+      role="alert"
+      aria-live="assertive"
+      aria-atomic="true"
+      class="sr-only"
+    ></div>
+
+    <!-- Global announce utility -->
+    <script is:inline>
+      window.announce = function(message, priority = 'polite') {
+        const announcer = document.getElementById(
+          priority === 'assertive' ? 'alert-announcer' : 'status-announcer'
+        );
+        if (announcer) {
+          // Clear first to ensure repeat messages are announced
+          announcer.textContent = '';
+          requestAnimationFrame(() => {
+            announcer.textContent = message;
+          });
+        }
+      };
+    </script>
 
     <!-- Vercel Analytics & Speed Insights -->
     <Analytics />

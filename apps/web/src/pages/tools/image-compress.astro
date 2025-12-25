@@ -8,6 +8,7 @@
  * - Full schema markup (SoftwareApplication, HowTo, FAQPage)
  */
 import Layout from '../../layouts/Layout.astro';
+import TrustBar from '../../components/ui/TrustBar.astro';
 import Navbar from '../../components/ui/Navbar.astro';
 import Footer from '../../components/ui/Footer.astro';
 import AnswerBox from '../../components/seo/AnswerBox.astro';
@@ -134,6 +135,7 @@ const schemaData = {
       <!-- Tool Component -->
       <section class="tool-section" aria-label="Image Compress Tool">
         <ImageCompress client:load />
+        <TrustBar signals={seoContent.answerBox.trustSignals} />
       </section>
 
       <!-- Comparison Table: GEO optimization (32% of AI citations) -->
