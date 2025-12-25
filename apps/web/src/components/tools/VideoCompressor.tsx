@@ -18,9 +18,9 @@ export default function VideoCompressor() {
   const [ffmpegLoaded, setFfmpegLoaded] = useState(false);
 
   const qualitySettings: Record<string, { crf: string; preset: string; label: string }> = {
-    low: { crf: '35', preset: 'faster', label: 'Low (Smallest file)' },
-    medium: { crf: '28', preset: 'medium', label: 'Medium (Balanced)' },
-    high: { crf: '23', preset: 'slow', label: 'High (Better quality)' },
+    low: { crf: '32', preset: 'fast', label: 'Low (Smallest file)' },
+    medium: { crf: '26', preset: 'medium', label: 'Medium (Balanced)' },
+    high: { crf: '20', preset: 'slow', label: 'High (Better quality)' },
   };
 
   const loadFFmpeg = async () => {
@@ -79,19 +79,35 @@ export default function VideoCompressor() {
     const settings = qualitySettings[quality];
 
     try {
-      const inputName = 'input.mp4';
+      // Get file extension for proper input handling
+      const ext = videoFile.name.split('.').pop()?.toLowerCase() || 'mp4';
+      const inputName = `input.${ext}`;
       const outputName = 'output.mp4';
 
       await ffmpeg.writeFile(inputName, await fetchFile(videoFile));
 
+      // Enhanced FFmpeg settings to prevent corruption:
+      // - pix_fmt yuv420p: Required for universal player compatibility
+      // - profile baseline: Maximum device compatibility
+      // - g 60: Keyframe every 60 frames for better seeking
+      // - bf 0: No B-frames (improves compatibility, slight quality trade-off)
+      // - movflags +faststart: Enable streaming/progressive download
       await ffmpeg.exec([
         '-i', inputName,
         '-c:v', 'libx264',
+        '-pix_fmt', 'yuv420p',
+        '-profile:v', 'baseline',
+        '-level', '3.1',
         '-crf', settings.crf,
         '-preset', settings.preset,
+        '-g', '60',
+        '-bf', '0',
         '-c:a', 'aac',
         '-b:a', '128k',
+        '-ar', '44100',
+        '-ac', '2',
         '-movflags', '+faststart',
+        '-y',
         outputName
       ]);
 
@@ -101,10 +117,15 @@ export default function VideoCompressor() {
       setOutputUrl(URL.createObjectURL(blob));
       setStatus('done');
 
-      await ffmpeg.deleteFile(inputName);
-      await ffmpeg.deleteFile(outputName);
+      // Cleanup
+      try {
+        await ffmpeg.deleteFile(inputName);
+        await ffmpeg.deleteFile(outputName);
+      } catch {
+        // Ignore cleanup errors
+      }
     } catch (err) {
-      setError(createSafeErrorMessage(err, 'Compression failed. Try a different quality setting.'));
+      setError(createSafeErrorMessage(err, 'Compression failed. Try a different quality setting or a smaller video.'));
       setStatus('error');
     }
   };

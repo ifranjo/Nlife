@@ -16,6 +16,7 @@ export default function VideoTrimmer() {
   const [duration, setDuration] = useState(0);
   const [startTime, setStartTime] = useState(0);
   const [endTime, setEndTime] = useState(0);
+  const [preciseMode, setPreciseMode] = useState(true); // Re-encode for precise cuts
   const videoRef = useRef<HTMLVideoElement>(null);
   const ffmpegRef = useRef<FFmpeg | null>(null);
   const [ffmpegLoaded, setFfmpegLoaded] = useState(false);
@@ -85,30 +86,67 @@ export default function VideoTrimmer() {
     const ffmpeg = ffmpegRef.current;
 
     try {
-      const ext = videoFile.name.split('.').pop() || 'mp4';
+      const ext = videoFile.name.split('.').pop()?.toLowerCase() || 'mp4';
       const inputName = `input.${ext}`;
-      const outputName = `output.${ext}`;
+      // Always output MP4 when re-encoding for compatibility
+      const outputName = preciseMode ? 'output.mp4' : `output.${ext}`;
 
       await ffmpeg.writeFile(inputName, await fetchFile(videoFile));
 
       const durationSec = endTime - startTime;
-      await ffmpeg.exec([
-        '-i', inputName,
-        '-ss', startTime.toFixed(2),
-        '-t', durationSec.toFixed(2),
-        '-c', 'copy',
-        outputName
-      ]);
+
+      if (preciseMode) {
+        // Re-encode mode: Precise cuts, no frozen frames
+        // Uses same robust settings as VideoCompressor
+        await ffmpeg.exec([
+          '-ss', startTime.toFixed(3),
+          '-i', inputName,
+          '-t', durationSec.toFixed(3),
+          '-c:v', 'libx264',
+          '-pix_fmt', 'yuv420p',
+          '-profile:v', 'baseline',
+          '-level', '3.1',
+          '-crf', '23',
+          '-preset', 'fast',
+          '-g', '60',
+          '-bf', '0',
+          '-c:a', 'aac',
+          '-b:a', '128k',
+          '-ar', '44100',
+          '-ac', '2',
+          '-movflags', '+faststart',
+          '-avoid_negative_ts', 'make_zero',
+          '-y',
+          outputName
+        ]);
+      } else {
+        // Fast mode: Stream copy (may have slight timing issues at cut points)
+        await ffmpeg.exec([
+          '-ss', startTime.toFixed(3),
+          '-i', inputName,
+          '-t', durationSec.toFixed(3),
+          '-c', 'copy',
+          '-avoid_negative_ts', 'make_zero',
+          '-y',
+          outputName
+        ]);
+      }
 
       const data = await ffmpeg.readFile(outputName);
-      const blob = new Blob([data], { type: videoFile.type });
+      const mimeType = preciseMode ? 'video/mp4' : videoFile.type;
+      const blob = new Blob([data], { type: mimeType });
       setOutputUrl(URL.createObjectURL(blob));
       setStatus('done');
 
-      await ffmpeg.deleteFile(inputName);
-      await ffmpeg.deleteFile(outputName);
+      // Cleanup
+      try {
+        await ffmpeg.deleteFile(inputName);
+        await ffmpeg.deleteFile(outputName);
+      } catch {
+        // Ignore cleanup errors
+      }
     } catch (err) {
-      setError(createSafeErrorMessage(err, 'Trimming failed. Try re-encoding option.'));
+      setError(createSafeErrorMessage(err, 'Trimming failed. Try a shorter clip or different video.'));
       setStatus('error');
     }
   };
@@ -116,7 +154,8 @@ export default function VideoTrimmer() {
   const handleDownload = () => {
     if (!outputUrl || !videoFile) return;
     const baseName = sanitizeFilename(videoFile.name.replace(/\.[^.]+$/, ''));
-    const ext = videoFile.name.split('.').pop() || 'mp4';
+    // Use MP4 extension when in precise mode (re-encoded)
+    const ext = preciseMode ? 'mp4' : (videoFile.name.split('.').pop() || 'mp4');
     const a = document.createElement('a');
     a.href = outputUrl;
     a.download = `${baseName}_trimmed.${ext}`;
@@ -184,6 +223,28 @@ export default function VideoTrimmer() {
                 <div className="flex justify-between text-xs text-[var(--accent)]">
                   <span>Duration: {formatTime(endTime - startTime)}</span>
                 </div>
+              </div>
+
+              {/* Mode Toggle */}
+              <div className="flex items-center justify-between py-2 border-b border-[var(--border)]">
+                <div>
+                  <span className="text-sm text-[var(--text)]">Precise Mode</span>
+                  <p className="text-xs text-[var(--text-muted)]">
+                    {preciseMode ? 'Re-encodes for exact cuts (recommended)' : 'Fast copy, may have frozen start frame'}
+                  </p>
+                </div>
+                <button
+                  onClick={() => setPreciseMode(!preciseMode)}
+                  className={`relative w-12 h-6 rounded-full transition-colors ${
+                    preciseMode ? 'bg-[var(--accent)]' : 'bg-[var(--border)]'
+                  }`}
+                >
+                  <span
+                    className={`absolute top-1 w-4 h-4 rounded-full bg-white transition-transform ${
+                      preciseMode ? 'left-7' : 'left-1'
+                    }`}
+                  />
+                </button>
               </div>
 
               {/* Range Sliders */}
@@ -317,8 +378,9 @@ export default function VideoTrimmer() {
       )}
 
       <div className="text-xs text-[var(--text-muted)] space-y-1">
-        <p>• All processing happens in your browser</p>
-        <p>• Uses fast copy mode (no re-encoding) for speed</p>
+        <p>• All processing happens in your browser - video never uploaded</p>
+        <p>• Precise mode re-encodes for exact cuts and prevents frozen frames</p>
+        <p>• Output is MP4 (H.264) for maximum compatibility</p>
       </div>
     </div>
   );

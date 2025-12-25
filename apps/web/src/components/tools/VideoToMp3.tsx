@@ -77,32 +77,41 @@ export default function VideoToMp3() {
     const ffmpeg = ffmpegRef.current;
 
     try {
-      // Use safe internal filenames (not user-provided)
-      const inputName = 'input.video';
+      // Use proper extension for better format detection
+      const ext = videoFile.name.split('.').pop()?.toLowerCase() || 'mp4';
+      const inputName = `input.${ext}`;
       const outputName = 'output.mp3';
 
       await ffmpeg.writeFile(inputName, await fetchFile(videoFile));
 
+      // Enhanced audio extraction settings
       await ffmpeg.exec([
         '-i', inputName,
-        '-vn',
+        '-vn',                    // No video
         '-acodec', 'libmp3lame',
         '-b:a', `${bitrate}k`,
+        '-ar', '44100',           // Standard sample rate
+        '-ac', '2',               // Stereo
+        '-y',
         outputName
       ]);
 
       const data = await ffmpeg.readFile(outputName);
-      const blob = new Blob([data], { type: 'audio/mp3' });
+      const blob = new Blob([data], { type: 'audio/mpeg' });
       const url = URL.createObjectURL(blob);
 
       setAudioUrl(url);
       setStatus('done');
 
       // Cleanup
-      await ffmpeg.deleteFile(inputName);
-      await ffmpeg.deleteFile(outputName);
+      try {
+        await ffmpeg.deleteFile(inputName);
+        await ffmpeg.deleteFile(outputName);
+      } catch {
+        // Ignore cleanup errors
+      }
     } catch (err) {
-      setError(createSafeErrorMessage(err, 'Conversion failed. The video format may not be supported.'));
+      setError(createSafeErrorMessage(err, 'Conversion failed. The video may not have an audio track.'));
       setStatus('error');
     }
   };
