@@ -1,0 +1,671 @@
+---
+/**
+ * Video Tools Pillar Page - Topical Authority Hub
+ *
+ * SEO Targets: "free video tools online", "video converter free"
+ * Purpose: Establish expertise for all video-related tools
+ * Strategy: Comprehensive category page with E-E-A-T signals
+ */
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/ui/Navbar.astro';
+import Footer from '../components/ui/Footer.astro';
+import ToolCard from '../components/ui/ToolCard.astro';
+import { getToolsByCategory } from '../lib/tools';
+
+// Get video-specific tools from media category
+const allMediaTools = getToolsByCategory('media');
+const videoTools = allMediaTools.filter(tool =>
+  ['video-to-mp3', 'video-compressor', 'video-trimmer', 'gif-maker', 'screen-recorder'].includes(tool.id)
+);
+
+// Also include AI tools relevant to video
+const aiTools = getToolsByCategory('ai');
+const videoAITools = aiTools.filter(tool =>
+  ['subtitle-generator'].includes(tool.id)
+);
+
+const allVideoTools = [...videoTools, ...videoAITools];
+
+// SEO metadata
+const title = 'Free Video Tools Online - Compress, Trim, Convert & Edit Videos | New Life Solutions';
+const description = 'Complete suite of free video tools running in your browser. Compress videos 90%, trim clips, extract audio to MP3, create GIFs, generate subtitles with AI. No upload required.';
+const baseUrl = 'https://www.newlifesolutions.dev';
+const currentDate = new Date().toISOString().split('T')[0];
+const lastUpdated = new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+
+// FAQ data
+const faqs = [
+  {
+    question: 'Are these video tools completely free?',
+    answer: 'Yes, all video tools are 100% free with no watermarks, sign-up requirements, or hidden fees. Process unlimited videos with no daily quotas, file size limits, or subscription costs.'
+  },
+  {
+    question: 'Are my videos uploaded to a server?',
+    answer: 'No. All video processing happens entirely in your browser using FFmpeg.wasm (WebAssembly). Your videos never leave your device, ensuring complete privacy and security.'
+  },
+  {
+    question: 'How much can videos be compressed?',
+    answer: 'Typically 50-90% size reduction using H.264 encoding. Results vary by original quality and settings. High-quality mode maintains visual fidelity while still reducing file size significantly.'
+  },
+  {
+    question: 'What video formats are supported?',
+    answer: 'Input: MP4, WebM, MOV, AVI, MKV, and most common formats. Output: MP4 (H.264), WebM (VP9), MP3 (audio), and GIF (animated image). Format support depends on your browser capabilities.'
+  },
+  {
+    question: 'Can I trim videos without re-encoding?',
+    answer: 'Yes! The Video Trimmer uses lossless cutting when possible, preserving original quality with instant processing. No quality degradation or long encoding times.'
+  },
+  {
+    question: 'How does AI subtitle generation work?',
+    answer: 'Whisper AI (OpenAI model) runs in your browser to transcribe speech from video audio tracks. Supports 10+ languages. Generates SRT/VTT subtitle files for YouTube, TikTok, and more.'
+  },
+  {
+    question: 'What is the maximum video file size?',
+    answer: 'No hard limit, but browser memory constraints apply. Videos under 500MB process smoothly. Larger files (1GB+) may be slower or cause browser memory errors depending on your device RAM.'
+  }
+];
+
+// Common workflows
+const commonWorkflows = [
+  {
+    title: 'Compress Video for Discord/Email',
+    steps: [
+      'Open Video Compressor tool',
+      'Upload your large video file',
+      'Select compression preset (Discord: 8MB target)',
+      'Click "Compress Video"',
+      'Download compressed file ready to share'
+    ]
+  },
+  {
+    title: 'Create Social Media Clips',
+    steps: [
+      'Use Video Trimmer to cut best moments',
+      'Select start and end timestamps',
+      'Preview trim before downloading',
+      'Optionally compress for faster uploads',
+      'Share on Instagram, TikTok, or Twitter'
+    ]
+  },
+  {
+    title: 'Extract Audio from Video',
+    steps: [
+      'Open Video to MP3 tool',
+      'Drop your video file',
+      'Click "Extract Audio"',
+      'Download high-quality MP3 (192kbps)',
+      'Use audio for podcasts, music, or voiceovers'
+    ]
+  }
+];
+
+// Schema markup
+const pillarSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  '@id': `${baseUrl}/video-tools#collection`,
+  name: 'Free Video Tools Online - Complete Suite 2025',
+  description: description,
+  url: `${baseUrl}/video-tools`,
+  datePublished: '2024-12-01',
+  dateModified: currentDate,
+  inLanguage: 'en-US',
+  isPartOf: {
+    '@type': 'WebSite',
+    name: 'New Life Solutions',
+    url: baseUrl
+  },
+  mainEntity: {
+    '@type': 'ItemList',
+    name: 'Video Tools',
+    numberOfItems: allVideoTools.length,
+    itemListElement: allVideoTools.map((tool, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: tool.name,
+      description: tool.description,
+      url: `${baseUrl}${tool.href}`
+    }))
+  }
+};
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((faq) => ({
+    '@type': 'Question',
+    name: faq.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: faq.answer
+    }
+  }))
+};
+
+const howToSchemas = commonWorkflows.map((workflow) => ({
+  '@context': 'https://schema.org',
+  '@type': 'HowTo',
+  name: workflow.title,
+  step: workflow.steps.map((stepText, index) => ({
+    '@type': 'HowToStep',
+    position: index + 1,
+    text: stepText
+  }))
+}));
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: baseUrl },
+    { '@type': 'ListItem', position: 2, name: 'Video Tools', item: `${baseUrl}/video-tools` }
+  ]
+};
+---
+
+<Layout title={title} description={description} image="/thumbnails/video-compressor.svg">
+  <script type="application/ld+json" set:html={JSON.stringify(pillarSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  {howToSchemas.map((schema) => (
+    <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+  ))}
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+
+  <Navbar />
+
+  <main class="pt-20 pb-16 px-6 min-h-screen">
+    <div class="max-w-6xl mx-auto">
+
+      <header class="text-center mb-16">
+        <a href="/hub" class="back-link">
+          <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+          </svg>
+          Back to Tool Hub
+        </a>
+
+        <div class="text-3xl mb-6 opacity-60">📹</div>
+
+        <h1 class="category-title">
+          Free Video Tools Online
+        </h1>
+
+        <p class="category-intro">
+          Professional video editing suite that runs entirely in your browser using FFmpeg WebAssembly.
+          Compress videos up to 90% smaller for Discord and email, trim clips with precision,
+          extract audio to MP3, create animated GIFs, record your screen, and generate AI-powered subtitles.
+          Perfect for content creators, educators, marketers, and video editors who value privacy.
+          All processing happens locally—your videos never leave your device. No uploads, no signup,
+          no watermarks, no rendering fees. Free forever.
+        </p>
+
+        <div class="trust-signals">
+          <span class="trust-signal">
+            <svg class="check-icon" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+            </svg>
+            FFmpeg WebAssembly
+          </span>
+          <span class="trust-signal">
+            <svg class="check-icon" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+            </svg>
+            No Watermarks
+          </span>
+          <span class="trust-signal">
+            <svg class="check-icon" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+            </svg>
+            AI Subtitles
+          </span>
+          <span class="trust-signal">
+            <svg class="check-icon" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+            </svg>
+            100% Private
+          </span>
+        </div>
+
+        <p class="updated-date">
+          <time datetime={currentDate}>Last updated: {lastUpdated}</time>
+        </p>
+      </header>
+
+      <section class="tools-grid" aria-label="Video Tools Collection">
+        {allVideoTools.map((tool) => (
+          <ToolCard tool={tool} />
+        ))}
+      </section>
+
+      <section class="workflows-section">
+        <h2 class="section-heading">
+          <span class="heading-line"></span>
+          Common Workflows
+        </h2>
+
+        <div class="workflows-grid">
+          {commonWorkflows.map((workflow) => (
+            <article class="workflow-card">
+              <h3 class="workflow-title">{workflow.title}</h3>
+              <ol class="workflow-steps">
+                {workflow.steps.map((step, index) => (
+                  <li class="workflow-step">
+                    <span class="step-number">{String(index + 1).padStart(2, '0')}</span>
+                    <span class="step-text">{step}</span>
+                  </li>
+                ))}
+              </ol>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section class="why-section">
+        <h2 class="section-heading">
+          <span class="heading-line"></span>
+          Why Browser-Based Video Tools?
+        </h2>
+
+        <div class="why-grid">
+          <div class="why-card">
+            <div class="why-icon">🎬</div>
+            <h3 class="why-title">Full FFmpeg Power</h3>
+            <p class="why-text">
+              Runs complete FFmpeg toolkit in your browser via WebAssembly. Same professional-grade video processing
+              used by Hollywood studios, now accessible without installation or command-line expertise.
+            </p>
+          </div>
+
+          <div class="why-card">
+            <div class="why-icon">🔒</div>
+            <h3 class="why-title">Content Privacy</h3>
+            <p class="why-text">
+              Your videos never leave your device. No uploads to cloud servers. Perfect for unreleased content,
+              client work under NDA, confidential training videos, or personal footage you want to keep private.
+            </p>
+          </div>
+
+          <div class="why-card">
+            <div class="why-icon">💨</div>
+            <h3 class="why-title">No Upload Delays</h3>
+            <p class="why-text">
+              Skip the 10-minute upload for a 500MB video. Processing starts instantly on your local device.
+              Trim a 5-second clip in seconds, not the 20 minutes it takes to upload and download from cloud services.
+            </p>
+          </div>
+
+          <div class="why-card">
+            <div class="why-icon">🌟</div>
+            <h3 class="why-title">Zero Cost Forever</h3>
+            <p class="why-text">
+              No monthly subscription, no per-video rendering fees, no watermarks on output. Process unlimited videos.
+              Perfect for YouTubers, TikTokers, educators, and small businesses on a budget.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="faq-section">
+        <h2 class="section-heading">
+          <span class="heading-line"></span>
+          Frequently Asked Questions
+        </h2>
+
+        <div class="faq-list">
+          {faqs.map((faq) => (
+            <details class="faq-item">
+              <summary class="faq-question">{faq.question}</summary>
+              <div class="faq-answer">
+                <p>{faq.answer}</p>
+              </div>
+            </details>
+          ))}
+        </div>
+      </section>
+
+      <section class="related-section">
+        <h2 class="section-heading">
+          <span class="heading-line"></span>
+          Explore More Tools
+        </h2>
+
+        <div class="related-grid">
+          <a href="/audio-tools" class="related-card">
+            <div class="related-icon">🎵</div>
+            <h3 class="related-title">Audio Tools</h3>
+            <p class="related-text">Edit waveforms, remove vocals, transcribe with AI, and create audiograms</p>
+          </a>
+
+          <a href="/image-tools" class="related-card">
+            <div class="related-icon">🖼️</div>
+            <h3 class="related-title">Image Tools</h3>
+            <p class="related-text">Compress, convert, and edit images with AI-powered background removal</p>
+          </a>
+
+          <a href="/pdf-tools" class="related-card">
+            <div class="related-icon">📄</div>
+            <h3 class="related-title">PDF Tools</h3>
+            <p class="related-text">Merge, compress, split, and edit PDFs with professional browser-based tools</p>
+          </a>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.625rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin-bottom: 2rem;
+    transition: color 0.2s ease;
+  }
+
+  .back-link:hover {
+    color: var(--text);
+  }
+
+  .category-title {
+    font-size: 2rem;
+    font-weight: 400;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    color: var(--text);
+  }
+
+  .category-intro {
+    font-size: 0.9375rem;
+    line-height: 1.8;
+    color: var(--text-dim);
+    max-width: 48rem;
+    margin: 0 auto 2rem;
+  }
+
+  .trust-signals {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .trust-signal {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-dim);
+  }
+
+  .check-icon {
+    width: 1rem;
+    height: 1rem;
+    color: #22c55e;
+  }
+
+  .updated-date {
+    font-size: 0.6875rem;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+  }
+
+  .updated-date time {
+    color: var(--text-dim);
+  }
+
+  .tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+    margin-bottom: 4rem;
+  }
+
+  .section-heading {
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--text);
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .heading-line {
+    width: 2rem;
+    height: 1px;
+    background: var(--text-muted);
+  }
+
+  .workflows-section {
+    margin-bottom: 4rem;
+    padding-top: 3rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .workflows-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+  }
+
+  .workflow-card {
+    border: 1px solid var(--border);
+    padding: 1.5rem;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.02) 0%,
+      rgba(255, 255, 255, 0.05) 100%
+    );
+  }
+
+  .workflow-title {
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text);
+    margin-bottom: 1rem;
+  }
+
+  .workflow-steps {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .workflow-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    font-size: 0.8125rem;
+    color: var(--text-dim);
+  }
+
+  .step-number {
+    font-size: 0.625rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    min-width: 1.5rem;
+  }
+
+  .step-text {
+    flex: 1;
+  }
+
+  .why-section {
+    margin-bottom: 4rem;
+    padding-top: 3rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .why-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+  }
+
+  .why-card {
+    text-align: center;
+  }
+
+  .why-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .why-title {
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text);
+    margin-bottom: 0.75rem;
+  }
+
+  .why-text {
+    font-size: 0.8125rem;
+    line-height: 1.7;
+    color: var(--text-dim);
+  }
+
+  .faq-section {
+    margin-bottom: 4rem;
+    padding-top: 3rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    max-width: 48rem;
+  }
+
+  .faq-item {
+    border: 1px solid var(--border);
+    background: transparent;
+  }
+
+  .faq-question {
+    padding: 1rem;
+    font-size: 0.8125rem;
+    color: var(--text);
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .faq-question::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-question::after {
+    content: '+';
+    font-size: 1rem;
+    color: var(--text-muted);
+  }
+
+  .faq-item[open] .faq-question::after {
+    content: '−';
+  }
+
+  .faq-answer {
+    padding: 0 1rem 1rem;
+    font-size: 0.8125rem;
+    line-height: 1.6;
+    color: var(--text-dim);
+  }
+
+  .related-section {
+    padding-top: 3rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .related-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .related-card {
+    border: 1px solid var(--border);
+    padding: 1.5rem;
+    text-decoration: none;
+    text-align: center;
+    transition: all 0.3s ease;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.02) 0%,
+      rgba(255, 255, 255, 0.05) 100%
+    );
+  }
+
+  .related-card:hover {
+    border-color: var(--text-muted);
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.05) 0%,
+      rgba(255, 255, 255, 0.08) 100%
+    );
+  }
+
+  .related-icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .related-title {
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+  }
+
+  .related-text {
+    font-size: 0.75rem;
+    line-height: 1.6;
+    color: var(--text-dim);
+  }
+
+  @media (max-width: 640px) {
+    .category-title {
+      font-size: 1.5rem;
+    }
+
+    .tools-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .workflows-grid,
+    .why-grid,
+    .related-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .trust-signals {
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+  }
+</style>

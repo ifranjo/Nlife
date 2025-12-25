@@ -2,6 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import Navbar from '../../components/ui/Navbar.astro';
 import Footer from '../../components/ui/Footer.astro';
+import RelatedTools from '../../components/seo/RelatedTools.astro';
 import ImageCompress from '../../components/tools/ImageCompress';
 ---
 
@@ -40,6 +41,9 @@ import ImageCompress from '../../components/tools/ImageCompress';
 
       <!-- Tool -->
       <ImageCompress client:load />
+
+      <!-- Related Tools: Hub-spoke internal linking for SEO -->
+      <RelatedTools currentToolId="image-compress" />
     </div>
   </main>
 

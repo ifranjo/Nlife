@@ -1,0 +1,692 @@
+---
+/**
+ * PDF Tools Pillar Page - Topical Authority Hub
+ *
+ * SEO Targets: "free pdf tools online", "pdf editor free"
+ * Purpose: Establish expertise for all PDF-related tools
+ * Strategy: Comprehensive category page with E-E-A-T signals
+ */
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/ui/Navbar.astro';
+import Footer from '../components/ui/Footer.astro';
+import ToolCard from '../components/ui/ToolCard.astro';
+import { getToolsByCategory } from '../lib/tools';
+
+// Get all PDF/document tools
+const pdfTools = getToolsByCategory('document');
+
+// SEO metadata
+const title = 'Free PDF Tools Online - Merge, Compress, Split & Edit PDFs | New Life Solutions';
+const description = 'Complete suite of free PDF tools running entirely in your browser. Merge, compress, split, redact, fill forms, and convert PDFs. No upload, no signup, 100% private.';
+const baseUrl = 'https://www.newlifesolutions.dev';
+const currentDate = new Date().toISOString().split('T')[0];
+const lastUpdated = new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+
+// FAQ data
+const faqs = [
+  {
+    question: 'Are these PDF tools really free?',
+    answer: 'Yes, all PDF tools are 100% free with no hidden fees, watermarks, or sign-up requirements. There are no daily limits or file size restrictions. Free forever.'
+  },
+  {
+    question: 'How are browser-based PDF tools more secure?',
+    answer: 'Browser-based tools process PDFs entirely on your device using JavaScript. Your files never leave your computer or get uploaded to remote servers, eliminating data breach risks and ensuring HIPAA/GDPR compliance.'
+  },
+  {
+    question: 'Can I use these tools offline?',
+    answer: 'Yes! After the first page load, our PDF tools work offline. The JavaScript libraries are cached in your browser, so you can process PDFs even without an internet connection.'
+  },
+  {
+    question: 'What file formats do these PDF tools support?',
+    answer: 'All tools support standard PDF files. PDF to Word converts to DOCX format. Document Scanner exports to PDF. OCR Extractor can read scanned PDFs and images (PNG, JPEG, WebP).'
+  },
+  {
+    question: 'Is there a file size limit for PDF processing?',
+    answer: 'No hard limits, but performance depends on your device. For best results, keep PDFs under 100MB. Larger files may be slower to process but will work.'
+  },
+  {
+    question: 'Can I edit password-protected PDFs?',
+    answer: 'Password-protected PDFs must be unlocked before editing. Most tools cannot process encrypted PDFs. Remove the password first using Adobe Acrobat or similar software.'
+  },
+  {
+    question: 'Which browsers work with these PDF tools?',
+    answer: 'All modern browsers work: Chrome, Firefox, Safari, Edge, Opera, and Brave. For best performance, use the latest browser version. Mobile browsers are supported.'
+  }
+];
+
+// HowTo steps for using PDF tools
+const commonWorkflows = [
+  {
+    title: 'Merge Multiple PDFs into One',
+    steps: [
+      'Open PDF Merge tool',
+      'Drag and drop all PDF files',
+      'Reorder by dragging if needed',
+      'Click "Merge PDFs"',
+      'Download combined PDF'
+    ]
+  },
+  {
+    title: 'Compress Large PDF Files',
+    steps: [
+      'Open PDF Compress tool',
+      'Upload your large PDF',
+      'Select compression preset (High/Medium/Maximum)',
+      'Toggle "Remove Metadata" if desired',
+      'Download compressed PDF'
+    ]
+  },
+  {
+    title: 'Extract Pages from PDF',
+    steps: [
+      'Open PDF Split tool',
+      'Upload your PDF',
+      'Select pages to extract',
+      'Click "Split PDF"',
+      'Download individual pages as ZIP'
+    ]
+  }
+];
+
+// Schema markup for pillar page
+const pillarSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  '@id': `${baseUrl}/pdf-tools#collection`,
+  name: 'Free PDF Tools Online - Complete Suite 2025',
+  description: description,
+  url: `${baseUrl}/pdf-tools`,
+  datePublished: '2024-12-01',
+  dateModified: currentDate,
+  inLanguage: 'en-US',
+  isPartOf: {
+    '@type': 'WebSite',
+    name: 'New Life Solutions',
+    url: baseUrl
+  },
+  mainEntity: {
+    '@type': 'ItemList',
+    name: 'PDF Tools',
+    numberOfItems: pdfTools.length,
+    itemListElement: pdfTools.map((tool, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: tool.name,
+      description: tool.description,
+      url: `${baseUrl}${tool.href}`
+    }))
+  },
+  author: {
+    '@type': 'Organization',
+    name: 'New Life Solutions',
+    url: baseUrl
+  }
+};
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((faq) => ({
+    '@type': 'Question',
+    name: faq.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: faq.answer
+    }
+  }))
+};
+
+const howToSchemas = commonWorkflows.map((workflow) => ({
+  '@context': 'https://schema.org',
+  '@type': 'HowTo',
+  name: workflow.title,
+  description: `Step-by-step guide: ${workflow.title}`,
+  step: workflow.steps.map((stepText, index) => ({
+    '@type': 'HowToStep',
+    position: index + 1,
+    text: stepText
+  })),
+  tool: {
+    '@type': 'HowToTool',
+    name: 'Web Browser'
+  },
+  totalTime: 'PT2M'
+}));
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    {
+      '@type': 'ListItem',
+      position: 1,
+      name: 'Home',
+      item: baseUrl
+    },
+    {
+      '@type': 'ListItem',
+      position: 2,
+      name: 'PDF Tools',
+      item: `${baseUrl}/pdf-tools`
+    }
+  ]
+};
+---
+
+<Layout title={title} description={description} image="/thumbnails/pdf-merge.svg">
+  <!-- Schema Markup -->
+  <script type="application/ld+json" set:html={JSON.stringify(pillarSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  {howToSchemas.map((schema) => (
+    <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+  ))}
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+
+  <Navbar />
+
+  <main class="pt-20 pb-16 px-6 min-h-screen">
+    <div class="max-w-6xl mx-auto">
+
+      <!-- Header Section -->
+      <header class="text-center mb-16">
+        <a href="/hub" class="back-link">
+          <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+          </svg>
+          Back to Tool Hub
+        </a>
+
+        <div class="text-3xl mb-6 opacity-60">📄</div>
+
+        <h1 class="category-title">
+          Free PDF Tools Online
+        </h1>
+
+        <p class="category-intro">
+          Complete suite of professional PDF tools that run entirely in your browser.
+          Merge multiple PDFs, compress files up to 90%, split documents, redact sensitive information,
+          fill forms, convert to Word, scan documents, and extract text with OCR.
+          All processing happens locally on your device—your files never leave your browser.
+          No signup, no uploads to servers, no watermarks, no limits. Perfect for individuals,
+          businesses, legal professionals, and anyone who values privacy and security.
+        </p>
+
+        <!-- Trust Signals -->
+        <div class="trust-signals">
+          <span class="trust-signal">
+            <svg class="check-icon" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+            </svg>
+            100% Browser-Based
+          </span>
+          <span class="trust-signal">
+            <svg class="check-icon" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+            </svg>
+            HIPAA/GDPR Compliant
+          </span>
+          <span class="trust-signal">
+            <svg class="check-icon" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+            </svg>
+            No File Size Limits
+          </span>
+          <span class="trust-signal">
+            <svg class="check-icon" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+            </svg>
+            Works Offline
+          </span>
+        </div>
+
+        <p class="updated-date">
+          <time datetime={currentDate}>Last updated: {lastUpdated}</time>
+        </p>
+      </header>
+
+      <!-- Tools Grid -->
+      <section class="tools-grid" aria-label="PDF Tools Collection">
+        {pdfTools.map((tool) => (
+          <ToolCard tool={tool} />
+        ))}
+      </section>
+
+      <!-- Common Workflows Section -->
+      <section class="workflows-section">
+        <h2 class="section-heading">
+          <span class="heading-line"></span>
+          Common Workflows
+        </h2>
+
+        <div class="workflows-grid">
+          {commonWorkflows.map((workflow) => (
+            <article class="workflow-card">
+              <h3 class="workflow-title">{workflow.title}</h3>
+              <ol class="workflow-steps">
+                {workflow.steps.map((step, index) => (
+                  <li class="workflow-step">
+                    <span class="step-number">{String(index + 1).padStart(2, '0')}</span>
+                    <span class="step-text">{step}</span>
+                  </li>
+                ))}
+              </ol>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <!-- Why Browser-Based Section -->
+      <section class="why-section">
+        <h2 class="section-heading">
+          <span class="heading-line"></span>
+          Why Browser-Based PDF Tools?
+        </h2>
+
+        <div class="why-grid">
+          <div class="why-card">
+            <div class="why-icon">🔒</div>
+            <h3 class="why-title">Privacy First</h3>
+            <p class="why-text">
+              Files never leave your device. No uploads to remote servers means zero risk of data breaches,
+              unauthorized access, or third-party surveillance. Perfect for confidential legal documents,
+              medical records, financial statements, and HR files.
+            </p>
+          </div>
+
+          <div class="why-card">
+            <div class="why-icon">⚡</div>
+            <h3 class="why-title">Lightning Fast</h3>
+            <p class="why-text">
+              No upload/download wait times. Processing happens instantly on your device using modern JavaScript
+              libraries like pdf-lib and PDF.js. Merge 20 PDFs in seconds, not minutes.
+            </p>
+          </div>
+
+          <div class="why-card">
+            <div class="why-icon">🌐</div>
+            <h3 class="why-title">Works Offline</h3>
+            <p class="why-text">
+              After the first page load, all tools work without internet. Libraries are cached in your browser.
+              Perfect for airplane work, remote locations, or air-gapped secure environments.
+            </p>
+          </div>
+
+          <div class="why-card">
+            <div class="why-icon">✅</div>
+            <h3 class="why-title">Compliance Ready</h3>
+            <p class="why-text">
+              HIPAA, GDPR, SOC 2 compliant by design. Since files never touch our servers, there's no data
+              processing agreement needed. Your organization maintains full control and custody.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="faq-section">
+        <h2 class="section-heading">
+          <span class="heading-line"></span>
+          Frequently Asked Questions
+        </h2>
+
+        <div class="faq-list" itemscope itemtype="https://schema.org/FAQPage">
+          {faqs.map((faq) => (
+            <details class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+              <summary itemprop="name" class="faq-question">
+                {faq.question}
+              </summary>
+              <div itemprop="acceptedAnswer" itemscope itemtype="https://schema.org/Answer" class="faq-answer">
+                <p itemprop="text">{faq.answer}</p>
+              </div>
+            </details>
+          ))}
+        </div>
+      </section>
+
+      <!-- Related Categories -->
+      <section class="related-section">
+        <h2 class="section-heading">
+          <span class="heading-line"></span>
+          Explore More Tools
+        </h2>
+
+        <div class="related-grid">
+          <a href="/image-tools" class="related-card">
+            <div class="related-icon">🖼️</div>
+            <h3 class="related-title">Image Tools</h3>
+            <p class="related-text">Compress, convert, and edit images with AI-powered background removal and upscaling</p>
+          </a>
+
+          <a href="/video-tools" class="related-card">
+            <div class="related-icon">📹</div>
+            <h3 class="related-title">Video Tools</h3>
+            <p class="related-text">Compress, trim, and convert videos. Extract audio, create GIFs, and generate subtitles</p>
+          </a>
+
+          <a href="/audio-tools" class="related-card">
+            <div class="related-icon">🎵</div>
+            <h3 class="related-title">Audio Tools</h3>
+            <p class="related-text">Edit waveforms, remove vocals, transcribe with AI, and create audiograms</p>
+          </a>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.625rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin-bottom: 2rem;
+    transition: color 0.2s ease;
+  }
+
+  .back-link:hover {
+    color: var(--text);
+  }
+
+  .category-title {
+    font-size: 2rem;
+    font-weight: 400;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    color: var(--text);
+  }
+
+  .category-intro {
+    font-size: 0.9375rem;
+    line-height: 1.8;
+    color: var(--text-dim);
+    max-width: 48rem;
+    margin: 0 auto 2rem;
+  }
+
+  .trust-signals {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .trust-signal {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-dim);
+  }
+
+  .check-icon {
+    width: 1rem;
+    height: 1rem;
+    color: #22c55e;
+  }
+
+  .updated-date {
+    font-size: 0.6875rem;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+  }
+
+  .updated-date time {
+    color: var(--text-dim);
+  }
+
+  .tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+    margin-bottom: 4rem;
+  }
+
+  .section-heading {
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--text);
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .heading-line {
+    width: 2rem;
+    height: 1px;
+    background: var(--text-muted);
+  }
+
+  .workflows-section {
+    margin-bottom: 4rem;
+    padding-top: 3rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .workflows-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+  }
+
+  .workflow-card {
+    border: 1px solid var(--border);
+    padding: 1.5rem;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.02) 0%,
+      rgba(255, 255, 255, 0.05) 100%
+    );
+  }
+
+  .workflow-title {
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text);
+    margin-bottom: 1rem;
+  }
+
+  .workflow-steps {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .workflow-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    font-size: 0.8125rem;
+    color: var(--text-dim);
+  }
+
+  .step-number {
+    font-size: 0.625rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    min-width: 1.5rem;
+  }
+
+  .step-text {
+    flex: 1;
+  }
+
+  .why-section {
+    margin-bottom: 4rem;
+    padding-top: 3rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .why-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+  }
+
+  .why-card {
+    text-align: center;
+  }
+
+  .why-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .why-title {
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text);
+    margin-bottom: 0.75rem;
+  }
+
+  .why-text {
+    font-size: 0.8125rem;
+    line-height: 1.7;
+    color: var(--text-dim);
+  }
+
+  .faq-section {
+    margin-bottom: 4rem;
+    padding-top: 3rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    max-width: 48rem;
+  }
+
+  .faq-item {
+    border: 1px solid var(--border);
+    background: transparent;
+  }
+
+  .faq-question {
+    padding: 1rem;
+    font-size: 0.8125rem;
+    color: var(--text);
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .faq-question::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-question::after {
+    content: '+';
+    font-size: 1rem;
+    color: var(--text-muted);
+  }
+
+  .faq-item[open] .faq-question::after {
+    content: '−';
+  }
+
+  .faq-answer {
+    padding: 0 1rem 1rem;
+    font-size: 0.8125rem;
+    line-height: 1.6;
+    color: var(--text-dim);
+  }
+
+  .related-section {
+    padding-top: 3rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .related-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .related-card {
+    border: 1px solid var(--border);
+    padding: 1.5rem;
+    text-decoration: none;
+    text-align: center;
+    transition: all 0.3s ease;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.02) 0%,
+      rgba(255, 255, 255, 0.05) 100%
+    );
+  }
+
+  .related-card:hover {
+    border-color: var(--text-muted);
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.05) 0%,
+      rgba(255, 255, 255, 0.08) 100%
+    );
+  }
+
+  .related-icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .related-title {
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+  }
+
+  .related-text {
+    font-size: 0.75rem;
+    line-height: 1.6;
+    color: var(--text-dim);
+  }
+
+  @media (max-width: 640px) {
+    .category-title {
+      font-size: 1.5rem;
+    }
+
+    .tools-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .workflows-grid,
+    .why-grid,
+    .related-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .trust-signals {
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+  }
+</style>

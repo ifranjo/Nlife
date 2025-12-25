@@ -1,0 +1,671 @@
+---
+/**
+ * Audio Tools Pillar Page - Topical Authority Hub
+ *
+ * SEO Targets: "free audio tools online", "audio editor free"
+ * Purpose: Establish expertise for all audio-related tools
+ * Strategy: Comprehensive category page with E-E-A-T signals
+ */
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/ui/Navbar.astro';
+import Footer from '../components/ui/Footer.astro';
+import ToolCard from '../components/ui/ToolCard.astro';
+import { getToolsByCategory } from '../lib/tools';
+
+// Get audio-specific tools from media and AI categories
+const allMediaTools = getToolsByCategory('media');
+const audioMediaTools = allMediaTools.filter(tool =>
+  ['remove-vocals', 'audio-editor', 'audiogram-maker', 'subtitle-editor'].includes(tool.id)
+);
+
+const aiTools = getToolsByCategory('ai');
+const audioAITools = aiTools.filter(tool =>
+  ['audio-transcription', 'subtitle-generator'].includes(tool.id)
+);
+
+const allAudioTools = [...audioMediaTools, ...audioAITools];
+
+// SEO metadata
+const title = 'Free Audio Tools Online - Edit, Transcribe & Create Audio | New Life Solutions';
+const description = 'Complete suite of free audio tools running in your browser. Edit waveforms, remove vocals, transcribe with Whisper AI, create audiograms, and generate subtitles. No upload required.';
+const baseUrl = 'https://www.newlifesolutions.dev';
+const currentDate = new Date().toISOString().split('T')[0];
+const lastUpdated = new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+
+// FAQ data
+const faqs = [
+  {
+    question: 'Are these audio tools completely free?',
+    answer: 'Yes, all audio tools are 100% free with no sign-up requirements, watermarks, or hidden fees. Process unlimited audio files with no daily quotas or time limits.'
+  },
+  {
+    question: 'Are my audio files uploaded to a server?',
+    answer: 'No. All audio processing happens entirely in your browser using Web Audio API, FFmpeg.wasm, and Whisper AI (WebAssembly). Your files never leave your device.'
+  },
+  {
+    question: 'How does vocal removal work?',
+    answer: 'Uses phase cancellation to isolate and remove center-panned vocals while preserving stereo instrumentals. Works best on professionally mixed stereo tracks where vocals are centered.'
+  },
+  {
+    question: 'What is Whisper AI and how accurate is it?',
+    answer: 'Whisper is OpenAI\'s state-of-the-art speech recognition model running entirely in your browser. Accuracy is very high for clear speech (95%+). Background noise, accents, or low-quality audio may reduce accuracy.'
+  },
+  {
+    question: 'Can I transcribe audio in languages other than English?',
+    answer: 'Yes! Whisper AI supports 10+ languages including Spanish, French, German, Italian, Portuguese, Chinese, Japanese, Korean, Russian, and more. Auto-detects language or you can specify.'
+  },
+  {
+    question: 'What audio formats are supported?',
+    answer: 'Input: MP3, WAV, M4A, OGG, FLAC, AAC, and most common formats. Output: MP3 (compressed), WAV (lossless), SRT/VTT (subtitles). Format support varies by tool.'
+  },
+  {
+    question: 'What is an audiogram and why create one?',
+    answer: 'An audiogram is a video with animated waveforms that visualizes audio content. Perfect for promoting podcast episodes, audio clips, or music on social media platforms like Instagram, TikTok, and Twitter.'
+  }
+];
+
+// Common workflows
+const commonWorkflows = [
+  {
+    title: 'Create Karaoke Track from Song',
+    steps: [
+      'Open Vocal Remover tool',
+      'Upload your MP3 or WAV file',
+      'Click "Remove Vocals"',
+      'Wait for phase cancellation processing',
+      'Download instrumental-only track'
+    ]
+  },
+  {
+    title: 'Transcribe Podcast Episode',
+    steps: [
+      'Open Audio Transcription tool',
+      'Upload podcast audio file',
+      'Select language or use auto-detect',
+      'Click "Transcribe" and wait for Whisper AI',
+      'Download transcript as text or SRT file'
+    ]
+  },
+  {
+    title: 'Create Social Media Audiogram',
+    steps: [
+      'Use Audio Editor to trim best 60 seconds',
+      'Open Audiogram Maker',
+      'Upload trimmed audio and podcast artwork',
+      'Customize colors and waveform style',
+      'Download video for Instagram or TikTok'
+    ]
+  }
+];
+
+// Schema markup
+const pillarSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  '@id': `${baseUrl}/audio-tools#collection`,
+  name: 'Free Audio Tools Online - Complete Suite 2025',
+  description: description,
+  url: `${baseUrl}/audio-tools`,
+  datePublished: '2024-12-01',
+  dateModified: currentDate,
+  inLanguage: 'en-US',
+  isPartOf: {
+    '@type': 'WebSite',
+    name: 'New Life Solutions',
+    url: baseUrl
+  },
+  mainEntity: {
+    '@type': 'ItemList',
+    name: 'Audio Tools',
+    numberOfItems: allAudioTools.length,
+    itemListElement: allAudioTools.map((tool, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: tool.name,
+      description: tool.description,
+      url: `${baseUrl}${tool.href}`
+    }))
+  }
+};
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((faq) => ({
+    '@type': 'Question',
+    name: faq.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: faq.answer
+    }
+  }))
+};
+
+const howToSchemas = commonWorkflows.map((workflow) => ({
+  '@context': 'https://schema.org',
+  '@type': 'HowTo',
+  name: workflow.title,
+  step: workflow.steps.map((stepText, index) => ({
+    '@type': 'HowToStep',
+    position: index + 1,
+    text: stepText
+  }))
+}));
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: baseUrl },
+    { '@type': 'ListItem', position: 2, name: 'Audio Tools', item: `${baseUrl}/audio-tools` }
+  ]
+};
+---
+
+<Layout title={title} description={description} image="/thumbnails/audio-transcription.svg">
+  <script type="application/ld+json" set:html={JSON.stringify(pillarSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  {howToSchemas.map((schema) => (
+    <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+  ))}
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+
+  <Navbar />
+
+  <main class="pt-20 pb-16 px-6 min-h-screen">
+    <div class="max-w-6xl mx-auto">
+
+      <header class="text-center mb-16">
+        <a href="/hub" class="back-link">
+          <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+          </svg>
+          Back to Tool Hub
+        </a>
+
+        <div class="text-3xl mb-6 opacity-60">🎵</div>
+
+        <h1 class="category-title">
+          Free Audio Tools Online
+        </h1>
+
+        <p class="category-intro">
+          Professional audio editing and AI transcription suite that runs entirely in your browser.
+          Edit audio with visual waveform display, remove vocals to create karaoke tracks,
+          transcribe speech to text with Whisper AI in 10+ languages, generate subtitles from audio,
+          create animated audiograms for social media, and edit subtitle timing.
+          Perfect for podcasters, musicians, content creators, transcriptionists, and language learners.
+          All processing happens locally—your audio never leaves your device. No uploads, no signup,
+          no subscription fees. Free forever.
+        </p>
+
+        <div class="trust-signals">
+          <span class="trust-signal">
+            <svg class="check-icon" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+            </svg>
+            Whisper AI Powered
+          </span>
+          <span class="trust-signal">
+            <svg class="check-icon" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+            </svg>
+            10+ Languages
+          </span>
+          <span class="trust-signal">
+            <svg class="check-icon" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+            </svg>
+            Waveform Editor
+          </span>
+          <span class="trust-signal">
+            <svg class="check-icon" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+            </svg>
+            100% Private
+          </span>
+        </div>
+
+        <p class="updated-date">
+          <time datetime={currentDate}>Last updated: {lastUpdated}</time>
+        </p>
+      </header>
+
+      <section class="tools-grid" aria-label="Audio Tools Collection">
+        {allAudioTools.map((tool) => (
+          <ToolCard tool={tool} />
+        ))}
+      </section>
+
+      <section class="workflows-section">
+        <h2 class="section-heading">
+          <span class="heading-line"></span>
+          Common Workflows
+        </h2>
+
+        <div class="workflows-grid">
+          {commonWorkflows.map((workflow) => (
+            <article class="workflow-card">
+              <h3 class="workflow-title">{workflow.title}</h3>
+              <ol class="workflow-steps">
+                {workflow.steps.map((step, index) => (
+                  <li class="workflow-step">
+                    <span class="step-number">{String(index + 1).padStart(2, '0')}</span>
+                    <span class="step-text">{step}</span>
+                  </li>
+                ))}
+              </ol>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section class="why-section">
+        <h2 class="section-heading">
+          <span class="heading-line"></span>
+          Why Browser-Based Audio Tools?
+        </h2>
+
+        <div class="why-grid">
+          <div class="why-card">
+            <div class="why-icon">🤖</div>
+            <h3 class="why-title">AI Transcription</h3>
+            <p class="why-text">
+              OpenAI's Whisper AI runs entirely in your browser for state-of-the-art speech recognition.
+              No API keys, no per-minute charges, no cloud uploads. Transcribe hours of audio completely free.
+            </p>
+          </div>
+
+          <div class="why-card">
+            <div class="why-icon">🔒</div>
+            <h3 class="why-title">Audio Privacy</h3>
+            <p class="why-text">
+              Your audio files never leave your device. Perfect for confidential interviews, unreleased music,
+              private podcasts, medical recordings, legal depositions, or any sensitive content.
+            </p>
+          </div>
+
+          <div class="why-card">
+            <div class="why-icon">🎨</div>
+            <h3 class="why-title">Visual Editing</h3>
+            <p class="why-text">
+              See your audio as waveforms. Click and drag to select regions, trim with precision,
+              add fade in/out effects. Visual feedback makes editing intuitive even for beginners.
+            </p>
+          </div>
+
+          <div class="why-card">
+            <div class="why-icon">🌍</div>
+            <h3 class="why-title">Multilingual Support</h3>
+            <p class="why-text">
+              Transcribe and subtitle in 10+ languages. Auto-detect language or specify manually.
+              Perfect for language learning, international podcasts, or multilingual content.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="faq-section">
+        <h2 class="section-heading">
+          <span class="heading-line"></span>
+          Frequently Asked Questions
+        </h2>
+
+        <div class="faq-list">
+          {faqs.map((faq) => (
+            <details class="faq-item">
+              <summary class="faq-question">{faq.question}</summary>
+              <div class="faq-answer">
+                <p>{faq.answer}</p>
+              </div>
+            </details>
+          ))}
+        </div>
+      </section>
+
+      <section class="related-section">
+        <h2 class="section-heading">
+          <span class="heading-line"></span>
+          Explore More Tools
+        </h2>
+
+        <div class="related-grid">
+          <a href="/video-tools" class="related-card">
+            <div class="related-icon">📹</div>
+            <h3 class="related-title">Video Tools</h3>
+            <p class="related-text">Compress, trim, and convert videos. Extract audio, create GIFs, and generate subtitles</p>
+          </a>
+
+          <a href="/image-tools" class="related-card">
+            <div class="related-icon">🖼️</div>
+            <h3 class="related-title">Image Tools</h3>
+            <p class="related-text">Compress, convert, and edit images with AI-powered background removal</p>
+          </a>
+
+          <a href="/pdf-tools" class="related-card">
+            <div class="related-icon">📄</div>
+            <h3 class="related-title">PDF Tools</h3>
+            <p class="related-text">Merge, compress, split, and edit PDFs with professional browser-based tools</p>
+          </a>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.625rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin-bottom: 2rem;
+    transition: color 0.2s ease;
+  }
+
+  .back-link:hover {
+    color: var(--text);
+  }
+
+  .category-title {
+    font-size: 2rem;
+    font-weight: 400;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    color: var(--text);
+  }
+
+  .category-intro {
+    font-size: 0.9375rem;
+    line-height: 1.8;
+    color: var(--text-dim);
+    max-width: 48rem;
+    margin: 0 auto 2rem;
+  }
+
+  .trust-signals {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .trust-signal {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-dim);
+  }
+
+  .check-icon {
+    width: 1rem;
+    height: 1rem;
+    color: #22c55e;
+  }
+
+  .updated-date {
+    font-size: 0.6875rem;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+  }
+
+  .updated-date time {
+    color: var(--text-dim);
+  }
+
+  .tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+    margin-bottom: 4rem;
+  }
+
+  .section-heading {
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--text);
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .heading-line {
+    width: 2rem;
+    height: 1px;
+    background: var(--text-muted);
+  }
+
+  .workflows-section {
+    margin-bottom: 4rem;
+    padding-top: 3rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .workflows-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+  }
+
+  .workflow-card {
+    border: 1px solid var(--border);
+    padding: 1.5rem;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.02) 0%,
+      rgba(255, 255, 255, 0.05) 100%
+    );
+  }
+
+  .workflow-title {
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text);
+    margin-bottom: 1rem;
+  }
+
+  .workflow-steps {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .workflow-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    font-size: 0.8125rem;
+    color: var(--text-dim);
+  }
+
+  .step-number {
+    font-size: 0.625rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    min-width: 1.5rem;
+  }
+
+  .step-text {
+    flex: 1;
+  }
+
+  .why-section {
+    margin-bottom: 4rem;
+    padding-top: 3rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .why-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+  }
+
+  .why-card {
+    text-align: center;
+  }
+
+  .why-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .why-title {
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text);
+    margin-bottom: 0.75rem;
+  }
+
+  .why-text {
+    font-size: 0.8125rem;
+    line-height: 1.7;
+    color: var(--text-dim);
+  }
+
+  .faq-section {
+    margin-bottom: 4rem;
+    padding-top: 3rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    max-width: 48rem;
+  }
+
+  .faq-item {
+    border: 1px solid var(--border);
+    background: transparent;
+  }
+
+  .faq-question {
+    padding: 1rem;
+    font-size: 0.8125rem;
+    color: var(--text);
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .faq-question::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-question::after {
+    content: '+';
+    font-size: 1rem;
+    color: var(--text-muted);
+  }
+
+  .faq-item[open] .faq-question::after {
+    content: '−';
+  }
+
+  .faq-answer {
+    padding: 0 1rem 1rem;
+    font-size: 0.8125rem;
+    line-height: 1.6;
+    color: var(--text-dim);
+  }
+
+  .related-section {
+    padding-top: 3rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .related-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .related-card {
+    border: 1px solid var(--border);
+    padding: 1.5rem;
+    text-decoration: none;
+    text-align: center;
+    transition: all 0.3s ease;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.02) 0%,
+      rgba(255, 255, 255, 0.05) 100%
+    );
+  }
+
+  .related-card:hover {
+    border-color: var(--text-muted);
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.05) 0%,
+      rgba(255, 255, 255, 0.08) 100%
+    );
+  }
+
+  .related-icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .related-title {
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+  }
+
+  .related-text {
+    font-size: 0.75rem;
+    line-height: 1.6;
+    color: var(--text-dim);
+  }
+
+  @media (max-width: 640px) {
+    .category-title {
+      font-size: 1.5rem;
+    }
+
+    .tools-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .workflows-grid,
+    .why-grid,
+    .related-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .trust-signals {
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+  }
+</style>

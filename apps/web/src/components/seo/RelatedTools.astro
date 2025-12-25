@@ -1,0 +1,157 @@
+---
+/**
+ * RelatedTools Component
+ *
+ * Displays related tools based on category and tag similarity.
+ * Implements hub-spoke internal linking for SEO improvement.
+ * Includes schema.org ItemList markup.
+ */
+
+interface Props {
+  currentToolId: string;
+  maxItems?: number;
+}
+
+import { getRelatedTools } from '../../lib/tools';
+
+const { currentToolId, maxItems = 6 } = Astro.props;
+const relatedTools = getRelatedTools(currentToolId, maxItems);
+
+// Generate schema.org ItemList markup for SEO
+const itemListSchema = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": "Related Free Tools",
+  "description": "Other free online tools related to this tool",
+  "numberOfItems": relatedTools.length,
+  "itemListElement": relatedTools.map((tool, index) => ({
+    "@type": "ListItem",
+    "position": index + 1,
+    "item": {
+      "@type": "SoftwareApplication",
+      "@id": `https://www.newlifesolutions.dev${tool.href}`,
+      "name": tool.name,
+      "description": tool.description,
+      "url": `https://www.newlifesolutions.dev${tool.href}`,
+      "applicationCategory": "UtilityApplication",
+      "operatingSystem": "Web Browser",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+  }))
+};
+---
+
+{relatedTools.length > 0 && (
+  <section class="related-tools" aria-labelledby="related-tools-heading">
+    <h2 id="related-tools-heading" class="related-tools-title">Related Free Tools</h2>
+
+    <div class="tools-grid">
+      {relatedTools.map((tool) => (
+        <a href={tool.href} class="tool-link glass-card" data-tool-id={tool.id}>
+          <div class="tool-icon" aria-hidden="true">{tool.icon}</div>
+          <div class="tool-content">
+            <h3 class="tool-name">{tool.name}</h3>
+            <p class="tool-desc">{tool.description}</p>
+          </div>
+        </a>
+      ))}
+    </div>
+
+    {/* Schema.org ItemList markup for SEO */}
+    <script type="application/ld+json" set:html={JSON.stringify(itemListSchema)} />
+  </section>
+)}
+
+<style>
+  .related-tools {
+    margin: 4rem 0 2rem;
+    padding: 2rem 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .related-tools-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: var(--text);
+    text-align: center;
+  }
+
+  .tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.25rem;
+    margin-top: 1.5rem;
+  }
+
+  @media (max-width: 768px) {
+    .tools-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .tool-link {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1.25rem;
+    text-decoration: none;
+    color: var(--text);
+    transition: all 0.2s ease;
+    border: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.02);
+  }
+
+  .tool-link:hover {
+    transform: translateY(-2px);
+    border-color: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.05);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  }
+
+  .tool-link:focus-visible {
+    outline: 2px solid #00d4ff;
+    outline-offset: 2px;
+  }
+
+  .tool-icon {
+    font-size: 2rem;
+    flex-shrink: 0;
+    width: 3rem;
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+  }
+
+  .tool-content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .tool-name {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin: 0 0 0.5rem 0;
+    color: var(--text);
+  }
+
+  .tool-desc {
+    font-size: 0.875rem;
+    line-height: 1.5;
+    margin: 0;
+    color: var(--text-secondary, #999);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* Glass card styling from global.css is already applied via class */
+</style>

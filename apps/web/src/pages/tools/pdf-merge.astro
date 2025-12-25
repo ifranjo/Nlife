@@ -12,7 +12,10 @@ import Navbar from '../../components/ui/Navbar.astro';
 import Footer from '../../components/ui/Footer.astro';
 import AnswerBox from '../../components/seo/AnswerBox.astro';
 import QASections from '../../components/seo/QASections.astro';
+import { getToolById } from '../../lib/tools';
 import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
+import RelatedTools from '../../components/seo/RelatedTools.astro';
+import ComparisonTable from '../../components/seo/ComparisonTable.astro';
 import PdfMerge from '../../components/tools/PdfMerge';
 
 // Tool metadata
@@ -22,6 +25,9 @@ const tool = {
   category: 'document' as const,
   url: '/tools/pdf-merge'
 };
+
+// Get full tool data for stats
+const toolData = getToolById(tool.id);
 
 // AI-optimized content
 const seoContent = {
@@ -130,6 +136,54 @@ const schemaData = {
         <PdfMerge client:load />
       </section>
 
+      <!-- Comparison Table: GEO optimization (32% of AI citations) -->
+      <ComparisonTable
+        toolName="PDF Merge"
+        competitors={[
+          {
+            name: "Adobe Acrobat",
+            features: {
+              price: "$19.99/month",
+              privacy: "Cloud upload",
+              accountRequired: "Yes",
+              usageLimits: "Unlimited",
+              watermarks: "None",
+              worksOffline: "No"
+            }
+          },
+          {
+            name: "SmallPDF",
+            features: {
+              price: "$12/month",
+              privacy: "Cloud upload",
+              accountRequired: "Yes",
+              usageLimits: "2 files/hour (free)",
+              watermarks: "Yes (free tier)",
+              worksOffline: "No"
+            }
+          },
+          {
+            name: "iLovePDF",
+            features: {
+              price: "$7/month",
+              privacy: "Cloud upload",
+              accountRequired: "Optional",
+              usageLimits: "10 files/day (free)",
+              watermarks: "None",
+              worksOffline: "No"
+            }
+          }
+        ]}
+        ourFeatures={{
+          price: "Free forever",
+          privacy: "100% local",
+          accountRequired: "No",
+          usageLimits: "Unlimited",
+          watermarks: "None",
+          worksOffline: "Yes"
+        }}
+      />
+
       <!-- Q&A Sections: Semantic structure for AI -->
       <QASections
         toolName={tool.name}
@@ -137,7 +191,11 @@ const schemaData = {
         howItWorks={seoContent.qa.howItWorks}
         whyBrowserBased={seoContent.qa.whyBrowserBased}
         faqs={seoContent.qa.faqs}
+        stats={toolData?.stats}
       />
+
+      <!-- Related Tools: Hub-spoke internal linking for SEO -->
+      <RelatedTools currentToolId={tool.id} />
 
     </div>
   </main>

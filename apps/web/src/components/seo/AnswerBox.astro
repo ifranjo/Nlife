@@ -11,14 +11,22 @@
  *
  * Research shows: 32% of AI citations are listicles,
  * start each section with direct answer
+ *
+ * GEO 2025 Optimizations:
+ * - TL;DR label for AI recognition
+ * - Explicit "Last verified" timestamp
+ * - data-ai-summary attribute
+ * - Statistic or data point in direct answer
+ * - Structured format for AI parsing
  */
 
 interface Props {
   title: string;           // H1: "Merge PDF Files Online — Free, Private, No Upload"
-  tldr: string;            // 40-60 word direct answer (CITATION BLOCK)
+  tldr: string;            // 40-60 word direct answer (CITATION BLOCK) - MUST include statistic
   toolName: string;        // "PDF Merge"
   queryTarget: string;     // "How to Merge PDF Files Online Free"
   trustSignals?: string[]; // ["100% browser-based", "No data collection", "Works offline"]
+  statistic?: string;      // Optional stat to append if tldr doesn't include one
 }
 
 const {
@@ -30,12 +38,14 @@ const {
     "100% browser-based",
     "No data collection",
     "Works offline"
-  ]
+  ],
+  statistic
 } = Astro.props;
 
 // Current date for freshness (GEO 2025)
 const currentYear = new Date().getFullYear();
 const lastUpdated = new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+const verificationDate = "December 2025";
 ---
 
 <section
@@ -44,6 +54,7 @@ const lastUpdated = new Date().toLocaleDateString('en-US', { month: 'long', year
   itemtype="https://schema.org/HowTo"
   aria-label="Quick answer"
   data-ai-citation="true"
+  data-ai-summary="true"
   data-speakable="true"
   data-answer-capsule="true"
 >
@@ -53,6 +64,7 @@ const lastUpdated = new Date().toLocaleDateString('en-US', { month: 'long', year
   <!-- AI extraction hints -->
   <meta name="ai-extract-priority" content="high" />
   <meta name="citation-ready" content="true" />
+  <meta name="verified-date" content={verificationDate} />
 
   <a
     href="/hub"
@@ -72,15 +84,18 @@ const lastUpdated = new Date().toLocaleDateString('en-US', { month: 'long', year
   <!-- CITATION BLOCK: 40-60 words that AI will extract -->
   <!-- This paragraph must stand alone and answer the query directly -->
   <!-- GEO 2025: Answer capsule format - 40% higher citation rate -->
-  <p
-    class="tldr citation-block"
-    itemprop="text"
-    data-ai-extract="primary"
-    data-answer-capsule="true"
-    data-speakable="true"
-  >
-    {tldr}
-  </p>
+  <div class="direct-answer-container">
+    <p class="tldr-label" aria-label="Summary">TL;DR:</p>
+    <p
+      class="tldr citation-block direct-answer"
+      itemprop="text"
+      data-ai-extract="primary"
+      data-answer-capsule="true"
+      data-speakable="true"
+    >
+      {tldr}{statistic && ` ${statistic}`}
+    </p>
+  </div>
 
   <!-- Trust signals as list (listicles get 32% of AI citations) -->
   <div class="trust-signals" role="list" aria-label="Features" itemscope itemtype="https://schema.org/ItemList">
@@ -105,6 +120,11 @@ const lastUpdated = new Date().toLocaleDateString('en-US', { month: 'long', year
   <!-- Freshness indicator (Dec 2025 best practice) -->
   <p class="updated-date">
     <time datetime={new Date().toISOString()}>Updated {lastUpdated}</time> · Free forever
+  </p>
+
+  <!-- Explicit verification timestamp for AI trust (GEO 2025) -->
+  <p class="freshness-signal">
+    <strong>Last verified:</strong> {verificationDate}
   </p>
 </section>
 
@@ -148,12 +168,33 @@ const lastUpdated = new Date().toLocaleDateString('en-US', { month: 'long', year
     color: var(--text);
   }
 
+  /* TL;DR label styling for AI recognition */
+  .direct-answer-container {
+    margin: 0 auto 1.5rem;
+    max-width: 42rem;
+  }
+
+  .tldr-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+  }
+
   .tldr {
     font-size: 0.9375rem;
     line-height: 1.7;
     color: var(--text-dim);
     max-width: 36rem;
-    margin: 0 auto 1.5rem;
+    margin: 0 auto;
+  }
+
+  /* Direct answer format for AI extraction */
+  .direct-answer {
+    /* Ensure AI parsers can identify this as the primary answer */
+    font-weight: 400;
   }
 
   .trust-signals {
@@ -188,6 +229,19 @@ const lastUpdated = new Date().toLocaleDateString('en-US', { month: 'long', year
 
   .updated-date time {
     color: var(--text-dim);
+  }
+
+  /* Freshness signal for AI trust (GEO 2025) */
+  .freshness-signal {
+    font-size: 0.6875rem;
+    color: var(--text-muted);
+    margin-top: 0.5rem;
+    letter-spacing: 0.05em;
+  }
+
+  .freshness-signal strong {
+    color: var(--text-dim);
+    font-weight: 600;
   }
 
   /* Citation block styling for AI extraction */

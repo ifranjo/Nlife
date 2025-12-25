@@ -14,6 +14,7 @@ import Navbar from '../../components/ui/Navbar.astro';
 import Footer from '../../components/ui/Footer.astro';
 import AnswerBox from '../../components/seo/AnswerBox.astro';
 import QASections from '../../components/seo/QASections.astro';
+import { getToolById } from '../../lib/tools';
 import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
 import ExifEditor from '../../components/tools/ExifEditor';
 
@@ -24,6 +25,9 @@ const tool = {
   category: 'media' as const,
   url: '/tools/exif-editor'
 };
+
+// Get full tool data for stats
+const toolData = getToolById(tool.id);
 
 // AI-optimized content - emphasizing PRIVACY angle
 const seoContent = {
@@ -145,6 +149,7 @@ const schemaData = {
         howItWorks={seoContent.qa.howItWorks}
         whyBrowserBased={seoContent.qa.whyBrowserBased}
         faqs={seoContent.qa.faqs}
+        stats={toolData?.stats}
       />
 
     </div>
