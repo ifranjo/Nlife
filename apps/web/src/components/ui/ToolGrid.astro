@@ -26,7 +26,7 @@ const comingTools = tools.filter(t => t.tier === 'coming');
           <span class="text-[0.625rem] text-[var(--success)] uppercase tracking-[0.2em]">Available</span>
           <div class="flex-1 h-px bg-[var(--border)]"></div>
         </div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="tool-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {freeTools.map((tool) => (
             <ToolCard tool={tool} />
           ))}
@@ -41,7 +41,7 @@ const comingTools = tools.filter(t => t.tier === 'coming');
           <span class="text-[0.625rem] text-[var(--warning)] uppercase tracking-[0.2em]">Pro</span>
           <div class="flex-1 h-px bg-[var(--border)]"></div>
         </div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="tool-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {proTools.map((tool) => (
             <ToolCard tool={tool} />
           ))}
@@ -56,7 +56,7 @@ const comingTools = tools.filter(t => t.tier === 'coming');
           <span class="text-[0.625rem] text-[var(--text-muted)] uppercase tracking-[0.2em]">Coming Soon</span>
           <div class="flex-1 h-px bg-[var(--border)]"></div>
         </div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="tool-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {comingTools.map((tool) => (
             <ToolCard tool={tool} />
           ))}

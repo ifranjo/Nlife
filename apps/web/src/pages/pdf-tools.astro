@@ -245,7 +245,7 @@ const breadcrumbSchema = {
       </header>
 
       <!-- Tools Grid -->
-      <section class="tools-grid" aria-label="PDF Tools Collection">
+      <section class="tools-grid tool-grid" aria-label="PDF Tools Collection">
         {pdfTools.map((tool) => (
           <ToolCard tool={tool} />
         ))}
@@ -449,7 +449,7 @@ const breadcrumbSchema = {
   .tools-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 1rem;
+    gap: 1.25rem;
     margin-bottom: 4rem;
   }
 

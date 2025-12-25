@@ -112,16 +112,25 @@ body {
   transform: translateY(-1px);
 }
 
-/* === TOOL CARD === */
+/* === TOOL CARD (Premium - distinct, animated) === */
 .tool-card {
-  background: var(--bg-card);
+  background: linear-gradient(
+    145deg,
+    var(--bg-card) 0%,
+    rgba(17, 17, 17, 0.95) 100%
+  );
   border: 1px solid var(--border);
   padding: 1.5rem;
   transition: all var(--transition);
   position: relative;
   overflow: hidden;
+  /* Subtle ambient shadow for depth */
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.3),
+    0 0 1px rgba(255, 255, 255, 0.05);
 }
 
+/* Top accent line - unique per category */
 .tool-card::before {
   content: '';
   position: absolute;
@@ -129,42 +138,150 @@ body {
   left: 0;
   right: 0;
   height: 2px;
-  background: linear-gradient(90deg, transparent, var(--border-accent), transparent);
-  opacity: 0;
-  transition: opacity var(--transition);
+  background: linear-gradient(90deg,
+    transparent 0%,
+    var(--card-accent, rgba(255, 255, 255, 0.3)) 50%,
+    transparent 100%
+  );
+  opacity: 0.3;
+  transition: opacity var(--transition), transform var(--transition);
+  transform: scaleX(0.5);
 }
 
+/* Ambient glow orb */
 .tool-card::after {
   content: '';
   position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 0;
-  height: 0;
+  top: -50%;
+  right: -50%;
+  width: 100%;
+  height: 100%;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.03), transparent 70%);
-  transform: translate(-50%, -50%);
-  transition: width var(--transition-slow), height var(--transition-slow);
+  background: radial-gradient(
+    circle,
+    var(--card-accent, rgba(255, 255, 255, 0.03)) 0%,
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity var(--transition-slow), transform var(--transition-slow);
   pointer-events: none;
 }
 
+/* Category accent colors */
+.tool-card[data-category="pdf"] { --card-accent: rgba(239, 68, 68, 0.4); }
+.tool-card[data-category="image"] { --card-accent: rgba(34, 197, 94, 0.4); }
+.tool-card[data-category="video"] { --card-accent: rgba(168, 85, 247, 0.4); }
+.tool-card[data-category="audio"] { --card-accent: rgba(251, 146, 60, 0.4); }
+.tool-card[data-category="text"] { --card-accent: rgba(59, 130, 246, 0.4); }
+.tool-card[data-category="dev"] { --card-accent: rgba(34, 211, 238, 0.4); }
+.tool-card[data-category="ai"] { --card-accent: rgba(236, 72, 153, 0.4); }
+.tool-card[data-category="utility"] { --card-accent: rgba(156, 163, 175, 0.4); }
+.tool-card[data-category="media"] { --card-accent: rgba(139, 92, 246, 0.4); }
+
+/* Hover state - elevated and glowing */
 .tool-card:hover {
-  border-color: var(--border-glass-hover);
-  background: var(--bg-hover);
-  transform: translateY(-3px) scale(1.01);
+  border-color: var(--card-accent, var(--border-glass-hover));
+  background: linear-gradient(
+    145deg,
+    var(--bg-hover) 0%,
+    rgba(26, 26, 26, 0.98) 100%
+  );
+  transform: translateY(-6px) scale(1.02);
   box-shadow:
-    var(--glow-hover),
-    0 10px 40px rgba(0, 0, 0, 0.3);
+    0 0 30px var(--card-accent, rgba(255, 255, 255, 0.08)),
+    0 20px 40px rgba(0, 0, 0, 0.4),
+    0 0 1px var(--card-accent, rgba(255, 255, 255, 0.2));
 }
 
 .tool-card:hover::before {
   opacity: 1;
-  animation: shimmer 1.5s ease-in-out infinite;
+  transform: scaleX(1);
+  animation: accent-pulse 2s ease-in-out infinite;
 }
 
 .tool-card:hover::after {
-  width: 300px;
-  height: 300px;
+  opacity: 0.6;
+  transform: translate(-20%, 20%) scale(1.5);
+}
+
+@keyframes accent-pulse {
+  0%, 100% { opacity: 0.8; }
+  50% { opacity: 1; }
+}
+
+/* Icon animation */
+.tool-card .tool-icon {
+  transition: transform var(--transition), filter var(--transition);
+}
+
+.tool-card:hover .tool-icon {
+  transform: scale(1.15) rotate(-3deg);
+  filter: drop-shadow(0 0 8px var(--card-accent, rgba(255, 255, 255, 0.3)));
+}
+
+/* Arrow animation */
+.tool-card .tool-arrow {
+  transition: transform var(--transition), opacity var(--transition);
+  opacity: 0.5;
+}
+
+.tool-card:hover .tool-arrow {
+  transform: translateX(4px);
+  opacity: 1;
+  color: var(--card-accent, var(--accent));
+}
+
+/* Title glow on hover */
+.tool-card .tool-title {
+  transition: color var(--transition), text-shadow var(--transition);
+}
+
+.tool-card:hover .tool-title {
+  color: var(--accent);
+  text-shadow: 0 0 20px var(--card-accent, rgba(255, 255, 255, 0.3));
+}
+
+/* Staggered grid entrance */
+.tool-grid > .tool-card {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: card-enter 0.5s ease-out forwards;
+}
+
+.tool-grid > .tool-card:nth-child(1) { animation-delay: 0ms; }
+.tool-grid > .tool-card:nth-child(2) { animation-delay: 50ms; }
+.tool-grid > .tool-card:nth-child(3) { animation-delay: 100ms; }
+.tool-grid > .tool-card:nth-child(4) { animation-delay: 150ms; }
+.tool-grid > .tool-card:nth-child(5) { animation-delay: 200ms; }
+.tool-grid > .tool-card:nth-child(6) { animation-delay: 250ms; }
+.tool-grid > .tool-card:nth-child(7) { animation-delay: 300ms; }
+.tool-grid > .tool-card:nth-child(8) { animation-delay: 350ms; }
+.tool-grid > .tool-card:nth-child(9) { animation-delay: 400ms; }
+.tool-grid > .tool-card:nth-child(10) { animation-delay: 450ms; }
+.tool-grid > .tool-card:nth-child(11) { animation-delay: 500ms; }
+.tool-grid > .tool-card:nth-child(12) { animation-delay: 550ms; }
+.tool-grid > .tool-card:nth-child(n+13) { animation-delay: 600ms; }
+
+@keyframes card-enter {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Active/pressed state */
+.tool-card:active {
+  transform: translateY(-2px) scale(0.99);
+  transition: transform 50ms ease-out;
+}
+
+/* Focus state for accessibility */
+.tool-card:focus-visible {
+  outline: none;
+  border-color: var(--card-accent, var(--accent));
+  box-shadow:
+    0 0 0 3px rgba(255, 255, 255, 0.1),
+    0 0 30px var(--card-accent, rgba(255, 255, 255, 0.1));
 }
 
 /* === BUTTONS === */

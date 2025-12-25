@@ -17,22 +17,23 @@ const ToolCard: React.FC<ToolCardProps> = ({ tool }) => {
     <a
       href={isDisabled ? undefined : tool.href}
       className={[
-        'tool-card block p-6 rounded-lg border border-white/10 bg-white/5 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:bg-white/10 hover:shadow-xl hover:shadow-black/20',
-        isDisabled ? 'opacity-50 cursor-not-allowed' : ''
+        'tool-card block',
+        isDisabled ? 'opacity-50 cursor-not-allowed pointer-events-none' : ''
       ].join(' ')}
+      data-category={tool.category}
     >
       {/* Header */}
       <div className="flex items-start justify-between mb-4">
-        <div className="w-8 h-8">
-          <img src={tool.thumbnail} alt={tool.name} className="w-full h-full" loading="lazy" />
+        <div className="w-10 h-10 tool-icon">
+          <img src={tool.thumbnail} alt="" className="w-full h-full" loading="lazy" />
         </div>
-        <span className={`tag px-2 py-1 text-[0.625rem] uppercase tracking-[0.15em] rounded ${tagClass}`}>
+        <span className={`tag ${tagClass}`}>
           {tool.tier}
         </span>
       </div>
 
       {/* Title */}
-      <h3 className="text-[var(--text)] text-sm uppercase tracking-[0.1em] mb-2">
+      <h3 className="tool-title text-[var(--text)] text-sm uppercase tracking-[0.1em] mb-2 font-medium">
         {tool.name}
       </h3>
 
@@ -52,7 +53,7 @@ const ToolCard: React.FC<ToolCardProps> = ({ tool }) => {
           </span>
         )}
         {!isDisabled && (
-          <svg className="w-4 h-4 text-[var(--text-muted)] ml-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg className="tool-arrow w-4 h-4 text-[var(--text-muted)] ml-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M17 8l4 4m0 0l-4 4m4-4H3" />
           </svg>
         )}
@@ -274,7 +275,7 @@ export const ToolHub: React.FC<ToolHubProps> = ({ tools }) => {
       </div>
 
       {/* Tools Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mb-12">
+      <div className="tool-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 mb-12">
         {filteredAndSortedTools.length > 0 ? (
           filteredAndSortedTools.map(tool => (
             <ToolCard key={tool.id} tool={tool} />
@@ -297,7 +298,7 @@ export const ToolHub: React.FC<ToolHubProps> = ({ tools }) => {
             <span className="text-[0.625rem] text-[var(--accent)] uppercase tracking-[0.2em]">Popular Tools</span>
             <div className="flex-1 h-px bg-[var(--border)]"></div>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="tool-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {tools.filter(t => t.popular).map(tool => (
               <ToolCard key={`popular-${tool.id}`} tool={tool} />
             ))}

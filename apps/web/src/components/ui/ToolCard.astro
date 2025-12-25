@@ -15,19 +15,20 @@ const tagClass = tool.tier === 'free' ? 'tag-free' : tool.tier === 'pro' ? 'tag-
   href={isDisabled ? undefined : tool.href}
   class:list={[
     'tool-card block',
-    { 'opacity-50 cursor-not-allowed': isDisabled }
+    { 'opacity-50 cursor-not-allowed pointer-events-none': isDisabled }
   ]}
+  data-category={tool.category}
 >
   <!-- Header -->
   <div class="flex items-start justify-between mb-4">
-    <div class="w-8 h-8">
-      <img src={tool.thumbnail} alt={tool.name} class="w-full h-full" loading="lazy" />
+    <div class="w-10 h-10 tool-icon">
+      <img src={tool.thumbnail} alt="" class="w-full h-full" loading="lazy" />
     </div>
     <span class={`tag ${tagClass}`}>{tool.tier}</span>
   </div>
 
   <!-- Title -->
-  <h3 class="text-[var(--text)] text-sm uppercase tracking-[0.1em] mb-2">
+  <h3 class="tool-title text-[var(--text)] text-sm uppercase tracking-[0.1em] mb-2 font-medium">
     {tool.name}
   </h3>
 
@@ -36,13 +37,13 @@ const tagClass = tool.tier === 'free' ? 'tag-free' : tool.tier === 'pro' ? 'tag-
     {tool.description}
   </p>
 
-  <!-- Category -->
+  <!-- Category & Arrow -->
   <div class="flex items-center justify-between">
     <span class="text-[0.625rem] text-[var(--text-muted)] uppercase tracking-[0.15em]">
       {tool.category}
     </span>
     {!isDisabled && (
-      <svg class="w-4 h-4 text-[var(--text-muted)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <svg class="tool-arrow w-4 h-4 text-[var(--text-muted)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 8l4 4m0 0l-4 4m4-4H3" />
       </svg>
     )}
