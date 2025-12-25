@@ -1,0 +1,760 @@
+---
+/**
+ * Profession-Specific Landing Page: E-commerce Sellers
+ * Target: Amazon sellers, Etsy sellers, eBay sellers, Shopify store owners
+ * Keywords: "amazon product photo tools", "etsy seller tools", "ecommerce image tools free"
+ * SEO: Optimized for international marketplaces (US, UK, DE, AU)
+ */
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/ui/Navbar.astro';
+import Footer from '../../components/ui/Footer.astro';
+
+const canonicalUrl = 'https://www.newlifesolutions.dev/for/ecommerce-sellers';
+
+// Enhanced WebPage Schema with geo/international targeting
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "Free Tools for E-commerce Sellers - Amazon, Etsy, Shopify",
+  "description": "Professional tools for online sellers: remove backgrounds, optimize images, create QR codes, merge PDFs. No subscriptions. Amazon-ready product photos in seconds.",
+  "url": canonicalUrl,
+  "inLanguage": "en-US",
+  "audience": {
+    "@type": "Audience",
+    "audienceType": "E-commerce sellers, Amazon FBA sellers, Etsy shop owners, Shopify merchants, eBay sellers",
+    "geographicArea": [
+      {
+        "@type": "Country",
+        "name": "United States"
+      },
+      {
+        "@type": "Country",
+        "name": "United Kingdom"
+      },
+      {
+        "@type": "Country",
+        "name": "Germany"
+      },
+      {
+        "@type": "Country",
+        "name": "Australia"
+      }
+    ]
+  },
+  "about": {
+    "@type": "SoftwareApplication",
+    "name": "New Life Solutions for E-commerce",
+    "applicationCategory": "BusinessApplication",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  }
+};
+
+// Enhanced FAQ Schema with more seller-specific questions
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Can I create Amazon-ready product photos for free?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes! Use our Background Remover to create clean product photos with white backgrounds that meet Amazon's requirements. No Photoshop or Canva subscription needed. Works for Amazon.com, Amazon.co.uk, Amazon.de, and all international Amazon marketplaces."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I optimize images for Etsy listings?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Use Image Compress to reduce file sizes while maintaining quality. Faster loading images improve SEO and customer experience. Batch process all your listing photos at once. Works for Etsy sellers worldwide."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Are these tools really free for commercial use?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Absolutely. All tools are 100% free with no hidden fees, watermarks, or usage limits. Process unlimited images for your online store. No subscription or licensing fees."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do these tools work for international sellers?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes! Our tools work for sellers on Amazon.com, Amazon.co.uk, Amazon.de, Amazon.com.au, Etsy global, eBay international, and Shopify stores worldwide. All processing happens in your browser regardless of location."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Are my product photos secure?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. All processing happens in your browser - your product photos never leave your device. No uploads to servers means zero data breach risk. Perfect for protecting proprietary product designs."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I use these tools on my phone?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes! All tools work on mobile browsers (iOS Safari, Android Chrome). Edit product photos on the go, even while at trade shows or supplier meetings."
+      }
+    }
+  ]
+};
+
+// Breadcrumb Schema for better navigation structure
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://www.newlifesolutions.dev"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "For E-commerce Sellers",
+      "item": canonicalUrl
+    }
+  ]
+};
+---
+
+<Layout
+  title="Free Ecommerce Seller Tools - Amazon, Etsy, Shopify"
+  description="Create Amazon-ready product photos free. Remove backgrounds, compress images, convert HEIC to JPG. No subscriptions. Used by sellers on Amazon.com, Etsy, eBay, Shopify worldwide."
+>
+  <!-- Canonical URL -->
+  <link rel="canonical" href={canonicalUrl} slot="head" />
+
+  <!-- Hreflang for international SEO (English only for now) -->
+  <link rel="alternate" hreflang="en" href={canonicalUrl} slot="head" />
+  <link rel="alternate" hreflang="en-US" href={canonicalUrl} slot="head" />
+  <link rel="alternate" hreflang="en-GB" href={canonicalUrl} slot="head" />
+  <link rel="alternate" hreflang="en-AU" href={canonicalUrl} slot="head" />
+  <link rel="alternate" hreflang="en-DE" href={canonicalUrl} slot="head" />
+  <link rel="alternate" hreflang="x-default" href={canonicalUrl} slot="head" />
+
+  <!-- Geo Meta Tags for international targeting -->
+  <meta name="geo.region" content="US;GB;DE;AU" slot="head" />
+  <meta name="geo.placename" content="Worldwide" slot="head" />
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:type" content="website" slot="head" />
+  <meta property="og:title" content="Free Ecommerce Seller Tools - Amazon, Etsy, Shopify" slot="head" />
+  <meta property="og:description" content="Create Amazon-ready product photos free. Remove backgrounds, compress images, convert HEIC to JPG. No subscriptions. Used by sellers worldwide." slot="head" />
+  <meta property="og:url" content={canonicalUrl} slot="head" />
+  <meta property="og:image" content="https://www.newlifesolutions.dev/og-ecommerce-sellers.png" slot="head" />
+  <meta property="og:locale" content="en_US" slot="head" />
+  <meta property="og:locale:alternate" content="en_GB" slot="head" />
+  <meta property="og:locale:alternate" content="en_AU" slot="head" />
+
+  <!-- Twitter Card Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image" slot="head" />
+  <meta name="twitter:title" content="Free Ecommerce Seller Tools - Amazon, Etsy, Shopify" slot="head" />
+  <meta name="twitter:description" content="Create Amazon-ready product photos free. Remove backgrounds, compress images, convert HEIC to JPG. No subscriptions." slot="head" />
+  <meta name="twitter:image" content="https://www.newlifesolutions.dev/og-ecommerce-sellers.png" slot="head" />
+
+  <!-- Enhanced Keywords for international marketplaces -->
+  <meta name="keywords" content="amazon seller tools free, etsy seller image tools, shopify image editor, ecommerce product photo tools, amazon white background, remove background free, compress images free, amazon.com seller tools, amazon.co.uk seller, amazon.de verkaufer, etsy global seller tools" slot="head" />
+
+  <!-- Schema.org Markup -->
+  <script type="application/ld+json" set:html={JSON.stringify(schema)} slot="head" />
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} slot="head" />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} slot="head" />
+
+  <Navbar />
+
+  <main class="pt-20 pb-16 px-6 min-h-screen">
+    <article class="max-w-5xl mx-auto">
+      <!-- Hero Section -->
+      <header class="text-center mb-16">
+        <span class="inline-block px-4 py-2 bg-purple-500/20 text-purple-400 rounded text-sm font-medium mb-4">
+          FOR E-COMMERCE SELLERS WORLDWIDE
+        </span>
+        <h1 class="text-5xl md:text-6xl font-bold text-[var(--text)] mb-6">
+          Amazon-Ready Product Photos<br />
+          <span class="text-purple-400">in Seconds. No Subscription.</span>
+        </h1>
+        <p class="text-xl text-[var(--text-muted)] max-w-3xl mx-auto mb-8">
+          Professional tools for Amazon (US, UK, DE, AU), Etsy, eBay, and Shopify sellers. Remove backgrounds, optimize images, create QR codes, merge invoices. 100% free. No watermarks.
+        </p>
+        <div class="flex flex-wrap justify-center gap-4 text-sm text-[var(--text-dim)] mb-6">
+          <span class="flex items-center gap-2">
+            <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+            No Canva Subscription
+          </span>
+          <span class="flex items-center gap-2">
+            <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+            No Photoshop License
+          </span>
+          <span class="flex items-center gap-2">
+            <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+            Unlimited Use
+          </span>
+        </div>
+        <p class="text-sm text-[var(--text-dim)]">
+          Trusted by sellers on Amazon.com, Amazon.co.uk, Amazon.de, Amazon.com.au, Etsy Global, eBay International
+        </p>
+      </header>
+
+      <!-- ROI Callout -->
+      <div class="bg-gradient-to-r from-emerald-500/10 to-purple-500/10 border border-emerald-500/30 rounded-2xl p-8 mb-16 text-center">
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-3">Save $300+/year vs. Paid Tools</h2>
+        <p class="text-[var(--text-muted)] text-lg">
+          Canva Pro: $120/yr • Adobe Creative Cloud: $240/yr • Background Removal APIs: $50/mo
+        </p>
+        <p class="text-emerald-400 font-semibold mt-3 text-xl">
+          Our Tools: $0 Forever
+        </p>
+      </div>
+
+      <!-- Essential Tools Grid -->
+      <section class="mb-16">
+        <h2 class="text-3xl font-bold text-[var(--text)] mb-8 text-center">Essential Tools for Online Sellers</h2>
+
+        <div class="grid md:grid-cols-2 gap-6">
+          <!-- Background Remover -->
+          <div class="glass-card rounded-xl p-6 hover:scale-[1.02] transition-transform">
+            <div class="flex items-start gap-4 mb-4">
+              <div class="w-12 h-12 bg-purple-500/20 rounded-lg flex items-center justify-center text-2xl flex-shrink-0">
+                🎨
+              </div>
+              <div>
+                <h3 class="text-xl font-bold text-[var(--text)] mb-2">Background Remover</h3>
+                <p class="text-sm text-purple-400 font-medium mb-2">AMAZON REQUIREMENT</p>
+              </div>
+            </div>
+            <p class="text-[var(--text-muted)] mb-4">
+              Remove backgrounds from product photos instantly. Create clean, professional images with white backgrounds that meet Amazon's listing requirements. AI-powered, no manual editing needed.
+            </p>
+            <ul class="space-y-2 mb-4 text-sm text-[var(--text-muted)]">
+              <li class="flex items-start gap-2">
+                <span class="text-emerald-400 flex-shrink-0">✓</span>
+                <span>Amazon main image compliant (pure white background)</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-emerald-400 flex-shrink-0">✓</span>
+                <span>Batch process 100+ photos in minutes</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-emerald-400 flex-shrink-0">✓</span>
+                <span>No per-image credits or fees</span>
+              </li>
+            </ul>
+            <a
+              href="/tools/background-remover"
+              class="inline-block w-full text-center px-6 py-3 bg-purple-500 text-white rounded-lg font-semibold hover:bg-purple-600 transition-colors"
+            >
+              Remove Backgrounds
+            </a>
+          </div>
+
+          <!-- Image Compress -->
+          <div class="glass-card rounded-xl p-6 hover:scale-[1.02] transition-transform">
+            <div class="flex items-start gap-4 mb-4">
+              <div class="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center text-2xl flex-shrink-0">
+                📦
+              </div>
+              <div>
+                <h3 class="text-xl font-bold text-[var(--text)] mb-2">Image Compress</h3>
+                <p class="text-sm text-blue-400 font-medium mb-2">FASTER LOADING = MORE SALES</p>
+              </div>
+            </div>
+            <p class="text-[var(--text-muted)] mb-4">
+              Reduce image file sizes by up to 90% without visible quality loss. Faster page loads improve SEO rankings and conversion rates on Amazon, Etsy, and Shopify.
+            </p>
+            <ul class="space-y-2 mb-4 text-sm text-[var(--text-muted)]">
+              <li class="flex items-start gap-2">
+                <span class="text-emerald-400 flex-shrink-0">✓</span>
+                <span>Optimize all listing images in bulk</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-emerald-400 flex-shrink-0">✓</span>
+                <span>Maintain visual quality while reducing size</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-emerald-400 flex-shrink-0">✓</span>
+                <span>Better mobile shopping experience</span>
+              </li>
+            </ul>
+            <a
+              href="/tools/image-compress"
+              class="inline-block w-full text-center px-6 py-3 bg-blue-500 text-white rounded-lg font-semibold hover:bg-blue-600 transition-colors"
+            >
+              Compress Images
+            </a>
+          </div>
+
+          <!-- Image Converter -->
+          <div class="glass-card rounded-xl p-6 hover:scale-[1.02] transition-transform">
+            <div class="flex items-start gap-4 mb-4">
+              <div class="w-12 h-12 bg-orange-500/20 rounded-lg flex items-center justify-center text-2xl flex-shrink-0">
+                🔄
+              </div>
+              <div>
+                <h3 class="text-xl font-bold text-[var(--text)] mb-2">Image Converter</h3>
+                <p class="text-sm text-orange-400 font-medium mb-2">HEIC → JPG MADE EASY</p>
+              </div>
+            </div>
+            <p class="text-[var(--text-muted)] mb-4">
+              Convert iPhone HEIC photos to JPG/PNG for product listings. Also converts WebP, SVG, BMP, and TIFF. Get your product photos in the right format instantly.
+            </p>
+            <ul class="space-y-2 mb-4 text-sm text-[var(--text-muted)]">
+              <li class="flex items-start gap-2">
+                <span class="text-emerald-400 flex-shrink-0">✓</span>
+                <span>iPhone photos → marketplace-compatible JPG</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-emerald-400 flex-shrink-0">✓</span>
+                <span>Batch convert 50+ images at once</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-emerald-400 flex-shrink-0">✓</span>
+                <span>All formats supported</span>
+              </li>
+            </ul>
+            <a
+              href="/tools/image-converter"
+              class="inline-block w-full text-center px-6 py-3 bg-orange-500 text-white rounded-lg font-semibold hover:bg-orange-600 transition-colors"
+            >
+              Convert Images
+            </a>
+          </div>
+
+          <!-- QR Generator -->
+          <div class="glass-card rounded-xl p-6 hover:scale-[1.02] transition-transform">
+            <div class="flex items-start gap-4 mb-4">
+              <div class="w-12 h-12 bg-cyan-500/20 rounded-lg flex items-center justify-center text-2xl flex-shrink-0">
+                📱
+              </div>
+              <div>
+                <h3 class="text-xl font-bold text-[var(--text)] mb-2">QR Code Generator</h3>
+                <p class="text-sm text-cyan-400 font-medium mb-2">PACKAGING & MARKETING</p>
+              </div>
+            </div>
+            <p class="text-[var(--text-muted)] mb-4">
+              Create custom QR codes for product packaging, warranty cards, or marketing materials. Link to your store, product manuals, or review requests.
+            </p>
+            <ul class="space-y-2 mb-4 text-sm text-[var(--text-muted)]">
+              <li class="flex items-start gap-2">
+                <span class="text-emerald-400 flex-shrink-0">✓</span>
+                <span>Add to product inserts for review requests</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-emerald-400 flex-shrink-0">✓</span>
+                <span>Link to product manuals or video guides</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-emerald-400 flex-shrink-0">✓</span>
+                <span>Customizable colors and sizes</span>
+              </li>
+            </ul>
+            <a
+              href="/tools/qr-generator"
+              class="inline-block w-full text-center px-6 py-3 bg-cyan-500 text-white rounded-lg font-semibold hover:bg-cyan-600 transition-colors"
+            >
+              Generate QR Codes
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section Divider -->
+      <div class="flex items-center justify-center mb-16">
+        <div class="flex-grow border-t border-[var(--border)]"></div>
+        <span class="px-6 text-[var(--text-dim)] text-sm font-medium">BUSINESS OPERATIONS</span>
+        <div class="flex-grow border-t border-[var(--border)]"></div>
+      </div>
+
+      <!-- Business Tools Section -->
+      <section class="mb-16">
+        <h2 class="text-3xl font-bold text-[var(--text)] mb-4 text-center">Business Operations Tools</h2>
+        <p class="text-center text-[var(--text-muted)] mb-8 max-w-2xl mx-auto">
+          Streamline your backend operations with tools for invoices, shipping labels, and document management
+        </p>
+
+        <div class="grid md:grid-cols-3 gap-6">
+          <div class="bg-[var(--bg-secondary)] rounded-xl p-6 border border-[var(--border)] hover:border-purple-500/50 transition-colors">
+            <h3 class="text-lg font-bold text-[var(--text)] mb-3">📄 PDF Merge</h3>
+            <p class="text-sm text-[var(--text-muted)] mb-4">
+              Combine invoices, packing slips, and shipping labels into single PDFs for record keeping. Perfect for FBA shipments and tax preparation.
+            </p>
+            <a href="/tools/pdf-merge" class="text-purple-400 hover:text-purple-300 text-sm font-medium">
+              Merge PDFs →
+            </a>
+          </div>
+
+          <div class="bg-[var(--bg-secondary)] rounded-xl p-6 border border-[var(--border)] hover:border-purple-500/50 transition-colors">
+            <h3 class="text-lg font-bold text-[var(--text)] mb-3">✂️ PDF Split</h3>
+            <p class="text-sm text-[var(--text-muted)] mb-4">
+              Extract specific pages from supplier catalogs or multi-page invoices. Organize product documentation efficiently.
+            </p>
+            <a href="/tools/pdf-split" class="text-purple-400 hover:text-purple-300 text-sm font-medium">
+              Split PDFs →
+            </a>
+          </div>
+
+          <div class="bg-[var(--bg-secondary)] rounded-xl p-6 border border-[var(--border)] hover:border-purple-500/50 transition-colors">
+            <h3 class="text-lg font-bold text-[var(--text)] mb-3">📝 OCR Extractor</h3>
+            <p class="text-sm text-[var(--text-muted)] mb-4">
+              Extract text from supplier invoices or product spec sheets to copy into spreadsheets. Automate data entry.
+            </p>
+            <a href="/tools/ocr-extractor" class="text-purple-400 hover:text-purple-300 text-sm font-medium">
+              Extract Text →
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section Divider -->
+      <div class="flex items-center justify-center mb-16">
+        <div class="flex-grow border-t border-[var(--border)]"></div>
+        <span class="px-6 text-[var(--text-dim)] text-sm font-medium">PLATFORM-SPECIFIC SOLUTIONS</span>
+        <div class="flex-grow border-t border-[var(--border)]"></div>
+      </div>
+
+      <!-- Platform-Specific Section -->
+      <section class="mb-16">
+        <h2 class="text-3xl font-bold text-[var(--text)] mb-4 text-center">Tools Optimized for Your Marketplace</h2>
+        <p class="text-center text-[var(--text-muted)] mb-8 max-w-2xl mx-auto">
+          Each platform has unique requirements. Our tools help you meet them all.
+        </p>
+
+        <div class="grid md:grid-cols-2 gap-6">
+          <!-- Amazon -->
+          <div class="glass-card rounded-xl p-6">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="text-3xl">📦</div>
+              <h3 class="text-xl font-bold text-[var(--text)]">Amazon (US, UK, DE, AU)</h3>
+            </div>
+            <ul class="space-y-3 text-sm text-[var(--text-muted)]">
+              <li class="flex items-start gap-2">
+                <span class="text-purple-400 flex-shrink-0 font-bold">✓</span>
+                <span><strong>Main Image Requirement:</strong> Pure white background (#FFFFFF). Use Background Remover to create compliant images instantly.</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-purple-400 flex-shrink-0 font-bold">✓</span>
+                <span><strong>File Size Limits:</strong> Max 10MB per image. Use Image Compress to reduce file sizes by 70-90%.</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-purple-400 flex-shrink-0 font-bold">✓</span>
+                <span><strong>Review Requests:</strong> Add QR codes to product inserts linking to your review page (compliant method).</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-purple-400 flex-shrink-0 font-bold">✓</span>
+                <span><strong>FBA Prep:</strong> Merge shipping labels and invoices for streamlined warehouse submissions.</span>
+              </li>
+            </ul>
+            <div class="mt-4 pt-4 border-t border-[var(--border)]">
+              <p class="text-xs text-[var(--text-dim)]">
+                Works for Amazon.com (US), Amazon.co.uk (UK), Amazon.de (Germany), Amazon.com.au (Australia), and all international Amazon marketplaces
+              </p>
+            </div>
+          </div>
+
+          <!-- Etsy -->
+          <div class="glass-card rounded-xl p-6">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="text-3xl">🎨</div>
+              <h3 class="text-xl font-bold text-[var(--text)]">Etsy Global</h3>
+            </div>
+            <ul class="space-y-3 text-sm text-[var(--text-muted)]">
+              <li class="flex items-start gap-2">
+                <span class="text-blue-400 flex-shrink-0 font-bold">✓</span>
+                <span><strong>SEO Optimization:</strong> Compress images to improve page load speed. Faster pages = better Etsy search rankings.</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-blue-400 flex-shrink-0 font-bold">✓</span>
+                <span><strong>Image Limits:</strong> 10 images per listing. Make every image count with background removal and optimization.</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-blue-400 flex-shrink-0 font-bold">✓</span>
+                <span><strong>Mobile Shopping:</strong> 70% of Etsy traffic is mobile. Optimized images load faster on phones.</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-blue-400 flex-shrink-0 font-bold">✓</span>
+                <span><strong>Marketing Materials:</strong> Create QR codes linking to your Etsy shop for business cards and packaging.</span>
+              </li>
+            </ul>
+            <div class="mt-4 pt-4 border-t border-[var(--border)]">
+              <p class="text-xs text-[var(--text-dim)]">
+                Optimized for Etsy sellers worldwide - works for all countries and currencies
+              </p>
+            </div>
+          </div>
+
+          <!-- eBay -->
+          <div class="glass-card rounded-xl p-6">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="text-3xl">🏷️</div>
+              <h3 class="text-xl font-bold text-[var(--text)]">eBay International</h3>
+            </div>
+            <ul class="space-y-3 text-sm text-[var(--text-muted)]">
+              <li class="flex items-start gap-2">
+                <span class="text-orange-400 flex-shrink-0 font-bold">✓</span>
+                <span><strong>Clean Backgrounds:</strong> Stand out in search results with professional product photos using Background Remover.</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-orange-400 flex-shrink-0 font-bold">✓</span>
+                <span><strong>Batch Processing:</strong> Listing multiple items? Optimize 100+ images at once with our batch tools.</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-orange-400 flex-shrink-0 font-bold">✓</span>
+                <span><strong>Format Conversion:</strong> Convert HEIC, WebP, or any format to eBay-compatible JPG/PNG instantly.</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Shopify -->
+          <div class="glass-card rounded-xl p-6">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="text-3xl">🛒</div>
+              <h3 class="text-xl font-bold text-[var(--text)]">Shopify Stores</h3>
+            </div>
+            <ul class="space-y-3 text-sm text-[var(--text-muted)]">
+              <li class="flex items-start gap-2">
+                <span class="text-cyan-400 flex-shrink-0 font-bold">✓</span>
+                <span><strong>Page Speed:</strong> Google ranks faster sites higher. Compress product images to boost SEO and conversions.</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-cyan-400 flex-shrink-0 font-bold">✓</span>
+                <span><strong>Professional Look:</strong> Remove distracting backgrounds to create a cohesive brand aesthetic.</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-cyan-400 flex-shrink-0 font-bold">✓</span>
+                <span><strong>QR Marketing:</strong> Add QR codes to packaging linking to product pages, discount codes, or loyalty programs.</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section Divider -->
+      <div class="flex items-center justify-center mb-16">
+        <div class="flex-grow border-t border-[var(--border)]"></div>
+        <span class="px-6 text-[var(--text-dim)] text-sm font-medium">SELLER WORKFLOWS</span>
+        <div class="flex-grow border-t border-[var(--border)]"></div>
+      </div>
+
+      <!-- Use Cases Section -->
+      <section class="mb-16">
+        <h2 class="text-3xl font-bold text-[var(--text)] mb-4 text-center">Common Seller Workflows</h2>
+        <p class="text-center text-[var(--text-muted)] mb-8 max-w-2xl mx-auto">
+          Step-by-step guides for typical seller tasks. Save time and money with these workflows.
+        </p>
+
+        <div class="space-y-4">
+          <details class="glass-card rounded-xl overflow-hidden">
+            <summary class="cursor-pointer p-6 font-semibold text-[var(--text)] hover:bg-[var(--bg-hover)] transition-colors">
+              Creating Amazon Main Images (White Background)
+            </summary>
+            <div class="px-6 pb-6 text-[var(--text-muted)] space-y-3">
+              <p>Amazon requires main product images to have pure white backgrounds (#FFFFFF). Here's the workflow:</p>
+              <ol class="list-decimal list-inside space-y-2 ml-2">
+                <li>Take product photos with your phone or camera (any background)</li>
+                <li>Upload to <a href="/tools/background-remover" class="text-purple-400 underline">Background Remover</a></li>
+                <li>AI removes background and adds pure white (#FFFFFF)</li>
+                <li>Download and upload to Amazon Seller Central</li>
+              </ol>
+              <p class="text-sm text-emerald-400 font-medium">Saves $10-30 per image vs. hiring freelancers on Fiverr</p>
+            </div>
+          </details>
+
+          <details class="glass-card rounded-xl overflow-hidden">
+            <summary class="cursor-pointer p-6 font-semibold text-[var(--text)] hover:bg-[var(--bg-hover)] transition-colors">
+              Optimizing Etsy Listing Images for SEO
+            </summary>
+            <div class="px-6 pb-6 text-[var(--text-muted)] space-y-3">
+              <p>Faster loading images = better Etsy search rankings. Compress your images without quality loss:</p>
+              <ol class="list-decimal list-inside space-y-2 ml-2">
+                <li>Take high-resolution product photos</li>
+                <li>Upload all images to <a href="/tools/image-compress" class="text-blue-400 underline">Image Compress</a></li>
+                <li>Reduce file size by 70-90% while maintaining visual quality</li>
+                <li>Upload optimized images to Etsy listings</li>
+              </ol>
+              <p class="text-sm text-emerald-400 font-medium">Better page speed = improved search visibility</p>
+            </div>
+          </details>
+
+          <details class="glass-card rounded-xl overflow-hidden">
+            <summary class="cursor-pointer p-6 font-semibold text-[var(--text)] hover:bg-[var(--bg-hover)] transition-colors">
+              Converting iPhone Photos for Shopify
+            </summary>
+            <div class="px-6 pb-6 text-[var(--text-muted)] space-y-3">
+              <p>iPhone photos are saved as HEIC files, which aren't universally supported. Convert to JPG:</p>
+              <ol class="list-decimal list-inside space-y-2 ml-2">
+                <li>Transfer HEIC photos from iPhone to computer</li>
+                <li>Upload to <a href="/tools/image-converter" class="text-orange-400 underline">Image Converter</a></li>
+                <li>Convert batch of HEIC files to JPG in seconds</li>
+                <li>Upload to Shopify product pages</li>
+              </ol>
+              <p class="text-sm text-emerald-400 font-medium">Works offline - no upload to external servers</p>
+            </div>
+          </details>
+
+          <details class="glass-card rounded-xl overflow-hidden">
+            <summary class="cursor-pointer p-6 font-semibold text-[var(--text)] hover:bg-[var(--bg-hover)] transition-colors">
+              Creating Product Insert QR Codes for Reviews
+            </summary>
+            <div class="px-6 pb-6 text-[var(--text-muted)] space-y-3">
+              <p>Increase Amazon reviews by adding QR codes to product inserts linking to review pages:</p>
+              <ol class="list-decimal list-inside space-y-2 ml-2">
+                <li>Get your Amazon product review link</li>
+                <li>Generate QR code with <a href="/tools/qr-generator" class="text-cyan-400 underline">QR Generator</a></li>
+                <li>Download high-res PNG</li>
+                <li>Add to product insert design in Canva/Word</li>
+                <li>Print and include with shipments</li>
+              </ol>
+              <p class="text-sm text-emerald-400 font-medium">More reviews = better Amazon ranking</p>
+            </div>
+          </details>
+        </div>
+      </section>
+
+      <!-- Section Divider -->
+      <div class="flex items-center justify-center mb-16">
+        <div class="flex-grow border-t border-[var(--border)]"></div>
+        <span class="px-6 text-[var(--text-dim)] text-sm font-medium">FREQUENTLY ASKED QUESTIONS</span>
+        <div class="flex-grow border-t border-[var(--border)]"></div>
+      </div>
+
+      <!-- FAQ Section -->
+      <section class="mb-16">
+        <h2 class="text-3xl font-bold text-[var(--text)] mb-4 text-center">Frequently Asked Questions</h2>
+        <p class="text-center text-[var(--text-muted)] mb-8 max-w-2xl mx-auto">
+          Common questions from Amazon sellers, Etsy shop owners, and ecommerce merchants
+        </p>
+
+        <div class="space-y-4">
+          <div class="bg-[var(--bg-secondary)] rounded-xl p-6 border border-[var(--border)] hover:border-purple-500/50 transition-colors">
+            <h3 class="font-bold text-[var(--text)] mb-2">Can I create Amazon-ready product photos for free?</h3>
+            <p class="text-sm text-[var(--text-muted)]">
+              Yes! Use our Background Remover to create clean product photos with white backgrounds that meet Amazon's requirements. No Photoshop or Canva subscription needed. Works for Amazon.com, Amazon.co.uk, Amazon.de, and all international Amazon marketplaces.
+            </p>
+          </div>
+
+          <div class="bg-[var(--bg-secondary)] rounded-xl p-6 border border-[var(--border)] hover:border-purple-500/50 transition-colors">
+            <h3 class="font-bold text-[var(--text)] mb-2">How do I optimize images for Etsy listings?</h3>
+            <p class="text-sm text-[var(--text-muted)]">
+              Use Image Compress to reduce file sizes while maintaining quality. Faster loading images improve SEO and customer experience. Batch process all your listing photos at once. Works for Etsy sellers worldwide.
+            </p>
+          </div>
+
+          <div class="bg-[var(--bg-secondary)] rounded-xl p-6 border border-[var(--border)] hover:border-purple-500/50 transition-colors">
+            <h3 class="font-bold text-[var(--text)] mb-2">Are these tools really free for commercial use?</h3>
+            <p class="text-sm text-[var(--text-muted)]">
+              Absolutely. All tools are 100% free with no hidden fees, watermarks, or usage limits. Process unlimited images for your online store. No subscription or licensing fees.
+            </p>
+          </div>
+
+          <div class="bg-[var(--bg-secondary)] rounded-xl p-6 border border-[var(--border)] hover:border-purple-500/50 transition-colors">
+            <h3 class="font-bold text-[var(--text)] mb-2">Do these tools work for international sellers?</h3>
+            <p class="text-sm text-[var(--text-muted)]">
+              Yes! Our tools work for sellers on Amazon.com, Amazon.co.uk, Amazon.de, Amazon.com.au, Etsy global, eBay international, and Shopify stores worldwide. All processing happens in your browser regardless of location.
+            </p>
+          </div>
+
+          <div class="bg-[var(--bg-secondary)] rounded-xl p-6 border border-[var(--border)] hover:border-purple-500/50 transition-colors">
+            <h3 class="font-bold text-[var(--text)] mb-2">Are my product photos secure?</h3>
+            <p class="text-sm text-[var(--text-muted)]">
+              Yes. All processing happens in your browser - your product photos never leave your device. No uploads to servers means zero data breach risk. Perfect for protecting proprietary product designs.
+            </p>
+          </div>
+
+          <div class="bg-[var(--bg-secondary)] rounded-xl p-6 border border-[var(--border)] hover:border-purple-500/50 transition-colors">
+            <h3 class="font-bold text-[var(--text)] mb-2">Do I need to create an account?</h3>
+            <p class="text-sm text-[var(--text-muted)]">
+              No account needed. No signup, no email required. Just visit the tool page and start processing your images immediately.
+            </p>
+          </div>
+
+          <div class="bg-[var(--bg-secondary)] rounded-xl p-6 border border-[var(--border)] hover:border-purple-500/50 transition-colors">
+            <h3 class="font-bold text-[var(--text)] mb-2">Can I use these tools on my phone?</h3>
+            <p class="text-sm text-[var(--text-muted)]">
+              Yes! All tools work on mobile browsers (iOS Safari, Android Chrome). Edit product photos on the go, even while at trade shows or supplier meetings.
+            </p>
+          </div>
+
+          <div class="bg-[var(--bg-secondary)] rounded-xl p-6 border border-[var(--border)] hover:border-purple-500/50 transition-colors">
+            <h3 class="font-bold text-[var(--text)] mb-2">How much money can I save compared to paid tools?</h3>
+            <p class="text-sm text-[var(--text-muted)]">
+              Average savings: Canva Pro ($120/yr) + Adobe Creative Cloud ($240/yr) + Background removal API ($600/yr) = $960/year. Our tools are free forever. Use those savings to invest in inventory or marketing.
+            </p>
+          </div>
+
+          <div class="bg-[var(--bg-secondary)] rounded-xl p-6 border border-[var(--border)] hover:border-purple-500/50 transition-colors">
+            <h3 class="font-bold text-[var(--text)] mb-2">Can I batch process multiple images at once?</h3>
+            <p class="text-sm text-[var(--text-muted)]">
+              Yes! All tools support batch processing. Upload 50-100+ images at once for background removal, compression, or format conversion. Perfect for large product catalogs.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA Section -->
+      <div class="bg-gradient-to-br from-purple-500/20 to-cyan-500/20 rounded-2xl p-12 text-center border border-purple-500/30">
+        <div class="mb-6">
+          <span class="inline-block px-4 py-2 bg-emerald-500/20 text-emerald-400 rounded text-sm font-bold mb-4">
+            SAVE $960/YEAR
+          </span>
+        </div>
+        <h2 class="text-3xl md:text-4xl font-bold text-[var(--text)] mb-4">
+          Start Creating Professional Listings Today
+        </h2>
+        <p class="text-lg text-[var(--text-muted)] mb-6 max-w-2xl mx-auto">
+          Join thousands of Amazon, Etsy, eBay, and Shopify sellers using New Life Solutions to create professional product listings without expensive subscriptions.
+        </p>
+        <div class="flex items-center justify-center gap-6 mb-8 text-sm text-[var(--text-dim)]">
+          <span class="flex items-center gap-2">
+            <span class="text-emerald-400 text-lg">✓</span>
+            Free forever
+          </span>
+          <span class="flex items-center gap-2">
+            <span class="text-emerald-400 text-lg">✓</span>
+            No watermarks
+          </span>
+          <span class="flex items-center gap-2">
+            <span class="text-emerald-400 text-lg">✓</span>
+            Unlimited use
+          </span>
+        </div>
+        <div class="flex flex-wrap justify-center gap-4">
+          <a
+            href="/tools/background-remover"
+            class="px-8 py-4 bg-purple-500 text-white rounded-lg font-semibold hover:bg-purple-600 transition-colors text-lg shadow-lg shadow-purple-500/20"
+          >
+            Create Amazon-Ready Photos Free →
+          </a>
+          <a
+            href="/hub"
+            class="px-8 py-4 bg-[var(--bg-secondary)] text-[var(--text)] rounded-lg font-semibold hover:bg-[var(--bg-hover)] transition-colors text-lg border border-[var(--border)]"
+          >
+            View All Tools
+          </a>
+        </div>
+        <p class="mt-6 text-xs text-[var(--text-dim)]">
+          Works for sellers worldwide on Amazon.com, Amazon.co.uk, Amazon.de, Amazon.com.au, Etsy, eBay, Shopify
+        </p>
+      </div>
+    </article>
+  </main>
+
+  <Footer />
+</Layout>

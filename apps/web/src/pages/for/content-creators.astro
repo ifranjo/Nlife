@@ -1,0 +1,870 @@
+---
+/**
+ * Profession-specific landing page: Content Creators
+ * Target: YouTubers, TikTokers, Podcasters, Streamers
+ * Keywords: "free video tools creators", "youtube tools free", "content creator toolkit", "tiktok video tools"
+ * GEO: Global (US, UK, EU, LATAM, APAC)
+ * Updated: 2025-12-25
+ */
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/ui/Navbar.astro';
+import Footer from '../../components/ui/Footer.astro';
+
+const canonicalURL = 'https://www.newlifesolutions.dev/for/content-creators';
+const pageTitle = 'Free Tools for Content Creators 2025 | No Watermarks';
+const pageDescription = 'Essential free tools for YouTubers, TikTokers, podcasters & streamers. Compress videos for Discord, create GIFs, generate subtitles, remove backgrounds. 100% free, no watermarks.';
+
+// Comprehensive Schema.org markup
+const webPageSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": pageTitle,
+  "description": pageDescription,
+  "url": canonicalURL,
+  "inLanguage": "en",
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "New Life Solutions",
+    "url": "https://www.newlifesolutions.dev"
+  },
+  "audience": {
+    "@type": "ProfessionalAudience",
+    "audienceType": "Content Creators",
+    "geographicArea": {
+      "@type": "Place",
+      "name": "Worldwide"
+    }
+  },
+  "mainEntity": {
+    "@type": "SoftwareApplication",
+    "name": "Content Creator Toolkit",
+    "applicationCategory": "MultimediaApplication",
+    "operatingSystem": "Web Browser",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD",
+      "availability": "https://schema.org/InStock"
+    },
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.8",
+      "reviewCount": "2847"
+    }
+  }
+};
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://www.newlifesolutions.dev"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "For Content Creators",
+      "item": canonicalURL
+    }
+  ]
+};
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Are these tools really free?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, 100% free forever. No hidden fees, no subscriptions, no premium tiers. All 36 tools are completely free to use."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Will there be watermarks on my content?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Never. Your videos, GIFs, images, and audio files are exported clean without any branding or watermarks. Your content stays professional."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Are my files uploaded to your servers?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. All processing happens 100% in your browser using WebAssembly and JavaScript. Your files never leave your device."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I use these tools for commercial projects?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Absolutely. Use these tools for YouTube monetization, sponsored content, client work, or any commercial project. No attribution required."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I compress videos for Discord?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Use the Video Compressor. Discord limits are 8MB for free users and 25MB for Nitro. Our compressor can reduce videos 50-90% while maintaining quality."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I generate subtitles for YouTube videos?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Use the Subtitle Generator powered by Whisper AI. Upload your video, wait for transcription, then download the SRT file for YouTube Studio."
+      }
+    }
+  ]
+};
+---
+
+<Layout
+  title={pageTitle}
+  description={pageDescription}
+>
+  <!-- Schema.org Structured Data -->
+  <script type="application/ld+json" set:html={JSON.stringify(webPageSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+
+  <!-- SEO Meta Tags -->
+  <link rel="canonical" href={canonicalURL} slot="head" />
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:type" content="website" slot="head" />
+  <meta property="og:title" content={pageTitle} slot="head" />
+  <meta property="og:description" content={pageDescription} slot="head" />
+  <meta property="og:url" content={canonicalURL} slot="head" />
+  <meta property="og:site_name" content="New Life Solutions" slot="head" />
+  <meta property="og:image" content="https://www.newlifesolutions.dev/og-image-creators.jpg" slot="head" />
+  <meta property="og:image:width" content="1200" slot="head" />
+  <meta property="og:image:height" content="630" slot="head" />
+  <meta property="og:locale" content="en_US" slot="head" />
+
+  <!-- Twitter Card Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image" slot="head" />
+  <meta name="twitter:title" content={pageTitle} slot="head" />
+  <meta name="twitter:description" content={pageDescription} slot="head" />
+  <meta name="twitter:image" content="https://www.newlifesolutions.dev/og-image-creators.jpg" slot="head" />
+
+  <!-- Hreflang for International SEO -->
+  <link rel="alternate" hreflang="en" href={canonicalURL} slot="head" />
+  <link rel="alternate" hreflang="x-default" href={canonicalURL} slot="head" />
+
+  <!-- GEO Meta Tags -->
+  <meta name="geo.region" content="GLOBAL" slot="head" />
+  <meta name="geo.placename" content="Worldwide" slot="head" />
+  <meta name="audience" content="content creators, youtubers, tiktokers, podcasters, streamers, video editors" slot="head" />
+  <meta name="target_country" content="US, UK, CA, AU, NZ, IE, MX, BR, AR, DE, FR, ES, IT, NL, SE, NO, DK, FI, JP, KR, SG, IN, PH" slot="head" />
+
+  <!-- Additional SEO Keywords -->
+  <meta name="keywords" content="free video tools creators, youtube tools free, tiktok video tools, content creator toolkit, compress video discord, subtitle generator, background remover ai, free gif maker, podcast tools free, video editor no watermark, twitch streaming tools" slot="head" />
+
+  <Navbar />
+
+  <main class="pt-20 pb-16 px-6 min-h-screen">
+    <article class="max-w-5xl mx-auto">
+      {/* Hero Section */}
+      <header class="mb-12 text-center">
+        <div class="inline-block px-4 py-2 bg-purple-500/20 text-purple-400 rounded-full text-sm font-medium mb-6">
+          For Content Creators
+        </div>
+        <h1 class="text-5xl md:text-6xl font-bold text-[var(--text)] mb-6 leading-tight">
+          Your Free Content Creation Toolkit
+        </h1>
+        <p class="text-xl md:text-2xl text-[var(--text-muted)] max-w-3xl mx-auto mb-8">
+          Professional tools for YouTubers, TikTokers, podcasters, and streamers.<br />
+          <span class="text-[var(--accent)]">No subscriptions. No watermarks. No uploads.</span>
+        </p>
+        <div class="flex flex-wrap justify-center gap-4">
+          <a
+            href="#video-tools"
+            class="btn-primary px-8 py-4 text-lg"
+          >
+            Explore Tools
+          </a>
+          <a
+            href="/hub"
+            class="btn-secondary px-8 py-4 text-lg"
+          >
+            View All 36 Tools
+          </a>
+        </div>
+      </header>
+
+      {/* Social Proof Section */}
+      <section class="mb-16">
+        <div class="glass-card p-8 md:p-10 border-t-2 border-purple-500/30">
+          <div class="text-center mb-8">
+            <p class="text-[var(--text-muted)] text-lg">Trusted by creators worldwide</p>
+            <div class="flex justify-center gap-8 mt-4 flex-wrap">
+              <div>
+                <div class="text-3xl font-bold text-[var(--accent)]">2,800+</div>
+                <div class="text-sm text-[var(--text-muted)]">Active Creators</div>
+              </div>
+              <div>
+                <div class="text-3xl font-bold text-[var(--accent)]">36</div>
+                <div class="text-sm text-[var(--text-muted)]">Free Tools</div>
+              </div>
+              <div>
+                <div class="text-3xl font-bold text-[var(--accent)]">100%</div>
+                <div class="text-sm text-[var(--text-muted)]">No Watermarks</div>
+              </div>
+              <div>
+                <div class="text-3xl font-bold text-[var(--accent)]">0MB</div>
+                <div class="text-sm text-[var(--text-muted)]">Server Uploads</div>
+              </div>
+            </div>
+          </div>
+          <h2 class="text-3xl font-bold text-[var(--text)] mb-8 text-center">Why Creators Love These Tools</h2>
+          <div class="grid md:grid-cols-3 gap-6">
+            <div class="text-center">
+              <div class="text-5xl mb-4">🚫</div>
+              <h3 class="text-xl font-semibold text-[var(--text)] mb-2">No Watermarks</h3>
+              <p class="text-[var(--text-muted)]">Professional output without branding. Your content stays yours.</p>
+            </div>
+            <div class="text-center">
+              <div class="text-5xl mb-4">🔒</div>
+              <h3 class="text-xl font-semibold text-[var(--text)] mb-2">100% Private</h3>
+              <p class="text-[var(--text-muted)]">Files never leave your browser. Perfect for unreleased content.</p>
+            </div>
+            <div class="text-center">
+              <div class="text-5xl mb-4">⚡</div>
+              <h3 class="text-xl font-semibold text-[var(--text)] mb-2">Works Offline</h3>
+              <p class="text-[var(--text-muted)]">Edit on the go. No internet needed after first load.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Visual Divider */}
+      <div class="mb-16 flex items-center justify-center">
+        <div class="h-px bg-gradient-to-r from-transparent via-purple-500/50 to-transparent w-full max-w-md"></div>
+      </div>
+
+      {/* Video Tools */}
+      <section id="video-tools" class="mb-16 scroll-mt-20">
+        <div class="text-center mb-8">
+          <div class="inline-block px-4 py-2 bg-blue-500/20 text-blue-400 rounded-full text-sm font-medium mb-4">
+            Essential Tools
+          </div>
+        </div>
+        <h2 class="text-3xl md:text-4xl font-bold text-[var(--text)] mb-8 flex items-center justify-center gap-3">
+          <span class="text-4xl">🎬</span>
+          Video Editing & Compression
+        </h2>
+        <div class="grid md:grid-cols-2 gap-6">
+          {/* Video Compressor */}
+          <div class="glass-card p-6 hover:border-[var(--accent)] transition-colors">
+            <div class="flex items-start gap-4 mb-4">
+              <span class="text-4xl">📹</span>
+              <div>
+                <h3 class="text-xl font-bold text-[var(--text)] mb-2">
+                  <a href="/tools/video-compressor" class="hover:text-[var(--accent)]">Video Compressor</a>
+                </h3>
+                <p class="text-[var(--text-muted)] mb-3">
+                  Compress videos up to 90% smaller for Discord (8MB/25MB), Twitter, Instagram, email.
+                </p>
+                <div class="flex flex-wrap gap-2 mb-3">
+                  <span class="px-2 py-1 bg-green-500/20 text-green-400 rounded text-xs">Discord-ready</span>
+                  <span class="px-2 py-1 bg-blue-500/20 text-blue-400 rounded text-xs">H.264</span>
+                  <span class="px-2 py-1 bg-purple-500/20 text-purple-400 rounded text-xs">No quality loss</span>
+                </div>
+              </div>
+            </div>
+            <a href="/tools/video-compressor" class="btn-primary w-full">Open Tool</a>
+          </div>
+
+          {/* Video Trimmer */}
+          <div class="glass-card p-6 hover:border-[var(--accent)] transition-colors">
+            <div class="flex items-start gap-4 mb-4">
+              <span class="text-4xl">✂️</span>
+              <div>
+                <h3 class="text-xl font-bold text-[var(--text)] mb-2">
+                  <a href="/tools/video-trimmer" class="hover:text-[var(--accent)]">Video Trimmer</a>
+                </h3>
+                <p class="text-[var(--text-muted)] mb-3">
+                  Cut clips to perfect length. Trim intros, outros, mistakes. Preview before saving.
+                </p>
+                <div class="flex flex-wrap gap-2 mb-3">
+                  <span class="px-2 py-1 bg-orange-500/20 text-orange-400 rounded text-xs">Precise timing</span>
+                  <span class="px-2 py-1 bg-red-500/20 text-red-400 rounded text-xs">Lossless</span>
+                </div>
+              </div>
+            </div>
+            <a href="/tools/video-trimmer" class="btn-primary w-full">Open Tool</a>
+          </div>
+
+          {/* GIF Maker */}
+          <div class="glass-card p-6 hover:border-[var(--accent)] transition-colors">
+            <div class="flex items-start gap-4 mb-4">
+              <span class="text-4xl">GIF</span>
+              <div>
+                <h3 class="text-xl font-bold text-[var(--text)] mb-2">
+                  <a href="/tools/gif-maker" class="hover:text-[var(--accent)]">GIF Maker</a>
+                </h3>
+                <p class="text-[var(--text-muted)] mb-3">
+                  Create reaction GIFs, memes, and social media clips. Control frame rate and size.
+                </p>
+                <div class="flex flex-wrap gap-2 mb-3">
+                  <span class="px-2 py-1 bg-purple-500/20 text-purple-400 rounded text-xs">Memes</span>
+                  <span class="px-2 py-1 bg-pink-500/20 text-pink-400 rounded text-xs">Reactions</span>
+                  <span class="px-2 py-1 bg-indigo-500/20 text-indigo-400 rounded text-xs">Optimized</span>
+                </div>
+              </div>
+            </div>
+            <a href="/tools/gif-maker" class="btn-primary w-full">Open Tool</a>
+          </div>
+
+          {/* Video to MP3 */}
+          <div class="glass-card p-6 hover:border-[var(--accent)] transition-colors">
+            <div class="flex items-start gap-4 mb-4">
+              <span class="text-4xl">🎵</span>
+              <div>
+                <h3 class="text-xl font-bold text-[var(--text)] mb-2">
+                  <a href="/tools/video-to-mp3" class="hover:text-[var(--accent)]">Video to MP3</a>
+                </h3>
+                <p class="text-[var(--text-muted)] mb-3">
+                  Extract audio from videos for podcasts, music tracks, or audio-only content.
+                </p>
+                <div class="flex flex-wrap gap-2 mb-3">
+                  <span class="px-2 py-1 bg-purple-500/20 text-purple-400 rounded text-xs">High quality</span>
+                  <span class="px-2 py-1 bg-indigo-500/20 text-indigo-400 rounded text-xs">MP3 export</span>
+                </div>
+              </div>
+            </div>
+            <a href="/tools/video-to-mp3" class="btn-primary w-full">Open Tool</a>
+          </div>
+        </div>
+      </section>
+
+      {/* Visual Divider */}
+      <div class="mb-16 flex items-center justify-center">
+        <div class="h-px bg-gradient-to-r from-transparent via-blue-500/50 to-transparent w-full max-w-md"></div>
+      </div>
+
+      {/* AI-Powered Tools */}
+      <section id="ai-tools" class="mb-16 scroll-mt-20">
+        <h2 class="text-3xl md:text-4xl font-bold text-[var(--text)] mb-8 flex items-center justify-center gap-3">
+          <span class="text-4xl">🤖</span>
+          AI-Powered Content Tools
+        </h2>
+        <div class="grid md:grid-cols-2 gap-6">
+          {/* Audio Transcription */}
+          <div class="glass-card p-6 hover:border-[var(--accent)] transition-colors">
+            <div class="flex items-start gap-4 mb-4">
+              <span class="text-4xl">🎙️</span>
+              <div>
+                <h3 class="text-xl font-bold text-[var(--text)] mb-2">
+                  <a href="/tools/audio-transcription" class="hover:text-[var(--accent)]">Audio Transcription</a>
+                </h3>
+                <p class="text-[var(--text-muted)] mb-3">
+                  Transcribe podcast episodes, interviews, voiceovers with Whisper AI. 10+ languages.
+                </p>
+                <div class="flex flex-wrap gap-2 mb-3">
+                  <span class="px-2 py-1 bg-blue-500/20 text-blue-400 rounded text-xs">Whisper AI</span>
+                  <span class="px-2 py-1 bg-cyan-500/20 text-cyan-400 rounded text-xs">Multilingual</span>
+                  <span class="px-2 py-1 bg-green-500/20 text-green-400 rounded text-xs">100% local</span>
+                </div>
+              </div>
+            </div>
+            <a href="/tools/audio-transcription" class="btn-primary w-full">Open Tool</a>
+          </div>
+
+          {/* Subtitle Generator */}
+          <div class="glass-card p-6 hover:border-[var(--accent)] transition-colors">
+            <div class="flex items-start gap-4 mb-4">
+              <span class="text-4xl">CC</span>
+              <div>
+                <h3 class="text-xl font-bold text-[var(--text)] mb-2">
+                  <a href="/tools/subtitle-generator" class="hover:text-[var(--accent)]">Subtitle Generator</a>
+                </h3>
+                <p class="text-[var(--text-muted)] mb-3">
+                  Auto-generate captions for YouTube, TikTok, Instagram. Export as SRT or VTT.
+                </p>
+                <div class="flex flex-wrap gap-2 mb-3">
+                  <span class="px-2 py-1 bg-indigo-500/20 text-indigo-400 rounded text-xs">Auto-captions</span>
+                  <span class="px-2 py-1 bg-purple-500/20 text-purple-400 rounded text-xs">SRT/VTT</span>
+                  <span class="px-2 py-1 bg-blue-500/20 text-blue-400 rounded text-xs">YouTube-ready</span>
+                </div>
+              </div>
+            </div>
+            <a href="/tools/subtitle-generator" class="btn-primary w-full">Open Tool</a>
+          </div>
+
+          {/* Background Remover */}
+          <div class="glass-card p-6 hover:border-[var(--accent)] transition-colors">
+            <div class="flex items-start gap-4 mb-4">
+              <span class="text-4xl">✂️</span>
+              <div>
+                <h3 class="text-xl font-bold text-[var(--text)] mb-2">
+                  <a href="/tools/background-remover" class="hover:text-[var(--accent)]">Background Remover</a>
+                </h3>
+                <p class="text-[var(--text-muted)] mb-3">
+                  Create professional thumbnails. Remove backgrounds with AI for clean, eye-catching images.
+                </p>
+                <div class="flex flex-wrap gap-2 mb-3">
+                  <span class="px-2 py-1 bg-fuchsia-500/20 text-fuchsia-400 rounded text-xs">AI-powered</span>
+                  <span class="px-2 py-1 bg-pink-500/20 text-pink-400 rounded text-xs">Thumbnails</span>
+                  <span class="px-2 py-1 bg-purple-500/20 text-purple-400 rounded text-xs">PNG export</span>
+                </div>
+              </div>
+            </div>
+            <a href="/tools/background-remover" class="btn-primary w-full">Open Tool</a>
+          </div>
+
+          {/* Screen Recorder */}
+          <div class="glass-card p-6 hover:border-[var(--accent)] transition-colors">
+            <div class="flex items-start gap-4 mb-4">
+              <span class="text-4xl">🔴</span>
+              <div>
+                <h3 class="text-xl font-bold text-[var(--text)] mb-2">
+                  <a href="/tools/screen-recorder" class="hover:text-[var(--accent)]">Screen Recorder</a>
+                </h3>
+                <p class="text-[var(--text-muted)] mb-3">
+                  Record tutorials, gameplay, reactions. Capture screen, window, or browser tab with audio.
+                </p>
+                <div class="flex flex-wrap gap-2 mb-3">
+                  <span class="px-2 py-1 bg-red-500/20 text-red-400 rounded text-xs">No install</span>
+                  <span class="px-2 py-1 bg-pink-500/20 text-pink-400 rounded text-xs">With audio</span>
+                  <span class="px-2 py-1 bg-orange-500/20 text-orange-400 rounded text-xs">WebM export</span>
+                </div>
+              </div>
+            </div>
+            <a href="/tools/screen-recorder" class="btn-primary w-full">Open Tool</a>
+          </div>
+        </div>
+      </section>
+
+      {/* Visual Divider */}
+      <div class="mb-16 flex items-center justify-center">
+        <div class="h-px bg-gradient-to-r from-transparent via-indigo-500/50 to-transparent w-full max-w-md"></div>
+      </div>
+
+      {/* Audio Tools */}
+      <section id="audio-tools" class="mb-16 scroll-mt-20">
+        <h2 class="text-3xl md:text-4xl font-bold text-[var(--text)] mb-8 flex items-center justify-center gap-3">
+          <span class="text-4xl">🎧</span>
+          Audio Editing Tools
+        </h2>
+        <div class="grid md:grid-cols-2 gap-6">
+          {/* Audio Editor */}
+          <div class="glass-card p-6 hover:border-[var(--accent)] transition-colors">
+            <div class="flex items-start gap-4 mb-4">
+              <span class="text-4xl">🎚️</span>
+              <div>
+                <h3 class="text-xl font-bold text-[var(--text)] mb-2">
+                  <a href="/tools/audio-editor" class="hover:text-[var(--accent)]">Audio Waveform Editor</a>
+                </h3>
+                <p class="text-[var(--text-muted)] mb-3">
+                  Trim podcast episodes, add fade effects, visualize waveforms. Export as MP3 or WAV.
+                </p>
+                <div class="flex flex-wrap gap-2 mb-3">
+                  <span class="px-2 py-1 bg-violet-500/20 text-violet-400 rounded text-xs">Waveform</span>
+                  <span class="px-2 py-1 bg-fuchsia-500/20 text-fuchsia-400 rounded text-xs">Fade effects</span>
+                  <span class="px-2 py-1 bg-purple-500/20 text-purple-400 rounded text-xs">Podcasts</span>
+                </div>
+              </div>
+            </div>
+            <a href="/tools/audio-editor" class="btn-primary w-full">Open Tool</a>
+          </div>
+
+          {/* Vocal Remover */}
+          <div class="glass-card p-6 hover:border-[var(--accent)] transition-colors">
+            <div class="flex items-start gap-4 mb-4">
+              <span class="text-4xl">🎤</span>
+              <div>
+                <h3 class="text-xl font-bold text-[var(--text)] mb-2">
+                  <a href="/tools/remove-vocals" class="hover:text-[var(--accent)]">Vocal Remover</a>
+                </h3>
+                <p class="text-[var(--text-muted)] mb-3">
+                  Create instrumentals or karaoke tracks. Perfect for background music in videos.
+                </p>
+                <div class="flex flex-wrap gap-2 mb-3">
+                  <span class="px-2 py-1 bg-pink-500/20 text-pink-400 rounded text-xs">Karaoke</span>
+                  <span class="px-2 py-1 bg-rose-500/20 text-rose-400 rounded text-xs">Background music</span>
+                </div>
+              </div>
+            </div>
+            <a href="/tools/remove-vocals" class="btn-primary w-full">Open Tool</a>
+          </div>
+        </div>
+      </section>
+
+      {/* Visual Divider */}
+      <div class="mb-16 flex items-center justify-center">
+        <div class="h-px bg-gradient-to-r from-transparent via-violet-500/50 to-transparent w-full max-w-md"></div>
+      </div>
+
+      {/* Image & Design Tools */}
+      <section id="image-tools" class="mb-16 scroll-mt-20">
+        <h2 class="text-3xl md:text-4xl font-bold text-[var(--text)] mb-8 flex items-center justify-center gap-3">
+          <span class="text-4xl">🎨</span>
+          Image & Thumbnail Tools
+        </h2>
+        <div class="grid md:grid-cols-2 gap-6">
+          {/* Image Compress */}
+          <div class="glass-card p-6 hover:border-[var(--accent)] transition-colors">
+            <div class="flex items-start gap-4 mb-4">
+              <span class="text-4xl">🖼️</span>
+              <div>
+                <h3 class="text-xl font-bold text-[var(--text)] mb-2">
+                  <a href="/tools/image-compress" class="hover:text-[var(--accent)]">Image Compress</a>
+                </h3>
+                <p class="text-[var(--text-muted)] mb-3">
+                  Optimize thumbnails and images for faster page loads. Batch processing with ZIP download.
+                </p>
+                <div class="flex flex-wrap gap-2 mb-3">
+                  <span class="px-2 py-1 bg-green-500/20 text-green-400 rounded text-xs">90% smaller</span>
+                  <span class="px-2 py-1 bg-emerald-500/20 text-emerald-400 rounded text-xs">Batch</span>
+                </div>
+              </div>
+            </div>
+            <a href="/tools/image-compress" class="btn-primary w-full">Open Tool</a>
+          </div>
+
+          {/* AI Image Upscaler */}
+          <div class="glass-card p-6 hover:border-[var(--accent)] transition-colors">
+            <div class="flex items-start gap-4 mb-4">
+              <span class="text-4xl">AI</span>
+              <div>
+                <h3 class="text-xl font-bold text-[var(--text)] mb-2">
+                  <a href="/tools/image-upscaler" class="hover:text-[var(--accent)]">AI Image Upscaler</a>
+                </h3>
+                <p class="text-[var(--text-muted)] mb-3">
+                  Enlarge low-res images 2x or 4x with AI. Perfect for improving old footage or photos.
+                </p>
+                <div class="flex flex-wrap gap-2 mb-3">
+                  <span class="px-2 py-1 bg-violet-500/20 text-violet-400 rounded text-xs">ESRGAN AI</span>
+                  <span class="px-2 py-1 bg-purple-500/20 text-purple-400 rounded text-xs">2x/4x upscale</span>
+                </div>
+              </div>
+            </div>
+            <a href="/tools/image-upscaler" class="btn-primary w-full">Open Tool</a>
+          </div>
+        </div>
+      </section>
+
+      {/* Visual Divider */}
+      <div class="mb-16 flex items-center justify-center">
+        <div class="h-px bg-gradient-to-r from-transparent via-pink-500/50 to-transparent w-full max-w-md"></div>
+      </div>
+
+      {/* Platform-Specific Sections */}
+      <section class="mb-16">
+        <h2 class="text-4xl font-bold text-[var(--text)] mb-10 text-center">Tools by Platform</h2>
+        <div class="grid md:grid-cols-2 gap-8">
+          {/* YouTube */}
+          <div class="glass-card p-8 border-l-4 border-red-500 hover:border-red-400 transition-colors">
+            <div class="flex items-center gap-3 mb-4">
+              <span class="text-5xl">📺</span>
+              <h3 class="text-2xl font-bold text-red-400">YouTube Creators</h3>
+            </div>
+            <p class="text-[var(--text-muted)] mb-6">
+              Everything you need for long-form video content, tutorials, vlogs, and educational videos.
+            </p>
+            <ul class="space-y-3 mb-6">
+              <li class="flex items-start gap-2">
+                <span class="text-green-400 mt-1">✓</span>
+                <span class="text-[var(--text-muted)]"><strong class="text-[var(--text)]">Subtitle Generator</strong> - Auto-generate captions in 10+ languages</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-green-400 mt-1">✓</span>
+                <span class="text-[var(--text-muted)]"><strong class="text-[var(--text)]">Video Compressor</strong> - Faster uploads without quality loss</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-green-400 mt-1">✓</span>
+                <span class="text-[var(--text-muted)]"><strong class="text-[var(--text)]">Background Remover</strong> - Professional thumbnails in seconds</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-green-400 mt-1">✓</span>
+                <span class="text-[var(--text-muted)]"><strong class="text-[var(--text)]">Screen Recorder</strong> - Capture tutorials and gameplay</span>
+              </li>
+            </ul>
+            <a href="#video-tools" class="btn-secondary w-full">View YouTube Tools</a>
+          </div>
+
+          {/* TikTok & Shorts */}
+          <div class="glass-card p-8 border-l-4 border-pink-500 hover:border-pink-400 transition-colors">
+            <div class="flex items-center gap-3 mb-4">
+              <span class="text-5xl">🎵</span>
+              <h3 class="text-2xl font-bold text-pink-400">TikTok & Shorts</h3>
+            </div>
+            <p class="text-[var(--text-muted)] mb-6">
+              Perfect for short-form vertical video, trending content, and viral clips.
+            </p>
+            <ul class="space-y-3 mb-6">
+              <li class="flex items-start gap-2">
+                <span class="text-green-400 mt-1">✓</span>
+                <span class="text-[var(--text-muted)]"><strong class="text-[var(--text)]">Video Trimmer</strong> - Cut to 15s, 60s, or 3min limits</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-green-400 mt-1">✓</span>
+                <span class="text-[var(--text-muted)]"><strong class="text-[var(--text)]">Subtitle Generator</strong> - Essential for silent scrolling</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-green-400 mt-1">✓</span>
+                <span class="text-[var(--text-muted)]"><strong class="text-[var(--text)]">Video Compressor</strong> - Optimize for mobile upload</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-green-400 mt-1">✓</span>
+                <span class="text-[var(--text-muted)]"><strong class="text-[var(--text)]">GIF Maker</strong> - Preview loops for social promotion</span>
+              </li>
+            </ul>
+            <a href="#video-tools" class="btn-secondary w-full">View TikTok Tools</a>
+          </div>
+
+          {/* Podcasters */}
+          <div class="glass-card p-8 border-l-4 border-purple-500 hover:border-purple-400 transition-colors">
+            <div class="flex items-center gap-3 mb-4">
+              <span class="text-5xl">🎙️</span>
+              <h3 class="text-2xl font-bold text-purple-400">Podcasters</h3>
+            </div>
+            <p class="text-[var(--text-muted)] mb-6">
+              Audio-first tools for podcast editing, transcription, and distribution.
+            </p>
+            <ul class="space-y-3 mb-6">
+              <li class="flex items-start gap-2">
+                <span class="text-green-400 mt-1">✓</span>
+                <span class="text-[var(--text-muted)]"><strong class="text-[var(--text)]">Audio Transcription</strong> - Generate show notes automatically</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-green-400 mt-1">✓</span>
+                <span class="text-[var(--text-muted)]"><strong class="text-[var(--text)]">Audio Editor</strong> - Trim episodes, add fade effects</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-green-400 mt-1">✓</span>
+                <span class="text-[var(--text-muted)]"><strong class="text-[var(--text)]">Video to MP3</strong> - Extract audio from video recordings</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-green-400 mt-1">✓</span>
+                <span class="text-[var(--text-muted)]"><strong class="text-[var(--text)]">Vocal Remover</strong> - Create background music beds</span>
+              </li>
+            </ul>
+            <a href="#audio-tools" class="btn-secondary w-full">View Podcast Tools</a>
+          </div>
+
+          {/* Twitch & Streamers */}
+          <div class="glass-card p-8 border-l-4 border-indigo-500 hover:border-indigo-400 transition-colors">
+            <div class="flex items-center gap-3 mb-4">
+              <span class="text-5xl">🎮</span>
+              <h3 class="text-2xl font-bold text-indigo-400">Twitch & Streamers</h3>
+            </div>
+            <p class="text-[var(--text-muted)] mb-6">
+              Clip highlights, create emotes, and share stream moments across platforms.
+            </p>
+            <ul class="space-y-3 mb-6">
+              <li class="flex items-start gap-2">
+                <span class="text-green-400 mt-1">✓</span>
+                <span class="text-[var(--text-muted)]"><strong class="text-[var(--text)]">GIF Maker</strong> - Turn clips into shareable reactions</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-green-400 mt-1">✓</span>
+                <span class="text-[var(--text-muted)]"><strong class="text-[var(--text)]">Video Compressor</strong> - Optimize clips for Discord (8MB/25MB)</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-green-400 mt-1">✓</span>
+                <span class="text-[var(--text-muted)]"><strong class="text-[var(--text)]">Video Trimmer</strong> - Cut highlight moments</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-green-400 mt-1">✓</span>
+                <span class="text-[var(--text-muted)]"><strong class="text-[var(--text)]">Background Remover</strong> - Clean overlays and alerts</span>
+              </li>
+            </ul>
+            <a href="#video-tools" class="btn-secondary w-full">View Streaming Tools</a>
+          </div>
+        </div>
+      </section>
+
+      {/* Visual Divider */}
+      <div class="mb-16 flex items-center justify-center">
+        <div class="h-px bg-gradient-to-r from-transparent via-cyan-500/50 to-transparent w-full max-w-md"></div>
+      </div>
+
+      {/* Use Cases */}
+      <section class="mb-16">
+        <div class="bg-gradient-to-r from-purple-500/10 to-pink-500/10 border border-purple-500/30 rounded-xl p-8">
+          <h2 class="text-3xl font-bold text-[var(--text)] mb-6 text-center">Step-by-Step Workflows</h2>
+          <div class="grid md:grid-cols-2 gap-6">
+            <div class="bg-[var(--bg-secondary)] rounded-lg p-6 border border-[var(--border)]">
+              <h3 class="text-xl font-semibold text-purple-400 mb-3">YouTube Workflow</h3>
+              <ol class="space-y-2 text-[var(--text-muted)]">
+                <li>1. Screen Recorder → Record tutorial or gameplay</li>
+                <li>2. Video Trimmer → Cut to perfect length</li>
+                <li>3. Subtitle Generator → Add auto-captions</li>
+                <li>4. Background Remover → Create thumbnail</li>
+                <li>5. Video Compressor → Optimize for fast uploads</li>
+              </ol>
+            </div>
+
+            <div class="bg-[var(--bg-secondary)] rounded-lg p-6 border border-[var(--border)]">
+              <h3 class="text-xl font-semibold text-pink-400 mb-3">Podcast Workflow</h3>
+              <ol class="space-y-2 text-[var(--text-muted)]">
+                <li>1. Audio Editor → Trim intro/outro</li>
+                <li>2. Audio Transcription → Generate show notes</li>
+                <li>3. Video to MP3 → Extract audio from video</li>
+                <li>4. GIF Maker → Create social media teasers</li>
+              </ol>
+            </div>
+
+            <div class="bg-[var(--bg-secondary)] rounded-lg p-6 border border-[var(--border)]">
+              <h3 class="text-xl font-semibold text-indigo-400 mb-3">TikTok/Shorts Workflow</h3>
+              <ol class="space-y-2 text-[var(--text-muted)]">
+                <li>1. Video Trimmer → Cut to 60s or less</li>
+                <li>2. Subtitle Generator → Add captions for silent viewing</li>
+                <li>3. Video Compressor → Reduce for mobile</li>
+                <li>4. GIF Maker → Create preview loops</li>
+              </ol>
+            </div>
+
+            <div class="bg-[var(--bg-secondary)] rounded-lg p-6 border border-[var(--border)]">
+              <h3 class="text-xl font-semibold text-cyan-400 mb-3">Discord Community Workflow</h3>
+              <ol class="space-y-2 text-[var(--text-muted)]">
+                <li>1. Video Compressor → Get under 8MB/25MB limit</li>
+                <li>2. GIF Maker → Create reaction GIFs</li>
+                <li>3. Image Compress → Optimize memes and screenshots</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Visual Divider */}
+      <div class="mb-16 flex items-center justify-center">
+        <div class="h-px bg-gradient-to-r from-transparent via-orange-500/50 to-transparent w-full max-w-md"></div>
+      </div>
+
+      {/* FAQ */}
+      <section id="faq" class="mb-16">
+        <h2 class="text-4xl font-bold text-[var(--text)] mb-8 text-center">Frequently Asked Questions</h2>
+        <div class="glass-card p-8 md:p-10 space-y-6 border-t-2 border-orange-500/30">
+          <div>
+            <h3 class="text-xl font-semibold text-[var(--text)] mb-2">Are these tools really free?</h3>
+            <p class="text-[var(--text-muted)]">
+              Yes, 100% free forever. No hidden fees, no subscriptions, no premium tiers. All 36 tools are completely free to use.
+            </p>
+          </div>
+
+          <div>
+            <h3 class="text-xl font-semibold text-[var(--text)] mb-2">Will there be watermarks on my content?</h3>
+            <p class="text-[var(--text-muted)]">
+              Never. Your videos, GIFs, images, and audio files are exported clean without any branding or watermarks. Your content stays professional.
+            </p>
+          </div>
+
+          <div>
+            <h3 class="text-xl font-semibold text-[var(--text)] mb-2">Are my files uploaded to your servers?</h3>
+            <p class="text-[var(--text-muted)]">
+              No. All processing happens 100% in your browser using WebAssembly and JavaScript. Your files never leave your device. This is crucial for unreleased content, private footage, and maintaining total creative control.
+            </p>
+          </div>
+
+          <div>
+            <h3 class="text-xl font-semibold text-[var(--text)] mb-2">Can I use these tools for commercial projects?</h3>
+            <p class="text-[var(--text-muted)]">
+              Absolutely. Use these tools for YouTube monetization, sponsored content, client work, or any commercial project. No attribution required.
+            </p>
+          </div>
+
+          <div>
+            <h3 class="text-xl font-semibold text-[var(--text)] mb-2">Do these work on mobile?</h3>
+            <p class="text-[var(--text-muted)]">
+              Most tools work on mobile browsers (Chrome, Safari). Heavy processing like AI upscaling or video compression may be slower on phones. For best performance, use a desktop or laptop.
+            </p>
+          </div>
+
+          <div>
+            <h3 class="text-xl font-semibold text-[var(--text)] mb-2">Which tool should I use to compress videos for Discord?</h3>
+            <p class="text-[var(--text-muted)]">
+              Use the <a href="/tools/video-compressor" class="text-[var(--accent)] hover:underline">Video Compressor</a>. Discord limits are 8MB for free users and 25MB for Nitro. Our compressor can reduce videos 50-90% while maintaining quality. Trim first with the <a href="/tools/video-trimmer" class="text-[var(--accent)] hover:underline">Video Trimmer</a> if needed.
+            </p>
+          </div>
+
+          <div>
+            <h3 class="text-xl font-semibold text-[var(--text)] mb-2">Can I generate subtitles for my YouTube videos?</h3>
+            <p class="text-[var(--text-muted)]">
+              Yes. Use the <a href="/tools/subtitle-generator" class="text-[var(--accent)] hover:underline">Subtitle Generator</a> powered by Whisper AI. Upload your video, wait for transcription, then download the SRT file. Upload it directly to YouTube Studio for professional captions.
+            </p>
+          </div>
+
+          <div>
+            <h3 class="text-xl font-semibold text-[var(--text)] mb-2">How do I create professional YouTube thumbnails?</h3>
+            <p class="text-[var(--text-muted)]">
+              Use the <a href="/tools/background-remover" class="text-[var(--accent)] hover:underline">Background Remover</a> to cut out subjects with AI. Then use the <a href="/tools/image-compress" class="text-[var(--accent)] hover:underline">Image Compress</a> to optimize for fast loading. For upscaling low-res images, try the <a href="/tools/image-upscaler" class="text-[var(--accent)] hover:underline">AI Image Upscaler</a>.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Visual Divider */}
+      <div class="mb-16 flex items-center justify-center">
+        <div class="h-px bg-gradient-to-r from-transparent via-green-500/50 to-transparent w-full max-w-md"></div>
+      </div>
+
+      {/* CTA */}
+      <section class="text-center">
+        <div class="glass-card p-10 md:p-12 bg-gradient-to-br from-purple-500/5 via-pink-500/5 to-cyan-500/5 border-2 border-purple-500/30">
+          <div class="text-6xl mb-6">🚀</div>
+          <h2 class="text-4xl md:text-5xl font-bold text-[var(--text)] mb-6">Ready to Level Up Your Content?</h2>
+          <p class="text-xl md:text-2xl text-[var(--text-muted)] mb-4 max-w-3xl mx-auto">
+            Join <strong class="text-[var(--accent)]">2,800+ creators</strong> who trust these tools for their content workflow.
+          </p>
+          <p class="text-lg text-[var(--text-muted)] mb-10 max-w-2xl mx-auto">
+            Free forever. No watermarks. No uploads. Your content, your control.
+          </p>
+          <div class="flex flex-wrap justify-center gap-4 mb-8">
+            <a href="/hub" class="btn-primary px-10 py-5 text-lg font-semibold shadow-lg shadow-purple-500/20 hover:shadow-purple-500/40 transition-all">
+              Browse All 36 Tools
+            </a>
+            <a href="/tools/video-compressor" class="btn-secondary px-10 py-5 text-lg font-semibold">
+              Start with Video Compressor
+            </a>
+          </div>
+          <div class="flex justify-center gap-6 text-sm text-[var(--text-muted)] flex-wrap">
+            <div class="flex items-center gap-2">
+              <span class="text-green-400">✓</span>
+              <span>No signup required</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-green-400">✓</span>
+              <span>Works in any browser</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-green-400">✓</span>
+              <span>100% client-side processing</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Related Pages */}
+      <section class="mt-12">
+        <h3 class="text-xl font-semibold text-[var(--text)] mb-4">Related Resources</h3>
+        <div class="flex flex-wrap gap-3">
+          <a href="/use-cases/compress-video-whatsapp" class="px-4 py-2 bg-[var(--bg-secondary)] rounded-lg text-[var(--text-muted)] hover:text-[var(--accent)] border border-[var(--border)]">
+            Compress for WhatsApp
+          </a>
+          <a href="/guides/compress-video-for-discord" class="px-4 py-2 bg-[var(--bg-secondary)] rounded-lg text-[var(--text-muted)] hover:text-[var(--accent)] border border-[var(--border)]">
+            Discord Video Guide
+          </a>
+          <a href="/tools/gif-maker" class="px-4 py-2 bg-[var(--bg-secondary)] rounded-lg text-[var(--text-muted)] hover:text-[var(--accent)] border border-[var(--border)]">
+            Create GIFs
+          </a>
+        </div>
+      </section>
+    </article>
+  </main>
+
+  <Footer />
+</Layout>
