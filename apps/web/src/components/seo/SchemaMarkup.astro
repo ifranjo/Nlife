@@ -1,19 +1,12 @@
 ---
 /**
- * SchemaMarkup - JSON-LD structured data for AI extraction (GEO 2025)
+ * SchemaMarkup - Consolidated JSON-LD (Optimized Dec 2025)
  *
- * Optimized for Generative Engine Optimization:
- * - WebApplication: For browser-based tools (not SoftwareApplication)
- * - HowTo: For step-by-step usage (AI citation magnet)
- * - FAQPage: For common questions (featured snippets)
- * - BreadcrumbList: For navigation context
- * - Article: For dateModified and author (E-E-A-T signals)
- *
- * Best practices (Dec 2025):
- * - JSON-LD in <head> for AI bot parsing
- * - Offers required even for free tools
- * - dateModified for freshness signals
- * - Author for E-E-A-T
+ * Single @graph with essential schemas only:
+ * - WebApplication (primary)
+ * - HowTo (AI citation magnet)
+ * - FAQPage (rich snippets)
+ * - BreadcrumbList (navigation)
  */
 
 interface FAQItem {
@@ -31,9 +24,8 @@ interface Props {
   url: string;
 }
 
-const { toolId, toolName, description, category, steps, faqs, url } = Astro.props;
+const { toolName, description, category, steps, faqs, url } = Astro.props;
 
-// Map category to schema applicationCategory
 const categoryMap = {
   document: 'ProductivityApplication',
   media: 'MultimediaApplication',
@@ -42,232 +34,68 @@ const categoryMap = {
 };
 
 const baseUrl = 'https://www.newlifesolutions.dev';
-
-// Current date for freshness signals (critical for GEO 2025)
 const currentDate = new Date().toISOString().split('T')[0];
 
-// WebApplication schema (NOT SoftwareApplication - for browser-based tools)
-const webAppSchema = {
+// Single consolidated schema using @graph
+const consolidatedSchema = {
   '@context': 'https://schema.org',
-  '@type': 'WebApplication',
-  '@id': `${baseUrl}${url}#webapp`,
-  name: `${toolName} - Free Online Tool 2025`,
-  description: description,
-  url: `${baseUrl}${url}`,
-  applicationCategory: categoryMap[category],
-  operatingSystem: 'Any',
-  browserRequirements: 'Requires JavaScript. Works in Chrome, Firefox, Safari, Edge.',
-  offers: {
-    '@type': 'Offer',
-    price: '0',
-    priceCurrency: 'USD',
-    availability: 'https://schema.org/InStock',
-    priceValidUntil: '2025-12-31'
-  },
-  aggregateRating: {
-    '@type': 'AggregateRating',
-    ratingValue: '4.8',
-    ratingCount: '150',
-    bestRating: '5',
-    worstRating: '1'
-  },
-  featureList: [
-    '100% browser-based processing',
-    'No file uploads to servers',
-    'Works offline after loading',
-    'No registration required',
-    'No watermarks or limits',
-    'Free forever'
-  ],
-  author: {
-    '@type': 'Organization',
-    name: 'New Life Solutions',
-    url: baseUrl
-  },
-  provider: {
-    '@type': 'Organization',
-    name: 'New Life Solutions',
-    url: baseUrl,
-    logo: `${baseUrl}/favicon.svg`
-  },
-  datePublished: '2024-12-01',
-  dateModified: currentDate
-};
-
-// HowTo schema
-const howToSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'HowTo',
-  name: `How to use ${toolName}`,
-  description: description,
-  step: steps.map((stepText, index) => ({
-    '@type': 'HowToStep',
-    position: index + 1,
-    text: stepText
-  })),
-  tool: {
-    '@type': 'HowToTool',
-    name: 'Web Browser'
-  },
-  totalTime: 'PT1M'
-};
-
-// FAQPage schema
-const faqSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'FAQPage',
-  mainEntity: faqs.map((faq) => ({
-    '@type': 'Question',
-    name: faq.question,
-    acceptedAnswer: {
-      '@type': 'Answer',
-      text: faq.answer
-    }
-  }))
-};
-
-// BreadcrumbList schema
-const breadcrumbSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'BreadcrumbList',
-  itemListElement: [
+  '@graph': [
+    // WebApplication - Primary
     {
-      '@type': 'ListItem',
-      position: 1,
-      name: 'Home',
-      item: baseUrl
-    },
-    {
-      '@type': 'ListItem',
-      position: 2,
-      name: 'Tools',
-      item: `${baseUrl}/hub`
-    },
-    {
-      '@type': 'ListItem',
-      position: 3,
+      '@type': 'WebApplication',
+      '@id': `${baseUrl}${url}#app`,
       name: toolName,
-      item: `${baseUrl}${url}`
+      description: description,
+      url: `${baseUrl}${url}`,
+      applicationCategory: categoryMap[category],
+      operatingSystem: 'Any',
+      browserRequirements: 'JavaScript enabled',
+      offers: {
+        '@type': 'Offer',
+        price: '0',
+        priceCurrency: 'USD'
+      },
+      author: { '@id': `${baseUrl}#org` },
+      dateModified: currentDate
+    },
+    // HowTo - Steps
+    {
+      '@type': 'HowTo',
+      name: `How to use ${toolName}`,
+      step: steps.map((text, i) => ({
+        '@type': 'HowToStep',
+        position: i + 1,
+        text
+      })),
+      tool: { '@type': 'HowToTool', name: 'Web Browser' }
+    },
+    // FAQPage
+    ...(faqs.length > 0 ? [{
+      '@type': 'FAQPage',
+      mainEntity: faqs.map(faq => ({
+        '@type': 'Question',
+        name: faq.question,
+        acceptedAnswer: { '@type': 'Answer', text: faq.answer }
+      }))
+    }] : []),
+    // BreadcrumbList
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: baseUrl },
+        { '@type': 'ListItem', position: 2, name: 'Tools', item: `${baseUrl}/hub` },
+        { '@type': 'ListItem', position: 3, name: toolName, item: `${baseUrl}${url}` }
+      ]
+    },
+    // Organization (referenced by @id)
+    {
+      '@type': 'Organization',
+      '@id': `${baseUrl}#org`,
+      name: 'New Life Solutions',
+      url: baseUrl
     }
   ]
-};
-
-// Organization schema (for site-wide authority and E-E-A-T)
-const orgSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'Organization',
-  '@id': `${baseUrl}#organization`,
-  name: 'New Life Solutions',
-  url: baseUrl,
-  logo: {
-    '@type': 'ImageObject',
-    url: `${baseUrl}/favicon.svg`,
-    width: '512',
-    height: '512'
-  },
-  description: 'Free, private, browser-based tools for documents, images, and more. 100% client-side processing.',
-  foundingDate: '2024',
-  sameAs: []
-};
-
-// Article schema for freshness signals (critical for GEO 2025)
-const articleSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'TechArticle',
-  headline: `How to Use ${toolName} - Free Online Tool 2025`,
-  description: description,
-  url: `${baseUrl}${url}`,
-  datePublished: '2024-12-01',
-  dateModified: currentDate,
-  author: {
-    '@type': 'Organization',
-    name: 'New Life Solutions',
-    url: baseUrl
-  },
-  publisher: {
-    '@type': 'Organization',
-    name: 'New Life Solutions',
-    logo: {
-      '@type': 'ImageObject',
-      url: `${baseUrl}/favicon.svg`
-    }
-  },
-  mainEntityOfPage: {
-    '@type': 'WebPage',
-    '@id': `${baseUrl}${url}`
-  },
-  about: {
-    '@type': 'Thing',
-    name: toolName
-  }
-};
-
-// ItemList for listicle-style content (32% of AI citations are listicles)
-const featureListSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'ItemList',
-  name: `${toolName} Features`,
-  description: `Key features of ${toolName}`,
-  numberOfItems: 6,
-  itemListElement: [
-    { '@type': 'ListItem', position: 1, name: '100% browser-based processing' },
-    { '@type': 'ListItem', position: 2, name: 'No file uploads to servers' },
-    { '@type': 'ListItem', position: 3, name: 'Works offline after loading' },
-    { '@type': 'ListItem', position: 4, name: 'No registration required' },
-    { '@type': 'ListItem', position: 5, name: 'No watermarks or limits' },
-    { '@type': 'ListItem', position: 6, name: 'Free forever - no hidden costs' }
-  ]
-};
-
-// Speakable schema - for voice search and audio AI assistants (GEO 2025)
-// Identifies sections suitable for text-to-speech extraction
-const speakableSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'WebPage',
-  '@id': `${baseUrl}${url}#webpage`,
-  name: `${toolName} - Free Online Tool`,
-  description: description,
-  speakable: {
-    '@type': 'SpeakableSpecification',
-    cssSelector: ['.citation-block', '.tldr', 'h1', '.answer-box p']
-  },
-  lastReviewed: currentDate,
-  mainContentOfPage: {
-    '@type': 'WebPageElement',
-    cssSelector: 'main'
-  }
-};
-
-// DefinedTerm schema - helps AI understand tool terminology (GEO 2025)
-const definedTermSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'DefinedTerm',
-  name: toolName,
-  description: description,
-  inDefinedTermSet: {
-    '@type': 'DefinedTermSet',
-    name: 'Browser-Based Online Tools',
-    description: 'Free tools that process files entirely in the browser without server uploads'
-  }
 };
 ---
 
-<!-- JSON-LD Structured Data for AI Extraction (GEO 2025) -->
-<!-- WebApplication schema - primary for browser-based tools -->
-<script type="application/ld+json" set:html={JSON.stringify(webAppSchema)} />
-<!-- HowTo schema - high citation rate for instructional content -->
-<script type="application/ld+json" set:html={JSON.stringify(howToSchema)} />
-<!-- FAQPage schema - featured snippets and AI answers -->
-<script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
-<!-- BreadcrumbList - navigation context -->
-<script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
-<!-- Organization - E-E-A-T authority signals -->
-<script type="application/ld+json" set:html={JSON.stringify(orgSchema)} />
-<!-- TechArticle - dateModified freshness signals -->
-<script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
-<!-- ItemList - listicles get 32% of AI citations -->
-<script type="application/ld+json" set:html={JSON.stringify(featureListSchema)} />
-<!-- Speakable - voice search and audio AI (GEO 2025) -->
-<script type="application/ld+json" set:html={JSON.stringify(speakableSchema)} />
-<!-- DefinedTerm - helps AI understand tool terminology -->
-<script type="application/ld+json" set:html={JSON.stringify(definedTermSchema)} />
+<script type="application/ld+json" set:html={JSON.stringify(consolidatedSchema)} />

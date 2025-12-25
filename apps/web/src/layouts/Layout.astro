@@ -83,6 +83,9 @@ const currentYear = new Date().getFullYear();
 
     <!-- Plausible Analytics (with custom events support) -->
     <script defer data-domain="newlifesolutions.dev" src="https://plausible.io/js/script.tagged-events.js"></script>
+
+    <!-- Named slot for page-specific head content (schemas, hreflang, etc.) -->
+    <slot name="head" />
   </head>
   <body>
     <!-- Background effects -->
