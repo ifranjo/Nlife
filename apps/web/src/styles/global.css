@@ -448,14 +448,14 @@ h1, h2, h3, h4, h5, h6 {
   animation: scaleIn 0.3s ease-out;
 }
 
-/* === SCROLLBAR === */
+/* === SCROLLBAR (Premium - thin, elegant) === */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--bg);
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -468,17 +468,97 @@ h1, h2, h3, h4, h5, h6 {
   background: var(--border-accent);
 }
 
+/* Modern scrollbar styling (Firefox, Chrome 121+) */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+
+/* Scrollbar appears on hover (premium feel) */
+.scroll-on-hover {
+  scrollbar-width: none;
+}
+
+.scroll-on-hover::-webkit-scrollbar {
+  width: 0;
+}
+
+.scroll-on-hover:hover {
+  scrollbar-width: thin;
+}
+
+.scroll-on-hover:hover::-webkit-scrollbar {
+  width: 6px;
+}
+
 /* === SELECTION === */
 ::selection {
   background: var(--accent);
   color: var(--bg);
 }
 
-/* === FOCUS === */
+/* === FOCUS (Premium - animated expansion) === */
 *:focus-visible {
   outline: 1px solid var(--accent);
-  outline-offset: 2px;
+  outline-offset: 3px;
   box-shadow: var(--glow-focus);
+  transition: outline-offset var(--transition-snappy);
+}
+
+/* Focus ring expansion on activation */
+*:focus-visible:active {
+  outline-offset: 1px;
+}
+
+/* === CURSOR FEEDBACK (Semantic states) === */
+
+/* Interactive elements */
+button:not(:disabled),
+a,
+[role="button"],
+.clickable {
+  cursor: pointer;
+}
+
+/* Disabled states - clear feedback */
+button:disabled,
+.disabled,
+[aria-disabled="true"] {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* Processing/loading states */
+.loading,
+.processing,
+[aria-busy="true"] {
+  cursor: progress;
+}
+
+/* Waiting (blocking) states */
+.waiting {
+  cursor: wait;
+}
+
+/* Text selection */
+.selectable {
+  cursor: text;
+}
+
+/* Draggable elements */
+.draggable {
+  cursor: grab;
+}
+
+.draggable:active,
+.dragging {
+  cursor: grabbing;
+}
+
+/* Help/info indicators */
+.help,
+[data-tooltip] {
+  cursor: help;
 }
 
 /* === DIVIDER === */
@@ -865,7 +945,7 @@ a:not(.nav-link):not(.btn-primary):not(.btn-secondary):hover {
   opacity: 0.85;
 }
 
-/* Smooth image loading */
+/* Smooth image loading with fade-in */
 img {
   transition: opacity var(--transition);
 }
@@ -891,10 +971,173 @@ select:focus {
   box-shadow: var(--glow-focus);
 }
 
-/* Subtle active state for all clickables */
+/* Subtle active state for all clickables (tactile "human bounce") */
 button:active,
 a:active,
 [role="button"]:active {
   transform: scale(0.98);
-  transition: transform var(--transition-snappy);
+  transition: transform 50ms ease-out;
+}
+
+/* === CONTENT VISIBILITY (Performance) === */
+
+/* Lazy render off-screen content */
+.lazy-render {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 500px;
+}
+
+/* === TACTILE INTERACTION POLISH === */
+
+/* Subtle lift on hover for cards */
+.lift-on-hover {
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.lift-on-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--glow-hover);
+}
+
+/* Light source simulation (cursor-following highlight) */
+.light-source {
+  position: relative;
+  overflow: hidden;
+}
+
+.light-source::before {
+  content: '';
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.04), transparent 70%);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--transition);
+  transform: translate(-50%, -50%);
+}
+
+.light-source:hover::before {
+  opacity: 1;
+}
+
+/* Ripple effect base */
+.ripple {
+  position: relative;
+  overflow: hidden;
+}
+
+.ripple::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 50%;
+  left: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.1), transparent 70%);
+  transform: translate(-50%, -50%) scale(0);
+  opacity: 0;
+  transition: transform 0.5s ease-out, opacity 0.3s ease-out;
+  pointer-events: none;
+}
+
+.ripple:active::after {
+  transform: translate(-50%, -50%) scale(2);
+  opacity: 1;
+  transition: transform 0s, opacity 0s;
+}
+
+/* === INPUT FIELD POLISH === */
+
+/* Text inputs with subtle inner glow */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="search"],
+input[type="url"],
+textarea,
+select {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-family: var(--font-mono);
+  transition: all var(--transition);
+}
+
+input[type="text"]:hover,
+input[type="email"]:hover,
+input[type="password"]:hover,
+input[type="number"]:hover,
+input[type="search"]:hover,
+input[type="url"]:hover,
+textarea:hover,
+select:hover {
+  border-color: var(--border-hover);
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="number"]:focus,
+input[type="search"]:focus,
+input[type="url"]:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--accent);
+  outline: none;
+  box-shadow: var(--glow-focus), inset 0 0 20px rgba(255, 255, 255, 0.02);
+}
+
+/* Placeholder styling */
+::placeholder {
+  color: var(--text-muted);
+  opacity: 1;
+}
+
+/* === STAGGERED ANIMATIONS (Premium entrance) === */
+.stagger-children > * {
+  opacity: 0;
+  transform: translateY(10px);
+  animation: stagger-in 0.4s ease-out forwards;
+}
+
+.stagger-children > *:nth-child(1) { animation-delay: 0ms; }
+.stagger-children > *:nth-child(2) { animation-delay: 50ms; }
+.stagger-children > *:nth-child(3) { animation-delay: 100ms; }
+.stagger-children > *:nth-child(4) { animation-delay: 150ms; }
+.stagger-children > *:nth-child(5) { animation-delay: 200ms; }
+.stagger-children > *:nth-child(6) { animation-delay: 250ms; }
+.stagger-children > *:nth-child(7) { animation-delay: 300ms; }
+.stagger-children > *:nth-child(8) { animation-delay: 350ms; }
+
+@keyframes stagger-in {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* === TEXT READABILITY (Dark mode optimization) === */
+
+/* Slightly lighter font-weight for body text in dark mode */
+body {
+  font-weight: 400;
+  /* -webkit-text-stroke: 0.2px helps with blooming on some displays */
+}
+
+/* Improved text contrast hierarchy */
+.text-primary {
+  color: var(--text);
+  opacity: 0.87; /* Material Design dark mode standard */
+}
+
+.text-secondary {
+  color: var(--text);
+  opacity: 0.60;
+}
+
+.text-disabled {
+  color: var(--text);
+  opacity: 0.38;
 }
