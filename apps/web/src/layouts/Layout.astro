@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import Analytics from '@vercel/analytics/astro';
+import SpeedInsights from '@vercel/speed-insights/astro';
 
 interface Props {
   title?: string;
@@ -99,5 +100,8 @@ const currentYear = new Date().getFullYear();
 
     <!-- Vercel Analytics -->
     <Analytics />
+
+    <!-- Vercel Speed Insights -->
+    <SpeedInsights />
   </body>
 </html>
