@@ -58,7 +58,7 @@ vercel project ls
 
 #### 4. Add Secrets to GitHub
 
-1. Go to: https://github.com/ifranjo/Nlife/settings/secrets/actions
+1. Go to: https://github.com/<your-org>/<your-repo>/settings/secrets/actions
 
 2. Click "New repository secret"
 
@@ -96,7 +96,7 @@ git push origin master
 ```
 
 **Option B: Re-run last workflow**
-1. Go to https://github.com/ifranjo/Nlife/actions
+1. Go to https://github.com/<your-org>/<your-repo>/actions
 2. Find the last failed workflow run
 3. Click "Re-run jobs" button
 4. Select "Re-run all jobs"
@@ -163,7 +163,7 @@ npm run deploy
 ## Next Steps
 
 Once deployment is working:
-1. Monitor deployments: https://github.com/ifranjo/Nlife/actions
+1. Monitor deployments: https://github.com/<your-org>/<your-repo>/actions
 2. Check site status: https://www.newlifesolutions.dev
 3. View Vercel logs: https://vercel.com/[your-org]/[project]/deployments
 4. Set up deployment notifications (optional)

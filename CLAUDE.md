@@ -8,186 +8,171 @@ New Life Solutions - Monorepo for browser-based utility tools (PDF, images, AI).
 
 **Live site**: https://www.newlifesolutions.dev
 
-```
-┌─────────────────────────────────────────────────────────────────────────────┐
-│  ARQUITECTURA MONOREPO                                                      │
-├─────────────────────────────────────────────────────────────────────────────┤
-│                                                                             │
-│  NEW_LIFE/                                                                  │
-│  ├── apps/web/             ← Frontend Astro (main application)             │
-│  │   └── src/                                                              │
-│  │       ├── pages/        ← Routes: /, /hub, /tools/*                     │
-│  │       ├── components/                                                   │
-│  │       │   ├── ui/       ← Shared UI (Navbar, Footer, ToolCard, etc.)   │
-│  │       │   └── tools/    ← React tool components (PdfMerge.tsx, etc.)   │
-│  │       ├── lib/          ← tools.ts (registry), security.ts (validation)│
-│  │       └── layouts/      ← Layout.astro                                  │
-│  ├── services/             ← Microservices (future, use api-template)      │
-│  └── packages/             ← Shared code (config/, types/)                 │
-│                                                                             │
-└─────────────────────────────────────────────────────────────────────────────┘
-```
+All processing is 100% client-side. Files never leave the user's browser.
 
 ## Commands
 
 ```bash
-# From project root (all commands proxy to apps/web)
+# From project root
 npm run dev          # Dev server localhost:4321
 npm run build        # Production build
 npm run check        # TypeScript/Astro validation
-npm run preview      # Preview production build
 
-# Installation (use npm ci for CI/reproducible builds)
-npm run install:web  # Install web app deps (runs npm install)
-cd apps/web && npm ci  # CI-safe install with lockfile
-```
-
-### Testing (Playwright E2E)
-
-```bash
-# All tests run from apps/web/ directory
+# Testing (from apps/web/)
 cd apps/web
-
-npx playwright test                              # Run all tests (5 browsers: chromium, firefox, webkit, mobile)
-npx playwright test --project=chromium           # Single browser
-npx playwright test tests/document-tools.spec.ts # Single test file
-npx playwright test -g "PDF Merge"               # Run tests matching pattern
-npx playwright test --ui                         # Interactive test UI
-npx playwright test --headed                     # See browser during tests
-npx playwright test --debug                      # Step-through debugger
-npx playwright show-report                       # View last HTML report
+npx playwright test                          # All tests (5 browsers)
+npx playwright test --project=chromium       # Single browser (fastest)
+npx playwright test -g "PDF Merge"           # Pattern match
+npx playwright test tests/guides-and-seo.spec.ts  # Single file
+npx playwright test --ui                     # Interactive UI mode
 ```
 
-Test files are in `apps/web/tests/`. The webServer auto-starts dev on port 4321.
+**Windows note**: Use PowerShell for Playwright commands. The webServer auto-starts dev on port 4321.
 
-## Tech Stack
+## Architecture
 
-- **Frontend**: Astro 5 + React 19 + Tailwind CSS v4
-- **Testing**: Playwright + axe-core (accessibility)
-- **Deploy**: Vercel (auto-deploy on push to main/master)
-- **CI/CD**: GitHub Actions (type check + `npm audit --audit-level=high` before deploy)
-- **Node**: >=20.0.0 required
+```
+NEW_LIFE/
+├── apps/web/                 ← Astro frontend
+│   └── src/
+│       ├── pages/
+│       │   ├── tools/*.astro     ← Tool pages (24 tools)
+│       │   ├── guides/*.astro    ← SEO guide pages
+│       │   └── use-cases/*.astro ← Programmatic landing pages
+│       ├── components/
+│       │   ├── tools/*.tsx       ← React tool components
+│       │   ├── ui/*.astro        ← Shared UI (Navbar, Footer, ToolCard)
+│       │   └── seo/*.astro       ← SEO (AnswerBox, SchemaMarkup, QASections)
+│       └── lib/
+│           ├── tools.ts          ← Tool registry (source of truth)
+│           └── security.ts       ← File validation utilities
+├── packages/                 ← Shared code
+└── docs/                     ← Documentation
+```
 
-### Key Browser-Side Libraries
+### Key Patterns
 
-| Library | Purpose | Usage |
-|---------|---------|-------|
-| `pdf-lib` | PDF manipulation | Merge, split, edit PDFs |
-| `jszip` | ZIP archive creation | Batch downloads |
-| `qrcode` | QR code generation | QR Generator tool |
+**Tool Registry** (`lib/tools.ts`): Central registry defining all tools with metadata, SEO fields, and FAQs. Every tool page reads from this.
 
-All processing happens client-side. Dynamic import heavy libs to reduce initial bundle:
+**Astro + React Hybrid**: Astro pages (`.astro`) for static shell/SEO, React components (`.tsx`) with `client:load` for interactive tools.
+
+**Heavy Library Loading**: Dynamic imports for large libs (FFmpeg ~50MB, Whisper ~50MB, Background Removal ~180MB):
 ```typescript
 const { PDFDocument } = await import('pdf-lib');
 ```
 
-## Current Tools (11 free)
-
-| Category | Tools |
-|----------|-------|
-| Document | PDF Merge, PDF Split |
-| Media | Image Compress |
-| Utility | QR Generator, Base64, JSON Formatter, Text Case, Word Counter, Lorem Ipsum, Hash Generator, Color Converter |
-| AI (Pro) | AI Translator, Video Avatar |
-
-Tool registry: `apps/web/src/lib/tools.ts` (includes `getToolsByCategory()`, `getToolsByTier()`, `getToolById()` helpers)
-
 ## Adding a New Tool
 
-Tools run entirely in-browser (no server needed). Follow this pattern:
+1. **Register** in `lib/tools.ts` with id, name, category, SEO metadata, FAQs
+2. **Create React component** `components/tools/YourTool.tsx` using security utilities
+3. **Create Astro page** `pages/tools/your-tool.astro` with Layout, SEO components
+4. **Add thumbnail** SVG in `public/thumbnails/`
+5. **Add test** in `apps/web/tests/`
 
-```
-1. Register tool in apps/web/src/lib/tools.ts
-   ─────────────────────────────────────────
-   Add to `tools` array:
-   { id, name, description, icon, thumbnail, category, tier, href, color }
+## Security (`lib/security.ts`)
 
-   Categories: 'document' | 'media' | 'ai' | 'utility'
-   Tiers: 'free' (browser-only) | 'pro' (needs backend) | 'coming' (placeholder)
-   Thumbnail: '/thumbnails/{tool-id}.svg' (create SVG in public/thumbnails/)
-
-2. Create React component in apps/web/src/components/tools/
-   ─────────────────────────────────────────────────────────
-   Example: YourTool.tsx (see PdfMerge.tsx for pattern)
-
-   REQUIRED: Use security utilities from lib/security.ts:
-   - validateFile(file, 'pdf'|'image') for file uploads
-   - sanitizeFilename() for user-provided filenames
-   - createSafeErrorMessage(err) for error display
-
-   Dynamic import heavy libs: const { PDFDocument } = await import('pdf-lib');
-
-3. Create page in apps/web/src/pages/tools/
-   ─────────────────────────────────────────
-   Example: your-tool.astro
-
-   Structure:
-   ---
-   import Layout from '../../layouts/Layout.astro';
-   import Navbar from '../../components/ui/Navbar.astro';
-   import Footer from '../../components/ui/Footer.astro';
-   import YourTool from '../../components/tools/YourTool';
-   ---
-   <Layout title="Tool Name - New Life Solutions">
-     <Navbar />
-     <main class="pt-20 pb-16 px-6 min-h-screen">
-       <!-- Back link to /hub -->
-       <!-- Tool header with icon, title, description -->
-       <YourTool client:load />
-     </main>
-     <Footer />
-   </Layout>
-
-   IMPORTANT: Use client:load directive for React components
-```
-
-## Security Requirements
-
-All tools handling file uploads MUST use `lib/security.ts`:
+**Required for all file-handling tools:**
 
 ```typescript
 import { validateFile, sanitizeFilename, createSafeErrorMessage } from '../../lib/security';
 
-// Validate files (checks size, MIME, magic bytes)
-const result = await validateFile(file, 'pdf');  // or 'image'
-if (!result.valid) { setError(result.error); return; }
+// Validates size, MIME type, and magic bytes
+await validateFile(file, 'pdf');    // 50MB max
+await validateFile(file, 'image');  // 10MB max
+validateVideoFile(file);            // 500MB max
+validateAudioFile(file);            // 100MB max
 
-// Sanitize filenames before display/download
+// Always sanitize filenames and error messages
 const safeName = sanitizeFilename(file.name);
-
-// Never expose internal errors to users
-setError(createSafeErrorMessage(err, 'Failed to process file'));
+setError(createSafeErrorMessage(err, 'Processing failed'));
 ```
 
-File limits: PDF 50MB, Images 10MB. Magic byte validation prevents type spoofing.
+## Testing Conventions
 
-## Component Patterns
+Tests run across 5 browsers: Chromium, Firefox, WebKit, Mobile Chrome, Mobile Safari.
 
-| Type | Location | Framework |
-|------|----------|-----------|
-| Pages | `pages/*.astro` | Astro |
-| Layouts | `layouts/*.astro` | Astro |
-| UI components | `components/ui/*.astro` | Astro |
-| Interactive tools | `components/tools/*.tsx` | React (client:load) |
+**Important**: A debug overlay can create duplicate h1 elements. Always use specific selectors:
+```typescript
+// ✅ Correct
+const h1 = page.locator('main h1').first();
 
-## Adding Backend Services
-
-```bash
-cp -r services/api-template services/api-nuevo
-# Edit package.json, uncomment in docker-compose.yml
-docker compose up --build
+// ❌ Wrong - may find debug overlay h1
+const h1 = page.locator('h1');
 ```
 
-## CI/CD Pipeline
+Test patterns:
+```typescript
+test('tool page loads', async ({ page }) => {
+  await page.goto('/tools/pdf-merge');
+  await page.waitForLoadState('networkidle');
+
+  await expect(page).toHaveTitle(/PDF Merge/i);
+  const main = page.locator('main');
+  await expect(main).toBeVisible();
+
+  // Check schema markup exists
+  const schema = page.locator('script[type="application/ld+json"]');
+  await expect(schema.first()).toBeAttached();
+});
+```
+
+## Design System
+
+### CSS Classes (`styles/global.css`)
+
+| Class | Usage |
+|-------|-------|
+| `glass-card` | Card with blur + border |
+| `drop-zone` | File upload area (add `drag-over` when dragging) |
+| `btn-primary` | Primary action button |
+| `btn-secondary` | Secondary button |
+| `tool-card` | Hub grid tool cards |
+
+### CSS Variables
+
+```css
+--bg: #0a0a0a    --text: #e0e0e0    --border: #222222
+--success: #00ff00    --warning: #ffaa00    --error: #ff4444
+```
+
+## SEO Structure
+
+Tool pages use three components for AI/search optimization:
+
+| Component | Purpose |
+|-----------|---------|
+| `AnswerBox.astro` | TL;DR (50-70 words) for AI extraction |
+| `QASections.astro` | Semantic Q&A sections |
+| `SchemaMarkup.astro` | JSON-LD (SoftwareApplication, HowTo, FAQPage) |
+
+Guide pages (`/guides/*`) and use-case pages (`/use-cases/*`) target long-tail keywords with HowTo schema.
+
+## CI/CD
 
 ```
-┌──────────┐     ┌──────────────────┐     ┌──────────┐
-│  PUSH    │────▶│  BUILD + CHECK   │────▶│  DEPLOY  │
-│  to main │     │  + security audit │     │  Vercel  │
-└──────────┘     └──────────────────┘     └──────────┘
+PUSH → BUILD + TYPE CHECK + SECURITY AUDIT → DEPLOY (Vercel)
 ```
 
-- Push to `main`/`master` triggers pipeline (`.github/workflows/ci.yml`)
-- CI runs: `npm ci` → `npm run check` → `npm run build` → `npm audit --audit-level=high` → deploy
-- Vercel secrets needed: `VERCEL_TOKEN`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID`
-- Security headers configured in `vercel.json` (CSP, HSTS, X-Frame-Options, etc.)
+- Triggers on push to `main`/`master`
+- Security audit blocks on high/critical vulnerabilities
+- Vercel secrets: `VERCEL_TOKEN`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID`
+
+## Tech Stack
+
+| Layer | Tech |
+|-------|------|
+| Frontend | Astro 5, React 19, Tailwind CSS v4 |
+| Testing | Playwright, axe-core |
+| Deploy | Vercel |
+| Node | >=20.0.0 |
+
+### Browser Libraries
+
+| Library | Purpose |
+|---------|---------|
+| `pdf-lib` | PDF manipulation |
+| `pdfjs-dist` | PDF rendering/text extraction |
+| `@ffmpeg/ffmpeg` | Video/audio processing |
+| `@huggingface/transformers` | Whisper AI transcription |
+| `@imgly/background-removal` | AI background removal |
+| `tesseract.js` | OCR |

@@ -1,0 +1,235 @@
+---
+/**
+ * Programmatic SEO: HR PII Redaction
+ * Target: "HR document redaction", "employee PII protection", "redact SSN from PDF"
+ */
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/ui/Navbar.astro';
+import Footer from '../../components/ui/Footer.astro';
+
+const howToSchema = {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "How to Redact Employee PII from HR Documents",
+  "description": "Protect employee personal information when sharing HR documents with managers, vendors, or during audits using browser-based redaction.",
+  "step": [
+    { "@type": "HowToStep", "text": "Upload HR document (offer letters, I-9 forms, benefits paperwork)" },
+    { "@type": "HowToStep", "text": "Auto-detect PII (SSN, emails, phone numbers, addresses)" },
+    { "@type": "HowToStep", "text": "Manually select additional sensitive data like salary or bank details" },
+    { "@type": "HowToStep", "text": "Download redacted PDF safe for sharing with third parties" }
+  ]
+};
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Why do HR departments need to redact employee PII?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "HR frequently shares documents with hiring managers, payroll vendors, benefits administrators, or during legal discovery. Redacting PII like SSNs, bank account numbers, and addresses protects employees from identity theft and ensures compliance with data protection regulations."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What employee information should be redacted?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Common PII to redact: Social Security Numbers, dates of birth, home addresses, phone numbers, email addresses, bank account numbers, salary information, medical or disability details, and performance review comments when sharing with third parties."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is this tool safe for confidential employee documents?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. All processing happens in your browser. Employee documents never leave your device or get uploaded to any server. This ensures complete confidentiality and meets data protection requirements."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I redact multiple employee files at once?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Currently, the tool processes one PDF at a time. For batch redaction workflows, redact each document individually and download. The browser-based approach ensures sensitive data stays under your control."
+      }
+    }
+  ]
+};
+---
+
+<Layout
+  title="HR PII Redaction Tool - Protect Employee Data in PDFs | New Life"
+  description="Redact employee PII from HR documents. Auto-detect SSN, emails, addresses. 100% browser-based - files never uploaded. Free for HR professionals and recruiters."
+>
+  <script type="application/ld+json" set:html={JSON.stringify(howToSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  <Navbar />
+
+  <main class="pt-20 pb-16 px-6 min-h-screen">
+    <article class="max-w-3xl mx-auto">
+      <nav class="text-sm text-[var(--text-muted)] mb-6">
+        <a href="/" class="hover:text-[var(--accent)]">Home</a>
+        <span class="mx-2">/</span>
+        <a href="/tools/pdf-redactor" class="hover:text-[var(--accent)]">PDF Redactor</a>
+        <span class="mx-2">/</span>
+        <span>HR PII Redaction</span>
+      </nav>
+
+      <header class="mb-8">
+        <span class="inline-block px-3 py-1 bg-orange-500/20 text-orange-400 rounded text-sm font-medium mb-4">
+          HR & Recruiting
+        </span>
+        <h1 class="text-4xl font-bold text-[var(--text)] mb-4">
+          Redact Employee PII from HR Documents
+        </h1>
+        <p class="text-xl text-[var(--text-muted)]">
+          Protect employee personal information before sharing with managers, vendors, or auditors. Auto-detect SSN, emails, addresses.
+        </p>
+      </header>
+
+      <div class="bg-orange-500/10 border border-orange-500/30 rounded-xl p-6 mb-8">
+        <h2 class="text-lg font-semibold text-orange-400 mb-2">Safe Document Sharing for HR</h2>
+        <p class="text-[var(--text)]">
+          Use our <a href="/tools/pdf-redactor" class="text-orange-400 underline">free PDF redactor</a> to remove sensitive employee data. Auto-detect PII patterns or manually select confidential information. 100% private - files never leave your browser.
+        </p>
+      </div>
+
+      <section class="mb-10">
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-4">Common HR Redaction Use Cases</h2>
+        <div class="grid md:grid-cols-2 gap-4">
+          <div class="bg-[var(--bg-secondary)] rounded-lg p-4 border border-[var(--border)]">
+            <h3 class="font-semibold text-[var(--text)] mb-2">Manager Access to Files</h3>
+            <p class="text-sm text-[var(--text-muted)]">Share employee documents with hiring managers or department heads while redacting SSN, salary, bank details, and other sensitive PII.</p>
+          </div>
+          <div class="bg-[var(--bg-secondary)] rounded-lg p-4 border border-[var(--border)]">
+            <h3 class="font-semibold text-[var(--text)] mb-2">Vendor & Third-Party Sharing</h3>
+            <p class="text-sm text-[var(--text-muted)]">Remove employee PII before sharing with payroll vendors, benefits administrators, or background check companies. Share only necessary data.</p>
+          </div>
+          <div class="bg-[var(--bg-secondary)] rounded-lg p-4 border border-[var(--border)]">
+            <h3 class="font-semibold text-[var(--text)] mb-2">Legal & Compliance Audits</h3>
+            <p class="text-sm text-[var(--text-muted)]">Redact sensitive employee information during EEOC investigations, wage audits, or legal discovery while preserving required documentation.</p>
+          </div>
+          <div class="bg-[var(--bg-secondary)] rounded-lg p-4 border border-[var(--border)]">
+            <h3 class="font-semibold text-[var(--text)] mb-2">Reference & Verification</h3>
+            <p class="text-sm text-[var(--text-muted)]">Provide employment verification documents to mortgage lenders or apartment landlords with personal details redacted for privacy.</p>
+          </div>
+        </div>
+      </section>
+
+      <div class="bg-[var(--bg-secondary)] rounded-xl p-8 text-center mb-10 border border-[var(--border)]">
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-4">Redact HR Documents Now</h2>
+        <p class="text-[var(--text-muted)] mb-6">Protect employee privacy - files never uploaded to servers</p>
+        <a
+          href="/tools/pdf-redactor"
+          class="inline-block px-8 py-4 bg-[var(--accent)] text-[var(--bg)] rounded-lg font-semibold hover:opacity-90 transition-opacity text-lg"
+        >
+          Open PDF Redactor
+        </a>
+      </div>
+
+      <section class="mb-10">
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-4">HR Redaction Workflow</h2>
+        <ol class="space-y-4 text-[var(--text-muted)]">
+          <li class="flex gap-3">
+            <span class="flex-shrink-0 w-8 h-8 bg-[var(--accent)] text-[var(--bg)] rounded-full flex items-center justify-center font-bold text-sm">1</span>
+            <span><strong class="text-[var(--text)]">Upload HR Document</strong> - Select offer letter, I-9 form, benefits enrollment, or any employee PDF. Processing happens locally in your browser.</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="flex-shrink-0 w-8 h-8 bg-[var(--accent)] text-[var(--bg)] rounded-full flex items-center justify-center font-bold text-sm">2</span>
+            <span><strong class="text-[var(--text)]">Auto-Detect PII</strong> - Click "Auto-Detect" to find SSN, email addresses, phone numbers, and dates. The tool scans for common PII patterns.</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="flex-shrink-0 w-8 h-8 bg-[var(--accent)] text-[var(--bg)] rounded-full flex items-center justify-center font-bold text-sm">3</span>
+            <span><strong class="text-[var(--text)]">Manual Selection</strong> - Select additional sensitive data like salary figures, bank account numbers, performance notes, or medical information.</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="flex-shrink-0 w-8 h-8 bg-[var(--accent)] text-[var(--bg)] rounded-full flex items-center justify-center font-bold text-sm">4</span>
+            <span><strong class="text-[var(--text)]">Download</strong> - Apply permanent redactions. Download sanitized PDF safe for sharing with managers, vendors, or auditors.</span>
+          </li>
+        </ol>
+      </section>
+
+      <section class="mb-10">
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-4">Types of Employee PII to Redact</h2>
+        <div class="bg-[var(--bg-secondary)] rounded-lg p-6 border border-[var(--border)]">
+          <ul class="grid md:grid-cols-2 gap-3 text-[var(--text-muted)]">
+            <li class="flex items-start gap-2">
+              <span class="text-[var(--accent)] mt-1">✓</span>
+              <span><strong class="text-[var(--text)]">Social Security Numbers</strong> - Most critical PII to protect</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-[var(--accent)] mt-1">✓</span>
+              <span><strong class="text-[var(--text)]">Full Dates of Birth</strong> - Identity theft risk</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-[var(--accent)] mt-1">✓</span>
+              <span><strong class="text-[var(--text)]">Home Addresses</strong> - Employee privacy concern</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-[var(--accent)] mt-1">✓</span>
+              <span><strong class="text-[var(--text)]">Phone Numbers</strong> - Personal contact details</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-[var(--accent)] mt-1">✓</span>
+              <span><strong class="text-[var(--text)]">Bank Account Numbers</strong> - Direct deposit forms</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-[var(--accent)] mt-1">✓</span>
+              <span><strong class="text-[var(--text)]">Salary & Compensation</strong> - Confidential pay data</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-[var(--accent)] mt-1">✓</span>
+              <span><strong class="text-[var(--text)]">Medical Information</strong> - FMLA, disability, health conditions</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-[var(--accent)] mt-1">✓</span>
+              <span><strong class="text-[var(--text)]">Performance Reviews</strong> - Sensitive feedback/ratings</span>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="mb-10">
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-4">Frequently Asked Questions</h2>
+        <div class="space-y-4">
+          <div class="bg-[var(--bg-secondary)] rounded-lg p-5 border border-[var(--border)]">
+            <h3 class="font-semibold text-[var(--text)] mb-2">Why do HR departments need to redact employee PII?</h3>
+            <p class="text-sm text-[var(--text-muted)]">HR frequently shares documents with hiring managers, payroll vendors, benefits administrators, or during legal discovery. Redacting PII like SSNs, bank account numbers, and addresses protects employees from identity theft and ensures compliance with data protection regulations.</p>
+          </div>
+          <div class="bg-[var(--bg-secondary)] rounded-lg p-5 border border-[var(--border)]">
+            <h3 class="font-semibold text-[var(--text)] mb-2">What employee information should be redacted?</h3>
+            <p class="text-sm text-[var(--text-muted)]">Common PII to redact: Social Security Numbers, dates of birth, home addresses, phone numbers, email addresses, bank account numbers, salary information, medical or disability details, and performance review comments when sharing with third parties.</p>
+          </div>
+          <div class="bg-[var(--bg-secondary)] rounded-lg p-5 border border-[var(--border)]">
+            <h3 class="font-semibold text-[var(--text)] mb-2">Is this tool safe for confidential employee documents?</h3>
+            <p class="text-sm text-[var(--text-muted)]">Yes. All processing happens in your browser. Employee documents never leave your device or get uploaded to any server. This ensures complete confidentiality and meets data protection requirements.</p>
+          </div>
+          <div class="bg-[var(--bg-secondary)] rounded-lg p-5 border border-[var(--border)]">
+            <h3 class="font-semibold text-[var(--text)] mb-2">Can I redact multiple employee files at once?</h3>
+            <p class="text-sm text-[var(--text-muted)]">Currently, the tool processes one PDF at a time. For batch redaction workflows, redact each document individually and download. The browser-based approach ensures sensitive data stays under your control.</p>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-4">Related Tools for HR</h2>
+        <div class="flex flex-wrap gap-3">
+          <a href="/tools/pdf-redactor" class="px-4 py-2 bg-[var(--bg-secondary)] rounded-lg text-[var(--text-muted)] hover:text-[var(--accent)] border border-[var(--border)]">
+            PDF Redactor
+          </a>
+          <a href="/tools/pdf-merge" class="px-4 py-2 bg-[var(--bg-secondary)] rounded-lg text-[var(--text-muted)] hover:text-[var(--accent)] border border-[var(--border)]">
+            Merge Employee Files
+          </a>
+          <a href="/use-cases/hipaa-pdf-redaction" class="px-4 py-2 bg-[var(--bg-secondary)] rounded-lg text-[var(--text-muted)] hover:text-[var(--accent)] border border-[var(--border)]">
+            HIPAA Redaction
+          </a>
+        </div>
+      </section>
+    </article>
+  </main>
+
+  <Footer />
+</Layout>

@@ -1,0 +1,755 @@
+# Comprehensive tool metadata for Answer-First GEO optimization
+# This file contains detailed information for all 21 tools
+# Used by batch generation scripts to create optimized tool pages
+
+tools:
+  # DOCUMENT TOOLS (7 tools)
+  - id: pdf-merge
+    name: PDF Merge
+    category: document
+    description: combines multiple PDF files into a single document
+    primaryBenefit: merge unlimited PDFs without uploading to external servers
+    keyFeature: client-side WebAssembly processing with instant results
+    queryTarget: "How to merge PDF files online free"
+    icon: "📄"
+    color: "from-red-500 to-orange-500"
+    trustSignals:
+      - "100% browser-based"
+      - "Files never uploaded"
+      - "Works offline"
+      - "No signup needed"
+    tldr: "Drag and drop your PDF files below to combine them into a single document. All processing happens directly in your browser—your files never leave your device. Reorder pages by dragging, remove unwanted files, then download your merged PDF instantly. No signup required, no file size limits, no watermarks. Works completely offline."
+    whatIs: "PDF Merge is a free browser-based tool that combines multiple PDF documents into a single file. Unlike traditional PDF mergers that upload your files to remote servers, this tool processes everything locally using JavaScript and the pdf-lib library. Your documents stay on your device throughout the entire process."
+    howItWorks:
+      - "Drag and drop PDF files onto the upload area, or click to browse your files"
+      - "Reorder files by dragging them into your preferred sequence"
+      - "Remove any unwanted files by clicking the X button"
+      - "Click 'Merge PDFs' to combine all files into one document"
+      - "Download your merged PDF instantly—no email required"
+    whyBrowserBased:
+      - "Privacy first: Files never leave your device or get uploaded to any server"
+      - "Speed: No upload/download wait times—processing is instant"
+      - "Security: No risk of data breaches or third-party access to your documents"
+      - "Offline capable: Works without internet connection after page loads"
+      - "No limits: Merge as many PDFs as you want, no daily quotas or file size caps"
+    useCases:
+      - combining invoices and receipts for expense reports
+      - merging scanned documents and contracts
+      - compiling multi-page reports and presentations
+      - organizing study materials and lecture notes
+    capabilities:
+      files: "No limit (recommend < 50MB per file for best performance)"
+      processing: "Instant (1-3 seconds for typical files)"
+      compatibility: "All PDF versions supported"
+      requires: "Modern browser with JavaScript enabled"
+    questions:
+      - question: "Is there a file size limit for merging PDFs?"
+        answer: "There's no enforced file size limit. However, very large files (100MB+) may be slower to process depending on your device's memory. For best performance, we recommend keeping individual files under 50MB."
+      - question: "Are my PDF files uploaded to a server?"
+        answer: "No. All processing happens entirely in your browser using JavaScript. Your files never leave your device. You can verify this by disconnecting from the internet after the page loads—the tool will still work."
+      - question: "Can I merge password-protected PDFs?"
+        answer: "Currently, password-protected PDFs must be unlocked before merging. We recommend using a PDF password remover first, then merging the unlocked files."
+      - question: "What browsers are supported?"
+        answer: "PDF Merge works in all modern browsers including Chrome, Firefox, Safari, and Edge. For best performance, use the latest version of your preferred browser."
+      - question: "Can I reorder pages from different PDFs?"
+        answer: "Yes. After adding your PDFs, you can drag and drop to reorder entire files. For page-level reordering, use our PDF Split tool to extract specific pages, then merge them in your desired order."
+
+  - id: pdf-split
+    name: PDF Split
+    category: document
+    description: splits PDF documents into individual pages or custom page ranges
+    primaryBenefit: extract specific pages without uploading to servers
+    keyFeature: visual page preview with checkbox selection
+    queryTarget: "How to split PDF files online free"
+    icon: "✂️"
+    color: "from-orange-500 to-yellow-500"
+    trustSignals:
+      - "Page-level extraction"
+      - "ZIP download for multi-page"
+      - "Preview before split"
+      - "Privacy guaranteed"
+    tldr: "Upload a PDF document and split it into individual pages or custom ranges. Select pages visually with thumbnail previews, choose your extraction mode (single pages, ranges, or all pages), and download results as separate files or a ZIP archive. All processing happens locally in your browser—your document never leaves your device."
+    whatIs: "PDF Split extracts pages or page ranges from PDF documents to create new, smaller PDF files. Unlike cloud-based tools that upload your documents, this tool processes everything in your browser using JavaScript, maintaining complete privacy and security."
+    howItWorks:
+      - "Upload a PDF file by drag-and-drop or clicking the upload area"
+      - "View thumbnail previews of all pages in your document"
+      - "Select individual pages or define custom page ranges (e.g., 1-5, 8, 10-12)"
+      - "Choose output format: individual PDFs or ZIP archive"
+      - "Click 'Split PDF' and download your extracted pages instantly"
+    whyBrowserBased:
+      - "Visual selection: See page thumbnails before extracting"
+      - "Flexible extraction: Choose specific pages, ranges, or split all pages"
+      - "Batch download: ZIP multiple extracted pages into single download"
+      - "No quality loss: Extracted pages maintain original resolution and formatting"
+      - "Complete privacy: Your PDF stays on your device throughout"
+    useCases:
+      - extracting specific pages from large contracts
+      - separating receipt pages from expense reports
+      - pulling out presentation slides from conference PDFs
+      - creating sample pages from e-books or manuals
+    capabilities:
+      files: "Up to 100MB per PDF"
+      processing: "2-5 seconds depending on page count"
+      extraction: "Single pages, ranges, or all pages"
+      output: "Individual PDFs or ZIP archive"
+    questions:
+      - question: "Can I extract non-consecutive pages?"
+        answer: "Yes. You can select any combination of pages using ranges (1-5) and individual pages (7,9,15) in the page selection field."
+      - question: "Does splitting affect PDF quality?"
+        answer: "No. Extracted pages are identical copies of the original pages with no compression or quality loss."
+      - question: "Can I split password-protected PDFs?"
+        answer: "Password-protected PDFs must be unlocked first. Once unlocked, you can split them normally."
+
+  - id: pdf-redactor
+    name: PDF Redactor
+    category: document
+    description: permanently removes sensitive information from PDF documents
+    primaryBenefit: auto-detect and redact PII like SSN, credit cards, emails
+    keyFeature: AI-powered pattern detection with manual redaction tools
+    queryTarget: "How to redact PDF files online free"
+    icon: "🔒"
+    color: "from-red-500 to-rose-500"
+    trustSignals:
+      - "Pattern auto-detection"
+      - "Manual redaction tools"
+      - "Permanent removal"
+      - "HIPAA compliant"
+    tldr: "Upload a PDF and permanently redact sensitive information. The tool automatically detects patterns like social security numbers, credit cards, phone numbers, and email addresses. Use manual redaction tools to black out any additional text, images, or areas. All processing happens in your browser—no data is transmitted or stored."
+    whatIs: "PDF Redactor permanently removes sensitive information from PDF documents by blacking out text, images, or specific areas. Unlike simple annotation tools that can be removed, this tool creates a new PDF with information permanently destroyed."
+    howItWorks:
+      - "Upload a PDF document that contains sensitive information"
+      - "Enable auto-redaction to detect SSNs, credit cards, phone numbers, and emails"
+      - "Manually select text or draw rectangles over areas to redact"
+      - "Preview redactions before applying them"
+      - "Download the permanently redacted PDF with no recoverable data"
+    whyBrowserBased:
+      - "Automatic detection: Find PII patterns instantly with AI-powered scanning"
+      - "Manual precision: Redact specific words, lines, or image regions"
+      - "Permanent removal: Once redacted, information cannot be recovered"
+      - "Compliance ready: Meets HIPAA, GDPR, and legal redaction requirements"
+      - "No data exposure: Everything processes locally on your device"
+    useCases:
+      - removing personal data before sharing documents
+      - redacting financial information from statements
+      - preparing legal documents for discovery
+      - anonymizing medical records for research
+    capabilities:
+      patterns: ["SSN (XXX-XX-XXXX)", "Credit Cards", "Phone Numbers", "Email Addresses", "Custom Regex"]
+      processing: "5-10 seconds for auto-detection"
+      redaction: "Text, images, and custom shapes"
+      permanence: "100% non-recoverable"
+    questions:
+      - question: "Is redacted information truly unrecoverable?"
+        answer: "Yes. The tool creates a new PDF where redacted content is permanently removed from the document structure, not just hidden or covered."
+      - question: "What patterns can auto-redaction detect?"
+        answer: "Social Security Numbers, credit card numbers (Visa, Mastercard, Amex, Discover), phone numbers in various formats, email addresses, and custom regex patterns."
+      - question: "Can I undo redactions after downloading?"
+        answer: "No. Once you download the redacted PDF, the original information is permanently destroyed. Always keep a backup of the original document."
+
+  - id: pdf-form-filler
+    name: PDF Form Filler
+    category: document
+    description: fill out PDF forms and add digital signatures
+    primaryBenefit: complete fillable and non-fillable PDF forms without Acrobat
+    keyFeature: text fields, checkboxes, radio buttons, and signature support
+    queryTarget: "How to fill PDF forms online free"
+    icon: "✍️"
+    color: "from-emerald-500 to-teal-500"
+    trustSignals:
+      - "All form field types"
+      - "Digital signatures"
+      - "Save and continue"
+      - "HIPAA safe"
+    tldr: "Fill out any PDF form, even non-fillable ones. Add text to any field, insert checkmarks and radio button selections, and add digital signatures. Works with fillable forms, scanned documents, and flat PDFs. All form data stays in your browser—nothing is transmitted or stored on external servers."
+    whatIs: "PDF Form Filler allows you to complete PDF forms by adding text, checkmarks, radio buttons, and signatures. Unlike Adobe Acrobat, this browser-based tool works with any PDF, including scanned forms that aren't naturally fillable."
+    howItWorks:
+      - "Upload a fillable or non-fillable PDF form"
+      - "Click on any form field to add text, or click anywhere to add text boxes"
+      - "Add checkmarks for checkboxes and select radio buttons"
+      - "Draw or type your signature using the signature tool"
+      - "Save your completed form as a new PDF with all entries embedded"
+    whyBrowserBased:
+      - "Universal compatibility: Works with fillable and non-fillable PDFs"
+      - "Form field support: Text fields, checkboxes, radio buttons, dropdowns"
+      - "Digital signatures: Draw or type signatures directly on forms"
+      - "Form validation: Required field indicators and format checking"
+      - "Privacy guaranteed: Form data never leaves your device"
+    useCases:
+      - completing job applications and tax forms
+      - filling out medical and insurance forms
+      - signing contracts and agreements
+      - completing government and legal documents
+    capabilities:
+      formTypes: ["Fillable PDFs", "Scanned Forms", "Flat PDFs"]
+      fields: ["Text", "Checkboxes", "Radio Buttons", "Dropdowns", "Signatures"]
+      validation: "Basic format and required field checking"
+      output: "Flattened PDF with embedded form data"
+    questions:
+      - question: "Can I save partially completed forms?"
+        answer: "Yes. You can download the form with your current entries and continue editing it later. The form data is embedded in the PDF."
+      - question: "Do you support digital certificates?"
+        answer: "Currently we support drawn and typed signatures. Digital certificate-based signatures will be available in a future update."
+      - question: "Can forms be edited after saving?"
+        answer: "Yes, as long as you don't flatten the PDF. Keep the original form to make future edits."
+
+  - id: ocr-extractor
+    name: OCR Text Extractor
+    category: document
+    description: extracts text from images and scanned PDFs using AI-powered OCR
+    primaryBenefit: convert images and scanned documents to editable text
+    keyFeature: supports 50+ languages with handwriting recognition
+    queryTarget: "How to extract text from images online free"
+    icon: "📝"
+    color: "from-cyan-500 to-blue-500"
+    trustSignals:
+      - "AI-powered OCR"
+      - "50+ languages"
+      - "Handwriting support"
+      - "Privacy first"
+    tldr: "Upload images or scanned PDFs and extract editable text using AI-powered OCR. Supports 50+ languages including English, Spanish, French, German, Chinese, Japanese, and Korean. Recognizes printed and handwritten text with high accuracy. All processing happens in your browser using WebAssembly OCR engines."
+    whatIs: "OCR Text Extractor uses artificial intelligence to recognize and extract text from images, scanned documents, and PDFs. The tool converts visual text into editable, searchable text that can be copied or downloaded as a text file."
+    howItWorks:
+      - "Upload an image (JPG, PNG, WebP) or scanned PDF document"
+      - "Select the language of the text in the document"
+      - "Choose OCR mode: Fast or Accurate (higher quality, slower processing)"
+      - "Click 'Extract Text' to run AI-powered text recognition"
+      - "Copy the extracted text or download as a .txt file"
+    whyBrowserBased:
+      - "Multi-language: Support for 50+ languages and scripts"
+      - "Handwriting recognition: Decipher handwritten notes and forms"
+      - "Multiple formats: Process images, scanned PDFs, and digital photos"
+      - "Privacy assured: Images processed locally, never uploaded to servers"
+      - "No page limits: Extract text from any number of pages or images"
+    useCases:
+      - converting scanned documents to editable text
+      - extracting text from photos and screenshots
+      - digitizing handwritten notes and forms
+      - translating text from images
+    capabilities:
+      languages: "50+ including Latin, Cyrillic, and Asian scripts"
+      modes: ["Printed Text", "Handwriting", "Mixed"]
+      accuracy: "95%+ for printed text, 80%+ for handwriting"
+      processing: "5-30 seconds depending on image complexity"
+    questions:
+      - question: "What image formats are supported?"
+        answer: "JPG, PNG, WebP, GIF, BMP, and scanned PDFs up to 50MB."
+      - question: "How accurate is the OCR?"
+        answer: "95%+ for clear printed text, 80%+ for handwriting. Quality depends on image resolution and text clarity."
+      - question: "Can OCR process multiple images?"
+        answer: "Yes, you can batch process multiple images. Results will be concatenated in order."
+
+  - id: document-scanner
+    name: Document Scanner
+    category: document
+    description: scans documents using camera with auto edge detection
+    primaryBenefit: digitize paper documents without specialized hardware
+    keyFeature: real-time edge detection and perspective correction
+    queryTarget: "How to scan documents with phone camera"
+    icon: "📷"
+    color: "from-violet-500 to-purple-500"
+    trustSignals:
+      - "Auto edge detection"
+      - "Perspective correction"
+      - "PDF export"
+      - "No installation"
+    tldr: "Use your phone or webcam to scan documents with automatic edge detection and perspective correction. The tool identifies document boundaries in real-time, crops and straightens images, and exports as PDF or JPG. Perfect for receipts, contracts, business cards, and whiteboards. Works entirely offline after page load."
+    whatIs: "Document Scanner transforms your device's camera into a portable scanner. It automatically detects document edges, corrects perspective distortion, and enhances image quality to create professional-looking scans."
+    howItWorks:
+      - "Grant camera access and position your document in the viewfinder"
+      - "Wait for auto-detection to identify document edges (green overlay)"
+      - "Capture the image or hold steady for automatic capture"
+      - "Review and adjust crop boundaries if needed"
+      - "Export as PDF or JPG, and apply enhancements like black-and-white mode"
+    whyBrowserBased:
+      - "Real-time detection: Live edge detection with visual feedback"
+      - "Perspective correction: Fixes skewed or angled documents"
+      - "Image enhancement: Adjust contrast, brightness, and apply filters"
+      - "Multi-page scans: Compile multiple pages into a single PDF"
+      - "Always available: Works on any device with a camera"
+    useCases:
+      - digitizing receipts for expense reports
+      - scanning contracts and agreements on-the-go
+      - capturing whiteboard notes from meetings
+      - creating digital copies of business cards
+    capabilities:
+      detection: "Automatic edge detection with manual adjustment"
+      correction: "Perspective and keystone correction"
+      enhancements: ["B&W", "Grayscale", "Color", "Contrast"]
+      export: ["PDF", "JPG", "PNG"]
+    questions:
+      - question: "Do I need a special camera?"
+        answer: "No, any smartphone camera or webcam will work. Higher resolution cameras produce better scans."
+      - question: "Can it scan in low light?"
+        answer: "The tool works best in good lighting, but can adjust for moderate low-light conditions. Use your phone's flashlight if needed."
+      - question: "What types of documents can I scan?"
+        answer: "Paper documents, receipts, business cards, whiteboards, posters, books, and any flat document."
+
+  # MEDIA TOOLS (2 tools)
+  - id: image-compress
+    name: Image Compress
+    category: media
+    description: compresses images up to 90% smaller while maintaining quality
+    primaryBenefit: reduce file sizes dramatically without visible quality loss
+    keyFeature: intelligent compression algorithms with quality preview
+    queryTarget: "How to compress images online free"
+    icon: "🖼️"
+    color: "from-green-500 to-emerald-500"
+    trustSignals:
+      - "Up to 90% smaller"
+      - "Batch processing"
+      - "Quality preview"
+      - "ZIP download"
+    tldr: "Compress images up to 90% smaller while maintaining visual quality. Supports JPEG, PNG, and WebP formats with intelligent compression algorithms. Adjust compression level with real-time preview, process multiple images in batch, and download as individual files or ZIP archive. All processing happens locally in your browser."
+    whatIs: "Image Compress reduces file sizes of images using intelligent compression algorithms. It analyzes image content to apply optimal compression ratios, reducing file size while preserving visual quality."
+    howItWorks:
+      - "Drag and drop images or select files from your device"
+      - "Adjust the compression quality slider (1-100) with real-time preview"
+      - "Compare original vs compressed with side-by-side view"
+      - "Process single or multiple images in batch"
+      - "Download optimized images individually or as a ZIP archive"
+    whyBrowserBased:
+      - "Massive savings: Reduce file sizes by 50-90%"
+      - "Format support: JPEG, PNG, WebP with intelligent optimization"
+      - "Batch processing: Compress hundreds of images at once"
+      - "Quality control: Real-time preview before downloading"
+      - "Privacy safe: Images never leave your device"
+    useCases:
+      - optimizing images for websites and blogs
+      - reducing email attachment sizes
+      - saving storage space on devices and cloud storage
+      - preparing images for social media uploads
+    capabilities:
+      formats: ["JPEG", "PNG", "WebP", "GIF"]
+      compression: "50-90% size reduction with minimal quality loss"
+      batch: "Unlimited images per session"
+      preview: "Real-time quality comparison"
+    questions:
+      - question: "Will compressed images look worse?"
+        answer: "Not noticeably. The tool uses intelligent algorithms that maintain visual quality while reducing file size. You can adjust the compression level to find the right balance."
+      - question: "What's the maximum file size?"
+        answer: "Individual images up to 50MB. There's no limit on how many images you can compress in batch."
+      - question: "Can I compress animated GIFs?"
+        answer: "Basic compression is supported for GIFs, but animation frames are not optimized individually."
+
+  - id: background-remover
+    name: Background Remover
+    category: media
+    description: removes backgrounds from images instantly with AI
+    primaryBenefit: create transparent PNGs or replace backgrounds without Photoshop
+    keyFeature: AI-powered edge detection with fine-tuning controls
+    queryTarget: "How to remove image background online free"
+    icon: "✂️"
+    color: "from-fuchsia-500 to-pink-500"
+    trustSignals:
+      - "AI-powered"
+      - "Edge detection"
+      - "Fine-tuning"
+      - "Privacy safe"
+    tldr: "Remove backgrounds from images instantly using AI. Upload any image with a foreground subject and get a transparent PNG in seconds. Adjust edge detection sensitivity, refine the selection with brush tools, and replace the background with solid colors or other images. Works entirely in your browser using WebAssembly AI models."
+    whatIs: "Background Remover uses artificial intelligence to detect foreground subjects in images and separate them from the background. It creates transparent PNGs that can be used in presentations, websites, or graphic design projects."
+    howItWorks:
+      - "Upload an image containing a clear foreground subject"
+      - "AI automatically detects and removes the background"
+      - "Fine-tune the selection with edge refinement brushes"
+      - "Choose transparent background or replace with solid color/image"
+      - "Download as PNG with transparency preserved"
+    whyBrowserBased:
+      - "AI-powered: Machine learning model detects subjects accurately"
+      - "Instant results: Background removed in seconds"
+      - "Fine-tuning: Adjust edges and fix any missed areas"
+      - "Background replacement: Add new backgrounds or colors"
+      - "Full privacy: Your images never leave your device"
+    useCases:
+      - creating product photos for e-commerce
+      - making profile pictures with transparent backgrounds
+      - designing marketing materials and presentations
+      - creating composite images for social media
+    capabilities:
+      aiModel: "ONNX Runtime with segmentation model"
+      processing: "2-10 seconds depending on image size"
+      formats: ["JPG", "PNG", "WebP"]
+      output: "Transparent PNG or JPG with new background"
+    questions:
+      - question: "What types of images work best?"
+        answer: "Images with clear foreground subjects and good contrast against the background produce the best results. Portrait photos, product images, and objects work well."
+      - question: "Can I process multiple images?"
+        answer: "Currently, background removal is processed one image at a time for optimal quality control."
+      - question: "How accurate is the AI detection?"
+        answer: "95%+ accuracy for clear subjects. You can refine edges manually with brush tools for perfect results."
+
+  # UTILITY TOOLS (9 tools)
+  - id: qr-generator
+    name: QR Generator
+    category: utility
+    description: generates customizable QR codes for URLs, text, and contact info
+    primaryBenefit: create professional QR codes with custom colors and logos
+    keyFeature: dynamic QR codes with analytics and editable content
+    queryTarget: "How to create QR codes online free"
+    icon: "📱"
+    color: "from-indigo-500 to-violet-500"
+    trustSignals:
+      - "Fully customizable"
+      - "High resolution"
+      - "Vector export"
+      - "No tracking"
+    tldr: "Generate professional QR codes for websites, contact information, WiFi passwords, text messages, and more. Customize colors, add logos, adjust error correction levels, and download in high-resolution PNG or SVG formats. Create static QR codes that work forever or dynamic codes with editable content."
+    whatIs: "QR Generator creates scannable QR codes that store information like URLs, contact details, or text. QR codes can be scanned by smartphones to quickly access the encoded information."
+    howItWorks:
+      - "Select QR code type: URL, text, email, phone, SMS, WiFi, or contact card"
+      - "Enter your content (e.g., website URL or contact information)"
+      - "Customize appearance: colors, logo, size, and error correction level"
+      - "Preview the QR code and test it with your phone"
+      - "Download as PNG for web use or SVG for print materials"
+    whyBrowserBased:
+      - "Multiple types: URLs, contacts, WiFi, email, SMS, and plain text"
+      - "Full customization: Colors, logos, shapes, and sizes"
+      - "Error correction: Adjust redundancy for damaged or dirty codes"
+      - "Vector output: SVG format for print and scaling"
+      - "Instant generation: Create codes in real-time as you type"
+    useCases:
+      - creating business cards with contact QR codes
+      - generating QR codes for product packaging
+      - making event tickets with check-in codes
+      - sharing WiFi passwords securely
+    capabilities:
+      types: ["URL", "Text", "Email", "Phone", "SMS", "WiFi", "vCard"]
+      customization: ["Colors", "Logo", "Size", "Error Correction"]
+      formats: ["PNG", "SVG"]
+      resolution: "Up to 2048x2048 pixels"
+    questions:
+      - question: "Will QR codes expire?"
+        answer: "Static QR codes work forever. The encoded information is permanent and doesn't depend on external services."
+      - question: "Can I change the content after printing?"
+        answer: "For static QR codes, no. Consider using a URL shortener that allows you to update the destination URL while keeping the same QR code."
+      - question: "What's the maximum content length?"
+        answer: "Up to 2,953 bytes (approximately 4,000 characters) for binary data, though simpler content produces more reliable scans."
+
+  - id: base64
+    name: Base64 Encoder/Decoder
+    category: utility
+    description: encodes and decodes Base64 data for files and text
+    primaryBenefit: convert between binary data and text representation for web use
+    keyFeature: handles large files and text with ease and supports multiple encodings
+    queryTarget: "How to encode decode Base64 online free"
+    icon: "🔐"
+    color: "from-slate-500 to-gray-500"
+    trustSignals:
+      - "File support"
+      - "URL safe"
+      - "Large files"
+      - "Multiple encodings"
+    tldr: "Convert text, images, and files to Base64 encoding and back. Upload files up to 50MB and get instant Base64 representation for use in web development, email attachments, and data transmission. Supports standard Base64, URL-safe Base64, and MIME formats. All processing happens locally in your browser."
+    whatIs: "Base64 is an encoding scheme that converts binary data into ASCII text format. It's commonly used to embed images in web pages, send binary data over text-based protocols, and store complex data in JSON."
+    howItWorks:
+      - "Paste text or upload a file to encode to Base64"
+      - "Or paste Base64 text to decode back to original format"
+      - "Choose output format: plain text, data URL, or MIME format"
+      - "For files, download the decoded binary file"
+      - "Copy results to clipboard or download as text file"
+    whyBrowserBased:
+      - "Universal encoding: Works with any file type or text content"
+      - "Multiple formats: Standard, URL-safe, and MIME Base64"
+      - "Large file support: Encode files up to 50MB"
+      - "Instant conversion: Real-time encoding/decoding as you type"
+      - "Privacy first: Files never leave your device"
+    useCases:
+      - embedding images directly in HTML/CSS
+      - sending binary data in JSON APIs
+      - encoding email attachments
+      - obfuscating sensitive data in URLs
+    capabilities:
+      formats: ["Standard Base64", "URL-safe Base64", "MIME"]
+      fileSize: "Up to 50MB per file"
+      output: ["Text", "Data URL", "MIME", "Binary File"]
+      batch: "Multiple files supported"
+    questions:
+      - question: "What is Base64 used for?"
+        answer: "Base64 encodes binary data (like images) as text for use in web pages, APIs, emails, and anywhere text is required but binary data needs to be transmitted."
+      - question: "Does Base64 encryption make files secure?"
+        answer: "No. Base64 is encoding, not encryption. It doesn't provide security—it's easily reversible by anyone."
+      - question: "Why are Base64 files larger?"
+        answer: "Base64 encoding increases file size by approximately 33% because it represents binary data using text characters."
+
+  - id: json-formatter
+    name: JSON Formatter
+    category: utility
+    description: formats, validates, and beautifies JSON data
+    primaryBenefit: make JSON readable with syntax highlighting and error detection
+    keyFeature: tree view, collapsible nodes, and error diagnostics
+    queryTarget: "How to format JSON online free"
+    icon: "{ }"
+    color: "from-amber-500 to-yellow-500"
+    trustSignals:
+      - "Syntax validation"
+      - "Tree view"
+      - "Minify/compact"
+      - "Error detection"
+    tldr: "Format, validate, and beautify JSON data with syntax highlighting and error detection. Paste minified JSON and get properly indented, readable output. Switch between tree view and code view, collapse/expand nodes, and identify syntax errors with detailed error messages. Works with large JSON files up to 100MB. All processing happens in your browser."
+    whatIs: "JSON Formatter is a tool that takes JSON data and formats it with proper indentation and line breaks to make it human-readable. It also validates JSON syntax and highlights errors."
+    howItWorks:
+      - "Paste minified or unformatted JSON into the input area"
+      - "Click 'Format' to beautify the JSON with proper indentation"
+      - "Switch to tree view to explore data hierarchically"
+      - "Click nodes to collapse or expand nested objects and arrays"
+      - "Use 'Minify' to compress JSON for production use"
+    whyBrowserBased:
+      - "Syntax validation: Real-time error detection with detailed messages"
+      - "Multiple views: Code view and interactive tree view"
+      - "Navigation: Collapse/expand nodes for easier exploration"
+      - "Multiple formats: Beautify, minify, or convert to different styles"
+      - "Safe processing: Your data never leaves your browser"
+    useCases:
+      - debugging API responses and logs
+      - exploring complex JSON configurations
+      - preparing JSON for documentation
+      - converting between JSON formats
+    capabilities:
+      size: "Up to 100MB per JSON file"
+      views: ["Code", "Tree"]
+      operations: ["Beautify", "Minify", "Compact"]
+      validation: "Real-time syntax checking"
+    questions:
+      - question: "Can it handle large JSON files?"
+        answer: "Yes, files up to 100MB are supported. Very large files may take longer to format but will work."
+      - question: "Does it validate JSON Schema?"
+        answer: "Currently it validates JSON syntax but not JSON Schema validation. Schema support will be added in a future update."
+      - question: "Can I search within JSON?"
+        answer: "Yes, use the search function (Ctrl+F) to find keys, values, or text within the JSON data."
+
+  - id: text-case
+    name: Text Case Converter
+    category: utility
+    description: converts text between UPPERCASE, lowercase, Title Case, camelCase, and more
+    primaryBenefit: instantly transform text between 10+ different case formats
+    keyFeature: smart word boundary detection and format preservation
+    queryTarget: "How to change text case online free"
+    icon: "🔤"
+    color: "from-teal-500 to-cyan-500"
+    trustSignals:
+      - "10+ case formats"
+      - "Smart detection"
+      - "Preserves formatting"
+      - "Bulk conversion"
+    tldr: "Convert text between UPPERCASE, lowercase, Title Case, camelCase, snake_case, kebab-case, PascalCase, and more. Paste any text and get instant conversion to all supported formats. Preserves special characters, numbers, and formatting. Works with paragraphs, code, and single words. No server upload—everything processes in your browser."
+    whatIs: "Text Case Converter transforms text between different capitalization and formatting styles. It's useful for programmers, writers, and anyone who needs to format text consistently."
+    howItWorks:
+      - "Paste or type text into the input field"
+      - "Click on any case format button to convert your text"
+      - "Copy the converted text to your clipboard"
+      - "Convert multiple blocks of text in sequence"
+      - "All transformations happen instantly in your browser"
+    whyBrowserBased:
+      - "Multiple formats: 10+ case styles including programming cases"
+      - "Smart boundaries: Intelligently detects word boundaries"
+      - "Format preservation: Keeps special characters and formatting"
+      - "Bulk processing: Handle large blocks of text efficiently"
+      - "Instant results: Real-time conversion as you type"
+    useCases:
+      - formatting code variables and functions
+      - converting article titles to different styles
+      - normalizing text data for databases
+      - preparing text for URLs and slugs
+    capabilities:
+      formats: ["UPPERCASE", "lowercase", "Title Case", "camelCase", "snake_case", "kebab-case", "PascalCase", "Sentence case", "tOGGLE cASE"]
+      processing: "Real-time conversion"
+      bulk: "Unlimited text length"
+      detection: "Smart word and acronym detection"
+    questions:
+      - question: "What's the difference between camelCase and PascalCase?"
+        answer: "camelCase starts with a lowercase letter (e.g., myVariable), while PascalCase starts with uppercase (e.g., MyVariable). Both capitalize subsequent words."
+      - question: "Can it handle special characters?"
+        answer: "Yes, special characters, numbers, and punctuation are preserved during conversion."
+      - question: "Does it work with non-English text?"
+        answer: "Yes, it supports Unicode text including accented characters and non-Latin scripts."
+
+  - id: word-counter
+    name: Word Counter
+    category: utility
+    description: counts words, characters, sentences, and paragraphs with reading time
+    primaryBenefit: comprehensive text analytics for writers and editors
+    keyFeature: detailed statistics including keyword density and readability scores
+    queryTarget: "How to count words in text online free"
+    icon: "📊"
+    color: "from-blue-500 to-indigo-500"
+    trustSignals:
+      - "Comprehensive stats"
+      - "Reading time"
+      - "Keyword density"
+      - "Real-time updates"
+    tldr: "Analyze text with comprehensive word counting statistics. Get word count, character count (with and without spaces), sentence count, paragraph count, average word length, reading time, speaking time, and keyword density analysis. Perfect for writers, students, and SEO professionals. Updates in real-time as you type. No data upload—all processing happens in your browser."
+    whatIs: "Word Counter provides detailed statistics about text length, structure, and readability. It's essential for writers who need to meet specific word count requirements and for SEO analysis."
+    howItWorks:
+      - "Paste or type text into the input area"
+      - "Statistics update automatically as you type"
+      - "View word count, character count, sentences, and paragraphs"
+      - "Check reading time (200-250 words per minute)"
+      - "Analyze keyword density for SEO"
+    whyBrowserBased:
+      - "Comprehensive stats: Word, character, sentence, and paragraph counts"
+      - "Readability metrics: Reading time and speaking time estimates"
+      - "SEO analysis: Keyword density and top keywords"
+      - "Real-time updates: Stats update as you type"
+      - "Privacy protected: Your text never leaves your browser"
+    useCases:
+      - meeting word count requirements for essays and articles
+      - analyzing keyword density for SEO optimization
+      - estimating reading time for blog posts and presentations
+      - tracking writing progress and productivity
+    capabilities:
+      counts: ["Words", "Characters (with spaces)", "Characters (no spaces)", "Sentences", "Paragraphs", "Lines"]
+      metrics: ["Reading time", "Speaking time", "Average word length"]
+      analysis: "Keyword density and top keywords"
+      limit: "No practical limit on text length"
+    questions:
+      - question: "How is reading time calculated?"
+        answer: "Reading time is calculated at 200-250 words per minute, which is average adult reading speed. Speaking time is calculated at 130-150 words per minute."
+      - question: "Can I export the statistics?"
+        answer: "Yes, you can copy the statistics or download them as a text file for record keeping."
+      - question: "Does it count words in different languages?"
+        answer: "Yes, the word counter works with all languages that use spaces between words, including languages with special characters."
+
+  - id: lorem-ipsum
+    name: Lorem Ipsum Generator
+    category: utility
+    description: generates placeholder text for design mockups and layouts
+    primaryBenefit: create custom placeholder text in various formats and lengths
+    keyFeature: multiple languages and text structures including lists and code
+    queryTarget: "How to generate lorem ipsum text online free"
+    icon: "📝"
+    color: "from-violet-500 to-purple-500"
+    trustSignals:
+      - "Standard lorem ipsum"
+      - "Multiple languages"
+      - "HTML support"
+      - "Customizable length"
+    tldr: "Generate placeholder text (lorem ipsum) for your design mockups and layouts. Choose from words, sentences, or paragraphs. Select from multiple languages including Latin, English, Spanish, and more. Copy as plain text or HTML with proper paragraph tags. Perfect for designers, developers, and content creators. No styling—just pure placeholder text."
+    whatIs: "Lorem Ipsum Generator creates placeholder text commonly used in graphic design, web development, and publishing. It helps designers visualize layouts without being distracted by readable content."
+    howItWorks:
+      - "Select the amount of text: words, sentences, or paragraphs"
+      - "Choose your language: Latin, English, Spanish, etc."
+      - "Generate the placeholder text"
+      - "Copy as plain text or HTML format"
+      - "Paste into your design mockups or wireframes"
+    whyBrowserBased:
+      - "Multiple formats: Generate words, sentences, or paragraphs"
+      - "Language options: Choose from various languages and variants"
+      - "HTML output: Copy text with proper paragraph tags"
+      - "Exact amounts: Specify precise word or character counts"
+      - "Instant generation: Creates text immediately"
+    useCases:
+      - creating mockups and wireframes for client presentations
+      - testing typography and layout designs
+      - filling CMS templates with sample content
+      - generating test data for applications
+    capabilities:
+      units: ["Words", "Sentences", "Paragraphs", "Characters"]
+      languages: ["Latin", "English", "Spanish", "French", "German"]
+      formats: ["Plain Text", "HTML"]
+      customization: "Exact quantity specification"
+    questions:
+      - question: "What is lorem ipsum?"
+        answer: "Lorem ipsum is placeholder text derived from Latin literature, used in design to demonstrate visual form without relying on meaningful content."
+      - question: "Can I generate other languages?"
+        answer: "Yes, besides standard Latin lorem ipsum, you can generate placeholder text in English, Spanish, French, German, and other languages."
+      - question: "Is there a limit to how much I can generate?"
+        answer: "You can generate up to 10,000 words or 100 paragraphs in a single request."
+
+  - id: hash-generator
+    name: Hash Generator
+    category: utility
+    description: generates MD5, SHA-1, SHA-256, SHA-384, and SHA-512 hashes
+    primaryBenefit: compute cryptographic hashes using Web Crypto API for security
+    keyFeature: multiple hash algorithms and file hashing support
+    queryTarget: "How to generate hash online free"
+    icon: "#️⃣"
+    color: "from-rose-500 to-red-500"
+    trustSignals:
+      - "5 algorithms"
+      - "File hashing"
+      - "Web Crypto API"
+      - "Salt support"
+    tldr: "Generate cryptographic hashes for text and files using MD5, SHA-1, SHA-256, SHA-384, and SHA-512 algorithms. Compute checksums to verify file integrity, hash passwords securely, or create unique identifiers. Supports text input and file hashing up to 100MB. Uses browser's native Web Crypto API for maximum security and performance. No data leaves your device."
+    whatIs: "Hash Generator creates unique fixed-size strings (hashes) from input data using cryptographic algorithms. Hashes are used to verify data integrity, store passwords securely, and create digital fingerprints."
+    howItWorks:
+      - "Enter text or upload a file to hash"
+      - "Select hash algorithm: MD5, SHA-1, SHA-256, SHA-384, or SHA-512"
+      - "Add optional salt for password hashing"
+      - "Click 'Generate Hash' to compute the cryptographic hash"
+      - "Copy the hash in hexadecimal or Base64 encoding"
+    whyBrowserBased:
+      - "Multiple algorithms: MD5, SHA-1, SHA-256, SHA-384, SHA-512"
+      - "File hashing: Compute hashes for files up to 100MB"
+      - "Salt support: Add salt for secure password hashing"
+      - "Web Crypto API: Uses browser's native cryptographic functions"
+      - "Fast processing: Native implementation for maximum speed"
+    useCases:
+      - verifying file integrity and detecting corruption
+      - hashing passwords for secure storage
+      - creating unique identifiers for data
+      - checking if files have been modified
+    capabilities:
+      algorithms: ["MD5", "SHA-1", "SHA-256", "SHA-384", "SHA-512"]
+      input: ["Text", "Files (up to 100MB)"]
+      encoding: ["Hexadecimal", "Base64"]
+      salt: "Optional salt for enhanced security"
+    questions:
+      - question: "Which hash algorithm should I use?"
+        answer: "For security, use SHA-256 or higher. MD5 and SHA-1 are considered weak for cryptographic purposes but still useful for checksums."
+      - question: "Can hashes be reversed?"
+        answer: "No, cryptographic hashes are one-way functions. You cannot recover the original data from a hash."
+      - question: "What is salt?"
+        answer: "Salt is random data added to input before hashing, preventing rainbow table attacks and ensuring unique hashes even for identical inputs."
+
+  - id: color-converter
+    name: Color Converter
+    category: utility
+    description: converts colors between HEX, RGB, and HSL formats
+    primaryBenefit: convert between color formats with live preview and color picking
+    keyFeature: color palette generation and accessibility contrast checking
+    queryTarget: "How to convert colors online free"
+    icon: "🎨"
+    color: "from-pink-500 to-rose-500"
+    trustSignals:
+      - "3 color formats"
+      - "Live preview"
+      - "Color picker"
+      - "Accessibility checks"
+    tldr: "Convert colors between HEX, RGB, and HSL formats with live preview. Enter any color format and get instant conversion to all other formats. Use the built-in color picker to select colors from a palette, generate complementary colors, and check contrast ratios for accessibility compliance. Copy CSS-ready color codes with one click."
+    whatIs: "Color Converter transforms color values between different formats used in web development and design. It's essential for designers and developers who need to work with colors in various formats."
+    howItWorks:
+      - "Enter a color in HEX, RGB, or HSL format"
+      - "See instant conversion to all other color formats"
+      - "Use the color picker to visually select colors"
+      - "Check contrast ratios for accessibility compliance"
+      - "Copy color codes in your preferred format"
+    whyBrowserBased:
+      - "Format conversion: HEX, RGB, and HSL with alpha support"
+      - "Live preview: See color changes as you type"
+      - "Color picker: Visual color selection with hue/saturation controls"
+      - "Accessibility: Check contrast ratios for WCAG compliance"
+      - "CSS ready: Copy formatted color codes for web use"
+    useCases:
+      - converting design colors to CSS code
+      - checking color contrast for accessibility
+      - generating color palettes from a base color
+      - adjusting opacity and alpha channels
+    capabilities:
+      formats: ["HEX", "RGB", "HSL"]
+      features: ["Alpha channel", "Color picker", "Contrast checker"]
+      accessibility: "WCAG AA and AAA compliance checking"
+      output: "CSS-ready color codes"
+    questions:
+      - question: "What are HEX, RGB, and HSL?"
+        answer: "HEX is hexadecimal notation (e.g., #FF0000). RGB is Red-Green-Blue values (e.g., rgb(255,0,0)). HSL is Hue-Saturation-Lightness (e.g., hsl(0,100%,50%))."
+      - question: "What contrast ratio is needed for accessibility?"
+        answer: "WCAG AA requires 4.5:1 for normal text and 3:1 for large text. WCAG AAA requires 7:1 for normal text and 4.5:1 for large text."
+      - question: "Can I save color palettes?"
+        answer: "Currently, you can copy color codes individually. Palette saving will be added in a future update."
+
+  # FUTURE BROWSER-BASED AI TOOLS (Privacy-First)
+  # See: docs/plans/browser-ai-tools-roadmap.md
+  # These tools will use local inference with WebAssembly models
+  # All processing stays on-device, no data transmission
+  # ---------------------------------------------------------
+  # Pending development: Local whisperX, text-to-speech, local translation
+  # Status: Awaiting architecture review}

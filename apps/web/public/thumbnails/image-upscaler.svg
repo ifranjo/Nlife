@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#e0e0e0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Small image frame -->
+  <rect x="3" y="3" width="10" height="10" rx="1"></rect>
+  <circle cx="6" cy="6" r="1.5"></circle>
+  <path d="M13 10l-2.5-2.5L5 13"></path>
+  <!-- Large image frame (upscaled) -->
+  <rect x="11" y="11" width="10" height="10" rx="1"></rect>
+  <circle cx="14.5" cy="14.5" r="2"></circle>
+  <path d="M21 18l-3-3-3 3"></path>
+  <!-- Arrow indicating upscaling -->
+  <path d="M7 14l3 3m0-3v3h-3"></path>
+</svg>

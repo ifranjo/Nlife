@@ -267,6 +267,33 @@ export const tools: Tool[] = [
     ]
   },
   {
+    id: 'file-converter',
+    name: 'Image Converter',
+    description: 'Convert HEIC to JPG, PNG to WebP, and more. Perfect for iPhone photos. Batch conversion with ZIP download.',
+    icon: '🔄',
+    thumbnail: '/thumbnails/file-converter.svg',
+    category: 'media',
+    tier: 'free',
+    href: '/tools/file-converter',
+    color: 'from-cyan-500 to-blue-500',
+    tags: ['heic', 'jpg', 'png', 'webp', 'convert', 'iphone', 'image'],
+    popular: true,
+    releaseDate: '2024-12-24',
+    seo: {
+      title: 'HEIC to JPG Converter Free Online - Convert iPhone Photos | New Life',
+      metaDescription: 'Convert HEIC to JPG/PNG instantly. Free online image converter for iPhone photos. Also converts WebP, PNG, BMP to JPG/PNG/WebP. No upload, 100% private.',
+      h1: 'Convert HEIC to JPG - Free Online Image Converter',
+      keywords: ['heic to jpg', 'convert heic to jpg', 'heic converter', 'iphone photo converter', 'webp to jpg', 'png to jpg']
+    },
+    faq: [
+      { question: 'How do I convert HEIC files from my iPhone?', answer: 'Drop or select your HEIC files, choose JPG/PNG/WebP output format, click Convert. Files are processed in your browser - never uploaded.' },
+      { question: 'Why can\'t I open HEIC files on Windows?', answer: 'Windows doesn\'t natively support HEIC. Use this free converter to convert HEIC to JPG for universal compatibility.' },
+      { question: 'Will converting HEIC to JPG reduce quality?', answer: 'With quality set to 90%+, the difference is imperceptible. For lossless conversion, choose PNG output.' },
+      { question: 'Can I convert multiple files at once?', answer: 'Yes, batch convert up to 20 images. Download all as a single ZIP file.' },
+      { question: 'Are my photos uploaded to a server?', answer: 'No. All conversion happens in your browser using Canvas API and heic2any. Your photos never leave your device.' }
+    ]
+  },
+  {
     id: 'background-remover',
     name: 'Background Remover',
     description: 'Remove image backgrounds instantly with AI. 100% private - runs entirely in your browser.',
@@ -286,6 +313,32 @@ export const tools: Tool[] = [
       { question: 'How does AI background removal work?', answer: 'AI automatically detects the subject and removes the background, creating a transparent PNG.' },
       { question: 'Is my photo uploaded to a server?', answer: 'No, all AI processing happens locally in your browser. Your photos stay private.' },
       { question: 'What image formats are supported?', answer: 'PNG, JPEG, WebP input. Output is always PNG with transparency.' }
+    ]
+  },
+  {
+    id: 'exif-editor',
+    name: 'EXIF Metadata Editor',
+    description: 'View, edit, and strip photo metadata. Remove GPS location before sharing for privacy protection.',
+    icon: '\u{1F4CD}',
+    thumbnail: '/thumbnails/exif-editor.svg',
+    category: 'media',
+    tier: 'free',
+    href: '/tools/exif-editor',
+    color: 'from-rose-500 to-red-500',
+    tags: ['exif', 'metadata', 'gps', 'privacy', 'location', 'photo'],
+    popular: true,
+    releaseDate: '2024-12-24',
+    seo: {
+      title: 'Remove GPS from Photos Free - EXIF Metadata Editor | New Life',
+      metaDescription: 'Strip GPS location and metadata from photos before sharing. View and edit EXIF data including camera info, dates, location. 100% private, browser-based.',
+      h1: 'Remove GPS Location from Photos - Privacy Protection',
+      keywords: ['remove gps from photo', 'exif editor', 'strip photo metadata', 'remove location from image', 'exif remover']
+    },
+    faq: [
+      { question: 'Why should I remove GPS data from photos?', answer: 'Photos contain your exact GPS coordinates. Sharing them online can reveal your home, workplace, or daily routines. Strip GPS for privacy.' },
+      { question: 'What EXIF data can I edit?', answer: 'View all metadata. Edit date, author, copyright, description. Strip GPS location or remove all metadata completely.' },
+      { question: 'Is my photo uploaded anywhere?', answer: 'No, all processing happens in your browser. Your photos never leave your device.' },
+      { question: 'Does this work on iPhone/Android photos?', answer: 'Yes, works with JPEG photos from any smartphone or camera that embeds EXIF data.' }
     ]
   },
   {
@@ -448,6 +501,57 @@ export const tools: Tool[] = [
       { question: 'What subtitle formats are supported?', answer: 'Export as SRT (universal, works everywhere) or VTT (web standard for HTML5 video players).' },
       { question: 'Are my videos uploaded to a server?', answer: 'No, all AI processing happens locally in your browser. Your media files never leave your device.' },
       { question: 'Can I use these subtitles on YouTube?', answer: 'Yes, download the SRT file and upload it directly to YouTube Studio for your videos.' }
+    ]
+  },
+  {
+    id: 'audio-editor',
+    name: 'Audio Waveform Editor',
+    description: 'Edit audio with visual waveform display. Trim, add fade effects, and export as MP3 or WAV. 100% browser-based.',
+    icon: '🎚️',
+    thumbnail: '/thumbnails/audio-editor.svg',
+    category: 'media',
+    tier: 'free',
+    href: '/tools/audio-editor',
+    color: 'from-violet-500 to-fuchsia-500',
+    tags: ['audio', 'waveform', 'trim', 'edit', 'fade', 'mp3', 'wav'],
+    popular: false,
+    releaseDate: '2024-12-24',
+    seo: {
+      title: 'Audio Editor Online Free - Trim & Edit with Waveform | New Life',
+      metaDescription: 'Edit audio with visual waveform. Trim, add fade in/out, export as MP3 or WAV. 100% free, no upload to servers. Works offline.',
+      h1: 'Audio Waveform Editor - Trim & Edit Audio Free',
+      keywords: ['audio editor online', 'trim audio', 'audio waveform editor', 'cut audio free', 'audio trimmer']
+    },
+    faq: [
+      { question: 'What audio formats are supported?', answer: 'Input: MP3, WAV, M4A, OGG, FLAC. Export as MP3 (compressed) or WAV (lossless).' },
+      { question: 'How do I select a region to trim?', answer: 'Click and drag on the waveform to select. Drag the white handles to fine-tune the selection.' },
+      { question: 'What do fade in and fade out do?', answer: 'Fade in gradually increases volume from silence at the start. Fade out decreases to silence at the end. Creates smooth transitions.' },
+      { question: 'Is my audio uploaded anywhere?', answer: 'No, all processing happens locally in your browser using FFmpeg. Your files never leave your device.' }
+    ]
+  },
+  {
+    id: 'screen-recorder',
+    name: 'Screen Recorder',
+    description: 'Record your screen, window, or browser tab. Select quality, include audio, preview and download as WebM. No install needed.',
+    icon: '🔴',
+    thumbnail: '/thumbnails/screen-recorder.svg',
+    category: 'media',
+    tier: 'free',
+    href: '/tools/screen-recorder',
+    color: 'from-red-500 to-pink-500',
+    tags: ['screen', 'record', 'capture', 'video', 'webm', 'tutorial'],
+    popular: false,
+    seo: {
+      title: 'Screen Recorder Online Free - No Install | New Life',
+      metaDescription: 'Record your screen directly in your browser. Capture screen, window, or tab with audio. No software install, no upload. Download as WebM.',
+      h1: 'Record Screen Online - Free Browser Tool',
+      keywords: ['screen recorder', 'record screen online', 'screen capture', 'screen recording free', 'browser screen recorder']
+    },
+    faq: [
+      { question: 'Do I need to install software?', answer: 'No, it works directly in your browser using the native MediaRecorder API. No downloads or plugins required.' },
+      { question: 'Can I record with audio?', answer: 'Yes, you can capture system audio when recording browser tabs in Chrome or Edge. Select "Share tab audio" when prompted.' },
+      { question: 'What video format is the recording?', answer: 'Recordings are saved as WebM with VP9 or VP8 codec. This format plays in all modern browsers.' },
+      { question: 'Is there a recording time limit?', answer: 'No time limit. Recording duration is only limited by your device memory.' }
     ]
   },
 
@@ -656,6 +760,32 @@ export const tools: Tool[] = [
   // AI TOOLS
   // ═══════════════════════════════════════════════════════════════
   {
+    id: 'image-upscaler',
+    name: 'AI Image Upscaler',
+    description: 'Upscale images 2x or 4x with AI. ESRGAN neural network runs in your browser. No upload needed.',
+    icon: 'AI',
+    thumbnail: '/thumbnails/image-upscaler.svg',
+    category: 'ai',
+    tier: 'free',
+    href: '/tools/image-upscaler',
+    color: 'from-violet-500 to-purple-500',
+    tags: ['ai', 'upscale', 'enlarge', 'enhance', 'resolution', 'esrgan'],
+    popular: true,
+    releaseDate: '2024-12-24',
+    seo: {
+      title: 'AI Image Upscaler Free Online - Enlarge 2x/4x | New Life',
+      metaDescription: 'Upscale images 2x or 4x with AI. ESRGAN neural network runs in browser. No upload, no watermark. Free photo enhancement tool.',
+      h1: 'AI Image Upscaler - Enlarge Photos 2x or 4x Free',
+      keywords: ['ai image upscaler', 'upscale image', 'enlarge photo', 'esrgan online', 'image enhancer free']
+    },
+    faq: [
+      { question: 'What is AI image upscaling?', answer: 'AI upscaling uses ESRGAN neural networks to intelligently add detail when enlarging images, producing sharper results than traditional resizing.' },
+      { question: 'What is the difference between 2x and 4x?', answer: '2x doubles image dimensions (500px becomes 1000px). 4x quadruples them (500px becomes 2000px). Choose based on your target size needs.' },
+      { question: 'Does it work on mobile?', answer: 'Yes, but slower due to limited GPU power. Use smaller images and Fast mode for best mobile experience.' },
+      { question: 'Are my images uploaded?', answer: 'No. The AI model runs entirely in your browser. Your images never leave your device.' }
+    ]
+  },
+  {
     id: 'object-remover',
     name: 'AI Object Remover',
     description: 'Remove unwanted objects from photos with AI. Click to select, then erase. 100% private.',
@@ -700,6 +830,81 @@ export const tools: Tool[] = [
       { question: 'What is the difference between line and word mode?', answer: 'Line mode compares entire lines (best for code). Word mode highlights individual word changes (best for prose).' },
       { question: 'Can I compare code files?', answer: 'Yes, paste code in both panels. Line mode with line numbers works great for code review.' },
       { question: 'Is there a size limit?', answer: 'No hard limit. Processing happens in your browser, so large texts may be slower but will work.' }
+    ]
+  },
+  {
+    id: 'code-beautifier',
+    name: 'Code Beautifier',
+    description: 'Format and beautify JavaScript, TypeScript, CSS, HTML, JSON, and SQL code. Minify option available.',
+    icon: '</>',
+    thumbnail: '/thumbnails/code-beautifier.svg',
+    category: 'utility',
+    tier: 'free',
+    href: '/tools/code-beautifier',
+    color: 'from-violet-500 to-indigo-500',
+    tags: ['code', 'format', 'beautify', 'prettier', 'minify', 'javascript', 'css', 'html', 'sql'],
+    popular: true,
+    seo: {
+      title: 'Code Beautifier & Formatter Online Free - JS CSS HTML SQL | New Life',
+      metaDescription: 'Format and beautify JavaScript, TypeScript, CSS, HTML, JSON, SQL code online. Minify option, syntax validation. Uses Prettier. Free, no signup.',
+      h1: 'Code Beautifier & Formatter - Free Online Tool',
+      keywords: ['code beautifier', 'code formatter', 'prettier online', 'beautify javascript', 'format css', 'sql formatter']
+    },
+    faq: [
+      { question: 'What languages are supported?', answer: 'JavaScript, TypeScript, CSS, HTML, JSON, and SQL. JSX and TSX are also supported.' },
+      { question: 'Which formatter does this use?', answer: 'Prettier for JS/TS/CSS/HTML/JSON (same as VS Code) and sql-formatter for SQL queries.' },
+      { question: 'Can I minify code?', answer: 'Yes, minify is available for JavaScript, CSS, and JSON to reduce file size for production.' },
+      { question: 'Is my code uploaded to a server?', answer: 'No, all formatting happens in your browser. Your code never leaves your device.' }
+    ]
+  },
+  {
+    id: 'svg-editor',
+    name: 'SVG Editor',
+    description: 'Optimize and edit SVG files. Reduce file size, change colors, scale dimensions. 100% browser-based.',
+    icon: '<svg>',
+    thumbnail: '/thumbnails/svg-editor.svg',
+    category: 'utility',
+    tier: 'free',
+    href: '/tools/svg-editor',
+    color: 'from-orange-500 to-amber-500',
+    tags: ['svg', 'optimize', 'compress', 'edit', 'vector', 'icon'],
+    popular: false,
+    seo: {
+      title: 'SVG Editor & Optimizer Online Free - Compress, Edit Colors | New Life',
+      metaDescription: 'Optimize and edit SVG files online. Reduce file size, change colors, scale dimensions. 100% free, browser-based, no upload required.',
+      h1: 'SVG Editor & Optimizer - Free Online Tool',
+      keywords: ['svg editor', 'svg optimizer', 'compress svg', 'optimize svg online', 'edit svg colors', 'svg compressor']
+    },
+    faq: [
+      { question: 'How much can SVG files be optimized?', answer: 'SVGs from design tools often contain 30-50% unnecessary data. Simple icons may see 10-20% reduction.' },
+      { question: 'Will optimization change how my SVG looks?', answer: 'No, optimization only removes invisible data like comments, metadata, and whitespace.' },
+      { question: 'Can I edit SVG colors?', answer: 'Yes, replace all fill or stroke colors with a single click. Great for recoloring icons.' },
+      { question: 'Can I scale SVG dimensions?', answer: 'Yes, scale from 10% to 500%. The SVG stays crisp at any size because it is vector-based.' }
+    ]
+  },
+  {
+    id: 'markdown-editor',
+    name: 'Markdown Editor',
+    description: 'Write and preview markdown in real-time. Syntax highlighting for code blocks. Export to HTML or PDF.',
+    icon: 'M',
+    thumbnail: '/thumbnails/markdown-editor.svg',
+    category: 'utility',
+    tier: 'free',
+    href: '/tools/markdown-editor',
+    color: 'from-indigo-500 to-purple-500',
+    tags: ['markdown', 'editor', 'preview', 'html', 'pdf', 'documentation'],
+    popular: true,
+    seo: {
+      title: 'Markdown Editor with Live Preview Free Online | New Life',
+      metaDescription: 'Write and preview markdown in real-time with syntax highlighting. Export to HTML or PDF. Free, browser-based, no signup required.',
+      h1: 'Markdown Editor with Live Preview - Free Online Tool',
+      keywords: ['markdown editor', 'markdown preview', 'markdown to html', 'markdown to pdf', 'online markdown editor']
+    },
+    faq: [
+      { question: 'What markdown features are supported?', answer: 'Full GitHub Flavored Markdown: headings, bold, italic, links, images, code blocks, tables, blockquotes, lists, and more.' },
+      { question: 'Can I use this for GitHub README files?', answer: 'Yes! The preview matches GitHub rendering. Write your README, preview it, then copy to your repository.' },
+      { question: 'How does code syntax highlighting work?', answer: 'Code blocks are highlighted using highlight.js. Specify the language after opening backticks for optimal highlighting.' },
+      { question: 'What is the difference between HTML and PDF export?', answer: 'HTML creates a standalone webpage with styling. PDF creates a printable document best for sharing as a fixed format.' }
     ]
   },
 ];

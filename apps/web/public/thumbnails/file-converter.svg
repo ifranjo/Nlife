@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#e0e0e0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Left document (input) -->
+  <path d="M4 4h6l2 2h4v6"></path>
+  <path d="M4 4v16h8"></path>
+
+  <!-- Conversion arrows -->
+  <path d="M14 14l3 3m0 0l3-3m-3 3V10"></path>
+
+  <!-- Right document (output) with checkmark -->
+  <rect x="14" y="14" width="6" height="8" rx="1"></rect>
+  <path d="M16 18l1 1 2-2"></path>
+
+  <!-- Small image icon in source -->
+  <circle cx="7" cy="10" r="1.5"></circle>
+  <path d="M5 14l2-2 2 2"></path>
+</svg>

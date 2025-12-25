@@ -261,8 +261,9 @@ export default function QrGenerator() {
               </div>
 
               <div>
-                <label className="block text-slate-400 text-sm mb-2">Encryption</label>
+                <label htmlFor="wifi-encryption" className="block text-slate-400 text-sm mb-2">Encryption</label>
                 <select
+                  id="wifi-encryption"
                   value={wifiConfig.encryption}
                   onChange={(e) => setWifiConfig(prev => ({ ...prev, encryption: e.target.value as WifiConfig['encryption'] }))}
                   className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white focus:outline-none focus:border-indigo-500"
@@ -421,8 +422,9 @@ export default function QrGenerator() {
 
             {/* Error Correction */}
             <div>
-              <label className="block text-slate-400 text-sm mb-2">Error Correction</label>
+              <label htmlFor="error-correction" className="block text-slate-400 text-sm mb-2">Error Correction</label>
               <select
+                id="error-correction"
                 value={errorCorrection}
                 onChange={(e) => setErrorCorrection(e.target.value as ErrorCorrectionLevel)}
                 className="w-full px-4 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white text-sm focus:outline-none focus:border-indigo-500"

@@ -1,0 +1,154 @@
+---
+/**
+ * SVG Editor/Optimizer - AI-Native Tool Page
+ *
+ * Optimized for LLM extraction with:
+ * - TL;DR answer box (50-70 words)
+ * - Semantic Q&A sections
+ * - Full schema markup (SoftwareApplication, HowTo, FAQPage)
+ */
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/ui/Navbar.astro';
+import Footer from '../../components/ui/Footer.astro';
+import AnswerBox from '../../components/seo/AnswerBox.astro';
+import QASections from '../../components/seo/QASections.astro';
+import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
+import SvgEditor from '../../components/tools/SvgEditor';
+
+// Tool metadata
+const tool = {
+  id: 'svg-editor',
+  name: 'SVG Editor',
+  category: 'utility' as const,
+  url: '/tools/svg-editor'
+};
+
+// AI-optimized content
+const seoContent = {
+  // Page meta
+  title: 'SVG Editor & Optimizer Online Free — Compress, Edit Colors, Scale | New Life Solutions',
+  description: 'Optimize and edit SVG files online. Reduce file size, change colors, scale dimensions. 100% free, browser-based, no upload required. Privacy-first SVG tool.',
+
+  // TL;DR Answer Box (50-70 words - this is what AI extracts)
+  answerBox: {
+    title: 'Edit & Optimize SVG — Free Online Tool',
+    queryTarget: 'How to Optimize SVG Online Free',
+    tldr: `Paste or upload your SVG to instantly optimize it. Remove unnecessary metadata, comments, and whitespace to reduce file size. Edit fill and stroke colors, scale dimensions up or down. Preview changes in real-time and download the optimized SVG. All processing happens in your browser—your files stay completely private.`,
+    trustSignals: [
+      'Instant optimization',
+      'Visual preview',
+      'Color editing',
+      'No file uploads'
+    ]
+  },
+
+  // Q&A Sections
+  qa: {
+    whatIs: {
+      answer: `SVG Editor is a free online tool that optimizes and edits SVG (Scalable Vector Graphics) files. It removes unnecessary code like comments, metadata, and editor artifacts to reduce file size by 10-50%. You can also change fill and stroke colors, scale dimensions, and preview changes before downloading. Perfect for web developers and designers optimizing icons and graphics.`,
+      context: `Essential for web performance, as smaller SVGs load faster and improve Core Web Vitals scores.`
+    },
+    howItWorks: {
+      steps: [
+        'Paste SVG code or upload an SVG file (drag & drop supported)',
+        'Preview the original SVG in the visual preview area',
+        'Optionally enable color replacement for fill or stroke colors',
+        'Adjust the scale slider to resize the SVG dimensions',
+        'Click "Optimize SVG" to process and compress the file',
+        'View before/after file size comparison and savings percentage',
+        'Copy the optimized code or download as a new SVG file'
+      ]
+    },
+    whyBrowserBased: {
+      benefits: [
+        'Complete privacy: SVG files never leave your device',
+        'Works offline: Once loaded, works without internet',
+        'Instant processing: No server delays, results appear immediately',
+        'No file limits: Process any number of SVGs without restrictions',
+        'Secure for icons: Logo files and brand assets stay on your machine'
+      ]
+    },
+    faqs: [
+      {
+        question: 'How much can SVG files be optimized?',
+        answer: `Optimization results vary by file. SVGs exported from design tools like Illustrator, Figma, or Inkscape often contain 30-50% unnecessary data (comments, metadata, editor attributes). Simple icons may see 10-20% reduction. Complex illustrations with many paths see larger reductions.`
+      },
+      {
+        question: 'Will optimization change how my SVG looks?',
+        answer: `No, optimization only removes invisible data like comments, metadata, and whitespace. The visual appearance stays identical. Color and scale changes are optional and shown in the preview before you download.`
+      },
+      {
+        question: 'Can I edit SVG colors?',
+        answer: `Yes, enable "Replace Fill Color" or "Replace Stroke Color" and pick a new color. This replaces all fill or stroke colors in the SVG (except 'none' values). Great for recoloring icons to match your brand.`
+      },
+      {
+        question: 'What SVG elements are removed during optimization?',
+        answer: `The optimizer removes: XML declarations, DOCTYPE, comments, empty title/desc tags, metadata elements, Inkscape/Illustrator specific attributes, auto-generated IDs, unnecessary whitespace, and default attribute values. Core SVG elements and paths are preserved.`
+      },
+      {
+        question: 'Can I scale SVG dimensions?',
+        answer: `Yes, use the scale slider (10% to 500%) to resize. This updates the width and height attributes while preserving the viewBox, so the SVG scales proportionally without quality loss—that's the beauty of vector graphics.`
+      }
+    ]
+  }
+};
+
+// Schema data
+const schemaData = {
+  toolId: tool.id,
+  toolName: tool.name,
+  description: seoContent.description,
+  category: tool.category,
+  steps: seoContent.qa.howItWorks.steps,
+  faqs: seoContent.qa.faqs,
+  url: tool.url
+};
+---
+
+<Layout
+  title={seoContent.title}
+  description={seoContent.description}
+  image="/thumbnails/svg-editor.svg"
+>
+  <!-- Schema Markup for AI extraction -->
+  <SchemaMarkup {...schemaData} />
+
+  <Navbar />
+
+  <main class="pt-20 pb-16 px-6 min-h-screen">
+    <div class="max-w-6xl mx-auto">
+
+      <!-- Answer Box: AI extracts this first -->
+      <AnswerBox
+        title={seoContent.answerBox.title}
+        tldr={seoContent.answerBox.tldr}
+        toolName={tool.name}
+        queryTarget={seoContent.answerBox.queryTarget}
+        trustSignals={seoContent.answerBox.trustSignals}
+      />
+
+      <!-- Tool Component -->
+      <section class="tool-section" aria-label="SVG Editor Tool">
+        <SvgEditor client:load />
+      </section>
+
+      <!-- Q&A Sections: Semantic structure for AI -->
+      <QASections
+        toolName={tool.name}
+        whatIs={seoContent.qa.whatIs}
+        howItWorks={seoContent.qa.howItWorks}
+        whyBrowserBased={seoContent.qa.whyBrowserBased}
+        faqs={seoContent.qa.faqs}
+      />
+
+    </div>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+  .tool-section {
+    margin: 2rem 0;
+  }
+</style>

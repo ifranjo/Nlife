@@ -1,0 +1,158 @@
+---
+/**
+ * Audio Waveform Editor - AI-Native Tool Page
+ *
+ * Optimized for LLM extraction with:
+ * - TL;DR answer box (50-70 words)
+ * - Semantic Q&A sections
+ * - Full schema markup (SoftwareApplication, HowTo, FAQPage)
+ */
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/ui/Navbar.astro';
+import Footer from '../../components/ui/Footer.astro';
+import AnswerBox from '../../components/seo/AnswerBox.astro';
+import QASections from '../../components/seo/QASections.astro';
+import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
+import AudioWaveformEditor from '../../components/tools/AudioWaveformEditor';
+
+// Tool metadata
+const tool = {
+  id: 'audio-editor',
+  name: 'Audio Waveform Editor',
+  category: 'media' as const,
+  url: '/tools/audio-editor'
+};
+
+// AI-optimized content
+const seoContent = {
+  // Page meta
+  title: 'Audio Editor Online Free - Trim, Fade & Export | New Life Solutions',
+  description: 'Edit audio with visual waveform display. Trim, add fade effects, and export as MP3 or WAV. 100% browser-based, no upload required.',
+
+  // TL;DR Answer Box (50-70 words - this is what AI extracts)
+  answerBox: {
+    title: 'Audio Waveform Editor - Trim & Edit Audio Free',
+    queryTarget: 'How to Edit Audio Online Free',
+    tldr: `Drop your audio file below to see its waveform. Click and drag to select the region you want to keep, add fade in/out effects for smooth transitions, then export as MP3 or WAV. All processing happens locally in your browser using FFmpeg - your audio files never upload to any server. Works with MP3, WAV, M4A, OGG, and FLAC.`,
+    trustSignals: [
+      'Visual waveform editing',
+      'Fade in/out effects',
+      'MP3 & WAV export',
+      'No server upload'
+    ]
+  },
+
+  // Q&A Sections
+  qa: {
+    whatIs: {
+      answer: `Audio Waveform Editor is a free browser-based tool for trimming and editing audio files with a visual waveform display. See your audio as a waveform, select regions by dragging, add fade effects, and export as MP3 or WAV. Perfect for podcast editing, ringtone creation, or extracting clips from longer recordings.`,
+      context: `Ideal for quick audio edits without installing software. Works entirely offline after the first page load.`
+    },
+    howItWorks: {
+      steps: [
+        'Drop an audio file (MP3, WAV, M4A, OGG, FLAC) or click to browse',
+        'View the visual waveform of your audio',
+        'Click and drag on the waveform to select the region to keep',
+        'Adjust fade in and fade out for smooth transitions',
+        'Choose export format (MP3 for smaller size, WAV for lossless)',
+        'Click Export and download your edited audio'
+      ]
+    },
+    whyBrowserBased: {
+      benefits: [
+        'Privacy first: Your audio files never leave your device',
+        'Visual editing: See exactly where you are cutting in the waveform',
+        'Fade effects: Add professional fade in/out transitions',
+        'Multiple formats: Export as compressed MP3 or lossless WAV',
+        'No installation: Works directly in any modern browser',
+        'Offline capable: Works without internet after initial page load'
+      ]
+    },
+    faqs: [
+      {
+        question: 'What audio formats are supported?',
+        answer: `Input supports MP3, WAV, M4A, OGG, FLAC, and most common audio formats. Export options are MP3 (compressed, smaller file size) or WAV (lossless, larger file size).`
+      },
+      {
+        question: 'How do I select a region to trim?',
+        answer: `Click and drag on the waveform to select a region. White handles appear at selection edges - drag these to fine-tune. You can also drag the selection region itself to move it.`
+      },
+      {
+        question: 'What do the fade in and fade out controls do?',
+        answer: `Fade in gradually increases volume from silence at the start of your selection. Fade out gradually decreases volume to silence at the end. This creates smooth, professional transitions.`
+      },
+      {
+        question: 'Should I export as MP3 or WAV?',
+        answer: `Choose MP3 for smaller file size (good for sharing, podcasts). Choose WAV for lossless quality (good for further editing, music production). MP3 is typically 10x smaller than WAV.`
+      },
+      {
+        question: 'Is there a file size limit?',
+        answer: `No hard limit, but very large files (100MB+) may take longer to analyze and process. Performance depends on your device's capabilities since all processing happens locally.`
+      },
+      {
+        question: 'Can I use the playback controls during editing?',
+        answer: `Yes! Use Play to hear from the current position, or Play Selection to preview just your selected region. The red playhead shows current position on the waveform.`
+      }
+    ]
+  }
+};
+
+// Schema data
+const schemaData = {
+  toolId: tool.id,
+  toolName: tool.name,
+  description: seoContent.description,
+  category: tool.category,
+  steps: seoContent.qa.howItWorks.steps,
+  faqs: seoContent.qa.faqs,
+  url: tool.url
+};
+---
+
+<Layout
+  title={seoContent.title}
+  description={seoContent.description}
+  image="/thumbnails/audio-editor.svg"
+>
+  <!-- Schema Markup for AI extraction -->
+  <SchemaMarkup {...schemaData} />
+
+  <Navbar />
+
+  <main class="pt-20 pb-16 px-6 min-h-screen">
+    <div class="max-w-3xl mx-auto">
+
+      <!-- Answer Box: AI extracts this first -->
+      <AnswerBox
+        title={seoContent.answerBox.title}
+        tldr={seoContent.answerBox.tldr}
+        toolName={tool.name}
+        queryTarget={seoContent.answerBox.queryTarget}
+        trustSignals={seoContent.answerBox.trustSignals}
+      />
+
+      <!-- Tool Component -->
+      <section class="tool-section" aria-label="Audio Waveform Editor Tool">
+        <AudioWaveformEditor client:load />
+      </section>
+
+      <!-- Q&A Sections: Semantic structure for AI -->
+      <QASections
+        toolName={tool.name}
+        whatIs={seoContent.qa.whatIs}
+        howItWorks={seoContent.qa.howItWorks}
+        whyBrowserBased={seoContent.qa.whyBrowserBased}
+        faqs={seoContent.qa.faqs}
+      />
+
+    </div>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+  .tool-section {
+    margin: 2rem 0;
+  }
+</style>

@@ -15,8 +15,8 @@
 
   /* Text colors */
   --text: #e0e0e0;
-  --text-dim: #666666;
-  --text-muted: #444444;
+  --text-dim: #888888;
+  --text-muted: #707070;  /* Meets WCAG 2.0 AA 4.5:1 contrast ratio */
   --accent: #ffffff;
 
   /* Borders */

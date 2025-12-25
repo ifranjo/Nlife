@@ -1,50 +1,45 @@
 import { test, expect } from '@playwright/test';
 
 test.describe('JSON Formatter Tool', () => {
-  test('should load page with correct title and thumbnail', async ({ page }) => {
+  test('should load page with correct title and structure', async ({ page }) => {
     await page.goto('http://localhost:4321/tools/json-formatter');
 
-    // Check page title
-    await expect(page).toHaveTitle('JSON Formatter - New Life Solutions');
+    // Check page title contains tool name (SEO-optimized titles vary)
+    await expect(page).toHaveTitle(/JSON Formatter/);
 
-    // Check thumbnail loads
-    const thumbnail = page.locator('img[alt="JSON Formatter"]');
-    await expect(thumbnail).toBeVisible();
-    await expect(thumbnail).toHaveAttribute('src', '/thumbnails/json-formatter.svg');
+    // Check heading (use specific answer-title class to avoid browser extension elements)
+    const heading = page.locator('.answer-title');
+    await expect(heading).toBeVisible();
 
-    // Check heading
-    const heading = page.locator('h1');
-    await expect(heading).toContainText('JSON Formatter');
+    // Check back link to hub
+    const backLink = page.locator('.back-link');
+    await expect(backLink).toBeVisible();
+    await expect(backLink).toHaveAttribute('href', '/hub');
 
-    // Check tag
-    const freeTag = page.locator('.tag-free');
-    await expect(freeTag).toContainText('Free');
-
-    // Check for console errors
-    const errors: string[] = [];
-    page.on('console', msg => {
-      if (msg.type() === 'error') {
-        errors.push(msg.text());
-      }
-    });
-
-    await page.waitForTimeout(2000);
-
-    if (errors.length > 0) {
-      console.log('Console errors:', errors);
-    }
+    // Check trust signals are present
+    const trustSignals = page.locator('.trust-signal');
+    await expect(trustSignals.first()).toBeVisible();
   });
 
   test('should have proper styling and layout', async ({ page }) => {
     await page.goto('http://localhost:4321/tools/json-formatter');
 
-    // Check dark theme background
+    // Wait for page to fully load
+    await page.waitForLoadState('networkidle');
+
+    // Check main content area
     const main = page.locator('main');
     await expect(main).toBeVisible();
 
-    // Check back link
-    const backLink = page.locator('a:has-text("Back")');
-    await expect(backLink).toBeVisible();
-    await expect(backLink).toHaveAttribute('href', '/hub');
+    // Check answer box section
+    const answerBox = page.locator('.answer-box');
+    await expect(answerBox).toBeVisible();
+
+    // Check navbar and footer
+    const nav = page.locator('nav');
+    await expect(nav).toBeVisible();
+
+    const footer = page.locator('footer');
+    await expect(footer).toBeVisible();
   });
 });

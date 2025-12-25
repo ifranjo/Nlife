@@ -1,0 +1,502 @@
+/**
+ * QR Generator with Analytics Integration
+ *
+ * This is a REFERENCE IMPLEMENTATION showing how to integrate
+ * Plausible Analytics custom events into a typical tool component.
+ *
+ * DO NOT deploy this file directly. Use it as a guide to update
+ * the actual QrGenerator.tsx component.
+ *
+ * Key tracking points demonstrated:
+ * 1. Type selection tracking
+ * 2. Settings changes tracking
+ * 3. QR generation tracking (with performance)
+ * 4. Download tracking (PNG and SVG separately)
+ * 5. Error tracking
+ */
+
+import { useState, useRef, useEffect, useCallback } from 'react';
+import QRCode from 'qrcode';
+import { escapeHtml, createSafeErrorMessage } from '../../lib/security';
+import {
+  trackToolUse,
+  trackConversion,
+  trackToolError,
+  createPerformanceTimer,
+} from '../../lib/analytics';
+
+type InputType = 'url' | 'text' | 'wifi' | 'vcard';
+type ErrorCorrectionLevel = 'L' | 'M' | 'Q' | 'H';
+
+interface WifiConfig {
+  ssid: string;
+  password: string;
+  encryption: 'WPA' | 'WEP' | 'nopass';
+  hidden: boolean;
+}
+
+interface VCardConfig {
+  firstName: string;
+  lastName: string;
+  phone: string;
+  email: string;
+  organization: string;
+  title: string;
+  url: string;
+}
+
+const DEFAULT_WIFI: WifiConfig = {
+  ssid: '',
+  password: '',
+  encryption: 'WPA',
+  hidden: false,
+};
+
+const DEFAULT_VCARD: VCardConfig = {
+  firstName: '',
+  lastName: '',
+  phone: '',
+  email: '',
+  organization: '',
+  title: '',
+  url: '',
+};
+
+const TOOL_ID = 'qr-generator';
+
+export default function QrGenerator() {
+  const [inputType, setInputType] = useState<InputType>('url');
+  const [textValue, setTextValue] = useState('');
+  const [wifiConfig, setWifiConfig] = useState<WifiConfig>(DEFAULT_WIFI);
+  const [vcardConfig, setVcardConfig] = useState<VCardConfig>(DEFAULT_VCARD);
+
+  const [size, setSize] = useState(256);
+  const [errorCorrection, setErrorCorrection] = useState<ErrorCorrectionLevel>('M');
+  const [fgColor, setFgColor] = useState('#000000');
+  const [bgColor, setBgColor] = useState('#ffffff');
+
+  const [error, setError] = useState<string | null>(null);
+  const [isGenerating, setIsGenerating] = useState(false);
+
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  // Generate QR content based on input type
+  const getQrContent = useCallback((): string => {
+    switch (inputType) {
+      case 'url':
+      case 'text':
+        return textValue.trim();
+
+      case 'wifi': {
+        const { ssid, password, encryption, hidden } = wifiConfig;
+        if (!ssid.trim()) return '';
+        const escapedSsid = ssid.replace(/[\\;,:]/g, '\\$&');
+        const escapedPass = password.replace(/[\\;,:]/g, '\\$&');
+        let wifiString = `WIFI:T:${encryption};S:${escapedSsid};`;
+        if (encryption !== 'nopass' && password) {
+          wifiString += `P:${escapedPass};`;
+        }
+        if (hidden) {
+          wifiString += 'H:true;';
+        }
+        wifiString += ';';
+        return wifiString;
+      }
+
+      case 'vcard': {
+        const { firstName, lastName, phone, email, organization, title, url } = vcardConfig;
+        if (!firstName.trim() && !lastName.trim()) return '';
+
+        let vcard = 'BEGIN:VCARD\nVERSION:3.0\n';
+        if (lastName || firstName) {
+          vcard += `N:${escapeHtml(lastName)};${escapeHtml(firstName)};;;\n`;
+          vcard += `FN:${escapeHtml(firstName)} ${escapeHtml(lastName)}\n`;
+        }
+        if (organization) vcard += `ORG:${escapeHtml(organization)}\n`;
+        if (title) vcard += `TITLE:${escapeHtml(title)}\n`;
+        if (phone) vcard += `TEL:${phone}\n`;
+        if (email) vcard += `EMAIL:${email}\n`;
+        if (url) vcard += `URL:${url}\n`;
+        vcard += 'END:VCARD';
+        return vcard;
+      }
+
+      default:
+        return '';
+    }
+  }, [inputType, textValue, wifiConfig, vcardConfig]);
+
+  // Handle input type change with tracking
+  const handleInputTypeChange = (newType: InputType) => {
+    setInputType(newType);
+
+    // ANALYTICS: Track input type selection
+    trackToolUse(TOOL_ID, 'settings_changed', {
+      setting: 'input_type',
+      value: newType,
+    });
+  };
+
+  // Handle settings changes with tracking
+  const handleSizeChange = (newSize: number) => {
+    setSize(newSize);
+
+    // ANALYTICS: Track size changes (debounced in practice, shown simplified here)
+    trackToolUse(TOOL_ID, 'settings_changed', {
+      setting: 'size',
+      value: newSize,
+    });
+  };
+
+  const handleErrorCorrectionChange = (newLevel: ErrorCorrectionLevel) => {
+    setErrorCorrection(newLevel);
+
+    // ANALYTICS: Track error correction level changes
+    trackToolUse(TOOL_ID, 'settings_changed', {
+      setting: 'error_correction',
+      value: newLevel,
+    });
+  };
+
+  // Generate QR code whenever content or options change
+  useEffect(() => {
+    const content = getQrContent();
+
+    if (!content || !canvasRef.current) {
+      // Clear canvas if no content
+      const ctx = canvasRef.current?.getContext('2d');
+      if (ctx && canvasRef.current) {
+        ctx.fillStyle = bgColor;
+        ctx.fillRect(0, 0, canvasRef.current.width, canvasRef.current.height);
+      }
+      return;
+    }
+
+    const generateQr = async () => {
+      setIsGenerating(true);
+      setError(null);
+
+      // ANALYTICS: Create performance timer
+      const timer = createPerformanceTimer(TOOL_ID);
+      timer.start();
+
+      try {
+        await QRCode.toCanvas(canvasRef.current, content, {
+          width: size,
+          margin: 2,
+          color: {
+            dark: fgColor,
+            light: bgColor,
+          },
+          errorCorrectionLevel: errorCorrection,
+        });
+
+        // ANALYTICS: Track successful generation with performance
+        timer.end({
+          qr_type: inputType,
+          size,
+          error_correction: errorCorrection,
+          content_length: content.length,
+        });
+
+        // ANALYTICS: Track QR code generation
+        trackToolUse(TOOL_ID, 'file_processed', {
+          qr_type: inputType,
+          size,
+          content_length: content.length,
+        });
+
+      } catch (err) {
+        const errorMessage = createSafeErrorMessage(err, 'Failed to generate QR code. Content may be too long.');
+        setError(errorMessage);
+
+        // ANALYTICS: Track generation errors
+        trackToolError(TOOL_ID, 'generation_failed', {
+          qr_type: inputType,
+          content_length: content.length,
+          size,
+        });
+      } finally {
+        setIsGenerating(false);
+      }
+    };
+
+    // Debounce generation
+    const timeoutId = setTimeout(generateQr, 150);
+    return () => clearTimeout(timeoutId);
+  }, [getQrContent, size, fgColor, bgColor, errorCorrection, inputType]);
+
+  // Download as PNG with tracking
+  const downloadPng = () => {
+    const content = getQrContent();
+    if (!content || !canvasRef.current) return;
+
+    try {
+      const link = document.createElement('a');
+      link.download = `qrcode_${Date.now()}.png`;
+      link.href = canvasRef.current.toDataURL('image/png');
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      // ANALYTICS: Track PNG download
+      trackConversion(TOOL_ID, 'download_completed', {
+        format: 'png',
+        qr_type: inputType,
+        size,
+      });
+
+      trackToolUse(TOOL_ID, 'file_downloaded', {
+        format: 'png',
+      });
+
+    } catch (err) {
+      const errorMessage = createSafeErrorMessage(err, 'Failed to download PNG. Please try again.');
+      setError(errorMessage);
+
+      // ANALYTICS: Track download errors
+      trackToolError(TOOL_ID, 'download_failed', {
+        format: 'png',
+      });
+    }
+  };
+
+  // Download as SVG with tracking
+  const downloadSvg = async () => {
+    const content = getQrContent();
+    if (!content) return;
+
+    try {
+      const svgString = await QRCode.toString(content, {
+        type: 'svg',
+        width: size,
+        margin: 2,
+        color: {
+          dark: fgColor,
+          light: bgColor,
+        },
+        errorCorrectionLevel: errorCorrection,
+      });
+
+      const blob = new Blob([svgString], { type: 'image/svg+xml' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.download = `qrcode_${Date.now()}.svg`;
+      link.href = url;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+
+      // ANALYTICS: Track SVG download
+      trackConversion(TOOL_ID, 'download_completed', {
+        format: 'svg',
+        qr_type: inputType,
+        size,
+      });
+
+      trackToolUse(TOOL_ID, 'file_downloaded', {
+        format: 'svg',
+      });
+
+    } catch (err) {
+      const errorMessage = createSafeErrorMessage(err, 'Failed to generate SVG. Please try again.');
+      setError(errorMessage);
+
+      // ANALYTICS: Track SVG errors
+      trackToolError(TOOL_ID, 'download_failed', {
+        format: 'svg',
+        error_type: 'svg_generation',
+      });
+    }
+  };
+
+  const hasContent = getQrContent().length > 0;
+
+  return (
+    <div className="max-w-4xl mx-auto">
+      <div className="grid md:grid-cols-2 gap-6">
+        {/* Input Panel */}
+        <div className="glass-card p-6">
+          <h3 className="text-white font-medium mb-4">Content</h3>
+
+          {/* Input Type Selector */}
+          <div className="grid grid-cols-4 gap-2 mb-6">
+            {([
+              { type: 'url', label: 'URL', icon: '🔗' },
+              { type: 'text', label: 'Text', icon: '📝' },
+              { type: 'wifi', label: 'WiFi', icon: '📶' },
+              { type: 'vcard', label: 'Contact', icon: '👤' },
+            ] as const).map(({ type, label, icon }) => (
+              <button
+                key={type}
+                onClick={() => handleInputTypeChange(type)}
+                className={`
+                  py-2 px-3 rounded-lg text-sm font-medium transition-all
+                  ${inputType === type
+                    ? 'bg-indigo-600 text-white'
+                    : 'bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-white'
+                  }
+                `}
+              >
+                <span className="block text-lg mb-1">{icon}</span>
+                {label}
+              </button>
+            ))}
+          </div>
+
+          {/* URL/Text Input */}
+          {(inputType === 'url' || inputType === 'text') && (
+            <div>
+              <label className="block text-slate-400 text-sm mb-2">
+                {inputType === 'url' ? 'Enter URL' : 'Enter Text'}
+              </label>
+              {inputType === 'url' ? (
+                <input
+                  type="url"
+                  value={textValue}
+                  onChange={(e) => setTextValue(e.target.value)}
+                  placeholder="https://example.com"
+                  className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder:text-slate-600 focus:outline-none focus:border-indigo-500"
+                />
+              ) : (
+                <textarea
+                  value={textValue}
+                  onChange={(e) => setTextValue(e.target.value)}
+                  placeholder="Enter any text..."
+                  rows={4}
+                  className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder:text-slate-600 focus:outline-none focus:border-indigo-500 resize-none"
+                />
+              )}
+            </div>
+          )}
+
+          {/* WiFi Input - unchanged for brevity */}
+          {/* vCard Input - unchanged for brevity */}
+        </div>
+
+        {/* Preview Panel */}
+        <div className="glass-card p-6">
+          <h3 className="text-white font-medium mb-4">Preview</h3>
+
+          {/* QR Code Canvas */}
+          <div className="flex items-center justify-center p-4 bg-white rounded-lg mb-6">
+            <canvas
+              ref={canvasRef}
+              width={size}
+              height={size}
+              className="max-w-full h-auto"
+              style={{
+                maxWidth: '100%',
+                imageRendering: 'pixelated',
+              }}
+            />
+          </div>
+
+          {/* Customization Options */}
+          <div className="space-y-4">
+            {/* Size */}
+            <div>
+              <label className="block text-slate-400 text-sm mb-2">
+                Size: {size}px
+              </label>
+              <input
+                type="range"
+                min={128}
+                max={512}
+                step={32}
+                value={size}
+                onChange={(e) => handleSizeChange(Number(e.target.value))}
+                className="w-full accent-indigo-500"
+              />
+            </div>
+
+            {/* Error Correction */}
+            <div>
+              <label htmlFor="error-correction" className="block text-slate-400 text-sm mb-2">Error Correction</label>
+              <select
+                id="error-correction"
+                value={errorCorrection}
+                onChange={(e) => handleErrorCorrectionChange(e.target.value as ErrorCorrectionLevel)}
+                className="w-full px-4 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white text-sm focus:outline-none focus:border-indigo-500"
+              >
+                <option value="L">Low (~7%)</option>
+                <option value="M">Medium (~15%)</option>
+                <option value="Q">Quartile (~25%)</option>
+                <option value="H">High (~30%)</option>
+              </select>
+            </div>
+
+            {/* Colors - unchanged */}
+          </div>
+
+          {/* Download Buttons */}
+          <div className="grid grid-cols-2 gap-4 mt-6">
+            <button
+              onClick={downloadPng}
+              disabled={!hasContent || isGenerating}
+              className={`
+                btn-primary flex items-center justify-center gap-2
+                ${(!hasContent || isGenerating) ? 'opacity-50 cursor-not-allowed' : ''}
+              `}
+            >
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+              </svg>
+              PNG
+            </button>
+            <button
+              onClick={downloadSvg}
+              disabled={!hasContent || isGenerating}
+              className={`
+                btn-secondary flex items-center justify-center gap-2
+                ${(!hasContent || isGenerating) ? 'opacity-50 cursor-not-allowed' : ''}
+              `}
+            >
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+              </svg>
+              SVG
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Error message */}
+      {error && (
+        <div className="mt-4 p-4 rounded-lg bg-red-500/20 border border-red-500/30 text-red-300 text-sm">
+          {error}
+        </div>
+      )}
+
+      {/* Privacy note */}
+      <p className="mt-6 text-center text-slate-500 text-sm">
+        <svg className="w-4 h-4 inline-block mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+        </svg>
+        QR codes are generated entirely in your browser. No data is sent to any server.
+      </p>
+    </div>
+  );
+}
+
+/**
+ * ANALYTICS SUMMARY FOR QR GENERATOR:
+ *
+ * Events tracked:
+ * 1. Tool Used - settings_changed (input type, size, error correction)
+ * 2. Tool Used - file_processed (successful QR generation)
+ * 3. Tool Used - file_downloaded (format: png/svg)
+ * 4. Conversion - download_completed (format, qr_type, size)
+ * 5. Tool Error - generation_failed (qr_type, content_length)
+ * 6. Tool Error - download_failed (format)
+ * 7. Performance - (duration, qr_type, size, content_length)
+ *
+ * Key metrics available:
+ * - Most popular QR type (url/text/wifi/vcard)
+ * - Average generation time
+ * - Preferred output format (PNG vs SVG)
+ * - Most common QR sizes
+ * - Error rates by type
+ * - Settings usage patterns
+ */

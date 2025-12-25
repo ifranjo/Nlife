@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JARVIS Analysis | BSC Success Pattern → NEW_LIFE Opportunities</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0f1419;
+            --bg-secondary: #1a1f26;
+            --accent: #00d4ff;
+            --accent-glow: rgba(0, 212, 255, 0.3);
+            --success: #00ff88;
+            --warning: #ffaa00;
+            --error: #ff4444;
+            --text: #e8eaed;
+            --text-dim: #8899a6;
+            --border: rgba(255, 255, 255, 0.1);
+            --glass: rgba(255, 255, 255, 0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .scanline {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0, 212, 255, 0.02) 2px,
+                rgba(0, 212, 255, 0.02) 4px
+            );
+            z-index: 1000;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+        }
+
+        .logo {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--accent);
+            letter-spacing: 4px;
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent), #00ff88);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            color: var(--text-dim);
+            font-size: 1.1rem;
+        }
+
+        .timestamp {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--accent);
+            margin-top: 1rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0, 212, 255, 0.1);
+            border-color: var(--accent);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .card-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--accent), #0088cc);
+            border-radius: 8px;
+            font-size: 1.2rem;
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .metric {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .metric:last-child {
+            border-bottom: none;
+        }
+
+        .metric-label {
+            color: var(--text-dim);
+            font-size: 0.9rem;
+        }
+
+        .metric-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        .metric-value.success {
+            color: var(--success);
+        }
+
+        .metric-value.warning {
+            color: var(--warning);
+        }
+
+        .metric-value.error {
+            color: var(--error);
+        }
+
+        .section {
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .section-title::before {
+            content: '';
+            width: 4px;
+            height: 24px;
+            background: var(--accent);
+            border-radius: 2px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background: rgba(0, 212, 255, 0.1);
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--accent);
+        }
+
+        tr:hover {
+            background: rgba(0, 212, 255, 0.05);
+        }
+
+        .priority-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .priority-high {
+            background: rgba(0, 255, 136, 0.2);
+            color: var(--success);
+            border: 1px solid var(--success);
+        }
+
+        .priority-medium {
+            background: rgba(255, 170, 0, 0.2);
+            color: var(--warning);
+            border: 1px solid var(--warning);
+        }
+
+        .priority-low {
+            background: rgba(136, 153, 166, 0.2);
+            color: var(--text-dim);
+            border: 1px solid var(--text-dim);
+        }
+
+        .formula-box {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            font-family: 'JetBrains Mono', monospace;
+            position: relative;
+        }
+
+        .formula-box::before {
+            content: 'SUCCESS FORMULA';
+            position: absolute;
+            top: -12px;
+            left: 20px;
+            background: var(--bg-secondary);
+            padding: 0 0.5rem;
+            color: var(--accent);
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+        }
+
+        .formula-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1rem 0;
+            border-bottom: 1px dashed var(--border);
+        }
+
+        .formula-item:last-child {
+            border-bottom: none;
+        }
+
+        .formula-number {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--accent);
+            color: var(--bg);
+            border-radius: 50%;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .formula-text {
+            flex: 1;
+        }
+
+        .formula-key {
+            color: var(--success);
+            font-weight: 600;
+        }
+
+        .opportunity-card {
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(0, 255, 136, 0.05));
+            border: 1px solid var(--accent);
+            padding: 2rem;
+            border-radius: 16px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .opportunity-card::before {
+            content: '★ TOP PICK';
+            position: absolute;
+            top: 15px;
+            right: -30px;
+            background: var(--accent);
+            color: var(--bg);
+            padding: 0.25rem 2rem;
+            font-size: 0.75rem;
+            font-weight: 700;
+            transform: rotate(45deg);
+        }
+
+        .opportunity-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .opportunity-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .stat-box {
+            background: var(--glass);
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-dim);
+            margin-top: 0.25rem;
+        }
+
+        .checklist {
+            list-style: none;
+            margin-top: 1.5rem;
+        }
+
+        .checklist li {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .checklist li::before {
+            content: '✓';
+            color: var(--success);
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .matrix {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 1rem;
+            position: relative;
+        }
+
+        .matrix::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: var(--border);
+        }
+
+        .matrix::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: var(--border);
+        }
+
+        .matrix-cell {
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .matrix-item {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: var(--glass);
+            border-radius: 8px;
+            margin: 0.25rem;
+        }
+
+        .matrix-label {
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .axis-label {
+            position: absolute;
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .axis-x {
+            bottom: 0.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .axis-y {
+            left: 0.5rem;
+            top: 50%;
+            transform: translateY(-50%) rotate(-90deg);
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+            border-top: 1px solid var(--border);
+            color: var(--text-dim);
+            font-size: 0.9rem;
+        }
+
+        footer a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .live-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+            color: var(--success);
+        }
+
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--success);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        .code-block {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+
+        .code-comment {
+            color: var(--text-dim);
+        }
+
+        .code-keyword {
+            color: var(--accent);
+        }
+
+        .code-string {
+            color: var(--success);
+        }
+    </style>
+</head>
+<body>
+    <div class="scanline"></div>
+
+    <div class="container">
+        <header>
+            <div class="logo">JARVIS RESEARCH INTELLIGENCE</div>
+            <h1>BSC Success Pattern Analysis</h1>
+            <p class="subtitle">Bank Statement Converter → NEW_LIFE Opportunity Mapping</p>
+            <p class="timestamp">
+                <span class="live-indicator"><span class="live-dot"></span> ANALYSIS COMPLETE</span>
+                &nbsp;|&nbsp; December 24, 2025 &nbsp;|&nbsp; 10 Web Searches + Codebase Analysis
+            </p>
+        </header>
+
+        <!-- BSC Success Metrics -->
+        <section class="section">
+            <h2 class="section-title">BSC Success Metrics (Verified)</h2>
+            <div class="grid">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">👤</div>
+                        <span class="card-title">Founder Profile</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Name</span>
+                        <span class="metric-value">Angus Cheng</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Started</span>
+                        <span class="metric-value">April 2021</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Team Size</span>
+                        <span class="metric-value success">Solo (1 person)</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Funding</span>
+                        <span class="metric-value">$0 (Bootstrapped)</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">💰</div>
+                        <span class="card-title">Revenue Metrics</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Current MRR</span>
+                        <span class="metric-value success">$38K - $42K</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Peak Month</span>
+                        <span class="metric-value success">$42,175 (Aug 2024)</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Annual Revenue</span>
+                        <span class="metric-value success">~$480K</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Paying Users</span>
+                        <span class="metric-value">1000+</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">📈</div>
+                        <span class="card-title">Growth Strategy</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Traffic Source</span>
+                        <span class="metric-value success">100% SEO</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Key Moment</span>
+                        <span class="metric-value">HackerNews Viral</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Content</span>
+                        <span class="metric-value">Blogging</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Referrals</span>
+                        <span class="metric-value">Accountant → Accountant</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">❌</div>
+                        <span class="card-title">What FAILED</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Cold Email</span>
+                        <span class="metric-value error">Gmail Banned, 1/1000</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Google Ads</span>
+                        <span class="metric-value error">$5K loss, turned off</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">First Year Revenue</span>
+                        <span class="metric-value warning">$10K total</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">Previous Salary</span>
+                        <span class="metric-value">$19K/month (quit)</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Success Formula -->
+        <section class="section">
+            <h2 class="section-title">BSC Success Formula</h2>
+            <div class="formula-box">
+                <div class="formula-item">
+                    <div class="formula-number">1</div>
+                    <div class="formula-text">
+                        <span class="formula-key">ONE specific problem</span> → Bank statement PDF → Excel (nothing else)
+                    </div>
+                </div>
+                <div class="formula-item">
+                    <div class="formula-number">2</div>
+                    <div class="formula-text">
+                        <span class="formula-key">Boring but painful</span> → Nobody gets excited, but EVERYONE needs it
+                    </div>
+                </div>
+                <div class="formula-item">
+                    <div class="formula-number">3</div>
+                    <div class="formula-text">
+                        <span class="formula-key">Freemium + high intent</span> → "If it works, they subscribe" — users buy BEFORE account
+                    </div>
+                </div>
+                <div class="formula-item">
+                    <div class="formula-number">4</div>
+                    <div class="formula-text">
+                        <span class="formula-key">SEO + blogging</span> → One HackerNews viral post = compound growth forever
+                    </div>
+                </div>
+                <div class="formula-item">
+                    <div class="formula-number">5</div>
+                    <div class="formula-text">
+                        <span class="formula-key">Privacy = trust</span> → Browser-based = no upload = professionals trust you
+                    </div>
+                </div>
+                <div class="formula-item">
+                    <div class="formula-number">6</div>
+                    <div class="formula-text">
+                        <span class="formula-key">Professional network</span> → Accountants tell other accountants (sticky growth)
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Top Opportunity -->
+        <section class="section">
+            <h2 class="section-title">Top Recommended Opportunity</h2>
+            <div class="opportunity-card">
+                <h3 class="opportunity-title">
+                    📊 Bank Statement to Excel Converter
+                </h3>
+                <p>DIRECT BSC competitor with browser-based privacy advantage. Replicates proven $40K MRR model.</p>
+
+                <div class="opportunity-stats">
+                    <div class="stat-box">
+                        <div class="stat-value">$20-40K</div>
+                        <div class="stat-label">MRR Potential</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value">Accountants</div>
+                        <div class="stat-label">Target Audience</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value">100%</div>
+                        <div class="stat-label">Client-Side Processing</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value">VALIDATED</div>
+                        <div class="stat-label">Revenue Model</div>
+                    </div>
+                </div>
+
+                <ul class="checklist">
+                    <li>Proven revenue: BSC does $40K MRR with this exact product</li>
+                    <li>Target audience overlap: Document tools users (same as current NEW_LIFE)</li>
+                    <li>Privacy advantage: Browser-based beats DocuClipper/LedgerDocs (no upload)</li>
+                    <li>Existing capability: OCR + PDF processing already in codebase</li>
+                    <li>Clear SEO keywords: "bank statement to excel free" has high intent</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Other Opportunities -->
+        <section class="section">
+            <h2 class="section-title">Additional High-Value Opportunities</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Opportunity</th>
+                        <th>Target Audience</th>
+                        <th>Why It Works</th>
+                        <th>Priority</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Invoice/Receipt → Excel</strong></td>
+                        <td>Accountants, SMBs</td>
+                        <td>$2.7T manual processing cost (Goldman)</td>
+                        <td><span class="priority-badge priority-high">HIGH</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>W-2/1099 Extractor</strong></td>
+                        <td>Tax Professionals</td>
+                        <td>60% of tax compliance = data extraction</td>
+                        <td><span class="priority-badge priority-high">HIGH</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Timesheet → Invoice</strong></td>
+                        <td>Freelancers</td>
+                        <td>$446M market, "tools gap" pain point</td>
+                        <td><span class="priority-badge priority-medium">MEDIUM</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Property Disclosure Filler</strong></td>
+                        <td>Real Estate Agents</td>
+                        <td>State-specific forms, underserved niche</td>
+                        <td><span class="priority-badge priority-medium">MEDIUM</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Contract Diff/Comparison</strong></td>
+                        <td>Lawyers</td>
+                        <td>"30% of time reading" — AI opportunity</td>
+                        <td><span class="priority-badge priority-low">NICHE</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Priority Matrix -->
+        <section class="section">
+            <h2 class="section-title">Implementation Priority Matrix</h2>
+            <div class="matrix">
+                <span class="axis-label axis-y">Revenue Potential →</span>
+                <span class="axis-label axis-x">Effort →</span>
+                <div class="matrix-cell">
+                    <p class="matrix-label">High Revenue / Low Effort</p>
+                    <div class="matrix-item" style="background: rgba(0, 255, 136, 0.2); border: 1px solid var(--success);">
+                        📊 Bank Statement → Excel
+                    </div>
+                </div>
+                <div class="matrix-cell">
+                    <p class="matrix-label">High Revenue / High Effort</p>
+                    <div class="matrix-item" style="background: rgba(255, 170, 0, 0.2); border: 1px solid var(--warning);">
+                        📋 W-2/1099 Extractor
+                    </div>
+                </div>
+                <div class="matrix-cell">
+                    <p class="matrix-label">Lower Revenue / Low Effort</p>
+                    <div class="matrix-item">
+                        🧾 Invoice → CSV
+                    </div>
+                </div>
+                <div class="matrix-cell">
+                    <p class="matrix-label">Niche / High Effort</p>
+                    <div class="matrix-item">
+                        🏠 Property Disclosure
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Professional Audiences -->
+        <section class="section">
+            <h2 class="section-title">Professional Audiences with Unmet Needs</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Audience</th>
+                        <th>Pain Point</th>
+                        <th>Tool Opportunity</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Accountants</td>
+                        <td>Bank/invoice data extraction takes hours</td>
+                        <td>Statement → Excel</td>
+                    </tr>
+                    <tr>
+                        <td>Tax Professionals</td>
+                        <td>50-60 hrs/week manual entry during tax season</td>
+                        <td>W-2/1099 Extractor</td>
+                    </tr>
+                    <tr>
+                        <td>Freelancers</td>
+                        <td>Scattered workflow (invoice + time + expense)</td>
+                        <td>Timesheet to Invoice</td>
+                    </tr>
+                    <tr>
+                        <td>Real Estate Agents</td>
+                        <td>Property disclosures, form filling chaos</td>
+                        <td>State-specific form generator</td>
+                    </tr>
+                    <tr>
+                        <td>Small Landlords</td>
+                        <td>Lease management, rent tracking</td>
+                        <td>Lease + payment tracker</td>
+                    </tr>
+                    <tr>
+                        <td>Lawyers</td>
+                        <td>Contract review, version comparison</td>
+                        <td>Legal diff tool</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Implementation Path -->
+        <section class="section">
+            <h2 class="section-title">Next Steps</h2>
+            <div class="grid">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">1</div>
+                        <span class="card-title">Validate Demand</span>
+                    </div>
+                    <p>Check Google Trends for "bank statement to excel" — confirm search volume</p>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">2</div>
+                        <span class="card-title">MVP Scope</span>
+                    </div>
+                    <p>OCR extraction + table detection + CSV export — minimal viable product</p>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">3</div>
+                        <span class="card-title">Landing Page</span>
+                    </div>
+                    <p>Privacy-focused messaging: "Your files never leave your device"</p>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">4</div>
+                        <span class="card-title">Content Strategy</span>
+                    </div>
+                    <p>Blog: "How to convert [bank name] statement to Excel" — target long-tail</p>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>Generated by <a href="#">JARVIS Research Intelligence</a> | Powered by Claude Opus 4.5</p>
+            <p style="margin-top: 0.5rem;">Analysis Date: December 24, 2025 | <a href="https://www.newlifesolutions.dev">New Life Solutions</a></p>
+        </footer>
+    </div>
+
+    <script>
+        // Add subtle glow effect on scroll
+        document.addEventListener('scroll', () => {
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(card => {
+                const rect = card.getBoundingClientRect();
+                const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
+                if (isVisible) {
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }
+            });
+        });
+
+        // Typewriter effect for timestamp
+        const timestamp = document.querySelector('.timestamp');
+        if (timestamp) {
+            timestamp.style.opacity = '0';
+            setTimeout(() => {
+                timestamp.style.transition = 'opacity 1s ease';
+                timestamp.style.opacity = '1';
+            }, 500);
+        }
+    </script>
+</body>
+</html>

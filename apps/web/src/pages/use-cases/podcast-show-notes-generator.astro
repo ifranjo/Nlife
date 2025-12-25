@@ -1,0 +1,302 @@
+---
+/**
+ * Programmatic SEO: Podcast Show Notes Generator
+ * Target: "podcast show notes generator free", "ai podcast summary", "episode description writer"
+ */
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/ui/Navbar.astro';
+import Footer from '../../components/ui/Footer.astro';
+
+const howToSchema = {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "How to Generate Podcast Show Notes with AI",
+  "description": "Create comprehensive podcast show notes from episode transcripts. Includes timestamps, key topics, quotes, and summaries. 100% browser-based.",
+  "step": [
+    { "@type": "HowToStep", "text": "Transcribe your podcast episode using AI" },
+    { "@type": "HowToStep", "text": "Review transcript and identify key moments" },
+    { "@type": "HowToStep", "text": "Extract quotes, topics, and timestamps" },
+    { "@type": "HowToStep", "text": "Format as show notes using the template" }
+  ]
+};
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Can I generate podcast show notes for free?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Transcribe your episode using our Audio Transcription tool (100% free, browser-based), then use the transcript to create show notes following our template. No signup or upload required."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How long does it take to generate show notes?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Transcription takes 5-10 minutes for a 1-hour episode. Formatting show notes from the transcript takes another 5-10 minutes, vs. 30-60 minutes writing from scratch."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What should podcast show notes include?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Effective show notes include: 1-2 sentence summary, guest bio, key topics with timestamps, memorable quotes, links mentioned in episode, and a call-to-action. See our template below."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do show notes help with podcast SEO?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Search engines can't index audio. Publishing detailed show notes with transcripts helps you rank for keywords from your episodes and makes content searchable."
+      }
+    }
+  ]
+};
+---
+
+<Layout
+  title="Free Podcast Show Notes Generator - AI Episode Summary Tool | New Life"
+  description="Generate podcast show notes in minutes with AI transcription. Create summaries, timestamps, and descriptions. Browser-based, no signup, no upload."
+>
+  <script type="application/ld+json" set:html={JSON.stringify(howToSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  <Navbar />
+
+  <main class="pt-20 pb-16 px-6 min-h-screen">
+    <article class="max-w-3xl mx-auto">
+      <nav class="text-sm text-[var(--text-muted)] mb-6">
+        <a href="/" class="hover:text-[var(--accent)]">Home</a>
+        <span class="mx-2">/</span>
+        <a href="/tools/audio-transcription" class="hover:text-[var(--accent)]">Audio Transcription</a>
+        <span class="mx-2">/</span>
+        <span>Show Notes Generator</span>
+      </nav>
+
+      <header class="mb-8">
+        <span class="inline-block px-3 py-1 bg-green-500/20 text-green-400 rounded text-sm font-medium mb-4">
+          Media Tools
+        </span>
+        <h1 class="text-4xl font-bold text-[var(--text)] mb-4">
+          Free Podcast Show Notes Generator
+        </h1>
+        <p class="text-xl text-[var(--text-muted)]">
+          Create comprehensive show notes in 10 minutes instead of 60. Transcribe with AI, extract key moments, format professionally. 100% browser-based.
+        </p>
+      </header>
+
+      <div class="bg-green-500/10 border border-green-500/30 rounded-xl p-6 mb-8">
+        <h2 class="text-lg font-semibold text-green-400 mb-2">Transcribe → Extract → Format</h2>
+        <p class="text-[var(--text)]">
+          Use our <a href="/tools/audio-transcription" class="text-green-400 underline">Audio Transcription tool</a> to generate a full episode transcript. Then follow our show notes template below to extract key moments, quotes, and timestamps.
+        </p>
+      </div>
+
+      <section class="mb-10">
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-4">Why Podcast Show Notes Matter</h2>
+        <div class="grid md:grid-cols-2 gap-4">
+          <div class="bg-[var(--bg-secondary)] rounded-lg p-4 border border-[var(--border)]">
+            <h3 class="font-semibold text-[var(--text)] mb-2">SEO & Discoverability</h3>
+            <p class="text-sm text-[var(--text-muted)]">Search engines can't index audio. Show notes with transcripts help you rank for episode topics and keywords.</p>
+          </div>
+          <div class="bg-[var(--bg-secondary)] rounded-lg p-4 border border-[var(--border)]">
+            <h3 class="font-semibold text-[var(--text)] mb-2">Listener Value</h3>
+            <p class="text-sm text-[var(--text-muted)]">Timestamps help listeners jump to sections. Links provide resources mentioned. Quotes make social sharing easy.</p>
+          </div>
+          <div class="bg-[var(--bg-secondary)] rounded-lg p-4 border border-[var(--border)]">
+            <h3 class="font-semibold text-[var(--text)] mb-2">Accessibility</h3>
+            <p class="text-sm text-[var(--text-muted)]">Transcripts make your content accessible to deaf/hard-of-hearing audiences and comply with accessibility standards.</p>
+          </div>
+          <div class="bg-[var(--bg-secondary)] rounded-lg p-4 border border-[var(--border)]">
+            <h3 class="font-semibold text-[var(--text)] mb-2">Repurpose Content</h3>
+            <p class="text-sm text-[var(--text-muted)]">Turn transcripts into blog posts, social media quotes, email newsletters, and YouTube descriptions.</p>
+          </div>
+        </div>
+      </section>
+
+      <div class="bg-[var(--bg-secondary)] rounded-xl p-8 text-center mb-10 border border-[var(--border)]">
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-4">Transcribe Your Podcast</h2>
+        <p class="text-[var(--text-muted)] mb-6">Step 1: Generate transcript with AI • 100% browser-based • No upload</p>
+        <a
+          href="/tools/audio-transcription"
+          class="inline-block px-8 py-4 bg-[var(--accent)] text-[var(--bg)] rounded-lg font-semibold hover:opacity-90 transition-opacity text-lg"
+        >
+          Start Transcription
+        </a>
+      </div>
+
+      <section class="mb-10">
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-4">Show Notes Workflow</h2>
+        <ol class="space-y-4 text-[var(--text-muted)]">
+          <li class="flex gap-3">
+            <span class="flex-shrink-0 w-8 h-8 bg-[var(--accent)] text-[var(--bg)] rounded-full flex items-center justify-center font-bold text-sm">1</span>
+            <span><strong class="text-[var(--text)]">Transcribe episode</strong> - Upload audio to <a href="/tools/audio-transcription" class="text-[var(--accent)] underline">Audio Transcription</a> (5-10 min for 1 hour)</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="flex-shrink-0 w-8 h-8 bg-[var(--accent)] text-[var(--bg)] rounded-full flex items-center justify-center font-bold text-sm">2</span>
+            <span><strong class="text-[var(--text)]">Read transcript</strong> - Identify 3-5 key topics, memorable quotes, and chapter breaks</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="flex-shrink-0 w-8 h-8 bg-[var(--accent)] text-[var(--bg)] rounded-full flex items-center justify-center font-bold text-sm">3</span>
+            <span><strong class="text-[var(--text)]">Extract timestamps</strong> - Note when each topic starts (transcript includes timestamps)</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="flex-shrink-0 w-8 h-8 bg-[var(--accent)] text-[var(--bg)] rounded-full flex items-center justify-center font-bold text-sm">4</span>
+            <span><strong class="text-[var(--text)]">Format using template</strong> - See template below for professional structure</span>
+          </li>
+        </ol>
+      </section>
+
+      <section class="mb-10">
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-4">Show Notes Template</h2>
+        <div class="bg-[var(--bg-secondary)] rounded-lg p-6 border border-[var(--border)] font-mono text-sm">
+          <pre class="text-[var(--text-muted)] whitespace-pre-wrap overflow-x-auto"><code># Episode Title
+
+## Summary
+[1-2 sentence overview of the episode topic and main takeaway]
+
+## Guest Bio (if applicable)
+[2-3 sentences about the guest's background and expertise]
+
+## Key Topics & Timestamps
+- [00:00] Introduction
+- [02:30] [Topic 1 - specific question or theme]
+- [15:45] [Topic 2 - specific question or theme]
+- [28:10] [Topic 3 - specific question or theme]
+- [42:00] [Topic 4 - specific question or theme]
+- [55:30] Lightning round / Closing thoughts
+
+## Memorable Quotes
+> "[Quote 1 that encapsulates key insight]" - [Speaker name]
+
+> "[Quote 2 that's highly shareable]" - [Speaker name]
+
+> "[Quote 3 with actionable advice]" - [Speaker name]
+
+## Resources Mentioned
+- [Link 1: Tool/book/website mentioned]
+- [Link 2: Previous episode reference]
+- [Link 3: Guest's website/social]
+
+## Call-to-Action
+[Subscribe link, review request, or next episode teaser]
+
+## Full Transcript
+[Paste complete transcript from Audio Transcription tool]</code></pre>
+        </div>
+      </section>
+
+      <section class="mb-10">
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-4">vs. Descript, Otter.ai, Castmagic</h2>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead>
+              <tr class="border-b border-[var(--border)]">
+                <th class="text-left p-3 text-[var(--text)]">Feature</th>
+                <th class="text-left p-3 text-[var(--text)]">New Life Solutions</th>
+                <th class="text-left p-3 text-[var(--text-muted)]">Descript / Castmagic</th>
+              </tr>
+            </thead>
+            <tbody class="text-[var(--text-muted)]">
+              <tr class="border-b border-[var(--border)]">
+                <td class="p-3">Transcription</td>
+                <td class="p-3 text-green-400">Free, unlimited</td>
+                <td class="p-3">Limited hours/mo (free tier)</td>
+              </tr>
+              <tr class="border-b border-[var(--border)]">
+                <td class="p-3">Show Notes Format</td>
+                <td class="p-3 text-green-400">Manual (full control)</td>
+                <td class="p-3">AI-generated (hit or miss)</td>
+              </tr>
+              <tr class="border-b border-[var(--border)]">
+                <td class="p-3">File Upload</td>
+                <td class="p-3 text-green-400">No (100% browser)</td>
+                <td class="p-3">Yes (server processing)</td>
+              </tr>
+              <tr class="border-b border-[var(--border)]">
+                <td class="p-3">Signup Required</td>
+                <td class="p-3 text-green-400">No</td>
+                <td class="p-3">Yes</td>
+              </tr>
+              <tr class="border-b border-[var(--border)]">
+                <td class="p-3">Cost</td>
+                <td class="p-3 text-green-400">Free</td>
+                <td class="p-3">$12-30/mo (Castmagic/Descript)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="mb-10">
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-4">Show Notes Best Practices</h2>
+        <div class="space-y-4 text-[var(--text-muted)]">
+          <div class="bg-[var(--bg-secondary)] rounded-lg p-4 border border-[var(--border)]">
+            <h3 class="font-semibold text-[var(--text)] mb-2">Front-load value</h3>
+            <p class="text-sm">Start with a compelling 1-2 sentence summary. Listeners decide in 10 seconds if they'll listen.</p>
+          </div>
+          <div class="bg-[var(--bg-secondary)] rounded-lg p-4 border border-[var(--border)]">
+            <h3 class="font-semibold text-[var(--text)] mb-2">Use descriptive timestamps</h3>
+            <p class="text-sm">"15:45 - How to cold email investors" is better than "15:45 - Cold emailing". Be specific.</p>
+          </div>
+          <div class="bg-[var(--bg-secondary)] rounded-lg p-4 border border-[var(--border)]">
+            <h3 class="font-semibold text-[var(--text)] mb-2">Extract shareable quotes</h3>
+            <p class="text-sm">Find 3-5 standalone quotes that make sense without context. Perfect for social media and audiograms.</p>
+          </div>
+          <div class="bg-[var(--bg-secondary)] rounded-lg p-4 border border-[var(--border)]">
+            <h3 class="font-semibold text-[var(--text)] mb-2">Link everything mentioned</h3>
+            <p class="text-sm">Books, tools, previous episodes, guest's website. Makes show notes a resource hub, not just a summary.</p>
+          </div>
+          <div class="bg-[var(--bg-secondary)] rounded-lg p-4 border border-[var(--border)]">
+            <h3 class="font-semibold text-[var(--text)] mb-2">Include full transcript</h3>
+            <p class="text-sm">Massive SEO boost. Search engines index every word. Listeners can Ctrl+F to find specific topics.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="mb-10">
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-4">Frequently Asked Questions</h2>
+        <div class="space-y-4">
+          <details class="bg-[var(--bg-secondary)] rounded-lg p-4 border border-[var(--border)]">
+            <summary class="font-semibold text-[var(--text)] cursor-pointer">Can I generate podcast show notes for free?</summary>
+            <p class="mt-2 text-sm text-[var(--text-muted)]">Yes. Transcribe your episode using our Audio Transcription tool (100% free, browser-based), then use the transcript to create show notes following our template. No signup or upload required.</p>
+          </details>
+          <details class="bg-[var(--bg-secondary)] rounded-lg p-4 border border-[var(--border)]">
+            <summary class="font-semibold text-[var(--text)] cursor-pointer">How long does it take to generate show notes?</summary>
+            <p class="mt-2 text-sm text-[var(--text-muted)]">Transcription takes 5-10 minutes for a 1-hour episode. Formatting show notes from the transcript takes another 5-10 minutes, vs. 30-60 minutes writing from scratch.</p>
+          </details>
+          <details class="bg-[var(--bg-secondary)] rounded-lg p-4 border border-[var(--border)]">
+            <summary class="font-semibold text-[var(--text)] cursor-pointer">What should podcast show notes include?</summary>
+            <p class="mt-2 text-sm text-[var(--text-muted)]">Effective show notes include: 1-2 sentence summary, guest bio, key topics with timestamps, memorable quotes, links mentioned in episode, and a call-to-action. See our template above.</p>
+          </details>
+          <details class="bg-[var(--bg-secondary)] rounded-lg p-4 border border-[var(--border)]">
+            <summary class="font-semibold text-[var(--text)] cursor-pointer">Do show notes help with podcast SEO?</summary>
+            <p class="mt-2 text-sm text-[var(--text-muted)]">Yes. Search engines can't index audio. Publishing detailed show notes with transcripts helps you rank for keywords from your episodes and makes content searchable.</p>
+          </details>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-4">Related Tools</h2>
+        <div class="flex flex-wrap gap-3">
+          <a href="/tools/audio-transcription" class="px-4 py-2 bg-[var(--bg-secondary)] rounded-lg text-[var(--text-muted)] hover:text-[var(--accent)] border border-[var(--border)]">
+            Audio Transcription
+          </a>
+          <a href="/use-cases/podcast-transcription-free" class="px-4 py-2 bg-[var(--bg-secondary)] rounded-lg text-[var(--text-muted)] hover:text-[var(--accent)] border border-[var(--border)]">
+            Podcast Transcription Guide
+          </a>
+          <a href="/use-cases/podcast-audiogram-maker" class="px-4 py-2 bg-[var(--bg-secondary)] rounded-lg text-[var(--text-muted)] hover:text-[var(--accent)] border border-[var(--border)]">
+            Audiogram Maker
+          </a>
+        </div>
+      </section>
+    </article>
+  </main>
+
+  <Footer />
+</Layout>

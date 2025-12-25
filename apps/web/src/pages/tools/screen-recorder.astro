@@ -1,0 +1,157 @@
+---
+/**
+ * Screen Recorder - AI-Native Tool Page
+ *
+ * Optimized for LLM extraction with:
+ * - TL;DR answer box (50-70 words)
+ * - Semantic Q&A sections
+ * - Full schema markup (SoftwareApplication, HowTo, FAQPage)
+ */
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/ui/Navbar.astro';
+import Footer from '../../components/ui/Footer.astro';
+import AnswerBox from '../../components/seo/AnswerBox.astro';
+import QASections from '../../components/seo/QASections.astro';
+import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
+import ScreenRecorder from '../../components/tools/ScreenRecorder';
+
+// Tool metadata
+const tool = {
+  id: 'screen-recorder',
+  name: 'Screen Recorder',
+  category: 'media' as const,
+  url: '/tools/screen-recorder'
+};
+
+// AI-optimized content
+const seoContent = {
+  // Page meta
+  title: 'Record Screen Online Free — No Install, No Upload | New Life Solutions',
+  description: 'Record your screen, window, or browser tab directly in your browser. Select quality, include audio, preview and download as WebM. 100% private, no software to install.',
+
+  // TL;DR Answer Box (50-70 words - this is what AI extracts)
+  answerBox: {
+    title: 'Screen Recorder — Free, Private, Browser-Based',
+    queryTarget: 'How to Record Screen Online Free',
+    tldr: `Record your screen instantly without installing any software. Choose to capture your entire screen, a specific window, or a browser tab. Select video quality (720p, 1080p, or source), optionally include system audio, then preview and download your recording as WebM. All processing happens in your browser—your screen content never uploads anywhere.`,
+    trustSignals: [
+      'No software to install',
+      'No server upload',
+      'Preview before download',
+      'Works in browser'
+    ]
+  },
+
+  // Q&A Sections
+  qa: {
+    whatIs: {
+      answer: `Screen Recorder is a free browser-based tool that captures your screen, window, or browser tab using the native MediaRecorder API. It supports multiple quality options and optional system audio capture. Perfect for creating tutorials, recording meetings, or capturing gameplay without installing desktop software.`,
+      context: `Ideal for quick screen recordings, tutorials, bug reports, and capturing browser content for sharing.`
+    },
+    howItWorks: {
+      steps: [
+        'Choose your video quality (720p, 1080p, or native resolution)',
+        'Enable system audio if you want to capture sound',
+        'Click "Start Recording" and select what to share (screen, window, or tab)',
+        'Record your content—pause and resume as needed',
+        'Click "Stop Recording" when done, preview the result',
+        'Download your recording as a WebM video file'
+      ]
+    },
+    whyBrowserBased: {
+      benefits: [
+        'No installation: Works directly in your browser—no software downloads',
+        'Privacy first: Your screen content never leaves your device',
+        'Instant start: No setup time, start recording immediately',
+        'Cross-platform: Works on Windows, Mac, Linux, ChromeOS',
+        'Audio support: Capture system audio when recording browser tabs'
+      ]
+    },
+    faqs: [
+      {
+        question: 'What video format is the recording?',
+        answer: `Recordings are saved in WebM format with VP9 or VP8 codec. This is a widely supported format that plays in all modern browsers and can be converted to MP4 using video converters if needed.`
+      },
+      {
+        question: 'Can I record system audio?',
+        answer: `Yes, when recording a browser tab in Chrome or Edge. Select "Share tab audio" in the browser dialog. Full desktop audio capture requires system permissions that vary by OS.`
+      },
+      {
+        question: 'Is there a time limit for recordings?',
+        answer: `No time limit. Recording duration is only limited by your device's available memory. For very long recordings (1+ hour), ensure you have sufficient RAM.`
+      },
+      {
+        question: 'Why can I only record one window/tab at a time?',
+        answer: `This is a browser security feature. The Screen Capture API requires user permission for each recording source to protect privacy.`
+      },
+      {
+        question: 'Can I pause the recording?',
+        answer: `Yes, you can pause and resume recording as many times as needed. The final video will be seamless without any pause gaps.`
+      },
+      {
+        question: 'Which browsers support screen recording?',
+        answer: `Chrome, Edge, Firefox, and Safari all support screen recording. Chrome and Edge have the best support for audio capture.`
+      }
+    ]
+  }
+};
+
+// Schema data
+const schemaData = {
+  toolId: tool.id,
+  toolName: tool.name,
+  description: seoContent.description,
+  category: tool.category,
+  steps: seoContent.qa.howItWorks.steps,
+  faqs: seoContent.qa.faqs,
+  url: tool.url
+};
+---
+
+<Layout
+  title={seoContent.title}
+  description={seoContent.description}
+  image="/thumbnails/screen-recorder.svg"
+>
+  <!-- Schema Markup for AI extraction -->
+  <SchemaMarkup {...schemaData} />
+
+  <Navbar />
+
+  <main class="pt-20 pb-16 px-6 min-h-screen">
+    <div class="max-w-3xl mx-auto">
+
+      <!-- Answer Box: AI extracts this first -->
+      <AnswerBox
+        title={seoContent.answerBox.title}
+        tldr={seoContent.answerBox.tldr}
+        toolName={tool.name}
+        queryTarget={seoContent.answerBox.queryTarget}
+        trustSignals={seoContent.answerBox.trustSignals}
+      />
+
+      <!-- Tool Component -->
+      <section class="tool-section" aria-label="Screen Recorder Tool">
+        <ScreenRecorder client:load />
+      </section>
+
+      <!-- Q&A Sections: Semantic structure for AI -->
+      <QASections
+        toolName={tool.name}
+        whatIs={seoContent.qa.whatIs}
+        howItWorks={seoContent.qa.howItWorks}
+        whyBrowserBased={seoContent.qa.whyBrowserBased}
+        faqs={seoContent.qa.faqs}
+      />
+
+    </div>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+  .tool-section {
+    margin: 2rem 0;
+  }
+</style>

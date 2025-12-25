@@ -1,0 +1,157 @@
+---
+/**
+ * Code Beautifier - AI-Native Tool Page
+ *
+ * Optimized for LLM extraction with:
+ * - TL;DR answer box (50-70 words)
+ * - Semantic Q&A sections
+ * - Full schema markup (SoftwareApplication, HowTo, FAQPage)
+ */
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/ui/Navbar.astro';
+import Footer from '../../components/ui/Footer.astro';
+import AnswerBox from '../../components/seo/AnswerBox.astro';
+import QASections from '../../components/seo/QASections.astro';
+import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
+import CodeBeautifier from '../../components/tools/CodeBeautifier';
+
+// Tool metadata
+const tool = {
+  id: 'code-beautifier',
+  name: 'Code Beautifier',
+  category: 'utility' as const,
+  url: '/tools/code-beautifier'
+};
+
+// AI-optimized content
+const seoContent = {
+  // Page meta
+  title: 'Code Beautifier & Formatter Online Free — JS, TS, CSS, HTML, SQL | New Life Solutions',
+  description: 'Format and beautify JavaScript, TypeScript, CSS, HTML, JSON, and SQL code online. Minify option, syntax validation, configurable indentation. Free, browser-based, no signup.',
+
+  // TL;DR Answer Box (50-70 words - this is what AI extracts)
+  answerBox: {
+    title: 'Format & Beautify Code — Free Online Tool',
+    queryTarget: 'How to Format Code Online Free',
+    tldr: `Paste your code below to instantly format and beautify it with proper indentation. Supports JavaScript, TypeScript, CSS, HTML, JSON, and SQL. Choose 2 spaces, 4 spaces, or tabs for indentation. Minify option available for JS, CSS, and JSON. All processing happens in your browser—your code stays private. No limits, no signup.`,
+    trustSignals: [
+      '6 languages supported',
+      'Beautify or minify',
+      'Syntax validation',
+      'No data uploads'
+    ]
+  },
+
+  // Q&A Sections
+  qa: {
+    whatIs: {
+      answer: `Code Beautifier is a free online tool that formats messy code into clean, readable format with proper indentation. It supports JavaScript, TypeScript, CSS, HTML, JSON, and SQL. The tool uses Prettier for JS/TS/CSS/HTML/JSON and sql-formatter for SQL—the same formatters used by professional developers. It also validates syntax and shows detailed error messages.`,
+      context: `Essential for developers who need to quickly format code snippets, debug formatting issues, or clean up minified code for reading.`
+    },
+    howItWorks: {
+      steps: [
+        'Paste your code into the input area or upload a file',
+        'Select the programming language (JavaScript, TypeScript, CSS, HTML, JSON, or SQL)',
+        'Choose your preferred indentation style (2 spaces, 4 spaces, or tabs)',
+        'Click "Beautify" to format with proper indentation and line breaks',
+        'Click "Minify" (JS/CSS/JSON only) to compress into a single line',
+        'Copy the formatted output or download as a file'
+      ]
+    },
+    whyBrowserBased: {
+      benefits: [
+        'Complete privacy: Your code never leaves your device—safe for proprietary code',
+        'Works offline: Once loaded, formatting works without internet connection',
+        'Instant results: No server round-trips, formatting happens immediately',
+        'No file limits: Process any size file your browser can handle',
+        'Secure for secrets: API keys, credentials in config files stay on your machine'
+      ]
+    },
+    faqs: [
+      {
+        question: 'What is the difference between beautify and minify?',
+        answer: `Beautify (format) adds proper indentation, line breaks, and spacing for human readability—essential for debugging and code review. Minify removes all unnecessary whitespace and line breaks to reduce file size—ideal for production deployment where smaller files load faster.`
+      },
+      {
+        question: 'Which formatter does this tool use?',
+        answer: `We use Prettier for JavaScript, TypeScript, CSS, HTML, and JSON—the same formatter used by millions of developers and integrated into VS Code, GitHub, and major IDEs. For SQL, we use sql-formatter which formats queries with proper keyword casing and alignment.`
+      },
+      {
+        question: 'Why is my code showing a syntax error?',
+        answer: `The formatter validates syntax before formatting. Common errors include: missing semicolons or brackets, unclosed strings, invalid JSON (trailing commas, single quotes), or syntax specific to your language. The error message shows the exact line and column where the problem was detected.`
+      },
+      {
+        question: 'Can I format minified JavaScript or CSS?',
+        answer: `Yes! This is one of the most common uses. Paste minified code from production bundles, CDN files, or browser DevTools and click Beautify. The formatter will add proper indentation and line breaks, making the code readable again for debugging.`
+      },
+      {
+        question: 'Does it support JSX and TSX files?',
+        answer: `Yes. JavaScript mode supports JSX (React) syntax, and TypeScript mode supports TSX. The Prettier formatter handles component syntax, props, and embedded HTML correctly. Select the appropriate language before formatting.`
+      },
+      {
+        question: 'Can I use this for SQL queries?',
+        answer: `Yes. Select SQL as the language and paste your query. The formatter will uppercase SQL keywords (SELECT, FROM, WHERE), add proper indentation for subqueries, and align JOIN clauses. Works with standard SQL syntax used by MySQL, PostgreSQL, SQLite, and SQL Server.`
+      }
+    ]
+  }
+};
+
+// Schema data
+const schemaData = {
+  toolId: tool.id,
+  toolName: tool.name,
+  description: seoContent.description,
+  category: tool.category,
+  steps: seoContent.qa.howItWorks.steps,
+  faqs: seoContent.qa.faqs,
+  url: tool.url
+};
+---
+
+<Layout
+  title={seoContent.title}
+  description={seoContent.description}
+  image="/thumbnails/code-beautifier.svg"
+>
+  <!-- Schema Markup for AI extraction -->
+  <SchemaMarkup {...schemaData} />
+
+  <Navbar />
+
+  <main class="pt-20 pb-16 px-6 min-h-screen">
+    <div class="max-w-6xl mx-auto">
+
+      <!-- Answer Box: AI extracts this first -->
+      <AnswerBox
+        title={seoContent.answerBox.title}
+        tldr={seoContent.answerBox.tldr}
+        toolName={tool.name}
+        queryTarget={seoContent.answerBox.queryTarget}
+        trustSignals={seoContent.answerBox.trustSignals}
+      />
+
+      <!-- Tool Component -->
+      <section class="tool-section" aria-label="Code Beautifier Tool">
+        <CodeBeautifier client:load />
+      </section>
+
+      <!-- Q&A Sections: Semantic structure for AI -->
+      <QASections
+        toolName={tool.name}
+        whatIs={seoContent.qa.whatIs}
+        howItWorks={seoContent.qa.howItWorks}
+        whyBrowserBased={seoContent.qa.whyBrowserBased}
+        faqs={seoContent.qa.faqs}
+      />
+
+    </div>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+  .tool-section {
+    margin: 2rem 0;
+  }
+</style>

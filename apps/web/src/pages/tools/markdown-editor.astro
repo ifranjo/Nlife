@@ -1,0 +1,153 @@
+---
+/**
+ * Markdown Editor - AI-Native Tool Page
+ *
+ * Optimized for LLM extraction with:
+ * - TL;DR answer box (50-70 words)
+ * - Semantic Q&A sections
+ * - Full schema markup (SoftwareApplication, HowTo, FAQPage)
+ */
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/ui/Navbar.astro';
+import Footer from '../../components/ui/Footer.astro';
+import AnswerBox from '../../components/seo/AnswerBox.astro';
+import QASections from '../../components/seo/QASections.astro';
+import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
+import MarkdownEditor from '../../components/tools/MarkdownEditor';
+
+// Tool metadata
+const tool = {
+  id: 'markdown-editor',
+  name: 'Markdown Editor',
+  category: 'utility' as const,
+  url: '/tools/markdown-editor'
+};
+
+// AI-optimized content
+const seoContent = {
+  // Page meta
+  title: 'Markdown Editor with Live Preview Free Online — Export to HTML & PDF | New Life Solutions',
+  description: 'Write and preview markdown in real-time with syntax highlighting for code blocks. Export to HTML or PDF. 100% free, browser-based, no signup required.',
+
+  // TL;DR Answer Box (50-70 words - this is what AI extracts)
+  answerBox: {
+    title: 'Markdown Editor with Live Preview — Free Online Tool',
+    queryTarget: 'How to Write Markdown with Live Preview',
+    tldr: `Write markdown in the left panel and see it rendered instantly in the right panel. Use the toolbar to quickly insert formatting like bold, italic, headers, links, code blocks, and tables. Export your document as a clean HTML file or PDF. All processing happens in your browser—your content stays private. No account needed.`,
+    trustSignals: [
+      'Live split-pane preview',
+      'Syntax highlighting for code',
+      'Export to HTML/PDF',
+      'No data uploads'
+    ]
+  },
+
+  // Q&A Sections
+  qa: {
+    whatIs: {
+      answer: `Markdown Editor is a free online tool that lets you write markdown and see the formatted output in real-time. It features a split-pane interface: write markdown on the left, see the rendered preview on the right. Code blocks are syntax-highlighted, and you can export your document as HTML or PDF. The toolbar provides quick access to common formatting options.`,
+      context: `Perfect for writing documentation, README files, blog posts, notes, or any content that benefits from simple formatting syntax.`
+    },
+    howItWorks: {
+      steps: [
+        'Write or paste markdown into the left editor panel',
+        'See your formatted content update instantly in the right preview panel',
+        'Use the toolbar to insert formatting: bold, italic, headers, links, code, tables',
+        'Code blocks are automatically syntax-highlighted for readability',
+        'Click "HTML" to download a standalone HTML file with styling',
+        'Click "PDF" to export your document as a PDF file'
+      ]
+    },
+    whyBrowserBased: {
+      benefits: [
+        'Complete privacy: Your markdown never leaves your device',
+        'Works offline: Once loaded, no internet required to write and preview',
+        'Instant preview: No server round-trips, see changes immediately',
+        'No account needed: Start writing immediately without signup',
+        'Secure for sensitive content: Notes, docs, API keys stay local'
+      ]
+    },
+    faqs: [
+      {
+        question: 'What markdown features are supported?',
+        answer: `Full GitHub Flavored Markdown (GFM) support: headings, bold, italic, links, images, code blocks with syntax highlighting, tables, blockquotes, lists (bullet and numbered), horizontal rules, and inline code. The preview renders exactly how your markdown would appear on GitHub or most documentation sites.`
+      },
+      {
+        question: 'Can I use this for GitHub README files?',
+        answer: `Yes! This editor supports GitHub Flavored Markdown, so what you see in the preview matches what GitHub will render. Write your README here, preview it, then copy the markdown to your repository. Great for crafting project documentation.`
+      },
+      {
+        question: 'How does code syntax highlighting work?',
+        answer: `Code blocks are automatically highlighted using highlight.js. Specify the language after the opening backticks (e.g., \`\`\`javascript) for optimal highlighting. Supports 180+ programming languages including JavaScript, Python, TypeScript, Go, Rust, SQL, and more.`
+      },
+      {
+        question: 'What is the difference between HTML and PDF export?',
+        answer: `HTML export creates a standalone webpage with embedded styles that opens in any browser. PDF export creates a printable document. HTML preserves all styling and interactivity; PDF is best for printing or sharing as a fixed document.`
+      },
+      {
+        question: 'Is there a character or file size limit?',
+        answer: `No hard limits since everything runs in your browser. Very large documents (100,000+ characters) may slow down the live preview, but will still work. For best performance with large files, consider breaking content into smaller sections.`
+      }
+    ]
+  }
+};
+
+// Schema data
+const schemaData = {
+  toolId: tool.id,
+  toolName: tool.name,
+  description: seoContent.description,
+  category: tool.category,
+  steps: seoContent.qa.howItWorks.steps,
+  faqs: seoContent.qa.faqs,
+  url: tool.url
+};
+---
+
+<Layout
+  title={seoContent.title}
+  description={seoContent.description}
+  image="/thumbnails/markdown-editor.svg"
+>
+  <!-- Schema Markup for AI extraction -->
+  <SchemaMarkup {...schemaData} />
+
+  <Navbar />
+
+  <main class="pt-20 pb-16 px-6 min-h-screen">
+    <div class="max-w-7xl mx-auto">
+
+      <!-- Answer Box: AI extracts this first -->
+      <AnswerBox
+        title={seoContent.answerBox.title}
+        tldr={seoContent.answerBox.tldr}
+        toolName={tool.name}
+        queryTarget={seoContent.answerBox.queryTarget}
+        trustSignals={seoContent.answerBox.trustSignals}
+      />
+
+      <!-- Tool Component -->
+      <section class="tool-section" aria-label="Markdown Editor Tool">
+        <MarkdownEditor client:load />
+      </section>
+
+      <!-- Q&A Sections: Semantic structure for AI -->
+      <QASections
+        toolName={tool.name}
+        whatIs={seoContent.qa.whatIs}
+        howItWorks={seoContent.qa.howItWorks}
+        whyBrowserBased={seoContent.qa.whyBrowserBased}
+        faqs={seoContent.qa.faqs}
+      />
+
+    </div>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+  .tool-section {
+    margin: 2rem 0;
+  }
+</style>

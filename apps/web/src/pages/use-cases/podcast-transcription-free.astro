@@ -1,0 +1,237 @@
+---
+/**
+ * Programmatic SEO: Free Podcast Transcription
+ * Target: "free podcast transcription no signup", "transcribe podcast episode", "podcast to text"
+ */
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/ui/Navbar.astro';
+import Footer from '../../components/ui/Footer.astro';
+
+const howToSchema = {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "How to Transcribe Podcast Episodes for Free",
+  "description": "Transcribe podcast episodes using browser-based AI. No signup, no upload, no limits. Generate accurate transcripts for show notes, SEO, and accessibility.",
+  "step": [
+    { "@type": "HowToStep", "text": "Open the audio transcription tool" },
+    { "@type": "HowToStep", "text": "Drop or select your podcast audio file" },
+    { "@type": "HowToStep", "text": "AI transcribes using Whisper (100% in-browser)" },
+    { "@type": "HowToStep", "text": "Download transcript as TXT or SRT" }
+  ]
+};
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Can I transcribe podcasts for free without signup?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Our audio transcription tool runs 100% in your browser using OpenAI's Whisper AI. No account needed, no file upload, unlimited use."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does the podcast file leave my computer?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Processing happens entirely in your browser. Perfect for podcasts with sensitive guest interviews or unpublished content."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How accurate are podcast transcriptions?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Whisper AI achieves 95%+ accuracy for clear audio. Works with multiple speakers and various accents. You may need light editing for technical terms or names."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What audio formats work?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Supports MP3, WAV, M4A, AAC, OGG, and more. Maximum file size: 100MB (about 90 minutes of audio)."
+      }
+    }
+  ]
+};
+---
+
+<Layout
+  title="Free Podcast Transcription No Signup - AI Episode Transcriber | New Life"
+  description="Transcribe podcast episodes instantly with AI. No signup, no upload, no limits. Browser-based Whisper transcription for show notes, SEO, and accessibility."
+>
+  <script type="application/ld+json" set:html={JSON.stringify(howToSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  <Navbar />
+
+  <main class="pt-20 pb-16 px-6 min-h-screen">
+    <article class="max-w-3xl mx-auto">
+      <nav class="text-sm text-[var(--text-muted)] mb-6">
+        <a href="/" class="hover:text-[var(--accent)]">Home</a>
+        <span class="mx-2">/</span>
+        <a href="/tools/audio-transcription" class="hover:text-[var(--accent)]">Audio Transcription</a>
+        <span class="mx-2">/</span>
+        <span>Podcast Transcription</span>
+      </nav>
+
+      <header class="mb-8">
+        <span class="inline-block px-3 py-1 bg-green-500/20 text-green-400 rounded text-sm font-medium mb-4">
+          Media Tools
+        </span>
+        <h1 class="text-4xl font-bold text-[var(--text)] mb-4">
+          Free Podcast Transcription (No Signup)
+        </h1>
+        <p class="text-xl text-[var(--text-muted)]">
+          Turn podcast audio into text using AI. Perfect for show notes, SEO, and accessibility. 100% browser-based - files never leave your computer.
+        </p>
+      </header>
+
+      <div class="bg-green-500/10 border border-green-500/30 rounded-xl p-6 mb-8">
+        <h2 class="text-lg font-semibold text-green-400 mb-2">Whisper AI Transcription</h2>
+        <p class="text-[var(--text)]">
+          Use our <a href="/tools/audio-transcription" class="text-green-400 underline">Audio Transcription tool</a> powered by OpenAI's Whisper AI. Drop your podcast file and get accurate transcripts with timestamps. No account required, no file upload to servers.
+        </p>
+      </div>
+
+      <section class="mb-10">
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-4">Why Podcasters Use Our Transcription Tool</h2>
+        <div class="grid md:grid-cols-2 gap-4">
+          <div class="bg-[var(--bg-secondary)] rounded-lg p-4 border border-[var(--border)]">
+            <h3 class="font-semibold text-[var(--text)] mb-2">Show Notes in Minutes</h3>
+            <p class="text-sm text-[var(--text-muted)]">Generate full transcripts to create show notes, pull quotes, and episode summaries quickly.</p>
+          </div>
+          <div class="bg-[var(--bg-secondary)] rounded-lg p-4 border border-[var(--border)]">
+            <h3 class="font-semibold text-[var(--text)] mb-2">SEO Optimization</h3>
+            <p class="text-sm text-[var(--text-muted)]">Search engines can't index audio. Publish transcripts to rank for keywords from your episodes.</p>
+          </div>
+          <div class="bg-[var(--bg-secondary)] rounded-lg p-4 border border-[var(--border)]">
+            <h3 class="font-semibold text-[var(--text)] mb-2">Accessibility Compliance</h3>
+            <p class="text-sm text-[var(--text-muted)]">Provide transcripts for deaf/hard-of-hearing listeners and meet accessibility standards.</p>
+          </div>
+          <div class="bg-[var(--bg-secondary)] rounded-lg p-4 border border-[var(--border)]">
+            <h3 class="font-semibold text-[var(--text)] mb-2">Privacy for Guest Interviews</h3>
+            <p class="text-sm text-[var(--text-muted)]">Process unpublished episodes or sensitive interviews without uploading to third-party servers.</p>
+          </div>
+        </div>
+      </section>
+
+      <div class="bg-[var(--bg-secondary)] rounded-xl p-8 text-center mb-10 border border-[var(--border)]">
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-4">Transcribe Your Podcast Now</h2>
+        <p class="text-[var(--text-muted)] mb-6">100% browser-based AI • No signup • No upload • Unlimited use</p>
+        <a
+          href="/tools/audio-transcription"
+          class="inline-block px-8 py-4 bg-[var(--accent)] text-[var(--bg)] rounded-lg font-semibold hover:opacity-90 transition-opacity text-lg"
+        >
+          Open Transcription Tool
+        </a>
+      </div>
+
+      <section class="mb-10">
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-4">Podcast Transcription Workflow</h2>
+        <ol class="space-y-4 text-[var(--text-muted)]">
+          <li class="flex gap-3">
+            <span class="flex-shrink-0 w-8 h-8 bg-[var(--accent)] text-[var(--bg)] rounded-full flex items-center justify-center font-bold text-sm">1</span>
+            <span><strong class="text-[var(--text)]">Export episode audio</strong> - MP3, WAV, M4A, or any common format (max 100MB)</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="flex-shrink-0 w-8 h-8 bg-[var(--accent)] text-[var(--bg)] rounded-full flex items-center justify-center font-bold text-sm">2</span>
+            <span><strong class="text-[var(--text)]">Drop file in tool</strong> - Opens <a href="/tools/audio-transcription" class="text-[var(--accent)] underline">Audio Transcription</a></span>
+          </li>
+          <li class="flex gap-3">
+            <span class="flex-shrink-0 w-8 h-8 bg-[var(--accent)] text-[var(--bg)] rounded-full flex items-center justify-center font-bold text-sm">3</span>
+            <span><strong class="text-[var(--text)]">AI transcribes in browser</strong> - Whisper model processes locally (5-10 minutes for 1 hour)</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="flex-shrink-0 w-8 h-8 bg-[var(--accent)] text-[var(--bg)] rounded-full flex items-center justify-center font-bold text-sm">4</span>
+            <span><strong class="text-[var(--text)]">Download transcript</strong> - TXT for show notes, SRT for captions</span>
+          </li>
+        </ol>
+      </section>
+
+      <section class="mb-10">
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-4">vs. Otter.ai, Descript, Rev</h2>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead>
+              <tr class="border-b border-[var(--border)]">
+                <th class="text-left p-3 text-[var(--text)]">Feature</th>
+                <th class="text-left p-3 text-[var(--text)]">New Life Solutions</th>
+                <th class="text-left p-3 text-[var(--text-muted)]">Otter.ai / Descript</th>
+              </tr>
+            </thead>
+            <tbody class="text-[var(--text-muted)]">
+              <tr class="border-b border-[var(--border)]">
+                <td class="p-3">Signup Required</td>
+                <td class="p-3 text-green-400">No</td>
+                <td class="p-3">Yes</td>
+              </tr>
+              <tr class="border-b border-[var(--border)]">
+                <td class="p-3">File Upload</td>
+                <td class="p-3 text-green-400">No (100% browser)</td>
+                <td class="p-3">Yes (server processing)</td>
+              </tr>
+              <tr class="border-b border-[var(--border)]">
+                <td class="p-3">Monthly Limits</td>
+                <td class="p-3 text-green-400">Unlimited</td>
+                <td class="p-3">600 min/mo (Otter free)</td>
+              </tr>
+              <tr class="border-b border-[var(--border)]">
+                <td class="p-3">Privacy</td>
+                <td class="p-3 text-green-400">Total (offline-capable)</td>
+                <td class="p-3">Files stored on servers</td>
+              </tr>
+              <tr class="border-b border-[var(--border)]">
+                <td class="p-3">Cost</td>
+                <td class="p-3 text-green-400">Free</td>
+                <td class="p-3">$8.33-20/mo for unlimited</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="mb-10">
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-4">Frequently Asked Questions</h2>
+        <div class="space-y-4">
+          <details class="bg-[var(--bg-secondary)] rounded-lg p-4 border border-[var(--border)]">
+            <summary class="font-semibold text-[var(--text)] cursor-pointer">Can I transcribe podcasts for free without signup?</summary>
+            <p class="mt-2 text-sm text-[var(--text-muted)]">Yes. Our audio transcription tool runs 100% in your browser using OpenAI's Whisper AI. No account needed, no file upload, unlimited use.</p>
+          </details>
+          <details class="bg-[var(--bg-secondary)] rounded-lg p-4 border border-[var(--border)]">
+            <summary class="font-semibold text-[var(--text)] cursor-pointer">Does the podcast file leave my computer?</summary>
+            <p class="mt-2 text-sm text-[var(--text-muted)]">No. Processing happens entirely in your browser. Perfect for podcasts with sensitive guest interviews or unpublished content.</p>
+          </details>
+          <details class="bg-[var(--bg-secondary)] rounded-lg p-4 border border-[var(--border)]">
+            <summary class="font-semibold text-[var(--text)] cursor-pointer">How accurate are podcast transcriptions?</summary>
+            <p class="mt-2 text-sm text-[var(--text-muted)]">Whisper AI achieves 95%+ accuracy for clear audio. Works with multiple speakers and various accents. You may need light editing for technical terms or names.</p>
+          </details>
+          <details class="bg-[var(--bg-secondary)] rounded-lg p-4 border border-[var(--border)]">
+            <summary class="font-semibold text-[var(--text)] cursor-pointer">What audio formats work?</summary>
+            <p class="mt-2 text-sm text-[var(--text-muted)]">Supports MP3, WAV, M4A, AAC, OGG, and more. Maximum file size: 100MB (about 90 minutes of audio).</p>
+          </details>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-4">Related Tools</h2>
+        <div class="flex flex-wrap gap-3">
+          <a href="/tools/audio-transcription" class="px-4 py-2 bg-[var(--bg-secondary)] rounded-lg text-[var(--text-muted)] hover:text-[var(--accent)] border border-[var(--border)]">
+            Audio Transcription
+          </a>
+          <a href="/tools/video-trimmer" class="px-4 py-2 bg-[var(--bg-secondary)] rounded-lg text-[var(--text-muted)] hover:text-[var(--accent)] border border-[var(--border)]">
+            Video Trimmer
+          </a>
+          <a href="/tools/gif-maker" class="px-4 py-2 bg-[var(--bg-secondary)] rounded-lg text-[var(--text-muted)] hover:text-[var(--accent)] border border-[var(--border)]">
+            GIF Maker
+          </a>
+        </div>
+      </section>
+    </article>
+  </main>
+
+  <Footer />
+</Layout>

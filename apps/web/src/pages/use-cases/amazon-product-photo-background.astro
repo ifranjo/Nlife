@@ -1,0 +1,225 @@
+---
+/**
+ * Programmatic SEO: Amazon Product Photo Background Remover
+ * Target: "amazon product photo background remover", "white background amazon listing", "amazon image requirements"
+ */
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/ui/Navbar.astro';
+import Footer from '../../components/ui/Footer.astro';
+
+const howToSchema = {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "How to Create Amazon-Compliant Product Photos with White Background",
+  "description": "Remove backgrounds from product photos and add pure white (#FFFFFF) backgrounds to meet Amazon listing requirements.",
+  "step": [
+    { "@type": "HowToStep", "text": "Upload your product photo" },
+    { "@type": "HowToStep", "text": "AI removes the background automatically" },
+    { "@type": "HowToStep", "text": "Add pure white background (#FFFFFF)" },
+    { "@type": "HowToStep", "text": "Download Amazon-ready image" }
+  ]
+};
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What are Amazon's image requirements?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Amazon requires main product images to have a pure white background (RGB 255, 255, 255 or hex #FFFFFF), minimum 1000x1000 pixels, and the product should fill at least 85% of the frame."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I use this for Amazon FBA listings?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, our background remover creates Amazon-compliant images. After removing the background, you can add a pure white background that meets Amazon's strict requirements."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is this free to use?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, completely free. No signup, no watermarks, unlimited use. All processing happens in your browser for maximum privacy."
+      }
+    }
+  ]
+};
+---
+
+<Layout
+  title="Amazon Product Photo Background Remover - White Background for Listings | New Life"
+  description="Remove backgrounds from product photos and add pure white backgrounds for Amazon listings. Meet Amazon image requirements instantly. Free, AI-powered."
+>
+  <script type="application/ld+json" set:html={JSON.stringify(howToSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  <Navbar />
+
+  <main class="pt-20 pb-16 px-6 min-h-screen">
+    <article class="max-w-3xl mx-auto">
+      <nav class="text-sm text-[var(--text-muted)] mb-6">
+        <a href="/" class="hover:text-[var(--accent)]">Home</a>
+        <span class="mx-2">/</span>
+        <a href="/tools/background-remover" class="hover:text-[var(--accent)]">Background Remover</a>
+        <span class="mx-2">/</span>
+        <span>Amazon Product Photos</span>
+      </nav>
+
+      <header class="mb-8">
+        <span class="inline-block px-3 py-1 bg-orange-500/20 text-orange-400 rounded text-sm font-medium mb-4">
+          eCommerce / Amazon FBA
+        </span>
+        <h1 class="text-4xl font-bold text-[var(--text)] mb-4">
+          Amazon Product Photo Background Remover
+        </h1>
+        <p class="text-xl text-[var(--text-muted)]">
+          Create Amazon-compliant product photos with pure white backgrounds. Meet image requirements instantly.
+        </p>
+      </header>
+
+      <div class="bg-orange-500/10 border border-orange-500/30 rounded-xl p-6 mb-8">
+        <h2 class="text-lg font-semibold text-orange-400 mb-2">Instant Amazon Compliance</h2>
+        <p class="text-[var(--text)]">
+          Use our <a href="/tools/background-remover" class="text-orange-400 underline">AI background remover</a> to automatically remove backgrounds and add pure white (#FFFFFF) backgrounds. No Photoshop needed.
+        </p>
+      </div>
+
+      <section class="mb-10">
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-4">Amazon Image Requirements</h2>
+        <div class="overflow-x-auto">
+          <table class="w-full bg-[var(--bg-secondary)] rounded-lg border border-[var(--border)]">
+            <thead>
+              <tr class="border-b border-[var(--border)]">
+                <th class="text-left p-4 text-[var(--text)] font-semibold">Requirement</th>
+                <th class="text-left p-4 text-[var(--text)] font-semibold">Specification</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="border-b border-[var(--border)]">
+                <td class="p-4 text-[var(--text-muted)]">Background</td>
+                <td class="p-4 text-[var(--text)]">Pure white (#FFFFFF / RGB 255,255,255)</td>
+              </tr>
+              <tr class="border-b border-[var(--border)]">
+                <td class="p-4 text-[var(--text-muted)]">Minimum Size</td>
+                <td class="p-4 text-[var(--text)]">1000 x 1000 pixels</td>
+              </tr>
+              <tr class="border-b border-[var(--border)]">
+                <td class="p-4 text-[var(--text-muted)]">Recommended Size</td>
+                <td class="p-4 text-[var(--text)]">2000 x 2000 pixels (for zoom)</td>
+              </tr>
+              <tr class="border-b border-[var(--border)]">
+                <td class="p-4 text-[var(--text-muted)]">Product Fill</td>
+                <td class="p-4 text-[var(--text)]">85% of image frame minimum</td>
+              </tr>
+              <tr>
+                <td class="p-4 text-[var(--text-muted)]">Format</td>
+                <td class="p-4 text-[var(--text)]">JPEG or PNG (JPEG preferred)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="mb-10">
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-4">Why Amazon Sellers Choose This Tool</h2>
+        <div class="grid md:grid-cols-2 gap-4">
+          <div class="bg-[var(--bg-secondary)] rounded-lg p-4 border border-[var(--border)]">
+            <h3 class="font-semibold text-[var(--text)] mb-2">Amazon FBA Compliance</h3>
+            <p class="text-sm text-[var(--text-muted)]">Automatically creates pure white backgrounds that meet Amazon's strict main image requirements.</p>
+          </div>
+          <div class="bg-[var(--bg-secondary)] rounded-lg p-4 border border-[var(--border)]">
+            <h3 class="font-semibold text-[var(--text)] mb-2">AI-Powered Accuracy</h3>
+            <p class="text-sm text-[var(--text-muted)]">Advanced AI removes backgrounds cleanly, preserving product edges and details.</p>
+          </div>
+          <div class="bg-[var(--bg-secondary)] rounded-lg p-4 border border-[var(--border)]">
+            <h3 class="font-semibold text-[var(--text)] mb-2">Save on Photo Editing</h3>
+            <p class="text-sm text-[var(--text-muted)]">No need for expensive Photoshop subscriptions or outsourcing to editors.</p>
+          </div>
+          <div class="bg-[var(--bg-secondary)] rounded-lg p-4 border border-[var(--border)]">
+            <h3 class="font-semibold text-[var(--text)] mb-2">Fast Listing Creation</h3>
+            <p class="text-sm text-[var(--text-muted)]">Process product photos in seconds, not hours. Launch listings faster.</p>
+          </div>
+        </div>
+      </section>
+
+      <div class="bg-[var(--bg-secondary)] rounded-xl p-8 text-center mb-10 border border-[var(--border)]">
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-4">Create Amazon-Ready Photos Now</h2>
+        <p class="text-[var(--text-muted)] mb-6">Free, unlimited use, no watermarks</p>
+        <a
+          href="/tools/background-remover"
+          class="inline-block px-8 py-4 bg-[var(--accent)] text-[var(--bg)] rounded-lg font-semibold hover:opacity-90 transition-opacity text-lg"
+        >
+          Open Background Remover
+        </a>
+      </div>
+
+      <section class="mb-10">
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-4">How to Create Amazon Product Photos</h2>
+        <ol class="space-y-4 text-[var(--text-muted)]">
+          <li class="flex gap-3">
+            <span class="flex-shrink-0 w-8 h-8 bg-[var(--accent)] text-[var(--bg)] rounded-full flex items-center justify-center font-bold text-sm">1</span>
+            <span><strong class="text-[var(--text)]">Upload</strong> - Drag and drop your product photo</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="flex-shrink-0 w-8 h-8 bg-[var(--accent)] text-[var(--bg)] rounded-full flex items-center justify-center font-bold text-sm">2</span>
+            <span><strong class="text-[var(--text)]">Remove</strong> - AI automatically removes the background</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="flex-shrink-0 w-8 h-8 bg-[var(--accent)] text-[var(--bg)] rounded-full flex items-center justify-center font-bold text-sm">3</span>
+            <span><strong class="text-[var(--text)]">Add White</strong> - Apply pure white (#FFFFFF) background</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="flex-shrink-0 w-8 h-8 bg-[var(--accent)] text-[var(--bg)] rounded-full flex items-center justify-center font-bold text-sm">4</span>
+            <span><strong class="text-[var(--text)]">Download</strong> - Save Amazon-compliant image at 2000x2000px</span>
+          </li>
+        </ol>
+      </section>
+
+      <section class="mb-10">
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-4">Frequently Asked Questions</h2>
+        <div class="space-y-4">
+          <details class="bg-[var(--bg-secondary)] rounded-lg border border-[var(--border)] p-4">
+            <summary class="font-semibold text-[var(--text)] cursor-pointer">What are Amazon's image requirements?</summary>
+            <p class="mt-3 text-[var(--text-muted)] text-sm">
+              Amazon requires main product images to have a pure white background (RGB 255, 255, 255 or hex #FFFFFF), minimum 1000x1000 pixels, and the product should fill at least 85% of the frame.
+            </p>
+          </details>
+          <details class="bg-[var(--bg-secondary)] rounded-lg border border-[var(--border)] p-4">
+            <summary class="font-semibold text-[var(--text)] cursor-pointer">Can I use this for Amazon FBA listings?</summary>
+            <p class="mt-3 text-[var(--text-muted)] text-sm">
+              Yes, our background remover creates Amazon-compliant images. After removing the background, you can add a pure white background that meets Amazon's strict requirements.
+            </p>
+          </details>
+          <details class="bg-[var(--bg-secondary)] rounded-lg border border-[var(--border)] p-4">
+            <summary class="font-semibold text-[var(--text)] cursor-pointer">Is this free to use?</summary>
+            <p class="mt-3 text-[var(--text-muted)] text-sm">
+              Yes, completely free. No signup, no watermarks, unlimited use. All processing happens in your browser for maximum privacy.
+            </p>
+          </details>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-4">Related Tools</h2>
+        <div class="flex flex-wrap gap-3">
+          <a href="/tools/image-compress" class="px-4 py-2 bg-[var(--bg-secondary)] rounded-lg text-[var(--text-muted)] hover:text-[var(--accent)] border border-[var(--border)]">
+            Image Compress
+          </a>
+          <a href="/tools/file-converter" class="px-4 py-2 bg-[var(--bg-secondary)] rounded-lg text-[var(--text-muted)] hover:text-[var(--accent)] border border-[var(--border)]">
+            Convert to JPEG
+          </a>
+          <a href="/use-cases/ecommerce-batch-photo-editing" class="px-4 py-2 bg-[var(--bg-secondary)] rounded-lg text-[var(--text-muted)] hover:text-[var(--accent)] border border-[var(--border)]">
+            Batch Processing
+          </a>
+        </div>
+      </section>
+    </article>
+  </main>
+
+  <Footer />
+</Layout>

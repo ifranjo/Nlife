@@ -1,0 +1,291 @@
+---
+/**
+ * Programmatic SEO: Upload Subtitles to YouTube
+ * Target: "add subtitles to youtube video", "youtube srt upload", "youtube caption file"
+ */
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/ui/Navbar.astro';
+import Footer from '../../components/ui/Footer.astro';
+
+const howToSchema = {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "How to Add Subtitles to YouTube Videos",
+  "description": "Generate accurate SRT subtitle files with Whisper AI and upload them to YouTube Studio for better accessibility and engagement.",
+  "step": [
+    { "@type": "HowToStep", "text": "Upload your video or audio to our subtitle generator" },
+    { "@type": "HowToStep", "text": "Select language and transcribe with Whisper AI" },
+    { "@type": "HowToStep", "text": "Download the generated SRT file" },
+    { "@type": "HowToStep", "text": "Open YouTube Studio and navigate to Subtitles section" },
+    { "@type": "HowToStep", "text": "Upload your SRT file and publish" }
+  ]
+};
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Why should I upload my own subtitles instead of using YouTube auto-captions?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "YouTube auto-captions are only 70-80% accurate on average. Professional subtitles improve accessibility, SEO ranking, and viewer engagement. Accurate captions also make your content more discoverable."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What subtitle format does YouTube accept?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "YouTube accepts SRT, VTT, SBV, and other formats. SRT is the most universal and recommended format. Our tool exports both SRT and VTT."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I upload subtitles to YouTube Studio?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "In YouTube Studio, select your video, go to Subtitles tab, click Add Language, select your language, then click Upload File and choose your SRT file. Review and publish."
+      }
+    }
+  ]
+};
+---
+
+<Layout
+  title="Add Subtitles to YouTube Videos Free - SRT Upload Guide | New Life"
+  description="Generate accurate YouTube subtitles with AI and upload SRT files to YouTube Studio. Better than auto-captions. Free, private, browser-based."
+>
+  <script type="application/ld+json" set:html={JSON.stringify(howToSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  <Navbar />
+
+  <main class="pt-20 pb-16 px-6 min-h-screen">
+    <article class="max-w-3xl mx-auto">
+      <nav class="text-sm text-[var(--text-muted)] mb-6">
+        <a href="/" class="hover:text-[var(--accent)]">Home</a>
+        <span class="mx-2">/</span>
+        <a href="/tools/subtitle-generator" class="hover:text-[var(--accent)]">Subtitle Generator</a>
+        <span class="mx-2">/</span>
+        <span>YouTube</span>
+      </nav>
+
+      <header class="mb-8">
+        <span class="inline-block px-3 py-1 bg-red-500/20 text-red-400 rounded text-sm font-medium mb-4">
+          YouTube Use Case
+        </span>
+        <h1 class="text-4xl font-bold text-[var(--text)] mb-4">
+          Add Subtitles to YouTube Videos
+        </h1>
+        <p class="text-xl text-[var(--text-muted)]">
+          Generate accurate SRT subtitles with AI and upload to YouTube Studio. Better than auto-captions.
+        </p>
+      </header>
+
+      <div class="bg-red-500/10 border border-red-500/30 rounded-xl p-6 mb-8">
+        <h2 class="text-lg font-semibold text-red-400 mb-3">YouTube Auto-Caption Accuracy</h2>
+        <div class="grid grid-cols-3 gap-4 text-center">
+          <div>
+            <div class="text-2xl font-bold text-[var(--text)]">70-80%</div>
+            <div class="text-sm text-[var(--text-muted)]">Auto Accuracy</div>
+          </div>
+          <div>
+            <div class="text-2xl font-bold text-[var(--text)]">95%+</div>
+            <div class="text-sm text-[var(--text-muted)]">Whisper AI</div>
+          </div>
+          <div>
+            <div class="text-2xl font-bold text-[var(--text)]">40%</div>
+            <div class="text-sm text-[var(--text-muted)]">More Engagement</div>
+          </div>
+        </div>
+      </div>
+
+      <section class="mb-10">
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-4">Why Upload Custom Subtitles to YouTube?</h2>
+        <div class="bg-[var(--bg-secondary)] rounded-lg p-6 border border-[var(--border)]">
+          <ul class="space-y-3 text-[var(--text-muted)]">
+            <li class="flex gap-3">
+              <span class="text-green-400">✓</span>
+              <span><strong class="text-[var(--text)]">Better SEO</strong> - Accurate subtitles help YouTube understand your content for search ranking</span>
+            </li>
+            <li class="flex gap-3">
+              <span class="text-green-400">✓</span>
+              <span><strong class="text-[var(--text)]">Accessibility</strong> - Reach deaf/hard of hearing viewers and non-native speakers</span>
+            </li>
+            <li class="flex gap-3">
+              <span class="text-green-400">✓</span>
+              <span><strong class="text-[var(--text)]">Higher engagement</strong> - 40% more completion rate when viewers can read along</span>
+            </li>
+            <li class="flex gap-3">
+              <span class="text-green-400">✓</span>
+              <span><strong class="text-[var(--text)]">Professional appearance</strong> - Fix errors in technical terms, names, and jargon</span>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="mb-10">
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-6">Step-by-Step Guide</h2>
+
+        <div class="space-y-6">
+          <div class="flex gap-4">
+            <div class="flex-shrink-0 w-10 h-10 bg-[var(--accent)] text-[var(--bg)] rounded-full flex items-center justify-center font-bold">
+              1
+            </div>
+            <div>
+              <h3 class="text-lg font-semibold text-[var(--text)] mb-2">Generate Subtitles with AI</h3>
+              <p class="text-[var(--text-muted)] mb-2">
+                Go to our <a href="/tools/subtitle-generator" class="text-[var(--accent)] underline">Subtitle Generator</a>. Upload your video file or audio track. Select the language and click "Transcribe with AI".
+              </p>
+              <div class="bg-blue-500/10 border border-blue-500/30 rounded p-3 text-sm text-[var(--text-muted)]">
+                <strong class="text-blue-400">Tip:</strong> Use the original video file or download from YouTube first using a downloader tool.
+              </div>
+            </div>
+          </div>
+
+          <div class="flex gap-4">
+            <div class="flex-shrink-0 w-10 h-10 bg-[var(--accent)] text-[var(--bg)] rounded-full flex items-center justify-center font-bold">
+              2
+            </div>
+            <div>
+              <h3 class="text-lg font-semibold text-[var(--text)] mb-2">Download SRT File</h3>
+              <p class="text-[var(--text-muted)]">
+                Once transcription completes, click "Download SRT" to save the subtitle file to your computer. The SRT format is the most compatible with YouTube.
+              </p>
+            </div>
+          </div>
+
+          <div class="flex gap-4">
+            <div class="flex-shrink-0 w-10 h-10 bg-[var(--accent)] text-[var(--bg)] rounded-full flex items-center justify-center font-bold">
+              3
+            </div>
+            <div>
+              <h3 class="text-lg font-semibold text-[var(--text)] mb-2">Open YouTube Studio</h3>
+              <p class="text-[var(--text-muted)]">
+                Go to <strong class="text-[var(--text)]">studio.youtube.com</strong>, click on Content, and select the video you want to add subtitles to.
+              </p>
+            </div>
+          </div>
+
+          <div class="flex gap-4">
+            <div class="flex-shrink-0 w-10 h-10 bg-[var(--accent)] text-[var(--bg)] rounded-full flex items-center justify-center font-bold">
+              4
+            </div>
+            <div>
+              <h3 class="text-lg font-semibold text-[var(--text)] mb-2">Upload Subtitles</h3>
+              <p class="text-[var(--text-muted)] mb-2">
+                Click <strong class="text-[var(--text)]">Subtitles</strong> in the left menu → <strong class="text-[var(--text)]">Add Language</strong> → Select your language → <strong class="text-[var(--text)]">Upload File</strong> → Choose your SRT file.
+              </p>
+              <div class="bg-yellow-500/10 border border-yellow-500/30 rounded p-3 text-sm text-[var(--text-muted)]">
+                <strong class="text-yellow-400">Note:</strong> YouTube will show a preview. Review for accuracy before publishing.
+              </div>
+            </div>
+          </div>
+
+          <div class="flex gap-4">
+            <div class="flex-shrink-0 w-10 h-10 bg-[var(--accent)] text-[var(--bg)] rounded-full flex items-center justify-center font-bold">
+              5
+            </div>
+            <div>
+              <h3 class="text-lg font-semibold text-[var(--text)] mb-2">Publish and Verify</h3>
+              <p class="text-[var(--text-muted)]">
+                Click <strong class="text-[var(--text)]">Publish</strong>. Watch your video and enable CC button to verify subtitles display correctly.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="bg-[var(--bg-secondary)] rounded-xl p-8 text-center mb-10 border border-[var(--border)]">
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-4">Generate YouTube Subtitles Now</h2>
+        <p class="text-[var(--text-muted)] mb-6">Free AI-powered subtitle generation with Whisper.</p>
+        <a
+          href="/tools/subtitle-generator"
+          class="inline-block px-8 py-4 bg-[var(--accent)] text-[var(--bg)] rounded-lg font-semibold hover:opacity-90 transition-opacity text-lg"
+        >
+          Open Subtitle Generator
+        </a>
+      </div>
+
+      <section class="mb-10">
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-4">Pro Tips for YouTube Creators</h2>
+        <div class="grid md:grid-cols-2 gap-4">
+          <div class="bg-green-500/10 border border-green-500/30 rounded-lg p-4">
+            <h3 class="font-semibold text-green-400 mb-2">Optimize for SEO</h3>
+            <ul class="text-sm text-[var(--text-muted)] space-y-1">
+              <li>Include target keywords in subtitles</li>
+              <li>Fix technical terms and brand names</li>
+              <li>Add punctuation for readability</li>
+              <li>Use subtitle editor to polish timing</li>
+            </ul>
+          </div>
+          <div class="bg-blue-500/10 border border-blue-500/30 rounded-lg p-4">
+            <h3 class="font-semibold text-blue-400 mb-2">Multi-Language Strategy</h3>
+            <p class="text-sm text-[var(--text-muted)]">
+              Upload subtitles in multiple languages to reach global audiences. YouTube allows unlimited subtitle languages per video.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="mb-10">
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-6">Frequently Asked Questions</h2>
+        <div class="space-y-4">
+          <details class="bg-[var(--bg-secondary)] rounded-lg border border-[var(--border)]">
+            <summary class="px-6 py-4 cursor-pointer font-medium text-[var(--text)]">
+              Why should I upload my own subtitles instead of using YouTube auto-captions?
+            </summary>
+            <p class="px-6 pb-4 text-[var(--text-muted)]">
+              YouTube auto-captions are only 70-80% accurate on average. They struggle with accents, technical terms, names, and background noise. Professional subtitles improve accessibility, SEO ranking, and viewer engagement. Accurate captions also make your content more discoverable through YouTube search.
+            </p>
+          </details>
+          <details class="bg-[var(--bg-secondary)] rounded-lg border border-[var(--border)]">
+            <summary class="px-6 py-4 cursor-pointer font-medium text-[var(--text)]">
+              What subtitle format does YouTube accept?
+            </summary>
+            <p class="px-6 pb-4 text-[var(--text-muted)]">
+              YouTube accepts SRT, VTT, SBV, SUB, and LRC formats. SRT is the most universal and recommended format as it's compatible with virtually all video platforms. Our tool exports both SRT and VTT for maximum flexibility.
+            </p>
+          </details>
+          <details class="bg-[var(--bg-secondary)] rounded-lg border border-[var(--border)]">
+            <summary class="px-6 py-4 cursor-pointer font-medium text-[var(--text)]">
+              How do I upload subtitles to YouTube Studio?
+            </summary>
+            <p class="px-6 pb-4 text-[var(--text-muted)]">
+              In YouTube Studio, select your video from the Content tab, click Subtitles in the left menu, click Add Language, select your language, then click Upload File and choose your SRT file. Review the preview and click Publish.
+            </p>
+          </details>
+          <details class="bg-[var(--bg-secondary)] rounded-lg border border-[var(--border)]">
+            <summary class="px-6 py-4 cursor-pointer font-medium text-[var(--text)]">
+              Can I edit subtitles after uploading to YouTube?
+            </summary>
+            <p class="px-6 pb-4 text-[var(--text-muted)]">
+              Yes, YouTube Studio has a built-in subtitle editor. You can adjust timing, fix typos, and make corrections directly in the interface without re-uploading the file.
+            </p>
+          </details>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-4">Related Tools</h2>
+        <div class="flex flex-wrap gap-3">
+          <a href="/tools/subtitle-generator" class="px-4 py-2 bg-[var(--bg-secondary)] rounded-lg text-[var(--text-muted)] hover:text-[var(--accent)] border border-[var(--border)]">
+            Subtitle Generator
+          </a>
+          <a href="/tools/audio-transcription" class="px-4 py-2 bg-[var(--bg-secondary)] rounded-lg text-[var(--text-muted)] hover:text-[var(--accent)] border border-[var(--border)]">
+            Audio Transcription
+          </a>
+          <a href="/tools/video-to-mp3" class="px-4 py-2 bg-[var(--bg-secondary)] rounded-lg text-[var(--text-muted)] hover:text-[var(--accent)] border border-[var(--border)]">
+            Extract Audio from Video
+          </a>
+          <a href="/use-cases/tiktok-caption-accessibility" class="px-4 py-2 bg-[var(--bg-secondary)] rounded-lg text-[var(--text-muted)] hover:text-[var(--accent)] border border-[var(--border)]">
+            TikTok Captions
+          </a>
+        </div>
+      </section>
+    </article>
+  </main>
+
+  <Footer />
+</Layout>

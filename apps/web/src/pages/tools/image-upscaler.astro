@@ -1,0 +1,157 @@
+---
+/**
+ * AI Image Upscaler - AI-Native Tool Page
+ *
+ * Optimized for LLM extraction with:
+ * - TL;DR answer box (50-70 words)
+ * - Semantic Q&A sections
+ * - Full schema markup (SoftwareApplication, HowTo, FAQPage)
+ */
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/ui/Navbar.astro';
+import Footer from '../../components/ui/Footer.astro';
+import AnswerBox from '../../components/seo/AnswerBox.astro';
+import QASections from '../../components/seo/QASections.astro';
+import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
+import ImageUpscaler from '../../components/tools/ImageUpscaler';
+
+// Tool metadata
+const tool = {
+  id: 'image-upscaler',
+  name: 'AI Image Upscaler',
+  category: 'ai' as const,
+  url: '/tools/image-upscaler'
+};
+
+// AI-optimized content
+const seoContent = {
+  // Page meta
+  title: 'AI Image Upscaler Free — Enlarge Photos 2x/4x Online, No Upload | New Life Solutions',
+  description: 'Upscale images 2x or 4x with AI. Free browser-based tool using ESRGAN neural networks. No upload, no watermarks, unlimited use. Enhance photo resolution instantly.',
+
+  // TL;DR Answer Box (50-70 words - this is what AI extracts)
+  answerBox: {
+    title: 'AI Image Upscaler — Enlarge Photos 2x or 4x Free',
+    queryTarget: 'How to Upscale Image with AI Online Free',
+    tldr: `Drop your image below to upscale it 2x or 4x using AI. The ESRGAN neural network runs entirely in your browser—your photos never leave your device. Compare before/after with the slider, then download the enhanced image. First use downloads the AI model (5-20MB depending on quality). No signup, no watermarks, unlimited free use.`,
+    trustSignals: [
+      'AI-powered upscaling',
+      'No file uploads',
+      '2x and 4x scale options',
+      'Unlimited free use'
+    ]
+  },
+
+  // Q&A Sections
+  qa: {
+    whatIs: {
+      answer: `AI Image Upscaler is a free tool that enlarges images using ESRGAN (Enhanced Super-Resolution Generative Adversarial Network) artificial intelligence. Unlike simple scaling that just stretches pixels, AI upscaling analyzes patterns and intelligently adds realistic detail, producing sharper results at 2x or 4x the original size.`,
+      context: `Perfect for enlarging old photos, enhancing low-resolution images for printing, upscaling game sprites or pixel art, and improving images for professional presentations.`
+    },
+    howItWorks: {
+      steps: [
+        'Select your upscaling settings: 2x or 4x scale, and quality mode (Fast, Balanced, or Quality)',
+        'Drag and drop your image, or click to browse files',
+        'Wait for the AI model to download on first use (cached for future visits)',
+        'The AI processes your image, intelligently adding detail as it enlarges',
+        'Use the before/after slider to compare original vs upscaled quality',
+        'Download your enhanced image as PNG'
+      ]
+    },
+    whyBrowserBased: {
+      benefits: [
+        'Complete privacy: Images never leave your device or get uploaded to any server',
+        'No daily limits: Upscale unlimited images, completely free forever',
+        'No watermarks: Download clean images ready for any use',
+        'Works offline: Once the AI model is cached, process images without internet',
+        'Fast processing: GPU acceleration for real-time AI enhancement'
+      ]
+    },
+    faqs: [
+      {
+        question: 'What is the difference between 2x and 4x upscaling?',
+        answer: `2x doubles your image dimensions (a 500x500 image becomes 1000x1000). 4x quadruples them (500x500 becomes 2000x2000). 4x produces larger files and takes longer to process. Start with 2x for most uses; use 4x when you need maximum enlargement.`
+      },
+      {
+        question: 'Why does it download an AI model?',
+        answer: `The AI model (5-20MB depending on quality setting) runs entirely in your browser using TensorFlow.js. This keeps your images private—they never leave your device. The model downloads once and is cached for instant future use.`
+      },
+      {
+        question: 'Which quality mode should I use?',
+        answer: `Fast mode (5MB model) is best for quick results and smaller files. Balanced mode (10MB) offers the best speed-to-quality ratio for most images. Quality mode (20MB) produces the sharpest results but processes slower—ideal for important photos.`
+      },
+      {
+        question: 'What types of images work best?',
+        answer: `AI upscaling works best on photographs, digital art, illustrations, and game sprites. It excels at adding detail to faces, textures, and natural patterns. Text and sharp geometric shapes may sometimes show artifacts.`
+      },
+      {
+        question: 'Can I upscale images on mobile?',
+        answer: `Yes, but processing is slower due to limited mobile GPU power. For best mobile experience, use smaller images (under 500x500px) and Fast quality mode. Desktop browsers with dedicated GPUs process images much faster.`
+      },
+      {
+        question: 'Is AI upscaling better than Photoshop resize?',
+        answer: `Yes, for enlarging images. Traditional resizing (bilinear, bicubic) just interpolates pixels, causing blur. AI upscaling uses neural networks trained on millions of images to predict and add realistic detail, producing significantly sharper results.`
+      }
+    ]
+  }
+};
+
+// Schema data
+const schemaData = {
+  toolId: tool.id,
+  toolName: tool.name,
+  description: seoContent.description,
+  category: tool.category,
+  steps: seoContent.qa.howItWorks.steps,
+  faqs: seoContent.qa.faqs,
+  url: tool.url
+};
+---
+
+<Layout
+  title={seoContent.title}
+  description={seoContent.description}
+  image="/thumbnails/image-upscaler.svg"
+>
+  <!-- Schema Markup for AI extraction -->
+  <SchemaMarkup {...schemaData} />
+
+  <Navbar />
+
+  <main class="pt-20 pb-16 px-6 min-h-screen">
+    <div class="max-w-5xl mx-auto">
+
+      <!-- Answer Box: AI extracts this first -->
+      <AnswerBox
+        title={seoContent.answerBox.title}
+        tldr={seoContent.answerBox.tldr}
+        toolName={tool.name}
+        queryTarget={seoContent.answerBox.queryTarget}
+        trustSignals={seoContent.answerBox.trustSignals}
+      />
+
+      <!-- Tool Component -->
+      <section class="tool-section" aria-label="AI Image Upscaler Tool">
+        <ImageUpscaler client:load />
+      </section>
+
+      <!-- Q&A Sections: Semantic structure for AI -->
+      <QASections
+        toolName={tool.name}
+        whatIs={seoContent.qa.whatIs}
+        howItWorks={seoContent.qa.howItWorks}
+        whyBrowserBased={seoContent.qa.whyBrowserBased}
+        faqs={seoContent.qa.faqs}
+      />
+
+    </div>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+  .tool-section {
+    margin: 2rem 0;
+  }
+</style>

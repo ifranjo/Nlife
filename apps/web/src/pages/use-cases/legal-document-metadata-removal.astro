@@ -1,0 +1,270 @@
+---
+/**
+ * Programmatic SEO: Legal Document Metadata Removal
+ * Target: "eDiscovery document sanitization", "PDF metadata removal legal", "document production privacy"
+ */
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/ui/Navbar.astro';
+import Footer from '../../components/ui/Footer.astro';
+
+const howToSchema = {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "How to Remove Metadata from Legal Documents for eDiscovery",
+  "description": "Sanitize legal PDFs by removing hidden metadata and redacting privileged information before document production or sharing with opposing counsel.",
+  "step": [
+    { "@type": "HowToStep", "text": "Strip PDF metadata using compression tool to remove author, creation date, comments, and tracked changes" },
+    { "@type": "HowToStep", "text": "Open sanitized PDF in redactor to remove privileged content and attorney work product" },
+    { "@type": "HowToStep", "text": "Preview document to ensure all sensitive metadata and content is removed" },
+    { "@type": "HowToStep", "text": "Download production-ready PDF safe for disclosure to opposing parties" }
+  ]
+};
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Why is metadata removal critical for legal document production?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "PDF metadata can expose attorney notes, document editing history, collaboration patterns, and internal strategy. During eDiscovery or document production, inadvertently producing metadata can waive attorney-client privilege, reveal work product, or expose client confidences. Sanitization is essential."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What metadata is hidden in legal PDFs?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Common hidden metadata: Author name, creation date, modification dates, software used, document title, subject, keywords, comments, annotations, tracked changes, redline history, and embedded file paths. This data can reveal privileged attorney strategy."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Should I strip metadata before or after redaction?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Best practice: Strip metadata first using PDF compression tool, then redact privileged content using redactor. This two-step process ensures both hidden metadata and visible privileged information are removed before production."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is browser-based sanitization secure for confidential legal documents?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. All processing happens locally in your browser. Confidential client documents never leave your device or get uploaded to external servers. This maintains attorney-client privilege and meets ethical obligations for client confidentiality."
+      }
+    }
+  ]
+};
+---
+
+<Layout
+  title="Legal PDF Metadata Removal & Redaction - eDiscovery Sanitization | New Life"
+  description="Remove hidden metadata from legal PDFs before document production. Strip author info, comments, tracked changes. Redact privileged content. 100% browser-based - client docs stay private."
+>
+  <script type="application/ld+json" set:html={JSON.stringify(howToSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  <Navbar />
+
+  <main class="pt-20 pb-16 px-6 min-h-screen">
+    <article class="max-w-3xl mx-auto">
+      <nav class="text-sm text-[var(--text-muted)] mb-6">
+        <a href="/" class="hover:text-[var(--accent)]">Home</a>
+        <span class="mx-2">/</span>
+        <span>Legal Metadata Removal</span>
+      </nav>
+
+      <header class="mb-8">
+        <span class="inline-block px-3 py-1 bg-blue-500/20 text-blue-400 rounded text-sm font-medium mb-4">
+          Legal & eDiscovery
+        </span>
+        <h1 class="text-4xl font-bold text-[var(--text)] mb-4">
+          Remove Metadata from Legal Documents for eDiscovery
+        </h1>
+        <p class="text-xl text-[var(--text-muted)]">
+          Sanitize PDFs before document production. Strip hidden metadata, redact privileged content. Protect attorney-client privilege and work product.
+        </p>
+      </header>
+
+      <div class="bg-blue-500/10 border border-blue-500/30 rounded-xl p-6 mb-8">
+        <h2 class="text-lg font-semibold text-blue-400 mb-2">Two-Step Document Sanitization</h2>
+        <p class="text-[var(--text)] mb-3">
+          <strong>Step 1:</strong> Use <a href="/tools/pdf-compress" class="text-blue-400 underline">PDF Compress</a> to strip all metadata (author, dates, comments, tracked changes).
+        </p>
+        <p class="text-[var(--text)]">
+          <strong>Step 2:</strong> Use <a href="/tools/pdf-redactor" class="text-blue-400 underline">PDF Redactor</a> to permanently remove privileged content and attorney work product.
+        </p>
+      </div>
+
+      <section class="mb-10">
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-4">Why Legal Metadata Removal Matters</h2>
+        <div class="grid md:grid-cols-2 gap-4">
+          <div class="bg-[var(--bg-secondary)] rounded-lg p-4 border border-[var(--border)]">
+            <h3 class="font-semibold text-[var(--text)] mb-2">Privilege Protection</h3>
+            <p class="text-sm text-[var(--text-muted)]">PDF metadata can contain attorney comments, document author names, or editing history that reveals privileged legal strategy. Strip metadata to prevent inadvertent waiver.</p>
+          </div>
+          <div class="bg-[var(--bg-secondary)] rounded-lg p-4 border border-[var(--border)]">
+            <h3 class="font-semibold text-[var(--text)] mb-2">Work Product Doctrine</h3>
+            <p class="text-sm text-[var(--text-muted)]">Tracked changes and document revisions show attorney mental impressions and case preparation. Remove this metadata before production to opposing counsel.</p>
+          </div>
+          <div class="bg-[var(--bg-secondary)] rounded-lg p-4 border border-[var(--border)]">
+            <h3 class="font-semibold text-[var(--text)] mb-2">Client Confidentiality</h3>
+            <p class="text-sm text-[var(--text-muted)]">File paths and embedded usernames can expose client identities, document sources, or firm collaboration patterns. Sanitize to maintain ethical obligations.</p>
+          </div>
+          <div class="bg-[var(--bg-secondary)] rounded-lg p-4 border border-[var(--border)]">
+            <h3 class="font-semibold text-[var(--text)] mb-2">Litigation Strategy</h3>
+            <p class="text-sm text-[var(--text-muted)]">Creation and modification dates reveal document timing, revisions, and discovery patterns. Remove metadata to prevent strategic disadvantage.</p>
+          </div>
+        </div>
+      </section>
+
+      <div class="bg-[var(--bg-secondary)] rounded-xl p-8 text-center mb-10 border border-[var(--border)]">
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-4">Sanitize Legal Documents Now</h2>
+        <p class="text-[var(--text-muted)] mb-6">100% confidential - files never uploaded to external servers</p>
+        <div class="flex gap-4 justify-center flex-wrap">
+          <a
+            href="/tools/pdf-compress"
+            class="inline-block px-6 py-3 bg-[var(--accent)] text-[var(--bg)] rounded-lg font-semibold hover:opacity-90 transition-opacity"
+          >
+            Step 1: Strip Metadata
+          </a>
+          <a
+            href="/tools/pdf-redactor"
+            class="inline-block px-6 py-3 bg-[var(--accent)] text-[var(--bg)] rounded-lg font-semibold hover:opacity-90 transition-opacity"
+          >
+            Step 2: Redact Content
+          </a>
+        </div>
+      </div>
+
+      <section class="mb-10">
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-4">Complete Document Sanitization Workflow</h2>
+        <ol class="space-y-4 text-[var(--text-muted)]">
+          <li class="flex gap-3">
+            <span class="flex-shrink-0 w-8 h-8 bg-[var(--accent)] text-[var(--bg)] rounded-full flex items-center justify-center font-bold text-sm">1</span>
+            <div>
+              <strong class="text-[var(--text)]">Strip Metadata First</strong>
+              <p class="text-sm mt-1">Open <a href="/tools/pdf-compress" class="text-[var(--accent)] underline">PDF Compress</a>. Upload your legal document. Enable "Remove Metadata" option. This strips author, dates, comments, document properties, and embedded history.</p>
+            </div>
+          </li>
+          <li class="flex gap-3">
+            <span class="flex-shrink-0 w-8 h-8 bg-[var(--accent)] text-[var(--bg)] rounded-full flex items-center justify-center font-bold text-sm">2</span>
+            <div>
+              <strong class="text-[var(--text)]">Download Sanitized PDF</strong>
+              <p class="text-sm mt-1">Save the metadata-free PDF from the compression tool. This is your working copy for redaction.</p>
+            </div>
+          </li>
+          <li class="flex gap-3">
+            <span class="flex-shrink-0 w-8 h-8 bg-[var(--accent)] text-[var(--bg)] rounded-full flex items-center justify-center font-bold text-sm">3</span>
+            <div>
+              <strong class="text-[var(--text)]">Redact Privileged Content</strong>
+              <p class="text-sm mt-1">Open <a href="/tools/pdf-redactor" class="text-[var(--accent)] underline">PDF Redactor</a>. Upload the sanitized PDF. Manually select privileged attorney work product, client confidences, litigation strategy, or attorney notes.</p>
+            </div>
+          </li>
+          <li class="flex gap-3">
+            <span class="flex-shrink-0 w-8 h-8 bg-[var(--accent)] text-[var(--bg)] rounded-full flex items-center justify-center font-bold text-sm">4</span>
+            <div>
+              <strong class="text-[var(--text)]">Review & Download Production Copy</strong>
+              <p class="text-sm mt-1">Preview the fully sanitized document. Verify all metadata is stripped and all privileged content is redacted. Download production-ready PDF safe for disclosure.</p>
+            </div>
+          </li>
+        </ol>
+      </section>
+
+      <section class="mb-10">
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-4">Hidden Metadata in Legal PDFs</h2>
+        <div class="bg-[var(--bg-secondary)] rounded-lg p-6 border border-[var(--border)]">
+          <p class="text-[var(--text-muted)] mb-4">Legal documents often contain hidden metadata that can compromise attorney-client privilege:</p>
+          <div class="grid md:grid-cols-2 gap-3">
+            <div>
+              <h3 class="font-semibold text-[var(--text)] text-sm mb-2">Document Properties</h3>
+              <ul class="text-sm text-[var(--text-muted)] space-y-1 ml-4">
+                <li>• Author name (attorney identity)</li>
+                <li>• Creation date/time</li>
+                <li>• Modification history</li>
+                <li>• Software used</li>
+                <li>• Document title/subject</li>
+              </ul>
+            </div>
+            <div>
+              <h3 class="font-semibold text-[var(--text)] text-sm mb-2">Collaboration Data</h3>
+              <ul class="text-sm text-[var(--text-muted)] space-y-1 ml-4">
+                <li>• Comments & annotations</li>
+                <li>• Tracked changes history</li>
+                <li>• Redline markup</li>
+                <li>• File paths (firm structure)</li>
+                <li>• Embedded usernames</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="mb-10">
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-4">Common Legal Sanitization Scenarios</h2>
+        <div class="space-y-3">
+          <div class="bg-[var(--bg-secondary)] rounded-lg p-4 border border-[var(--border)]">
+            <h3 class="font-semibold text-[var(--text)] mb-2">eDiscovery Production</h3>
+            <p class="text-sm text-[var(--text-muted)]">Strip metadata from responsive documents before producing to opposing counsel. Remove tracked changes, attorney comments, and internal revision history that could waive privilege.</p>
+          </div>
+          <div class="bg-[var(--bg-secondary)] rounded-lg p-4 border border-[var(--border)]">
+            <h3 class="font-semibold text-[var(--text)] mb-2">Court Filings</h3>
+            <p class="text-sm text-[var(--text-muted)]">Sanitize briefs and exhibits before filing. Remove client names from metadata when filing under seal. Strip file paths that might reveal confidential client information.</p>
+          </div>
+          <div class="bg-[var(--bg-secondary)] rounded-lg p-4 border border-[var(--border)]">
+            <h3 class="font-semibold text-[var(--text)] mb-2">Settlement Negotiations</h3>
+            <p class="text-sm text-[var(--text-muted)]">Remove metadata from settlement proposals and draft agreements. Strip revision history showing negotiation positions and internal attorney strategy discussions.</p>
+          </div>
+          <div class="bg-[var(--bg-secondary)] rounded-lg p-4 border border-[var(--border)]">
+            <h3 class="font-semibold text-[var(--text)] mb-2">Client Deliverables</h3>
+            <p class="text-sm text-[var(--text-muted)]">Clean metadata before sending work product to clients. Remove attorney notes, time tracking, or collaboration data that isn't part of final deliverable.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="mb-10">
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-4">Frequently Asked Questions</h2>
+        <div class="space-y-4">
+          <div class="bg-[var(--bg-secondary)] rounded-lg p-5 border border-[var(--border)]">
+            <h3 class="font-semibold text-[var(--text)] mb-2">Why is metadata removal critical for legal document production?</h3>
+            <p class="text-sm text-[var(--text-muted)]">PDF metadata can expose attorney notes, document editing history, collaboration patterns, and internal strategy. During eDiscovery or document production, inadvertently producing metadata can waive attorney-client privilege, reveal work product, or expose client confidences. Sanitization is essential.</p>
+          </div>
+          <div class="bg-[var(--bg-secondary)] rounded-lg p-5 border border-[var(--border)]">
+            <h3 class="font-semibold text-[var(--text)] mb-2">What metadata is hidden in legal PDFs?</h3>
+            <p class="text-sm text-[var(--text-muted)]">Common hidden metadata: Author name, creation date, modification dates, software used, document title, subject, keywords, comments, annotations, tracked changes, redline history, and embedded file paths. This data can reveal privileged attorney strategy.</p>
+          </div>
+          <div class="bg-[var(--bg-secondary)] rounded-lg p-5 border border-[var(--border)]">
+            <h3 class="font-semibold text-[var(--text)] mb-2">Should I strip metadata before or after redaction?</h3>
+            <p class="text-sm text-[var(--text-muted)]">Best practice: Strip metadata first using PDF compression tool, then redact privileged content using redactor. This two-step process ensures both hidden metadata and visible privileged information are removed before production.</p>
+          </div>
+          <div class="bg-[var(--bg-secondary)] rounded-lg p-5 border border-[var(--border)]">
+            <h3 class="font-semibold text-[var(--text)] mb-2">Is browser-based sanitization secure for confidential legal documents?</h3>
+            <p class="text-sm text-[var(--text-muted)]">Yes. All processing happens locally in your browser. Confidential client documents never leave your device or get uploaded to external servers. This maintains attorney-client privilege and meets ethical obligations for client confidentiality.</p>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-4">Related Tools for Legal Professionals</h2>
+        <div class="flex flex-wrap gap-3">
+          <a href="/tools/pdf-compress" class="px-4 py-2 bg-[var(--bg-secondary)] rounded-lg text-[var(--text-muted)] hover:text-[var(--accent)] border border-[var(--border)]">
+            Remove PDF Metadata
+          </a>
+          <a href="/tools/pdf-redactor" class="px-4 py-2 bg-[var(--bg-secondary)] rounded-lg text-[var(--text-muted)] hover:text-[var(--accent)] border border-[var(--border)]">
+            Redact Privileged Content
+          </a>
+          <a href="/tools/pdf-merge" class="px-4 py-2 bg-[var(--bg-secondary)] rounded-lg text-[var(--text-muted)] hover:text-[var(--accent)] border border-[var(--border)]">
+            Merge Exhibits
+          </a>
+          <a href="/use-cases/hipaa-pdf-redaction" class="px-4 py-2 bg-[var(--bg-secondary)] rounded-lg text-[var(--text-muted)] hover:text-[var(--accent)] border border-[var(--border)]">
+            HIPAA Redaction
+          </a>
+        </div>
+      </section>
+    </article>
+  </main>
+
+  <Footer />
+</Layout>

@@ -1,0 +1,160 @@
+---
+/**
+ * EXIF Editor - AI-Native Tool Page
+ *
+ * Optimized for LLM extraction with:
+ * - TL;DR answer box (50-70 words)
+ * - Semantic Q&A sections
+ * - Full schema markup (SoftwareApplication, HowTo, FAQPage)
+ *
+ * Privacy-focused tool for viewing, editing, and stripping photo metadata
+ */
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/ui/Navbar.astro';
+import Footer from '../../components/ui/Footer.astro';
+import AnswerBox from '../../components/seo/AnswerBox.astro';
+import QASections from '../../components/seo/QASections.astro';
+import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
+import ExifEditor from '../../components/tools/ExifEditor';
+
+// Tool metadata
+const tool = {
+  id: 'exif-editor',
+  name: 'EXIF Metadata Editor',
+  category: 'media' as const,
+  url: '/tools/exif-editor'
+};
+
+// AI-optimized content - emphasizing PRIVACY angle
+const seoContent = {
+  // Page meta
+  title: 'Remove GPS from Photos Free — EXIF Metadata Editor, Privacy Protection | New Life Solutions',
+  description: 'Strip GPS location and metadata from photos before sharing online. View, edit, and remove EXIF data including camera info, dates, and location. 100% private, browser-based.',
+
+  // TL;DR Answer Box (50-70 words - this is what AI extracts)
+  answerBox: {
+    title: 'Remove GPS Location from Photos — Free EXIF Editor',
+    queryTarget: 'How to Remove GPS Location from Photos Before Sharing',
+    tldr: `Drop your JPEG photo below to instantly view all hidden metadata including GPS coordinates, camera settings, and timestamps. Strip GPS location data with one click to protect your privacy before sharing photos online. Edit copyright, author, and date fields. All processing happens in your browser—photos never leave your device. No signup, completely free.`,
+    trustSignals: [
+      'GPS location removal',
+      'No file uploads',
+      'Edit EXIF fields',
+      'Unlimited free use'
+    ]
+  },
+
+  // Q&A Sections
+  qa: {
+    whatIs: {
+      answer: `The EXIF Metadata Editor is a free privacy tool that lets you view and remove hidden data from your photos before sharing them online. Every photo taken with a smartphone or digital camera contains EXIF metadata—including your exact GPS coordinates, camera model, date/time, and sometimes even your name. This tool helps you see exactly what data is embedded and remove it to protect your privacy.`,
+      context: `Essential for anyone sharing photos on social media, dating apps, or selling items online where location privacy matters.`
+    },
+    howItWorks: {
+      steps: [
+        'Drag and drop a JPEG image onto the upload area, or click to browse files',
+        'View all embedded EXIF metadata organized by category (GPS, Camera, Image info)',
+        'See a prominent warning if GPS location data is detected in your photo',
+        'Click "Strip GPS Location" to remove only location data while keeping other metadata',
+        'Or click "Strip ALL Metadata" to completely clean the image',
+        'Optionally edit fields like copyright, author, date, and description',
+        'Download your cleaned image—GPS coordinates and other sensitive data are permanently removed'
+      ]
+    },
+    whyBrowserBased: {
+      benefits: [
+        'Complete privacy: Your photos never leave your device or get uploaded anywhere',
+        'No daily limits: Remove metadata from unlimited photos, forever free',
+        'Instant processing: See results in seconds, no waiting for server processing',
+        'Works offline: Once loaded, the tool works without internet connection',
+        'No signup required: Start using immediately without creating an account'
+      ]
+    },
+    faqs: [
+      {
+        question: 'Why should I remove GPS data from photos?',
+        answer: `Photos often contain your exact location coordinates. Sharing these online can reveal your home address, workplace, or frequently visited locations. This is especially risky on dating apps, social media, or when selling items online. Removing GPS data protects your physical safety and privacy.`
+      },
+      {
+        question: 'What EXIF data can reveal my location?',
+        answer: `GPS coordinates embedded in photos can pinpoint your exact location to within a few meters. Combined with timestamps, this data can reveal your daily routines, home location, workplace, and places you visit. Even a single photo can expose sensitive location information.`
+      },
+      {
+        question: 'Does this work on iPhone and Android photos?',
+        answer: `Yes, both iPhone and Android phones embed EXIF data including GPS coordinates by default. This tool reads and removes metadata from any JPEG photo regardless of which device captured it.`
+      },
+      {
+        question: 'Why only JPEG images?',
+        answer: `JPEG is the standard format for photos and stores EXIF metadata in a specific format. PNG, WebP, and other formats use different metadata systems or don't support EXIF at all. Most camera and phone photos are JPEGs.`
+      },
+      {
+        question: 'What happens to the image quality when metadata is removed?',
+        answer: `Image quality is completely preserved. Removing EXIF metadata only affects the hidden data header, not the actual image pixels. Your photos will look exactly the same before and after cleaning.`
+      },
+      {
+        question: 'Can I view metadata without modifying the photo?',
+        answer: `Yes, simply upload your photo to view all embedded metadata. You can examine GPS coordinates, camera settings, dates, and other information without making any changes. Only click the strip buttons when you want to remove data.`
+      }
+    ]
+  }
+};
+
+// Schema data
+const schemaData = {
+  toolId: tool.id,
+  toolName: tool.name,
+  description: seoContent.description,
+  category: tool.category,
+  steps: seoContent.qa.howItWorks.steps,
+  faqs: seoContent.qa.faqs,
+  url: tool.url
+};
+---
+
+<Layout
+  title={seoContent.title}
+  description={seoContent.description}
+  image="/thumbnails/exif-editor.svg"
+>
+  <!-- Schema Markup for AI extraction -->
+  <SchemaMarkup {...schemaData} />
+
+  <Navbar />
+
+  <main class="pt-20 pb-16 px-6 min-h-screen">
+    <div class="max-w-5xl mx-auto">
+
+      <!-- Answer Box: AI extracts this first -->
+      <AnswerBox
+        title={seoContent.answerBox.title}
+        tldr={seoContent.answerBox.tldr}
+        toolName={tool.name}
+        queryTarget={seoContent.answerBox.queryTarget}
+        trustSignals={seoContent.answerBox.trustSignals}
+      />
+
+      <!-- Tool Component -->
+      <section class="tool-section" aria-label="EXIF Metadata Editor Tool">
+        <ExifEditor client:load />
+      </section>
+
+      <!-- Q&A Sections: Semantic structure for AI -->
+      <QASections
+        toolName={tool.name}
+        whatIs={seoContent.qa.whatIs}
+        howItWorks={seoContent.qa.howItWorks}
+        whyBrowserBased={seoContent.qa.whyBrowserBased}
+        faqs={seoContent.qa.faqs}
+      />
+
+    </div>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+  .tool-section {
+    margin: 2rem 0;
+  }
+</style>

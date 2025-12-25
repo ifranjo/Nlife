@@ -28,3 +28,13 @@ npm-debug.log*
 
 # Local dev
 .vercel/
+
+# Testing
+test-results/
+playwright-report/
+playwright/.cache/
+coverage/
+
+# TypeScript
+*.tsbuildinfo
+nul

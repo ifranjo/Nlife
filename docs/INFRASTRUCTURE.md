@@ -4,33 +4,21 @@
 
 | Item | Choice | Cost |
 |------|--------|------|
-| Domain | TBD (.io, .dev, .tools) | ~$12-45/year |
+| Domain | newlifesolutions.dev | ~$12/year |
 | Frontend | Vercel (Free tier) | $0/month |
 | Backend | Railway (when needed) | $5+/month |
 | DNS/CDN | Cloudflare (Free) | $0/month |
 
+**Live site**: https://www.newlifesolutions.dev
+
 ---
 
-## 1. Domain Options
+## 1. Domain (Completed)
 
-### Recommended Registrars (Best Price)
-1. **Cloudflare Registrar** - At-cost pricing, no markup
-2. **Porkbun** - Cheap renewals
-3. **Google Domains** - Clean UI, good DNS
-
-### Domain Ideas to Check
-| Domain | Est. Price/Year | Notes |
-|--------|-----------------|-------|
-| newlifesolutions.io | $35-45 | Professional, tech |
-| newlifesolutions.dev | $12-15 | Developer-friendly |
-| newlife.tools | $30-40 | Descriptive |
-| nls.tools | $30-40 | Short |
-| newlifesolutions.com | $12 | If available |
-
-### Action
-- [ ] Check availability on Cloudflare
-- [ ] Register chosen domain
-- [ ] Point DNS to Vercel
+- **Domain**: `newlifesolutions.dev`
+- **Registrar**: Cloudflare
+- **DNS**: Pointing to Vercel
+- **Status**: Live
 
 ---
 
@@ -253,6 +241,7 @@ git push origin main
 
 | Date | Decision | Reason |
 |------|----------|--------|
-| 2024-XX | Domain: TBD | - |
-| 2024-XX | Vercel for frontend | Free, fast, easy |
-| 2024-XX | Railway for backend | Good DX, fair pricing |
+| 2024-12 | Domain: newlifesolutions.dev | Developer-friendly, affordable |
+| 2024-12 | Vercel for frontend | Free, fast, Astro support |
+| 2024-12 | Railway for backend (future) | Good DX, fair pricing |
+| 2024-12 | All tools browser-based | Privacy-first, no server costs |
