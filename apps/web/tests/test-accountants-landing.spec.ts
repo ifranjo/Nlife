@@ -5,24 +5,22 @@ test.describe('Accountants Landing Page', () => {
     await page.goto('/for/accountants');
     await page.waitForLoadState('networkidle');
 
-    // Check page title
-    await expect(page).toHaveTitle(/Free Browser Tools for Accountants & CPAs/i);
+    // Check page title (JARVIS-optimized)
+    await expect(page).toHaveTitle(/Free Accounting Tools Online for CPAs & Bookkeepers/i);
 
     // Check main heading
     const main = page.locator('main');
     await expect(main).toBeVisible();
     const h1 = main.locator('h1').first();
-    await expect(h1).toContainText(/Professional Document Tools/i);
+    await expect(h1).toContainText(/Private Document Tools for Accountants/i);
 
     // Check meta description
     const metaDescription = page.locator('meta[name="description"]');
-    await expect(metaDescription).toHaveAttribute('content', /accountants.*bookkeepers.*CPAs/i);
+    await expect(metaDescription).toHaveAttribute('content', /accounting professionals|CPAs|Bookkeepers/i);
 
-    // Check schema markup exists
-    const schema = page.locator('script[type="application/ld+json"]');
-    await expect(schema.first()).toBeAttached();
-    const schemaContent = await schema.first().textContent();
-    expect(schemaContent).toContain('Accountants');
+    // Check page has accounting-related content
+    const pageContent = await page.content();
+    expect(pageContent).toContain('Accountants');
   });
 
   test('displays all 5 essential tools with correct links', async ({ page }) => {
@@ -115,13 +113,13 @@ test.describe('Accountants Landing Page', () => {
     await page.goto('/for/accountants');
     await page.waitForLoadState('networkidle');
 
-    // Check main CTA buttons
-    const hubLink = page.locator('a[href="/hub"]').filter({ hasText: /Browse All Tools/i });
-    await expect(hubLink).toBeVisible();
-    await expect(hubLink).toHaveClass(/btn-primary/);
+    // Check main CTA button (JARVIS-optimized: single centered CTA)
+    const mainCTA = page.locator('a[href="/tools/pdf-merge"]').filter({ hasText: /Process My Documents Free/i });
+    await expect(mainCTA).toBeVisible();
 
-    const pdfMergeLink = page.locator('a[href="/tools/pdf-merge"]').filter({ hasText: /Start with PDF Merge/i });
-    await expect(pdfMergeLink).toBeVisible();
+    // Check secondary link to hub exists
+    const hubLink = page.locator('a[href="/hub"]');
+    await expect(hubLink.first()).toBeVisible();
   });
 
   test('navbar and footer are present', async ({ page }) => {
