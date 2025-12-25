@@ -1,0 +1,19 @@
+1
+00:00:01,000 --> 00:00:04,000
+Welcome to the Subtitle Editor demo
+
+2
+00:00:05,000 --> 00:00:08,000
+You can edit timing and text inline
+
+3
+00:00:09,000 --> 00:00:12,000
+Add new entries or delete existing ones
+
+4
+00:00:13,000 --> 00:00:16,000
+Convert between SRT and VTT formats
+
+5
+00:00:17,000 --> 00:00:20,000
+All processing happens in your browser

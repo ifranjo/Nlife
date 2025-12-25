@@ -218,6 +218,38 @@ const featureListSchema = {
     { '@type': 'ListItem', position: 6, name: 'Free forever - no hidden costs' }
   ]
 };
+
+// Speakable schema - for voice search and audio AI assistants (GEO 2025)
+// Identifies sections suitable for text-to-speech extraction
+const speakableSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  '@id': `${baseUrl}${url}#webpage`,
+  name: `${toolName} - Free Online Tool`,
+  description: description,
+  speakable: {
+    '@type': 'SpeakableSpecification',
+    cssSelector: ['.citation-block', '.tldr', 'h1', '.answer-box p']
+  },
+  lastReviewed: currentDate,
+  mainContentOfPage: {
+    '@type': 'WebPageElement',
+    cssSelector: 'main'
+  }
+};
+
+// DefinedTerm schema - helps AI understand tool terminology (GEO 2025)
+const definedTermSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'DefinedTerm',
+  name: toolName,
+  description: description,
+  inDefinedTermSet: {
+    '@type': 'DefinedTermSet',
+    name: 'Browser-Based Online Tools',
+    description: 'Free tools that process files entirely in the browser without server uploads'
+  }
+};
 ---
 
 <!-- JSON-LD Structured Data for AI Extraction (GEO 2025) -->
@@ -235,3 +267,7 @@ const featureListSchema = {
 <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
 <!-- ItemList - listicles get 32% of AI citations -->
 <script type="application/ld+json" set:html={JSON.stringify(featureListSchema)} />
+<!-- Speakable - voice search and audio AI (GEO 2025) -->
+<script type="application/ld+json" set:html={JSON.stringify(speakableSchema)} />
+<!-- DefinedTerm - helps AI understand tool terminology -->
+<script type="application/ld+json" set:html={JSON.stringify(definedTermSchema)} />

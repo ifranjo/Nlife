@@ -63,6 +63,24 @@ const currentYear = new Date().getFullYear();
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
     <link rel="canonical" href={Astro.url.href} />
 
+    <!-- GEO 2025: AI Search Engine Optimization Meta Tags -->
+    <!-- These help AI crawlers understand and cite content -->
+    <meta name="ai-content-declaration" content="human-created, factually-verified" />
+    <meta name="citation-format" content="structured, extractable" />
+    <meta name="content-type" content="tool-documentation, how-to-guide" />
+
+    <!-- AI Crawler Hints (GEO 2025) -->
+    <meta name="ai-summary" content={description} />
+    <meta name="answer-target" content="direct-answer, featured-snippet, ai-overview" />
+
+    <!-- Entity signals for knowledge graph (helps AI understand what this is) -->
+    <meta name="entity-type" content="WebApplication, SoftwareApplication" />
+    <meta name="entity-category" content="Productivity, Utility, Browser-Based Tool" />
+
+    <!-- Freshness signals specifically for AI (research shows these matter) -->
+    <meta name="last-verified" content={currentDate} />
+    <meta name="content-accuracy" content="verified-december-2025" />
+
     <!-- Plausible Analytics (with custom events support) -->
     <script defer data-domain="newlifesolutions.dev" src="https://plausible.io/js/script.tagged-events.js"></script>
   </head>

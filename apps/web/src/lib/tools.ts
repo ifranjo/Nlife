@@ -44,7 +44,7 @@ export const tools: Tool[] = [
       title: 'Merge PDF Online Free - No Upload Required | New Life',
       metaDescription: 'Combine multiple PDF files into one document instantly. 100% free, no sign up, no file upload to servers. Your PDFs never leave your browser.',
       h1: 'Merge PDF Files Online - Free & Private',
-      keywords: ['merge pdf', 'combine pdf', 'pdf merge online free', 'join pdf files']
+      keywords: ['merge pdf', 'combine pdf', 'pdf merge online free', 'join pdf files', 'secure document compilation', 'confidential PDF merge']
     },
     faq: [
       { question: 'Is this PDF merger really free?', answer: 'Yes, 100% free with no hidden fees, watermarks, or signup required.' },
@@ -70,7 +70,7 @@ export const tools: Tool[] = [
       title: 'Compress PDF Online Free - Reduce Size 90% | New Life',
       metaDescription: 'Compress PDF files up to 90% smaller instantly. Remove metadata, flatten forms. 100% free, no upload to servers. Works offline.',
       h1: 'Compress PDF Files Online - Free & Private',
-      keywords: ['compress pdf', 'reduce pdf size', 'pdf compressor online', 'shrink pdf free']
+      keywords: ['compress pdf', 'reduce pdf size', 'pdf compressor online', 'shrink pdf free', 'remove PDF metadata', 'strip PDF properties', 'eDiscovery PDF preparation']
     },
     faq: [
       { question: 'How much can PDF files be compressed?', answer: 'Compression varies by content. Image-heavy PDFs see 50-90% reduction. Text-only PDFs see 10-30% reduction.' },
@@ -117,7 +117,7 @@ export const tools: Tool[] = [
       title: 'Redact PDF Online Free - Remove Sensitive Info | New Life',
       metaDescription: 'Permanently redact sensitive information from PDFs. Auto-detect SSN, emails, phone numbers. GDPR compliant - files never leave your browser.',
       h1: 'Redact Sensitive Information from PDFs',
-      keywords: ['redact pdf', 'remove sensitive info pdf', 'pdf redaction tool', 'black out pdf text']
+      keywords: ['redact pdf', 'remove sensitive info pdf', 'pdf redaction tool', 'black out pdf text', 'HIPAA PDF redaction', 'remove PII from PDF', 'HR document redaction', 'legal document sanitization']
     },
     faq: [
       { question: 'Is PDF redaction permanent?', answer: 'Yes, redacted content is permanently removed and cannot be recovered.' },
@@ -258,7 +258,7 @@ export const tools: Tool[] = [
       title: 'Compress Images Online Free - Reduce Size 90% | New Life',
       metaDescription: 'Compress PNG, JPEG, WebP images up to 90% smaller without losing quality. Batch processing, ZIP download. No upload to servers.',
       h1: 'Compress Images Online - Free & Fast',
-      keywords: ['compress image', 'reduce image size', 'image compressor online', 'optimize images for web']
+      keywords: ['compress image', 'reduce image size', 'image compressor online', 'optimize images for web', 'batch product photo optimization', 'marketplace image compression']
     },
     faq: [
       { question: 'How much can images be compressed?', answer: 'Typically 60-90% size reduction while maintaining visual quality.' },
@@ -283,7 +283,7 @@ export const tools: Tool[] = [
       title: 'HEIC to JPG Converter Free Online - Convert iPhone Photos | New Life',
       metaDescription: 'Convert HEIC to JPG/PNG instantly. Free online image converter for iPhone photos. Also converts WebP, PNG, BMP to JPG/PNG/WebP. No upload, 100% private.',
       h1: 'Convert HEIC to JPG - Free Online Image Converter',
-      keywords: ['heic to jpg', 'convert heic to jpg', 'heic converter', 'iphone photo converter', 'webp to jpg', 'png to jpg']
+      keywords: ['heic to jpg', 'convert heic to jpg', 'heic converter', 'iphone photo converter', 'webp to jpg', 'png to jpg', 'product photo format conversion', 'WEBP to PNG ecommerce']
     },
     faq: [
       { question: 'How do I convert HEIC files from my iPhone?', answer: 'Drop or select your HEIC files, choose JPG/PNG/WebP output format, click Convert. Files are processed in your browser - never uploaded.' },
@@ -307,7 +307,7 @@ export const tools: Tool[] = [
       title: 'Remove Background from Image Free - AI Powered | New Life',
       metaDescription: 'Remove image backgrounds instantly with AI. 100% free, no signup. Works offline - your photos never leave your device. PNG download.',
       h1: 'Remove Image Background - Free AI Tool',
-      keywords: ['remove background', 'background remover', 'transparent background', 'remove bg free']
+      keywords: ['remove background', 'background remover', 'transparent background', 'remove bg free', 'Amazon product photo background', 'Etsy listing photo', 'ecommerce product image', 'white background product photo']
     },
     faq: [
       { question: 'How does AI background removal work?', answer: 'AI automatically detects the subject and removes the background, creating a transparent PNG.' },
@@ -472,7 +472,7 @@ export const tools: Tool[] = [
       title: 'Transcribe Audio to Text Free - AI Speech Recognition | New Life',
       metaDescription: 'Convert speech to text with Whisper AI. Transcribe audio files in 10+ languages. 100% free, runs locally, no upload required.',
       h1: 'Transcribe Audio to Text - Free AI Tool',
-      keywords: ['transcribe audio', 'speech to text', 'audio transcription free', 'whisper ai transcription']
+      keywords: ['transcribe audio', 'speech to text', 'audio transcription free', 'whisper ai transcription', 'podcast transcription free', 'episode transcript generator', 'show notes from audio']
     },
     faq: [
       { question: 'What languages are supported?', answer: 'English, Spanish, French, German, Italian, Portuguese, Chinese, Japanese, Korean, Russian, and more.' },
@@ -495,7 +495,7 @@ export const tools: Tool[] = [
       title: 'Generate Subtitles Free - AI SRT/VTT Export | New Life',
       metaDescription: 'Create subtitles from video or audio using Whisper AI. Export as SRT or VTT. 100% free, no upload, runs in browser.',
       h1: 'Generate Subtitles with AI - Free SRT & VTT Export',
-      keywords: ['subtitle generator', 'generate subtitles', 'srt generator', 'vtt generator', 'auto subtitles free']
+      keywords: ['subtitle generator', 'generate subtitles', 'srt generator', 'vtt generator', 'auto subtitles free', 'YouTube subtitle generator', 'TikTok caption maker', 'course video subtitles', 'SRT file creator', 'accessibility captions']
     },
     faq: [
       { question: 'What subtitle formats are supported?', answer: 'Export as SRT (universal, works everywhere) or VTT (web standard for HTML5 video players).' },
@@ -552,6 +552,62 @@ export const tools: Tool[] = [
       { question: 'Can I record with audio?', answer: 'Yes, you can capture system audio when recording browser tabs in Chrome or Edge. Select "Share tab audio" when prompted.' },
       { question: 'What video format is the recording?', answer: 'Recordings are saved as WebM with VP9 or VP8 codec. This format plays in all modern browsers.' },
       { question: 'Is there a recording time limit?', answer: 'No time limit. Recording duration is only limited by your device memory.' }
+    ]
+  },
+  {
+    id: 'audiogram-maker',
+    name: 'Audiogram Maker',
+    description: 'Create animated waveform videos from audio clips for social media promotion. Customize colors, styles, and aspect ratios.',
+    icon: '🎵',
+    thumbnail: '/thumbnails/audiogram-maker.svg',
+    category: 'media',
+    tier: 'free',
+    href: '/tools/audiogram-maker',
+    color: 'from-purple-500 to-pink-500',
+    tags: ['audio', 'video', 'waveform', 'audiogram', 'podcast', 'social media', 'instagram', 'tiktok'],
+    popular: false,
+    releaseDate: '2024-12-25',
+    seo: {
+      title: 'Free Audiogram Maker Online - Create Waveform Videos | New Life',
+      metaDescription: 'Create animated waveform videos from audio clips for social media. Free audiogram maker with customizable colors, styles, and aspect ratios. Perfect for podcast promotion.',
+      h1: 'Create Audiogram Videos - Free Online Tool',
+      keywords: ['audiogram maker', 'podcast clip maker', 'waveform video generator', 'audio to video', 'social media audiogram']
+    },
+    faq: [
+      { question: 'What is an audiogram?', answer: 'An audiogram is a video that visualizes audio waveforms, typically used to promote podcast episodes or audio content on social media platforms like Instagram, TikTok, and Twitter.' },
+      { question: 'What aspect ratios are supported?', answer: '1:1 (square for Instagram feed), 9:16 (vertical for Stories/Reels/TikTok), and 16:9 (landscape for YouTube).' },
+      { question: 'How long can my audiogram be?', answer: 'You can create audiograms from any length audio, but we recommend 30-60 seconds for optimal social media engagement. Keep under 120 seconds for faster rendering.' },
+      { question: 'Can I add my podcast artwork?', answer: 'Yes, upload your podcast artwork or logo image and it will be displayed as a circular thumbnail in your audiogram video.' },
+      { question: 'What waveform styles are available?', answer: 'Choose from bars (classic vertical bars), line (smooth waveform line), or circular (radial waveform pattern).' },
+      { question: 'Are my files uploaded to a server?', answer: 'No, all processing happens locally in your browser using FFmpeg and Web Audio API. Your audio and images never leave your device.' },
+      { question: 'Why is rendering slow?', answer: 'Video encoding is CPU-intensive. Rendering time depends on your device performance and video duration. A 60-second audiogram typically takes 2-5 minutes to render.' }
+    ]
+  },
+  {
+    id: 'subtitle-editor',
+    name: 'Subtitle Editor',
+    description: 'Edit SRT and VTT subtitle files. Adjust timing, edit text, add or remove captions. Convert between formats.',
+    icon: '📝',
+    thumbnail: '/thumbnails/subtitle-editor.svg',
+    category: 'media',
+    tier: 'free',
+    href: '/tools/subtitle-editor',
+    color: 'from-indigo-500 to-purple-500',
+    tags: ['subtitle', 'srt', 'vtt', 'captions', 'video', 'edit', 'timing'],
+    popular: true,
+    releaseDate: '2024-12-25',
+    seo: {
+      title: 'SRT VTT Subtitle Editor Online Free - Edit Captions | New Life',
+      metaDescription: 'Edit SRT and VTT subtitle files online. Fix timing, edit text, add or remove captions. Convert between SRT and VTT formats. 100% free, browser-based.',
+      h1: 'Edit SRT & VTT Subtitles Online - Free Tool',
+      keywords: ['srt editor', 'vtt editor', 'subtitle editor online', 'edit captions', 'fix subtitle timing', 'srt to vtt converter']
+    },
+    faq: [
+      { question: 'What subtitle formats are supported?', answer: 'Both SRT (SubRip) and VTT (WebVTT) formats. Upload either format, edit, and download as SRT or VTT.' },
+      { question: 'How do I fix out-of-sync subtitles?', answer: 'Edit the start and end times for each entry. Upload your video to preview and verify timing synchronization.' },
+      { question: 'Can I edit YouTube auto-generated captions?', answer: 'Yes! Download captions from YouTube Studio as SRT, edit them here, then re-upload the fixed file.' },
+      { question: 'Is my subtitle file uploaded to a server?', answer: 'No, all editing happens locally in your browser. Your files never leave your device.' },
+      { question: 'Can I convert between SRT and VTT?', answer: 'Yes, upload either format and download as SRT or VTT. Conversion is instant and preserves all timing and text.' }
     ]
   },
 

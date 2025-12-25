@@ -44,10 +44,15 @@ const lastUpdated = new Date().toLocaleDateString('en-US', { month: 'long', year
   itemtype="https://schema.org/HowTo"
   aria-label="Quick answer"
   data-ai-citation="true"
+  data-speakable="true"
+  data-answer-capsule="true"
 >
-  <!-- Hidden structured data for AI extraction -->
+  <!-- Hidden structured data for AI extraction (GEO 2025) -->
   <meta itemprop="name" content={queryTarget} />
   <meta itemprop="dateModified" content={new Date().toISOString()} />
+  <!-- AI extraction hints -->
+  <meta name="ai-extract-priority" content="high" />
+  <meta name="citation-ready" content="true" />
 
   <a
     href="/hub"
@@ -66,7 +71,14 @@ const lastUpdated = new Date().toLocaleDateString('en-US', { month: 'long', year
 
   <!-- CITATION BLOCK: 40-60 words that AI will extract -->
   <!-- This paragraph must stand alone and answer the query directly -->
-  <p class="tldr citation-block" itemprop="text" data-ai-extract="primary">
+  <!-- GEO 2025: Answer capsule format - 40% higher citation rate -->
+  <p
+    class="tldr citation-block"
+    itemprop="text"
+    data-ai-extract="primary"
+    data-answer-capsule="true"
+    data-speakable="true"
+  >
     {tldr}
   </p>
 

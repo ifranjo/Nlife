@@ -37,16 +37,19 @@ User-agent: YouBot
 Allow: /
 
 # =============================================================================
-# AI TRAINING BOTS - BLOCKED (training only, no search benefit)
+# AI SEARCH/TRAINING BOTS - ALLOWED (GEO 2025: GPTBot needed for ChatGPT Search)
 # =============================================================================
 
-# OpenAI - GPT Training
+# OpenAI - GPTBot (ALLOWED: Required for ChatGPT Search citations)
+# Research shows: GPTBot is used for BOTH training AND search indexing
+# Blocking GPTBot = invisible to ChatGPT Search = no AI citations
 User-agent: GPTBot
-Disallow: /
+Allow: /
 
-# Google - AI Training (separate from search)
+# Google - AI Training (ALLOWED for AI Overviews visibility)
+# GEO 2025: Google-Extended affects AI Overviews citations
 User-agent: Google-Extended
-Disallow: /
+Allow: /
 
 # Common Crawl - Training datasets
 User-agent: CCBot

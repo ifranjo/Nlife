@@ -1,0 +1,156 @@
+---
+/**
+ * Subtitle Editor - AI-Native Tool Page
+ *
+ * Optimized for LLM extraction with:
+ * - TL;DR answer box (50-70 words)
+ * - Semantic Q&A sections
+ * - Full schema markup (SoftwareApplication, HowTo, FAQPage)
+ */
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/ui/Navbar.astro';
+import Footer from '../../components/ui/Footer.astro';
+import AnswerBox from '../../components/seo/AnswerBox.astro';
+import QASections from '../../components/seo/QASections.astro';
+import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
+import SubtitleEditor from '../../components/tools/SubtitleEditor';
+
+// Tool metadata
+const tool = {
+  id: 'subtitle-editor',
+  name: 'Subtitle Editor',
+  category: 'media' as const,
+  url: '/tools/subtitle-editor'
+};
+
+// AI-optimized content
+const seoContent = {
+  // Page meta
+  title: 'Edit SRT & VTT Subtitles Online Free — Fix Timing & Text | New Life Solutions',
+  description: 'Edit SRT and VTT subtitle files online. Adjust timing, fix text, add or remove captions. Convert between SRT and VTT formats. 100% free, browser-based.',
+
+  // TL;DR Answer Box (50-70 words - this is what AI extracts)
+  answerBox: {
+    title: 'Edit SRT & VTT Subtitles — Free Online Editor',
+    queryTarget: 'How to Edit Subtitle Files Online Free',
+    tldr: `Upload your SRT or VTT subtitle file to edit captions directly in your browser. Adjust timing for out-of-sync subtitles, fix auto-generated text errors, add new entries, or delete unwanted captions. Convert between SRT and VTT formats instantly. Preview with video upload. All processing happens locally—no file upload to servers. Works offline.`,
+    trustSignals: [
+      'Edit timing & text',
+      'Convert SRT ⇄ VTT',
+      'No server upload',
+      'Works offline'
+    ]
+  },
+
+  // Q&A Sections
+  qa: {
+    whatIs: {
+      answer: `Subtitle Editor is a free browser-based tool for editing SRT and VTT caption files. Fix timing synchronization issues, correct auto-generated transcription errors, add new subtitle entries, remove unwanted captions, and convert between SRT (SubRip) and VTT (WebVTT) formats. Perfect for polishing YouTube captions, fixing AI-generated subtitles, or translating content.`,
+      context: `Ideal for fixing auto-generated YouTube captions, synchronizing subtitles with video, or preparing subtitles for translation.`
+    },
+    howItWorks: {
+      steps: [
+        'Upload an SRT or VTT subtitle file',
+        'Optionally upload a video file to preview subtitles in sync',
+        'Edit timing (start/end times) and subtitle text inline',
+        'Add new entries, delete unwanted ones, or reorder captions',
+        'Choose output format (SRT or VTT) and download edited file'
+      ]
+    },
+    whyBrowserBased: {
+      benefits: [
+        'Privacy first: Subtitle files never leave your device—no server uploads',
+        'Instant editing: No upload time, changes appear immediately',
+        'Format conversion: Switch between SRT and VTT formats in one click',
+        'Video preview: Sync-check subtitles by uploading your video',
+        'Offline capable: Works without internet after first page load'
+      ]
+    },
+    faqs: [
+      {
+        question: 'What is the difference between SRT and VTT?',
+        answer: `SRT (SubRip) is the universal subtitle format that works everywhere. VTT (WebVTT) is the modern web standard for HTML5 video players. Both contain the same information—timing and text—but use slightly different formatting. This tool handles both and converts between them.`
+      },
+      {
+        question: 'How do I fix out-of-sync subtitles?',
+        answer: `If all subtitles are offset by a constant amount, adjust the first entry's start time, then edit subsequent entries accordingly. For more complex timing issues, use the video preview feature to seek to each subtitle and adjust its timing individually.`
+      },
+      {
+        question: 'Can I edit auto-generated YouTube subtitles?',
+        answer: `Yes! Download your auto-generated captions from YouTube Studio as SRT or VTT, upload them here, fix errors and timing, then re-upload the edited file to YouTube. This is much faster than editing in YouTube's built-in editor.`
+      },
+      {
+        question: 'How do I add a new subtitle entry?',
+        answer: `Click "Add Entry" at the top of the editor. A new subtitle will be added with default timing (1 second after the previous entry). Edit the start time, end time, and text to match your needs.`
+      },
+      {
+        question: 'Can I preview subtitles with my video?',
+        answer: `Yes, click the video upload section to add your video file. The video player will appear, and you can click the play buttons next to each subtitle entry to seek to that timestamp and verify synchronization.`
+      },
+      {
+        question: 'Is there a limit on subtitle file size?',
+        answer: `Subtitle files are limited to 5MB. This allows for thousands of entries—far more than typical videos need. Large subtitle files load and edit instantly.`
+      }
+    ]
+  }
+};
+
+// Schema data
+const schemaData = {
+  toolId: tool.id,
+  toolName: tool.name,
+  description: seoContent.description,
+  category: tool.category,
+  steps: seoContent.qa.howItWorks.steps,
+  faqs: seoContent.qa.faqs,
+  url: tool.url
+};
+---
+
+<Layout
+  title={seoContent.title}
+  description={seoContent.description}
+  image="/thumbnails/subtitle-editor.svg"
+>
+  <!-- Schema Markup for AI extraction -->
+  <SchemaMarkup {...schemaData} />
+
+  <Navbar />
+
+  <main class="pt-20 pb-16 px-6 min-h-screen">
+    <div class="max-w-4xl mx-auto">
+
+      <!-- Answer Box: AI extracts this first -->
+      <AnswerBox
+        title={seoContent.answerBox.title}
+        tldr={seoContent.answerBox.tldr}
+        toolName={tool.name}
+        queryTarget={seoContent.answerBox.queryTarget}
+        trustSignals={seoContent.answerBox.trustSignals}
+      />
+
+      <!-- Tool Component -->
+      <section class="tool-section" aria-label="Subtitle Editor Tool">
+        <SubtitleEditor client:load />
+      </section>
+
+      <!-- Q&A Sections: Semantic structure for AI -->
+      <QASections
+        toolName={tool.name}
+        whatIs={seoContent.qa.whatIs}
+        howItWorks={seoContent.qa.howItWorks}
+        whyBrowserBased={seoContent.qa.whyBrowserBased}
+        faqs={seoContent.qa.faqs}
+      />
+
+    </div>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+  .tool-section {
+    margin: 2rem 0;
+  }
+</style>

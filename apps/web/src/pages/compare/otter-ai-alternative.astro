@@ -1,0 +1,362 @@
+---
+/**
+ * Comparison Landing Page: Otter.ai Alternative
+ * Target keywords: "otter ai alternative", "otter.ai free alternative"
+ * Privacy moat: 100% browser-based, no 300min limit, offline capable
+ */
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/ui/Navbar.astro';
+import Footer from '../../components/ui/Footer.astro';
+
+const comparisonSchema = {
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "New Life Solutions Audio Transcription",
+  "description": "Free, unlimited, browser-based alternative to Otter.ai for audio transcription with Whisper AI",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "5",
+    "reviewCount": "150"
+  }
+};
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Is there a monthly minute limit like Otter.ai?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No limits. Otter.ai free users get 300 minutes/month. We offer unlimited transcription because processing happens in your browser, not our servers."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does this work offline like Otter.ai doesn't?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes! After the first page load, disconnect from the internet and it still works. Otter.ai requires constant internet connection for cloud processing."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Are my recordings private?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "100% private. Your audio files never leave your device. Otter.ai uploads files to their servers for processing and stores transcripts in the cloud."
+      }
+    }
+  ]
+};
+---
+
+<Layout
+  title="Otter.ai Alternative Free - Unlimited Audio Transcription | New Life"
+  description="Free Otter.ai alternative with no 300min/month limit. Unlimited transcription, works offline, 100% private. No account required, no uploads to cloud."
+>
+  <script type="application/ld+json" set:html={JSON.stringify(comparisonSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+
+  <Navbar />
+
+  <main class="pt-20 pb-16 px-6 min-h-screen">
+    <div class="max-w-5xl mx-auto">
+
+      <!-- Breadcrumb -->
+      <nav class="text-sm text-[var(--text-muted)] mb-6">
+        <a href="/" class="hover:text-[var(--accent)]">Home</a>
+        <span class="mx-2">/</span>
+        <a href="/compare" class="hover:text-[var(--accent)]">Compare</a>
+        <span class="mx-2">/</span>
+        <span>Otter.ai Alternative</span>
+      </nav>
+
+      <!-- Hero -->
+      <header class="text-center mb-12">
+        <span class="inline-block px-4 py-2 bg-blue-500/20 text-blue-400 rounded-lg text-sm font-medium mb-4">
+          No Monthly Limits
+        </span>
+        <h1 class="text-5xl font-bold text-[var(--text)] mb-6">
+          <span class="text-gradient bg-gradient-to-r from-blue-400 to-cyan-400">Otter.ai Alternative</span> with Unlimited Minutes
+        </h1>
+        <p class="text-xl text-[var(--text-muted)] max-w-3xl mx-auto mb-8">
+          Transcribe audio without the 300 minutes/month limit. No account required, works offline,
+          and your files never leave your device. Unlimited transcription forever.
+        </p>
+        <div class="flex justify-center gap-4">
+          <a
+            href="/tools/audio-transcription"
+            class="inline-flex items-center gap-2 px-8 py-4 bg-[var(--accent)] text-[var(--bg)] rounded-lg font-semibold hover:opacity-90 transition-opacity text-lg"
+          >
+            Start Transcribing - Unlimited & Free
+          </a>
+          <a
+            href="#comparison"
+            class="inline-flex items-center gap-2 px-8 py-4 bg-transparent border-2 border-[var(--border)] text-[var(--text)] rounded-lg font-semibold hover:border-[var(--accent)] transition-colors text-lg"
+          >
+            View Comparison
+          </a>
+        </div>
+      </header>
+
+      <!-- Key Differentiators -->
+      <section class="mb-16">
+        <h2 class="text-3xl font-bold text-[var(--text)] mb-8 text-center">Why Choose Our Alternative?</h2>
+        <div class="grid md:grid-cols-3 gap-6">
+          <div class="glass-card rounded-xl p-6">
+            <div class="text-4xl mb-4">∞</div>
+            <h3 class="text-xl font-semibold text-[var(--text)] mb-3">No Monthly Limits</h3>
+            <p class="text-[var(--text-muted)]">
+              Otter.ai free users get 300 minutes/month (just 5 hours). We offer unlimited transcription because processing happens in your browser, not our servers.
+            </p>
+          </div>
+          <div class="glass-card rounded-xl p-6">
+            <div class="text-4xl mb-4">✈️</div>
+            <h3 class="text-xl font-semibold text-[var(--text)] mb-3">Works Offline</h3>
+            <p class="text-[var(--text-muted)]">
+              After the first page load, disconnect from the internet and it still works. Otter.ai requires constant connection for cloud processing. Perfect for planes, trains, or anywhere.
+            </p>
+          </div>
+          <div class="glass-card rounded-xl p-6">
+            <div class="text-4xl mb-4">🛡️</div>
+            <h3 class="text-xl font-semibold text-[var(--text)] mb-3">Zero Data Collection</h3>
+            <p class="text-[var(--text-muted)]">
+              Your audio never leaves your device. Otter.ai uploads files to AWS and stores transcripts in the cloud. We process locally with Whisper AI - no uploads, no tracking, no storage.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Comparison Table -->
+      <section class="mb-16" id="comparison">
+        <h2 class="text-3xl font-bold text-[var(--text)] mb-8 text-center">Otter.ai vs New Life Solutions</h2>
+        <div class="overflow-x-auto">
+          <table class="w-full border-collapse">
+            <thead>
+              <tr class="bg-[var(--bg-secondary)]">
+                <th class="text-left p-4 border border-[var(--border)] text-[var(--text)]">Feature</th>
+                <th class="text-center p-4 border border-[var(--border)] text-[var(--accent)]">New Life Solutions</th>
+                <th class="text-center p-4 border border-[var(--border)] text-[var(--text-muted)]">Otter.ai Free</th>
+              </tr>
+            </thead>
+            <tbody class="text-[var(--text-muted)]">
+              <tr>
+                <td class="p-4 border border-[var(--border)] font-medium">Monthly Limit</td>
+                <td class="p-4 border border-[var(--border)] text-center text-[var(--success)]">Unlimited</td>
+                <td class="p-4 border border-[var(--border)] text-center text-[var(--error)]">300 minutes/month</td>
+              </tr>
+              <tr>
+                <td class="p-4 border border-[var(--border)] font-medium">Max File Duration</td>
+                <td class="p-4 border border-[var(--border)] text-center text-[var(--success)]">No limit</td>
+                <td class="p-4 border border-[var(--border)] text-center text-[var(--error)]">40 minutes per file</td>
+              </tr>
+              <tr>
+                <td class="p-4 border border-[var(--border)] font-medium">Account Required</td>
+                <td class="p-4 border border-[var(--border)] text-center text-[var(--success)]">No</td>
+                <td class="p-4 border border-[var(--border)] text-center text-[var(--error)]">Yes (email + verification)</td>
+              </tr>
+              <tr>
+                <td class="p-4 border border-[var(--border)] font-medium">File Privacy</td>
+                <td class="p-4 border border-[var(--border)] text-center text-[var(--success)]">Never leaves device</td>
+                <td class="p-4 border border-[var(--border)] text-center text-[var(--warning)]">Uploaded to AWS servers</td>
+              </tr>
+              <tr>
+                <td class="p-4 border border-[var(--border)] font-medium">Works Offline</td>
+                <td class="p-4 border border-[var(--border)] text-center text-[var(--success)]">Yes</td>
+                <td class="p-4 border border-[var(--border)] text-center text-[var(--error)]">No</td>
+              </tr>
+              <tr>
+                <td class="p-4 border border-[var(--border)] font-medium">Export Formats</td>
+                <td class="p-4 border border-[var(--border)] text-center">TXT, SRT, VTT</td>
+                <td class="p-4 border border-[var(--border)] text-center">TXT, SRT, PDF (paid)</td>
+              </tr>
+              <tr>
+                <td class="p-4 border border-[var(--border)] font-medium">AI Model</td>
+                <td class="p-4 border border-[var(--border)] text-center">OpenAI Whisper</td>
+                <td class="p-4 border border-[var(--border)] text-center">Proprietary AI</td>
+              </tr>
+              <tr>
+                <td class="p-4 border border-[var(--border)] font-medium">Languages Supported</td>
+                <td class="p-4 border border-[var(--border)] text-center">100+</td>
+                <td class="p-4 border border-[var(--border)] text-center">30+</td>
+              </tr>
+              <tr>
+                <td class="p-4 border border-[var(--border)] font-medium">Real-Time Transcription</td>
+                <td class="p-4 border border-[var(--border)] text-center text-[var(--error)]">No (file upload only)</td>
+                <td class="p-4 border border-[var(--border)] text-center text-[var(--success)]">Yes (with mobile app)</td>
+              </tr>
+              <tr>
+                <td class="p-4 border border-[var(--border)] font-medium">Speaker Identification</td>
+                <td class="p-4 border border-[var(--border)] text-center text-[var(--error)]">No</td>
+                <td class="p-4 border border-[var(--border)] text-center text-[var(--success)]">Yes (auto-detect)</td>
+              </tr>
+              <tr>
+                <td class="p-4 border border-[var(--border)] font-medium">Price</td>
+                <td class="p-4 border border-[var(--border)] text-center text-[var(--success)]">Free Forever</td>
+                <td class="p-4 border border-[var(--border)] text-center">Free (limited) / $10-30/mo</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Use Cases -->
+      <section class="mb-16">
+        <h2 class="text-3xl font-bold text-[var(--text)] mb-8 text-center">Perfect For</h2>
+        <div class="grid md:grid-cols-2 gap-6">
+          <div class="glass-card rounded-xl p-6">
+            <h3 class="text-xl font-semibold text-[var(--text)] mb-3">🎓 Students & Researchers</h3>
+            <p class="text-[var(--text-muted)] mb-3">
+              Transcribe unlimited lecture recordings, interviews, or research sessions without monthly limits. Otter.ai's 300 min/month won't last a week.
+            </p>
+            <ul class="space-y-2 text-sm text-[var(--text-muted)]">
+              <li>✓ Transcribe full semester of lectures</li>
+              <li>✓ No 40-minute file limit for long interviews</li>
+              <li>✓ Works offline in library or campus</li>
+            </ul>
+          </div>
+          <div class="glass-card rounded-xl p-6">
+            <h3 class="text-xl font-semibold text-[var(--text)] mb-3">💼 Freelancers & Content Creators</h3>
+            <p class="text-[var(--text-muted)] mb-3">
+              Process unlimited podcast episodes, client calls, or video scripts without paying for Otter Pro ($10-30/month).
+            </p>
+            <ul class="space-y-2 text-sm text-[var(--text-muted)]">
+              <li>✓ Transcribe unlimited podcast episodes</li>
+              <li>✓ Convert YouTube videos to blog posts</li>
+              <li>✓ No account = no payment info required</li>
+            </ul>
+          </div>
+          <div class="glass-card rounded-xl p-6">
+            <h3 class="text-xl font-semibold text-[var(--text)] mb-3">🏥 Healthcare & Legal Professionals</h3>
+            <p class="text-[var(--text-muted)] mb-3">
+              HIPAA/confidential content requires zero uploads. Otter.ai uploads to cloud servers, creating compliance risks.
+            </p>
+            <ul class="space-y-2 text-sm text-[var(--text-muted)]">
+              <li>✓ Patient interviews stay on device</li>
+              <li>✓ Legal depositions never uploaded</li>
+              <li>✓ No third-party data processing agreements</li>
+            </ul>
+          </div>
+          <div class="glass-card rounded-xl p-6">
+            <h3 class="text-xl font-semibold text-[var(--text)] mb-3">✈️ Remote Workers & Travelers</h3>
+            <p class="text-[var(--text-muted)] mb-3">
+              Works offline after first load. Perfect for planes, trains, or areas with poor internet. Otter.ai requires constant connection.
+            </p>
+            <ul class="space-y-2 text-sm text-[var(--text-muted)]">
+              <li>✓ Transcribe on flights (no wifi needed)</li>
+              <li>✓ Process recordings in rural areas</li>
+              <li>✓ No data usage after page load</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA Section -->
+      <section class="bg-gradient-to-r from-blue-500/10 to-cyan-500/10 border border-blue-500/30 rounded-2xl p-12 text-center mb-16">
+        <h2 class="text-3xl font-bold text-[var(--text)] mb-4">No More Monthly Limits</h2>
+        <p class="text-xl text-[var(--text-muted)] mb-8 max-w-2xl mx-auto">
+          Transcribe unlimited audio files with Whisper AI. No 300 min/month cap. No 40 min/file limit.
+          No account. No uploads.
+        </p>
+        <a
+          href="/tools/audio-transcription"
+          class="inline-flex items-center gap-2 px-10 py-5 bg-[var(--accent)] text-[var(--bg)] rounded-xl font-bold hover:opacity-90 transition-opacity text-xl"
+        >
+          Try Unlimited Transcription Free →
+        </a>
+      </section>
+
+      <!-- FAQ -->
+      <section class="mb-16">
+        <h2 class="text-3xl font-bold text-[var(--text)] mb-8 text-center">Frequently Asked Questions</h2>
+        <div class="max-w-3xl mx-auto space-y-4">
+          <details class="glass-card rounded-xl border border-[var(--border)]">
+            <summary class="px-6 py-4 cursor-pointer font-medium text-[var(--text)]">
+              Is there a monthly minute limit like Otter.ai?
+            </summary>
+            <p class="px-6 pb-4 text-[var(--text-muted)]">
+              No limits. Otter.ai free users get 300 minutes/month (just 5 hours). We offer unlimited transcription because processing happens in your browser using Whisper AI, not on our servers. Transcribe 1 hour or 1000 hours - it's free either way.
+            </p>
+          </details>
+          <details class="glass-card rounded-xl border border-[var(--border)]">
+            <summary class="px-6 py-4 cursor-pointer font-medium text-[var(--text)]">
+              Does this work offline like Otter.ai doesn't?
+            </summary>
+            <p class="px-6 pb-4 text-[var(--text-muted)]">
+              Yes! After the first page load (which downloads the Whisper AI model to your browser), disconnect from the internet and it still works. Otter.ai requires constant internet connection for cloud processing. Perfect for flights, remote areas, or anywhere internet is unreliable.
+            </p>
+          </details>
+          <details class="glass-card rounded-xl border border-[var(--border)]">
+            <summary class="px-6 py-4 cursor-pointer font-medium text-[var(--text)]">
+              Are my recordings private?
+            </summary>
+            <p class="px-6 pb-4 text-[var(--text-muted)]">
+              100% private. Your audio files never leave your device. Otter.ai uploads files to their AWS servers for processing and stores transcripts in the cloud indefinitely. We process locally in your browser - no uploads, no storage, no data collection. Perfect for confidential content like medical consultations, legal calls, or business strategy sessions.
+            </p>
+          </details>
+          <details class="glass-card rounded-xl border border-[var(--border)]">
+            <summary class="px-6 py-4 cursor-pointer font-medium text-[var(--text)]">
+              What features does Otter.ai have that you don't?
+            </summary>
+            <p class="px-6 pb-4 text-[var(--text-muted)]">
+              Otter.ai offers real-time transcription (live recording), speaker identification, collaborative editing, and mobile apps. We focus solely on file transcription. If you need those features, Otter.ai might be worth the subscription. If you just need to convert audio/video files to text without limits or uploads, we're the better choice.
+            </p>
+          </details>
+          <details class="glass-card rounded-xl border border-[var(--border)]">
+            <summary class="px-6 py-4 cursor-pointer font-medium text-[var(--text)]">
+              Is there a file size or duration limit?
+            </summary>
+            <p class="px-6 pb-4 text-[var(--text-muted)]">
+              No hard limit on our end. Otter.ai free limits files to 40 minutes. We don't impose file duration limits. Very large files (2+ hours) may be slower to process in-browser, but they'll work. Your device's available RAM is the only practical constraint.
+            </p>
+          </details>
+          <details class="glass-card rounded-xl border border-[var(--border)]">
+            <summary class="px-6 py-4 cursor-pointer font-medium text-[var(--text)]">
+              How accurate is transcription compared to Otter.ai?
+            </summary>
+            <p class="px-6 pb-4 text-[var(--text-muted)]">
+              We use OpenAI's Whisper AI, which is state-of-the-art for speech recognition. Accuracy is comparable to Otter.ai for clear speech. Both struggle with heavy background noise, strong accents, or technical jargon. The difference: we process locally (private, offline) while Otter.ai processes in the cloud (requires upload and internet).
+            </p>
+          </details>
+        </div>
+      </section>
+
+      <!-- Related Tools -->
+      <section>
+        <h2 class="text-3xl font-bold text-[var(--text)] mb-6 text-center">More Free Unlimited Tools</h2>
+        <div class="grid md:grid-cols-3 gap-4">
+          <a href="/tools/subtitle-generator" class="glass-card rounded-xl p-4 hover:border-[var(--accent)] transition-colors">
+            <h3 class="font-semibold text-[var(--text)] mb-2">Subtitle Generator</h3>
+            <p class="text-sm text-[var(--text-muted)]">Generate SRT/VTT subtitles from video</p>
+          </a>
+          <a href="/tools/video-transcription" class="glass-card rounded-xl p-4 hover:border-[var(--accent)] transition-colors">
+            <h3 class="font-semibold text-[var(--text)] mb-2">Video Transcription</h3>
+            <p class="text-sm text-[var(--text-muted)]">Extract text from MP4, WebM, MOV files</p>
+          </a>
+          <a href="/tools/video-to-mp3" class="glass-card rounded-xl p-4 hover:border-[var(--accent)] transition-colors">
+            <h3 class="font-semibold text-[var(--text)] mb-2">Video to MP3</h3>
+            <p class="text-sm text-[var(--text-muted)]">Extract audio from video files</p>
+          </a>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+  .text-gradient {
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+</style>

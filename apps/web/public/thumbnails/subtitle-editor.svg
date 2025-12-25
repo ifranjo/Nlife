@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+  <!-- Background gradient -->
+  <defs>
+    <linearGradient id="subtitleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#6366f1;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#a855f7;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Video frame background -->
+  <rect x="30" y="40" width="140" height="90" rx="8" fill="url(#subtitleGrad)" opacity="0.2"/>
+  <rect x="30" y="40" width="140" height="90" rx="8" stroke="url(#subtitleGrad)" stroke-width="2" fill="none"/>
+
+  <!-- Play icon in video -->
+  <circle cx="100" cy="85" r="18" fill="url(#subtitleGrad)" opacity="0.3"/>
+  <path d="M 95 75 L 95 95 L 110 85 Z" fill="url(#subtitleGrad)"/>
+
+  <!-- Subtitle caption box -->
+  <rect x="45" y="105" width="110" height="24" rx="4" fill="#0a0a0a" opacity="0.8"/>
+  <rect x="45" y="105" width="110" height="24" rx="4" stroke="url(#subtitleGrad)" stroke-width="1.5" fill="none"/>
+
+  <!-- Subtitle text lines -->
+  <line x1="55" y1="113" x2="125" y2="113" stroke="#e0e0e0" stroke-width="2" stroke-linecap="round"/>
+  <line x1="55" y1="121" x2="145" y2="121" stroke="#e0e0e0" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- Edit icon (pencil) -->
+  <g transform="translate(135, 145)">
+    <path d="M 0 20 L 0 25 L 5 25 L 20 10 L 15 5 Z" fill="url(#subtitleGrad)"/>
+    <path d="M 15 5 L 20 10 L 22 8 L 17 3 Z" fill="url(#subtitleGrad)" opacity="0.7"/>
+    <circle cx="19" cy="6" r="3" fill="#a855f7" opacity="0.5"/>
+  </g>
+
+  <!-- Time code indicator -->
+  <text x="50" y="155" font-family="monospace" font-size="10" fill="#a855f7" font-weight="600">00:00</text>
+  <text x="135" y="155" font-family="monospace" font-size="10" fill="#a855f7" font-weight="600">00:03</text>
+</svg>

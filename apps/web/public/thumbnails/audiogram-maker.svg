@@ -1,0 +1,44 @@
+<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background gradient -->
+  <rect width="200" height="200" rx="20" fill="url(#grad1)"/>
+  <defs>
+    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#9333ea;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#db2777;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Waveform visualization -->
+  <g opacity="0.9">
+    <!-- Circular waveform -->
+    <circle cx="100" cy="80" r="35" fill="none" stroke="#ffffff" stroke-width="2" opacity="0.3"/>
+
+    <!-- Animated waveform bars (circular pattern) -->
+    <line x1="100" y1="45" x2="100" y2="35" stroke="#00d4ff" stroke-width="3" stroke-linecap="round"/>
+    <line x1="120" y1="50" x2="126" y2="44" stroke="#00d4ff" stroke-width="3" stroke-linecap="round"/>
+    <line x1="133" y1="63" x2="141" y2="59" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
+    <line x1="138" y1="80" x2="148" y2="80" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
+    <line x1="133" y1="97" x2="141" y2="101" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" opacity="0.6"/>
+    <line x1="120" y1="110" x2="126" y2="116" stroke="#ffffff" stroke-width="2" stroke-linecap="round" opacity="0.4"/>
+    <line x1="100" y1="115" x2="100" y2="125" stroke="#ffffff" stroke-width="2" stroke-linecap="round" opacity="0.3"/>
+    <line x1="80" y1="110" x2="74" y2="116" stroke="#ffffff" stroke-width="2" stroke-linecap="round" opacity="0.3"/>
+    <line x1="67" y1="97" x2="59" y2="101" stroke="#ffffff" stroke-width="2" stroke-linecap="round" opacity="0.3"/>
+    <line x1="62" y1="80" x2="52" y2="80" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" opacity="0.4"/>
+    <line x1="67" y1="63" x2="59" y2="59" stroke="#00d4ff" stroke-width="3" stroke-linecap="round"/>
+    <line x1="80" y1="50" x2="74" y2="44" stroke="#00d4ff" stroke-width="3" stroke-linecap="round"/>
+  </g>
+
+  <!-- Play button icon -->
+  <circle cx="100" cy="80" r="15" fill="#ffffff" opacity="0.9"/>
+  <path d="M95 72 L110 80 L95 88 Z" fill="#9333ea"/>
+
+  <!-- Video frame decoration -->
+  <rect x="30" y="130" width="140" height="50" rx="8" fill="#ffffff" opacity="0.15"/>
+  <rect x="40" y="138" width="50" height="3" rx="1.5" fill="#00d4ff"/>
+  <rect x="40" y="145" width="120" height="2" rx="1" fill="#ffffff" opacity="0.5"/>
+  <rect x="40" y="150" width="80" height="2" rx="1" fill="#ffffff" opacity="0.5"/>
+
+  <!-- Social media icons suggestion -->
+  <circle cx="150" cy="165" r="8" fill="#00d4ff" opacity="0.6"/>
+  <circle cx="130" cy="165" r="8" fill="#ffffff" opacity="0.4"/>
+</svg>

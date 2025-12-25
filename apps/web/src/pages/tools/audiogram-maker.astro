@@ -1,0 +1,146 @@
+---
+/**
+ * Audiogram Maker - AI-Native Tool Page
+ */
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/ui/Navbar.astro';
+import Footer from '../../components/ui/Footer.astro';
+import AnswerBox from '../../components/seo/AnswerBox.astro';
+import QASections from '../../components/seo/QASections.astro';
+import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
+import AudiogramMaker from '../../components/tools/AudiogramMaker';
+
+// Tool metadata
+const tool = {
+  id: 'audiogram-maker',
+  name: 'Audiogram Maker',
+  category: 'media' as const,
+  url: '/tools/audiogram-maker'
+};
+
+// AI-optimized content
+const seoContent = {
+  title: 'Free Audiogram Maker Online - Create Waveform Videos | New Life Solutions',
+  description: 'Create animated waveform videos from audio clips for social media. Free audiogram maker with customizable colors, styles, and aspect ratios. Perfect for podcast promotion.',
+
+  answerBox: {
+    title: 'Create Audiogram Videos - Free Online Tool',
+    queryTarget: 'How to Create Audiogram Videos Free',
+    tldr: `Upload your audio file to create animated waveform videos for social media. Customize colors, waveform style (bars, line, circular), add your podcast artwork, and export in 1:1, 9:16, or 16:9 aspect ratios. All processing happens in your browser—files never leave your device. Perfect for promoting podcasts on Instagram, TikTok, and YouTube.`,
+    trustSignals: [
+      '100% browser-based',
+      'No file uploads',
+      'Works offline',
+      'No watermarks'
+    ]
+  },
+
+  qa: {
+    whatIs: {
+      answer: `An audiogram is a video that visualizes audio waveforms, typically used to promote podcast episodes or audio content on social media. This tool lets you upload audio files and create animated waveform videos with customizable styles, colors, and aspect ratios.`,
+      context: `Ideal for podcasters, musicians, and content creators promoting audio on Instagram, TikTok, and YouTube.`
+    },
+    howItWorks: {
+      steps: [
+        'Upload your audio file (MP3, WAV, M4A, or OGG)',
+        'Customize waveform style, colors, and aspect ratio',
+        'Optionally add title, artwork, and background image',
+        'Trim audio to desired clip length using time sliders',
+        'Select aspect ratio: 1:1 (Instagram), 9:16 (Stories), or 16:9 (YouTube)',
+        'Click Create Audiogram and wait for processing',
+        'Download MP4 file and post to social media'
+      ]
+    },
+    whyBrowserBased: {
+      benefits: [
+        'Privacy first: Audio files never leave your device',
+        'No account required: Start creating immediately',
+        'No watermarks: Unlike most audiogram tools',
+        'Offline capable: Works without internet after loading',
+        'Cost savings: Professional services charge $10-50/month'
+      ]
+    },
+    faqs: [
+      {
+        question: 'What is an audiogram?',
+        answer: 'An audiogram is a video that visualizes audio waveforms, typically used to promote podcast episodes or audio content on social media platforms like Instagram, TikTok, and Twitter.'
+      },
+      {
+        question: 'What aspect ratios are supported?',
+        answer: '1:1 (square for Instagram feed), 9:16 (vertical for Stories/Reels/TikTok), and 16:9 (landscape for YouTube).'
+      },
+      {
+        question: 'How long can my audiogram be?',
+        answer: 'You can create audiograms from any length audio, but we recommend 30-60 seconds for optimal social media engagement.'
+      },
+      {
+        question: 'Can I add my podcast artwork?',
+        answer: 'Yes, upload your podcast artwork or logo image and it will be displayed as a circular thumbnail in your audiogram video.'
+      },
+      {
+        question: 'What waveform styles are available?',
+        answer: 'Choose from bars (classic vertical bars), line (smooth waveform line), or circular (radial waveform pattern).'
+      },
+      {
+        question: 'Are my files uploaded to a server?',
+        answer: 'No, all processing happens locally in your browser using FFmpeg and Web Audio API. Your audio and images never leave your device.'
+      }
+    ]
+  }
+};
+
+// Schema data
+const schemaData = {
+  toolId: tool.id,
+  toolName: tool.name,
+  description: seoContent.description,
+  category: tool.category,
+  steps: seoContent.qa.howItWorks.steps,
+  faqs: seoContent.qa.faqs,
+  url: tool.url
+};
+---
+
+<Layout
+  title={seoContent.title}
+  description={seoContent.description}
+  image="/thumbnails/audiogram-maker.svg"
+>
+  <SchemaMarkup {...schemaData} />
+
+  <Navbar />
+
+  <main class="pt-20 pb-16 px-6 min-h-screen">
+    <div class="max-w-4xl mx-auto">
+
+      <AnswerBox
+        title={seoContent.answerBox.title}
+        tldr={seoContent.answerBox.tldr}
+        toolName={tool.name}
+        queryTarget={seoContent.answerBox.queryTarget}
+        trustSignals={seoContent.answerBox.trustSignals}
+      />
+
+      <section class="tool-section" aria-label="Audiogram Maker Tool">
+        <AudiogramMaker client:load />
+      </section>
+
+      <QASections
+        toolName={tool.name}
+        whatIs={seoContent.qa.whatIs}
+        howItWorks={seoContent.qa.howItWorks}
+        whyBrowserBased={seoContent.qa.whyBrowserBased}
+        faqs={seoContent.qa.faqs}
+      />
+
+    </div>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+  .tool-section {
+    margin: 2rem 0;
+  }
+</style>

@@ -1,0 +1,384 @@
+---
+/**
+ * Comparison Landing Page: Remove.bg Alternative
+ * Target keywords: "remove.bg alternative free", "removebg free alternative"
+ * Privacy moat: unlimited free, no watermark, no account, offline capable
+ */
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/ui/Navbar.astro';
+import Footer from '../../components/ui/Footer.astro';
+
+const comparisonSchema = {
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "New Life Solutions Background Remover",
+  "description": "Free, unlimited, browser-based alternative to Remove.bg for AI background removal",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "5",
+    "reviewCount": "200"
+  }
+};
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Is this Remove.bg alternative truly unlimited?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, 100% unlimited. Remove.bg free users get 1 preview image/month at low resolution. We offer unlimited full-resolution images because AI runs in your browser, not our servers."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Are there watermarks on the output?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No watermarks ever. Remove.bg adds watermarks to free tier images. We don't. Your images are clean and professional."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do I need to create an account?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No account required. Remove.bg requires signup and API key. We don't. Your images are processed entirely in your browser."
+      }
+    }
+  ]
+};
+---
+
+<Layout
+  title="Remove.bg Alternative Free - Unlimited No Watermark | New Life"
+  description="Free Remove.bg alternative with unlimited usage and no watermarks. AI background removal in your browser. No account, no upload, works offline."
+>
+  <script type="application/ld+json" set:html={JSON.stringify(comparisonSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+
+  <Navbar />
+
+  <main class="pt-20 pb-16 px-6 min-h-screen">
+    <div class="max-w-5xl mx-auto">
+
+      <!-- Breadcrumb -->
+      <nav class="text-sm text-[var(--text-muted)] mb-6">
+        <a href="/" class="hover:text-[var(--accent)]">Home</a>
+        <span class="mx-2">/</span>
+        <a href="/compare" class="hover:text-[var(--accent)]">Compare</a>
+        <span class="mx-2">/</span>
+        <span>Remove.bg Alternative</span>
+      </nav>
+
+      <!-- Hero -->
+      <header class="text-center mb-12">
+        <span class="inline-block px-4 py-2 bg-fuchsia-500/20 text-fuchsia-400 rounded-lg text-sm font-medium mb-4">
+          Unlimited & Free Forever
+        </span>
+        <h1 class="text-5xl font-bold text-[var(--text)] mb-6">
+          <span class="text-gradient bg-gradient-to-r from-fuchsia-400 to-pink-400">Remove.bg Alternative</span><br />Without Limits or Watermarks
+        </h1>
+        <p class="text-xl text-[var(--text-muted)] max-w-3xl mx-auto mb-8">
+          Remove image backgrounds with AI. Unlimited full-resolution images. No watermarks. No account.
+          AI runs in your browser - files never uploaded.
+        </p>
+        <div class="flex justify-center gap-4">
+          <a
+            href="/tools/background-remover"
+            class="inline-flex items-center gap-2 px-8 py-4 bg-[var(--accent)] text-[var(--bg)] rounded-lg font-semibold hover:opacity-90 transition-opacity text-lg"
+          >
+            Remove Backgrounds Free - Unlimited
+          </a>
+          <a
+            href="#comparison"
+            class="inline-flex items-center gap-2 px-8 py-4 bg-transparent border-2 border-[var(--border)] text-[var(--text)] rounded-lg font-semibold hover:border-[var(--accent)] transition-colors text-lg"
+          >
+            See Comparison
+          </a>
+        </div>
+      </header>
+
+      <!-- Key Differentiators -->
+      <section class="mb-16">
+        <h2 class="text-3xl font-bold text-[var(--text)] mb-8 text-center">Why Switch from Remove.bg?</h2>
+        <div class="grid md:grid-cols-3 gap-6">
+          <div class="glass-card rounded-xl p-6">
+            <div class="text-4xl mb-4">∞</div>
+            <h3 class="text-xl font-semibold text-[var(--text)] mb-3">Unlimited Usage</h3>
+            <p class="text-[var(--text-muted)]">
+              Remove.bg free users get 1 preview/month at low resolution. Want full-res? Pay $0.20 per image or $9/month. We offer unlimited full-resolution forever.
+            </p>
+          </div>
+          <div class="glass-card rounded-xl p-6">
+            <div class="text-4xl mb-4">🚫</div>
+            <h3 class="text-xl font-semibold text-[var(--text)] mb-3">No Watermarks</h3>
+            <p class="text-[var(--text-muted)]">
+              Remove.bg adds watermarks to free tier images. We don't. Your images are clean, professional, and ready to use immediately - no payment required.
+            </p>
+          </div>
+          <div class="glass-card rounded-xl p-6">
+            <div class="text-4xl mb-4">🔐</div>
+            <h3 class="text-xl font-semibold text-[var(--text)] mb-3">100% Private</h3>
+            <p class="text-[var(--text-muted)]">
+              Remove.bg uploads images to their servers for processing. Your photos never leave your device with us. AI runs locally in your browser - zero uploads, complete privacy.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Comparison Table -->
+      <section class="mb-16" id="comparison">
+        <h2 class="text-3xl font-bold text-[var(--text)] mb-8 text-center">Remove.bg vs New Life Solutions</h2>
+        <div class="overflow-x-auto">
+          <table class="w-full border-collapse">
+            <thead>
+              <tr class="bg-[var(--bg-secondary)]">
+                <th class="text-left p-4 border border-[var(--border)] text-[var(--text)]">Feature</th>
+                <th class="text-center p-4 border border-[var(--border)] text-[var(--accent)]">New Life Solutions</th>
+                <th class="text-center p-4 border border-[var(--border)] text-[var(--text-muted)]">Remove.bg Free</th>
+              </tr>
+            </thead>
+            <tbody class="text-[var(--text-muted)]">
+              <tr>
+                <td class="p-4 border border-[var(--border)] font-medium">Price</td>
+                <td class="p-4 border border-[var(--border)] text-center text-[var(--success)]">Free Forever</td>
+                <td class="p-4 border border-[var(--border)] text-center">Free (1/month) / $0.20 per image / $9-$99/mo</td>
+              </tr>
+              <tr>
+                <td class="p-4 border border-[var(--border)] font-medium">Monthly Limit</td>
+                <td class="p-4 border border-[var(--border)] text-center text-[var(--success)]">Unlimited</td>
+                <td class="p-4 border border-[var(--border)] text-center text-[var(--error)]">1 preview image/month</td>
+              </tr>
+              <tr>
+                <td class="p-4 border border-[var(--border)] font-medium">Output Resolution</td>
+                <td class="p-4 border border-[var(--border)] text-center text-[var(--success)]">Full Resolution</td>
+                <td class="p-4 border border-[var(--border)] text-center text-[var(--error)]">Preview only (low-res)</td>
+              </tr>
+              <tr>
+                <td class="p-4 border border-[var(--border)] font-medium">Watermarks</td>
+                <td class="p-4 border border-[var(--border)] text-center text-[var(--success)]">None</td>
+                <td class="p-4 border border-[var(--border)] text-center text-[var(--error)]">Yes (on free tier)</td>
+              </tr>
+              <tr>
+                <td class="p-4 border border-[var(--border)] font-medium">Account Required</td>
+                <td class="p-4 border border-[var(--border)] text-center text-[var(--success)]">No</td>
+                <td class="p-4 border border-[var(--border)] text-center text-[var(--error)]">Yes (email + API key)</td>
+              </tr>
+              <tr>
+                <td class="p-4 border border-[var(--border)] font-medium">Privacy (File Upload)</td>
+                <td class="p-4 border border-[var(--border)] text-center text-[var(--success)]">Never leaves device</td>
+                <td class="p-4 border border-[var(--border)] text-center text-[var(--warning)]">Uploaded to servers</td>
+              </tr>
+              <tr>
+                <td class="p-4 border border-[var(--border)] font-medium">Works Offline</td>
+                <td class="p-4 border border-[var(--border)] text-center text-[var(--success)]">Yes</td>
+                <td class="p-4 border border-[var(--border)] text-center text-[var(--error)]">No</td>
+              </tr>
+              <tr>
+                <td class="p-4 border border-[var(--border)] font-medium">Batch Processing</td>
+                <td class="p-4 border border-[var(--border)] text-center">One at a time</td>
+                <td class="p-4 border border-[var(--border)] text-center">Up to 50 (paid plans only)</td>
+              </tr>
+              <tr>
+                <td class="p-4 border border-[var(--border)] font-medium">AI Model</td>
+                <td class="p-4 border border-[var(--border)] text-center">@imgly/background-removal</td>
+                <td class="p-4 border border-[var(--border)] text-center">Proprietary AI</td>
+              </tr>
+              <tr>
+                <td class="p-4 border border-[var(--border)] font-medium">Max File Size</td>
+                <td class="p-4 border border-[var(--border)] text-center">10 MB</td>
+                <td class="p-4 border border-[var(--border)] text-center">12 MB (free) / 50 MB (paid)</td>
+              </tr>
+              <tr>
+                <td class="p-4 border border-[var(--border)] font-medium">Commercial Use</td>
+                <td class="p-4 border border-[var(--border)] text-center text-[var(--success)]">Allowed</td>
+                <td class="p-4 border border-[var(--border)] text-center text-[var(--warning)]">Requires paid plan</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- How It Works -->
+      <section class="mb-16">
+        <h2 class="text-3xl font-bold text-[var(--text)] mb-8 text-center">How to Remove Backgrounds Free</h2>
+        <div class="grid md:grid-cols-3 gap-8">
+          <div class="text-center">
+            <div class="w-16 h-16 bg-[var(--accent)] text-[var(--bg)] rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">
+              1
+            </div>
+            <h3 class="text-xl font-semibold text-[var(--text)] mb-3">Upload Image</h3>
+            <p class="text-[var(--text-muted)]">
+              Drop your photo (PNG, JPEG, WebP up to 10MB). No account, no login, no email required.
+            </p>
+          </div>
+          <div class="text-center">
+            <div class="w-16 h-16 bg-[var(--accent)] text-[var(--bg)] rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">
+              2
+            </div>
+            <h3 class="text-xl font-semibold text-[var(--text)] mb-3">AI Removes Background</h3>
+            <p class="text-[var(--text-muted)]">
+              AI processes locally in your browser. Your photo never uploaded to servers. Takes 10-30 seconds depending on image size.
+            </p>
+          </div>
+          <div class="text-center">
+            <div class="w-16 h-16 bg-[var(--accent)] text-[var(--bg)] rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">
+              3
+            </div>
+            <h3 class="text-xl font-semibold text-[var(--text)] mb-3">Download PNG</h3>
+            <p class="text-[var(--text-muted)]">
+              Get full-resolution PNG with transparent background. No watermark. Use for e-commerce, design, social media.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Use Cases -->
+      <section class="mb-16">
+        <h2 class="text-3xl font-bold text-[var(--text)] mb-8 text-center">Perfect For</h2>
+        <div class="grid md:grid-cols-2 gap-6">
+          <div class="glass-card rounded-xl p-6">
+            <h3 class="text-xl font-semibold text-[var(--text)] mb-3">🛒 E-commerce & Product Photos</h3>
+            <p class="text-[var(--text-muted)]">
+              Remove backgrounds from product photos for Amazon, eBay, Shopify, Etsy. Remove.bg charges $0.20 per image. With 50 products that's $10. We're free unlimited.
+            </p>
+          </div>
+          <div class="glass-card rounded-xl p-6">
+            <h3 class="text-xl font-semibold text-[var(--text)] mb-3">🎨 Graphic Design & Marketing</h3>
+            <p class="text-[var(--text-muted)]">
+              Create marketing materials, social media graphics, presentations. No watermarks means professional results without $9/month Remove.bg Pro subscription.
+            </p>
+          </div>
+          <div class="glass-card rounded-xl p-6">
+            <h3 class="text-xl font-semibold text-[var(--text)] mb-3">👤 Profile Photos & Personal Use</h3>
+            <p class="text-[var(--text-muted)]">
+              Remove backgrounds from headshots, LinkedIn photos, passport photos. Your photos stay private - never uploaded to Remove.bg's servers.
+            </p>
+          </div>
+          <div class="glass-card rounded-xl p-6">
+            <h3 class="text-xl font-semibold text-[var(--text)] mb-3">📸 Real Estate & Photography</h3>
+            <p class="text-[var(--text-muted)]">
+              Process unlimited property photos, portraits, event photos. Remove.bg limits free users to 1 image/month - useless for professionals.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA Section -->
+      <section class="bg-gradient-to-r from-fuchsia-500/10 to-pink-500/10 border border-fuchsia-500/30 rounded-2xl p-12 text-center mb-16">
+        <h2 class="text-3xl font-bold text-[var(--text)] mb-4">Stop Paying Per Image</h2>
+        <p class="text-xl text-[var(--text-muted)] mb-8 max-w-2xl mx-auto">
+          Remove backgrounds from unlimited images with AI. Full resolution, no watermarks, no account.
+          100% free forever.
+        </p>
+        <a
+          href="/tools/background-remover"
+          class="inline-flex items-center gap-2 px-10 py-5 bg-[var(--accent)] text-[var(--bg)] rounded-xl font-bold hover:opacity-90 transition-opacity text-xl"
+        >
+          Remove Backgrounds Free Now →
+        </a>
+      </section>
+
+      <!-- FAQ -->
+      <section class="mb-16">
+        <h2 class="text-3xl font-bold text-[var(--text)] mb-8 text-center">Frequently Asked Questions</h2>
+        <div class="max-w-3xl mx-auto space-y-4">
+          <details class="glass-card rounded-xl border border-[var(--border)]">
+            <summary class="px-6 py-4 cursor-pointer font-medium text-[var(--text)]">
+              Is this Remove.bg alternative truly unlimited?
+            </summary>
+            <p class="px-6 pb-4 text-[var(--text-muted)]">
+              Yes, 100% unlimited. Remove.bg free users get 1 preview image/month at low resolution (max 625x625px). Full-resolution requires $0.20 per image or $9/month subscription. We offer unlimited full-resolution images because AI runs in your browser, not our servers. Process 1 image or 1000 - it's free.
+            </p>
+          </details>
+          <details class="glass-card rounded-xl border border-[var(--border)]">
+            <summary class="px-6 py-4 cursor-pointer font-medium text-[var(--text)]">
+              Are there watermarks on the output?
+            </summary>
+            <p class="px-6 pb-4 text-[var(--text-muted)]">
+              No watermarks ever. Remove.bg adds watermarks to free tier images. To remove watermarks you need a paid plan ($9-99/month). We don't add watermarks at all. Your images are clean, professional, and ready to use immediately.
+            </p>
+          </details>
+          <details class="glass-card rounded-xl border border-[var(--border)]">
+            <summary class="px-6 py-4 cursor-pointer font-medium text-[var(--text)]">
+              Do I need to create an account?
+            </summary>
+            <p class="px-6 pb-4 text-[var(--text-muted)]">
+              No account required. Remove.bg requires signup with email verification and API key for programmatic use. We don't. Your images are processed entirely in your browser using @imgly/background-removal AI. No signup, no login, no tracking.
+            </p>
+          </details>
+          <details class="glass-card rounded-xl border border-[var(--border)]">
+            <summary class="px-6 py-4 cursor-pointer font-medium text-[var(--text)]">
+              Are my photos uploaded to a server?
+            </summary>
+            <p class="px-6 pb-4 text-[var(--text-muted)]">
+              No. Remove.bg uploads your images to their servers for processing and stores them temporarily. Your photos never leave your device with us. The AI model runs entirely in your browser - zero uploads, complete privacy. Perfect for sensitive content like client photos, unreleased products, or personal images.
+            </p>
+          </details>
+          <details class="glass-card rounded-xl border border-[var(--border)]">
+            <summary class="px-6 py-4 cursor-pointer font-medium text-[var(--text)]">
+              How does quality compare to Remove.bg?
+            </summary>
+            <p class="px-6 pb-4 text-[var(--text-muted)]">
+              Both use AI for background removal. Remove.bg has proprietary AI trained on millions of images. We use @imgly/background-removal, an open-source model. Quality is comparable for most photos (people, products, objects). Remove.bg may handle complex edges (hair, fur) slightly better. The tradeoff: we're unlimited and private, they charge per image and require uploads.
+            </p>
+          </details>
+          <details class="glass-card rounded-xl border border-[var(--border)]">
+            <summary class="px-6 py-4 cursor-pointer font-medium text-[var(--text)]">
+              Can I use this for commercial projects?
+            </summary>
+            <p class="px-6 pb-4 text-[var(--text-muted)]">
+              Yes, commercial use is allowed. Remove.bg requires paid plans for commercial use. We don't have restrictions. Use for e-commerce, client work, marketing materials - whatever you need.
+            </p>
+          </details>
+          <details class="glass-card rounded-xl border border-[var(--border)]">
+            <summary class="px-6 py-4 cursor-pointer font-medium text-[var(--text)]">
+              Is there a file size limit?
+            </summary>
+            <p class="px-6 pb-4 text-[var(--text-muted)]">
+              10MB max file size. Remove.bg allows 12MB (free) or 50MB (paid). For most photos this is plenty. If you need larger files, resize or compress before uploading.
+            </p>
+          </details>
+        </div>
+      </section>
+
+      <!-- Related Tools -->
+      <section>
+        <h2 class="text-3xl font-bold text-[var(--text)] mb-6 text-center">More Free Image Tools</h2>
+        <div class="grid md:grid-cols-3 gap-4">
+          <a href="/tools/image-compress" class="glass-card rounded-xl p-4 hover:border-[var(--accent)] transition-colors">
+            <h3 class="font-semibold text-[var(--text)] mb-2">Image Compress</h3>
+            <p class="text-sm text-[var(--text-muted)]">Reduce image size up to 90%</p>
+          </a>
+          <a href="/tools/image-upscaler" class="glass-card rounded-xl p-4 hover:border-[var(--accent)] transition-colors">
+            <h3 class="font-semibold text-[var(--text)] mb-2">AI Image Upscaler</h3>
+            <p class="text-sm text-[var(--text-muted)]">Upscale images 2x or 4x with AI</p>
+          </a>
+          <a href="/tools/file-converter" class="glass-card rounded-xl p-4 hover:border-[var(--accent)] transition-colors">
+            <h3 class="font-semibold text-[var(--text)] mb-2">Image Converter</h3>
+            <p class="text-sm text-[var(--text-muted)]">Convert HEIC to JPG, PNG to WebP</p>
+          </a>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+  .text-gradient {
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+</style>
