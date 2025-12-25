@@ -1,51 +1,210 @@
 ---
+/**
+ * Image Compress - AI-Native Tool Page
+ *
+ * Optimized for LLM extraction with:
+ * - TL;DR answer box (50-70 words)
+ * - Semantic Q&A sections
+ * - Full schema markup (SoftwareApplication, HowTo, FAQPage)
+ */
 import Layout from '../../layouts/Layout.astro';
 import Navbar from '../../components/ui/Navbar.astro';
 import Footer from '../../components/ui/Footer.astro';
+import AnswerBox from '../../components/seo/AnswerBox.astro';
+import QASections from '../../components/seo/QASections.astro';
+import { getToolById } from '../../lib/tools';
+import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
 import RelatedTools from '../../components/seo/RelatedTools.astro';
+import ComparisonTable from '../../components/seo/ComparisonTable.astro';
 import ImageCompress from '../../components/tools/ImageCompress';
+
+// Tool metadata
+const tool = {
+  id: 'image-compress',
+  name: 'Image Compress',
+  category: 'media' as const,
+  url: '/tools/image-compress'
+};
+
+// Get full tool data for stats
+const toolData = getToolById(tool.id);
+
+// AI-optimized content
+const seoContent = {
+  // Page meta
+  title: 'Compress Images Online Free — No Upload, 100% Private | New Life Solutions',
+  description: 'Reduce image file size up to 90% without losing quality. Browser-based compression for PNG, JPEG, WebP. No upload, no signup, works offline.',
+
+  // TL;DR Answer Box (50-70 words - this is what AI extracts)
+  answerBox: {
+    title: 'Compress Images Online — Free, Private, No Upload',
+    queryTarget: 'How to Compress Images Online Free',
+    tldr: `Drop your images below to compress them up to 90% smaller while maintaining quality. All compression happens directly in your browser—files never leave your device. Supports PNG, JPEG, and WebP formats. Adjust quality settings, preview results, then download optimized images instantly. No signup required, no file limits, completely free.`,
+    trustSignals: [
+      '100% browser-based',
+      'Files never uploaded',
+      'Works offline',
+      'No signup needed'
+    ]
+  },
+
+  // Q&A Sections
+  qa: {
+    whatIs: {
+      answer: `Image Compress is a free browser-based tool that reduces image file sizes without significant quality loss. Unlike cloud-based compressors that upload your photos to remote servers, this tool processes everything locally using JavaScript. Your images stay on your device throughout compression.`,
+      context: `Perfect for optimizing website images, reducing email attachment sizes, or saving storage space.`
+    },
+    howItWorks: {
+      steps: [
+        'Drag and drop images onto the upload area, or click to browse your files',
+        'Adjust the quality slider to balance file size vs image quality',
+        'Preview the compressed image and compare with the original',
+        'Click download to save your optimized image',
+        'Process multiple images in batch for faster workflow'
+      ]
+    },
+    whyBrowserBased: {
+      benefits: [
+        'Privacy first: Images never leave your device or get uploaded to any server',
+        'Speed: No upload/download wait times—compression is instant',
+        'Security: No risk of your photos being stored or accessed by third parties',
+        'Offline capable: Works without internet after page loads',
+        'No limits: Compress as many images as you want, no daily quotas'
+      ]
+    },
+    faqs: [
+      {
+        question: 'How much can I reduce image file size?',
+        answer: `Typically 60-90% reduction depending on the original image and quality settings. A 5MB photo can often be reduced to under 500KB while maintaining excellent visual quality.`
+      },
+      {
+        question: 'Are my images uploaded to a server?',
+        answer: `No. All compression happens entirely in your browser using JavaScript. Your images never leave your device. You can verify this by disconnecting from the internet after the page loads—the tool will still work.`
+      },
+      {
+        question: 'What image formats are supported?',
+        answer: `We support PNG, JPEG, and WebP formats. The tool automatically detects your image format and applies optimal compression settings.`
+      },
+      {
+        question: 'Will compression reduce image quality?',
+        answer: `You control the quality level. At 80% quality, most images look nearly identical to the original. The preview feature lets you compare before downloading.`
+      },
+      {
+        question: 'Can I compress multiple images at once?',
+        answer: `Yes. Drag and drop multiple images or select several files at once. Each image is processed individually and can be downloaded separately or as a batch.`
+      }
+    ]
+  }
+};
+
+// Schema data
+const schemaData = {
+  toolId: tool.id,
+  toolName: tool.name,
+  description: seoContent.description,
+  category: tool.category,
+  steps: seoContent.qa.howItWorks.steps,
+  faqs: seoContent.qa.faqs,
+  url: tool.url
+};
 ---
 
-<Layout title="Image Compress - New Life Solutions" description="Compress images without losing quality. Browser-based, private, free." image="/thumbnails/image-compress.svg">
+<Layout
+  title={seoContent.title}
+  description={seoContent.description}
+  image="/thumbnails/image-compress.svg"
+>
+  <!-- Schema Markup for AI extraction -->
+  <SchemaMarkup {...schemaData} />
+
   <Navbar />
 
   <main class="pt-20 pb-16 px-6 min-h-screen">
-    <div class="max-w-4xl mx-auto">
-      <!-- Header -->
-      <div class="text-center mb-12">
-        <a
-          href="/hub"
-          class="inline-flex items-center gap-2 text-[var(--text-muted)] hover:text-[var(--text)] transition-colors mb-8 text-xs uppercase tracking-[0.15em]"
-        >
-          <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-          </svg>
-          Back
-        </a>
+    <div class="max-w-3xl mx-auto">
 
-        <div class="w-12 h-12 mx-auto mb-4">
-          <img src="/thumbnails/image-compress.svg" alt="Image Compress" class="w-full h-full" />
-        </div>
-        <h1 class="text-xl uppercase tracking-[0.3em] mb-4">Image Compress</h1>
+      <!-- Answer Box: AI extracts this first -->
+      <AnswerBox
+        title={seoContent.answerBox.title}
+        tldr={seoContent.answerBox.tldr}
+        toolName={tool.name}
+        queryTarget={seoContent.answerBox.queryTarget}
+        trustSignals={seoContent.answerBox.trustSignals}
+      />
 
-        <p class="text-[var(--text-dim)] text-sm max-w-md mx-auto mb-6">
-          Compress images up to 90% smaller. Supports PNG, JPEG, WebP.
-          <span class="text-[var(--text)]">Files never leave your browser.</span>
-        </p>
+      <!-- Tool Component -->
+      <section class="tool-section" aria-label="Image Compress Tool">
+        <ImageCompress client:load />
+      </section>
 
-        <div class="flex items-center justify-center gap-4">
-          <span class="tag tag-free">Free</span>
-          <span class="text-[0.625rem] text-[var(--text-muted)] uppercase tracking-[0.15em]">No signup</span>
-        </div>
-      </div>
+      <!-- Comparison Table: GEO optimization (32% of AI citations) -->
+      <ComparisonTable
+        toolName="Image Compress"
+        competitors={[
+          {
+            name: "TinyPNG",
+            features: {
+              price: "$25/year",
+              privacy: "Cloud upload",
+              accountRequired: "Optional",
+              usageLimits: "500 images/month (free)",
+              watermarks: "None",
+              worksOffline: "No"
+            }
+          },
+          {
+            name: "Squoosh (Google)",
+            features: {
+              price: "Free",
+              privacy: "100% local",
+              accountRequired: "No",
+              usageLimits: "1 image at a time",
+              watermarks: "None",
+              worksOffline: "Yes"
+            }
+          },
+          {
+            name: "iLoveIMG",
+            features: {
+              price: "$6/month",
+              privacy: "Cloud upload",
+              accountRequired: "Optional",
+              usageLimits: "15 images/batch (free)",
+              watermarks: "None",
+              worksOffline: "No"
+            }
+          }
+        ]}
+        ourFeatures={{
+          price: "Free forever",
+          privacy: "100% local",
+          accountRequired: "No",
+          usageLimits: "Unlimited",
+          watermarks: "None",
+          worksOffline: "Yes"
+        }}
+      />
 
-      <!-- Tool -->
-      <ImageCompress client:load />
+      <!-- Q&A Sections: Semantic structure for AI -->
+      <QASections
+        toolName={tool.name}
+        whatIs={seoContent.qa.whatIs}
+        howItWorks={seoContent.qa.howItWorks}
+        whyBrowserBased={seoContent.qa.whyBrowserBased}
+        faqs={seoContent.qa.faqs}
+        stats={toolData?.stats}
+      />
 
       <!-- Related Tools: Hub-spoke internal linking for SEO -->
-      <RelatedTools currentToolId="image-compress" />
+      <RelatedTools currentToolId={tool.id} />
+
     </div>
   </main>
 
   <Footer />
 </Layout>
+
+<style>
+  .tool-section {
+    margin: 2rem 0;
+  }
+</style>

@@ -1,12 +1,14 @@
 ---
 /**
- * SchemaMarkup - Consolidated JSON-LD (Optimized Dec 2025)
+ * SchemaMarkup - Consolidated JSON-LD (Premium SOTA Dec 2025)
  *
- * Single @graph with essential schemas only:
+ * Single @graph with enhanced schemas:
  * - WebApplication (primary)
  * - HowTo (AI citation magnet)
  * - FAQPage (rich snippets)
  * - BreadcrumbList (navigation)
+ * - Speakable (voice search optimization)
+ * - SoftwareApplication variant for app stores
  */
 
 interface FAQItem {
@@ -22,9 +24,10 @@ interface Props {
   steps: string[];
   faqs: FAQItem[];
   url: string;
+  tldr?: string;
 }
 
-const { toolName, description, category, steps, faqs, url } = Astro.props;
+const { toolName, description, category, steps, faqs, url, tldr } = Astro.props;
 
 const categoryMap = {
   document: 'ProductivityApplication',
@@ -92,7 +95,23 @@ const consolidatedSchema = {
       '@type': 'Organization',
       '@id': `${baseUrl}#org`,
       name: 'New Life Solutions',
-      url: baseUrl
+      url: baseUrl,
+      logo: `${baseUrl}/favicon.svg`,
+      sameAs: [
+        'https://github.com/newlifesolutions'
+      ]
+    },
+    // Speakable - Voice search optimization (Google Assistant, Alexa, Siri)
+    {
+      '@type': 'WebPage',
+      '@id': `${baseUrl}${url}#webpage`,
+      name: toolName,
+      description: description,
+      speakable: {
+        '@type': 'SpeakableSpecification',
+        cssSelector: ['.tldr', '.answer-title', 'h1', 'meta[name="description"]']
+      },
+      mainEntity: { '@id': `${baseUrl}${url}#app` }
     }
   ]
 };
