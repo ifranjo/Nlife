@@ -80,4 +80,4 @@ User-agent: Slurp
 Allow: /
 
 # Sitemap
-Sitemap: https://www.newlifesolutions.dev/sitemap.xml
+Sitemap: https://www.newlifesolutions.dev/sitemap-index.xml
