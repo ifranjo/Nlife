@@ -1,5 +1,6 @@
-import { useState, useCallback, useRef } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 import { sanitizeFilename, createSafeErrorMessage } from '../../lib/security';
+import { announce, haptic } from '../../lib/accessibility';
 
 interface ImageFile {
   id: string;
@@ -78,6 +79,8 @@ export default function FileConverter() {
   const [outputFormat, setOutputFormat] = useState<OutputFormat>('jpg');
   const [quality, setQuality] = useState(90);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const fileListRef = useRef<HTMLDivElement>(null);
+  const [activeFileIndex, setActiveFileIndex] = useState(0); // For roving tabindex
 
   const formatFileSize = (bytes: number): string => {
     if (bytes < 1024) return `${bytes} B`;
@@ -241,15 +244,61 @@ export default function FileConverter() {
     }
   }, [files.length]);
 
-  const removeFile = (id: string) => {
+  const removeFile = (id: string, fileName?: string) => {
     setFiles((prev) => {
       const file = prev.find((f) => f.id === id);
       if (file?.thumbnail && file.thumbnail.startsWith('blob:')) {
         URL.revokeObjectURL(file.thumbnail);
       }
-      return prev.filter((f) => f.id !== id);
+      const filtered = prev.filter((f) => f.id !== id);
+      // Adjust active index if needed
+      if (activeFileIndex >= filtered.length && filtered.length > 0) {
+        setActiveFileIndex(filtered.length - 1);
+      }
+      return filtered;
     });
+    announce(`${fileName || 'File'} removed`);
+    haptic.tap();
   };
+
+  // Keyboard navigation for file list (roving tabindex pattern)
+  const handleFileKeyDown = (e: React.KeyboardEvent, index: number) => {
+    switch (e.key) {
+      case 'ArrowDown':
+        e.preventDefault();
+        if (index < files.length - 1) {
+          setActiveFileIndex(index + 1);
+        }
+        break;
+      case 'ArrowUp':
+        e.preventDefault();
+        if (index > 0) {
+          setActiveFileIndex(index - 1);
+        }
+        break;
+      case 'Home':
+        e.preventDefault();
+        setActiveFileIndex(0);
+        break;
+      case 'End':
+        e.preventDefault();
+        setActiveFileIndex(files.length - 1);
+        break;
+      case 'Delete':
+      case 'Backspace':
+        e.preventDefault();
+        removeFile(files[index].id, files[index].name);
+        break;
+    }
+  };
+
+  // Focus active file when activeFileIndex changes
+  useEffect(() => {
+    if (fileListRef.current && files.length > 0) {
+      const activeItem = fileListRef.current.querySelector(`[data-index="${activeFileIndex}"]`) as HTMLElement;
+      activeItem?.focus();
+    }
+  }, [activeFileIndex, files.length]);
 
   const clearAllFiles = () => {
     files.forEach((file) => {
@@ -541,7 +590,7 @@ export default function FileConverter() {
         </div>
       )}
 
-      {/* File List */}
+      {/* File List - Roving tabindex for keyboard navigation */}
       {files.length > 0 && (
         <div className="mt-6 space-y-3">
           <div className="flex items-center justify-between">
@@ -556,10 +605,20 @@ export default function FileConverter() {
             </button>
           </div>
 
-          {files.map((imageFile) => (
+          <div
+            ref={fileListRef}
+            role="list"
+            aria-label={`${files.length} images selected. Use arrow keys to navigate, Delete to remove.`}
+          >
+          {files.map((imageFile, index) => (
             <div
               key={imageFile.id}
-              className="glass-card p-4 flex items-center gap-4"
+              role="listitem"
+              tabIndex={index === activeFileIndex ? 0 : -1}
+              data-index={index}
+              onKeyDown={(e) => handleFileKeyDown(e, index)}
+              aria-label={`${imageFile.name}, ${imageFile.originalFormat}, ${formatFileSize(imageFile.originalSize)}${imageFile.status === 'done' ? ', converted' : ''}`}
+              className="glass-card p-4 flex items-center gap-4 mb-3 focus:outline-none focus:ring-2 focus:ring-white/50"
             >
               {/* Thumbnail */}
               <div className="w-16 h-16 rounded-lg overflow-hidden bg-slate-800 flex-shrink-0 flex items-center justify-center">
@@ -629,17 +688,19 @@ export default function FileConverter() {
 
                 {/* Remove button */}
                 <button
-                  onClick={() => removeFile(imageFile.id)}
+                  onClick={() => removeFile(imageFile.id, imageFile.name)}
+                  aria-label={`Remove ${imageFile.name}`}
                   className="p-2 text-slate-400 hover:text-red-400 transition-colors"
                   title="Remove"
                 >
-                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                   </svg>
                 </button>
               </div>
             </div>
           ))}
+          </div>
         </div>
       )}
 

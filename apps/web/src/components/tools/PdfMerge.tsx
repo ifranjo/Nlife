@@ -1,10 +1,12 @@
-import { useState, useCallback, useRef, useEffect } from 'react';
+import { useState, useCallback, useRef, useEffect, useMemo } from 'react';
 import {
   validateFile,
   sanitizeFilename,
   createSafeErrorMessage,
 } from '../../lib/security';
 import { announce, haptic } from '../../lib/accessibility';
+import SwipeableListItem from '../ui/SwipeableListItem';
+import { ContextMenuIcons, type ContextMenuItem } from '../ui/ContextMenu';
 
 interface PDFFile {
   id: string;
@@ -79,22 +81,51 @@ export default function PdfMerge() {
     }
   }, [files.length]);
 
-  const removeFile = (id: string, fileName: string) => {
+  const removeFile = useCallback((id: string, fileName: string) => {
     setFiles((prev) => prev.filter((f) => f.id !== id));
     announce(`${fileName} removed`);
     haptic.tap();
-  };
+  }, []);
 
-  const moveFile = (index: number, direction: 'up' | 'down') => {
-    const newFiles = [...files];
-    const newIndex = direction === 'up' ? index - 1 : index + 1;
-    if (newIndex < 0 || newIndex >= files.length) return;
-    [newFiles[index], newFiles[newIndex]] = [newFiles[newIndex], newFiles[index]];
-    setFiles(newFiles);
-    setActiveFileIndex(newIndex);
-    announce(`Moved to position ${newIndex + 1}`);
-    haptic.tap();
-  };
+  const moveFile = useCallback((index: number, direction: 'up' | 'down') => {
+    setFiles((prev) => {
+      const newFiles = [...prev];
+      const newIndex = direction === 'up' ? index - 1 : index + 1;
+      if (newIndex < 0 || newIndex >= newFiles.length) return prev;
+      [newFiles[index], newFiles[newIndex]] = [newFiles[newIndex], newFiles[index]];
+      setActiveFileIndex(newIndex);
+      announce(`Moved to position ${newIndex + 1}`);
+      haptic.tap();
+      return newFiles;
+    });
+  }, []);
+
+  // Generate context menu items for a file at a specific index
+  const getContextMenuItems = useCallback((fileId: string, fileName: string, index: number, totalFiles: number): ContextMenuItem[] => {
+    return [
+      {
+        id: 'move-up',
+        label: 'Move Up',
+        icon: <ContextMenuIcons.MoveUp />,
+        disabled: index === 0,
+        onClick: () => moveFile(index, 'up'),
+      },
+      {
+        id: 'move-down',
+        label: 'Move Down',
+        icon: <ContextMenuIcons.MoveDown />,
+        disabled: index === totalFiles - 1,
+        onClick: () => moveFile(index, 'down'),
+      },
+      {
+        id: 'remove',
+        label: 'Remove',
+        icon: <ContextMenuIcons.Remove />,
+        danger: true,
+        onClick: () => removeFile(fileId, fileName),
+      },
+    ];
+  }, [moveFile, removeFile]);
 
   // Keyboard navigation for file list (roving tabindex pattern)
   const handleFileKeyDown = (e: React.KeyboardEvent, index: number) => {
@@ -278,56 +309,53 @@ export default function PdfMerge() {
           </h4>
 
           {files.map((file, index) => (
-            <div
+            <SwipeableListItem
               key={file.id}
+              onDelete={() => removeFile(file.id, file.name)}
+              itemName={file.name}
+              disabled={isProcessing}
+              className="glass-card glass-card-hover rounded-xl file-item focus-within:ring-2 focus-within:ring-white/50"
               role="listitem"
               tabIndex={index === activeFileIndex ? 0 : -1}
               data-index={index}
               onKeyDown={(e) => handleFileKeyDown(e, index)}
-              aria-label={`${file.name}, ${file.size}, position ${index + 1} of ${files.length}`}
-              className="glass-card glass-card-hover p-4 flex items-center gap-4 file-item focus:outline-none focus:ring-2 focus:ring-white/50"
+              aria-label={`${file.name}, ${file.size}, position ${index + 1} of ${files.length}. Swipe left to delete.`}
             >
-              {/* Order controls */}
-              <div className="flex flex-col gap-1">
-                <button
-                  onClick={() => moveFile(index, 'up')}
-                  disabled={index === 0}
-                  aria-label={`Move ${file.name} up`}
-                  className="p-1 text-slate-400 hover:text-white hover:scale-110 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
-                >
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
-                  </svg>
-                </button>
-                <button
-                  onClick={() => moveFile(index, 'down')}
-                  disabled={index === files.length - 1}
-                  aria-label={`Move ${file.name} down`}
-                  className="p-1 text-slate-400 hover:text-white hover:scale-110 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
-                >
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                  </svg>
-                </button>
-              </div>
+              <div className="p-4 flex items-center gap-4">
+                {/* Order controls */}
+                <div className="flex flex-col gap-1">
+                  <button
+                    onClick={() => moveFile(index, 'up')}
+                    disabled={index === 0}
+                    aria-label={`Move ${file.name} up`}
+                    className="p-1 text-slate-400 hover:text-white hover:scale-110 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+                  >
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+                    </svg>
+                  </button>
+                  <button
+                    onClick={() => moveFile(index, 'down')}
+                    disabled={index === files.length - 1}
+                    aria-label={`Move ${file.name} down`}
+                    className="p-1 text-slate-400 hover:text-white hover:scale-110 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+                  >
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
+                </div>
 
-              {/* File info */}
-              <div className="flex-1 min-w-0">
-                <p className="text-white font-medium truncate">{file.name}</p>
-                <p className="text-slate-400 text-sm">{file.size}</p>
-              </div>
+                {/* File info */}
+                <div className="flex-1 min-w-0">
+                  <p className="text-white font-medium truncate">{file.name}</p>
+                  <p className="text-slate-400 text-sm">{file.size}</p>
+                </div>
 
-              {/* Remove button */}
-              <button
-                onClick={() => removeFile(file.id, file.name)}
-                aria-label={`Remove ${file.name}`}
-                className="p-2 text-slate-400 hover:text-red-400 transition-colors"
-              >
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-            </div>
+                {/* Spacer for delete button area (handled by SwipeableListItem) */}
+                <div className="w-8" aria-hidden="true" />
+              </div>
+            </SwipeableListItem>
           ))}
         </div>
       )}

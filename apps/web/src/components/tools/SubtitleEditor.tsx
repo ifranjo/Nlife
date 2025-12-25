@@ -1,6 +1,7 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import ToolFeedback from '../ui/ToolFeedback';
 import { sanitizeFilename, createSafeErrorMessage, sanitizeTextContent } from '../../lib/security';
+import { announce, haptic } from '../../lib/accessibility';
 
 type Status = 'idle' | 'processing' | 'error';
 type Format = 'srt' | 'vtt';
@@ -24,7 +25,9 @@ export default function SubtitleEditor() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const videoInputRef = useRef<HTMLInputElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const entriesListRef = useRef<HTMLDivElement>(null);
   const [outputFormat, setOutputFormat] = useState<Format>('srt');
+  const [activeEntryIndex, setActiveEntryIndex] = useState(0); // For roving tabindex
 
   // Parse SRT format
   const parseSRT = (content: string): SubtitleEntry[] => {
@@ -196,10 +199,17 @@ export default function SubtitleEditor() {
 
   // Delete entry
   const deleteEntry = (id: string) => {
+    const entryToDelete = entries.find(e => e.id === id);
     const filtered = entries.filter(e => e.id !== id);
     // Reindex
     const reindexed = filtered.map((e, idx) => ({ ...e, index: idx + 1 }));
     setEntries(reindexed);
+    // Adjust active index if needed
+    if (activeEntryIndex >= reindexed.length && reindexed.length > 0) {
+      setActiveEntryIndex(reindexed.length - 1);
+    }
+    announce(`Entry ${entryToDelete?.index || ''} removed`);
+    haptic.tap();
   };
 
   // Move entry up
@@ -208,7 +218,11 @@ export default function SubtitleEditor() {
     const newEntries = [...entries];
     [newEntries[index - 1], newEntries[index]] = [newEntries[index], newEntries[index - 1]];
     // Reindex
-    setEntries(newEntries.map((e, idx) => ({ ...e, index: idx + 1 })));
+    const reindexed = newEntries.map((e, idx) => ({ ...e, index: idx + 1 }));
+    setEntries(reindexed);
+    setActiveEntryIndex(index - 1);
+    announce(`Moved to position ${index}`);
+    haptic.tap();
   };
 
   // Move entry down
@@ -217,8 +231,54 @@ export default function SubtitleEditor() {
     const newEntries = [...entries];
     [newEntries[index], newEntries[index + 1]] = [newEntries[index + 1], newEntries[index]];
     // Reindex
-    setEntries(newEntries.map((e, idx) => ({ ...e, index: idx + 1 })));
+    const reindexed = newEntries.map((e, idx) => ({ ...e, index: idx + 1 }));
+    setEntries(reindexed);
+    setActiveEntryIndex(index + 1);
+    announce(`Moved to position ${index + 2}`);
+    haptic.tap();
   };
+
+  // Keyboard navigation for entries list (roving tabindex pattern)
+  const handleEntryKeyDown = (e: React.KeyboardEvent, index: number) => {
+    switch (e.key) {
+      case 'ArrowDown':
+        e.preventDefault();
+        if (index < entries.length - 1) {
+          setActiveEntryIndex(index + 1);
+        }
+        break;
+      case 'ArrowUp':
+        e.preventDefault();
+        if (index > 0) {
+          setActiveEntryIndex(index - 1);
+        }
+        break;
+      case 'Home':
+        e.preventDefault();
+        setActiveEntryIndex(0);
+        break;
+      case 'End':
+        e.preventDefault();
+        setActiveEntryIndex(entries.length - 1);
+        break;
+      case 'Delete':
+      case 'Backspace':
+        // Only delete if not focused on an input/textarea
+        if ((e.target as HTMLElement).tagName !== 'INPUT' && (e.target as HTMLElement).tagName !== 'TEXTAREA') {
+          e.preventDefault();
+          deleteEntry(entries[index].id);
+        }
+        break;
+    }
+  };
+
+  // Focus active entry when activeEntryIndex changes
+  useEffect(() => {
+    if (entriesListRef.current && entries.length > 0) {
+      const activeItem = entriesListRef.current.querySelector(`[data-index="${activeEntryIndex}"]`) as HTMLElement;
+      activeItem?.focus();
+    }
+  }, [activeEntryIndex, entries.length]);
 
   // Format time from milliseconds
   const formatTime = (ms: number): string => {
@@ -351,10 +411,23 @@ export default function SubtitleEditor() {
             </div>
           </div>
 
-          {/* Entries List */}
-          <div className="space-y-3 max-h-[600px] overflow-y-auto">
+          {/* Entries List - Roving tabindex for keyboard navigation */}
+          <div
+            ref={entriesListRef}
+            role="list"
+            aria-label={`${entries.length} subtitle entries. Use arrow keys to navigate, Delete to remove.`}
+            className="space-y-3 max-h-[600px] overflow-y-auto"
+          >
             {entries.map((entry, idx) => (
-              <div key={entry.id} className="glass-card p-4 space-y-3">
+              <div
+                key={entry.id}
+                role="listitem"
+                tabIndex={idx === activeEntryIndex ? 0 : -1}
+                data-index={idx}
+                onKeyDown={(e) => handleEntryKeyDown(e, idx)}
+                aria-label={`Entry ${entry.index}, ${entry.startTime} to ${entry.endTime}`}
+                className="glass-card p-4 space-y-3 focus:outline-none focus:ring-2 focus:ring-[var(--accent)]/50"
+              >
                 {/* Header */}
                 <div className="flex items-center justify-between">
                   <span className="text-sm font-mono text-[var(--text-muted)]">#{entry.index}</span>

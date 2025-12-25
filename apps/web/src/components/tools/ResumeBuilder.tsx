@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import ToolFeedback from '../ui/ToolFeedback';
 import { sanitizeFilename } from '../../lib/security';
+import { announce, haptic } from '../../lib/accessibility';
 
 interface ResumeData {
   name: string;
@@ -40,6 +41,12 @@ export default function ResumeBuilder() {
   const [template, setTemplate] = useState<Template>('modern');
   const [generated, setGenerated] = useState(false);
 
+  // Roving tabindex state for experience and education
+  const [activeExperienceIndex, setActiveExperienceIndex] = useState(0);
+  const [activeEducationIndex, setActiveEducationIndex] = useState(0);
+  const experienceListRef = useRef<HTMLDivElement>(null);
+  const educationListRef = useRef<HTMLDivElement>(null);
+
   const updateField = (field: keyof ResumeData, value: any) => {
     setData(prev => ({ ...prev, [field]: value }));
   };
@@ -49,6 +56,8 @@ export default function ResumeBuilder() {
       ...prev,
       experience: [...prev.experience, { title: '', company: '', dates: '', description: '' }]
     }));
+    announce('Experience entry added');
+    haptic.tap();
   };
 
   const updateExperience = (index: number, field: string, value: string) => {
@@ -62,6 +71,59 @@ export default function ResumeBuilder() {
       ...prev,
       experience: prev.experience.filter((_, i) => i !== index)
     }));
+    // Adjust active index if needed
+    if (activeExperienceIndex >= data.experience.length - 1 && data.experience.length > 1) {
+      setActiveExperienceIndex(data.experience.length - 2);
+    }
+    announce('Experience entry removed');
+    haptic.tap();
+  };
+
+  const moveExperience = (index: number, direction: 'up' | 'down') => {
+    const newIndex = direction === 'up' ? index - 1 : index + 1;
+    if (newIndex < 0 || newIndex >= data.experience.length) return;
+    const updated = [...data.experience];
+    [updated[index], updated[newIndex]] = [updated[newIndex], updated[index]];
+    setData(prev => ({ ...prev, experience: updated }));
+    setActiveExperienceIndex(newIndex);
+    announce(`Moved to position ${newIndex + 1}`);
+    haptic.tap();
+  };
+
+  // Keyboard navigation for experience list (roving tabindex pattern)
+  const handleExperienceKeyDown = (e: React.KeyboardEvent, index: number) => {
+    switch (e.key) {
+      case 'ArrowDown':
+        e.preventDefault();
+        if (index < data.experience.length - 1) {
+          setActiveExperienceIndex(index + 1);
+        }
+        break;
+      case 'ArrowUp':
+        e.preventDefault();
+        if (index > 0) {
+          setActiveExperienceIndex(index - 1);
+        }
+        break;
+      case 'Home':
+        e.preventDefault();
+        setActiveExperienceIndex(0);
+        break;
+      case 'End':
+        e.preventDefault();
+        setActiveExperienceIndex(data.experience.length - 1);
+        break;
+      case 'Delete':
+      case 'Backspace':
+        // Only delete if not focused on an input/textarea
+        if ((e.target as HTMLElement).tagName !== 'INPUT' && (e.target as HTMLElement).tagName !== 'TEXTAREA') {
+          e.preventDefault();
+          if (data.experience.length > 1) {
+            removeExperience(index);
+          }
+        }
+        break;
+    }
   };
 
   const addEducation = () => {
@@ -69,6 +131,8 @@ export default function ResumeBuilder() {
       ...prev,
       education: [...prev.education, { degree: '', school: '', year: '' }]
     }));
+    announce('Education entry added');
+    haptic.tap();
   };
 
   const updateEducation = (index: number, field: string, value: string) => {
@@ -82,7 +146,75 @@ export default function ResumeBuilder() {
       ...prev,
       education: prev.education.filter((_, i) => i !== index)
     }));
+    // Adjust active index if needed
+    if (activeEducationIndex >= data.education.length - 1 && data.education.length > 1) {
+      setActiveEducationIndex(data.education.length - 2);
+    }
+    announce('Education entry removed');
+    haptic.tap();
   };
+
+  const moveEducation = (index: number, direction: 'up' | 'down') => {
+    const newIndex = direction === 'up' ? index - 1 : index + 1;
+    if (newIndex < 0 || newIndex >= data.education.length) return;
+    const updated = [...data.education];
+    [updated[index], updated[newIndex]] = [updated[newIndex], updated[index]];
+    setData(prev => ({ ...prev, education: updated }));
+    setActiveEducationIndex(newIndex);
+    announce(`Moved to position ${newIndex + 1}`);
+    haptic.tap();
+  };
+
+  // Keyboard navigation for education list (roving tabindex pattern)
+  const handleEducationKeyDown = (e: React.KeyboardEvent, index: number) => {
+    switch (e.key) {
+      case 'ArrowDown':
+        e.preventDefault();
+        if (index < data.education.length - 1) {
+          setActiveEducationIndex(index + 1);
+        }
+        break;
+      case 'ArrowUp':
+        e.preventDefault();
+        if (index > 0) {
+          setActiveEducationIndex(index - 1);
+        }
+        break;
+      case 'Home':
+        e.preventDefault();
+        setActiveEducationIndex(0);
+        break;
+      case 'End':
+        e.preventDefault();
+        setActiveEducationIndex(data.education.length - 1);
+        break;
+      case 'Delete':
+      case 'Backspace':
+        // Only delete if not focused on an input/textarea
+        if ((e.target as HTMLElement).tagName !== 'INPUT' && (e.target as HTMLElement).tagName !== 'TEXTAREA') {
+          e.preventDefault();
+          if (data.education.length > 1) {
+            removeEducation(index);
+          }
+        }
+        break;
+    }
+  };
+
+  // Focus active items when index changes
+  useEffect(() => {
+    if (experienceListRef.current && data.experience.length > 0) {
+      const activeItem = experienceListRef.current.querySelector(`[data-index="${activeExperienceIndex}"]`) as HTMLElement;
+      activeItem?.focus();
+    }
+  }, [activeExperienceIndex, data.experience.length]);
+
+  useEffect(() => {
+    if (educationListRef.current && data.education.length > 0) {
+      const activeItem = educationListRef.current.querySelector(`[data-index="${activeEducationIndex}"]`) as HTMLElement;
+      activeItem?.focus();
+    }
+  }, [activeEducationIndex, data.education.length]);
 
   const generatePDF = async () => {
     const { jsPDF } = await import('jspdf');
@@ -269,7 +401,7 @@ export default function ResumeBuilder() {
         />
       </div>
 
-      {/* Experience */}
+      {/* Experience - Roving tabindex for keyboard navigation */}
       <div className="bg-[var(--bg-secondary)] rounded-lg p-4 space-y-3">
         <div className="flex justify-between items-center">
           <h3 className="text-sm font-medium text-[var(--text)]">Experience</h3>
@@ -280,19 +412,55 @@ export default function ResumeBuilder() {
             + Add
           </button>
         </div>
+        <div
+          ref={experienceListRef}
+          role="list"
+          aria-label={`${data.experience.length} experience entries. Use arrow keys to navigate.`}
+        >
         {data.experience.map((exp, i) => (
-          <div key={i} className="border border-[var(--border)] rounded-lg p-3 space-y-2">
-            <div className="flex justify-between">
+          <div
+            key={i}
+            role="listitem"
+            tabIndex={i === activeExperienceIndex ? 0 : -1}
+            data-index={i}
+            onKeyDown={(e) => handleExperienceKeyDown(e, i)}
+            aria-label={`Experience ${i + 1}: ${exp.title || 'Untitled'} at ${exp.company || 'Company'}`}
+            className="border border-[var(--border)] rounded-lg p-3 space-y-2 mb-3 focus:outline-none focus:ring-2 focus:ring-[var(--accent)]/50"
+          >
+            <div className="flex justify-between items-center">
+              <div className="flex gap-1">
+                <button
+                  onClick={() => moveExperience(i, 'up')}
+                  disabled={i === 0}
+                  aria-label="Move up"
+                  className="p-1 text-[var(--text-muted)] hover:text-[var(--text)] disabled:opacity-30 disabled:cursor-not-allowed"
+                >
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+                  </svg>
+                </button>
+                <button
+                  onClick={() => moveExperience(i, 'down')}
+                  disabled={i === data.experience.length - 1}
+                  aria-label="Move down"
+                  className="p-1 text-[var(--text-muted)] hover:text-[var(--text)] disabled:opacity-30 disabled:cursor-not-allowed"
+                >
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+              </div>
               <input
                 type="text"
                 placeholder="Job Title"
                 value={exp.title}
                 onChange={(e) => updateExperience(i, 'title', e.target.value)}
-                className="flex-1 bg-[var(--bg)] border border-[var(--border)] rounded px-3 py-2 text-[var(--text)] text-sm"
+                className="flex-1 mx-2 bg-[var(--bg)] border border-[var(--border)] rounded px-3 py-2 text-[var(--text)] text-sm"
               />
               {data.experience.length > 1 && (
                 <button
                   onClick={() => removeExperience(i)}
+                  aria-label={`Remove experience ${i + 1}`}
                   className="ml-2 text-red-400 hover:text-red-300 text-sm"
                 >
                   Remove
@@ -324,9 +492,10 @@ export default function ResumeBuilder() {
             />
           </div>
         ))}
+        </div>
       </div>
 
-      {/* Education */}
+      {/* Education - Roving tabindex for keyboard navigation */}
       <div className="bg-[var(--bg-secondary)] rounded-lg p-4 space-y-3">
         <div className="flex justify-between items-center">
           <h3 className="text-sm font-medium text-[var(--text)]">Education</h3>
@@ -337,19 +506,55 @@ export default function ResumeBuilder() {
             + Add
           </button>
         </div>
+        <div
+          ref={educationListRef}
+          role="list"
+          aria-label={`${data.education.length} education entries. Use arrow keys to navigate.`}
+        >
         {data.education.map((edu, i) => (
-          <div key={i} className="border border-[var(--border)] rounded-lg p-3 space-y-2">
-            <div className="flex justify-between">
+          <div
+            key={i}
+            role="listitem"
+            tabIndex={i === activeEducationIndex ? 0 : -1}
+            data-index={i}
+            onKeyDown={(e) => handleEducationKeyDown(e, i)}
+            aria-label={`Education ${i + 1}: ${edu.degree || 'Degree'} at ${edu.school || 'School'}`}
+            className="border border-[var(--border)] rounded-lg p-3 space-y-2 mb-3 focus:outline-none focus:ring-2 focus:ring-[var(--accent)]/50"
+          >
+            <div className="flex justify-between items-center">
+              <div className="flex gap-1">
+                <button
+                  onClick={() => moveEducation(i, 'up')}
+                  disabled={i === 0}
+                  aria-label="Move up"
+                  className="p-1 text-[var(--text-muted)] hover:text-[var(--text)] disabled:opacity-30 disabled:cursor-not-allowed"
+                >
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+                  </svg>
+                </button>
+                <button
+                  onClick={() => moveEducation(i, 'down')}
+                  disabled={i === data.education.length - 1}
+                  aria-label="Move down"
+                  className="p-1 text-[var(--text-muted)] hover:text-[var(--text)] disabled:opacity-30 disabled:cursor-not-allowed"
+                >
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+              </div>
               <input
                 type="text"
                 placeholder="Degree"
                 value={edu.degree}
                 onChange={(e) => updateEducation(i, 'degree', e.target.value)}
-                className="flex-1 bg-[var(--bg)] border border-[var(--border)] rounded px-3 py-2 text-[var(--text)] text-sm"
+                className="flex-1 mx-2 bg-[var(--bg)] border border-[var(--border)] rounded px-3 py-2 text-[var(--text)] text-sm"
               />
               {data.education.length > 1 && (
                 <button
                   onClick={() => removeEducation(i)}
+                  aria-label={`Remove education ${i + 1}`}
                   className="ml-2 text-red-400 hover:text-red-300 text-sm"
                 >
                   Remove
@@ -374,6 +579,7 @@ export default function ResumeBuilder() {
             </div>
           </div>
         ))}
+        </div>
       </div>
 
       {/* Skills */}

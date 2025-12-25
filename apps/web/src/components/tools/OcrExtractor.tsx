@@ -6,6 +6,7 @@ import {
   generateDownloadFilename,
 } from '../../lib/security';
 import { copyToClipboard } from '../../lib/clipboard';
+import ZoomableImage from '../ui/ZoomableImage';
 
 interface OcrResult {
   text: string;
@@ -460,13 +461,14 @@ export default function OcrExtractor() {
       {file && !result && (
         <div className="mt-6 animate-fadeIn">
           <div className="glass-card p-6">
-            {/* Image Preview */}
+            {/* Image Preview with Zoom */}
             {imagePreview && (
-              <div className="mb-4 rounded-lg overflow-hidden bg-slate-900/50 border border-slate-700">
-                <img
+              <div className="mb-4 rounded-lg overflow-hidden bg-slate-900/50 border border-slate-700 h-64">
+                <ZoomableImage
                   src={imagePreview}
                   alt="Preview"
-                  className="max-h-64 mx-auto object-contain"
+                  containerClassName="w-full h-full"
+                  className="object-contain"
                 />
               </div>
             )}

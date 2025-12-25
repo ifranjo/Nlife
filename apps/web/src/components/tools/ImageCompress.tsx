@@ -1,9 +1,12 @@
-import { useState, useCallback, useRef } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 import {
   validateFile,
   sanitizeFilename,
   createSafeErrorMessage,
 } from '../../lib/security';
+import { announce, haptic } from '../../lib/accessibility';
+import SwipeableListItem from '../ui/SwipeableListItem';
+import ZoomableImage from '../ui/ZoomableImage';
 
 interface ImageFile {
   id: string;
@@ -65,7 +68,10 @@ export default function ImageCompress() {
   const [error, setError] = useState<string | null>(null);
   const [quality, setQuality] = useState(80);
   const [outputFormat, setOutputFormat] = useState<OutputFormat>('original');
+  const [previewImage, setPreviewImage] = useState<ImageFile | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const fileListRef = useRef<HTMLDivElement>(null);
+  const [activeFileIndex, setActiveFileIndex] = useState(0); // For roving tabindex
 
   const formatFileSize = (bytes: number): string => {
     if (bytes < 1024) return `${bytes} B`;
@@ -180,15 +186,61 @@ export default function ImageCompress() {
     }
   }, [files.length]);
 
-  const removeFile = (id: string) => {
+  const removeFile = (id: string, fileName?: string) => {
     setFiles((prev) => {
       const file = prev.find((f) => f.id === id);
       if (file?.thumbnail) {
         URL.revokeObjectURL(file.thumbnail);
       }
-      return prev.filter((f) => f.id !== id);
+      const filtered = prev.filter((f) => f.id !== id);
+      // Adjust active index if needed
+      if (activeFileIndex >= filtered.length && filtered.length > 0) {
+        setActiveFileIndex(filtered.length - 1);
+      }
+      return filtered;
     });
+    announce(`${fileName || 'File'} removed`);
+    haptic.tap();
   };
+
+  // Keyboard navigation for file list (roving tabindex pattern)
+  const handleFileKeyDown = (e: React.KeyboardEvent, index: number) => {
+    switch (e.key) {
+      case 'ArrowDown':
+        e.preventDefault();
+        if (index < files.length - 1) {
+          setActiveFileIndex(index + 1);
+        }
+        break;
+      case 'ArrowUp':
+        e.preventDefault();
+        if (index > 0) {
+          setActiveFileIndex(index - 1);
+        }
+        break;
+      case 'Home':
+        e.preventDefault();
+        setActiveFileIndex(0);
+        break;
+      case 'End':
+        e.preventDefault();
+        setActiveFileIndex(files.length - 1);
+        break;
+      case 'Delete':
+      case 'Backspace':
+        e.preventDefault();
+        removeFile(files[index].id, files[index].name);
+        break;
+    }
+  };
+
+  // Focus active file when activeFileIndex changes
+  useEffect(() => {
+    if (fileListRef.current && files.length > 0) {
+      const activeItem = fileListRef.current.querySelector(`[data-index="${activeFileIndex}"]`) as HTMLElement;
+      activeItem?.focus();
+    }
+  }, [activeFileIndex, files.length]);
 
   const clearAllFiles = () => {
     files.forEach((file) => {
@@ -503,7 +555,7 @@ export default function ImageCompress() {
         </div>
       )}
 
-      {/* File List */}
+      {/* File List - Roving tabindex for keyboard navigation */}
       {files.length > 0 && (
         <div className="mt-6 space-y-3">
           <div className="flex items-center justify-between">
@@ -518,87 +570,105 @@ export default function ImageCompress() {
             </button>
           </div>
 
-          {files.map((imageFile) => (
+          <div
+            ref={fileListRef}
+            role="list"
+            aria-label={`${files.length} images selected. Use arrow keys to navigate, Delete to remove.`}
+          >
+          {files.map((imageFile, index) => (
             <div
               key={imageFile.id}
-              className="glass-card p-4 flex items-center gap-4"
+              role="listitem"
+              tabIndex={index === activeFileIndex ? 0 : -1}
+              data-index={index}
+              onKeyDown={(e) => handleFileKeyDown(e, index)}
+              aria-label={`${imageFile.name}, ${formatFileSize(imageFile.originalSize)}${imageFile.status === 'done' ? ', compressed' : ''}`}
+              className="mb-3 focus:outline-none focus:ring-2 focus:ring-white/50 rounded-xl"
             >
-              {/* Thumbnail */}
-              <div className="w-16 h-16 rounded-lg overflow-hidden bg-slate-800 flex-shrink-0">
-                {imageFile.thumbnail && (
-                  <img
-                    src={imageFile.thumbnail}
-                    alt={imageFile.name}
-                    className="w-full h-full object-cover"
-                  />
-                )}
-              </div>
-
-              {/* File info */}
-              <div className="flex-1 min-w-0">
-                <p className="text-white font-medium truncate">{imageFile.name}</p>
-                <div className="flex items-center gap-2 text-sm">
-                  <span className="text-slate-400">
-                    {formatFileSize(imageFile.originalSize)}
-                  </span>
-                  {imageFile.status === 'done' && imageFile.compressedSize !== null && (
-                    <>
-                      <svg className="w-4 h-4 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                      </svg>
-                      <span className="text-white">
-                        {formatFileSize(imageFile.compressedSize)}
-                      </span>
-                      <span
-                        className={`font-medium ${
-                          imageFile.compressedSize < imageFile.originalSize
-                            ? 'text-green-400'
-                            : 'text-yellow-400'
-                        }`}
-                      >
-                        {calculateReduction(imageFile.originalSize, imageFile.compressedSize)}
-                      </span>
-                    </>
+            <SwipeableListItem
+              onDelete={() => removeFile(imageFile.id, imageFile.name)}
+              itemName={imageFile.name}
+              disabled={isProcessing}
+              className="glass-card rounded-xl"
+              aria-label={`${imageFile.name}. Swipe left to delete.`}
+            >
+              <div className="p-4 flex items-center gap-4">
+                {/* Thumbnail - clickable to open preview */}
+                <button
+                  onClick={() => setPreviewImage(imageFile)}
+                  className="w-16 h-16 rounded-lg overflow-hidden bg-slate-800 flex-shrink-0 hover:ring-2 hover:ring-indigo-500 transition-all focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  title="Click to zoom"
+                  aria-label={`Preview ${imageFile.name}`}
+                >
+                  {imageFile.thumbnail && (
+                    <img
+                      src={imageFile.thumbnail}
+                      alt={imageFile.name}
+                      className="w-full h-full object-cover"
+                    />
                   )}
+                </button>
+
+                {/* File info */}
+                <div className="flex-1 min-w-0">
+                  <p className="text-white font-medium truncate">{imageFile.name}</p>
+                  <div className="flex items-center gap-2 text-sm">
+                    <span className="text-slate-400">
+                      {formatFileSize(imageFile.originalSize)}
+                    </span>
+                    {imageFile.status === 'done' && imageFile.compressedSize !== null && (
+                      <>
+                        <svg className="w-4 h-4 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                        </svg>
+                        <span className="text-white">
+                          {formatFileSize(imageFile.compressedSize)}
+                        </span>
+                        <span
+                          className={`font-medium ${
+                            imageFile.compressedSize < imageFile.originalSize
+                              ? 'text-green-400'
+                              : 'text-yellow-400'
+                          }`}
+                        >
+                          {calculateReduction(imageFile.originalSize, imageFile.compressedSize)}
+                        </span>
+                      </>
+                    )}
+                  </div>
+                </div>
+
+                {/* Status / Actions */}
+                <div className="flex items-center gap-2">
+                  {imageFile.status === 'processing' && (
+                    <svg className="w-5 h-5 text-indigo-400 spinner" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                    </svg>
+                  )}
+                  {imageFile.status === 'done' && imageFile.compressedBlob && (
+                    <button
+                      onClick={() => downloadSingleImage(imageFile)}
+                      className="p-2 text-green-400 hover:text-green-300 transition-colors"
+                      title="Download"
+                    >
+                      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                      </svg>
+                    </button>
+                  )}
+                  {imageFile.status === 'error' && (
+                    <span className="text-red-400 text-sm">{imageFile.error}</span>
+                  )}
+
+                  {/* Spacer for delete button area (handled by SwipeableListItem) */}
+                  <div className="w-8" aria-hidden="true" />
                 </div>
               </div>
-
-              {/* Status / Actions */}
-              <div className="flex items-center gap-2">
-                {imageFile.status === 'processing' && (
-                  <svg className="w-5 h-5 text-indigo-400 spinner" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-                  </svg>
-                )}
-                {imageFile.status === 'done' && imageFile.compressedBlob && (
-                  <button
-                    onClick={() => downloadSingleImage(imageFile)}
-                    className="p-2 text-green-400 hover:text-green-300 transition-colors"
-                    title="Download"
-                  >
-                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                    </svg>
-                  </button>
-                )}
-                {imageFile.status === 'error' && (
-                  <span className="text-red-400 text-sm">{imageFile.error}</span>
-                )}
-
-                {/* Remove button */}
-                <button
-                  onClick={() => removeFile(imageFile.id)}
-                  className="p-2 text-slate-400 hover:text-red-400 transition-colors"
-                  title="Remove"
-                >
-                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                </button>
-              </div>
+            </SwipeableListItem>
             </div>
           ))}
+          </div>
         </div>
       )}
 
@@ -639,6 +709,56 @@ export default function ImageCompress() {
         </svg>
         Your images never leave your browser. All processing happens locally.
       </p>
+
+      {/* Image Preview Modal with Zoom */}
+      {previewImage && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4"
+          onClick={() => setPreviewImage(null)}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Image preview"
+        >
+          <div
+            className="relative max-w-4xl w-full max-h-[80vh] bg-slate-900 rounded-xl overflow-hidden"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Header with filename and close button */}
+            <div className="flex items-center justify-between p-4 border-b border-slate-700">
+              <div>
+                <h3 className="text-white font-medium">{previewImage.name}</h3>
+                <p className="text-slate-400 text-sm">
+                  {formatFileSize(previewImage.originalSize)}
+                  {previewImage.compressedSize && (
+                    <span className="text-green-400 ml-2">
+                      Compressed: {formatFileSize(previewImage.compressedSize)}
+                    </span>
+                  )}
+                </p>
+              </div>
+              <button
+                onClick={() => setPreviewImage(null)}
+                className="p-2 text-slate-400 hover:text-white transition-colors rounded-lg hover:bg-slate-800"
+                aria-label="Close preview"
+              >
+                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            {/* Zoomable Image */}
+            <div className="h-[60vh]">
+              <ZoomableImage
+                src={previewImage.thumbnail || ''}
+                alt={previewImage.name}
+                containerClassName="w-full h-full bg-slate-900"
+                className="rounded"
+              />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -5,6 +5,7 @@ import {
   createSafeErrorMessage,
   generateDownloadFilename,
 } from '../../lib/security';
+import ZoomableImage from '../ui/ZoomableImage';
 
 interface RedactionBox {
   id: string;
@@ -59,6 +60,7 @@ export default function PdfRedactor() {
   const [drawStart, setDrawStart] = useState<{ x: number; y: number } | null>(null);
   const [showDetectedOnly, setShowDetectedOnly] = useState(false);
   const [stripMetadata, setStripMetadata] = useState(true);
+  const [zoomPreviewUrl, setZoomPreviewUrl] = useState<string | null>(null);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const canvasRefs = useRef<(HTMLCanvasElement | null)[]>([]);

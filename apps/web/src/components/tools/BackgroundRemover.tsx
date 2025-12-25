@@ -4,6 +4,7 @@ import {
   sanitizeFilename,
   createSafeErrorMessage,
 } from '../../lib/security';
+import ZoomableImage from '../ui/ZoomableImage';
 
 interface ProcessedImage {
   id: string;
@@ -29,6 +30,8 @@ export default function BackgroundRemover() {
   const [backgroundColor, setBackgroundColor] = useState('#ffffff');
   const [backgroundImage, setBackgroundImage] = useState<string | null>(null);
   const [sliderPosition, setSliderPosition] = useState(50);
+  const [previewImage, setPreviewImage] = useState<ProcessedImage | null>(null);
+  const [previewMode, setPreviewMode] = useState<'original' | 'processed'>('processed');
   const fileInputRef = useRef<HTMLInputElement>(null);
   const backgroundInputRef = useRef<HTMLInputElement>(null);
 
@@ -476,7 +479,7 @@ export default function BackgroundRemover() {
 
               {/* Before/After Comparison */}
               {image.processedUrl ? (
-                <div className="relative aspect-video rounded-lg overflow-hidden bg-slate-900 mb-4">
+                <div className="relative aspect-video rounded-lg overflow-hidden bg-slate-900 mb-4 group">
                   <div className="absolute inset-0 grid grid-cols-2">
                     <div className="relative overflow-hidden">
                       <img
@@ -531,14 +534,42 @@ export default function BackgroundRemover() {
                       }}
                     />
                   </div>
+
+                  {/* Zoom button */}
+                  <button
+                    onClick={() => {
+                      setPreviewImage(image);
+                      setPreviewMode('processed');
+                    }}
+                    className="absolute bottom-2 left-1/2 -translate-x-1/2 px-3 py-1.5 bg-black/70 hover:bg-black/90 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1.5"
+                    title="Click to zoom"
+                  >
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
+                    </svg>
+                    Zoom
+                  </button>
                 </div>
               ) : (
-                <div className="aspect-video rounded-lg overflow-hidden bg-slate-900 mb-4">
+                <div
+                  className="aspect-video rounded-lg overflow-hidden bg-slate-900 mb-4 cursor-pointer group relative"
+                  onClick={() => {
+                    setPreviewImage(image);
+                    setPreviewMode('original');
+                  }}
+                >
                   <img
                     src={image.originalUrl}
                     alt="Original"
                     className="w-full h-full object-contain"
                   />
+                  {/* Zoom hint */}
+                  <div className="absolute bottom-2 left-1/2 -translate-x-1/2 px-3 py-1.5 bg-black/70 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1.5">
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
+                    </svg>
+                    Click to zoom
+                  </div>
                 </div>
               )}
 
@@ -613,6 +644,87 @@ export default function BackgroundRemover() {
         </svg>
         100% private. AI models run entirely in your browser. Images never leave your device.
       </p>
+
+      {/* Image Preview Modal with Zoom */}
+      {previewImage && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4"
+          onClick={() => setPreviewImage(null)}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Image preview"
+        >
+          <div
+            className="relative max-w-4xl w-full max-h-[85vh] bg-slate-900 rounded-xl overflow-hidden"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Header with toggle and close */}
+            <div className="flex items-center justify-between p-4 border-b border-slate-700">
+              <div className="flex items-center gap-4">
+                <h3 className="text-white font-medium">{previewImage.originalName}</h3>
+                {previewImage.processedUrl && (
+                  <div className="flex items-center gap-1 bg-slate-800 rounded-lg p-1">
+                    <button
+                      onClick={() => setPreviewMode('original')}
+                      className={`px-3 py-1 text-xs rounded transition-colors ${
+                        previewMode === 'original'
+                          ? 'bg-fuchsia-500 text-white'
+                          : 'text-slate-400 hover:text-white'
+                      }`}
+                    >
+                      Original
+                    </button>
+                    <button
+                      onClick={() => setPreviewMode('processed')}
+                      className={`px-3 py-1 text-xs rounded transition-colors ${
+                        previewMode === 'processed'
+                          ? 'bg-fuchsia-500 text-white'
+                          : 'text-slate-400 hover:text-white'
+                      }`}
+                    >
+                      Processed
+                    </button>
+                  </div>
+                )}
+              </div>
+              <button
+                onClick={() => setPreviewImage(null)}
+                className="p-2 text-slate-400 hover:text-white transition-colors rounded-lg hover:bg-slate-800"
+                aria-label="Close preview"
+              >
+                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            {/* Zoomable Image */}
+            <div
+              className="h-[65vh]"
+              style={{
+                background: previewMode === 'processed' && backgroundMode === 'color'
+                  ? backgroundColor
+                  : previewMode === 'processed' && backgroundMode === 'image' && backgroundImage
+                  ? `url(${backgroundImage})`
+                  : previewMode === 'processed'
+                  ? 'repeating-conic-gradient(#808080 0% 25%, transparent 0% 50%) 50% / 20px 20px'
+                  : '#1e1e2e'
+              }}
+            >
+              <ZoomableImage
+                src={
+                  previewMode === 'processed' && previewImage.processedUrl
+                    ? previewImage.processedUrl
+                    : previewImage.originalUrl
+                }
+                alt={`${previewMode === 'processed' ? 'Processed' : 'Original'} - ${previewImage.originalName}`}
+                containerClassName="w-full h-full"
+                className="rounded"
+              />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
