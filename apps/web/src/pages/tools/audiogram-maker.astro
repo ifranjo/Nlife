@@ -13,21 +13,23 @@ import { getToolById } from '../../lib/tools';
 import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
 import AudiogramMaker from '../../components/tools/AudiogramMaker';
 
-// Tool metadata
+// Get tool data from Single Source of Truth (tools.ts)
+const toolData = getToolById('audiogram-maker');
+if (!toolData) throw new Error('Tool not found: audiogram-maker');
+
+// Tool metadata derived from registry
 const tool = {
-  id: 'audiogram-maker',
-  name: 'Audiogram Maker',
-  category: 'media' as const,
-  url: '/tools/audiogram-maker'
+  id: toolData.id,
+  name: toolData.name,
+  category: toolData.category,
+  url: toolData.href
 };
 
-// Get full tool data for stats
-const toolData = getToolById(tool.id);
-
-// AI-optimized content
+// AI-optimized content - SEO from tools.ts, extended content page-specific
 const seoContent = {
-  title: 'Free Audiogram Maker Online - Create Waveform Videos | New Life Solutions',
-  description: 'Create animated waveform videos from audio clips for social media. Free audiogram maker with customizable colors, styles, and aspect ratios. Perfect for podcast promotion.',
+  // Page meta from Single Source of Truth
+  title: toolData.seo?.title || `${toolData.name} - Free Online Tool | New Life Solutions`,
+  description: toolData.seo?.metaDescription || toolData.description,
 
   answerBox: {
     title: 'Create Audiogram Videos - Free Online Tool',

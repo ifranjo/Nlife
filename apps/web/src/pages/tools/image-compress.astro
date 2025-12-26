@@ -19,22 +19,23 @@ import RelatedTools from '../../components/seo/RelatedTools.astro';
 import ComparisonTable from '../../components/seo/ComparisonTable.astro';
 import ImageCompress from '../../components/tools/ImageCompress';
 
-// Tool metadata
+// Get tool data from Single Source of Truth (tools.ts)
+const toolData = getToolById('image-compress');
+if (!toolData) throw new Error('Tool not found: image-compress');
+
+// Tool metadata derived from registry
 const tool = {
-  id: 'image-compress',
-  name: 'Image Compress',
-  category: 'media' as const,
-  url: '/tools/image-compress'
+  id: toolData.id,
+  name: toolData.name,
+  category: toolData.category,
+  url: toolData.href
 };
 
-// Get full tool data for stats
-const toolData = getToolById(tool.id);
-
-// AI-optimized content
+// AI-optimized content - SEO from tools.ts, extended content page-specific
 const seoContent = {
-  // Page meta
-  title: 'Compress Images Online Free — No Upload, 100% Private | New Life Solutions',
-  description: 'Reduce image file size up to 90% without losing quality. Browser-based compression for PNG, JPEG, WebP. No upload, no signup, works offline.',
+  // Page meta from Single Source of Truth
+  title: toolData.seo?.title || `${toolData.name} - Free Online Tool | New Life Solutions`,
+  description: toolData.seo?.metaDescription || toolData.description,
 
   // TL;DR Answer Box (50-70 words - this is what AI extracts)
   answerBox: {

@@ -5,9 +5,17 @@ import Footer from '../../components/ui/Footer.astro';
 import PdfSplit from '../../components/tools/PdfSplit';
 import RelatedTools from '../../components/seo/RelatedTools.astro';
 import TrustBar from '../../components/ui/TrustBar.astro';
+import { getToolById } from '../../lib/tools';
+
+// Get tool data from Single Source of Truth (tools.ts)
+const toolData = getToolById('pdf-split');
+if (!toolData) throw new Error('Tool not found: pdf-split');
+
+const seoTitle = toolData.seo?.title || `${toolData.name} - Free Online Tool | New Life Solutions`;
+const seoDescription = toolData.seo?.metaDescription || toolData.description;
 ---
 
-<Layout title="PDF Split - Free Online Tool - New Life Solutions" description="Free online PDF Split tool. Extract pages from PDF files instantly. 100% browser-based, private, and secure. No signup required." image="/thumbnails/pdf-split.svg">
+<Layout title={seoTitle} description={seoDescription} image="/thumbnails/pdf-split.svg">
   <Navbar />
 
   <main class="pt-20 pb-16 px-6 min-h-screen">

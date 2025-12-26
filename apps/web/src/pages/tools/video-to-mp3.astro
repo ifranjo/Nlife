@@ -18,22 +18,23 @@ import { getToolById } from '../../lib/tools';
 import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
 import VideoToMp3 from '../../components/tools/VideoToMp3';
 
-// Tool metadata
+// Get tool data from Single Source of Truth (tools.ts)
+const toolData = getToolById('video-to-mp3');
+if (!toolData) throw new Error('Tool not found: video-to-mp3');
+
+// Tool metadata derived from registry
 const tool = {
-  id: 'video-to-mp3',
-  name: 'Video to MP3',
-  category: 'media' as const,
-  url: '/tools/video-to-mp3'
+  id: toolData.id,
+  name: toolData.name,
+  category: toolData.category,
+  url: toolData.href
 };
 
-// Get full tool data for stats
-const toolData = getToolById(tool.id);
-
-// AI-optimized content
+// AI-optimized content - SEO from tools.ts, extended content page-specific
 const seoContent = {
-  // Page meta
-  title: 'Convert Video to MP3 Online Free — Extract Audio, No Upload | New Life Solutions',
-  description: 'Extract audio from video files and convert to MP3 directly in your browser. Supports MP4, WebM, MOV. No upload, no signup, 100% private.',
+  // Page meta from Single Source of Truth
+  title: toolData.seo?.title || `${toolData.name} - Free Online Tool | New Life Solutions`,
+  description: toolData.seo?.metaDescription || toolData.description,
 
   // TL;DR Answer Box (50-70 words - this is what AI extracts)
   answerBox: {

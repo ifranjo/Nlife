@@ -5,9 +5,14 @@ import Navbar from '../../components/ui/Navbar.astro';
 import Footer from '../../components/ui/Footer.astro';
 import RelatedTools from '../../components/seo/RelatedTools.astro';
 import FileConverter from '../../components/tools/FileConverter';
+import { getToolById } from '../../lib/tools';
 
-const seoTitle = 'HEIC to JPG Converter Free Online - Convert iPhone Photos | New Life';
-const seoDescription = 'Convert HEIC to JPG/PNG instantly. Free online image converter for iPhone photos. Also converts WebP, PNG, BMP to JPG/PNG/WebP. No upload, 100% private.';
+// Get tool data from Single Source of Truth (tools.ts)
+const toolData = getToolById('file-converter');
+if (!toolData) throw new Error('Tool not found: file-converter');
+
+const seoTitle = toolData.seo?.title || `${toolData.name} - Free Online Tool | New Life Solutions`;
+const seoDescription = toolData.seo?.metaDescription || toolData.description;
 ---
 
 <Layout title={seoTitle} description={seoDescription} image="/thumbnails/file-converter.svg">

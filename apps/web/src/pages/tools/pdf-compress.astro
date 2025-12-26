@@ -18,22 +18,23 @@ import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
 import PdfCompress from '../../components/tools/PdfCompress';
 import RelatedTools from '../../components/seo/RelatedTools.astro';
 
-// Tool metadata
+// Get tool data from Single Source of Truth (tools.ts)
+const toolData = getToolById('pdf-compress');
+if (!toolData) throw new Error('Tool not found: pdf-compress');
+
+// Tool metadata derived from registry
 const tool = {
-  id: 'pdf-compress',
-  name: 'PDF Compress',
-  category: 'document' as const,
-  url: '/tools/pdf-compress'
+  id: toolData.id,
+  name: toolData.name,
+  category: toolData.category,
+  url: toolData.href
 };
 
-// Get full tool data for stats
-const toolData = getToolById(tool.id);
-
-// AI-optimized content
+// AI-optimized content - SEO from tools.ts, extended content page-specific
 const seoContent = {
-  // Page meta
-  title: 'Compress PDF Online Free — Reduce PDF Size 90% | New Life Solutions',
-  description: 'Compress PDF files up to 90% smaller directly in your browser. No upload to servers, no signup, no watermarks. Free PDF compressor that works offline.',
+  // Page meta from Single Source of Truth
+  title: toolData.seo?.title || `${toolData.name} - Free Online Tool | New Life Solutions`,
+  description: toolData.seo?.metaDescription || toolData.description,
 
   // TL;DR Answer Box (50-70 words - this is what AI extracts)
   answerBox: {

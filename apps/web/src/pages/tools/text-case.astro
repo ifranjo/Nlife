@@ -18,22 +18,23 @@ import { getToolById } from '../../lib/tools';
 import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
 import TextCase from '../../components/tools/TextCase';
 
-// Tool metadata
+// Get tool data from Single Source of Truth (tools.ts)
+const toolData = getToolById('text-case');
+if (!toolData) throw new Error('Tool not found: text-case');
+
+// Tool metadata derived from registry
 const tool = {
-  id: 'text-case',
-  name: 'Text Case Converter',
-  category: 'utility' as const,
-  url: '/tools/text-case'
+  id: toolData.id,
+  name: toolData.name,
+  category: toolData.category,
+  url: toolData.href
 };
 
-// Get full tool data for stats
-const toolData = getToolById(tool.id);
-
-// AI-optimized content
+// AI-optimized content - SEO from tools.ts, extended content page-specific
 const seoContent = {
-  // Page meta
-  title: 'Text Case Converter Online Free — UPPERCASE, lowercase, Title Case, camelCase | New Life Solutions',
-  description: 'Convert text between UPPERCASE, lowercase, Title Case, Sentence case, camelCase, snake_case, kebab-case, and more. Free online text case changer, no signup required.',
+  // Page meta from Single Source of Truth
+  title: toolData.seo?.title || `${toolData.name} - Free Online Tool | New Life Solutions`,
+  description: toolData.seo?.metaDescription || toolData.description,
 
   // TL;DR Answer Box (50-70 words - this is what AI extracts)
   answerBox: {

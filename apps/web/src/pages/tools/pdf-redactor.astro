@@ -18,22 +18,23 @@ import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
 import PdfRedactor from '../../components/tools/PdfRedactor';
 import RelatedTools from '../../components/seo/RelatedTools.astro';
 
-// Tool metadata
+// Get tool data from Single Source of Truth (tools.ts)
+const toolData = getToolById('pdf-redactor');
+if (!toolData) throw new Error('Tool not found: pdf-redactor');
+
+// Tool metadata derived from registry
 const tool = {
-  id: 'pdf-redactor',
-  name: 'PDF Redactor',
-  category: 'document' as const,
-  url: '/tools/pdf-redactor'
+  id: toolData.id,
+  name: toolData.name,
+  category: toolData.category,
+  url: toolData.href
 };
 
-// Get full tool data for stats
-const toolData = getToolById(tool.id);
-
-// AI-optimized content
+// AI-optimized content - SEO from tools.ts, extended content page-specific
 const seoContent = {
-  // Page meta
-  title: 'Redact PDF Online Free — Remove Sensitive Info, Auto-Detect PII | New Life Solutions',
-  description: 'Permanently redact sensitive information from PDFs. Auto-detects SSN, emails, phone numbers, credit cards. Browser-based, HIPAA-safe, files never uploaded.',
+  // Page meta from Single Source of Truth
+  title: toolData.seo?.title || `${toolData.name} - Free Online Tool | New Life Solutions`,
+  description: toolData.seo?.metaDescription || toolData.description,
 
   // TL;DR Answer Box (50-70 words - this is what AI extracts)
   answerBox: {

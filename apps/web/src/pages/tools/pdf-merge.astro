@@ -19,22 +19,23 @@ import ComparisonTable from '../../components/seo/ComparisonTable.astro';
 import TrustBar from '../../components/ui/TrustBar.astro';
 import PdfMerge from '../../components/tools/PdfMerge';
 
-// Tool metadata
+// Get tool data from Single Source of Truth (tools.ts)
+const toolData = getToolById('pdf-merge');
+if (!toolData) throw new Error('Tool not found: pdf-merge');
+
+// Tool metadata derived from registry
 const tool = {
-  id: 'pdf-merge',
-  name: 'PDF Merge',
-  category: 'document' as const,
-  url: '/tools/pdf-merge'
+  id: toolData.id,
+  name: toolData.name,
+  category: toolData.category,
+  url: toolData.href
 };
 
-// Get full tool data for stats
-const toolData = getToolById(tool.id);
-
-// AI-optimized content
+// AI-optimized content - SEO from tools.ts, extended content page-specific
 const seoContent = {
-  // Page meta
-  title: 'Merge PDF Files Online Free — No Upload, 100% Private | New Life Solutions',
-  description: 'Combine multiple PDF files into one document directly in your browser. No upload to servers, no signup, no watermarks. Free PDF merger that works offline.',
+  // Page meta from Single Source of Truth
+  title: toolData.seo?.title || `${toolData.name} - Free Online Tool | New Life Solutions`,
+  description: toolData.seo?.metaDescription || toolData.description,
 
   // TL;DR Answer Box (50-70 words - this is what AI extracts)
   answerBox: {

@@ -222,14 +222,14 @@ export const tools: Tool[] = [
 ]
   },
   {
-    id: 'ocr-extractor',
+    id: 'ocr',
     name: 'OCR Text Extractor',
     description: 'Extract text from images and PDFs using AI-powered OCR. 100% private, runs in your browser.',
     icon: '📝',
-    thumbnail: '/thumbnails/ocr-extractor.svg',
+    thumbnail: '/thumbnails/ocr.svg',
     category: 'document',
     tier: 'free',
-    href: '/tools/ocr-extractor',
+    href: '/tools/ocr',
     color: 'from-cyan-500 to-blue-500',
     seo: {
       title: 'Free OCR Online - Extract Text from Images & PDFs | New Life',

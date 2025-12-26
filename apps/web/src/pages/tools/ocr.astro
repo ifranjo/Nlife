@@ -18,22 +18,23 @@ import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
 import OcrExtractor from '../../components/tools/OcrExtractor';
 import RelatedTools from '../../components/seo/RelatedTools.astro';
 
-// Tool metadata
+// Get tool data from Single Source of Truth (tools.ts)
+const toolData = getToolById('ocr');
+if (!toolData) throw new Error('Tool not found: ocr');
+
+// Tool metadata derived from registry
 const tool = {
-  id: 'ocr',
-  name: 'OCR Text Extractor',
-  category: 'document' as const,
-  url: '/tools/ocr'
+  id: toolData.id,
+  name: toolData.name,
+  category: toolData.category,
+  url: toolData.href
 };
 
-// Get full tool data for stats
-const toolData = getToolById(tool.id);
-
-// AI-optimized content
+// AI-optimized content - SEO from tools.ts, extended content page-specific
 const seoContent = {
-  // Page meta
-  title: 'OCR Text Extractor — Extract Text from Images Free, 100% Private | New Life Solutions',
-  description: 'Extract text from images and scanned PDFs using AI-powered OCR. Supports 100+ languages. No upload to servers, runs entirely in your browser. Free, private, no signup.',
+  // Page meta from Single Source of Truth
+  title: toolData.seo?.title || `${toolData.name} - Free Online Tool | New Life Solutions`,
+  description: toolData.seo?.metaDescription || toolData.description,
 
   // TL;DR Answer Box (50-70 words - this is what AI extracts)
   answerBox: {

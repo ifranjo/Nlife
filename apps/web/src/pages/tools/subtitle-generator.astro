@@ -18,22 +18,23 @@ import { getToolById } from '../../lib/tools';
 import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
 import SubtitleGenerator from '../../components/tools/SubtitleGenerator';
 
-// Tool metadata
+// Get tool data from Single Source of Truth (tools.ts)
+const toolData = getToolById('subtitle-generator');
+if (!toolData) throw new Error('Tool not found: subtitle-generator');
+
+// Tool metadata derived from registry
 const tool = {
-  id: 'subtitle-generator',
-  name: 'Subtitle Generator',
-  category: 'ai' as const,
-  url: '/tools/subtitle-generator'
+  id: toolData.id,
+  name: toolData.name,
+  category: toolData.category,
+  url: toolData.href
 };
 
-// Get full tool data for stats
-const toolData = getToolById(tool.id);
-
-// AI-optimized content
+// AI-optimized content - SEO from tools.ts, extended content page-specific
 const seoContent = {
-  // Page meta
-  title: 'Generate Subtitles Online Free — AI SRT/VTT Export, No Upload | New Life Solutions',
-  description: 'Create subtitles from video or audio using Whisper AI. Export as SRT or VTT format. 100% private, runs in browser, no upload required.',
+  // Page meta from Single Source of Truth
+  title: toolData.seo?.title || `${toolData.name} - Free Online Tool | New Life Solutions`,
+  description: toolData.seo?.metaDescription || toolData.description,
 
   // TL;DR Answer Box (50-70 words - this is what AI extracts)
   answerBox: {

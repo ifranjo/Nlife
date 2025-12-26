@@ -7,15 +7,19 @@ interface Props {
   title?: string;
   description?: string;
   image?: string;
+  canonicalUrl?: string; // Optional override for canonical URL
 }
 
 const {
   title = 'New Life Solutions - Free Online Tools 2025',
   description = 'Free browser-based tools for PDF, images, video & more. 100% private, no uploads. Works offline. Updated December 2025.',
-  image = '/og-default.png'
+  image = '/og-default.png',
+  canonicalUrl
 } = Astro.props;
 
 const siteUrl = Astro.url.origin;
+// Use provided canonical or generate from current URL
+const canonical = canonicalUrl || Astro.url.href;
 
 // Current date for freshness signals (GEO 2025 best practice)
 const currentDate = new Date().toISOString();
@@ -40,7 +44,7 @@ const currentYear = new Date().getFullYear();
     <meta property="og:description" content={description} />
     <meta property="og:type" content="article" />
     <meta property="og:image" content={`${siteUrl}${image}`} />
-    <meta property="og:url" content={Astro.url.href} />
+    <meta property="og:url" content={canonical} />
     <meta property="og:site_name" content="New Life Solutions" />
     <meta property="og:locale" content="en_US" />
 
@@ -62,7 +66,7 @@ const currentYear = new Date().getFullYear();
 
     <!-- Additional SEO signals -->
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
-    <link rel="canonical" href={Astro.url.href} />
+    <link rel="canonical" href={canonical} />
 
     <!-- GEO 2025: AI Search Engine Optimization Meta Tags -->
     <!-- These help AI crawlers understand and cite content -->

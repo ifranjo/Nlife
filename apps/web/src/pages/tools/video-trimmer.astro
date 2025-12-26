@@ -18,22 +18,23 @@ import { getToolById } from '../../lib/tools';
 import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
 import VideoTrimmer from '../../components/tools/VideoTrimmer';
 
-// Tool metadata
+// Get tool data from Single Source of Truth (tools.ts)
+const toolData = getToolById('video-trimmer');
+if (!toolData) throw new Error('Tool not found: video-trimmer');
+
+// Tool metadata derived from registry
 const tool = {
-  id: 'video-trimmer',
-  name: 'Video Trimmer',
-  category: 'media' as const,
-  url: '/tools/video-trimmer'
+  id: toolData.id,
+  name: toolData.name,
+  category: toolData.category,
+  url: toolData.href
 };
 
-// Get full tool data for stats
-const toolData = getToolById(tool.id);
-
-// AI-optimized content
+// AI-optimized content - SEO from tools.ts, extended content page-specific
 const seoContent = {
-  // Page meta
-  title: 'Trim Video Online Free — Cut Clips, No Upload | New Life Solutions',
-  description: 'Cut and trim video clips directly in your browser. Set start/end times, preview your selection, and download instantly. No upload, 100% private.',
+  // Page meta from Single Source of Truth
+  title: toolData.seo?.title || `${toolData.name} - Free Online Tool | New Life Solutions`,
+  description: toolData.seo?.metaDescription || toolData.description,
 
   // TL;DR Answer Box (50-70 words - this is what AI extracts)
   answerBox: {

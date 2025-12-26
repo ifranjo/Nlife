@@ -18,22 +18,23 @@ import { getToolById } from '../../lib/tools';
 import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
 import ImageUpscaler from '../../components/tools/ImageUpscaler';
 
-// Tool metadata
+// Get tool data from Single Source of Truth (tools.ts)
+const toolData = getToolById('image-upscaler');
+if (!toolData) throw new Error('Tool not found: image-upscaler');
+
+// Tool metadata derived from registry
 const tool = {
-  id: 'image-upscaler',
-  name: 'AI Image Upscaler',
-  category: 'ai' as const,
-  url: '/tools/image-upscaler'
+  id: toolData.id,
+  name: toolData.name,
+  category: toolData.category,
+  url: toolData.href
 };
 
-// Get full tool data for stats
-const toolData = getToolById(tool.id);
-
-// AI-optimized content
+// AI-optimized content - SEO from tools.ts, extended content page-specific
 const seoContent = {
-  // Page meta
-  title: 'AI Image Upscaler Free — Enlarge Photos 2x/4x Online, No Upload | New Life Solutions',
-  description: 'Upscale images 2x or 4x with AI. Free browser-based tool using ESRGAN neural networks. No upload, no watermarks, unlimited use. Enhance photo resolution instantly.',
+  // Page meta from Single Source of Truth
+  title: toolData.seo?.title || `${toolData.name} - Free Online Tool | New Life Solutions`,
+  description: toolData.seo?.metaDescription || toolData.description,
 
   // TL;DR Answer Box (50-70 words - this is what AI extracts)
   answerBox: {

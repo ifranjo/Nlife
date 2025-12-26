@@ -18,22 +18,23 @@ import { getToolById } from '../../lib/tools';
 import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
 import GifMaker from '../../components/tools/GifMaker';
 
-// Tool metadata
+// Get tool data from Single Source of Truth (tools.ts)
+const toolData = getToolById('gif-maker');
+if (!toolData) throw new Error('Tool not found: gif-maker');
+
+// Tool metadata derived from registry
 const tool = {
-  id: 'gif-maker',
-  name: 'GIF Maker',
-  category: 'media' as const,
-  url: '/tools/gif-maker'
+  id: toolData.id,
+  name: toolData.name,
+  category: toolData.category,
+  url: toolData.href
 };
 
-// Get full tool data for stats
-const toolData = getToolById(tool.id);
-
-// AI-optimized content
+// AI-optimized content - SEO from tools.ts, extended content page-specific
 const seoContent = {
-  // Page meta
-  title: 'Video to GIF Converter Free Online - No Upload | New Life Solutions',
-  description: 'Convert video clips to high-quality GIFs directly in your browser. Set start/end times, frame rate, and width. No upload, 100% private processing.',
+  // Page meta from Single Source of Truth
+  title: toolData.seo?.title || `${toolData.name} - Free Online Tool | New Life Solutions`,
+  description: toolData.seo?.metaDescription || toolData.description,
 
   // TL;DR Answer Box (50-70 words - this is what AI extracts)
   answerBox: {

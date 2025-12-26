@@ -18,22 +18,23 @@ import { getToolById } from '../../lib/tools';
 import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
 import AudioWaveformEditor from '../../components/tools/AudioWaveformEditor';
 
-// Tool metadata
+// Get tool data from Single Source of Truth (tools.ts)
+const toolData = getToolById('audio-editor');
+if (!toolData) throw new Error('Tool not found: audio-editor');
+
+// Tool metadata derived from registry
 const tool = {
-  id: 'audio-editor',
-  name: 'Audio Waveform Editor',
-  category: 'media' as const,
-  url: '/tools/audio-editor'
+  id: toolData.id,
+  name: toolData.name,
+  category: toolData.category,
+  url: toolData.href
 };
 
-// Get full tool data for stats
-const toolData = getToolById(tool.id);
-
-// AI-optimized content
+// AI-optimized content - SEO from tools.ts, extended content page-specific
 const seoContent = {
-  // Page meta
-  title: 'Audio Editor Online Free - Trim, Fade & Export | New Life Solutions',
-  description: 'Edit audio with visual waveform display. Trim, add fade effects, and export as MP3 or WAV. 100% browser-based, no upload required.',
+  // Page meta from Single Source of Truth
+  title: toolData.seo?.title || `${toolData.name} - Free Online Tool | New Life Solutions`,
+  description: toolData.seo?.metaDescription || toolData.description,
 
   // TL;DR Answer Box (50-70 words - this is what AI extracts)
   answerBox: {

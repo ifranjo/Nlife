@@ -11,7 +11,7 @@ const title = 'New Life Solutions - Free Privacy-First Browser Tools';
 const description = 'Free online tools for developers and creatives. Merge PDFs, compress images, generate QR codes, and more. 100% browser-based, private, and secure. No signup required.';
 ---
 
-<Layout title={title} description={description}>
+<Layout title={title} description={description} canonicalUrl="https://www.newlifesolutions.dev/">
   <Navbar />
   <main class="pt-16">
     <Hero />
@@ -57,16 +57,13 @@ const description = 'Free online tools for developers and creatives. Merge PDFs,
   <Footer />
 </Layout>
 
-<!-- SEO: Canonical URL to prevent duplicate content issues with query parameters -->
-<link rel="canonical" href="https://www.newlifesolutions.dev/hub" />
-
 <!-- JSON-LD Structured Data for SEO -->
 <script type="application/ld+json" set:html={JSON.stringify({
   "@context": "https://schema.org",
   "@type": "WebPage",
   "name": title,
   "description": description,
-  "url": "https://www.newlifesolutions.dev/hub",
+  "url": "https://www.newlifesolutions.dev/",
   "about": {
     "@type": "Thing",
     "name": "Browser-based productivity tools"

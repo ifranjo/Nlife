@@ -18,22 +18,23 @@ import { getToolById } from '../../lib/tools';
 import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
 import HashGenerator from '../../components/tools/HashGenerator';
 
-// Tool metadata
+// Get tool data from Single Source of Truth (tools.ts)
+const toolData = getToolById('hash-generator');
+if (!toolData) throw new Error('Tool not found: hash-generator');
+
+// Tool metadata derived from registry
 const tool = {
-  id: 'hash-generator',
-  name: 'Hash Generator',
-  category: 'utility' as const,
-  url: '/tools/hash-generator'
+  id: toolData.id,
+  name: toolData.name,
+  category: toolData.category,
+  url: toolData.href
 };
 
-// Get full tool data for stats
-const toolData = getToolById(tool.id);
-
-// AI-optimized content
+// AI-optimized content - SEO from tools.ts, extended content page-specific
 const seoContent = {
-  // Page meta
-  title: 'SHA256 Hash Generator Online Free — MD5, SHA-1, SHA-512 Calculator | New Life Solutions',
-  description: 'Generate MD5, SHA-1, SHA-256, SHA-384, and SHA-512 hashes instantly. Uses browser Web Crypto API. Private, secure, no data uploads. Free online hash calculator.',
+  // Page meta from Single Source of Truth
+  title: toolData.seo?.title || `${toolData.name} - Free Online Tool | New Life Solutions`,
+  description: toolData.seo?.metaDescription || toolData.description,
 
   // TL;DR Answer Box (50-70 words - this is what AI extracts)
   answerBox: {

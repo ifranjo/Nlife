@@ -18,22 +18,23 @@ import { getToolById } from '../../lib/tools';
 import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
 import RemoveVocals from '../../components/tools/RemoveVocals';
 
-// Tool metadata
+// Get tool data from Single Source of Truth (tools.ts)
+const toolData = getToolById('remove-vocals');
+if (!toolData) throw new Error('Tool not found: remove-vocals');
+
+// Tool metadata derived from registry
 const tool = {
-  id: 'remove-vocals',
-  name: 'Vocal Remover',
-  category: 'media' as const,
-  url: '/tools/remove-vocals'
+  id: toolData.id,
+  name: toolData.name,
+  category: toolData.category,
+  url: toolData.href
 };
 
-// Get full tool data for stats
-const toolData = getToolById(tool.id);
-
-// AI-optimized content
+// AI-optimized content - SEO from tools.ts, extended content page-specific
 const seoContent = {
-  // Page meta
-  title: 'Remove Vocals from Songs Online Free — Create Instrumentals | New Life Solutions',
-  description: 'Remove vocals from any song to create instrumentals. Uses audio phase cancellation. 100% browser-based, no upload, works offline.',
+  // Page meta from Single Source of Truth
+  title: toolData.seo?.title || `${toolData.name} - Free Online Tool | New Life Solutions`,
+  description: toolData.seo?.metaDescription || toolData.description,
 
   // TL;DR Answer Box (50-70 words - this is what AI extracts)
   answerBox: {

@@ -1,5 +1,15 @@
 ---
+/**
+ * Index Page - Redirects to Tool Hub
+ *
+ * SEO Note: The splash page barrier was identified as hurting SEO and UX.
+ * This page now performs an immediate redirect to /hub where the main content is.
+ * The canonical URL remains "/" and /hub has its own canonical.
+ */
 import '../styles/global.css';
+
+// Redirect to hub immediately
+return Astro.redirect('/hub', 301);
 ---
 
 <!DOCTYPE html>
@@ -11,6 +21,9 @@ import '../styles/global.css';
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="canonical" href="https://www.newlifesolutions.dev/" />
     <title>New Life Solutions - Free Browser-Based Tools</title>
+
+    <!-- Fallback redirect for non-JS browsers -->
+    <meta http-equiv="refresh" content="0;url=/hub" />
 
     <!-- Open Graph -->
     <meta property="og:title" content="New Life Solutions - Free Browser-Based Tools" />
