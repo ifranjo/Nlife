@@ -1,4 +1,5 @@
 import { useState, useCallback } from 'react';
+import { createSafeErrorMessage } from '../../lib/security';
 import { copyToClipboard } from '../../lib/clipboard';
 
 type HashAlgorithm = 'MD5' | 'SHA-1' | 'SHA-256' | 'SHA-384' | 'SHA-512';
@@ -140,6 +141,7 @@ export default function HashGenerator() {
   });
   const [isProcessing, setIsProcessing] = useState(false);
   const [copiedAlgo, setCopiedAlgo] = useState<HashAlgorithm | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   const generateHashes = useCallback(async () => {
     if (!input) {
@@ -148,6 +150,7 @@ export default function HashGenerator() {
     }
 
     setIsProcessing(true);
+    setError(null);
     try {
       const results: Record<HashAlgorithm, string> = {
         'MD5': md5(input),
@@ -158,7 +161,7 @@ export default function HashGenerator() {
       };
       setHashes(results);
     } catch (err) {
-      console.error('Hash error:', err);
+      setError(createSafeErrorMessage(err, 'Failed to generate hashes. Please try again.'));
     } finally {
       setIsProcessing(false);
     }
@@ -198,6 +201,13 @@ export default function HashGenerator() {
       >
         {isProcessing ? 'Generating...' : 'Generate Hashes'}
       </button>
+
+      {/* Error message */}
+      {error && (
+        <div className="p-4 rounded-lg bg-red-500/20 border border-red-500/30 text-red-300 text-sm">
+          {error}
+        </div>
+      )}
 
       {/* Results */}
       {Object.values(hashes).some(Boolean) && (
