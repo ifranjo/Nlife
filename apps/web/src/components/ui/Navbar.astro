@@ -12,15 +12,97 @@
         </span>
       </a>
 
-      <!-- Nav links (44px+ touch targets for WCAG compliance) -->
-      <div class="flex items-center gap-4 sm:gap-8">
+      <!-- Mobile Menu Button -->
+      <button 
+        id="mobile-menu-btn" 
+        class="sm:hidden p-2 -mr-2 text-[var(--text-muted)] hover:text-[var(--text)] transition-colors"
+        aria-label="Toggle navigation menu"
+        aria-expanded="false"
+      >
+        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+
+      <!-- Desktop Nav -->
+      <div class="hidden sm:flex items-center gap-8">
         <a href="/hub" class="nav-link min-h-[44px] flex items-center px-3 sm:px-2">Tools</a>
         <a href="/hub#about" class="nav-link min-h-[44px] flex items-center px-3 sm:px-2">About</a>
-        <div class="hidden sm:flex items-center gap-2 text-[var(--text-muted)]">
+        <div class="flex items-center gap-2 text-[var(--text-muted)]" id="desktop-status">
           <span class="status-dot"></span>
-          <span class="text-[0.625rem] tracking-[0.15em] uppercase">Online</span>
+          <span class="status-text text-[0.625rem] tracking-[0.15em] uppercase">Online</span>
         </div>
       </div>
     </div>
   </div>
+
+  <!-- Mobile Menu (Hidden by default) -->
+  <div 
+    id="mobile-menu" 
+    class="hidden sm:hidden border-t border-[var(--border)] bg-[var(--bg)]/95 backdrop-blur-sm absolute left-0 right-0 px-6 py-4 space-y-4 shadow-2xl"
+  >
+    <a href="/hub" class="block py-3 text-[var(--text)] text-sm uppercase tracking-widest hover:text-[var(--accent)] transition-colors">
+      Tools
+    </a>
+    <a href="/hub#about" class="block py-3 text-[var(--text)] text-sm uppercase tracking-widest hover:text-[var(--accent)] transition-colors">
+      About
+    </a>
+    <div class="flex items-center gap-3 py-3 border-t border-[var(--border)] text-[var(--text-muted)]">
+      <span class="status-dot"></span>
+      <span class="status-text text-xs uppercase tracking-widest">Online</span>
+    </div>
+  </div>
 </nav>
+
+<script>
+  // Connection Status Logic
+  const updateStatus = () => {
+    const isOnline = navigator.onLine;
+    const dots = document.querySelectorAll('.status-dot');
+    const texts = document.querySelectorAll('.status-text');
+
+    dots.forEach(dot => {
+      // Override default green if offline
+      if (!isOnline) {
+        dot.style.backgroundColor = 'var(--error)';
+        dot.style.animation = 'pulse 1s infinite';
+      } else {
+        dot.style.backgroundColor = 'var(--success)';
+        dot.style.animation = 'blink 2s infinite';
+      }
+    });
+
+    texts.forEach(text => {
+      text.textContent = isOnline ? 'Online' : 'Offline';
+      if (!isOnline) {
+        text.classList.add('text-red-400');
+      } else {
+        text.classList.remove('text-red-400');
+      }
+    });
+  };
+
+  window.addEventListener('online', updateStatus);
+  window.addEventListener('offline', updateStatus);
+  // Initial check
+  updateStatus();
+
+  // Mobile Menu Logic
+  const btn = document.getElementById('mobile-menu-btn');
+  const menu = document.getElementById('mobile-menu');
+
+  if (btn && menu) {
+    btn.addEventListener('click', () => {
+      const isExpanded = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', (!isExpanded).toString());
+      menu.classList.toggle('hidden');
+      
+      // Animate entry
+      if (!menu.classList.contains('hidden')) {
+        menu.classList.add('animate-fadeInUp');
+      } else {
+        menu.classList.remove('animate-fadeInUp');
+      }
+    });
+  }
+</script>
