@@ -25,6 +25,22 @@ export default defineConfig({
     ['list']
   ],
 
+  /* Visual regression snapshot settings */
+  expect: {
+    toHaveScreenshot: {
+      /* Allow 0.2% pixel difference for anti-aliasing variations */
+      maxDiffPixelRatio: 0.002,
+      /* Animation tolerance - wait for animations to settle */
+      animations: 'disabled',
+      /* Consistent rendering across platforms */
+      scale: 'css',
+    },
+    toMatchSnapshot: {
+      /* Threshold for image comparison */
+      maxDiffPixelRatio: 0.002,
+    },
+  },
+
   /* Shared settings for all the projects below */
   use: {
     /* Base URL to use in actions like `await page.goto('/')` */
