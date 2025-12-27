@@ -8,13 +8,15 @@ interface Props {
   description?: string;
   image?: string;
   canonicalUrl?: string; // Optional override for canonical URL
+  theme?: 'default' | 'clean'; // Theme variant: default (hacker) or clean (professional)
 }
 
 const {
   title = 'New Life Solutions - Free Online Tools 2025',
   description = 'Free browser-based tools for PDF, images, video & more. 100% private, no uploads. Works offline. Updated December 2025.',
   image = '/og-default.png',
-  canonicalUrl
+  canonicalUrl,
+  theme = 'default'
 } = Astro.props;
 
 const siteUrl = Astro.url.origin;
@@ -27,7 +29,7 @@ const currentYear = new Date().getFullYear();
 ---
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme={theme}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
@@ -68,6 +70,18 @@ const currentYear = new Date().getFullYear();
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
     <link rel="canonical" href={canonical} />
 
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="New Life Tools" />
+
+    <!-- Apple Touch Icons -->
+    <link rel="apple-touch-icon" sizes="152x152" href="/icons/icon-152x152.png" />
+    <link rel="apple-touch-icon" sizes="192x192" href="/icons/icon-192x192.png" />
+    <link rel="apple-touch-icon" sizes="512x512" href="/icons/icon-512x512.png" />
+
     <!-- GEO 2025: AI Search Engine Optimization Meta Tags -->
     <!-- These help AI crawlers understand and cite content -->
     <meta name="ai-content-declaration" content="human-created, factually-verified" />
@@ -89,6 +103,50 @@ const currentYear = new Date().getFullYear();
     <!-- Plausible Analytics (with custom events support) -->
     <script defer data-domain="newlifesolutions.dev" src="https://plausible.io/js/script.tagged-events.js"></script>
 
+    <!-- Service Worker Registration -->
+    <script is:inline>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker
+            .register('/sw.js')
+            .then((registration) => {
+              console.log('[PWA] Service Worker registered:', registration.scope);
+
+              // Check for updates every hour
+              setInterval(() => {
+                registration.update();
+              }, 3600000);
+
+              // Listen for updates
+              registration.addEventListener('updatefound', () => {
+                const newWorker = registration.installing;
+                if (newWorker) {
+                  newWorker.addEventListener('statechange', () => {
+                    if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                      // New service worker available
+                      console.log('[PWA] New version available. Refresh to update.');
+                      if (confirm('New version available! Reload to update?')) {
+                        newWorker.postMessage({ type: 'SKIP_WAITING' });
+                        window.location.reload();
+                      }
+                    }
+                  });
+                }
+              });
+            })
+            .catch((error) => {
+              console.error('[PWA] Service Worker registration failed:', error);
+            });
+
+          // Handle service worker updates
+          navigator.serviceWorker.addEventListener('controllerchange', () => {
+            console.log('[PWA] Controller changed, reloading...');
+            window.location.reload();
+          });
+        });
+      }
+    </script>
+
     <!-- Named slot for page-specific head content (schemas, hreflang, etc.) -->
     <slot name="head" />
   </head>
@@ -96,7 +154,7 @@ const currentYear = new Date().getFullYear();
     <!-- Skip link for keyboard navigation (WCAG 2.4.1) -->
     <a href="#main-content" class="skip-link">Skip to main content</a>
 
-    <!-- Background effects -->
+    <!-- Background effects (hidden for clean theme) -->
     <div class="grid-bg"></div>
     <div class="scanlines"></div>
 

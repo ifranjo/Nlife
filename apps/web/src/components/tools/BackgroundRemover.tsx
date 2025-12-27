@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 import {
   validateFile,
   sanitizeFilename,
@@ -13,6 +13,8 @@ interface ProcessedImage {
   originalSize: string;
   originalUrl: string;
   processedUrl: string | null;
+  /** URL of the edited mask after Magic Brush modifications */
+  editedMaskUrl: string | null;
   isProcessing: boolean;
   progress: number;
   error: string | null;
@@ -20,7 +22,46 @@ interface ProcessedImage {
 
 type BackgroundMode = 'transparent' | 'color' | 'image';
 
+/** Brush mode: Add restores removed areas, Erase removes more */
+type BrushMode = 'add' | 'erase';
+
+/** A single brush stroke point */
+interface BrushPoint {
+  x: number;
+  y: number;
+}
+
+/** A complete brush stroke with mode and points */
+interface BrushStroke {
+  mode: BrushMode;
+  size: number;
+  points: BrushPoint[];
+}
+
+/** State for the Magic Brush editor */
+interface MagicBrushState {
+  isActive: boolean;
+  mode: BrushMode;
+  size: number;
+  strokes: BrushStroke[];
+  redoStack: BrushStroke[];
+  currentStroke: BrushStroke | null;
+}
+
 const MAX_FILES = 10; // Limit batch processing
+const MIN_BRUSH_SIZE = 5;
+const MAX_BRUSH_SIZE = 100;
+const DEFAULT_BRUSH_SIZE = 25;
+
+/** Default state for Magic Brush */
+const defaultBrushState: MagicBrushState = {
+  isActive: false,
+  mode: 'add',
+  size: DEFAULT_BRUSH_SIZE,
+  strokes: [],
+  redoStack: [],
+  currentStroke: null,
+};
 
 export default function BackgroundRemover() {
   const [images, setImages] = useState<ProcessedImage[]>([]);
@@ -32,6 +73,11 @@ export default function BackgroundRemover() {
   const [sliderPosition, setSliderPosition] = useState(50);
   const [previewImage, setPreviewImage] = useState<ProcessedImage | null>(null);
   const [previewMode, setPreviewMode] = useState<'original' | 'processed'>('processed');
+
+  // Magic Brush state - keyed by image ID
+  const [brushStates, setBrushStates] = useState<Record<string, MagicBrushState>>({});
+  const [activeBrushImageId, setActiveBrushImageId] = useState<string | null>(null);
+
   const fileInputRef = useRef<HTMLInputElement>(null);
   const backgroundInputRef = useRef<HTMLInputElement>(null);
 
@@ -67,6 +113,7 @@ export default function BackgroundRemover() {
           originalSize: formatFileSize(file.size),
           originalUrl: url,
           processedUrl: null,
+          editedMaskUrl: null,
           isProcessing: false,
           progress: 0,
           error: null,
@@ -93,9 +140,19 @@ export default function BackgroundRemover() {
       if (image) {
         URL.revokeObjectURL(image.originalUrl);
         if (image.processedUrl) URL.revokeObjectURL(image.processedUrl);
+        if (image.editedMaskUrl) URL.revokeObjectURL(image.editedMaskUrl);
       }
       return prev.filter((img) => img.id !== id);
     });
+    // Clean up brush state for this image
+    setBrushStates(prev => {
+      const next = { ...prev };
+      delete next[id];
+      return next;
+    });
+    if (activeBrushImageId === id) {
+      setActiveBrushImageId(null);
+    }
   };
 
   const handleDragOver = (e: React.DragEvent) => {
@@ -191,22 +248,300 @@ export default function BackgroundRemover() {
     }
   };
 
+  // ============================================================================
+  // MAGIC BRUSH FUNCTIONS
+  // ============================================================================
+
+  /**
+   * Initialize or get brush state for an image
+   */
+  const getBrushState = (imageId: string): MagicBrushState => {
+    return brushStates[imageId] || { ...defaultBrushState };
+  };
+
+  /**
+   * Update brush state for a specific image
+   */
+  const updateBrushState = (imageId: string, updates: Partial<MagicBrushState>) => {
+    setBrushStates(prev => ({
+      ...prev,
+      [imageId]: {
+        ...getBrushState(imageId),
+        ...updates,
+      },
+    }));
+  };
+
+  /**
+   * Toggle Magic Brush editor for an image
+   */
+  const toggleMagicBrush = (imageId: string) => {
+    const currentState = getBrushState(imageId);
+    if (currentState.isActive) {
+      // Deactivate brush
+      updateBrushState(imageId, { isActive: false });
+      setActiveBrushImageId(null);
+    } else {
+      // Deactivate any other active brush first
+      if (activeBrushImageId && activeBrushImageId !== imageId) {
+        updateBrushState(activeBrushImageId, { isActive: false });
+      }
+      // Activate brush for this image
+      updateBrushState(imageId, { isActive: true });
+      setActiveBrushImageId(imageId);
+    }
+  };
+
+  /**
+   * Set brush mode (add or erase)
+   */
+  const setBrushMode = (imageId: string, mode: BrushMode) => {
+    updateBrushState(imageId, { mode });
+  };
+
+  /**
+   * Set brush size
+   */
+  const setBrushSize = (imageId: string, size: number) => {
+    const clampedSize = Math.max(MIN_BRUSH_SIZE, Math.min(MAX_BRUSH_SIZE, size));
+    updateBrushState(imageId, { size: clampedSize });
+  };
+
+  /**
+   * Start a new brush stroke
+   */
+  const startStroke = (imageId: string, point: BrushPoint) => {
+    const state = getBrushState(imageId);
+    const newStroke: BrushStroke = {
+      mode: state.mode,
+      size: state.size,
+      points: [point],
+    };
+    updateBrushState(imageId, {
+      currentStroke: newStroke,
+      // Clear redo stack when starting a new stroke
+      redoStack: [],
+    });
+  };
+
+  /**
+   * Continue the current brush stroke
+   */
+  const continueStroke = (imageId: string, point: BrushPoint) => {
+    const state = getBrushState(imageId);
+    if (!state.currentStroke) return;
+
+    const updatedStroke: BrushStroke = {
+      ...state.currentStroke,
+      points: [...state.currentStroke.points, point],
+    };
+    updateBrushState(imageId, { currentStroke: updatedStroke });
+  };
+
+  /**
+   * End the current brush stroke and add it to history
+   */
+  const endStroke = (imageId: string) => {
+    const state = getBrushState(imageId);
+    if (!state.currentStroke || state.currentStroke.points.length < 2) {
+      updateBrushState(imageId, { currentStroke: null });
+      return;
+    }
+
+    updateBrushState(imageId, {
+      strokes: [...state.strokes, state.currentStroke],
+      currentStroke: null,
+    });
+  };
+
+  /**
+   * Undo the last brush stroke
+   */
+  const undoStroke = (imageId: string) => {
+    const state = getBrushState(imageId);
+    if (state.strokes.length === 0) return;
+
+    const lastStroke = state.strokes[state.strokes.length - 1];
+    updateBrushState(imageId, {
+      strokes: state.strokes.slice(0, -1),
+      redoStack: [...state.redoStack, lastStroke],
+    });
+  };
+
+  /**
+   * Redo the last undone brush stroke
+   */
+  const redoStroke = (imageId: string) => {
+    const state = getBrushState(imageId);
+    if (state.redoStack.length === 0) return;
+
+    const strokeToRedo = state.redoStack[state.redoStack.length - 1];
+    updateBrushState(imageId, {
+      strokes: [...state.strokes, strokeToRedo],
+      redoStack: state.redoStack.slice(0, -1),
+    });
+  };
+
+  /**
+   * Clear all brush strokes for an image
+   */
+  const clearAllStrokes = (imageId: string) => {
+    const state = getBrushState(imageId);
+    updateBrushState(imageId, {
+      strokes: [],
+      redoStack: [...state.redoStack, ...state.strokes.reverse()],
+      currentStroke: null,
+    });
+  };
+
+  /**
+   * Apply brush strokes to create the final edited mask
+   * This composites the brush strokes with the AI-generated mask
+   */
+  const applyBrushStrokes = async (imageId: string): Promise<string | null> => {
+    const image = images.find(img => img.id === imageId);
+    const state = getBrushState(imageId);
+
+    if (!image || !image.processedUrl || state.strokes.length === 0) {
+      return image?.processedUrl || null;
+    }
+
+    try {
+      // Create canvas for compositing
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      if (!ctx) throw new Error('Canvas not supported');
+
+      // Load the processed image (with transparent background)
+      const processedImg = new Image();
+      processedImg.crossOrigin = 'anonymous';
+      await new Promise<void>((resolve, reject) => {
+        processedImg.onload = () => resolve();
+        processedImg.onerror = reject;
+        processedImg.src = image.processedUrl!;
+      });
+
+      // Load the original image for "add" mode
+      const originalImg = new Image();
+      originalImg.crossOrigin = 'anonymous';
+      await new Promise<void>((resolve, reject) => {
+        originalImg.onload = () => resolve();
+        originalImg.onerror = reject;
+        originalImg.src = image.originalUrl;
+      });
+
+      canvas.width = processedImg.width;
+      canvas.height = processedImg.height;
+
+      // Draw the processed image first
+      ctx.drawImage(processedImg, 0, 0);
+
+      // Apply each stroke
+      for (const stroke of state.strokes) {
+        if (stroke.points.length < 2) continue;
+
+        if (stroke.mode === 'erase') {
+          // Erase mode: make areas transparent
+          ctx.globalCompositeOperation = 'destination-out';
+          ctx.strokeStyle = 'rgba(0,0,0,1)';
+        } else {
+          // Add mode: restore from original image
+          // We need to use a temporary canvas to sample from original
+          ctx.globalCompositeOperation = 'source-over';
+        }
+
+        ctx.lineWidth = stroke.size;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+
+        if (stroke.mode === 'add') {
+          // For add mode, we create a clipping path and draw the original
+          ctx.save();
+          ctx.beginPath();
+          ctx.moveTo(stroke.points[0].x, stroke.points[0].y);
+          for (let i = 1; i < stroke.points.length; i++) {
+            ctx.lineTo(stroke.points[i].x, stroke.points[i].y);
+          }
+          ctx.lineWidth = stroke.size;
+          ctx.lineCap = 'round';
+          ctx.lineJoin = 'round';
+          ctx.stroke();
+          ctx.clip();
+          ctx.globalCompositeOperation = 'source-over';
+          ctx.drawImage(originalImg, 0, 0, canvas.width, canvas.height);
+          ctx.restore();
+        } else {
+          // Erase mode - draw the stroke to remove pixels
+          ctx.beginPath();
+          ctx.moveTo(stroke.points[0].x, stroke.points[0].y);
+          for (let i = 1; i < stroke.points.length; i++) {
+            ctx.lineTo(stroke.points[i].x, stroke.points[i].y);
+          }
+          ctx.stroke();
+        }
+      }
+
+      // Reset composite operation
+      ctx.globalCompositeOperation = 'source-over';
+
+      // Convert to blob and create URL
+      return new Promise((resolve) => {
+        canvas.toBlob((blob) => {
+          if (blob) {
+            const url = URL.createObjectURL(blob);
+            resolve(url);
+          } else {
+            resolve(null);
+          }
+        }, 'image/png');
+      });
+    } catch (err) {
+      console.error('Failed to apply brush strokes:', err);
+      return null;
+    }
+  };
+
+  /**
+   * Save the edited mask for an image
+   */
+  const saveEditedMask = async (imageId: string) => {
+    const editedUrl = await applyBrushStrokes(imageId);
+    if (editedUrl) {
+      // Revoke old edited mask URL if exists
+      const image = images.find(img => img.id === imageId);
+      if (image?.editedMaskUrl) {
+        URL.revokeObjectURL(image.editedMaskUrl);
+      }
+
+      setImages(prev => prev.map(img =>
+        img.id === imageId ? { ...img, editedMaskUrl: editedUrl } : img
+      ));
+
+      // Deactivate brush after saving
+      updateBrushState(imageId, { isActive: false });
+      setActiveBrushImageId(null);
+    }
+  };
+
   const downloadImage = async (imageId: string) => {
     const image = images.find(img => img.id === imageId);
     if (!image || !image.processedUrl) return;
+
+    // Use edited mask if available, otherwise use processed URL
+    const sourceUrl = image.editedMaskUrl || image.processedUrl;
 
     try {
       const canvas = document.createElement('canvas');
       const ctx = canvas.getContext('2d');
       if (!ctx) throw new Error('Canvas not supported');
 
-      // Load processed image
+      // Load processed image (or edited mask)
       const img = new Image();
       img.crossOrigin = 'anonymous';
       await new Promise((resolve, reject) => {
         img.onload = resolve;
         img.onerror = reject;
-        img.src = image.processedUrl!;
+        img.src = sourceUrl;
       });
 
       canvas.width = img.width;
@@ -273,6 +608,9 @@ export default function BackgroundRemover() {
       for (const image of processedImages) {
         if (!image.processedUrl) continue;
 
+        // Use edited mask if available
+        const sourceUrl = image.editedMaskUrl || image.processedUrl;
+
         const canvas = document.createElement('canvas');
         const ctx = canvas.getContext('2d');
         if (!ctx) continue;
@@ -282,7 +620,7 @@ export default function BackgroundRemover() {
         await new Promise((resolve, reject) => {
           img.onload = resolve;
           img.onerror = reject;
-          img.src = image.processedUrl!;
+          img.src = sourceUrl;
         });
 
         canvas.width = img.width;
@@ -326,6 +664,348 @@ export default function BackgroundRemover() {
     } catch (err) {
       setError(createSafeErrorMessage(err, 'Failed to create ZIP file. Please try again.'));
     }
+  };
+
+  // ============================================================================
+  // MAGIC BRUSH EDITOR COMPONENT
+  // ============================================================================
+
+  /**
+   * MagicBrushEditor - Canvas overlay for interactive brush editing
+   * Supports mouse and touch events for drawing strokes
+   */
+  const MagicBrushEditor = ({ imageId, processedUrl, originalUrl }: {
+    imageId: string;
+    processedUrl: string;
+    originalUrl: string;
+  }) => {
+    const canvasRef = useRef<HTMLCanvasElement>(null);
+    const containerRef = useRef<HTMLDivElement>(null);
+    const [isDrawing, setIsDrawing] = useState(false);
+    const [canvasSize, setCanvasSize] = useState({ width: 0, height: 0 });
+    const [imageSize, setImageSize] = useState({ width: 0, height: 0 });
+
+    const brushState = getBrushState(imageId);
+
+    // Load images and set canvas size
+    useEffect(() => {
+      const loadImage = async () => {
+        const img = new Image();
+        img.crossOrigin = 'anonymous';
+        img.onload = () => {
+          setImageSize({ width: img.width, height: img.height });
+
+          // Calculate display size maintaining aspect ratio
+          if (containerRef.current) {
+            const containerWidth = containerRef.current.clientWidth;
+            const containerHeight = containerRef.current.clientHeight;
+            const aspectRatio = img.width / img.height;
+
+            let displayWidth = containerWidth;
+            let displayHeight = containerWidth / aspectRatio;
+
+            if (displayHeight > containerHeight) {
+              displayHeight = containerHeight;
+              displayWidth = containerHeight * aspectRatio;
+            }
+
+            setCanvasSize({ width: displayWidth, height: displayHeight });
+          }
+        };
+        img.src = processedUrl;
+      };
+      loadImage();
+    }, [processedUrl]);
+
+    // Draw strokes on canvas
+    useEffect(() => {
+      const canvas = canvasRef.current;
+      if (!canvas) return;
+
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return;
+
+      // Clear canvas
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Calculate scale factor between display and actual image size
+      const scaleX = imageSize.width / canvasSize.width;
+      const scaleY = imageSize.height / canvasSize.height;
+
+      // Draw all completed strokes
+      const allStrokes = [...brushState.strokes];
+      if (brushState.currentStroke) {
+        allStrokes.push(brushState.currentStroke);
+      }
+
+      for (const stroke of allStrokes) {
+        if (stroke.points.length < 2) continue;
+
+        ctx.beginPath();
+        ctx.lineWidth = stroke.size / scaleX; // Scale brush size for display
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+
+        // Use different colors/styles for add vs erase mode
+        if (stroke.mode === 'add') {
+          ctx.strokeStyle = 'rgba(0, 255, 0, 0.5)'; // Green for restore
+        } else {
+          ctx.strokeStyle = 'rgba(255, 0, 0, 0.5)'; // Red for erase
+        }
+
+        // Scale points to display coordinates
+        const scaledPoints = stroke.points.map(p => ({
+          x: p.x / scaleX,
+          y: p.y / scaleY,
+        }));
+
+        ctx.moveTo(scaledPoints[0].x, scaledPoints[0].y);
+        for (let i = 1; i < scaledPoints.length; i++) {
+          ctx.lineTo(scaledPoints[i].x, scaledPoints[i].y);
+        }
+        ctx.stroke();
+      }
+    }, [brushState.strokes, brushState.currentStroke, canvasSize, imageSize]);
+
+    /**
+     * Get coordinates from mouse/touch event, scaled to image coordinates
+     */
+    const getEventCoordinates = (e: React.MouseEvent | React.TouchEvent): BrushPoint | null => {
+      const canvas = canvasRef.current;
+      if (!canvas || imageSize.width === 0) return null;
+
+      const rect = canvas.getBoundingClientRect();
+      let clientX: number, clientY: number;
+
+      if ('touches' in e) {
+        if (e.touches.length === 0) return null;
+        clientX = e.touches[0].clientX;
+        clientY = e.touches[0].clientY;
+      } else {
+        clientX = e.clientX;
+        clientY = e.clientY;
+      }
+
+      // Calculate position relative to canvas
+      const x = clientX - rect.left;
+      const y = clientY - rect.top;
+
+      // Scale to actual image coordinates
+      const scaleX = imageSize.width / canvasSize.width;
+      const scaleY = imageSize.height / canvasSize.height;
+
+      return {
+        x: x * scaleX,
+        y: y * scaleY,
+      };
+    };
+
+    const handleStart = (e: React.MouseEvent | React.TouchEvent) => {
+      e.preventDefault();
+      const point = getEventCoordinates(e);
+      if (point) {
+        setIsDrawing(true);
+        startStroke(imageId, point);
+      }
+    };
+
+    const handleMove = (e: React.MouseEvent | React.TouchEvent) => {
+      e.preventDefault();
+      if (!isDrawing) return;
+
+      const point = getEventCoordinates(e);
+      if (point) {
+        continueStroke(imageId, point);
+      }
+    };
+
+    const handleEnd = (e: React.MouseEvent | React.TouchEvent) => {
+      e.preventDefault();
+      if (isDrawing) {
+        setIsDrawing(false);
+        endStroke(imageId);
+      }
+    };
+
+    return (
+      <div className="glass-card p-4 mt-4">
+        {/* Brush Controls Header */}
+        <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
+          <div className="flex items-center gap-2">
+            <span className="text-white text-sm font-medium">Magic Brush</span>
+            <span className="text-slate-400 text-xs">
+              ({brushState.strokes.length} stroke{brushState.strokes.length !== 1 ? 's' : ''})
+            </span>
+          </div>
+
+          {/* Mode Toggle */}
+          <div className="flex items-center gap-1 bg-slate-800 rounded-lg p-1">
+            <button
+              onClick={() => setBrushMode(imageId, 'add')}
+              className={`px-3 py-1.5 text-xs rounded transition-colors flex items-center gap-1 ${
+                brushState.mode === 'add'
+                  ? 'bg-green-500 text-white'
+                  : 'text-slate-400 hover:text-white'
+              }`}
+              title="Add mode: Restore removed areas"
+            >
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+              </svg>
+              Add
+            </button>
+            <button
+              onClick={() => setBrushMode(imageId, 'erase')}
+              className={`px-3 py-1.5 text-xs rounded transition-colors flex items-center gap-1 ${
+                brushState.mode === 'erase'
+                  ? 'bg-red-500 text-white'
+                  : 'text-slate-400 hover:text-white'
+              }`}
+              title="Erase mode: Remove more background"
+            >
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+              Erase
+            </button>
+          </div>
+        </div>
+
+        {/* Brush Size Slider */}
+        <div className="flex items-center gap-3 mb-4">
+          <span className="text-slate-400 text-xs w-12">Size:</span>
+          <input
+            type="range"
+            min={MIN_BRUSH_SIZE}
+            max={MAX_BRUSH_SIZE}
+            value={brushState.size}
+            onChange={(e) => setBrushSize(imageId, Number(e.target.value))}
+            className="flex-1 h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-fuchsia-500"
+          />
+          <span className="text-white text-xs w-10 text-right">{brushState.size}px</span>
+
+          {/* Brush size preview */}
+          <div
+            className="rounded-full border-2 border-white/50 flex-shrink-0"
+            style={{
+              width: Math.min(brushState.size / 2, 30),
+              height: Math.min(brushState.size / 2, 30),
+              backgroundColor: brushState.mode === 'add' ? 'rgba(0, 255, 0, 0.5)' : 'rgba(255, 0, 0, 0.5)',
+            }}
+          />
+        </div>
+
+        {/* Undo/Redo/Clear Controls */}
+        <div className="flex items-center gap-2 mb-4">
+          <button
+            onClick={() => undoStroke(imageId)}
+            disabled={brushState.strokes.length === 0}
+            className="px-3 py-1.5 text-xs bg-slate-700 text-white rounded-lg hover:bg-slate-600 disabled:opacity-40 disabled:cursor-not-allowed transition-colors flex items-center gap-1"
+            title="Undo last stroke"
+          >
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6" />
+            </svg>
+            Undo
+          </button>
+          <button
+            onClick={() => redoStroke(imageId)}
+            disabled={brushState.redoStack.length === 0}
+            className="px-3 py-1.5 text-xs bg-slate-700 text-white rounded-lg hover:bg-slate-600 disabled:opacity-40 disabled:cursor-not-allowed transition-colors flex items-center gap-1"
+            title="Redo undone stroke"
+          >
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 10h-10a8 8 0 00-8 8v2m18-10l-6 6m6-6l-6-6" />
+            </svg>
+            Redo
+          </button>
+          <button
+            onClick={() => clearAllStrokes(imageId)}
+            disabled={brushState.strokes.length === 0}
+            className="px-3 py-1.5 text-xs bg-slate-700 text-white rounded-lg hover:bg-slate-600 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+            title="Clear all strokes"
+          >
+            Clear All
+          </button>
+
+          <div className="flex-1" />
+
+          {/* Save/Cancel buttons */}
+          <button
+            onClick={() => toggleMagicBrush(imageId)}
+            className="px-3 py-1.5 text-xs bg-slate-600 text-white rounded-lg hover:bg-slate-500 transition-colors"
+          >
+            Cancel
+          </button>
+          <button
+            onClick={() => saveEditedMask(imageId)}
+            disabled={brushState.strokes.length === 0}
+            className="px-4 py-1.5 text-xs bg-fuchsia-500 text-white rounded-lg hover:bg-fuchsia-600 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+          >
+            Apply Changes
+          </button>
+        </div>
+
+        {/* Canvas Area */}
+        <div
+          ref={containerRef}
+          className="relative bg-slate-900 rounded-lg overflow-hidden"
+          style={{ minHeight: '300px', maxHeight: '500px' }}
+        >
+          {/* Checkerboard background for transparency */}
+          <div
+            className="absolute inset-0"
+            style={{
+              background: 'repeating-conic-gradient(#404040 0% 25%, #303030 0% 50%) 50% / 20px 20px',
+            }}
+          />
+
+          {/* Processed image as background */}
+          <img
+            src={processedUrl}
+            alt="Processed"
+            className="absolute inset-0 w-full h-full object-contain pointer-events-none"
+            style={{ maxHeight: '500px' }}
+          />
+
+          {/* Semi-transparent original for reference in add mode */}
+          {brushState.mode === 'add' && (
+            <img
+              src={originalUrl}
+              alt="Original (reference)"
+              className="absolute inset-0 w-full h-full object-contain pointer-events-none opacity-30"
+              style={{ maxHeight: '500px' }}
+            />
+          )}
+
+          {/* Drawing canvas overlay */}
+          <canvas
+            ref={canvasRef}
+            width={canvasSize.width}
+            height={canvasSize.height}
+            className="absolute inset-0 m-auto touch-none"
+            style={{
+              cursor: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='${Math.min(brushState.size, 50)}' height='${Math.min(brushState.size, 50)}' viewBox='0 0 ${Math.min(brushState.size, 50)} ${Math.min(brushState.size, 50)}'%3E%3Ccircle cx='${Math.min(brushState.size, 50) / 2}' cy='${Math.min(brushState.size, 50) / 2}' r='${Math.min(brushState.size, 50) / 2 - 1}' fill='none' stroke='${brushState.mode === 'add' ? '%2300ff00' : '%23ff0000'}' stroke-width='2'/%3E%3C/svg%3E") ${Math.min(brushState.size, 50) / 2} ${Math.min(brushState.size, 50) / 2}, crosshair`,
+            }}
+            onMouseDown={handleStart}
+            onMouseMove={handleMove}
+            onMouseUp={handleEnd}
+            onMouseLeave={handleEnd}
+            onTouchStart={handleStart}
+            onTouchMove={handleMove}
+            onTouchEnd={handleEnd}
+          />
+        </div>
+
+        {/* Instructions */}
+        <p className="text-slate-400 text-xs mt-3 text-center">
+          {brushState.mode === 'add'
+            ? 'Paint over areas to restore the original (shown faintly)'
+            : 'Paint over areas to remove more background'}
+          {' '} | Pinch or scroll to adjust brush size on mobile
+        </p>
+      </div>
+    );
   };
 
   return (
@@ -503,12 +1183,15 @@ export default function BackgroundRemover() {
                         }}
                       />
                       <img
-                        src={image.processedUrl}
+                        src={image.editedMaskUrl || image.processedUrl}
                         alt="Processed"
                         className="absolute inset-0 w-full h-full object-contain"
                       />
-                      <div className="absolute top-2 right-2 px-2 py-1 bg-black/70 text-white text-xs rounded">
+                      <div className="absolute top-2 right-2 px-2 py-1 bg-black/70 text-white text-xs rounded flex items-center gap-1">
                         After
+                        {image.editedMaskUrl && (
+                          <span className="text-green-400" title="Edited with Magic Brush">*</span>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -596,8 +1279,17 @@ export default function BackgroundRemover() {
                 </div>
               )}
 
+              {/* Magic Brush Editor - shown when active */}
+              {image.processedUrl && getBrushState(image.id).isActive && (
+                <MagicBrushEditor
+                  imageId={image.id}
+                  processedUrl={image.editedMaskUrl || image.processedUrl}
+                  originalUrl={image.originalUrl}
+                />
+              )}
+
               {/* Action Buttons */}
-              <div className="flex gap-3">
+              <div className="flex gap-3 flex-wrap">
                 {!image.processedUrl && !image.isProcessing && (
                   <button
                     onClick={() => removeBackground(image.id)}
@@ -607,16 +1299,31 @@ export default function BackgroundRemover() {
                   </button>
                 )}
 
-                {image.processedUrl && (
-                  <button
-                    onClick={() => downloadImage(image.id)}
-                    className="flex-1 btn-primary flex items-center justify-center gap-2"
-                  >
-                    <span>Download</span>
-                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                    </svg>
-                  </button>
+                {image.processedUrl && !getBrushState(image.id).isActive && (
+                  <>
+                    {/* Magic Brush Button */}
+                    <button
+                      onClick={() => toggleMagicBrush(image.id)}
+                      className="flex-1 btn-secondary flex items-center justify-center gap-2"
+                      title="Refine the mask with Magic Brush"
+                    >
+                      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                      </svg>
+                      <span>Magic Brush</span>
+                    </button>
+
+                    {/* Download Button */}
+                    <button
+                      onClick={() => downloadImage(image.id)}
+                      className="flex-1 btn-primary flex items-center justify-center gap-2"
+                    >
+                      <span>Download</span>
+                      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                      </svg>
+                    </button>
+                  </>
                 )}
               </div>
             </div>

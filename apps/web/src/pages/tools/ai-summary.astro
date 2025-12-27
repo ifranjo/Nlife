@@ -1,0 +1,168 @@
+---
+/**
+ * AI Summary - AI-Native Tool Page
+ *
+ * Optimized for LLM extraction with:
+ * - TL;DR answer box (50-70 words)
+ * - Semantic Q&A sections
+ * - Full schema markup (SoftwareApplication, HowTo, FAQPage)
+ */
+import Layout from '../../layouts/Layout.astro';
+import TrustBar from '../../components/ui/TrustBar.astro';
+import Navbar from '../../components/ui/Navbar.astro';
+import Footer from '../../components/ui/Footer.astro';
+import AnswerBox from '../../components/seo/AnswerBox.astro';
+import QASections from '../../components/seo/QASections.astro';
+import RelatedTools from '../../components/seo/RelatedTools.astro';
+import { getToolById } from '../../lib/tools';
+import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
+import AiSummary from '../../components/tools/AiSummary';
+
+// Get tool data from Single Source of Truth (tools.ts)
+const toolData = getToolById('ai-summary');
+if (!toolData) throw new Error('Tool not found: ai-summary');
+
+// Tool metadata derived from registry
+const tool = {
+  id: toolData.id,
+  name: toolData.name,
+  category: toolData.category,
+  url: toolData.href
+};
+
+// AI-optimized content - SEO from tools.ts, extended content page-specific
+const seoContent = {
+  // Page meta from Single Source of Truth
+  title: toolData.seo?.title || `${toolData.name} - Free Online Tool | New Life Solutions`,
+  description: toolData.seo?.metaDescription || toolData.description,
+
+  // TL;DR Answer Box (50-70 words - this is what AI extracts)
+  answerBox: {
+    title: 'Summarize Text & Documents with AI',
+    queryTarget: 'How to Summarize Documents Online Free',
+    tldr: `Paste text, upload a PDF/DOCX/TXT file, or enter a URL to generate an instant summary. Choose from brief, standard, or detailed lengths. Select bullet points, paragraphs, or key takeaways format. Use extractive mode for 100% local processing, or connect your own OpenAI/Claude API key for AI-powered summaries. Free, private, no signup required.`,
+    trustSignals: [
+      'Multiple input formats',
+      'Privacy-first local mode',
+      'Bring your own API key',
+      'No signup required'
+    ]
+  },
+
+  // Q&A Sections
+  qa: {
+    whatIs: {
+      answer: `AI Summary is a free tool that condenses long documents and text into concise summaries. It supports multiple input methods: paste text directly, upload PDF/DOCX/TXT files, or fetch content from URLs. Choose from extractive summarization (100% local, no AI API needed) or AI-powered summaries using your own OpenAI or Claude API key.`,
+      context: `Essential for students processing research papers, professionals reviewing reports, content creators repurposing articles, and anyone who needs to quickly understand long documents.`
+    },
+    howItWorks: {
+      steps: [
+        'Choose your input method: paste text, upload a file (PDF, DOCX, TXT), or enter a URL',
+        'Select summary mode: Extractive (local) or AI-powered (OpenAI/Claude)',
+        'Choose summary length: Brief (1-2 sentences), Standard (paragraph), or Detailed',
+        'Pick output format: Paragraph, Bullet Points, or Key Takeaways',
+        'Select focus: General, Action Items, or Key Facts',
+        'Click Generate Summary and copy or download the result'
+      ]
+    },
+    whyBrowserBased: {
+      benefits: [
+        'Extractive mode: 100% local processing, text never leaves your browser',
+        'AI mode: Your API key is stored only in localStorage, never on our servers',
+        'No file uploads to external servers for document processing',
+        'Instant results without waiting for server processing',
+        'Works offline after loading (extractive mode)'
+      ]
+    },
+    faqs: [
+      {
+        question: 'What is the difference between extractive and AI summarization?',
+        answer: `Extractive summarization identifies and extracts the most important sentences from your text using TF-IDF algorithm. It runs 100% locally with no API calls. AI summarization (OpenAI/Claude) generates new sentences that capture the meaning, often producing more coherent summaries but requiring an API key and sending text to the AI provider.`
+      },
+      {
+        question: 'Is my document data private?',
+        answer: `Yes. In extractive mode, all processing happens in your browser - nothing is uploaded anywhere. In AI mode, text is sent only to your chosen AI provider (OpenAI or Claude) using your personal API key. We never see, store, or have access to your documents or API keys.`
+      },
+      {
+        question: 'What file formats can I summarize?',
+        answer: `PDF files (up to 50MB), Microsoft Word documents (.docx), and plain text files (.txt). For PDFs, we use pdf.js to extract text client-side. For DOCX, we parse the XML structure using JSZip. All extraction happens in your browser.`
+      },
+      {
+        question: 'Can I summarize web pages?',
+        answer: `Yes, enter any URL and we'll fetch and extract the main content. We use a CORS proxy to handle cross-origin requests. Note that some websites may block external fetching or have dynamic content that doesn't extract well.`
+      },
+      {
+        question: 'How do I get an OpenAI or Claude API key?',
+        answer: `For OpenAI: Visit platform.openai.com, create an account, go to API Keys, and create a new key. For Claude: Visit console.anthropic.com, create an account, and generate an API key. Both offer pay-as-you-go pricing with generous free tiers.`
+      },
+      {
+        question: 'What does the Focus option do?',
+        answer: `Focus guides the summarization toward specific content types. General extracts main points. Action Items prioritizes tasks and to-dos. Key Facts emphasizes data, statistics, and concrete information. This is especially useful for meeting notes, reports, and research papers.`
+      }
+    ]
+  }
+};
+
+// Schema data
+const schemaData = {
+  toolId: tool.id,
+  toolName: tool.name,
+  description: seoContent.description,
+  category: tool.category,
+  steps: seoContent.qa.howItWorks.steps,
+  faqs: seoContent.qa.faqs,
+  url: tool.url
+};
+---
+
+<Layout
+  title={seoContent.title}
+  description={seoContent.description}
+  image="/thumbnails/ai-summary.svg"
+>
+  <!-- Schema Markup for AI extraction -->
+  <SchemaMarkup {...schemaData} />
+
+  <Navbar />
+
+  <main class="pt-20 pb-16 px-6 min-h-screen">
+    <div class="max-w-4xl mx-auto">
+
+      <!-- Answer Box: AI extracts this first -->
+      <AnswerBox
+        title={seoContent.answerBox.title}
+        tldr={seoContent.answerBox.tldr}
+        toolName={tool.name}
+        queryTarget={seoContent.answerBox.queryTarget}
+        trustSignals={seoContent.answerBox.trustSignals}
+      />
+
+      <!-- Tool Component -->
+      <section class="tool-section" aria-label="AI Summary Tool">
+        <AiSummary client:load />
+        <TrustBar signals={seoContent.answerBox.trustSignals} />
+      </section>
+
+      <!-- Q&A Sections: Semantic structure for AI -->
+      <QASections
+        toolName={tool.name}
+        whatIs={seoContent.qa.whatIs}
+        howItWorks={seoContent.qa.howItWorks}
+        whyBrowserBased={seoContent.qa.whyBrowserBased}
+        faqs={seoContent.qa.faqs}
+        stats={toolData?.stats}
+      />
+
+      <RelatedTools currentToolId="ai-summary" />
+
+    </div>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+  .tool-section {
+    margin: 2rem 0;
+  }
+</style>

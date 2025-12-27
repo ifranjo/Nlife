@@ -1,4 +1,5 @@
 ---
+import InstallPrompt from './InstallPrompt';
 ---
 
 <nav class="fixed top-0 left-0 right-0 z-50 border-b border-[var(--border)] bg-[var(--bg)]/90 backdrop-blur-sm">
@@ -28,9 +29,10 @@
       <div class="hidden sm:flex items-center gap-8">
         <a href="/hub" class="nav-link min-h-[44px] flex items-center px-3 sm:px-2">Tools</a>
         <a href="/hub#about" class="nav-link min-h-[44px] flex items-center px-3 sm:px-2">About</a>
-        <div class="flex items-center gap-2 text-[var(--text-muted)]" id="desktop-status">
+        <div class="flex items-center gap-2 text-[var(--text-muted)]" id="desktop-status" role="status" aria-live="polite">
           <span class="status-dot"></span>
           <span class="status-text text-[0.625rem] tracking-[0.15em] uppercase">Online</span>
+          <span class="cached-indicator hidden text-[0.625rem] opacity-60 ml-2" title="Cached for offline use">📦</span>
         </div>
       </div>
     </div>
@@ -47,19 +49,36 @@
     <a href="/hub#about" class="block py-3 text-[var(--text)] text-sm uppercase tracking-widest hover:text-[var(--accent)] transition-colors">
       About
     </a>
-    <div class="flex items-center gap-3 py-3 border-t border-[var(--border)] text-[var(--text-muted)]">
+    <div class="flex items-center gap-3 py-3 border-t border-[var(--border)] text-[var(--text-muted)]" role="status" aria-live="polite">
       <span class="status-dot"></span>
       <span class="status-text text-xs uppercase tracking-widest">Online</span>
+      <span class="cached-indicator hidden text-xs opacity-60" title="Cached for offline use">📦</span>
     </div>
   </div>
 </nav>
 
+<!-- Install Prompt Component -->
+<InstallPrompt client:load />
+
 <script>
   // Connection Status Logic
-  const updateStatus = () => {
+  const updateStatus = async () => {
     const isOnline = navigator.onLine;
     const dots = document.querySelectorAll('.status-dot');
     const texts = document.querySelectorAll('.status-text');
+    const cachedIndicators = document.querySelectorAll('.cached-indicator');
+
+    // Check if current page is cached
+    let isCached = false;
+    if ('caches' in window) {
+      try {
+        const cache = await caches.open('dynamic-v1');
+        const cachedResponse = await cache.match(window.location.pathname);
+        isCached = !!cachedResponse;
+      } catch (e) {
+        console.warn('Cache check failed:', e);
+      }
+    }
 
     dots.forEach(dot => {
       // Override default green if offline
@@ -80,6 +99,23 @@
         text.classList.remove('text-red-400');
       }
     });
+
+    // Show cached indicator when offline and page is cached
+    cachedIndicators.forEach(indicator => {
+      if (!isOnline && isCached) {
+        indicator.classList.remove('hidden');
+      } else {
+        indicator.classList.add('hidden');
+      }
+    });
+
+    // Announce status changes to screen readers
+    if (window.announce) {
+      window.announce(
+        isOnline ? 'You are back online' : 'You are offline. Cached content available.',
+        'polite'
+      );
+    }
   };
 
   window.addEventListener('online', updateStatus);

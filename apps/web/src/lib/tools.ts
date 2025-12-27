@@ -1513,6 +1513,46 @@ export const tools: Tool[] = [
       }
 ]
   },
+  {
+    id: 'ai-summary',
+    name: 'AI Summary',
+    description: 'Summarize documents and text with AI. Supports PDF, TXT, DOCX, and URL input. Multiple summary formats and lengths.',
+    icon: 'AI',
+    thumbnail: '/thumbnails/ai-summary.svg',
+    category: 'ai',
+    tier: 'free',
+    href: '/tools/ai-summary',
+    color: 'from-emerald-500 to-teal-500',
+    tags: ['ai', 'summary', 'summarize', 'pdf', 'text', 'document', 'tldr'],
+    popular: true,
+    releaseDate: '2024-12-27',
+    seo: {
+      title: 'AI Text Summarizer Free Online - Summarize Documents | New Life',
+      metaDescription: 'Summarize documents, PDFs, and text with AI. Choose summary length and format. Privacy-first with local processing options. Free, no signup required.',
+      h1: 'AI Text Summarizer - Summarize Documents Free',
+      keywords: ['ai summarizer', 'text summarizer', 'summarize pdf', 'document summary', 'tldr generator', 'ai summary tool']
+    },
+    faq: [
+      { question: 'What input formats are supported?', answer: 'Paste text directly, upload PDF/TXT/DOCX files, or enter a URL to fetch and summarize web content.' },
+      { question: 'Is my data private?', answer: 'Yes. The extractive summarization mode works 100% locally. For AI summaries, you can use your own API key stored only in your browser.' },
+      { question: 'What summary lengths are available?', answer: 'Brief (1-2 sentences), Standard (1 paragraph), and Detailed (multiple paragraphs) options.' },
+      { question: 'Can I summarize without AI?', answer: 'Yes! The extractive mode uses TF-IDF algorithm locally to extract key sentences without any AI API.' }
+    ],
+    stats: [
+      {
+            label: 'Input formats',
+            value: 'Text, PDF, TXT, DOCX, URL'
+      },
+      {
+            label: 'Summary modes',
+            value: 'AI-powered or extractive (local)'
+      },
+      {
+            label: 'Privacy options',
+            value: 'Local processing or bring-your-own API key'
+      }
+]
+  },
 ];
 
 export const getToolsByCategory = (category: Tool['category']) =>

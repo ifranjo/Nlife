@@ -591,6 +591,171 @@ h1, h2, h3, h4, h5, h6 {
   scrollbar-color: var(--border) transparent;
 }
 
+/* ============================================
+   CLEAN THEME - Professional & Soft
+   ============================================ */
+[data-theme="clean"] {
+  /* Soft warm backgrounds */
+  --bg: #f8f9fa;
+  --bg-secondary: #ffffff;
+  --bg-card: #ffffff;
+  --bg-hover: #f1f3f5;
+
+  /* Professional text colors */
+  --text: #212529;
+  --text-dim: #495057;
+  --text-muted: #6c757d;
+  --accent: #0066cc;
+
+  /* Subtle borders */
+  --border: #dee2e6;
+  --border-hover: #adb5bd;
+  --border-accent: #0066cc;
+
+  /* Clean functional colors */
+  --success: #28a745;
+  --warning: #ffc107;
+  --error: #dc3545;
+
+  /* No grid in clean theme */
+  --grid-color: transparent;
+
+  /* Professional shadows instead of glow */
+  --glow-subtle: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --glow-hover: 0 4px 12px rgba(0, 0, 0, 0.12);
+  --glow-focus: 0 0 0 3px rgba(0, 102, 204, 0.15);
+  --glow-accent: 0 2px 8px rgba(0, 102, 204, 0.15);
+
+  /* Clean borders */
+  --border-glass: rgba(0, 0, 0, 0.08);
+  --border-glass-hover: rgba(0, 102, 204, 0.15);
+}
+
+/* Clean theme: Sans-serif typography */
+[data-theme="clean"] body {
+  font-family: var(--font-sans);
+  letter-spacing: normal;
+}
+
+/* Clean theme: Hide hacker effects */
+[data-theme="clean"] .grid-bg,
+[data-theme="clean"] .scanlines {
+  display: none;
+}
+
+/* Clean theme: Card styling */
+[data-theme="clean"] .glass-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  box-shadow: var(--glow-subtle);
+  backdrop-filter: none;
+}
+
+[data-theme="clean"] .glass-card:hover {
+  border-color: var(--border-hover);
+  background: var(--bg-card);
+  box-shadow: var(--glow-hover);
+}
+
+/* Clean theme: Button styling */
+[data-theme="clean"] .btn-primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: white;
+}
+
+[data-theme="clean"] .btn-primary:hover {
+  background: #0052a3;
+  border-color: #0052a3;
+  color: white;
+}
+
+/* Clean theme: Drop zone */
+[data-theme="clean"] .drop-zone {
+  border: 2px dashed var(--border);
+  background: var(--bg-secondary);
+}
+
+[data-theme="clean"] .drop-zone:hover {
+  border-color: var(--accent);
+  background: var(--bg-hover);
+}
+
+/* Clean theme: Tool cards */
+[data-theme="clean"] .tool-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  box-shadow: var(--glow-subtle);
+}
+
+[data-theme="clean"] .tool-card::before,
+[data-theme="clean"] .tool-card::after {
+  display: none;
+}
+
+[data-theme="clean"] .tool-card:hover {
+  border-color: var(--border-accent);
+  background: var(--bg-card);
+  box-shadow: var(--glow-hover);
+  transform: translateY(-2px) scale(1);
+}
+
+[data-theme="clean"] .tool-card:hover .tool-title {
+  color: var(--accent);
+  text-shadow: none;
+}
+
+/* Clean theme: Navigation */
+[data-theme="clean"] .nav-link {
+  color: var(--text-dim);
+}
+
+[data-theme="clean"] .nav-link:hover {
+  color: var(--accent);
+  text-shadow: none;
+}
+
+/* Clean theme: Typography */
+[data-theme="clean"] h1,
+[data-theme="clean"] h2,
+[data-theme="clean"] h3,
+[data-theme="clean"] h4,
+[data-theme="clean"] h5,
+[data-theme="clean"] h6 {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+/* Clean theme: Selection */
+[data-theme="clean"] ::selection {
+  background: rgba(0, 102, 204, 0.2);
+  color: var(--text);
+  text-shadow: none;
+}
+
+/* Clean theme: Input fields */
+[data-theme="clean"] input[type="text"],
+[data-theme="clean"] input[type="email"],
+[data-theme="clean"] input[type="password"],
+[data-theme="clean"] input[type="number"],
+[data-theme="clean"] input[type="search"],
+[data-theme="clean"] input[type="url"],
+[data-theme="clean"] textarea,
+[data-theme="clean"] select {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-family: var(--font-sans);
+}
+
+[data-theme="clean"] input:focus,
+[data-theme="clean"] textarea:focus,
+[data-theme="clean"] select:focus {
+  border-color: var(--accent);
+  box-shadow: var(--glow-focus);
+}
+
 /* Scrollbar appears on hover (premium feel) */
 .scroll-on-hover {
   scrollbar-width: none;

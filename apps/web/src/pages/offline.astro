@@ -1,0 +1,140 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/ui/Navbar.astro';
+import Footer from '../components/ui/Footer.astro';
+---
+
+<Layout
+  title="You're Offline - New Life Solutions"
+  description="No internet connection detected. Some tools are available offline."
+>
+  <Navbar />
+
+  <main class="pt-20 pb-16 px-6 min-h-screen flex items-center justify-center">
+    <div class="max-w-2xl mx-auto text-center">
+      <!-- Offline Icon -->
+      <div class="mb-8 inline-flex items-center justify-center w-24 h-24 bg-gradient-to-br from-amber-500 to-orange-500 rounded-full">
+        <svg class="w-12 h-12 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636a9 9 0 010 12.728m0 0l-2.829-2.829m2.829 2.829L21 21M15.536 8.464a5 5 0 010 7.072m0 0l-2.829-2.829m-4.243 2.829a4.978 4.978 0 01-1.414-2.83m-1.414 5.658a9 9 0 01-2.167-9.238m7.824 2.167a1 1 0 111.414 1.414m-1.414-1.414L3 3m8.293 8.293l1.414 1.414" />
+        </svg>
+      </div>
+
+      <!-- Heading -->
+      <h1 class="text-3xl sm:text-4xl font-bold mb-4 bg-gradient-to-r from-[var(--text)] to-[var(--text-muted)] bg-clip-text text-transparent">
+        You're Offline
+      </h1>
+
+      <!-- Description -->
+      <p class="text-lg text-[var(--text-muted)] mb-8">
+        No internet connection detected. Don't worry, many of our tools work offline!
+      </p>
+
+      <!-- Offline-capable tools -->
+      <div class="bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg p-6 mb-8">
+        <h2 class="text-xl font-semibold mb-4 text-[var(--text)]">
+          Available Offline
+        </h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-left">
+          <a href="/tools/pdf-merge" class="block p-3 bg-[var(--bg)] border border-[var(--border)] rounded-lg hover:border-[var(--accent)] transition-colors group">
+            <div class="flex items-center gap-2">
+              <span class="text-xl">📄</span>
+              <span class="text-sm font-medium text-[var(--text)] group-hover:text-[var(--accent)]">PDF Merge</span>
+            </div>
+          </a>
+
+          <a href="/tools/pdf-compress" class="block p-3 bg-[var(--bg)] border border-[var(--border)] rounded-lg hover:border-[var(--accent)] transition-colors group">
+            <div class="flex items-center gap-2">
+              <span class="text-xl">📦</span>
+              <span class="text-sm font-medium text-[var(--text)] group-hover:text-[var(--accent)]">PDF Compress</span>
+            </div>
+          </a>
+
+          <a href="/tools/image-compress" class="block p-3 bg-[var(--bg)] border border-[var(--border)] rounded-lg hover:border-[var(--accent)] transition-colors group">
+            <div class="flex items-center gap-2">
+              <span class="text-xl">🖼️</span>
+              <span class="text-sm font-medium text-[var(--text)] group-hover:text-[var(--accent)]">Image Compress</span>
+            </div>
+          </a>
+
+          <a href="/tools/qr-generator" class="block p-3 bg-[var(--bg)] border border-[var(--border)] rounded-lg hover:border-[var(--accent)] transition-colors group">
+            <div class="flex items-center gap-2">
+              <span class="text-xl">📱</span>
+              <span class="text-sm font-medium text-[var(--text)] group-hover:text-[var(--accent)]">QR Generator</span>
+            </div>
+          </a>
+
+          <a href="/tools/password-generator" class="block p-3 bg-[var(--bg)] border border-[var(--border)] rounded-lg hover:border-[var(--accent)] transition-colors group">
+            <div class="flex items-center gap-2">
+              <span class="text-xl">🔑</span>
+              <span class="text-sm font-medium text-[var(--text)] group-hover:text-[var(--accent)]">Password Gen</span>
+            </div>
+          </a>
+
+          <a href="/tools/base64" class="block p-3 bg-[var(--bg)] border border-[var(--border)] rounded-lg hover:border-[var(--accent)] transition-colors group">
+            <div class="flex items-center gap-2">
+              <span class="text-xl">🔐</span>
+              <span class="text-sm font-medium text-[var(--text)] group-hover:text-[var(--accent)]">Base64</span>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+        <button
+          id="retry-btn"
+          class="px-6 py-3 bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 text-white font-medium rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 focus:ring-offset-[var(--bg)]"
+        >
+          Retry Connection
+        </button>
+
+        <a
+          href="/hub"
+          class="px-6 py-3 bg-[var(--bg-secondary)] border border-[var(--border)] hover:border-[var(--accent)] text-[var(--text)] font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 focus:ring-offset-[var(--bg)]"
+        >
+          View All Tools
+        </a>
+      </div>
+
+      <!-- Connection status -->
+      <div class="mt-8 inline-flex items-center gap-2 text-sm text-[var(--text-muted)]">
+        <span class="inline-block w-2 h-2 rounded-full bg-amber-500"></span>
+        <span id="status-text">Waiting for connection...</span>
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+</Layout>
+
+<script>
+  // Retry connection button
+  const retryBtn = document.getElementById('retry-btn');
+  if (retryBtn) {
+    retryBtn.addEventListener('click', () => {
+      window.location.reload();
+    });
+  }
+
+  // Listen for online event
+  window.addEventListener('online', () => {
+    console.log('Back online!');
+    const statusText = document.getElementById('status-text');
+    if (statusText) {
+      statusText.textContent = 'Connection restored! Redirecting...';
+    }
+    setTimeout(() => {
+      window.location.reload();
+    }, 1000);
+  });
+
+  // Update status text
+  const updateStatus = () => {
+    const statusText = document.getElementById('status-text');
+    if (statusText && navigator.onLine) {
+      statusText.textContent = 'Connected! You can reload the page.';
+    }
+  };
+
+  setInterval(updateStatus, 2000);
+</script>
