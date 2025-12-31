@@ -1,0 +1,59 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/ui/Navbar.astro';
+import Footer from '../../components/ui/Footer.astro';
+import PdfOrganize from '../../components/tools/PdfOrganize';
+import RelatedTools from '../../components/seo/RelatedTools.astro';
+import { getToolById } from '../../lib/tools';
+
+// Get tool data from Single Source of Truth (tools.ts)
+const toolData = getToolById('pdf-organize');
+if (!toolData) throw new Error('Tool not found: pdf-organize');
+
+const seoTitle = toolData.seo?.title || `${toolData.name} - Free Online Tool | New Life Solutions`;
+const seoDescription = toolData.seo?.metaDescription || toolData.description;
+---
+
+<Layout title={seoTitle} description={seoDescription} image="/thumbnails/pdf-organize.svg">
+  <Navbar />
+
+  <main class="pt-20 pb-16 px-6 min-h-screen">
+    <div class="max-w-5xl mx-auto">
+      <!-- Header -->
+      <div class="text-center mb-12">
+        <a
+          href="/hub"
+          class="inline-flex items-center gap-2 text-[var(--text-muted)] hover:text-[var(--text)] transition-colors mb-8 text-xs uppercase tracking-[0.15em]"
+        >
+          <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+          </svg>
+          Back
+        </a>
+
+        <div class="w-12 h-12 mx-auto mb-4">
+          <img src="/thumbnails/pdf-organize.svg" alt="PDF Organize" class="w-full h-full" />
+        </div>
+        <h1 class="text-xl uppercase tracking-[0.3em] mb-4">PDF Organize</h1>
+
+        <p class="text-[var(--text-dim)] text-sm max-w-md mx-auto mb-6">
+          Reorder, delete, and rearrange PDF pages with drag and drop.
+          <span class="text-[var(--text)]">Files never leave your browser.</span>
+        </p>
+
+        <div class="flex items-center justify-center gap-4">
+          <span class="tag tag-free">Free</span>
+          <span class="text-[0.625rem] text-[var(--text-muted)] uppercase tracking-[0.15em]">No signup</span>
+        </div>
+      </div>
+
+      <!-- Tool -->
+      <PdfOrganize client:load />
+
+      <!-- Related Tools -->
+      <RelatedTools currentToolId="pdf-organize" />
+    </div>
+  </main>
+
+  <Footer />
+</Layout>

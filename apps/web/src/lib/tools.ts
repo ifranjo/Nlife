@@ -367,6 +367,96 @@ export const tools: Tool[] = [
       }
 ]
   },
+  {
+    id: 'pdf-organize',
+    name: 'PDF Organize',
+    description: 'Reorder, delete, and rearrange PDF pages with drag and drop. Visual page thumbnails for easy organization.',
+    icon: '📑',
+    thumbnail: '/thumbnails/pdf-organize.svg',
+    category: 'document',
+    tier: 'free',
+    href: '/tools/pdf-organize',
+    color: 'from-purple-500 to-indigo-500',
+    tags: ['pdf', 'organize', 'reorder', 'pages', 'arrange'],
+    popular: false,
+    releaseDate: '2024-12-31',
+    seo: {
+      title: 'Organize PDF Pages Free Online - Reorder & Delete | New Life',
+      metaDescription: 'Reorder, delete, and rearrange PDF pages with drag and drop. Visual thumbnails for easy organization. 100% free, no upload to servers.',
+      h1: 'Organize PDF Pages - Reorder & Delete Free',
+      keywords: ['organize pdf', 'reorder pdf pages', 'rearrange pdf', 'delete pdf pages', 'pdf page organizer']
+    },
+    faq: [
+      { question: 'How do I reorder PDF pages?', answer: 'Simply drag and drop page thumbnails to rearrange them in any order you want.' },
+      { question: 'Can I delete pages from my PDF?', answer: 'Yes, click the trash icon on any page to remove it. You can delete multiple pages before saving.' },
+      { question: 'Are my files uploaded to a server?', answer: 'No, all processing happens in your browser. Your PDFs never leave your device.' }
+    ],
+    stats: [
+      { label: 'Reordering', value: 'Drag & drop page thumbnails' },
+      { label: 'Page deletion', value: 'Remove unwanted pages instantly' },
+      { label: 'Privacy', value: '100% client-side processing' }
+    ]
+  },
+  {
+    id: 'jpg-to-pdf',
+    name: 'JPG to PDF',
+    description: 'Convert images to PDF. Supports JPG, PNG, WebP. Customize page size, orientation, and margins.',
+    icon: '🖼️',
+    thumbnail: '/thumbnails/jpg-to-pdf.svg',
+    category: 'document',
+    tier: 'free',
+    href: '/tools/jpg-to-pdf',
+    color: 'from-green-500 to-teal-500',
+    tags: ['image', 'pdf', 'convert', 'jpg', 'png', 'photo'],
+    popular: true,
+    releaseDate: '2024-12-31',
+    seo: {
+      title: 'JPG to PDF Converter Free Online - Image to PDF | New Life',
+      metaDescription: 'Convert JPG, PNG, WebP images to PDF instantly. Multiple images, custom page sizes. 100% free, no upload required.',
+      h1: 'Convert Images to PDF - Free Online Tool',
+      keywords: ['jpg to pdf', 'image to pdf', 'png to pdf', 'photo to pdf', 'convert image to pdf free']
+    },
+    faq: [
+      { question: 'What image formats are supported?', answer: 'JPG, JPEG, PNG, WebP, and GIF images can be converted to PDF.' },
+      { question: 'Can I convert multiple images to one PDF?', answer: 'Yes, upload multiple images and they will be combined into a single PDF document.' },
+      { question: 'Can I customize the page size?', answer: 'Yes, choose from A4, Letter, Legal, or fit the page to the image dimensions.' }
+    ],
+    stats: [
+      { label: 'Formats supported', value: 'JPG, PNG, WebP, GIF' },
+      { label: 'Page sizes', value: 'A4, Letter, Legal, or fit to image' },
+      { label: 'Multiple images', value: 'Combine into single PDF' }
+    ]
+  },
+  {
+    id: 'pdf-to-jpg',
+    name: 'PDF to JPG',
+    description: 'Convert PDF pages to high-quality images. Export as JPG or PNG. Select individual pages or convert all.',
+    icon: '📄',
+    thumbnail: '/thumbnails/pdf-to-jpg.svg',
+    category: 'document',
+    tier: 'free',
+    href: '/tools/pdf-to-jpg',
+    color: 'from-orange-500 to-red-500',
+    tags: ['pdf', 'image', 'convert', 'jpg', 'png', 'export'],
+    popular: true,
+    releaseDate: '2024-12-31',
+    seo: {
+      title: 'PDF to JPG Converter Free Online - Export Pages as Images | New Life',
+      metaDescription: 'Convert PDF pages to JPG or PNG images. Choose quality, select pages. 100% free, no upload to servers.',
+      h1: 'Convert PDF to Images - Free Online Tool',
+      keywords: ['pdf to jpg', 'pdf to image', 'pdf to png', 'convert pdf to image', 'export pdf pages']
+    },
+    faq: [
+      { question: 'What image formats can I export to?', answer: 'Export as JPG (smaller file size) or PNG (lossless quality).' },
+      { question: 'Can I select specific pages to convert?', answer: 'Yes, click on page thumbnails to select which pages to export as images.' },
+      { question: 'What quality options are available?', answer: 'Choose from Low (72 DPI), Medium (108 DPI), High (144 DPI), or Maximum (216 DPI).' }
+    ],
+    stats: [
+      { label: 'Output formats', value: 'JPG or PNG' },
+      { label: 'Quality options', value: '72-216 DPI' },
+      { label: 'Page selection', value: 'Choose specific pages or all' }
+    ]
+  },
 
   // ═══════════════════════════════════════════════════════════════
   // MEDIA TOOLS
