@@ -1,4 +1,5 @@
 import { useState, useCallback, useRef, useMemo } from 'react';
+import DOMPurify from 'dompurify';
 import {
   validateFile,
   sanitizeFilename,
@@ -211,10 +212,14 @@ async function fetchUrlContent(url: string): Promise<string> {
   const html = await response.text();
 
   // Simple HTML to text conversion
+  // SECURITY: Sanitize HTML to prevent XSS before DOM parsing
   const div = document.createElement('div');
-  div.innerHTML = html;
+  div.innerHTML = DOMPurify.sanitize(html, {
+    ALLOWED_TAGS: ['p', 'div', 'span', 'main', 'article', 'section', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'ul', 'ol', 'li', 'a', 'strong', 'em', 'br', 'nav', 'header', 'footer', 'aside'],
+    ALLOWED_ATTR: ['class', 'id'],
+  });
 
-  // Remove script and style elements
+  // Remove nav, header, footer elements (kept in sanitization for removal)
   const scripts = div.querySelectorAll('script, style, nav, header, footer, aside');
   scripts.forEach(el => el.remove());
 

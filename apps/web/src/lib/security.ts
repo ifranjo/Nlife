@@ -34,6 +34,8 @@ export const MAGIC_BYTES = {
   jpeg: [0xFF, 0xD8, 0xFF],
   webp: [0x52, 0x49, 0x46, 0x46], // RIFF (need additional check for WEBP)
   gif: [0x47, 0x49, 0x46, 0x38], // GIF8
+  bmp: [0x42, 0x4D], // BM
+  heic: [0x00, 0x00, 0x00], // HEIC has variable header, check ftyp box
 } as const;
 
 export type FileCategory = keyof typeof FILE_LIMITS;
@@ -53,6 +55,19 @@ export async function validateFileMagicBytes(
   expectedType: MagicByteType
 ): Promise<boolean> {
   try {
+    // Special handling for HEIC (ISO Base Media File Format)
+    if (expectedType === 'heic') {
+      // HEIC files have ftyp box at offset 4, containing brand like 'heic', 'heix', 'mif1'
+      const buffer = await file.slice(0, 12).arrayBuffer();
+      const header = new Uint8Array(buffer);
+      // Check for ftyp box signature
+      const ftyp = String.fromCharCode(header[4], header[5], header[6], header[7]);
+      if (ftyp !== 'ftyp') return false;
+      // Check brand
+      const brand = String.fromCharCode(header[8], header[9], header[10], header[11]);
+      return ['heic', 'heix', 'mif1', 'msf1', 'hevc', 'hevx'].includes(brand);
+    }
+
     const magic = MAGIC_BYTES[expectedType];
     const buffer = await file.slice(0, magic.length).arrayBuffer();
     const header = new Uint8Array(buffer);
@@ -274,4 +289,46 @@ export function sanitizeTextContent(text: string, maxLength = 50000): string {
     .replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, '')
     // Limit length to prevent memory issues
     .slice(0, maxLength);
+}
+
+/**
+ * Validates image files with magic bytes for FileConverter
+ * Supports: HEIC, HEIF, PNG, JPG, JPEG, WebP, BMP, GIF
+ */
+export async function validateImageFileExtended(
+  file: File,
+  maxSize = 50 * 1024 * 1024 // 50MB default
+): Promise<ValidationResult> {
+  // Check file size
+  if (!validateFileSize(file, maxSize)) {
+    const maxMB = maxSize / (1024 * 1024);
+    return { valid: false, error: `File size exceeds ${maxMB}MB limit` };
+  }
+
+  // Get extension
+  const ext = file.name.split('.').pop()?.toLowerCase() || '';
+  const supportedExtensions = ['heic', 'heif', 'png', 'jpg', 'jpeg', 'webp', 'bmp', 'gif'];
+
+  if (!supportedExtensions.includes(ext)) {
+    return { valid: false, error: `Unsupported format: .${ext}` };
+  }
+
+  // Map extension to magic byte type
+  let magicType: MagicByteType | null = null;
+  if (['heic', 'heif'].includes(ext)) magicType = 'heic';
+  else if (ext === 'png') magicType = 'png';
+  else if (['jpg', 'jpeg'].includes(ext)) magicType = 'jpeg';
+  else if (ext === 'webp') magicType = 'webp';
+  else if (ext === 'bmp') magicType = 'bmp';
+  else if (ext === 'gif') magicType = 'gif';
+
+  // Validate magic bytes
+  if (magicType) {
+    const isValid = await validateFileMagicBytes(file, magicType);
+    if (!isValid) {
+      return { valid: false, error: 'File content does not match declared type' };
+    }
+  }
+
+  return { valid: true };
 }

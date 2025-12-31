@@ -1,5 +1,5 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
-import { sanitizeFilename, createSafeErrorMessage } from '../../lib/security';
+import { sanitizeFilename, createSafeErrorMessage, validateImageFileExtended } from '../../lib/security';
 import { announce, haptic } from '../../lib/accessibility';
 
 interface ImageFile {
@@ -185,19 +185,9 @@ export default function FileConverter() {
     return convertImageWithCanvas(file, format, qualityPercent);
   };
 
-  const validateImageFile = (file: File): { valid: boolean; error?: string } => {
-    // Check file size
-    if (file.size > MAX_FILE_SIZE) {
-      return { valid: false, error: `File size exceeds ${MAX_FILE_SIZE / (1024 * 1024)}MB limit` };
-    }
-
-    // Check file extension
-    const ext = file.name.split('.').pop()?.toLowerCase() || '';
-    if (!SUPPORTED_EXTENSIONS.includes(ext)) {
-      return { valid: false, error: `Unsupported format: .${ext}` };
-    }
-
-    return { valid: true };
+  // Use security library for validation with magic bytes checking
+  const validateImageFile = async (file: File): Promise<{ valid: boolean; error?: string }> => {
+    return validateImageFileExtended(file, MAX_FILE_SIZE);
   };
 
   const addFiles = useCallback(async (newFiles: FileList | File[]) => {
@@ -213,7 +203,8 @@ export default function FileConverter() {
     const errors: string[] = [];
 
     for (const file of fileArray) {
-      const validation = validateImageFile(file);
+      // SECURITY: Validate with magic bytes checking
+      const validation = await validateImageFile(file);
 
       if (validation.valid) {
         const thumbnail = await createThumbnail(file);
