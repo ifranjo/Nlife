@@ -444,6 +444,7 @@ export default function PdfStackGame() {
           </div>
 
         </div>
+      )}
       {/* Start Screen Overlay */}
       {gameState === 'start' && (
         <div className="absolute inset-0 flex flex-col items-center justify-center bg-[#0a0a0a]/90 backdrop-blur-sm rounded-lg">

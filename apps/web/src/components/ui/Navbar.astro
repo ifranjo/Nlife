@@ -97,11 +97,11 @@ import InstallPrompt from './InstallPrompt';
     dots.forEach(dot => {
       // Override default green if offline
       if (!isOnline) {
-        dot.style.backgroundColor = 'var(--error)';
-        dot.style.animation = 'pulse 1s infinite';
+        (dot as HTMLElement).style.backgroundColor = 'var(--error)';
+        (dot as HTMLElement).style.animation = 'pulse 1s infinite';
       } else {
-        dot.style.backgroundColor = 'var(--success)';
-        dot.style.animation = 'blink 2s infinite';
+        (dot as HTMLElement).style.backgroundColor = 'var(--success)';
+        (dot as HTMLElement).style.animation = 'blink 2s infinite';
       }
     });
 

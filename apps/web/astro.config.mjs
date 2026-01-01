@@ -10,12 +10,12 @@ export default defineConfig({
   site: 'https://www.newlifesolutions.dev',
 
   vite: {
+    // @ts-ignore - Plugin type mismatch between Vite versions
     plugins: [tailwindcss()]
   },
 
   integrations: [
     react({
-      jsxRuntime: 'automatic',
       babel: {
         plugins: [
           ['@babel/plugin-transform-react-jsx', {
@@ -35,7 +35,8 @@ export default defineConfig({
       serialize(item) {
         if (item.url.includes('/tools/')) {
           item.priority = 0.9;
-          item.changefreq = 'daily';
+          // @ts-expect-error - Type issue with enum
+          item.changefreq = 'weekly';
         }
         if (item.url.includes('/hub')) {
           item.priority = 1.0;

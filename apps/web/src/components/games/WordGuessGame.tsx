@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
+import ShareGame from './ShareGame';
 import { getDailyWord, isValidWord, getGameNumber, type Language } from '../../lib/wordlist';
 
 // Types
@@ -108,7 +109,6 @@ export default function WordGuessGame() {
   const [shake, setShake] = useState(false);
   const [revealRow, setRevealRow] = useState(-1);
   const [error, setError] = useState('');
-  const [copied, setCopied] = useState(false);
   const [keyboardStatus, setKeyboardStatus] = useState<Record<string, LetterStatus>>({});
 
   // Keyboard rows based on language
@@ -342,28 +342,6 @@ export default function WordGuessGame() {
     return `Word Guess #${gameNumber} ${attemptsText}\n\n${emojiGrid}\n\nPlay at newlifesolutions.dev/games/word-guess`;
   }, [guesses, targetWord, gameNumber, gameStatus]);
 
-  // Share result
-  const shareResult = useCallback(async () => {
-    const text = generateShareText();
-
-    if (navigator.share) {
-      try {
-        await navigator.share({ text });
-        return;
-      } catch {
-        // Fall back to clipboard
-      }
-    }
-
-    try {
-      await navigator.clipboard.writeText(text);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    } catch (e) {
-      console.error('Failed to copy:', e);
-    }
-  }, [generateShareText]);
-
   // Render a single tile
   const renderTile = (letter: string, status: LetterStatus, index: number, isRevealing: boolean) => {
     const baseClasses = 'w-[52px] h-[52px] sm:w-[62px] sm:h-[62px] flex items-center justify-center text-2xl sm:text-3xl font-bold uppercase border-2 transition-all';
@@ -578,26 +556,13 @@ export default function WordGuessGame() {
       {/* Share button when game is over */}
       {gameStatus !== 'playing' && (
         <div className="flex justify-center gap-3 mb-6">
-          <button
-            onClick={shareResult}
-            className="btn-primary px-6 py-3 flex items-center gap-2"
-          >
-            {copied ? (
-              <>
-                <span>{language === 'es' ? '¡Copiado!' : 'Copied!'}</span>
-                <span className="text-[var(--success)]">[OK]</span>
-              </>
-            ) : (
-              <>
-                <span>{language === 'es' ? 'Compartir' : 'Share Result'}</span>
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                    d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"
-                  />
-                </svg>
-              </>
-            )}
-          </button>
+          <ShareGame
+            gameName="Word Guess"
+            score={gameStatus === 'won' ? `${guesses.length}/6` : 'X/6'}
+            scoreLabel="Game"
+            customMessage={generateShareText()}
+            className="flex-1"
+          />
           <button
             onClick={() => setShowStats(true)}
             className="btn-secondary px-6 py-3"
