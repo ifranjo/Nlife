@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#e0e0e0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Keyboard representation -->
+  <rect x="2" y="10" width="20" height="10" rx="2" />
+  <!-- Top row keys -->
+  <rect x="4" y="12" width="2" height="2" rx="0.5" />
+  <rect x="7" y="12" width="2" height="2" rx="0.5" />
+  <rect x="10" y="12" width="2" height="2" rx="0.5" />
+  <rect x="13" y="12" width="2" height="2" rx="0.5" />
+  <rect x="16" y="12" width="2" height="2" rx="0.5" />
+  <!-- Space bar -->
+  <rect x="6" y="16" width="10" height="2" rx="0.5" />
+  <!-- Speed lines -->
+  <path d="M8 4l-2-2" />
+  <path d="M12 3V1" />
+  <path d="M16 4l2-2" />
+</svg>

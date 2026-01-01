@@ -1,0 +1,46 @@
+{
+  "manifest_version": 3,
+  "name": "New Life Tools",
+  "short_name": "NL Tools",
+  "version": "1.0.0",
+  "description": "Quick access to 40+ free browser-based tools for PDFs, images, and AI. 100% private - files never leave your browser.",
+  "homepage_url": "https://www.newlifesolutions.dev",
+  "icons": {
+    "16": "icons/icon-16.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon-16.png",
+      "48": "icons/icon-48.png",
+      "128": "icons/icon-128.png"
+    },
+    "default_title": "New Life Tools"
+  },
+  "permissions": [
+    "activeTab",
+    "storage"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["*://*/*.pdf", "*://*/*.PDF"],
+      "js": ["content.js"],
+      "css": ["content.css"],
+      "run_at": "document_idle"
+    }
+  ],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["icons/*"],
+      "matches": ["<all_urls>"]
+    }
+  ],
+  "author": "New Life Solutions",
+  "offline_enabled": false
+}

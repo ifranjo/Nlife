@@ -1,0 +1,208 @@
+/**
+ * New Life Tools - Content Script Styles
+ * Floating action button and menu for PDF pages
+ */
+
+/* Floating Action Button */
+#nl-tools-fab {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 2147483647;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.nl-fab-button {
+  width: 56px;
+  height: 56px;
+  background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow:
+    0 4px 20px rgba(139, 92, 246, 0.4),
+    0 2px 8px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease-out;
+  color: white;
+}
+
+.nl-fab-button:hover {
+  transform: scale(1.08);
+  box-shadow:
+    0 6px 28px rgba(139, 92, 246, 0.5),
+    0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.nl-fab-button:active {
+  transform: scale(0.98);
+}
+
+.nl-fab-button svg {
+  width: 24px;
+  height: 24px;
+}
+
+/* Menu */
+#nl-tools-menu {
+  position: fixed;
+  bottom: 92px;
+  right: 24px;
+  width: 220px;
+  background: #0a0a0a;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  box-shadow:
+    0 8px 40px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(255, 255, 255, 0.05);
+  z-index: 2147483646;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px) scale(0.95);
+  transition: all 0.2s ease-out;
+  font-family: 'Courier New', Monaco, monospace;
+  overflow: hidden;
+}
+
+#nl-tools-menu.nl-menu-open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+}
+
+/* Menu Header */
+.nl-menu-header {
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.nl-menu-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #ffffff;
+  letter-spacing: 0.02em;
+}
+
+.nl-menu-subtitle {
+  font-size: 10px;
+  color: #707070;
+  letter-spacing: 0.05em;
+}
+
+/* Menu Items */
+.nl-menu-items {
+  padding: 8px 0;
+}
+
+.nl-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  color: #e0e0e0;
+  text-decoration: none;
+  font-size: 12px;
+  transition: all 0.15s ease-out;
+  cursor: pointer;
+}
+
+.nl-menu-item:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: #ffffff;
+}
+
+.nl-menu-icon {
+  font-size: 16px;
+  width: 20px;
+  text-align: center;
+}
+
+/* Menu Footer */
+.nl-menu-footer {
+  padding: 10px 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.nl-menu-footer a {
+  display: block;
+  font-size: 10px;
+  color: #888888;
+  text-decoration: none;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  text-align: center;
+  transition: color 0.15s ease-out;
+}
+
+.nl-menu-footer a:hover {
+  color: #ffffff;
+}
+
+/* Animation */
+@keyframes nl-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+#nl-tools-fab {
+  animation: nl-fade-in 0.3s ease-out;
+}
+
+/* Responsive - Move FAB up on mobile to avoid browser UI */
+@media (max-width: 768px) {
+  #nl-tools-fab {
+    bottom: 80px;
+    right: 16px;
+  }
+
+  .nl-fab-button {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+  }
+
+  .nl-fab-button svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  #nl-tools-menu {
+    bottom: 140px;
+    right: 16px;
+    width: 200px;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .nl-fab-button {
+    border: 2px solid white;
+  }
+
+  #nl-tools-menu {
+    border: 2px solid white;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .nl-fab-button,
+  #nl-tools-menu,
+  .nl-menu-item {
+    transition: none;
+  }
+
+  #nl-tools-fab {
+    animation: none;
+  }
+}

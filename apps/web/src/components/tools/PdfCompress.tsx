@@ -1,9 +1,11 @@
-import { useState, useCallback, useRef } from 'react';
+import { useState, useCallback, useRef, useMemo } from 'react';
 import {
   validateFile,
   sanitizeFilename,
   createSafeErrorMessage,
 } from '../../lib/security';
+import { announce, haptic } from '../../lib/accessibility';
+import BatchProcessor, { type BatchFileItem } from './BatchProcessor';
 
 interface PDFFile {
   id: string;
@@ -25,6 +27,7 @@ interface CompressionOptions {
 }
 
 const MAX_FILES = 20;
+const BATCH_CONCURRENCY = 3; // Process 3 PDFs at once in batch mode
 
 const QUALITY_SETTINGS: Record<CompressionQuality, { label: string; description: string }> = {
   low: { label: 'Maximum Compression', description: 'Smallest file size, may affect quality' },
@@ -43,6 +46,9 @@ export default function PdfCompress() {
     quality: 'medium',
   });
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Batch mode state
+  const [batchMode, setBatchMode] = useState(false);
 
   const formatFileSize = (bytes: number): string => {
     if (bytes < 1024) return `${bytes} B`;
@@ -253,6 +259,97 @@ export default function PdfCompress() {
     URL.revokeObjectURL(url);
   };
 
+  // ==== Batch Mode Functions ====
+
+  // Convert files to batch items for BatchProcessor
+  const batchItems: BatchFileItem[] = useMemo(() => {
+    return files.map(f => ({
+      id: f.id,
+      file: f.file,
+      name: f.name,
+      size: f.originalSize,
+    }));
+  }, [files]);
+
+  // Batch processor function - compress a single PDF
+  const compressSinglePDF = useCallback(async (
+    file: File,
+    signal: AbortSignal
+  ): Promise<{ blob: Blob; filename: string }> => {
+    if (signal.aborted) {
+      throw new Error('Cancelled');
+    }
+
+    const { PDFDocument } = await import('pdf-lib');
+
+    const arrayBuffer = await file.arrayBuffer();
+    const pdfDoc = await PDFDocument.load(arrayBuffer, {
+      ignoreEncryption: true,
+    });
+
+    if (signal.aborted) {
+      throw new Error('Cancelled');
+    }
+
+    // Remove metadata if option is enabled
+    if (options.removeMetadata) {
+      pdfDoc.setTitle('');
+      pdfDoc.setAuthor('');
+      pdfDoc.setSubject('');
+      pdfDoc.setKeywords([]);
+      pdfDoc.setProducer('');
+      pdfDoc.setCreator('');
+    }
+
+    // Flatten form fields if option is enabled
+    if (options.flattenForms) {
+      const form = pdfDoc.getForm();
+      try {
+        form.flatten();
+      } catch {
+        // Form might not exist or already be flattened
+      }
+    }
+
+    // Save with compression options
+    const compressedBytes = await pdfDoc.save({
+      useObjectStreams: true,
+      addDefaultPage: false,
+      objectsPerTick: options.quality === 'low' ? 100 : options.quality === 'medium' ? 50 : 20,
+    });
+
+    const blob = new Blob([new Uint8Array(compressedBytes)], { type: 'application/pdf' });
+
+    // Generate filename
+    const baseName = sanitizeFilename(file.name).replace(/\.pdf$/i, '');
+    return {
+      blob,
+      filename: `${baseName}_compressed.pdf`,
+    };
+  }, [options]);
+
+  // Handle batch complete
+  const handleBatchComplete = useCallback(() => {
+    announce('All PDF compression complete');
+    haptic.success();
+  }, []);
+
+  // Handle batch clear
+  const handleBatchClear = useCallback(() => {
+    setFiles([]);
+    setError(null);
+    announce('All files cleared');
+    haptic.tap();
+  }, []);
+
+  // Toggle batch mode
+  const toggleBatchMode = useCallback(() => {
+    setBatchMode(!batchMode);
+    setError(null);
+    announce(batchMode ? 'Batch mode disabled' : 'Batch mode enabled');
+    haptic.tap();
+  }, [batchMode]);
+
   const totalOriginalSize = files.reduce((sum, f) => sum + f.originalSize, 0);
   const totalCompressedSize = files.reduce((sum, f) => sum + (f.compressedSize || 0), 0);
   const completedFiles = files.filter((f) => f.status === 'done');
@@ -260,6 +357,26 @@ export default function PdfCompress() {
 
   return (
     <div className="max-w-3xl mx-auto">
+      {/* Batch Mode Toggle */}
+      <div className="mb-4 flex items-center justify-between">
+        <label className="flex items-center gap-2 cursor-pointer">
+          <input
+            type="checkbox"
+            checked={batchMode}
+            onChange={toggleBatchMode}
+            className="w-4 h-4 rounded border-white/20 bg-white/10 text-indigo-500 focus:ring-indigo-500/30"
+            aria-label="Enable batch mode with parallel processing"
+          />
+          <span className="text-sm text-slate-300">Batch Mode</span>
+          <span className="text-xs text-slate-500">(parallel processing, pause/cancel)</span>
+        </label>
+        {batchMode && files.length > 0 && (
+          <span className="text-sm text-slate-400">
+            {files.length} file{files.length !== 1 ? 's' : ''} queued
+          </span>
+        )}
+      </div>
+
       {/* Drop Zone */}
       <div
         onDragOver={handleDragOver}
@@ -286,6 +403,7 @@ export default function PdfCompress() {
         </h3>
         <p className="text-slate-400 text-sm">
           Compress up to {MAX_FILES} PDF files at once
+          {batchMode && ' - with pause and cancel support'}
         </p>
       </div>
 
@@ -347,161 +465,180 @@ export default function PdfCompress() {
         </div>
       )}
 
-      {/* File List */}
-      {files.length > 0 && (
-        <div className="mt-6 space-y-3">
-          <div className="flex justify-between items-center">
-            <h4 className="text-sm font-medium text-slate-400">
-              {files.length} file{files.length > 1 ? 's' : ''} selected
-            </h4>
-            <button
-              onClick={clearAll}
-              className="text-sm text-slate-400 hover:text-white transition-colors"
-            >
-              Clear all
-            </button>
-          </div>
-
-          {files.map((file) => (
-            <div
-              key={file.id}
-              className="glass-card glass-card-hover p-4 flex items-center gap-4 file-item"
-            >
-              {/* Status indicator */}
-              <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0">
-                {file.status === 'pending' && (
-                  <div className="w-3 h-3 rounded-full bg-slate-400" />
-                )}
-                {file.status === 'processing' && (
-                  <svg className="w-5 h-5 spinner text-blue-400" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-                  </svg>
-                )}
-                {file.status === 'done' && (
-                  <svg className="w-5 h-5 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                  </svg>
-                )}
-                {file.status === 'error' && (
-                  <svg className="w-5 h-5 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                )}
-              </div>
-
-              {/* File info */}
-              <div className="flex-1 min-w-0">
-                <p className="text-white font-medium truncate">{file.name}</p>
-                <div className="flex items-center gap-2 text-sm">
-                  <span className="text-slate-400">{formatFileSize(file.originalSize)}</span>
-                  {file.status === 'done' && file.compressedSize !== null && (
-                    <>
-                      <svg className="w-4 h-4 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                      </svg>
-                      <span className="text-green-400">{formatFileSize(file.compressedSize)}</span>
-                      <span className="text-emerald-400 font-medium">
-                        ({calculateReduction(file.originalSize, file.compressedSize)} smaller)
-                      </span>
-                    </>
-                  )}
-                  {file.status === 'error' && (
-                    <span className="text-red-400">{file.error}</span>
-                  )}
-                </div>
-              </div>
-
-              {/* Actions */}
-              <div className="flex items-center gap-2">
-                {file.status === 'done' && file.compressedBlob && (
-                  <button
-                    onClick={() => downloadFile(file)}
-                    className="p-2 text-slate-400 hover:text-green-400 transition-colors"
-                    title="Download"
-                  >
-                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                    </svg>
-                  </button>
-                )}
-                <button
-                  onClick={() => removeFile(file.id)}
-                  className="p-2 text-slate-400 hover:text-red-400 transition-colors"
-                  title="Remove"
-                >
-                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                </button>
-              </div>
-            </div>
-          ))}
-
-          {/* Summary */}
-          {hasCompletedFiles && (
-            <div className="glass-card p-4 bg-green-500/10 border-green-500/20">
-              <div className="flex justify-between items-center text-sm">
-                <span className="text-slate-300">Total Reduction</span>
-                <div className="text-right">
-                  <span className="text-slate-400">{formatFileSize(totalOriginalSize)}</span>
-                  <span className="mx-2 text-slate-500">-&gt;</span>
-                  <span className="text-green-400 font-medium">{formatFileSize(totalCompressedSize)}</span>
-                  {totalOriginalSize > 0 && (
-                    <span className="ml-2 text-emerald-400 font-bold">
-                      ({calculateReduction(totalOriginalSize, totalCompressedSize)} saved)
-                    </span>
-                  )}
-                </div>
-              </div>
-            </div>
-          )}
+      {/* Batch Mode: Use BatchProcessor component */}
+      {batchMode && files.length > 0 && (
+        <div className="mt-6">
+          <BatchProcessor
+            files={batchItems}
+            processor={compressSinglePDF}
+            onComplete={handleBatchComplete}
+            onError={(err) => setError(err)}
+            onClear={handleBatchClear}
+            concurrency={BATCH_CONCURRENCY}
+            processButtonLabel={`Compress ${files.length} PDF${files.length !== 1 ? 's' : ''}`}
+            downloadButtonLabel="Download All Compressed (ZIP)"
+            zipFilename="compressed_pdfs.zip"
+            showIndividualDownloads={true}
+          />
         </div>
       )}
 
-      {/* Action Buttons */}
-      {files.length > 0 && (
-        <div className="mt-6 flex gap-3">
-          {!hasCompletedFiles || files.some((f) => f.status === 'pending') ? (
-            <button
-              onClick={compressAll}
-              disabled={isProcessing}
-              className={`
-                flex-1 btn-primary flex items-center justify-center gap-2
-                ${isProcessing ? 'opacity-70 cursor-not-allowed' : ''}
-              `}
-            >
-              {isProcessing ? (
-                <>
-                  <svg className="w-5 h-5 spinner" fill="none" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-                  </svg>
-                  <span>Compressing...</span>
-                </>
-              ) : (
-                <>
-                  <span>Compress {files.filter((f) => f.status === 'pending').length || files.length} PDF{files.length > 1 ? 's' : ''}</span>
-                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-                  </svg>
-                </>
-              )}
-            </button>
-          ) : null}
+      {/* Standard Mode: Original file list and buttons */}
+      {!batchMode && files.length > 0 && (
+        <>
+          {/* File List */}
+          <div className="mt-6 space-y-3">
+            <div className="flex justify-between items-center">
+              <h4 className="text-sm font-medium text-slate-400">
+                {files.length} file{files.length > 1 ? 's' : ''} selected
+              </h4>
+              <button
+                onClick={clearAll}
+                className="text-sm text-slate-400 hover:text-white transition-colors"
+              >
+                Clear all
+              </button>
+            </div>
 
-          {hasCompletedFiles && (
-            <button
-              onClick={downloadAll}
-              className="flex-1 btn-primary flex items-center justify-center gap-2 bg-green-500/20 hover:bg-green-500/30"
-            >
-              <span>Download {completedFiles.length > 1 ? 'All (ZIP)' : 'Compressed PDF'}</span>
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-              </svg>
-            </button>
-          )}
-        </div>
+            {files.map((file) => (
+              <div
+                key={file.id}
+                className="glass-card glass-card-hover p-4 flex items-center gap-4 file-item"
+              >
+                {/* Status indicator */}
+                <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0">
+                  {file.status === 'pending' && (
+                    <div className="w-3 h-3 rounded-full bg-slate-400" />
+                  )}
+                  {file.status === 'processing' && (
+                    <svg className="w-5 h-5 spinner text-blue-400" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                    </svg>
+                  )}
+                  {file.status === 'done' && (
+                    <svg className="w-5 h-5 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                  )}
+                  {file.status === 'error' && (
+                    <svg className="w-5 h-5 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  )}
+                </div>
+
+                {/* File info */}
+                <div className="flex-1 min-w-0">
+                  <p className="text-white font-medium truncate">{file.name}</p>
+                  <div className="flex items-center gap-2 text-sm">
+                    <span className="text-slate-400">{formatFileSize(file.originalSize)}</span>
+                    {file.status === 'done' && file.compressedSize !== null && (
+                      <>
+                        <svg className="w-4 h-4 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                        </svg>
+                        <span className="text-green-400">{formatFileSize(file.compressedSize)}</span>
+                        <span className="text-emerald-400 font-medium">
+                          ({calculateReduction(file.originalSize, file.compressedSize)} smaller)
+                        </span>
+                      </>
+                    )}
+                    {file.status === 'error' && (
+                      <span className="text-red-400">{file.error}</span>
+                    )}
+                  </div>
+                </div>
+
+                {/* Actions */}
+                <div className="flex items-center gap-2">
+                  {file.status === 'done' && file.compressedBlob && (
+                    <button
+                      onClick={() => downloadFile(file)}
+                      className="p-2 text-slate-400 hover:text-green-400 transition-colors"
+                      title="Download"
+                    >
+                      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                      </svg>
+                    </button>
+                  )}
+                  <button
+                    onClick={() => removeFile(file.id)}
+                    className="p-2 text-slate-400 hover:text-red-400 transition-colors"
+                    title="Remove"
+                  >
+                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            ))}
+
+            {/* Summary */}
+            {hasCompletedFiles && (
+              <div className="glass-card p-4 bg-green-500/10 border-green-500/20">
+                <div className="flex justify-between items-center text-sm">
+                  <span className="text-slate-300">Total Reduction</span>
+                  <div className="text-right">
+                    <span className="text-slate-400">{formatFileSize(totalOriginalSize)}</span>
+                    <span className="mx-2 text-slate-500">-&gt;</span>
+                    <span className="text-green-400 font-medium">{formatFileSize(totalCompressedSize)}</span>
+                    {totalOriginalSize > 0 && (
+                      <span className="ml-2 text-emerald-400 font-bold">
+                        ({calculateReduction(totalOriginalSize, totalCompressedSize)} saved)
+                      </span>
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Action Buttons */}
+          <div className="mt-6 flex gap-3">
+            {!hasCompletedFiles || files.some((f) => f.status === 'pending') ? (
+              <button
+                onClick={compressAll}
+                disabled={isProcessing}
+                className={`
+                  flex-1 btn-primary flex items-center justify-center gap-2
+                  ${isProcessing ? 'opacity-70 cursor-not-allowed' : ''}
+                `}
+              >
+                {isProcessing ? (
+                  <>
+                    <svg className="w-5 h-5 spinner" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                    </svg>
+                    <span>Compressing...</span>
+                  </>
+                ) : (
+                  <>
+                    <span>Compress {files.filter((f) => f.status === 'pending').length || files.length} PDF{files.length > 1 ? 's' : ''}</span>
+                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                    </svg>
+                  </>
+                )}
+              </button>
+            ) : null}
+
+            {hasCompletedFiles && (
+              <button
+                onClick={downloadAll}
+                className="flex-1 btn-primary flex items-center justify-center gap-2 bg-green-500/20 hover:bg-green-500/30"
+              >
+                <span>Download {completedFiles.length > 1 ? 'All (ZIP)' : 'Compressed PDF'}</span>
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                </svg>
+              </button>
+            )}
+          </div>
+        </>
       )}
 
       {/* Privacy note */}

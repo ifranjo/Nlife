@@ -28,6 +28,7 @@ import InstallPrompt from './InstallPrompt';
       <!-- Desktop Nav -->
       <div class="hidden sm:flex items-center gap-8">
         <a href="/hub" class="nav-link min-h-[44px] flex items-center px-3 sm:px-2">Tools</a>
+        <a href="/games" class="nav-link min-h-[44px] flex items-center px-3 sm:px-2">Games</a>
         <a href="/hub#about" class="nav-link min-h-[44px] flex items-center px-3 sm:px-2">About</a>
         <div class="flex items-center gap-2 text-[var(--text-muted)]" id="desktop-status" role="status" aria-live="polite">
           <span class="status-dot"></span>
@@ -39,12 +40,15 @@ import InstallPrompt from './InstallPrompt';
   </div>
 
   <!-- Mobile Menu (Hidden by default) -->
-  <div 
-    id="mobile-menu" 
+  <div
+    id="mobile-menu"
     class="hidden sm:hidden border-t border-[var(--border)] bg-[var(--bg)]/95 backdrop-blur-sm absolute left-0 right-0 px-6 py-4 space-y-4 shadow-2xl"
   >
     <a href="/hub" class="block py-3 text-[var(--text)] text-sm uppercase tracking-widest hover:text-[var(--accent)] transition-colors">
       Tools
+    </a>
+    <a href="/games" class="block py-3 text-[var(--text)] text-sm uppercase tracking-widest hover:text-[var(--accent)] transition-colors">
+      Games
     </a>
     <a href="/hub#about" class="block py-3 text-[var(--text)] text-sm uppercase tracking-widest hover:text-[var(--accent)] transition-colors">
       About

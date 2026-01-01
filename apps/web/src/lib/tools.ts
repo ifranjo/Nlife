@@ -224,38 +224,55 @@ export const tools: Tool[] = [
   {
     id: 'ocr',
     name: 'OCR Text Extractor',
-    description: 'Extract text from images and PDFs using AI-powered OCR. 100% private, runs in your browser.',
+    description: 'Extract text from images and PDFs using AI-powered OCR. Multi-page PDF support, batch processing, export to TXT/DOCX/PDF. 100% private.',
     icon: '📝',
     thumbnail: '/thumbnails/ocr.svg',
     category: 'document',
     tier: 'free',
     href: '/tools/ocr',
     color: 'from-cyan-500 to-blue-500',
+    tags: ['ocr', 'text extraction', 'pdf', 'image', 'scan', 'document', 'batch'],
+    popular: true,
     seo: {
       title: 'Free OCR Online - Extract Text from Images & PDFs | New Life',
-      metaDescription: 'Extract text from images and scanned PDFs with AI-powered OCR. 100% free, works offline, no upload needed. Supports 100+ languages.',
+      metaDescription: 'Extract text from images and multi-page PDFs with AI-powered OCR. Batch processing, export to TXT/DOCX/PDF. 100% free, works offline, supports 15+ languages.',
       h1: 'OCR Text Extractor - Image to Text Free',
-      keywords: ['ocr online', 'image to text', 'extract text from image', 'pdf ocr free']
+      keywords: ['ocr online', 'image to text', 'extract text from image', 'pdf ocr free', 'multi-page pdf ocr', 'batch ocr', 'scanned pdf to text', 'tesseract online']
     },
     faq: [
-      { question: 'What languages does the OCR support?', answer: 'Over 100 languages including English, Spanish, Chinese, Arabic, and more.' },
-      { question: 'Can I extract text from scanned PDFs?', answer: 'Yes, our AI OCR can read text from scanned documents and images in PDFs.' },
-      { question: 'Does this work offline?', answer: 'Yes, after the first load the AI model is cached and works without internet.' }
+      { question: 'What languages does the OCR support?', answer: 'We support 15+ languages including English, Spanish, French, German, Portuguese, Italian, Chinese (Simplified & Traditional), Japanese, Korean, Arabic, Hindi, Russian, Dutch, and Polish. Language data is loaded dynamically for faster performance.' },
+      { question: 'Can I extract text from multi-page PDFs?', answer: 'Yes! Our OCR processes all pages of a PDF with per-page progress tracking. You see results as each page completes, and can view extracted text page by page.' },
+      { question: 'What output formats are available?', answer: 'Export extracted text as Plain Text (.txt), Word Document (.docx), or Searchable PDF. For batch processing, download all results as a ZIP file.' },
+      { question: 'Can I process multiple files at once?', answer: 'Yes, our batch OCR mode lets you process up to 20 images or PDFs simultaneously. Download individual results or all files as a ZIP archive.' },
+      { question: 'Does this work offline?', answer: 'Yes, after the first load, language data is cached and works without internet. The Tesseract.js engine runs entirely in your browser.' },
+      { question: 'How can I improve OCR accuracy?', answer: 'Enable preprocessing options like grayscale conversion and contrast enhancement in Advanced Settings. Use high-resolution images with good lighting for best results.' }
     ],
     stats: [
       {
-            label: 'Language support',
-            value: '100+ languages (Tesseract.js)'
+        label: 'Language support',
+        value: '15+ languages with dynamic loading'
       },
       {
-            label: 'Accuracy',
-            value: '90%+ on clear text, 75%+ on scans'
+        label: 'Batch processing',
+        value: 'Up to 20 files simultaneously'
       },
       {
-            label: 'Offline capability',
-            value: 'Works without internet after first load'
+        label: 'Output formats',
+        value: 'TXT, DOCX, Searchable PDF, ZIP'
+      },
+      {
+        label: 'Multi-page PDF',
+        value: 'Per-page progress & results'
+      },
+      {
+        label: 'Preprocessing',
+        value: 'Grayscale, contrast enhancement'
+      },
+      {
+        label: 'Privacy',
+        value: '100% browser-based, no uploads'
       }
-]
+    ]
   },
   {
     id: 'document-scanner',

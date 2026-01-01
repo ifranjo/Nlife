@@ -1,0 +1,88 @@
+---
+import type { Game } from '../../lib/games';
+
+interface Props {
+  game: Game;
+}
+
+const { game } = Astro.props;
+
+const isDisabled = game.status === 'coming';
+const statusClass = game.status === 'live' ? 'tag-free' : 'tag-coming';
+const statusLabel = game.status === 'live' ? 'Play Now' : 'Coming Soon';
+---
+
+<a
+  href={isDisabled ? undefined : game.href}
+  class:list={[
+    'game-card tool-card block',
+    { 'opacity-50 cursor-not-allowed pointer-events-none': isDisabled }
+  ]}
+  data-category={game.category}
+>
+  <!-- Header -->
+  <div class="flex items-start justify-between mb-4">
+    <div class="w-10 h-10 tool-icon">
+      <img src={game.thumbnail} alt="" class="w-full h-full" loading="lazy" />
+    </div>
+    <div class="flex gap-2">
+      {game.isNew && (
+        <span class="tag tag-new">New</span>
+      )}
+      <span class={`tag ${statusClass}`}>{statusLabel}</span>
+    </div>
+  </div>
+
+  <!-- Title -->
+  <h3 class="tool-title text-[var(--text)] text-sm uppercase tracking-[0.1em] mb-2 font-medium">
+    {game.name}
+  </h3>
+
+  <!-- Description -->
+  <p class="text-[var(--text-dim)] text-xs leading-relaxed mb-4">
+    {game.description}
+  </p>
+
+  <!-- Category & Play Arrow -->
+  <div class="flex items-center justify-between">
+    <span class="text-[0.625rem] text-[var(--text-muted)] uppercase tracking-[0.15em]">
+      {game.category}
+    </span>
+    {!isDisabled && (
+      <div class="flex items-center gap-2">
+        <span class="text-[0.625rem] text-[var(--accent)] uppercase tracking-[0.1em]">Play</span>
+        <svg class="tool-arrow w-4 h-4 text-[var(--accent)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+        </svg>
+      </div>
+    )}
+  </div>
+</a>
+
+<style>
+  .tag-new {
+    color: #00d4ff;
+    border-color: #00d4ff;
+    background: rgba(0, 212, 255, 0.1);
+  }
+
+  .game-card {
+    --card-accent: rgba(0, 212, 255, 0.4);
+  }
+
+  .game-card[data-category="puzzle"] {
+    --card-accent: rgba(139, 92, 246, 0.4);
+  }
+
+  .game-card[data-category="arcade"] {
+    --card-accent: rgba(249, 115, 22, 0.4);
+  }
+
+  .game-card[data-category="casual"] {
+    --card-accent: rgba(6, 182, 212, 0.4);
+  }
+
+  .game-card[data-category="daily"] {
+    --card-accent: rgba(16, 185, 129, 0.4);
+  }
+</style>

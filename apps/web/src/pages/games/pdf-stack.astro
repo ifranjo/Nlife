@@ -1,0 +1,172 @@
+---
+/**
+ * PDF Stack - Viral Stacking Game
+ *
+ * A simple, addictive browser game where players stack PDF documents.
+ * Features daily challenges with shareable results for viral potential.
+ */
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/ui/Navbar.astro';
+import Footer from '../../components/ui/Footer.astro';
+import PdfStackGame from '../../components/games/PdfStackGame';
+
+const title = 'PDF Stack - Free Browser Game | New Life Solutions';
+const description = 'Stack PDFs as high as you can in this addictive browser game. Daily challenges with shareable results. 100% free, no download required.';
+
+// Get current date for daily challenge display
+const today = new Date();
+const dateString = today.toLocaleDateString('en-US', {
+  weekday: 'long',
+  month: 'long',
+  day: 'numeric',
+  year: 'numeric'
+});
+---
+
+<Layout title={title} description={description}>
+  <!-- Schema Markup for Game -->
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "VideoGame",
+    "name": "PDF Stack",
+    "description": description,
+    "url": "https://www.newlifesolutions.dev/games/pdf-stack",
+    "genre": ["Casual", "Puzzle", "Arcade"],
+    "gamePlatform": ["Web Browser"],
+    "operatingSystem": "Any",
+    "applicationCategory": "Game",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "author": {
+      "@type": "Organization",
+      "name": "New Life Solutions",
+      "url": "https://www.newlifesolutions.dev"
+    }
+  })} />
+
+  <Navbar />
+
+  <main id="main-content" class="pt-20 pb-16 px-4 min-h-screen">
+    <div class="max-w-2xl mx-auto">
+
+      <!-- Header -->
+      <header class="text-center mb-8">
+        <div class="inline-flex items-center gap-2 mb-4">
+          <span class="text-3xl">📄</span>
+          <h1 class="text-2xl sm:text-3xl font-bold tracking-wider text-[var(--text)]">
+            PDF STACK
+          </h1>
+        </div>
+        <p class="text-[var(--text-muted)] text-sm max-w-md mx-auto">
+          Stack PDFs as high as possible without toppling. A new challenge every day.
+        </p>
+
+        <!-- Daily Challenge Badge -->
+        <div class="mt-4 inline-flex items-center gap-2 px-4 py-2 glass-card rounded-full">
+          <span class="w-2 h-2 bg-[var(--success)] rounded-full animate-pulse"></span>
+          <span class="text-xs text-[var(--text-dim)] uppercase tracking-wider">
+            Daily Challenge: {dateString}
+          </span>
+        </div>
+      </header>
+
+      <!-- Game Component -->
+      <section class="game-container mb-8" aria-label="PDF Stack Game">
+        <PdfStackGame client:load />
+      </section>
+
+      <!-- How to Play -->
+      <section class="glass-card p-6 rounded-lg mb-8" aria-labelledby="how-to-play">
+        <h2 id="how-to-play" class="text-lg font-bold text-[var(--text)] mb-4 tracking-wider">
+          HOW TO PLAY
+        </h2>
+        <ol class="space-y-3 text-sm text-[var(--text-dim)]">
+          <li class="flex items-start gap-3">
+            <span class="flex-shrink-0 w-6 h-6 flex items-center justify-center bg-[var(--bg-hover)] rounded text-xs text-[var(--text)]">1</span>
+            <span>Watch the PDF document move back and forth across the screen</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="flex-shrink-0 w-6 h-6 flex items-center justify-center bg-[var(--bg-hover)] rounded text-xs text-[var(--text)]">2</span>
+            <span>Tap the screen or press <kbd class="px-1.5 py-0.5 bg-[var(--bg-secondary)] border border-[var(--border)] rounded text-xs">SPACE</kbd> to drop it</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="flex-shrink-0 w-6 h-6 flex items-center justify-center bg-[var(--bg-hover)] rounded text-xs text-[var(--text)]">3</span>
+            <span>Stack PDFs on top of each other - center them for bonus points!</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="flex-shrink-0 w-6 h-6 flex items-center justify-center bg-[var(--bg-hover)] rounded text-xs text-[var(--text)]">4</span>
+            <span>Miss the stack and the game is over. Share your score to challenge friends!</span>
+          </li>
+        </ol>
+
+        <!-- Tips -->
+        <div class="mt-6 pt-4 border-t border-[var(--border)]">
+          <h3 class="text-xs uppercase tracking-wider text-[var(--text-muted)] mb-2">Pro Tips</h3>
+          <ul class="text-xs text-[var(--text-dim)] space-y-1">
+            <li>- Perfect drops (centered) give <span class="text-[var(--success)]">2x points</span></li>
+            <li>- Speed increases as you stack higher</li>
+            <li>- Same challenge worldwide each day - compare with friends!</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Leaderboard Teaser -->
+      <section class="text-center py-6 border-t border-[var(--border)]">
+        <p class="text-xs text-[var(--text-muted)] uppercase tracking-wider mb-2">
+          Coming Soon
+        </p>
+        <p class="text-sm text-[var(--text-dim)]">
+          Global leaderboards and weekly tournaments
+        </p>
+      </section>
+
+      <!-- Related Tools CTA -->
+      <section class="glass-card p-6 rounded-lg text-center" aria-labelledby="related-tools">
+        <h2 id="related-tools" class="text-sm uppercase tracking-wider text-[var(--text-muted)] mb-3">
+          Need to actually merge PDFs?
+        </h2>
+        <a
+          href="/tools/pdf-merge"
+          class="btn-primary inline-flex items-center gap-2"
+        >
+          <span>PDF Merge Tool</span>
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+          </svg>
+        </a>
+        <p class="mt-3 text-xs text-[var(--text-dim)]">
+          Free, private, works offline. Files never leave your device.
+        </p>
+      </section>
+
+    </div>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+  .game-container {
+    /* Ensure game is centered and properly contained */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  kbd {
+    font-family: var(--font-mono);
+  }
+
+  /* Pulse animation for daily challenge indicator */
+  @keyframes pulse-glow {
+    0%, 100% {
+      box-shadow: 0 0 5px rgba(0, 255, 0, 0.3);
+    }
+    50% {
+      box-shadow: 0 0 15px rgba(0, 255, 0, 0.5);
+    }
+  }
+</style>

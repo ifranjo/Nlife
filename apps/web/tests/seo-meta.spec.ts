@@ -536,15 +536,28 @@ test.describe('Structured Data (JSON-LD)', () => {
     const schemas = await getJsonLd(page);
 
     if (schemas && schemas.length > 0) {
-      // Should have some type of application schema
-      const hasAppSchema = schemas.some((s: Record<string, unknown>) => {
-        const type = s['@type'];
+      const validTypes = ['SoftwareApplication', 'WebApplication', 'HowTo', 'FAQPage'];
+
+      // Helper to check if a type matches
+      const typeMatches = (type: unknown): boolean => {
         if (Array.isArray(type)) {
-          return type.some(t =>
-            ['SoftwareApplication', 'WebApplication', 'HowTo', 'FAQPage'].includes(t)
+          return type.some(t => validTypes.includes(t));
+        }
+        return validTypes.includes(type as string);
+      };
+
+      // Check both direct @type and @graph items
+      const hasAppSchema = schemas.some((s: Record<string, unknown>) => {
+        // Check direct @type
+        if (s['@type'] && typeMatches(s['@type'])) return true;
+
+        // Check @graph items (consolidated schema format)
+        if (s['@graph'] && Array.isArray(s['@graph'])) {
+          return (s['@graph'] as Record<string, unknown>[]).some(
+            item => item['@type'] && typeMatches(item['@type'])
           );
         }
-        return ['SoftwareApplication', 'WebApplication', 'HowTo', 'FAQPage'].includes(type as string);
+        return false;
       });
 
       expect(hasAppSchema).toBe(true);

@@ -7,6 +7,8 @@ import {
 import { announce, haptic } from '../../lib/accessibility';
 import SwipeableListItem from '../ui/SwipeableListItem';
 import { ContextMenuIcons, type ContextMenuItem } from '../ui/ContextMenu';
+import BatchProcessor, { type BatchFileItem } from './BatchProcessor';
+import { generateBatchId } from '../../lib/batch';
 
 interface PDFFile {
   id: string;
@@ -15,7 +17,15 @@ interface PDFFile {
   size: string;
 }
 
+/** A merge group contains multiple PDFs to be merged into one */
+interface MergeGroup {
+  id: string;
+  name: string;
+  files: PDFFile[];
+}
+
 const MAX_FILES = 50; // Limit number of files to prevent DoS
+const MAX_MERGE_GROUPS = 20; // Maximum batch merge operations
 
 export default function PdfMerge() {
   const [files, setFiles] = useState<PDFFile[]>([]);
@@ -26,6 +36,11 @@ export default function PdfMerge() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const fileListRef = useRef<HTMLDivElement>(null);
   const errorId = 'pdf-merge-error'; // Stable ID for aria-describedby
+
+  // Batch mode state
+  const [batchMode, setBatchMode] = useState(false);
+  const [mergeGroups, setMergeGroups] = useState<MergeGroup[]>([]);
+  const [activeGroupId, setActiveGroupId] = useState<string | null>(null);
 
   const formatFileSize = (bytes: number): string => {
     if (bytes < 1024) return `${bytes} B`;
@@ -241,8 +256,169 @@ export default function PdfMerge() {
     }
   };
 
+  // ==== Batch Mode Functions ====
+
+  // Add current files as a new merge group
+  const createMergeGroup = useCallback(() => {
+    if (files.length < 2) {
+      setError('Need at least 2 PDFs to create a merge group');
+      return;
+    }
+
+    if (mergeGroups.length >= MAX_MERGE_GROUPS) {
+      setError(`Maximum ${MAX_MERGE_GROUPS} merge groups allowed`);
+      return;
+    }
+
+    const newGroup: MergeGroup = {
+      id: generateBatchId(),
+      name: `Merge Group ${mergeGroups.length + 1}`,
+      files: [...files],
+    };
+
+    setMergeGroups(prev => [...prev, newGroup]);
+    setFiles([]);
+    setError(null);
+    announce(`Created merge group with ${newGroup.files.length} files`);
+    haptic.tap();
+  }, [files, mergeGroups.length]);
+
+  // Remove a merge group
+  const removeMergeGroup = useCallback((groupId: string) => {
+    setMergeGroups(prev => prev.filter(g => g.id !== groupId));
+    announce('Merge group removed');
+    haptic.tap();
+  }, []);
+
+  // Edit a merge group (load it back to files)
+  const editMergeGroup = useCallback((group: MergeGroup) => {
+    setFiles(group.files);
+    setActiveGroupId(group.id);
+    announce(`Editing ${group.name}`);
+    haptic.tap();
+  }, []);
+
+  // Update an existing merge group
+  const updateMergeGroup = useCallback(() => {
+    if (!activeGroupId || files.length < 2) return;
+
+    setMergeGroups(prev => prev.map(g =>
+      g.id === activeGroupId ? { ...g, files: [...files] } : g
+    ));
+    setFiles([]);
+    setActiveGroupId(null);
+    announce('Merge group updated');
+    haptic.tap();
+  }, [activeGroupId, files]);
+
+  // Cancel editing
+  const cancelEditGroup = useCallback(() => {
+    setFiles([]);
+    setActiveGroupId(null);
+    haptic.tap();
+  }, []);
+
+  // Convert merge groups to batch items for BatchProcessor
+  const batchItems: BatchFileItem[] = useMemo(() => {
+    return mergeGroups.map(group => {
+      // Create a virtual "file" that represents the merge group
+      // We encode the group data in the file
+      const totalSize = group.files.reduce((sum, f) => sum + f.file.size, 0);
+      const virtualFile = new File([], group.name, { type: 'application/pdf' });
+
+      return {
+        id: group.id,
+        file: virtualFile,
+        name: `${group.name} (${group.files.length} PDFs)`,
+        size: totalSize,
+      };
+    });
+  }, [mergeGroups]);
+
+  // Batch processor function for merge groups
+  const processMergeGroup = useCallback(async (
+    _virtualFile: File,
+    signal: AbortSignal
+  ): Promise<{ blob: Blob; filename: string }> => {
+    // Find the group by matching the file name
+    const group = mergeGroups.find(g => g.name === _virtualFile.name);
+    if (!group) {
+      throw new Error('Merge group not found');
+    }
+
+    if (signal.aborted) {
+      throw new Error('Cancelled');
+    }
+
+    const { PDFDocument } = await import('pdf-lib');
+    const mergedPdf = await PDFDocument.create();
+
+    for (const pdfFile of group.files) {
+      if (signal.aborted) {
+        throw new Error('Cancelled');
+      }
+      const arrayBuffer = await pdfFile.file.arrayBuffer();
+      const pdf = await PDFDocument.load(arrayBuffer);
+      const pages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
+      pages.forEach((page) => mergedPdf.addPage(page));
+    }
+
+    const mergedPdfBytes = await mergedPdf.save();
+    const blob = new Blob([new Uint8Array(mergedPdfBytes)], { type: 'application/pdf' });
+
+    // Generate filename from group name
+    const safeName = sanitizeFilename(group.name.replace(/\s+/g, '_'));
+    return {
+      blob,
+      filename: `${safeName}_merged.pdf`,
+    };
+  }, [mergeGroups]);
+
+  // Handle batch complete
+  const handleBatchComplete = useCallback(() => {
+    setMergeGroups([]);
+    announce('All merge operations complete');
+    haptic.success();
+  }, []);
+
+  // Toggle batch mode
+  const toggleBatchMode = useCallback(() => {
+    if (batchMode) {
+      // Exiting batch mode - confirm if there are groups
+      if (mergeGroups.length > 0) {
+        const confirm = window.confirm('Clear all merge groups and exit batch mode?');
+        if (!confirm) return;
+        setMergeGroups([]);
+      }
+    }
+    setBatchMode(!batchMode);
+    setError(null);
+    announce(batchMode ? 'Batch mode disabled' : 'Batch mode enabled');
+    haptic.tap();
+  }, [batchMode, mergeGroups.length]);
+
   return (
     <div className="max-w-3xl mx-auto">
+      {/* Batch Mode Toggle */}
+      <div className="mb-4 flex items-center justify-between">
+        <label className="flex items-center gap-2 cursor-pointer">
+          <input
+            type="checkbox"
+            checked={batchMode}
+            onChange={toggleBatchMode}
+            className="w-4 h-4 rounded border-white/20 bg-white/10 text-indigo-500 focus:ring-indigo-500/30"
+            aria-label="Enable batch mode for multiple merge operations"
+          />
+          <span className="text-sm text-slate-300">Batch Mode</span>
+          <span className="text-xs text-slate-500">(create multiple merged PDFs)</span>
+        </label>
+        {batchMode && mergeGroups.length > 0 && (
+          <span className="text-sm text-slate-400">
+            {mergeGroups.length} merge group{mergeGroups.length !== 1 ? 's' : ''} queued
+          </span>
+        )}
+      </div>
+
       {/* Drop Zone */}
       <div
         role="button"
@@ -280,7 +456,10 @@ export default function PdfMerge() {
           Drop PDFs here or click to browse
         </h3>
         <p className="text-slate-400 text-sm">
-          Supports multiple PDF files. Drag to reorder.
+          {batchMode
+            ? 'Add PDFs for a merge group, then click "Add to Queue"'
+            : 'Supports multiple PDF files. Drag to reorder.'
+          }
         </p>
       </div>
 
@@ -360,35 +539,135 @@ export default function PdfMerge() {
         </div>
       )}
 
-      {/* Merge Button */}
+      {/* Action Buttons */}
       {files.length >= 2 && (
-        <button
-          onClick={mergePDFs}
-          disabled={isProcessing}
-          aria-busy={isProcessing}
-          aria-label={isProcessing ? `Merging ${files.length} PDF files` : `Merge ${files.length} PDF files`}
-          className={`
-            mt-6 w-full btn-primary flex items-center justify-center gap-2
-            ${isProcessing ? 'opacity-70 cursor-not-allowed' : ''}
-          `}
-        >
-          {isProcessing ? (
+        <div className="mt-6 flex gap-3">
+          {batchMode ? (
             <>
-              <svg className="w-5 h-5 spinner" fill="none" viewBox="0 0 24 24" aria-hidden="true">
-                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-              </svg>
-              <span>Merging...</span>
+              {/* Batch Mode: Add to Queue / Update Group buttons */}
+              {activeGroupId ? (
+                <>
+                  <button
+                    onClick={updateMergeGroup}
+                    className="flex-1 btn-primary flex items-center justify-center gap-2"
+                    aria-label="Update merge group"
+                  >
+                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                    </svg>
+                    <span>Update Group</span>
+                  </button>
+                  <button
+                    onClick={cancelEditGroup}
+                    className="px-4 btn-primary bg-slate-600/50 hover:bg-slate-600/70"
+                    aria-label="Cancel editing"
+                  >
+                    Cancel
+                  </button>
+                </>
+              ) : (
+                <button
+                  onClick={createMergeGroup}
+                  className="flex-1 btn-primary flex items-center justify-center gap-2 bg-indigo-600/50 hover:bg-indigo-600/70"
+                  aria-label={`Add ${files.length} PDFs as merge group`}
+                >
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                  </svg>
+                  <span>Add to Queue ({files.length} PDFs)</span>
+                </button>
+              )}
             </>
           ) : (
-            <>
-              <span>Merge {files.length} PDFs</span>
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-              </svg>
-            </>
+            /* Standard Mode: Merge button */
+            <button
+              onClick={mergePDFs}
+              disabled={isProcessing}
+              aria-busy={isProcessing}
+              aria-label={isProcessing ? `Merging ${files.length} PDF files` : `Merge ${files.length} PDF files`}
+              className={`
+                flex-1 btn-primary flex items-center justify-center gap-2
+                ${isProcessing ? 'opacity-70 cursor-not-allowed' : ''}
+              `}
+            >
+              {isProcessing ? (
+                <>
+                  <svg className="w-5 h-5 spinner" fill="none" viewBox="0 0 24 24" aria-hidden="true">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                  </svg>
+                  <span>Merging...</span>
+                </>
+              ) : (
+                <>
+                  <span>Merge {files.length} PDFs</span>
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                  </svg>
+                </>
+              )}
+            </button>
           )}
-        </button>
+        </div>
+      )}
+
+      {/* Batch Mode: Merge Groups List */}
+      {batchMode && mergeGroups.length > 0 && (
+        <div className="mt-6">
+          <h4 className="text-sm font-medium text-slate-400 mb-3">
+            Merge Queue ({mergeGroups.length} group{mergeGroups.length !== 1 ? 's' : ''})
+          </h4>
+          <div className="space-y-2 mb-4">
+            {mergeGroups.map((group) => (
+              <div
+                key={group.id}
+                className="glass-card p-3 flex items-center justify-between"
+              >
+                <div className="flex-1 min-w-0">
+                  <p className="text-white text-sm font-medium truncate">{group.name}</p>
+                  <p className="text-slate-400 text-xs">
+                    {group.files.length} PDFs - {group.files.map(f => f.name).join(', ').substring(0, 50)}...
+                  </p>
+                </div>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => editMergeGroup(group)}
+                    className="p-1.5 text-slate-400 hover:text-white transition-colors"
+                    title="Edit group"
+                    aria-label={`Edit ${group.name}`}
+                  >
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                    </svg>
+                  </button>
+                  <button
+                    onClick={() => removeMergeGroup(group.id)}
+                    className="p-1.5 text-slate-400 hover:text-red-400 transition-colors"
+                    title="Remove group"
+                    aria-label={`Remove ${group.name}`}
+                  >
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Batch Processor */}
+          <BatchProcessor
+            files={batchItems}
+            processor={processMergeGroup}
+            onComplete={handleBatchComplete}
+            onError={(err) => setError(err)}
+            onClear={() => setMergeGroups([])}
+            concurrency={2}
+            processButtonLabel={`Merge All ${mergeGroups.length} Groups`}
+            downloadButtonLabel="Download All Merged PDFs (ZIP)"
+            zipFilename="merged_pdfs.zip"
+          />
+        </div>
       )}
 
       {/* Privacy note */}

@@ -38,63 +38,44 @@ const seoContent = {
 
   // TL;DR Answer Box (50-70 words - this is what AI extracts)
   answerBox: {
-    title: 'Extract Text from Images — Free OCR, No Upload Required',
-    queryTarget: 'How to Extract Text from Image Online Free',
-    tldr: `Drop your image or scanned PDF below to extract all text using AI-powered OCR. Supports 100+ languages including English, Spanish, Chinese, Arabic, and Hindi. Processing happens entirely in your browser—your files never leave your device. Copy extracted text instantly or download as TXT. No signup, no limits, works offline.`,
+    title: 'Extract Text from Images & PDFs — Free OCR with Batch Processing',
+    queryTarget: 'How to Extract Text from Image and PDF Online Free',
+    tldr: `Drop images or multi-page PDFs below to extract all text using AI-powered OCR. Process multiple files at once with batch mode. Export to TXT, Word (.docx), or searchable PDF. Supports 15+ languages with preprocessing options for better accuracy. 100% browser-based—your files never leave your device. No signup, no limits, works offline.`,
     trustSignals: [
-      '100+ languages supported',
-      'No file uploads',
-      'Works offline',
-      'Free forever'
+      '15+ languages supported',
+      'Multi-page PDF OCR',
+      'Batch processing',
+      'Export: TXT, DOCX, PDF',
+      'Works offline'
     ]
   },
 
   // Q&A Sections
   qa: {
     whatIs: {
-      answer: `OCR (Optical Character Recognition) Text Extractor is a free browser-based tool that converts images and scanned documents into editable text. Using the Tesseract.js engine, it recognizes text in over 100 languages without uploading your files to any server. All processing happens locally on your device.`,
-      context: `Perfect for extracting text from screenshots, photos of documents, scanned receipts, business cards, or any image containing text.`
+      answer: `OCR (Optical Character Recognition) Text Extractor is a powerful browser-based tool that converts images and multi-page scanned documents into editable text. Using the Tesseract.js engine with optional AI models (TrOCR), it recognizes text in 15+ languages. Features include batch processing for multiple files, per-page PDF results, and export to multiple formats (TXT, DOCX, searchable PDF).`,
+      context: `Perfect for digitizing documents, extracting text from screenshots, processing scanned receipts in bulk, or converting image-based PDFs to searchable documents.`
     },
     howItWorks: {
       steps: [
-        'Drag and drop an image (PNG, JPG, WEBP) or scanned PDF onto the upload area',
-        'Select the language of the text in your image for better accuracy',
-        'Click "Extract Text" to start OCR processing',
-        'Wait for the AI to analyze and recognize all text (progress shown)',
-        'Copy the extracted text to clipboard or download as a TXT file'
+        'Drag and drop images (PNG, JPG, WEBP) or PDFs onto the upload area—multiple files supported',
+        'Choose your OCR engine (Tesseract for multi-language, TrOCR for handwritten) and select document language',
+        'Optionally enable preprocessing (grayscale, contrast enhancement) for better accuracy',
+        'Click "Extract Text" to process all files—watch per-page progress for multi-page PDFs',
+        'View results per file, copy to clipboard, or download as TXT, DOCX, searchable PDF, or ZIP'
       ]
     },
     whyBrowserBased: {
       benefits: [
-        'Complete privacy: Your images never leave your device or get uploaded to any server',
-        'No daily limits: Extract text from unlimited images without quotas',
-        'Works offline: After page loads, OCR works without internet connection',
-        'No account required: Start extracting text immediately, no signup needed',
-        'Multi-language: Supports 100+ languages including RTL scripts like Arabic and Hebrew'
+        'Complete privacy: Your files never leave your device or get uploaded to any server',
+        'Batch processing: Process up to 20 images or PDFs at once with combined or separate output',
+        'Multi-page PDF: See per-page progress and results, with confidence scores for each page',
+        'Multiple export formats: Plain text, Word document, searchable PDF, or ZIP archive for batch results',
+        'Works offline: After first load, Tesseract language data is cached and works without internet',
+        'Preprocessing: Improve OCR accuracy with grayscale conversion and contrast enhancement'
       ]
     },
-    faqs: [
-      {
-        question: 'What languages does the OCR support?',
-        answer: `Our OCR tool supports 100+ languages including English, Spanish, French, German, Chinese (Simplified & Traditional), Japanese, Korean, Arabic, Hindi, Russian, Portuguese, and many more. Select the correct language before extraction for best accuracy.`
-      },
-      {
-        question: 'Are my images uploaded to a server?',
-        answer: `No. All OCR processing happens entirely in your browser using Tesseract.js. Your images never leave your device. You can verify this by disconnecting from the internet after the page loads—the tool will continue to work.`
-      },
-      {
-        question: 'How accurate is the text extraction?',
-        answer: `Accuracy depends on image quality. For best results: use high-resolution images, ensure good lighting and contrast, avoid skewed or rotated text, and select the correct language. Clean, printed text typically achieves 95%+ accuracy.`
-      },
-      {
-        question: 'Can I extract text from handwritten notes?',
-        answer: `The OCR engine is optimized for printed text. Handwritten text recognition is limited, especially for cursive writing. For best results with handwriting, use clear, separated block letters.`
-      },
-      {
-        question: 'What image formats are supported?',
-        answer: `We support PNG, JPG/JPEG, WEBP, GIF, and BMP image formats. For PDFs, the first page is converted to an image for OCR processing. For multi-page PDFs, process each page separately.`
-      }
-    ]
+    faqs: toolData.faq || []
   }
 };
 
@@ -149,7 +130,7 @@ const schemaData = {
       />
 
       <!-- Related Tools -->
-      <RelatedTools currentToolId="ocr-extractor" />
+      <RelatedTools currentToolId="ocr" />
 
     </div>
   </main>

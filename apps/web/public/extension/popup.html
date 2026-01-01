@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=360, initial-scale=1.0">
+  <title>New Life Tools</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="popup-container">
+    <!-- Header -->
+    <header class="header">
+      <div class="logo">
+        <span class="logo-icon">NL</span>
+        <div class="logo-text">
+          <span class="logo-title">New Life Tools</span>
+          <span class="logo-subtitle">100% Private Processing</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Recently Used Section (hidden by default) -->
+    <section class="section recent-section" id="recentSection" style="display: none;">
+      <h2 class="section-title">
+        <span class="section-icon">&#128337;</span>
+        Recently Used
+      </h2>
+      <div class="tools-grid recent-grid" id="recentTools"></div>
+      <div class="divider"></div>
+    </section>
+
+    <!-- Popular Tools Section -->
+    <section class="section">
+      <h2 class="section-title">
+        <span class="section-icon">&#9733;</span>
+        Popular Tools
+      </h2>
+      <div class="tools-grid" id="popularTools">
+        <!-- PDF Merge -->
+        <a href="https://www.newlifesolutions.dev/tools/pdf-merge" class="tool-btn" data-tool="pdf-merge" target="_blank" rel="noopener">
+          <span class="tool-icon pdf">&#128196;</span>
+          <span class="tool-name">PDF Merge</span>
+        </a>
+
+        <!-- PDF Split -->
+        <a href="https://www.newlifesolutions.dev/tools/pdf-split" class="tool-btn" data-tool="pdf-split" target="_blank" rel="noopener">
+          <span class="tool-icon pdf">&#9986;</span>
+          <span class="tool-name">PDF Split</span>
+        </a>
+
+        <!-- Compress PDF -->
+        <a href="https://www.newlifesolutions.dev/tools/pdf-compress" class="tool-btn" data-tool="pdf-compress" target="_blank" rel="noopener">
+          <span class="tool-icon pdf">&#128230;</span>
+          <span class="tool-name">Compress PDF</span>
+        </a>
+
+        <!-- Image Convert -->
+        <a href="https://www.newlifesolutions.dev/tools/file-converter" class="tool-btn" data-tool="file-converter" target="_blank" rel="noopener">
+          <span class="tool-icon image">&#128260;</span>
+          <span class="tool-name">Image Convert</span>
+        </a>
+
+        <!-- PDF to JPG -->
+        <a href="https://www.newlifesolutions.dev/tools/pdf-to-jpg" class="tool-btn" data-tool="pdf-to-jpg" target="_blank" rel="noopener">
+          <span class="tool-icon pdf">&#128196;</span>
+          <span class="tool-name">PDF to JPG</span>
+        </a>
+
+        <!-- JPG to PDF -->
+        <a href="https://www.newlifesolutions.dev/tools/jpg-to-pdf" class="tool-btn" data-tool="jpg-to-pdf" target="_blank" rel="noopener">
+          <span class="tool-icon image">&#128444;</span>
+          <span class="tool-name">JPG to PDF</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- Quick Categories -->
+    <section class="section">
+      <h2 class="section-title">
+        <span class="section-icon">&#128194;</span>
+        Categories
+      </h2>
+      <div class="categories-grid">
+        <a href="https://www.newlifesolutions.dev/hub#document" class="category-btn" target="_blank" rel="noopener">
+          <span class="category-icon">&#128196;</span>
+          <span>Documents</span>
+        </a>
+        <a href="https://www.newlifesolutions.dev/hub#media" class="category-btn" target="_blank" rel="noopener">
+          <span class="category-icon">&#127909;</span>
+          <span>Media</span>
+        </a>
+        <a href="https://www.newlifesolutions.dev/hub#ai" class="category-btn" target="_blank" rel="noopener">
+          <span class="category-icon">&#129302;</span>
+          <span>AI Tools</span>
+        </a>
+        <a href="https://www.newlifesolutions.dev/hub#utility" class="category-btn" target="_blank" rel="noopener">
+          <span class="category-icon">&#128295;</span>
+          <span>Utilities</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <a href="https://www.newlifesolutions.dev/hub" class="view-all-btn" target="_blank" rel="noopener">
+        View All 40+ Tools
+        <span class="arrow">&#8594;</span>
+      </a>
+      <p class="privacy-note">
+        <span class="lock-icon">&#128274;</span>
+        Files never leave your browser
+      </p>
+    </footer>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
