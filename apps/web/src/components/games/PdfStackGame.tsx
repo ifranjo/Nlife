@@ -1,5 +1,11 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 
+// Phaser is loaded via CDN at runtime - types are declared as any
+declare const Phaser: any;
+type PhaserGame = any;
+type PhaserScene = any;
+type PhaserGameObject = any;
+
 // Daily seed based on current date (same worldwide)
 const getDailySeed = (): number => {
   const now = new Date();
@@ -42,7 +48,7 @@ interface GameStats {
 
 export default function PdfStackGame() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const gameRef = useRef<Phaser.Game | null>(null);
+  const gameRef = useRef<PhaserGame | null>(null);
   const [gameState, setGameState] = useState<GameState>('start');
   const [stats, setStats] = useState<GameStats>({ score: 0, maxHeight: 0, perfectDrops: 0 });
   const [highScore, setHighScore] = useState<number>(0);
@@ -95,11 +101,13 @@ export default function PdfStackGame() {
     const width = Math.min(400, window.innerWidth - 32);
     const height = 600;
 
-    // Game Scene
+    // Game Scene - extends Phaser.Scene (loaded from CDN)
+    // @ts-ignore - Phaser is loaded at runtime via CDN
     class GameScene extends Phaser.Scene {
-      private platforms!: Phaser.Physics.Arcade.StaticGroup;
-      private fallingPdf: Phaser.GameObjects.Container | null = null;
-      private pdfs: Phaser.GameObjects.Container[] = [];
+      [key: string]: any; // Allow any Phaser.Scene properties
+      private platforms!: any; // Phaser.Physics.Arcade.StaticGroup
+      private fallingPdf: any = null; // Phaser.GameObjects.Container
+      private pdfs: any[] = []; // Phaser.GameObjects.Container[]
       private rng!: SeededRandom;
       private score = 0;
       private perfectDrops = 0;
@@ -159,14 +167,27 @@ export default function PdfStackGame() {
 
         // Input handling
         this.input.on('pointerdown', () => this.dropPdf());
-        this.input.keyboard?.on('keydown-SPACE', () => this.dropPdf());
+
+        // Capture space key with preventDefault to stop Chrome scroll
+        const handleKeyDown = (e: KeyboardEvent) => {
+          if (e.code === 'Space' || e.key === ' ') {
+            e.preventDefault();
+            this.dropPdf();
+          }
+        };
+        window.addEventListener('keydown', handleKeyDown);
+
+        // Cleanup on scene shutdown
+        this.events.on('shutdown', () => {
+          window.removeEventListener('keydown', handleKeyDown);
+        });
 
         // Camera setup
         this.cameras.main.setBounds(0, -worldHeight, width, worldHeight + height);
         this.cameraTarget = 0;
       }
 
-      createPdfGraphics(x: number, y: number, color: number = 0xef4444): Phaser.GameObjects.Container {
+      createPdfGraphics(x: number, y: number, color: number = 0xef4444): any {
         const container = this.add.container(x, y);
 
         // PDF body
@@ -230,7 +251,7 @@ export default function PdfStackGame() {
         });
       }
 
-      onPdfLanded(pdf: Phaser.GameObjects.Container, dropX: number) {
+      onPdfLanded(pdf: any, dropX: number) {
         if (this.gameOver) return;
 
         // Check if it's a valid stack
@@ -290,7 +311,7 @@ export default function PdfStackGame() {
         });
       }
 
-      triggerGameOver(failedPdf: Phaser.GameObjects.Container) {
+      triggerGameOver(failedPdf: any) {
         this.gameOver = true;
 
         // Animate failed PDF falling off
@@ -350,7 +371,7 @@ export default function PdfStackGame() {
     }
 
     // Game config
-    const config: Phaser.Types.Core.GameConfig = {
+    const config: any = {
       type: Phaser.AUTO,
       width,
       height,
