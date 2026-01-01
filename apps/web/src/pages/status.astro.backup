@@ -240,7 +240,7 @@ const description = 'Real-time security status, audit timeline, and transparency
             <div class="relative flex items-center">
               <div class="flex-1 pr-8 text-right">
                 <div class="glass-card p-6 rounded-xl opacity-50">
-                  <h3 class="text-lg font-semibold text-[var(--text-dim)] Bug Bounty Program</h3>
+                  <h3 class="text-lg font-semibold text-[var(--text-dim)]">Bug Bounty Program</h3>
                   <p class="text-[var(--text-muted)] text-sm mt-2">
                     Launch public bug bounty program. Reward security researchers for responsible disclosure.
                   </p>
