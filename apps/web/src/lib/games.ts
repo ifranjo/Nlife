@@ -79,15 +79,16 @@ export const games: Game[] = [
   {
     id: 'color-match',
     name: 'Color Match',
-    description: 'Match colors as fast as you can! A relaxing yet challenging game that tests your color perception and speed.',
+    description: 'Follow the color sequence and test your memory! A classic Simon Says style game with progressive difficulty.',
     thumbnail: '/thumbnails/games/color-match.svg',
     category: 'casual',
-    status: 'coming',
+    status: 'live',
     href: '/games/color-match',
-    isNew: false,
+    isNew: true,
+    releaseDate: '2026-01-01',
     stats: [
-      { label: 'Mode', value: 'Endless' },
-      { label: 'Difficulty', value: 'Progressive' },
+      { label: 'Mode', value: 'Endless + Hard Mode' },
+      { label: 'Difficulty', value: 'Progressive (4→6 colors)' },
       { label: 'Leaderboard', value: 'Local high scores' }
     ],
     seo: {
@@ -95,6 +96,54 @@ export const games: Game[] = [
       metaDescription: 'Match colors as fast as you can in this addictive casual game. Free to play, no download. Test your color perception!',
       h1: 'Color Match - Speed Color Game',
       keywords: ['color game', 'matching game', 'casual game', 'browser game']
+    }
+  },
+
+  // ===============================================
+  // CARD GAMES
+  // ===============================================
+  {
+    id: 'poker-roguelike',
+    name: 'Poker Roguelike',
+    description: 'Play poker hands to beat the blinds! Collect Jokers with special powers and multipliers. A roguelike deck-builder inspired by Balatro.',
+    thumbnail: '/thumbnails/games/poker-roguelike.svg',
+    category: 'puzzle',
+    status: 'live',
+    href: '/games/poker-roguelike',
+    isNew: true,
+    releaseDate: '2026-01-01',
+    stats: [
+      { label: 'Type', value: 'Roguelike Deck-Builder' },
+      { label: 'Rounds', value: '7 Blinds' },
+      { label: 'Jokers', value: '13+ to collect' }
+    ],
+    seo: {
+      title: 'Poker Roguelike - Free Card Roguelike Game | New Life Games',
+      metaDescription: 'Play poker hands to score points and beat the blinds. Collect Jokers with special multipliers. Free browser roguelike inspired by Balatro.',
+      h1: 'Poker Roguelike - Deck-Builder Card Game',
+      keywords: ['poker game', 'roguelike', 'card game', 'balatro', 'deck builder', 'free browser game']
+    }
+  },
+  {
+    id: 'solitaire',
+    name: 'Solitaire',
+    description: 'Classic Klondike Solitaire. Stack cards by alternating colors, build foundations from Ace to King. Drag and drop gameplay.',
+    thumbnail: '/thumbnails/games/solitaire.svg',
+    category: 'casual',
+    status: 'live',
+    href: '/games/solitaire',
+    isNew: true,
+    releaseDate: '2026-01-01',
+    stats: [
+      { label: 'Type', value: 'Classic Klondike' },
+      { label: 'Tracking', value: 'Moves & Time' },
+      { label: 'Controls', value: 'Drag & Drop' }
+    ],
+    seo: {
+      title: 'Solitaire - Free Classic Card Game | New Life Games',
+      metaDescription: 'Play classic Klondike Solitaire for free. No download, no ads. Drag and drop cards, track your moves and time.',
+      h1: 'Solitaire - Classic Card Game',
+      keywords: ['solitaire', 'klondike', 'card game', 'free solitaire', 'browser card game']
     }
   },
 
