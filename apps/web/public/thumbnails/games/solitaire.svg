@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+  <rect width="200" height="200" fill="#0a0a0a"/>
+  <!-- Card stack effect -->
+  <rect x="55" y="65" width="50" height="70" rx="4" fill="#1e40af" stroke="#3b82f6" stroke-width="2"/>
+  <rect x="60" y="60" width="50" height="70" rx="4" fill="#1e40af" stroke="#3b82f6" stroke-width="2"/>
+  <rect x="65" y="55" width="50" height="70" rx="4" fill="white" stroke="#d1d5db" stroke-width="2"/>
+  <!-- Card face -->
+  <text x="72" y="72" font-family="serif" font-size="14" font-weight="bold" fill="#ef4444">A</text>
+  <text x="82" y="72" font-family="serif" font-size="12" fill="#ef4444">♥</text>
+  <text x="90" y="100" font-family="serif" font-size="24" fill="#ef4444">♥</text>
+  <!-- Second card -->
+  <rect x="95" y="75" width="50" height="70" rx="4" fill="white" stroke="#d1d5db" stroke-width="2"/>
+  <text x="102" y="92" font-family="serif" font-size="14" font-weight="bold" fill="#1f2937">K</text>
+  <text x="112" y="92" font-family="serif" font-size="12" fill="#1f2937">♠</text>
+  <text x="120" y="120" font-family="serif" font-size="24" fill="#1f2937">♠</text>
+  <!-- Title -->
+  <text x="100" y="165" font-family="system-ui" font-size="14" fill="#9ca3af" text-anchor="middle" letter-spacing="0.1em">SOLITAIRE</text>
+</svg>

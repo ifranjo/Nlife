@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+  <rect width="200" height="200" fill="#0a0a0a"/>
+  <!-- Joker card background -->
+  <rect x="60" y="40" width="80" height="110" rx="8" fill="#1a1a2e" stroke="#4a4a6a" stroke-width="2"/>
+  <!-- Joker face -->
+  <circle cx="100" cy="75" r="20" fill="#ffd700"/>
+  <circle cx="93" cy="72" r="4" fill="#1a1a2e"/>
+  <circle cx="107" cy="72" r="4" fill="#1a1a2e"/>
+  <path d="M90 82 Q100 92 110 82" stroke="#1a1a2e" stroke-width="3" fill="none"/>
+  <!-- Joker hat -->
+  <path d="M80 60 L100 45 L120 60" fill="#ef4444" stroke="#ef4444" stroke-width="2"/>
+  <circle cx="80" cy="60" r="5" fill="#ffd700"/>
+  <circle cx="100" cy="45" r="5" fill="#ffd700"/>
+  <circle cx="120" cy="60" r="5" fill="#ffd700"/>
+  <!-- Multiplier -->
+  <text x="100" y="115" font-family="system-ui" font-size="16" font-weight="bold" fill="#ef4444" text-anchor="middle">×8</text>
+  <text x="100" y="135" font-family="system-ui" font-size="10" fill="#22c55e" text-anchor="middle">+100 CHIPS</text>
+  <!-- Title -->
+  <text x="100" y="175" font-family="system-ui" font-size="11" fill="#9ca3af" text-anchor="middle" letter-spacing="0.05em">POKER ROGUELIKE</text>
+</svg>
