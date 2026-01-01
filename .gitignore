@@ -38,3 +38,7 @@ coverage/
 # TypeScript
 *.tsbuildinfo
 nul
+*.html
+tests/debug-*.spec.ts
+# Manual Tools Directory (not auto-run)
+scripts/manual-tools/
