@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect, useMemo } from 'react';
 import { marked } from 'marked';
 import hljs from 'highlight.js';
-import DOMPurify from 'isomorphic-dompurify';
+import DOMPurify from 'dompurify';
 import { createSafeErrorMessage } from '../../lib/security';
 import { copyToClipboard } from '../../lib/clipboard';
 
