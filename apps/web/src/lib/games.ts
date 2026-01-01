@@ -56,9 +56,10 @@ export const games: Game[] = [
     description: 'Guess the hidden word in 6 tries. A new word every day! Track your streak and share your results.',
     thumbnail: '/thumbnails/games/word-guess.svg',
     category: 'daily',
-    status: 'coming',
+    status: 'live',
     href: '/games/word-guess',
-    isNew: false,
+    isNew: true,
+    releaseDate: '2026-01-01',
     stats: [
       { label: 'Type', value: 'Daily challenge' },
       { label: 'Difficulty', value: 'Medium' },
@@ -106,19 +107,20 @@ export const games: Game[] = [
     description: 'Test and improve your typing speed. Race against the clock and track your WPM improvement over time.',
     thumbnail: '/thumbnails/games/typing-speed.svg',
     category: 'arcade',
-    status: 'coming',
+    status: 'live',
     href: '/games/typing-speed',
-    isNew: false,
+    isNew: true,
+    releaseDate: '2026-01-01',
     stats: [
-      { label: 'Metrics', value: 'WPM, accuracy, time' },
-      { label: 'Modes', value: '30s, 60s, 120s' },
-      { label: 'History', value: 'Progress tracking' }
+      { label: 'Metrics', value: 'WPM, accuracy, errors' },
+      { label: 'Modes', value: '15s, 30s, 60s, custom' },
+      { label: 'Word Types', value: 'Common, programming' }
     ],
     seo: {
       title: 'Typing Speed Test - Free WPM Test | New Life Games',
-      metaDescription: 'Test your typing speed and accuracy. Track WPM, compete with yourself, and improve over time. Free online typing test.',
+      metaDescription: 'Test your typing speed and accuracy. Track WPM, compete with yourself, and improve over time. Free online typing test with multiple modes.',
       h1: 'Typing Speed Test - Measure Your WPM',
-      keywords: ['typing test', 'wpm test', 'typing speed', 'typing game', 'keyboard speed test']
+      keywords: ['typing test', 'wpm test', 'typing speed', 'typing game', 'keyboard speed test', 'online typing test']
     }
   }
 ];

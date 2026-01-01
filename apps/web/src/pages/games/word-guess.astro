@@ -1,0 +1,263 @@
+---
+/**
+ * Word Guess - Daily Word Game (Wordle-style)
+ *
+ * A daily word puzzle game where players guess a 5-letter word in 6 attempts.
+ * Features daily challenges, streak tracking, and shareable results.
+ */
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/ui/Navbar.astro';
+import Footer from '../../components/ui/Footer.astro';
+import WordGuessGame from '../../components/games/WordGuessGame';
+import { getGameNumber } from '../../lib/wordlist';
+
+const gameNumber = getGameNumber();
+const title = 'Word Guess - Daily Word Game | New Life Solutions';
+const description = 'Guess the hidden 5-letter word in 6 tries. New puzzle every day! Free word game with streak tracking and shareable results.';
+
+// Get current date for daily challenge display
+const today = new Date();
+const dateString = today.toLocaleDateString('en-US', {
+  weekday: 'long',
+  month: 'long',
+  day: 'numeric',
+  year: 'numeric'
+});
+---
+
+<Layout title={title} description={description}>
+  <!-- Schema Markup for Game -->
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "VideoGame",
+    "name": "Word Guess",
+    "description": description,
+    "url": "https://www.newlifesolutions.dev/games/word-guess",
+    "genre": ["Word Game", "Puzzle", "Daily Challenge"],
+    "gamePlatform": ["Web Browser"],
+    "operatingSystem": "Any",
+    "applicationCategory": "Game",
+    "numberOfPlayers": {
+      "@type": "QuantitativeValue",
+      "minValue": 1,
+      "maxValue": 1
+    },
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "author": {
+      "@type": "Organization",
+      "name": "New Life Solutions",
+      "url": "https://www.newlifesolutions.dev"
+    }
+  })} />
+
+  <!-- HowTo Schema for SEO -->
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": "How to Play Word Guess",
+    "description": "Learn how to play the daily word guessing game",
+    "step": [
+      {
+        "@type": "HowToStep",
+        "position": 1,
+        "text": "Type a 5-letter word and press Enter to submit your guess"
+      },
+      {
+        "@type": "HowToStep",
+        "position": 2,
+        "text": "Green letters are in the correct position"
+      },
+      {
+        "@type": "HowToStep",
+        "position": 3,
+        "text": "Yellow letters are in the word but wrong position"
+      },
+      {
+        "@type": "HowToStep",
+        "position": 4,
+        "text": "Gray letters are not in the word"
+      },
+      {
+        "@type": "HowToStep",
+        "position": 5,
+        "text": "You have 6 attempts to guess the word"
+      }
+    ]
+  })} />
+
+  <Navbar />
+
+  <main id="main-content" class="pt-20 pb-16 px-4 min-h-screen">
+    <div class="max-w-lg mx-auto">
+
+      <!-- Header -->
+      <header class="text-center mb-6">
+        <div class="inline-flex items-center gap-2 mb-3">
+          <span class="text-2xl">W</span>
+          <h1 class="text-xl sm:text-2xl font-bold tracking-[0.2em] text-[var(--text)] uppercase">
+            Word Guess
+          </h1>
+        </div>
+        <p class="text-[var(--text-muted)] text-sm max-w-md mx-auto">
+          Guess the hidden word in 6 tries. A new puzzle every day.
+        </p>
+
+        <!-- Daily Challenge Badge -->
+        <div class="mt-4 inline-flex items-center gap-2 px-4 py-2 glass-card rounded-full">
+          <span class="w-2 h-2 bg-[var(--success)] rounded-full animate-pulse"></span>
+          <span class="text-xs text-[var(--text-dim)] uppercase tracking-wider">
+            Puzzle #{gameNumber} - {dateString}
+          </span>
+        </div>
+      </header>
+
+      <!-- Game Component -->
+      <section class="game-container mb-8" aria-label="Word Guess Game">
+        <WordGuessGame client:load />
+      </section>
+
+      <!-- How to Play -->
+      <section class="glass-card p-6 rounded-lg mb-8" aria-labelledby="how-to-play">
+        <h2 id="how-to-play" class="text-lg font-bold text-[var(--text)] mb-4 tracking-wider uppercase">
+          How to Play
+        </h2>
+        <ol class="space-y-3 text-sm text-[var(--text-dim)]">
+          <li class="flex items-start gap-3">
+            <span class="flex-shrink-0 w-6 h-6 flex items-center justify-center bg-[var(--bg-hover)] rounded text-xs text-[var(--text)]">1</span>
+            <span>Type a 5-letter word and press <kbd class="px-1.5 py-0.5 bg-[var(--bg-secondary)] border border-[var(--border)] rounded text-xs font-mono">ENTER</kbd></span>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="flex-shrink-0 w-6 h-6 flex items-center justify-center bg-[var(--bg-hover)] rounded text-xs text-[var(--text)]">2</span>
+            <span>Each guess reveals clues about the hidden word</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="flex-shrink-0 w-6 h-6 flex items-center justify-center bg-[var(--bg-hover)] rounded text-xs text-[var(--text)]">3</span>
+            <span>Use the feedback to narrow down possibilities</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="flex-shrink-0 w-6 h-6 flex items-center justify-center bg-[var(--bg-hover)] rounded text-xs text-[var(--text)]">4</span>
+            <span>You have 6 attempts to guess the word correctly</span>
+          </li>
+        </ol>
+
+        <!-- Color Legend -->
+        <div class="mt-6 pt-4 border-t border-[var(--border)]">
+          <h3 class="text-xs uppercase tracking-wider text-[var(--text-muted)] mb-3">Color Guide</h3>
+          <div class="space-y-2 text-sm">
+            <div class="flex items-center gap-3">
+              <span class="w-8 h-8 bg-[#538d4e] rounded flex items-center justify-center text-white font-bold">A</span>
+              <span class="text-[var(--text-dim)]">Letter is in the correct spot</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="w-8 h-8 bg-[#b59f3b] rounded flex items-center justify-center text-white font-bold">B</span>
+              <span class="text-[var(--text-dim)]">Letter is in the word but wrong spot</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <span class="w-8 h-8 bg-[#3a3a3c] rounded flex items-center justify-center text-white font-bold">C</span>
+              <span class="text-[var(--text-dim)]">Letter is not in the word</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Tips Section -->
+      <section class="glass-card p-6 rounded-lg mb-8" aria-labelledby="tips">
+        <h2 id="tips" class="text-sm uppercase tracking-wider text-[var(--text-muted)] mb-3">
+          Pro Tips
+        </h2>
+        <ul class="text-xs text-[var(--text-dim)] space-y-2">
+          <li>- Start with words that have common letters (E, A, R, I, O, T, N, S)</li>
+          <li>- Avoid repeating gray letters in future guesses</li>
+          <li>- Same puzzle worldwide each day - compare with friends!</li>
+          <li>- Your stats and streak are saved automatically</li>
+        </ul>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="glass-card p-6 rounded-lg mb-8" aria-labelledby="faq">
+        <h2 id="faq" class="text-lg font-bold text-[var(--text)] mb-4 tracking-wider uppercase">
+          FAQ
+        </h2>
+        <div class="space-y-4 text-sm">
+          <details class="group">
+            <summary class="cursor-pointer text-[var(--text)] font-medium flex items-center justify-between">
+              <span>When does the puzzle reset?</span>
+              <span class="text-[var(--text-muted)] group-open:rotate-180 transition-transform">+</span>
+            </summary>
+            <p class="mt-2 text-[var(--text-dim)] pl-4">
+              A new puzzle is available every day at midnight UTC. Everyone worldwide gets the same puzzle.
+            </p>
+          </details>
+          <details class="group">
+            <summary class="cursor-pointer text-[var(--text)] font-medium flex items-center justify-between">
+              <span>Is my progress saved?</span>
+              <span class="text-[var(--text-muted)] group-open:rotate-180 transition-transform">+</span>
+            </summary>
+            <p class="mt-2 text-[var(--text-dim)] pl-4">
+              Yes! Your statistics, current streak, and today's progress are saved in your browser's local storage.
+            </p>
+          </details>
+          <details class="group">
+            <summary class="cursor-pointer text-[var(--text)] font-medium flex items-center justify-between">
+              <span>How can I share my results?</span>
+              <span class="text-[var(--text-muted)] group-open:rotate-180 transition-transform">+</span>
+            </summary>
+            <p class="mt-2 text-[var(--text-dim)] pl-4">
+              After completing the puzzle, click "Share Result" to copy an emoji grid to your clipboard. The answer is never revealed in the share.
+            </p>
+          </details>
+        </div>
+      </section>
+
+      <!-- Related Tools CTA -->
+      <section class="text-center py-6 border-t border-[var(--border)]">
+        <p class="text-xs text-[var(--text-muted)] uppercase tracking-wider mb-2">
+          More Games
+        </p>
+        <a
+          href="/games/"
+          class="text-sm text-[var(--accent)] hover:underline"
+        >
+          Browse all games
+        </a>
+      </section>
+
+    </div>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+  .game-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  kbd {
+    font-family: var(--font-mono);
+  }
+
+  details summary::-webkit-details-marker {
+    display: none;
+  }
+
+  details summary::marker {
+    display: none;
+  }
+
+  /* Pulse animation for daily challenge indicator */
+  @keyframes pulse-glow {
+    0%, 100% {
+      box-shadow: 0 0 5px rgba(0, 255, 0, 0.3);
+    }
+    50% {
+      box-shadow: 0 0 15px rgba(0, 255, 0, 0.5);
+    }
+  }
+</style>

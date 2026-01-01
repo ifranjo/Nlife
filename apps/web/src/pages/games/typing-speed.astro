@@ -1,0 +1,330 @@
+---
+/**
+ * Typing Speed Test - Free Online WPM Test
+ *
+ * A comprehensive typing speed test game with multiple modes,
+ * real-time stats, and shareable results. Tests WPM, accuracy,
+ * and provides comparisons to average typing speeds.
+ */
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/ui/Navbar.astro';
+import Footer from '../../components/ui/Footer.astro';
+import TypingSpeedGame from '../../components/games/TypingSpeedGame';
+import { getGameById } from '../../lib/games';
+
+const game = getGameById('typing-speed');
+const title = game?.seo?.title || 'Typing Speed Test - Free WPM Test | New Life Games';
+const description = game?.seo?.metaDescription || 'Test your typing speed and accuracy. Track WPM, compete with yourself, and improve over time. Free online typing test.';
+---
+
+<Layout title={title} description={description}>
+  <!-- Schema Markup for Game -->
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "VideoGame",
+    "name": "Typing Speed Test",
+    "description": description,
+    "url": "https://www.newlifesolutions.dev/games/typing-speed",
+    "genre": ["Educational", "Arcade", "Casual"],
+    "gamePlatform": ["Web Browser"],
+    "operatingSystem": "Any",
+    "applicationCategory": "Game",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "author": {
+      "@type": "Organization",
+      "name": "New Life Solutions",
+      "url": "https://www.newlifesolutions.dev"
+    }
+  })} />
+
+  <!-- FAQ Schema -->
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is a good typing speed?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The average typing speed is 40 WPM (words per minute). Professional typists typically type 60-80 WPM. Expert typists can exceed 100 WPM. Anything above 60 WPM is considered fast."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How is WPM calculated?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "WPM (Words Per Minute) is calculated by dividing the total number of characters typed by 5 (the standard word length), then dividing by the number of minutes elapsed. Only correctly typed characters are counted."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How can I improve my typing speed?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Practice regularly with typing tests, focus on accuracy before speed, learn proper touch typing technique, maintain good posture, and use all fingers instead of hunt-and-peck. Consistent daily practice of 15-30 minutes can significantly improve your speed."
+        }
+      }
+    ]
+  })} />
+
+  <Navbar />
+
+  <main id="main-content" class="pt-20 pb-16 px-4 min-h-screen">
+    <div class="max-w-4xl mx-auto">
+
+      <!-- Header -->
+      <header class="text-center mb-8">
+        <div class="inline-flex items-center gap-2 mb-4">
+          <span class="text-3xl">⌨️</span>
+          <h1 class="text-2xl sm:text-3xl font-bold tracking-wider text-[var(--text)]">
+            TYPING SPEED TEST
+          </h1>
+        </div>
+        <p class="text-[var(--text-muted)] text-sm max-w-md mx-auto">
+          Test your typing speed and accuracy. Multiple modes available: 15s, 30s, 60s, or custom text.
+        </p>
+
+        <!-- Badges -->
+        <div class="mt-4 flex flex-wrap justify-center gap-2">
+          <span class="inline-flex items-center gap-1 px-3 py-1 glass-card rounded-full">
+            <span class="text-xs text-[var(--text-dim)] uppercase tracking-wider">
+              WPM + Accuracy
+            </span>
+          </span>
+          <span class="inline-flex items-center gap-1 px-3 py-1 glass-card rounded-full">
+            <span class="text-xs text-[var(--text-dim)] uppercase tracking-wider">
+              Multiple Modes
+            </span>
+          </span>
+          <span class="inline-flex items-center gap-1 px-3 py-1 glass-card rounded-full">
+            <span class="text-xs text-[var(--text-dim)] uppercase tracking-wider">
+              Local Leaderboard
+            </span>
+          </span>
+        </div>
+      </header>
+
+      <!-- Game Component -->
+      <section class="game-container mb-12" aria-label="Typing Speed Test Game">
+        <TypingSpeedGame client:load />
+      </section>
+
+      <!-- How to Play -->
+      <section class="glass-card p-6 rounded-lg mb-8" aria-labelledby="how-to-play">
+        <h2 id="how-to-play" class="text-lg font-bold text-[var(--text)] mb-4 tracking-wider">
+          HOW TO PLAY
+        </h2>
+        <ol class="space-y-3 text-sm text-[var(--text-dim)]">
+          <li class="flex items-start gap-3">
+            <span class="flex-shrink-0 w-6 h-6 flex items-center justify-center bg-[var(--bg-hover)] rounded text-xs text-[var(--text)]">1</span>
+            <span>Choose your time mode (15s, 30s, 60s) or custom text</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="flex-shrink-0 w-6 h-6 flex items-center justify-center bg-[var(--bg-hover)] rounded text-xs text-[var(--text)]">2</span>
+            <span>Select a word source: common English words or programming keywords</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="flex-shrink-0 w-6 h-6 flex items-center justify-center bg-[var(--bg-hover)] rounded text-xs text-[var(--text)]">3</span>
+            <span>Type the highlighted words as fast and accurately as possible</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="flex-shrink-0 w-6 h-6 flex items-center justify-center bg-[var(--bg-hover)] rounded text-xs text-[var(--text)]">4</span>
+            <span>Press <kbd class="px-1.5 py-0.5 bg-[var(--bg-secondary)] border border-[var(--border)] rounded text-xs">SPACE</kbd> after each word to move to the next</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="flex-shrink-0 w-6 h-6 flex items-center justify-center bg-[var(--bg-hover)] rounded text-xs text-[var(--text)]">5</span>
+            <span>View your WPM, accuracy, and share your results!</span>
+          </li>
+        </ol>
+      </section>
+
+      <!-- WPM Reference Chart -->
+      <section class="glass-card p-6 rounded-lg mb-8" aria-labelledby="wpm-guide">
+        <h2 id="wpm-guide" class="text-lg font-bold text-[var(--text)] mb-4 tracking-wider">
+          TYPING SPEED REFERENCE
+        </h2>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead>
+              <tr class="border-b border-[var(--border)]">
+                <th class="text-left py-2 text-[var(--text-muted)] uppercase tracking-wider text-xs">Level</th>
+                <th class="text-left py-2 text-[var(--text-muted)] uppercase tracking-wider text-xs">WPM</th>
+                <th class="text-left py-2 text-[var(--text-muted)] uppercase tracking-wider text-xs">Description</th>
+              </tr>
+            </thead>
+            <tbody class="text-[var(--text-dim)]">
+              <tr class="border-b border-[var(--border)]/50">
+                <td class="py-2 text-red-400">Beginner</td>
+                <td class="py-2">< 30 WPM</td>
+                <td class="py-2">Learning to type, hunt and peck method</td>
+              </tr>
+              <tr class="border-b border-[var(--border)]/50">
+                <td class="py-2 text-yellow-400">Average</td>
+                <td class="py-2">30-40 WPM</td>
+                <td class="py-2">Casual computer user, self-taught</td>
+              </tr>
+              <tr class="border-b border-[var(--border)]/50">
+                <td class="py-2 text-blue-400">Proficient</td>
+                <td class="py-2">40-60 WPM</td>
+                <td class="py-2">Office worker, regular typist</td>
+              </tr>
+              <tr class="border-b border-[var(--border)]/50">
+                <td class="py-2 text-green-400">Fast</td>
+                <td class="py-2">60-80 WPM</td>
+                <td class="py-2">Professional typist, programmer</td>
+              </tr>
+              <tr class="border-b border-[var(--border)]/50">
+                <td class="py-2 text-purple-400">Expert</td>
+                <td class="py-2">80-100 WPM</td>
+                <td class="py-2">Top 5% of typists, transcriptionist</td>
+              </tr>
+              <tr>
+                <td class="py-2 text-pink-400">Master</td>
+                <td class="py-2">100+ WPM</td>
+                <td class="py-2">Elite level, stenographer speed</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Tips Section -->
+      <section class="glass-card p-6 rounded-lg mb-8" aria-labelledby="typing-tips">
+        <h2 id="typing-tips" class="text-lg font-bold text-[var(--text)] mb-4 tracking-wider">
+          TIPS TO IMPROVE
+        </h2>
+        <div class="grid sm:grid-cols-2 gap-4">
+          <div class="p-4 bg-[var(--bg-secondary)] rounded-lg">
+            <h3 class="text-[var(--success)] font-bold mb-2">Accuracy First</h3>
+            <p class="text-sm text-[var(--text-dim)]">
+              Focus on typing correctly before trying to type fast. Speed comes naturally with accuracy.
+            </p>
+          </div>
+          <div class="p-4 bg-[var(--bg-secondary)] rounded-lg">
+            <h3 class="text-[var(--success)] font-bold mb-2">Proper Posture</h3>
+            <p class="text-sm text-[var(--text-dim)]">
+              Sit up straight, keep wrists elevated, and position your hands on the home row (ASDF JKL;).
+            </p>
+          </div>
+          <div class="p-4 bg-[var(--bg-secondary)] rounded-lg">
+            <h3 class="text-[var(--success)] font-bold mb-2">Use All Fingers</h3>
+            <p class="text-sm text-[var(--text-dim)]">
+              Touch typing with all 10 fingers is much faster than hunt-and-peck with 2 fingers.
+            </p>
+          </div>
+          <div class="p-4 bg-[var(--bg-secondary)] rounded-lg">
+            <h3 class="text-[var(--success)] font-bold mb-2">Practice Daily</h3>
+            <p class="text-sm text-[var(--text-dim)]">
+              Just 15-30 minutes of daily practice can significantly improve your typing speed in weeks.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="glass-card p-6 rounded-lg mb-8" aria-labelledby="faq">
+        <h2 id="faq" class="text-lg font-bold text-[var(--text)] mb-4 tracking-wider">
+          FREQUENTLY ASKED QUESTIONS
+        </h2>
+        <div class="space-y-4">
+          <details class="group">
+            <summary class="cursor-pointer text-[var(--text)] font-medium py-2 flex justify-between items-center">
+              What is a good typing speed?
+              <span class="text-[var(--text-muted)] group-open:rotate-180 transition-transform">▼</span>
+            </summary>
+            <p class="text-sm text-[var(--text-dim)] pb-4 pt-2">
+              The average typing speed is around 40 WPM. Professional typists typically type 60-80 WPM.
+              Anything above 60 WPM is considered fast, and 100+ WPM is expert level.
+            </p>
+          </details>
+          <details class="group">
+            <summary class="cursor-pointer text-[var(--text)] font-medium py-2 flex justify-between items-center">
+              How is WPM calculated?
+              <span class="text-[var(--text-muted)] group-open:rotate-180 transition-transform">▼</span>
+            </summary>
+            <p class="text-sm text-[var(--text-dim)] pb-4 pt-2">
+              WPM is calculated by dividing total correctly typed characters by 5 (standard word length),
+              then dividing by the elapsed time in minutes. Only correct characters count toward your score.
+            </p>
+          </details>
+          <details class="group">
+            <summary class="cursor-pointer text-[var(--text)] font-medium py-2 flex justify-between items-center">
+              What's the difference between modes?
+              <span class="text-[var(--text-muted)] group-open:rotate-180 transition-transform">▼</span>
+            </summary>
+            <p class="text-sm text-[var(--text-dim)] pb-4 pt-2">
+              <strong>15s:</strong> Quick test, good for warm-ups<br>
+              <strong>30s:</strong> Balanced test, most popular<br>
+              <strong>60s:</strong> Comprehensive test, shows sustained speed<br>
+              <strong>Custom:</strong> Type your own text at your own pace
+            </p>
+          </details>
+          <details class="group">
+            <summary class="cursor-pointer text-[var(--text)] font-medium py-2 flex justify-between items-center">
+              Is my data saved?
+              <span class="text-[var(--text-muted)] group-open:rotate-180 transition-transform">▼</span>
+            </summary>
+            <p class="text-sm text-[var(--text-dim)] pb-4 pt-2">
+              Your high scores are saved locally in your browser (localStorage). Nothing is sent to any server.
+              Your data stays on your device and is 100% private.
+            </p>
+          </details>
+        </div>
+      </section>
+
+      <!-- Related Tools CTA -->
+      <section class="glass-card p-6 rounded-lg text-center" aria-labelledby="related-games">
+        <h2 id="related-games" class="text-sm uppercase tracking-wider text-[var(--text-muted)] mb-3">
+          More Games
+        </h2>
+        <div class="flex flex-wrap justify-center gap-4">
+          <a
+            href="/games/pdf-stack"
+            class="btn-secondary inline-flex items-center gap-2"
+          >
+            <span>PDF Stack</span>
+            <span class="text-lg">📄</span>
+          </a>
+          <a
+            href="/games"
+            class="btn-primary inline-flex items-center gap-2"
+          >
+            <span>All Games</span>
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+            </svg>
+          </a>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+  .game-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  kbd {
+    font-family: var(--font-mono);
+  }
+
+  details summary::-webkit-details-marker {
+    display: none;
+  }
+
+  details[open] summary {
+    border-bottom: 1px solid var(--border);
+  }
+</style>
