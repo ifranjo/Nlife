@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
+import ShareGame from './ShareGame';
 import { trackToolUse, trackConversion, trackToolError, trackPerformance } from '../../lib/analytics';
 
 // ============================================
@@ -203,7 +204,6 @@ export default function ColorMatchGame() {
   const [soundEnabled, setSoundEnabled] = useState(true);
   const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
   const [showHardMode, setShowHardMode] = useState(false);
-  const [copied, setCopied] = useState(false);
 
   // Refs
   const soundManager = useRef(new SoundManager());
@@ -438,35 +438,6 @@ export default function ColorMatchGame() {
     localStorage.setItem('color-match-leaderboard', JSON.stringify(newLeaderboard));
   }, [score, level, actualDifficulty, highScore, leaderboard, sequence.length]);
 
-  // Share result
-  const shareResult = useCallback(async () => {
-    const text = `Color Match - Simon Says
-
-Level: ${level}
-Score: ${score}
-Mode: ${actualDifficulty === 'hard' ? '🔥 Hard' : 'Normal'}
-
-${level >= 15 ? '🏆 Legend!' : level >= 10 ? '⭐ Expert!' : level >= 5 ? '👍 Nice!' : '🎮 Good try!'}
-
-Play at newlifesolutions.dev/games/color-match`;
-
-    if (navigator.share) {
-      try {
-        await navigator.share({ text });
-        return;
-      } catch (e) {
-        // Fall back to clipboard
-      }
-    }
-
-    try {
-      await navigator.clipboard.writeText(text);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    } catch (e) {
-      console.error('Failed to copy:', e);
-    }
-  }, [level, score, actualDifficulty]);
 
   // Render color button
   const renderColorButton = (color: ColorButton, position: string) => {
@@ -737,24 +708,22 @@ Play at newlifesolutions.dev/games/color-match`;
 
           {/* Action Buttons */}
           <div className="flex gap-4">
-            <button
-              onClick={shareResult}
-              className="btn-secondary flex-1 py-3 flex items-center justify-center gap-2"
-            >
-              {copied ? (
-                <>
-                  <span>Copied!</span>
-                  <span className="text-[var(--success)]">✓</span>
-                </>
-              ) : (
-                <>
-                  <span>Share</span>
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
-                  </svg>
-                </>
-              )}
-            </button>
+            {/* Share Game Component */}
+            <ShareGame
+              gameName="Color Match"
+              score={score}
+              scoreLabel="Score"
+              customMessage={`Color Match - Simon Says
+
+Level: ${level}
+Score: ${score}
+Mode: ${actualDifficulty === 'hard' ? '🔥 Hard' : 'Normal'}
+
+${level >= 15 ? '🏆 Legend!' : level >= 10 ? '⭐ Expert!' : level >= 5 ? '👍 Nice!' : '🎮 Good try!'}
+
+Play at newlifesolutions.dev/games/color-match`}
+              className="flex-1"
+            />
             <button
               onClick={startGame}
               className="btn-primary flex-1 py-3"

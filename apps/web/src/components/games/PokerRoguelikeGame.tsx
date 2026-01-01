@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
+import ShareGame from './ShareGame';
 
 // ============================================
 // TYPES
@@ -334,6 +335,20 @@ export default function PokerRoguelikeGame() {
     setLastScore(null);
   }, []);
 
+  // Generate share text
+  const generateShareText = useCallback(() => {
+    const jokerList = jokers.map(j => j.emoji).join(' ');
+    const result = phase === 'won' ? 'WON' : 'LOST';
+
+    return `Poker Roguelike - Balatro Clone
+
+${result} at Round ${blindIndex + 1} - ${currentBlind.name}
+Score: ${roundScore.toLocaleString()} / ${currentBlind.chips.toLocaleString()}
+Jokers: ${jokerList || 'None'}
+
+Play at newlifesolutions.dev/games/poker-roguelike`;
+  }, [phase, blindIndex, roundScore, currentBlind, jokers]);
+
   // Selected cards preview
   const selectedCards = useMemo(() => hand.filter(c => c.selected), [hand]);
   const previewScore = useMemo(() => {
@@ -544,9 +559,18 @@ export default function PokerRoguelikeGame() {
           <div className="text-lg mb-6">
             Final Jokers: {jokers.map(j => j.emoji).join(' ')}
           </div>
-          <button onClick={initGame} className="btn-primary px-8 py-3">
-            Play Again
-          </button>
+          <div className="flex gap-4">
+            <ShareGame
+              gameName="Poker Roguelike"
+              score={`Round ${blindIndex + 1}`}
+              scoreLabel="Game"
+              customMessage={generateShareText()}
+              className="flex-1"
+            />
+            <button onClick={initGame} className="btn-primary px-8 py-3">
+              Play Again
+            </button>
+          </div>
         </div>
       )}
 
@@ -561,9 +585,18 @@ export default function PokerRoguelikeGame() {
           <p className="text-lg mb-6">
             Score: {roundScore.toLocaleString()} / {currentBlind.chips.toLocaleString()}
           </p>
-          <button onClick={initGame} className="btn-primary px-8 py-3">
-            Try Again
-          </button>
+          <div className="flex gap-4">
+            <ShareGame
+              gameName="Poker Roguelike"
+              score={`Round ${blindIndex + 1}`}
+              scoreLabel="Game"
+              customMessage={generateShareText()}
+              className="flex-1"
+            />
+            <button onClick={initGame} className="btn-primary px-8 py-3">
+              Try Again
+            </button>
+          </div>
         </div>
       )}
     </div>

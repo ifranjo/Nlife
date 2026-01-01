@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
+import ShareGame from './ShareGame';
 
 // ============================================
 // TYPES
@@ -147,6 +148,15 @@ export default function SolitaireGame() {
     setMoves(0);
     setTime(0);
   }, []);
+
+  // Generate share text
+  const generateShareText = useCallback(() => {
+    return `Solitaire
+
+Completed in ${moves} moves and ${formatTime(time)}
+
+Play at newlifesolutions.dev/games/solitaire`;
+  }, [moves, time]);
 
   // Load leaderboard
   useEffect(() => {
@@ -553,6 +563,15 @@ export default function SolitaireGame() {
                 <div className="text-xs text-[var(--text-muted)]">Time</div>
                 <div className="text-2xl font-mono font-bold">{formatTime(time)}</div>
               </div>
+            </div>
+            <div className="mb-6">
+              <ShareGame
+                gameName="Solitaire"
+                score={`${moves} moves`}
+                scoreLabel="Moves"
+                customMessage={generateShareText()}
+                className="w-full"
+              />
             </div>
             <button
               onClick={initGame}
