@@ -69,7 +69,7 @@ export default function PdfOrganize() {
 
         const context = canvas.getContext('2d');
         if (context) {
-          await page.render({ canvasContext: context, viewport }).promise;
+          await page.render({ canvasContext: context, viewport, canvas }).promise;
           previews.push({
             index: i - 1,
             thumbnail: canvas.toDataURL('image/jpeg', 0.7),

@@ -28,6 +28,16 @@ type PlausibleFunction = (
 declare global {
   interface Window {
     plausible?: PlausibleFunction;
+    gtag?: (...args: any[]) => void;
+    dataLayer?: any[];
+    analytics?: {
+      trackPageView: (page_path: string, page_title?: string) => void;
+      trackToolUsage: (toolName: string, category: string, action?: string) => void;
+      trackFileProcessed: (toolName: string, fileType: string, fileSize: number, processingTime: number) => void;
+      trackError: (errorType: string, toolName: string, errorMessage: string) => void;
+      trackDownload: (toolName: string, fileType: string) => void;
+      trackShare: (toolName: string, platform: string) => void;
+    };
   }
 }
 
@@ -88,24 +98,46 @@ export function trackEvent(
   props?: Record<string, string | number | boolean>,
   callback?: () => void
 ): void {
-  if (!isTrackingAvailable()) {
-    if (import.meta.env.DEV) {
-      console.log('[Analytics] Plausible not available:', { eventName, props });
+  // Try Plausible first (privacy-first analytics)
+  if (isTrackingAvailable()) {
+    try {
+      window.plausible!(eventName, {
+        props: props || {},
+        callback,
+      });
+
+      if (import.meta.env.DEV) {
+        console.log('[Analytics] Plausible event tracked:', { eventName, props });
+      }
+    } catch (error) {
+      console.error('[Plausible] Failed to track event:', error);
     }
-    return;
   }
 
+  // Also track with Google Analytics 4 (for detailed analysis)
   try {
-    window.plausible!(eventName, {
-      props: props || {},
-      callback,
-    });
+    if (typeof window !== 'undefined' && window.gtag) {
+      const ga4Props = { ...props };
 
-    if (import.meta.env.DEV) {
-      console.log('[Analytics] Event tracked:', { eventName, props });
+      // Map custom properties to GA4 dimensions/metrics
+      if (props?.tool) {
+        ga4Props.tool_name = props.tool;
+        ga4Props.tool_category = props.category;
+      }
+
+      window.gtag('event', eventName.toLowerCase().replace(/\s+/g, '_'), {
+        event_category: 'Tool Interaction',
+        event_label: ga4Props.tool || eventName,
+        ...ga4Props,
+        non_interaction: false
+      });
+
+      if (import.meta.env.DEV) {
+        console.log('[Analytics] GA4 event tracked:', { eventName, ga4Props });
+      }
     }
   } catch (error) {
-    console.error('[Analytics] Failed to track event:', error);
+    console.error('[GA4] Failed to track event:', error);
   }
 }
 

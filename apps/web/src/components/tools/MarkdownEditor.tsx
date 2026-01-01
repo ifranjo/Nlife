@@ -1,7 +1,7 @@
 import { useState, useCallback, useEffect, useMemo } from 'react';
 import { marked } from 'marked';
 import hljs from 'highlight.js';
-import DOMPurify from 'dompurify';
+import DOMPurify from 'isomorphic-dompurify';
 import { createSafeErrorMessage } from '../../lib/security';
 import { copyToClipboard } from '../../lib/clipboard';
 
@@ -165,7 +165,7 @@ export default function MarkdownEditor() {
       border-left: 4px solid #ddd;
       margin: 1rem 0;
       padding-left: 1rem;
-      color: #666;
+      color: #888;
     }
     table {
       border-collapse: collapse;

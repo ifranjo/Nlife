@@ -535,9 +535,9 @@ export default function AudioWaveformEditor() {
 
       await ffmpeg.exec(args);
 
-      const data = await ffmpeg.readFile(outputName);
+      const data = await ffmpeg.readFile(outputName) as Uint8Array;
       const mimeType = exportFormat === 'mp3' ? 'audio/mpeg' : 'audio/wav';
-      const blob = new Blob([data], { type: mimeType });
+      const blob = new Blob([new Uint8Array(data)], { type: mimeType });
       setOutputUrl(URL.createObjectURL(blob));
       setStatus('done');
 

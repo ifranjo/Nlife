@@ -78,7 +78,7 @@ export default function PdfToJpg() {
 
         const context = canvas.getContext('2d');
         if (context) {
-          await page.render({ canvasContext: context, viewport }).promise;
+          await page.render({ canvasContext: context, viewport, canvas }).promise;
           pageImages.push({
             pageNumber: i,
             dataUrl: canvas.toDataURL('image/jpeg', 0.7),
@@ -177,7 +177,7 @@ export default function PdfToJpg() {
 
         const context = canvas.getContext('2d');
         if (context) {
-          await page.render({ canvasContext: context, viewport }).promise;
+          await page.render({ canvasContext: context, viewport, canvas }).promise;
 
           const dataUrl = canvas.toDataURL(mimeType, imageQuality);
           const link = document.createElement('a');
@@ -205,7 +205,7 @@ export default function PdfToJpg() {
 
           const context = canvas.getContext('2d');
           if (context) {
-            await page.render({ canvasContext: context, viewport }).promise;
+            await page.render({ canvasContext: context, viewport, canvas }).promise;
 
             // Convert to blob
             const dataUrl = canvas.toDataURL(mimeType, imageQuality);

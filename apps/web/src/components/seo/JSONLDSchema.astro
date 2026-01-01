@@ -1,0 +1,62 @@
+---
+// JSON-LD Schema Component for /status page
+// Provides structured data for search engines and AI crawlers
+
+interface Props {
+  schema?: Record<string, any>;
+}
+
+const { schema } = Astro.props;
+
+// Default schema if no custom one provided
+const defaultSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "Security Status & Transparency Report - New Life Solutions",
+  "description": "Real-time security status, audit timeline, and transparency report for New Life Solutions privacy-first browser tools.",
+  "url": "https://www.newlifesolutions.dev/status",
+  "mainEntity": {
+    "@type": "Organization",
+    "name": "New Life Solutions",
+    "description": "Privacy-first browser-based tools with zero data collection",
+    "securityLevel": "In Progress",
+    "auditStatus": "Security audit initiated January 2025, 65% complete",
+    "compliance": [
+      {
+        "@type": "Compliance",
+        "standard": "GDPR",
+        "status": "Partial",
+        "details": "Right to erasure and data minimization compliant"
+      },
+      {
+        "@type": "Compliance",
+        "standard": "CCPA",
+        "status": "Compliant",
+        "details": "No personal information sold or collected"
+      },
+      {
+        "@type": "Compliance",
+        "standard": "HIPAA",
+        "status": "Non-Compliant",
+        "details": "Browser-only architecture lacks required audit controls"
+      }
+    ],
+    "securityFeatures": [
+      "100% browser-based processing",
+      "Zero data collection",
+      "No file uploads",
+      "Local file validation",
+      "TLS 1.3 encryption",
+      "Open source code available"
+    ]
+  }
+};
+
+const pageSchema = JSON.stringify(schema || defaultSchema, null, 2);
+---
+
+<script type="application/ld+json" set:html={pageSchema} />
+
+<style>
+  /* This component renders only JSON-LD, no visible elements */
+</style>

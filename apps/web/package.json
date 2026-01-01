@@ -36,6 +36,7 @@
     "marked": "^17.0.1",
     "pdf-lib": "^1.17.1",
     "pdfjs-dist": "^5.4.449",
+    "phaser": "^3.90.0",
     "piexifjs": "^1.0.6",
     "prettier": "^3.7.4",
     "qrcode": "^1.5.4",

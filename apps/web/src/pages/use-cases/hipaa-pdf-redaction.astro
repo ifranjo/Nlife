@@ -10,13 +10,13 @@ import Footer from '../../components/ui/Footer.astro';
 const howToSchema = {
   "@context": "https://schema.org",
   "@type": "HowTo",
-  "name": "How to Redact PHI from Medical PDFs (HIPAA Compliant)",
+  "name": "How to Redact PHI from Medical PDFs (Privacy-Focused)",
   "description": "Permanently remove patient health information from medical documents while maintaining HIPAA compliance using browser-based redaction.",
   "step": [
     { "@type": "HowToStep", "text": "Upload medical PDF to browser-based redactor" },
     { "@type": "HowToStep", "text": "Auto-detect PHI (SSN, emails, dates) or manually select sensitive text" },
     { "@type": "HowToStep", "text": "Preview redactions and apply permanent removal" },
-    { "@type": "HowToStep", "text": "Download HIPAA-safe PDF with all PHI permanently removed" }
+    { "@type": "HowToStep", "text": "Download privacy-safe PDF with all PHI permanently removed" }
   ]
 };
 
@@ -91,9 +91,9 @@ const faqSchema = {
       </header>
 
       <div class="bg-red-500/10 border border-red-500/30 rounded-xl p-6 mb-8">
-        <h2 class="text-lg font-semibold text-red-400 mb-2">HIPAA-Safe Document Redaction</h2>
+        <h2 class="text-lg font-semibold text-red-400 mb-2">Privacy-Focused Document Redaction</h2>
         <p class="text-[var(--text)]">
-          Use our <a href="/tools/pdf-redactor" class="text-red-400 underline">free PDF redactor</a> to remove PHI before sharing medical records. Auto-detect SSN, dates, emails. No upload required - 100% compliant with HIPAA technical safeguards.
+          Use our <a href="/tools/pdf-redactor" class="text-red-400 underline">free PDF redactor</a> to remove PHI before sharing medical records. Auto-detect SSN, dates, emails. No upload required - 100% local processing - no data transmission.
         </p>
       </div>
 
@@ -121,7 +121,7 @@ const faqSchema = {
 
       <div class="bg-[var(--bg-secondary)] rounded-xl p-8 text-center mb-10 border border-[var(--border)]">
         <h2 class="text-2xl font-bold text-[var(--text)] mb-4">Start Redacting Medical PDFs</h2>
-        <p class="text-[var(--text-muted)] mb-6">100% HIPAA-safe - your files never leave your device</p>
+        <p class="text-[var(--text-muted)] mb-6">100% private - your files never leave your device</p>
         <a
           href="/tools/pdf-redactor"
           class="inline-block px-8 py-4 bg-[var(--accent)] text-[var(--bg)] rounded-lg font-semibold hover:opacity-90 transition-opacity text-lg"
@@ -147,7 +147,7 @@ const faqSchema = {
           </li>
           <li class="flex gap-3">
             <span class="flex-shrink-0 w-8 h-8 bg-[var(--accent)] text-[var(--bg)] rounded-full flex items-center justify-center font-bold text-sm">4</span>
-            <span><strong class="text-[var(--text)]">Apply & Download</strong> - Redactions are permanently applied. Download your HIPAA-safe PDF ready for secure sharing.</span>
+            <span><strong class="text-[var(--text)]">Apply & Download</strong> - Redactions are permanently applied. Download your privacy-safe PDF ready for secure sharing.</span>
           </li>
         </ol>
       </section>

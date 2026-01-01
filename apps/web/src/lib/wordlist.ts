@@ -1,8 +1,192 @@
 /**
  * Word list for Word Guess game
- * 2000+ common 5-letter English words suitable for a Wordle-style game
+ * Supports English and Spanish
  * Words are filtered for familiarity - no obscure/archaic words
  */
+
+export type Language = 'en' | 'es';
+
+// Spanish 5-letter words (common words)
+export const SPANISH_WORDS: string[] = [
+  // A
+  'abajo', 'abeja', 'abril', 'abrir', 'acaso', 'acero', 'acido', 'actua', 'actor', 'acude',
+  'adios', 'afear', 'agrio', 'aguja', 'ahora', 'aires', 'ajeno', 'alado', 'alamo', 'album',
+  'aldea', 'aleja', 'aleta', 'alfil', 'algas', 'alien', 'aliso', 'altar', 'altas', 'altura',
+  'amaba', 'amado', 'amago', 'amano', 'amara', 'amaro', 'amasa', 'ambar', 'ambos', 'ameno',
+  'amiga', 'amigo', 'amino', 'amnio', 'amora', 'ancla', 'andar', 'angel', 'anima', 'animo',
+  'anota', 'antes', 'antro', 'anual', 'apoyo', 'arabe', 'arbol', 'arena', 'argot', 'arida',
+  'armar', 'armas', 'aroma', 'arpon', 'arras', 'arroz', 'asado', 'asear', 'asilo', 'asoma',
+  'atlas', 'atras', 'autor', 'avena', 'avion', 'aviso', 'ayuda', 'ayuno', 'azote', 'azuca',
+  // B
+  'bahia', 'baila', 'baile', 'bajar', 'balde', 'balsa', 'banca', 'banco', 'banda', 'bando',
+  'barba', 'barco', 'bares', 'barra', 'barro', 'basar', 'bases', 'basta', 'batea', 'beber',
+  'bella', 'bello', 'besar', 'besos', 'bicho', 'bingo', 'blusa', 'bocas', 'bodas', 'bolsa',
+  'bomba', 'borde', 'borra', 'botes', 'brazo', 'breve', 'brisa', 'brote', 'brujo', 'bruma',
+  'bueno', 'bufon', 'bulto', 'burla', 'busca',
+  // C
+  'cabal', 'cabra', 'cacao', 'cacho', 'cacos', 'caida', 'cajas', 'calma', 'calor', 'calvo',
+  'camas', 'campo', 'canal', 'canas', 'canto', 'capaz', 'carne', 'carta', 'casas', 'casco',
+  'casos', 'casta', 'causa', 'cavar', 'cazar', 'ceder', 'cejas', 'celda', 'celos', 'cenar',
+  'censo', 'cerca', 'cerdo', 'cerro', 'chica', 'chico', 'chile', 'chino', 'chivo', 'choza',
+  'ciega', 'ciego', 'cielo', 'cient', 'cifra', 'cinco', 'cinta', 'circo', 'cisne', 'citas',
+  'civil', 'clara', 'claro', 'clase', 'clave', 'clavo', 'clima', 'clubs', 'cobro', 'cocer',
+  'coche', 'cocoa', 'codex', 'codos', 'cofre', 'cogen', 'coger', 'cohea', 'cola', 'colas',
+  'coles', 'colon', 'color', 'colmo', 'comas', 'combo', 'comen', 'comer', 'comia', 'comun',
+  'conde', 'conga', 'conil', 'copia', 'coral', 'coran', 'corma', 'corno', 'coros', 'corta',
+  'corte', 'corto', 'cosas', 'costa', 'coste', 'crean', 'crear', 'crece', 'creer', 'crema',
+  'crias', 'cruce', 'cruda', 'crudo', 'cruel', 'cruja', 'cuajo', 'cuban', 'cubas', 'cubon',
+  'cubos', 'cucos', 'cueca', 'cuero', 'cueva', 'cuida', 'culpa', 'culto', 'curso', 'curva',
+  // D
+  'dados', 'damas', 'dando', 'danza', 'datar', 'datos', 'debes', 'debil', 'decir', 'dedal',
+  'dedos', 'dejar', 'delta', 'demis', 'densa', 'denso', 'desde', 'desea', 'deseo', 'diana',
+  'dicha', 'dicho', 'diera', 'dieta', 'digno', 'disco', 'divan', 'divin', 'doble', 'docil',
+  'dolor', 'donde', 'dorar', 'dotar', 'draga', 'drama', 'droga', 'ducha', 'dudar', 'dudas',
+  'duelo', 'duena', 'dueno', 'dulce', 'duras', 'durar', 'durez', 'duros',
+  // E
+  'echar', 'efebo', 'egipt', 'elite', 'ellos', 'email', 'enero', 'enojo', 'entra', 'entre',
+  'envio', 'epoca', 'equis', 'erase', 'erizo', 'error', 'escri', 'espia', 'estar', 'estas',
+  'estos', 'etapa', 'etica', 'etnia', 'euros', 'exito', 'extra',
+  // F
+  'fabla', 'facil', 'falda', 'falla', 'falsa', 'falso', 'falta', 'famas', 'fango', 'farsa',
+  'fatal', 'fauna', 'favor', 'feria', 'feroz', 'fibra', 'ficha', 'fiera', 'fijar', 'filas',
+  'finca', 'fines', 'firma', 'firme', 'fisco', 'flash', 'flema', 'floja', 'flojo', 'flora',
+  'fluir', 'flujo', 'fobia', 'focal', 'fonda', 'fondo', 'forma', 'forro', 'fosil', 'fotos',
+  'fraga', 'freno', 'fresa', 'friar', 'frios', 'frita', 'frito', 'fruta', 'fruto', 'fuego',
+  'fuera', 'fuero', 'fuerz', 'fugas', 'fumar', 'furor', 'fusta',
+  // G
+  'gafas', 'galas', 'gallo', 'gamas', 'ganan', 'ganar', 'ganas', 'ganga', 'garbo', 'garra',
+  'garum', 'gasta', 'gasto', 'gatas', 'gatos', 'gayol', 'gazas', 'gemia', 'gente', 'gesto',
+  'girar', 'giros', 'globo', 'gnomo', 'goces', 'gofio', 'golfa', 'golfo', 'golpe', 'gorda',
+  'gordo', 'gorro', 'gotas', 'gozan', 'gozar', 'graba', 'grado', 'grama', 'grana', 'grasa',
+  'grave', 'greda', 'gripa', 'gripe', 'grisa', 'griso', 'grita', 'grupo', 'guapo', 'guiar',
+  'guion', 'guisa', 'guiso', 'guita', 'gusco', 'gusto',
+  // H
+  'haber', 'habia', 'habla', 'hacer', 'hacia', 'hadas', 'halar', 'halda', 'hallo', 'hampa',
+  'harpa', 'harta', 'harto', 'hasta', 'hayan', 'hayas', 'hazas', 'heces', 'hecho', 'helar',
+  'hemos', 'herir', 'hielo', 'hiena', 'hijos', 'hilar', 'hilos', 'himno', 'hogar', 'hojas',
+  'holan', 'holla', 'hombo', 'hondo', 'honor', 'horas', 'horda', 'horno', 'hotel', 'hucha',
+  'hueco', 'huele', 'hueso', 'huevo', 'huida', 'huido', 'humor', 'hunos',
+  // I - J
+  'ideal', 'ideas', 'igual', 'ileso', 'iluso', 'impar', 'india', 'indio', 'infra', 'ingls',
+  'inicio', 'islas', 'jabon', 'jamon', 'japon', 'jaque', 'jarra', 'jaula', 'jefes', 'joven',
+  'joyas', 'judia', 'judio', 'juega', 'juego', 'jugar', 'jugos', 'junco', 'junta', 'junto',
+  'jurar', 'justo', 'juzga',
+  // L
+  'labio', 'labra', 'lacra', 'lados', 'ladra', 'lagar', 'lagos', 'lamer', 'lanas', 'lanza',
+  'lapiz', 'larga', 'largo', 'laser', 'latas', 'latin', 'lavar', 'lavas', 'lazon', 'lecho',
+  'legal', 'legua', 'leida', 'leido', 'lejos', 'lemas', 'lento', 'leona', 'letra', 'levan',
+  'leyes', 'libre', 'libro', 'liceo', 'lider', 'lidia', 'ligar', 'lilas', 'limar', 'lindo',
+  'linea', 'linos', 'lirio', 'lista', 'listo', 'litio', 'litro', 'llama', 'llano', 'llega',
+  'llena', 'lleno', 'lleva', 'llora', 'lloro', 'lobby', 'lobos', 'local', 'locos', 'lodos',
+  'logra', 'logro', 'lomas', 'lomos', 'lonas', 'lotes', 'lucha', 'lucir', 'luego', 'lugar',
+  'lujos', 'lunas', 'lunes', 'luzon',
+  // M
+  'macho', 'macro', 'madre', 'mafia', 'magia', 'magna', 'magno', 'magos', 'malas', 'malos',
+  'malva', 'mamas', 'mando', 'manes', 'manga', 'mango', 'mania', 'manos', 'manta', 'manto',
+  'mapas', 'marca', 'marco', 'marea', 'mares', 'marzo', 'masas', 'matas', 'mayor', 'mazas',
+  'mecer', 'media', 'medio', 'medir', 'mejor', 'melon', 'menor', 'menos', 'mente', 'menta',
+  'menu', 'meras', 'meros', 'mesas', 'meses', 'meson', 'metal', 'meter', 'metro', 'miedo',
+  'minas', 'miran', 'mirar', 'misas', 'misil', 'misma', 'mismo', 'mitos', 'mixta', 'mixto',
+  'modal', 'modas', 'model', 'modos', 'mojar', 'molde', 'moler', 'moles', 'molla', 'momia',
+  'monas', 'monje', 'monos', 'monte', 'monto', 'moral', 'moras', 'morde', 'morir', 'moros',
+  'mosca', 'motor', 'mover', 'movil', 'mozon', 'mozos', 'mucha', 'mucho', 'mudar', 'mudas',
+  'mudos', 'mueca', 'muela', 'muere', 'mujer', 'mulas', 'multa', 'mundo', 'mural', 'muros',
+  'musas', 'museo', 'musgo', 'mutua', 'mutuo',
+  // N
+  'nacer', 'nacio', 'nacin', 'nadan', 'nadar', 'nadie', 'nafta', 'naipe', 'nalga', 'nariz',
+  'nasal', 'natal', 'natas', 'natos', 'naval', 'naves', 'necio', 'negar', 'negro', 'nenas',
+  'nenes', 'nieve', 'ninfa', 'ninas', 'ninez', 'ninos', 'niqui', 'nivel', 'noble', 'noche',
+  'nodal', 'nodos', 'nogal', 'nomos', 'norma', 'norte', 'notas', 'notar', 'novel', 'novia',
+  'novio', 'nubes', 'nucas', 'nudos', 'nuera', 'nueva', 'nueve', 'nuevo', 'nunca', 'nutri',
+  // O
+  'oasis', 'obras', 'obrar', 'obvia', 'obvio', 'ocaso', 'ocios', 'ocupa', 'ocurr', 'odiar',
+  'odios', 'oeste', 'ofici', 'ofre', 'oigan', 'oimos', 'oiste', 'ojear', 'ojera', 'oleos',
+  'olers', 'oliva', 'olivo', 'ollas', 'olmos', 'olore', 'olote', 'olras', 'ondas', 'opaco',
+  'opera', 'opina', 'opone', 'optar', 'oraen', 'orden', 'oreja', 'organ', 'orgia', 'orina',
+  'orlan', 'ornar', 'osado', 'ostra', 'otear', 'otros', 'oveja', 'ovulo', 'oxido', 'oyend',
+  'ozono',
+  // P
+  'pablo', 'padre', 'pagas', 'pagar', 'pagos', 'pajes', 'palas', 'palio', 'palma', 'palmo',
+  'palos', 'pampa', 'panda', 'panel', 'panes', 'papel', 'parar', 'pardo', 'pared', 'pares',
+  'paris', 'parla', 'parra', 'parte', 'parto', 'pasar', 'pasen', 'paseo', 'pasos', 'pasta',
+  'pasto', 'patas', 'patio', 'patos', 'pausa', 'pauta', 'pavos', 'payos', 'pazos', 'pecar',
+  'pecho', 'pedal', 'pedir', 'pegar', 'peina', 'pelas', 'pelea', 'pelos', 'penas', 'penal',
+  'pende', 'penil', 'peons', 'peona', 'peque', 'peral', 'peras', 'perdi', 'perla', 'perro',
+  'pesas', 'pesca', 'pesos', 'petan', 'piano', 'picar', 'picos', 'picar', 'pieza', 'pilas',
+  'pinar', 'pinos', 'pinta', 'pinto', 'pipas', 'pirar', 'pisar', 'pisos', 'pista', 'pitar',
+  'pizza', 'placa', 'plana', 'plano', 'plata', 'plato', 'playa', 'plaza', 'plazo', 'plebe',
+  'plena', 'pleno', 'plomo', 'pluma', 'pobre', 'pocos', 'podas', 'poder', 'poema', 'poeta',
+  'polar', 'polen', 'pollo', 'polvo', 'poner', 'pongo', 'ponle', 'popas', 'porta', 'porte',
+  'posar', 'poste', 'potro', 'pozan', 'pozos', 'prado', 'pravo', 'presa', 'preso', 'prima',
+  'primo', 'prisa', 'probo', 'prole', 'prosa', 'puede', 'pueda', 'pulga', 'pulir', 'pulpo',
+  'pulso', 'pumas', 'punta', 'punto', 'puros', 'putan',
+  // Q - R
+  'queen', 'quema', 'queso', 'quien', 'quiso', 'quita', 'quito', 'rabia', 'rabos', 'racha',
+  'radio', 'rajar', 'ramal', 'ramas', 'rampa', 'ranas', 'raras', 'raros', 'rasas', 'rasos',
+  'ratos', 'raudo', 'rayar', 'rayos', 'razar', 'razas', 'razon', 'reata', 'recia', 'recio',
+  'recta', 'recto', 'redes', 'redil', 'regir', 'regio', 'regla', 'reina', 'reino', 'rejas',
+  'relax', 'reloj', 'remar', 'remos', 'renal', 'renta', 'repel', 'repta', 'resal', 'resce',
+  'reses', 'resto', 'retan', 'retos', 'reuma', 'rever', 'reves', 'rezar', 'rezos', 'riada',
+  'rifas', 'rigor', 'rilas', 'rimas', 'rinde', 'rinon', 'risas', 'ritmo', 'ritos', 'rival',
+  'rizos', 'robar', 'robos', 'robot', 'rocas', 'rocio', 'rodar', 'rodea', 'rodeo', 'rogar',
+  'rojas', 'rojos', 'rolda', 'rollo', 'roman', 'rompa', 'rompe', 'ronda', 'roneo', 'ropas',
+  'roque', 'rosas', 'rosca', 'rotar', 'rotos', 'rozar', 'rubio', 'rubor', 'rueda', 'ruega',
+  'ruego', 'rugby', 'rugir', 'ruido', 'ruina', 'rumbo', 'rumor', 'runas', 'rupas', 'rural',
+  'rusas', 'rusia', 'rusos', 'rutas', 'rutin',
+  // S
+  'saber', 'sabia', 'sabio', 'sabor', 'sacar', 'sacos', 'sacro', 'saeta', 'sagaz', 'sagra',
+  'sajar', 'salas', 'salaz', 'saldo', 'salga', 'salgo', 'salir', 'salmo', 'salon', 'salsa',
+  'salta', 'salto', 'salud', 'salva', 'salvo', 'samba', 'santa', 'santo', 'saque', 'sarna',
+  'sarro', 'satan', 'savia', 'sazon', 'secas', 'secar', 'secos', 'secta', 'sedes', 'sedis',
+  'segar', 'segun', 'selva', 'semen', 'senas', 'senil', 'senos', 'seque', 'seres', 'seria',
+  'serio', 'serra', 'serve', 'sesgo', 'setas', 'sevil', 'sexos', 'sexto', 'sidra', 'siega',
+  'sigla', 'siglo', 'signo', 'sigue', 'silla', 'simil', 'simio', 'siren', 'siria', 'sirio',
+  'sirva', 'sirve', 'sitio', 'situa', 'sobre', 'socio', 'sodas', 'sodio', 'sofas', 'solar',
+  'solas', 'soler', 'solos', 'solta', 'soma', 'somos', 'sonar', 'sonda', 'sopas', 'sopla',
+  'soplo', 'sorda', 'sordo', 'sorna', 'sorpd', 'sotar', 'soya', 'suave', 'subas', 'subir',
+  'sucio', 'sudar', 'sudor', 'sueco', 'suegr', 'suela', 'sueld', 'suelo', 'suena', 'sueno',
+  'suero', 'sueva', 'sufri', 'suiza', 'suizo', 'sumar', 'sumas', 'sumir', 'sumos', 'super',
+  'supla', 'suple', 'supli', 'surco', 'surge', 'surja', 'surta', 'susto', 'sutil', 'suyos',
+  // T
+  'tabas', 'tabla', 'tabon', 'tabus', 'tacha', 'tacos', 'tacon', 'tacto', 'taiga', 'talar',
+  'talas', 'talco', 'talla', 'talle', 'talon', 'tanda', 'tango', 'tanos', 'tanta', 'tanto',
+  'tapas', 'tapar', 'tapia', 'tapir', 'tapon', 'tardo', 'tarea', 'tarma', 'tarro', 'tarso',
+  'tarta', 'tasas', 'tasar', 'taxis', 'taxon', 'tazas', 'tazon', 'tecla', 'techo', 'tejas',
+  'tejer', 'tejon', 'telas', 'teman', 'temas', 'tembl', 'temen', 'temer', 'temor', 'tempo',
+  'tenas', 'tenaz', 'tenca', 'tenda', 'tener', 'tenga', 'tengo', 'tenia', 'tenis', 'tenor',
+  'tensa', 'tenso', 'teoria', 'terco', 'terno', 'terra', 'tersa', 'terso', 'tesis', 'tesla',
+  'testa', 'texto', 'tiara', 'tibia', 'tibio', 'tiene', 'tigre', 'tilas', 'tilde', 'timba',
+  'timbo', 'timos', 'tinas', 'tinta', 'tinto', 'tipos', 'tique', 'tirad', 'tirar', 'tiras',
+  'tiron', 'tiros', 'titan', 'titulo', 'tizas', 'tizon', 'tocar', 'tocho', 'tocin', 'todas',
+  'todos', 'togas', 'toldo', 'tomar', 'tomas', 'tonal', 'tonos', 'tonta', 'tonto', 'topan',
+  'topar', 'topes', 'toque', 'toral', 'torca', 'tordo', 'torea', 'toreo', 'torio', 'torna',
+  'torno', 'toros', 'torre', 'torso', 'torta', 'torvo', 'tosca', 'tosco', 'toser', 'total',
+  'totem', 'trama', 'tramo', 'trapo', 'trata', 'trato', 'traza', 'trazo', 'trece', 'trena',
+  'trens', 'trepa', 'treta', 'tribu', 'trigo', 'trill', 'tripa', 'troca', 'troja', 'trola',
+  'trono', 'tropa', 'trote', 'trova', 'troza', 'truco', 'truja', 'truna', 'tubos', 'tueca',
+  'tuera', 'tumba', 'tumor', 'tunas', 'tunel', 'tunos', 'tupir', 'turba', 'turbo', 'turca',
+  'turco', 'turno', 'turon', 'tutor', 'tuyas', 'tuyos',
+  // U - V
+  'ubica', 'ulano', 'ulcer', 'ultra', 'uncir', 'unica', 'unico', 'unida', 'unido', 'union',
+  'untar', 'urano', 'ureas', 'urgen', 'urgir', 'urnas', 'usada', 'usado', 'usais', 'usamos',
+  'usara', 'usare', 'utero', 'util', 'vacas', 'vacio', 'vagar', 'vagon', 'valer', 'vales',
+  'valga', 'valla', 'valle', 'valor', 'valsa', 'valse', 'vanal', 'vanas', 'vanos', 'vapor',
+  'vaquea', 'varas', 'varia', 'vario', 'varon', 'vasar', 'vasos', 'vasta', 'vasto', 'vayan',
+  'vayas', 'veces', 'vecin', 'vedar', 'vedas', 'vegas', 'veian', 'vejez', 'velas', 'velar',
+  'vello', 'vemos', 'venas', 'vence', 'venda', 'vende', 'venga', 'vengo', 'venia', 'venir',
+  'venta', 'venus', 'veras', 'verbo', 'verde', 'verga', 'verja', 'verso', 'verte', 'vetas',
+  'vetar', 'vetus', 'vezan', 'viaja', 'viaje', 'vibra', 'vicio', 'vidas', 'video', 'vieja',
+  'viejo', 'viene', 'viera', 'vigor', 'vilas', 'viles', 'vimos', 'vinas', 'vinos', 'viole',
+  'viral', 'viras', 'virus', 'visar', 'visas', 'visor', 'vista', 'visto', 'vital', 'viuda',
+  'viudo', 'vivan', 'vivas', 'viven', 'vivir', 'vivos', 'vocal', 'voces', 'volar', 'volea',
+  'voleo', 'volta', 'volvi', 'vomit', 'voraz', 'votan', 'votar', 'votos', 'vozal', 'vuelo',
+  'vulgo', 'vulva',
+  // Y - Z
+  'yacen', 'yacer', 'yates', 'yedra', 'yegua', 'yemas', 'yendo', 'yente', 'yerba', 'yermo',
+  'yerno', 'yerra', 'yerro', 'yerta', 'yerto', 'yesca', 'yogur', 'yucas', 'yunta', 'zafar',
+  'zafio', 'zafra', 'zanja', 'zarpa', 'zarza', 'zenit', 'zonas', 'zorra', 'zorro', 'zueco',
+  'zumos', 'zurdo', 'zurra'
+];
 
 // Common 5-letter words that players might guess (larger pool)
 export const VALID_GUESSES: string[] = [
@@ -304,11 +488,12 @@ export const DAILY_WORDS: string[] = [
 ];
 
 /**
- * Get the daily word based on date seed
+ * Get the daily word based on date seed and language
  * Uses UTC date to ensure same word worldwide
  */
-export function getDailyWord(dateString?: string): string {
+export function getDailyWord(dateString?: string, language: Language = 'en'): string {
   const date = dateString || new Date().toISOString().slice(0, 10);
+  const wordList = language === 'es' ? SPANISH_WORDS : DAILY_WORDS;
 
   // Simple hash function for the date
   let hash = 0;
@@ -319,15 +504,19 @@ export function getDailyWord(dateString?: string): string {
   }
 
   // Use absolute value and mod by word list length
-  const index = Math.abs(hash) % DAILY_WORDS.length;
-  return DAILY_WORDS[index];
+  const index = Math.abs(hash) % wordList.length;
+  return wordList[index];
 }
 
 /**
- * Check if a word is a valid guess
+ * Check if a word is a valid guess based on language
  */
-export function isValidWord(word: string): boolean {
-  return VALID_GUESSES.includes(word.toLowerCase());
+export function isValidWord(word: string, language: Language = 'en'): boolean {
+  const lowerWord = word.toLowerCase();
+  if (language === 'es') {
+    return SPANISH_WORDS.includes(lowerWord);
+  }
+  return VALID_GUESSES.includes(lowerWord);
 }
 
 /**

@@ -167,8 +167,8 @@ export default function GifMaker() {
         '-y', outputName
       ]);
 
-      const data = await ffmpeg.readFile(outputName);
-      const blob = new Blob([data], { type: 'image/gif' });
+      const data = await ffmpeg.readFile(outputName) as Uint8Array;
+      const blob = new Blob([new Uint8Array(data)], { type: 'image/gif' });
       setOutputSize(blob.size);
       setOutputUrl(URL.createObjectURL(blob));
       setStatus('done');

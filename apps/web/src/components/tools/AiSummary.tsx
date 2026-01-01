@@ -362,8 +362,8 @@ export default function AiSummary() {
   const [apiSettings, setApiSettings] = useState<ApiSettings>(() => {
     if (typeof window !== 'undefined') {
       return {
-        openaiKey: localStorage.getItem('newlife_openai_key') || '',
-        claudeKey: localStorage.getItem('newlife_claude_key') || '',
+        openaiKey: sessionStorage.getItem('newlife_openai_key') || '',
+        claudeKey: sessionStorage.getItem('newlife_claude_key') || '',
       };
     }
     return { openaiKey: '', claudeKey: '' };
@@ -376,15 +376,15 @@ export default function AiSummary() {
   const stats = useMemo(() => calculateStats(currentText), [currentText]);
   const hasContent = currentText.trim().length > 0;
 
-  // Save API keys to localStorage
+  // Save API keys to sessionStorage (auto-cleared when tab closes)
   const saveApiKey = (provider: 'openai' | 'claude', key: string) => {
     const newSettings = { ...apiSettings };
     if (provider === 'openai') {
       newSettings.openaiKey = key;
-      localStorage.setItem('newlife_openai_key', key);
+      sessionStorage.setItem('newlife_openai_key', key);
     } else {
       newSettings.claudeKey = key;
-      localStorage.setItem('newlife_claude_key', key);
+      sessionStorage.setItem('newlife_claude_key', key);
     }
     setApiSettings(newSettings);
   };
@@ -739,7 +739,7 @@ export default function AiSummary() {
         {showSettings && (
           <div className="bg-white/5 rounded-lg p-4 space-y-4">
             <p className="text-xs text-[var(--text-muted)]">
-              API keys are stored only in your browser's localStorage. Never sent anywhere except to the respective API.
+              API keys are stored only in your browser's sessionStorage (cleared when tab closes). Never sent anywhere except to the respective API.
             </p>
             <div>
               <label className="block text-xs text-[var(--text-muted)] mb-1">OpenAI API Key</label>
@@ -935,7 +935,7 @@ export default function AiSummary() {
         </svg>
         {summaryMode === 'extractive'
           ? 'Extractive mode processes everything locally. Your text never leaves your browser.'
-          : 'AI mode sends text to the selected API. API keys are stored only in your browser.'}
+          : 'AI mode sends text to the selected API. API keys are stored only in your browser\'s sessionStorage (cleared when tab closes).'}
       </p>
     </div>
   );

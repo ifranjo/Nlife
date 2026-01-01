@@ -146,8 +146,8 @@ export default function VideoCompressor() {
         outputName
       ]);
 
-      const data = await ffmpeg.readFile(outputName);
-      const blob = new Blob([data], { type: 'video/mp4' });
+      const data = await ffmpeg.readFile(outputName) as Uint8Array;
+      const blob = new Blob([new Uint8Array(data)], { type: 'video/mp4' });
       setOutputSize(blob.size);
       setOutputUrl(URL.createObjectURL(blob));
       setStatus('done');
@@ -227,7 +227,7 @@ export default function VideoCompressor() {
           onChange={handleFileSelect}
           className="hidden"
           id="video-compress-upload"
-          disabled={status === 'processing' || status === 'loading' || sharedArrayBufferSupported === false}
+          disabled={status === 'processing' || status === 'loading' || sharedArrayBufferSupported !== true}
         />
         <label htmlFor="video-compress-upload" className="cursor-pointer block">
           <div className="text-4xl mb-4">🗜️</div>

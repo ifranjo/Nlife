@@ -8,6 +8,7 @@ import { test, expect } from '@playwright/test';
 import * as fs from 'fs';
 import * as path from 'path';
 import { fileURLToPath } from 'url';
+import { waitForReactHydration } from './test-utils';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -56,6 +57,9 @@ test.describe('AI Summary - Functional', () => {
   test('processes uploaded TXT file', async ({ page }) => {
     await page.goto('/tools/ai-summary');
 
+    // Wait for React component to hydrate
+    await waitForReactHydration(page);
+
     // Look for file input or file tab
     const fileTab = page.getByRole('button', { name: /file|upload|document/i }).first();
     if (await fileTab.isVisible()) {
@@ -94,6 +98,9 @@ test.describe('PDF Merge - Functional', () => {
   test('uploads PDF and shows in list', async ({ page }) => {
     await page.goto('/tools/pdf-merge');
 
+    // Wait for React component to hydrate
+    await waitForReactHydration(page);
+
     const fileInput = page.locator('input[type="file"]');
     await expect(fileInput).toBeAttached();
 
@@ -112,6 +119,9 @@ test.describe('PDF Merge - Functional', () => {
 
   test('merges multiple PDFs and downloads result', async ({ page }) => {
     await page.goto('/tools/pdf-merge');
+
+    // Wait for React component to hydrate
+    await waitForReactHydration(page);
 
     const fileInput = page.locator('input[type="file"]');
 
@@ -153,6 +163,9 @@ test.describe('Image Compress - Functional', () => {
   test('uploads image and shows preview', async ({ page }) => {
     await page.goto('/tools/image-compress');
 
+    // Wait for React component to hydrate
+    await waitForReactHydration(page);
+
     const fileInput = page.locator('input[type="file"]');
     await expect(fileInput).toBeAttached();
 
@@ -165,6 +178,9 @@ test.describe('Image Compress - Functional', () => {
 
   test('compresses image and shows size reduction', async ({ page }) => {
     await page.goto('/tools/image-compress');
+
+    // Wait for React component to hydrate
+    await waitForReactHydration(page);
 
     const fileInput = page.locator('input[type="file"]');
     await fileInput.setInputFiles(path.join(fixturesDir, 'test-image.png'));
@@ -189,6 +205,9 @@ test.describe('Image Compress - Functional', () => {
 
   test('downloads compressed image', async ({ page }) => {
     await page.goto('/tools/image-compress');
+
+    // Wait for React component to hydrate
+    await waitForReactHydration(page);
 
     const fileInput = page.locator('input[type="file"]');
     await fileInput.setInputFiles(path.join(fixturesDir, 'test-image.png'));
@@ -218,6 +237,9 @@ test.describe('Image Compress - Functional', () => {
 test.describe('File Converter - Functional', () => {
   test('converts PNG to JPG', async ({ page }) => {
     await page.goto('/tools/file-converter');
+
+    // Wait for React component to hydrate
+    await waitForReactHydration(page);
 
     const fileInput = page.locator('input[type="file"]');
     await expect(fileInput).toBeAttached();

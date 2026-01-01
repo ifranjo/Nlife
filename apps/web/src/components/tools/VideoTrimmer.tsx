@@ -168,9 +168,9 @@ export default function VideoTrimmer() {
         ]);
       }
 
-      const data = await ffmpeg.readFile(outputName);
+      const data = await ffmpeg.readFile(outputName) as Uint8Array;
       const mimeType = preciseMode ? 'video/mp4' : videoFile.type;
-      const blob = new Blob([data], { type: mimeType });
+      const blob = new Blob([new Uint8Array(data)], { type: mimeType });
       setOutputUrl(URL.createObjectURL(blob));
       setStatus('done');
 
@@ -262,7 +262,7 @@ export default function VideoTrimmer() {
             onChange={handleFileSelect}
             className="hidden"
             id="video-trim-upload"
-            disabled={sharedArrayBufferSupported === false}
+            disabled={sharedArrayBufferSupported !== true}
           />
           <label htmlFor="video-trim-upload" className="cursor-pointer block">
             <div className="text-4xl mb-4">✂️</div>

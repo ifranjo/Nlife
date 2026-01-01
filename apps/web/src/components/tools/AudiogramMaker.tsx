@@ -454,8 +454,8 @@ export default function AudiogramMaker() {
       await ffmpeg.exec(args);
       setProgress(100);
 
-      const data = await ffmpeg.readFile('output.mp4');
-      const blob = new Blob([data], { type: 'video/mp4' });
+      const data = await ffmpeg.readFile('output.mp4') as Uint8Array;
+      const blob = new Blob([new Uint8Array(data)], { type: 'video/mp4' });
       setOutputUrl(URL.createObjectURL(blob));
       setStatus('done');
 

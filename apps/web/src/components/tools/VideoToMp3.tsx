@@ -128,8 +128,8 @@ export default function VideoToMp3() {
         outputName
       ]);
 
-      const data = await ffmpeg.readFile(outputName);
-      const blob = new Blob([data], { type: 'audio/mpeg' });
+      const data = await ffmpeg.readFile(outputName) as Uint8Array;
+      const blob = new Blob([new Uint8Array(data)], { type: 'audio/mpeg' });
       const url = URL.createObjectURL(blob);
 
       setAudioUrl(url);
@@ -157,6 +157,9 @@ export default function VideoToMp3() {
     a.href = audioUrl;
     a.download = `${baseName}.mp3`;
     a.click();
+
+    // Cleanup URL to prevent memory leaks
+    URL.revokeObjectURL(audioUrl);
   };
 
   const formatFileSize = (bytes: number) => {
@@ -209,7 +212,7 @@ export default function VideoToMp3() {
           onChange={handleFileSelect}
           className="hidden"
           id="video-upload"
-          disabled={status === 'converting' || status === 'loading' || sharedArrayBufferSupported === false}
+          disabled={status === 'converting' || status === 'loading' || sharedArrayBufferSupported !== true}
         />
         <label
           htmlFor="video-upload"

@@ -142,13 +142,16 @@ export default function ExifEditor() {
 
     // Handle arrays (like GPS coordinates)
     if (Array.isArray(value)) {
-      if (key.includes('GPS') && key.includes('Latitude') || key.includes('Longitude')) {
+      if (key.includes('GPS') && (key.includes('Latitude') || key.includes('Longitude'))) {
         // GPS coordinates are stored as [[deg,1], [min,1], [sec,100]]
         try {
-          const degrees = (value[0] as number[])[0] / (value[0] as number[])[1];
-          const minutes = (value[1] as number[])[0] / (value[1] as number[])[1];
-          const seconds = (value[2] as number[])[0] / (value[2] as number[])[1];
-          return `${degrees.toFixed(0)}° ${minutes.toFixed(0)}' ${seconds.toFixed(2)}"`;
+          if (value.length >= 3 && Array.isArray(value[0]) && Array.isArray(value[1]) && Array.isArray(value[2])) {
+            const degrees = (value[0] as number[])[0] / (value[0] as number[])[1];
+            const minutes = (value[1] as number[])[0] / (value[1] as number[])[1];
+            const seconds = (value[2] as number[])[0] / (value[2] as number[])[1];
+            return `${degrees.toFixed(0)}° ${minutes.toFixed(0)}' ${seconds.toFixed(2)}"`;
+          }
+          return value.toString();
         } catch {
           return value.toString();
         }

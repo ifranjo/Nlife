@@ -103,6 +103,88 @@ const currentYear = new Date().getFullYear();
     <!-- Plausible Analytics (with custom events support) -->
     <script defer data-domain="newlifesolutions.dev" src="https://plausible.io/js/script.tagged-events.js"></script>
 
+    <!-- Google Analytics 4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RD88VZZGY7"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-RD88VZZGY7', {
+        'send_page_view': true,
+        'custom_map': {
+          'dimension1': 'tool_category',
+          'dimension2': 'tool_name',
+          'dimension3': 'file_type',
+          'dimension4': 'file_size',
+          'metric1': 'processing_time',
+          'metric2': 'file_size_bytes'
+        }
+      });
+
+      // Global analytics utility
+      window.analytics = {
+        trackPageView: (page_path, page_title) => {
+          gtag('config', 'G-RD88VZZGY7', {
+            'page_path': page_path,
+            'page_title': page_title || document.title
+          });
+        },
+
+        trackToolUsage: (toolName, category, action = 'tool_started') => {
+          gtag('event', action, {
+            'event_category': 'Tool Usage',
+            'event_label': toolName,
+            'tool_name': toolName,
+            'tool_category': category,
+            'non_interaction': false
+          });
+        },
+
+        trackFileProcessed: (toolName, fileType, fileSize, processingTime) => {
+          gtag('event', 'file_processed', {
+            'event_category': 'File Processing',
+            'event_label': `${toolName} - ${fileType}`,
+            'tool_name': toolName,
+            'file_type': fileType,
+            'file_size': fileSize,
+            'processing_time': processingTime,
+            'file_size_bytes': fileSize,
+            'non_interaction': false
+          });
+        },
+
+        trackError: (errorType, toolName, errorMessage) => {
+          gtag('event', 'error', {
+            'event_category': 'Errors',
+            'event_label': errorType,
+            'tool_name': toolName,
+            'error_message': errorMessage,
+            'non_interaction': true
+          });
+        },
+
+        trackDownload: (toolName, fileType) => {
+          gtag('event', 'file_downloaded', {
+            'event_category': 'Conversions',
+            'event_label': `${toolName} - ${fileType}`,
+            'tool_name': toolName,
+            'file_type': fileType,
+            'non_interaction': false
+          });
+        },
+
+        trackShare: (toolName, platform) => {
+          gtag('event', 'shared', {
+            'event_category': 'Social',
+            'event_label': platform,
+            'tool_name': toolName,
+            'platform': platform,
+            'non_interaction': false
+          });
+        }
+      };
+    </script>
+
     <!-- Service Worker Registration -->
     <script is:inline>
       if ('serviceWorker' in navigator) {
