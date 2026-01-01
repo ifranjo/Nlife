@@ -14,7 +14,17 @@ export default defineConfig({
   },
 
   integrations: [
-    react(),
+    react({
+      jsxRuntime: 'automatic',
+      babel: {
+        plugins: [
+          ['@babel/plugin-transform-react-jsx', {
+            runtime: 'automatic',
+            importSource: 'react'
+          }]
+        ]
+      }
+    }),
     sitemap({
       // GEO 2025: Include all tool pages for AI discovery
       filter: (page) => !page.includes('/api/'),

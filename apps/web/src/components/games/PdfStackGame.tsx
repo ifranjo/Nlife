@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
+import ShareGame from './ShareGame';
 
 // Phaser is loaded via CDN at runtime - types are declared as any
 declare const Phaser: any;
@@ -52,7 +53,7 @@ export default function PdfStackGame() {
   const [gameState, setGameState] = useState<GameState>('start');
   const [stats, setStats] = useState<GameStats>({ score: 0, maxHeight: 0, perfectDrops: 0 });
   const [highScore, setHighScore] = useState<number>(0);
-  const [copied, setCopied] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   // Load high score from localStorage
   useEffect(() => {
@@ -407,48 +408,6 @@ export default function PdfStackGame() {
     }
   }, []);
 
-  const generateShareText = useCallback(() => {
-    const { score, maxHeight, perfectDrops } = stats;
-    const date = new Date().toISOString().split('T')[0];
-
-    // Generate emoji representation
-    const towerEmoji = Array(Math.min(maxHeight, 10)).fill(null)
-      .map((_, i) => i < perfectDrops ? '🟢' : '🔴')
-      .reverse()
-      .join('\n');
-
-    return `PDF Stack - ${date}
-
-${towerEmoji}
-${maxHeight > 10 ? `... +${maxHeight - 10} more` : ''}
-
-Score: ${score} | Height: ${maxHeight} | Perfect: ${perfectDrops}
-
-Play at newlifesolutions.dev/games/pdf-stack`;
-  }, [stats]);
-
-  const shareResult = useCallback(async () => {
-    const text = generateShareText();
-
-    if (navigator.share) {
-      try {
-        await navigator.share({ text });
-        return;
-      } catch (e) {
-        // Fall back to clipboard
-      }
-    }
-
-    // Fallback: copy to clipboard
-    try {
-      await navigator.clipboard.writeText(text);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    } catch (e) {
-      console.error('Failed to copy:', e);
-    }
-  }, [generateShareText]);
-
   return (
     <div className="relative w-full max-w-[400px] mx-auto">
       {/* Game Container */}
@@ -458,8 +417,22 @@ Play at newlifesolutions.dev/games/pdf-stack`;
         style={{ touchAction: 'manipulation' }}
       />
 
-      {/* Score Display */}
-      {gameState === 'playing' && (
+      {/* Loading Indicator */}
+      {isLoading && (
+        <div className="absolute inset-0 flex flex-col items-center justify-center bg-[#0a0a0a] rounded-lg">
+          <div className="text-center">
+            <div className="text-2xl mb-2 opacity-60">📄</div>
+            <h3 className="text-lg font-semibold text-[var(--text)] mb-2">Loading PDF Stack</h3>
+            <p className="text-sm text-[var(--text-dim)] mb-4">Downloading game engine...</p>
+            <div className="w-32 h-1 bg-[var(--border)] rounded-full overflow-hidden">
+              <div className="h-full bg-[var(--accent)] animate-pulse" style={{ width: '100%' }}></div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Score Display -- not shown while loading */}
+      {gameState === 'playing' && !isLoading && (
         <div className="absolute top-4 left-4 right-4 flex justify-between items-start pointer-events-none">
           <div className="glass-card px-3 py-2 rounded">
             <div className="text-xs text-[var(--text-muted)] uppercase tracking-wider">Score</div>
@@ -469,9 +442,8 @@ Play at newlifesolutions.dev/games/pdf-stack`;
             <div className="text-xs text-[var(--text-muted)] uppercase tracking-wider">Best</div>
             <div className="text-lg text-[var(--text-dim)]">{highScore}</div>
           </div>
-        </div>
-      )}
 
+        </div>
       {/* Start Screen Overlay */}
       {gameState === 'start' && (
         <div className="absolute inset-0 flex flex-col items-center justify-center bg-[#0a0a0a]/90 backdrop-blur-sm rounded-lg">
@@ -566,24 +538,20 @@ Play at newlifesolutions.dev/games/pdf-stack`;
 
             {/* Action Buttons */}
             <div className="space-y-3">
-              <button
-                onClick={shareResult}
-                className="btn-secondary w-full py-3 flex items-center justify-center gap-2"
-              >
-                {copied ? (
-                  <>
-                    <span>Copied!</span>
-                    <span className="text-[var(--success)]">✓</span>
-                  </>
-                ) : (
-                  <>
-                    <span>Share Result</span>
-                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
-                    </svg>
-                  </>
-                )}
-              </button>
+              {/* Share Game Component */}
+              <ShareGame
+                gameName="PDF Stack"
+                score={stats.score}
+                scoreLabel="Score"
+                customMessage={`PDF Stack - ${new Date().toISOString().split('T')[0]}
+
+${stats.score} points | ${stats.maxHeight} PDFs | ${stats.perfectDrops} perfect drops
+
+Play at newlifesolutions.dev/games/pdf-stack`}
+                className="w-full"
+              />
+
+              {/* Play Again Button */}
               <button
                 onClick={startGame}
                 className="btn-primary w-full py-3"
