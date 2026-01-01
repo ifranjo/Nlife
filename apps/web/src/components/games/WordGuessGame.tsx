@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { getDailyWord, isValidWord, getGameNumber } from '../../lib/wordlist';
+import { getDailyWord, isValidWord, getGameNumber, type Language } from '../../lib/wordlist';
 
 // Types
 type LetterStatus = 'correct' | 'present' | 'absent' | 'empty' | 'pending';
@@ -29,15 +29,23 @@ interface SavedGameState {
 // Constants
 const WORD_LENGTH = 5;
 const MAX_ATTEMPTS = 6;
-const KEYBOARD_ROWS = [
+
+const KEYBOARD_ROWS_EN = [
   ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
   ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'],
+  ['ENTER', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', 'BACK']
+];
+
+const KEYBOARD_ROWS_ES = [
+  ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
+  ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'Ñ'],
   ['ENTER', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', 'BACK']
 ];
 
 // Storage keys
 const STATS_KEY = 'wordguess-stats';
 const GAME_STATE_KEY = 'wordguess-state';
+const LANGUAGE_KEY = 'wordguess-language';
 
 // Default stats
 const defaultStats: GameStats = {
@@ -85,8 +93,11 @@ function evaluateGuess(guess: string, target: string): LetterResult[] {
 
 export default function WordGuessGame() {
   const today = new Date().toISOString().slice(0, 10);
-  const targetWord = getDailyWord(today);
   const gameNumber = getGameNumber();
+
+  // Language state - loaded from localStorage
+  const [language, setLanguage] = useState<Language>('en');
+  const [targetWord, setTargetWord] = useState(() => getDailyWord(today, 'en'));
 
   // Game state
   const [guesses, setGuesses] = useState<string[]>([]);
@@ -100,23 +111,39 @@ export default function WordGuessGame() {
   const [copied, setCopied] = useState(false);
   const [keyboardStatus, setKeyboardStatus] = useState<Record<string, LetterStatus>>({});
 
+  // Keyboard rows based on language
+  const KEYBOARD_ROWS = language === 'es' ? KEYBOARD_ROWS_ES : KEYBOARD_ROWS_EN;
+
   // Refs for animations
   const inputRef = useRef<HTMLInputElement>(null);
 
+  // Load language preference on mount
+  useEffect(() => {
+    const savedLanguage = localStorage.getItem(LANGUAGE_KEY) as Language | null;
+    if (savedLanguage === 'es' || savedLanguage === 'en') {
+      setLanguage(savedLanguage);
+      setTargetWord(getDailyWord(today, savedLanguage));
+    }
+  }, [today]);
+
   // Load saved state and stats on mount
   useEffect(() => {
-    // Load stats
-    const savedStats = localStorage.getItem(STATS_KEY);
+    // Load stats (language-specific)
+    const statsKey = `${STATS_KEY}-${language}`;
+    const savedStats = localStorage.getItem(statsKey);
     if (savedStats) {
       try {
         setStats(JSON.parse(savedStats));
       } catch {
         setStats(defaultStats);
       }
+    } else {
+      setStats(defaultStats);
     }
 
-    // Load game state for today
-    const savedState = localStorage.getItem(GAME_STATE_KEY);
+    // Load game state for today (language-specific)
+    const stateKey = `${GAME_STATE_KEY}-${language}`;
+    const savedState = localStorage.getItem(stateKey);
     if (savedState) {
       try {
         const parsed: SavedGameState = JSON.parse(savedState);
@@ -125,9 +152,10 @@ export default function WordGuessGame() {
           setGameStatus(parsed.gameStatus);
 
           // Rebuild keyboard status
+          const currentTarget = getDailyWord(today, language);
           const newKeyboardStatus: Record<string, LetterStatus> = {};
           parsed.guesses.forEach(guess => {
-            const result = evaluateGuess(guess, targetWord);
+            const result = evaluateGuess(guess, currentTarget);
             result.forEach(({ letter, status }) => {
               const upper = letter.toUpperCase();
               const current = newKeyboardStatus[upper];
@@ -138,28 +166,56 @@ export default function WordGuessGame() {
             });
           });
           setKeyboardStatus(newKeyboardStatus);
+        } else {
+          // New day, reset game
+          setGuesses([]);
+          setCurrentGuess('');
+          setGameStatus('playing');
+          setKeyboardStatus({});
         }
       } catch {
         // Invalid state, start fresh
+        setGuesses([]);
+        setCurrentGuess('');
+        setGameStatus('playing');
+        setKeyboardStatus({});
       }
+    } else {
+      // No saved state for this language, reset
+      setGuesses([]);
+      setCurrentGuess('');
+      setGameStatus('playing');
+      setKeyboardStatus({});
     }
-  }, [today, targetWord]);
+  }, [today, language]);
 
-  // Save game state whenever it changes
+  // Save game state whenever it changes (language-specific)
   useEffect(() => {
     const state: SavedGameState = {
       guesses,
       date: today,
       gameStatus
     };
-    localStorage.setItem(GAME_STATE_KEY, JSON.stringify(state));
-  }, [guesses, gameStatus, today]);
+    const stateKey = `${GAME_STATE_KEY}-${language}`;
+    localStorage.setItem(stateKey, JSON.stringify(state));
+  }, [guesses, gameStatus, today, language]);
 
-  // Save stats
+  // Save stats (language-specific)
   const saveStats = useCallback((newStats: GameStats) => {
     setStats(newStats);
-    localStorage.setItem(STATS_KEY, JSON.stringify(newStats));
-  }, []);
+    const statsKey = `${STATS_KEY}-${language}`;
+    localStorage.setItem(statsKey, JSON.stringify(newStats));
+  }, [language]);
+
+  // Handle language change
+  const handleLanguageChange = useCallback((newLanguage: Language) => {
+    if (newLanguage === language) return;
+
+    // Save current language preference
+    localStorage.setItem(LANGUAGE_KEY, newLanguage);
+    setLanguage(newLanguage);
+    setTargetWord(getDailyWord(today, newLanguage));
+  }, [language, today]);
 
   // Handle winning or losing
   const handleGameEnd = useCallback((won: boolean, attempts: number) => {
@@ -185,14 +241,14 @@ export default function WordGuessGame() {
   const submitGuess = useCallback(() => {
     if (gameStatus !== 'playing') return;
     if (currentGuess.length !== WORD_LENGTH) {
-      setError('Not enough letters');
+      setError(language === 'es' ? 'Faltan letras' : 'Not enough letters');
       setShake(true);
       setTimeout(() => setShake(false), 500);
       return;
     }
 
-    if (!isValidWord(currentGuess)) {
-      setError('Not in word list');
+    if (!isValidWord(currentGuess, language)) {
+      setError(language === 'es' ? 'Palabra no válida' : 'Not in word list');
       setShake(true);
       setTimeout(() => setShake(false), 500);
       return;
@@ -233,7 +289,7 @@ export default function WordGuessGame() {
         handleGameEnd(false, newGuesses.length);
       }
     }, 1500);
-  }, [currentGuess, gameStatus, guesses, targetWord, keyboardStatus, handleGameEnd]);
+  }, [currentGuess, gameStatus, guesses, targetWord, keyboardStatus, handleGameEnd, language]);
 
   // Handle keyboard input
   const handleKeyPress = useCallback((key: string) => {
@@ -244,7 +300,7 @@ export default function WordGuessGame() {
     } else if (key === 'BACK' || key === 'BACKSPACE') {
       setCurrentGuess(prev => prev.slice(0, -1));
       setError('');
-    } else if (key.length === 1 && /^[A-Za-z]$/.test(key)) {
+    } else if (key.length === 1 && /^[A-Za-zÑñ]$/.test(key)) {
       if (currentGuess.length < WORD_LENGTH) {
         setCurrentGuess(prev => prev + key.toUpperCase());
         setError('');
@@ -258,7 +314,7 @@ export default function WordGuessGame() {
       if (e.ctrlKey || e.metaKey || e.altKey) return;
 
       const key = e.key.toUpperCase();
-      if (key === 'ENTER' || key === 'BACKSPACE' || /^[A-Z]$/.test(key)) {
+      if (key === 'ENTER' || key === 'BACKSPACE' || /^[A-ZÑ]$/.test(key)) {
         e.preventDefault();
         handleKeyPress(key);
       }
@@ -444,6 +500,32 @@ export default function WordGuessGame() {
 
   return (
     <div className="w-full max-w-[500px] mx-auto select-none">
+      {/* Language Selector */}
+      <div className="flex justify-center gap-2 mb-6">
+        <button
+          onClick={() => handleLanguageChange('en')}
+          className={`px-4 py-2 rounded text-sm font-medium transition-colors ${
+            language === 'en'
+              ? 'bg-[var(--accent)] text-white'
+              : 'glass-card text-[var(--text-muted)] hover:text-[var(--text)]'
+          }`}
+          aria-pressed={language === 'en'}
+        >
+          🇬🇧 English
+        </button>
+        <button
+          onClick={() => handleLanguageChange('es')}
+          className={`px-4 py-2 rounded text-sm font-medium transition-colors ${
+            language === 'es'
+              ? 'bg-[var(--accent)] text-white'
+              : 'glass-card text-[var(--text-muted)] hover:text-[var(--text)]'
+          }`}
+          aria-pressed={language === 'es'}
+        >
+          🇪🇸 Español
+        </button>
+      </div>
+
       {/* Hidden input for mobile keyboard (optional) */}
       <input
         ref={inputRef}
@@ -474,7 +556,9 @@ export default function WordGuessGame() {
         <div className="text-center mb-4">
           <div className="inline-block px-4 py-2 bg-[var(--success)]/20 border border-[var(--success)]/30 rounded">
             <span className="text-[var(--success)] font-bold uppercase tracking-wider">
-              Excellent! You got it in {guesses.length}!
+              {language === 'es'
+                ? `¡Excelente! Lo lograste en ${guesses.length}!`
+                : `Excellent! You got it in ${guesses.length}!`}
             </span>
           </div>
         </div>
@@ -484,7 +568,8 @@ export default function WordGuessGame() {
         <div className="text-center mb-4">
           <div className="inline-block px-4 py-2 bg-[var(--error)]/20 border border-[var(--error)]/30 rounded">
             <span className="text-[var(--error)]">
-              The word was: <span className="font-bold uppercase">{targetWord}</span>
+              {language === 'es' ? 'La palabra era: ' : 'The word was: '}
+              <span className="font-bold uppercase">{targetWord}</span>
             </span>
           </div>
         </div>
@@ -499,12 +584,12 @@ export default function WordGuessGame() {
           >
             {copied ? (
               <>
-                <span>Copied!</span>
+                <span>{language === 'es' ? '¡Copiado!' : 'Copied!'}</span>
                 <span className="text-[var(--success)]">[OK]</span>
               </>
             ) : (
               <>
-                <span>Share Result</span>
+                <span>{language === 'es' ? 'Compartir' : 'Share Result'}</span>
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
                     d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"
@@ -517,7 +602,7 @@ export default function WordGuessGame() {
             onClick={() => setShowStats(true)}
             className="btn-secondary px-6 py-3"
           >
-            Statistics
+            {language === 'es' ? 'Estadísticas' : 'Statistics'}
           </button>
         </div>
       )}
@@ -539,12 +624,12 @@ export default function WordGuessGame() {
           >
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-xl font-bold uppercase tracking-wider text-[var(--text)]">
-                Statistics
+                {language === 'es' ? 'Estadísticas' : 'Statistics'}
               </h2>
               <button
                 onClick={() => setShowStats(false)}
                 className="text-[var(--text-muted)] hover:text-[var(--text)] transition-colors"
-                aria-label="Close statistics"
+                aria-label={language === 'es' ? 'Cerrar estadísticas' : 'Close statistics'}
               >
                 <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -556,26 +641,34 @@ export default function WordGuessGame() {
             <div className="grid grid-cols-4 gap-2 mb-6 text-center">
               <div>
                 <div className="text-2xl font-bold text-[var(--text)]">{stats.gamesPlayed}</div>
-                <div className="text-[0.625rem] text-[var(--text-muted)] uppercase">Played</div>
+                <div className="text-[0.625rem] text-[var(--text-muted)] uppercase">
+                  {language === 'es' ? 'Jugadas' : 'Played'}
+                </div>
               </div>
               <div>
                 <div className="text-2xl font-bold text-[var(--text)]">{winPercentage}</div>
-                <div className="text-[0.625rem] text-[var(--text-muted)] uppercase">Win %</div>
+                <div className="text-[0.625rem] text-[var(--text-muted)] uppercase">
+                  {language === 'es' ? '% Victorias' : 'Win %'}
+                </div>
               </div>
               <div>
                 <div className="text-2xl font-bold text-[var(--text)]">{stats.currentStreak}</div>
-                <div className="text-[0.625rem] text-[var(--text-muted)] uppercase">Current</div>
+                <div className="text-[0.625rem] text-[var(--text-muted)] uppercase">
+                  {language === 'es' ? 'Racha' : 'Current'}
+                </div>
               </div>
               <div>
                 <div className="text-2xl font-bold text-[var(--text)]">{stats.maxStreak}</div>
-                <div className="text-[0.625rem] text-[var(--text-muted)] uppercase">Max</div>
+                <div className="text-[0.625rem] text-[var(--text-muted)] uppercase">
+                  {language === 'es' ? 'Máxima' : 'Max'}
+                </div>
               </div>
             </div>
 
             {/* Guess Distribution */}
             <div className="mb-6">
               <h3 className="text-sm uppercase tracking-wider text-[var(--text-muted)] mb-3">
-                Guess Distribution
+                {language === 'es' ? 'Distribución de Intentos' : 'Guess Distribution'}
               </h3>
               <div className="space-y-1">
                 {stats.guessDistribution.map((count, i) => (
@@ -603,7 +696,9 @@ export default function WordGuessGame() {
             {gameStatus !== 'playing' && (
               <div className="text-center pt-4 border-t border-[var(--border)]">
                 <span className="text-xs text-[var(--text-muted)] uppercase tracking-wider">
-                  Next puzzle at midnight UTC
+                  {language === 'es'
+                    ? 'Próximo puzzle a medianoche UTC'
+                    : 'Next puzzle at midnight UTC'}
                 </span>
               </div>
             )}
