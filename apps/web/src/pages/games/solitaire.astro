@@ -1,0 +1,89 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/ui/Navbar.astro';
+import Footer from '../../components/ui/Footer.astro';
+import SolitaireGame from '../../components/games/SolitaireGame';
+
+const title = 'Solitaire - Free Classic Card Game | New Life Games';
+const description = 'Play classic Klondike Solitaire for free. No download, no ads. Drag and drop cards, track your moves and time. 100% browser-based.';
+---
+
+<Layout title={title} description={description} canonicalUrl="https://www.newlifesolutions.dev/games/solitaire/">
+  <Navbar />
+  <main class="pt-16">
+    <!-- Hero Section -->
+    <section class="py-8 px-6 border-b border-[var(--border)]">
+      <div class="max-w-4xl mx-auto text-center">
+        <a href="/games" class="text-xs text-[var(--text-muted)] uppercase tracking-wider hover:text-[var(--accent)] transition-colors mb-4 inline-block">
+          ← Back to Games
+        </a>
+        <div class="text-4xl mb-4">🃏</div>
+        <h1 class="text-2xl uppercase tracking-[0.3em] mb-4">Solitaire</h1>
+        <p class="text-[var(--text-dim)] text-sm max-w-xl mx-auto leading-relaxed">
+          Classic Klondike Solitaire. Stack cards by alternating colors, build foundations from Ace to King.
+        </p>
+      </div>
+    </section>
+
+    <!-- Game Section -->
+    <section class="py-6 px-4">
+      <SolitaireGame client:load />
+    </section>
+
+    <!-- How to Play -->
+    <section class="py-12 px-6 border-t border-[var(--border)]">
+      <div class="max-w-2xl mx-auto">
+        <h2 class="text-lg uppercase tracking-[0.2em] text-center mb-8">How to Play</h2>
+
+        <div class="grid gap-6 sm:grid-cols-2">
+          <div class="glass-card p-6 rounded-lg">
+            <div class="text-2xl mb-3">🎯</div>
+            <h3 class="font-bold mb-2 text-[var(--text)]">Goal</h3>
+            <p class="text-sm text-[var(--text-dim)]">
+              Move all cards to the four foundation piles, building each from Ace to King by suit.
+            </p>
+          </div>
+
+          <div class="glass-card p-6 rounded-lg">
+            <div class="text-2xl mb-3">📚</div>
+            <h3 class="font-bold mb-2 text-[var(--text)]">Tableau</h3>
+            <p class="text-sm text-[var(--text-dim)]">
+              Stack cards in descending order, alternating colors (red on black, black on red).
+            </p>
+          </div>
+
+          <div class="glass-card p-6 rounded-lg">
+            <div class="text-2xl mb-3">👆</div>
+            <h3 class="font-bold mb-2 text-[var(--text)]">Controls</h3>
+            <p class="text-sm text-[var(--text-dim)]">
+              Drag cards to move. Double-click to auto-move to foundation. Click stock to draw.
+            </p>
+          </div>
+
+          <div class="glass-card p-6 rounded-lg">
+            <div class="text-2xl mb-3">👑</div>
+            <h3 class="font-bold mb-2 text-[var(--text)]">Empty Columns</h3>
+            <p class="text-sm text-[var(--text-dim)]">
+              Only Kings can be placed on empty tableau columns.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>
+
+<!-- JSON-LD -->
+<script type="application/ld+json" set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "VideoGame",
+  "name": "Solitaire",
+  "description": description,
+  "url": "https://www.newlifesolutions.dev/games/solitaire",
+  "genre": "Card Game",
+  "playMode": "SinglePlayer",
+  "applicationCategory": "Game",
+  "operatingSystem": "Web Browser",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+})} />
