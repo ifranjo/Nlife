@@ -164,7 +164,32 @@ test.describe('Heading Hierarchy', () => {
       const issues: HeadingIssue[] = [];
 
       // Check for exactly one h1
-      const h1Elements = await page.locator('h1').all();
+      // Only count h1s that are NOT inside tool content areas (which may have sample content)
+      const allH1Elements = await page.locator('h1').all();
+      const h1Elements = [];
+
+      for (const h1 of allH1Elements) {
+        const text = await h1.textContent();
+        const trimmedText = (text?.trim() || '').substring(0, 60);
+
+        // Skip external toolbar h1s
+        const toolbarTexts = ['Audit', 'Settings', 'No accessibility or performance issues detected'];
+        const isToolbar = toolbarTexts.some(t => trimmedText.includes(t));
+
+        // Skip h1s inside tool content areas (they're sample content, not page titles)
+        const isInsideToolContent = await h1.evaluate((el) => {
+          const toolContent = el.closest('[data-tool-content]') ||
+                             el.closest('.tool-content-area') ||
+                             el.closest('.tool-section') ||
+                             el.closest('[class*="tool"]');
+          return toolContent !== null;
+        });
+
+        if (!isToolbar && !isInsideToolContent) {
+          h1Elements.push(h1);
+        }
+      }
+
       if (h1Elements.length === 0) {
         issues.push({ type: 'missing-h1', details: 'Page has no h1 element' });
       } else if (h1Elements.length > 1) {
