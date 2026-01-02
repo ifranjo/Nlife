@@ -157,6 +157,94 @@ PUSH → BUILD + TYPE CHECK + SECURITY AUDIT → DEPLOY (Vercel)
 - Security audit blocks on high/critical vulnerabilities
 - Vercel secrets: `VERCEL_TOKEN`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID`
 
+## Accessibility (WCAG 2.1 AA)
+
+All 40 tool pages pass axe-core WCAG 2.1 AA compliance tests. Follow these guidelines:
+
+### Color Contrast Requirements
+
+| Element Type | Minimum Ratio | Notes |
+|--------------|---------------|-------|
+| Normal text | 4.5:1 | Text < 18pt or < 14pt bold |
+| Large text | 3:1 | Text ≥ 18pt or ≥ 14pt bold |
+| UI components | 3:1 | Buttons, form borders, icons |
+
+**Theme-aware colors**: Use CSS variables for colors that need different values in dark/light modes:
+
+```css
+/* Dark theme (default) */
+--success: #00ff00;  /* Bright green on dark backgrounds */
+
+/* Clean/light theme */
+--success: #166534;  /* green-800: 5.5:1 on light backgrounds */
+```
+
+**Problematic colors to avoid**:
+- `#28a745` on light backgrounds (only 2.97:1)
+- `#22c55e` on light backgrounds (only 2.12:1)
+- White text on mid-range blues like `#3b82f6` (only 3.67:1)
+
+### Form Accessibility Patterns
+
+**Every form input MUST have an accessible name**. Use one of:
+
+```tsx
+// Option 1: htmlFor + id (preferred for visible labels)
+<label htmlFor="my-input">Label Text</label>
+<input id="my-input" type="text" />
+
+// Option 2: aria-label (for inputs without visible labels)
+<input type="range" aria-label="Volume control" />
+
+// Option 3: aria-labelledby (reference existing element)
+<span id="size-label">Size: 256px</span>
+<input type="range" aria-labelledby="size-label" />
+```
+
+**Common inputs that need labels**:
+- `<select>` elements
+- `<input type="range">` sliders
+- `<input type="color">` pickers
+- `<input type="number">` fields
+
+### Link Accessibility
+
+Links within text blocks must be distinguishable without relying on color alone:
+
+```css
+.prose a {
+  color: #818cf8;
+  text-decoration: underline;  /* Required for WCAG */
+}
+```
+
+### Running Accessibility Tests
+
+```bash
+cd apps/web
+
+# All accessibility tests (40 tools × 6 checks = 240 tests)
+npx playwright test tests/accessibility-comprehensive.spec.ts --project=chromium
+
+# Single tool
+npx playwright test --grep "PDF Merge - axe"
+
+# Quick check during development
+npx playwright test --grep "axe accessibility scan" --project=chromium
+```
+
+### Recent Accessibility Fixes (2025-01-02)
+
+| Component | Issue | Fix |
+|-----------|-------|-----|
+| ComparisonTable | Green text 3.39:1 on dark bg | Theme-aware: `#22c55e` dark, `#166534` light |
+| QASections | `#00ff00` fails on light bg | Use `var(--success)` |
+| ColorConverter | White on blue 3.67:1 | Lower luminance threshold to 0.4 |
+| global.css | `--success` 2.97:1 light mode | Changed to `#166534` (5.5:1) |
+| Navbar beta badge | 1.26:1 light mode | Theme-aware `.beta-badge` class |
+| 8 tool components | Missing form labels | Added `id`/`htmlFor` or `aria-label` |
+| MarkdownEditor | Links not distinguishable | Added `text-decoration: underline` |
+
 ## Tech Stack
 
 | Layer | Tech |
@@ -176,3 +264,12 @@ PUSH → BUILD + TYPE CHECK + SECURITY AUDIT → DEPLOY (Vercel)
 | `@huggingface/transformers` | Whisper AI transcription |
 | `@imgly/background-removal` | AI background removal |
 | `tesseract.js` | OCR |
+
+## Changelog
+
+### 2025-01-02
+- **fix(a11y)**: Resolved all WCAG 2.1 AA accessibility violations
+  - Fixed color contrast in 5 components (ComparisonTable, QASections, ColorConverter, global.css, Navbar)
+  - Added form labels to 13 elements across 8 tool components
+  - Added link underlines in MarkdownEditor prose
+  - All 40 axe-core accessibility tests now pass
