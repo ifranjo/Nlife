@@ -833,7 +833,7 @@ export default function BackgroundRemover() {
         <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
           <div className="flex items-center gap-2">
             <span className="text-white text-sm font-medium">Magic Brush</span>
-            <span className="text-slate-400 text-xs">
+            <span className="text-[var(--text-muted)] text-xs">
               ({brushState.strokes.length} stroke{brushState.strokes.length !== 1 ? 's' : ''})
             </span>
           </div>
@@ -845,7 +845,7 @@ export default function BackgroundRemover() {
               className={`px-3 py-1.5 text-xs rounded transition-colors flex items-center gap-1 ${
                 brushState.mode === 'add'
                   ? 'bg-green-500 text-white'
-                  : 'text-slate-400 hover:text-white'
+                  : 'text-[var(--text-muted)] hover:text-white'
               }`}
               title="Add mode: Restore removed areas"
             >
@@ -859,7 +859,7 @@ export default function BackgroundRemover() {
               className={`px-3 py-1.5 text-xs rounded transition-colors flex items-center gap-1 ${
                 brushState.mode === 'erase'
                   ? 'bg-red-500 text-white'
-                  : 'text-slate-400 hover:text-white'
+                  : 'text-[var(--text-muted)] hover:text-white'
               }`}
               title="Erase mode: Remove more background"
             >
@@ -873,7 +873,7 @@ export default function BackgroundRemover() {
 
         {/* Brush Size Slider */}
         <div className="flex items-center gap-3 mb-4">
-          <span className="text-slate-400 text-xs w-12">Size:</span>
+          <span className="text-[var(--text-muted)] text-xs w-12">Size:</span>
           <input
             type="range"
             min={MIN_BRUSH_SIZE}
@@ -998,7 +998,7 @@ export default function BackgroundRemover() {
         </div>
 
         {/* Instructions */}
-        <p className="text-slate-400 text-xs mt-3 text-center">
+        <p className="text-[var(--text-muted)] text-xs mt-3 text-center">
           {brushState.mode === 'add'
             ? 'Paint over areas to restore the original (shown faintly)'
             : 'Paint over areas to remove more background'}
@@ -1034,7 +1034,7 @@ export default function BackgroundRemover() {
         <h3 className="text-xl font-semibold text-white mb-2">
           Drop images here or click to browse
         </h3>
-        <p className="text-slate-400 text-sm">
+        <p className="text-[var(--text-muted)] text-sm">
           Supports PNG, JPEG, WebP. AI processing runs in your browser.
         </p>
       </div>
@@ -1057,7 +1057,7 @@ export default function BackgroundRemover() {
               className={`flex-1 p-3 rounded-lg border transition-all ${
                 backgroundMode === 'transparent'
                   ? 'border-fuchsia-500 bg-fuchsia-500/20 text-white'
-                  : 'border-slate-600 bg-slate-800/50 text-slate-400 hover:border-slate-500'
+                  : 'border-slate-600 bg-slate-800/50 text-[var(--text-muted)] hover:border-slate-500'
               }`}
             >
               <div className="text-2xl mb-1">🔲</div>
@@ -1069,7 +1069,7 @@ export default function BackgroundRemover() {
               className={`flex-1 p-3 rounded-lg border transition-all ${
                 backgroundMode === 'color'
                   ? 'border-fuchsia-500 bg-fuchsia-500/20 text-white'
-                  : 'border-slate-600 bg-slate-800/50 text-slate-400 hover:border-slate-500'
+                  : 'border-slate-600 bg-slate-800/50 text-[var(--text-muted)] hover:border-slate-500'
               }`}
             >
               <div className="text-2xl mb-1">🎨</div>
@@ -1081,7 +1081,7 @@ export default function BackgroundRemover() {
               className={`flex-1 p-3 rounded-lg border transition-all ${
                 backgroundMode === 'image'
                   ? 'border-fuchsia-500 bg-fuchsia-500/20 text-white'
-                  : 'border-slate-600 bg-slate-800/50 text-slate-400 hover:border-slate-500'
+                  : 'border-slate-600 bg-slate-800/50 text-[var(--text-muted)] hover:border-slate-500'
               }`}
             >
               <div className="text-2xl mb-1">🖼️</div>
@@ -1105,14 +1105,14 @@ export default function BackgroundRemover() {
                 onChange={(e) => setBackgroundColor(e.target.value)}
                 className="w-12 h-12 rounded-lg cursor-pointer"
               />
-              <span className="text-slate-400 text-sm">{backgroundColor}</span>
+              <span className="text-[var(--text-muted)] text-sm">{backgroundColor}</span>
             </div>
           )}
 
           {backgroundMode === 'image' && backgroundImage && (
             <div className="flex items-center gap-3">
               <img src={backgroundImage} alt="Background" className="w-12 h-12 rounded-lg object-cover" />
-              <span className="text-slate-400 text-sm">Custom background selected</span>
+              <span className="text-[var(--text-muted)] text-sm">Custom background selected</span>
             </div>
           )}
         </div>
@@ -1122,7 +1122,7 @@ export default function BackgroundRemover() {
       {images.length > 0 && (
         <div className="mt-6 space-y-4">
           <div className="flex items-center justify-between">
-            <h4 className="text-sm font-medium text-slate-400">
+            <h4 className="text-sm font-medium text-[var(--text-muted)]">
               {images.length} image{images.length > 1 ? 's' : ''} uploaded
             </h4>
 
@@ -1144,12 +1144,12 @@ export default function BackgroundRemover() {
               <div className="flex items-start gap-4 mb-4">
                 <div className="flex-1 min-w-0">
                   <p className="text-white font-medium truncate">{image.originalName}</p>
-                  <p className="text-slate-400 text-sm">{image.originalSize}</p>
+                  <p className="text-[var(--text-muted)] text-sm">{image.originalSize}</p>
                 </div>
 
                 <button
                   onClick={() => removeImage(image.id)}
-                  className="p-2 text-slate-400 hover:text-red-400 transition-colors"
+                  className="p-2 text-[var(--text-muted)] hover:text-red-400 transition-colors"
                 >
                   <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -1260,7 +1260,7 @@ export default function BackgroundRemover() {
               {image.isProcessing && (
                 <div className="mb-4">
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm text-slate-400">Processing with AI...</span>
+                    <span className="text-sm text-[var(--text-muted)]">Processing with AI...</span>
                     <span className="text-sm text-fuchsia-400">{image.progress}%</span>
                   </div>
                   <div className="h-2 bg-slate-700 rounded-full overflow-hidden">
@@ -1345,7 +1345,7 @@ export default function BackgroundRemover() {
       )}
 
       {/* Privacy note */}
-      <p className="mt-6 text-center text-slate-400 text-sm">
+      <p className="mt-6 text-center text-[var(--text-muted)] text-sm">
         <svg className="w-4 h-4 inline-block mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
         </svg>
@@ -1376,7 +1376,7 @@ export default function BackgroundRemover() {
                       className={`px-3 py-1 text-xs rounded transition-colors ${
                         previewMode === 'original'
                           ? 'bg-fuchsia-500 text-white'
-                          : 'text-slate-400 hover:text-white'
+                          : 'text-[var(--text-muted)] hover:text-white'
                       }`}
                     >
                       Original
@@ -1386,7 +1386,7 @@ export default function BackgroundRemover() {
                       className={`px-3 py-1 text-xs rounded transition-colors ${
                         previewMode === 'processed'
                           ? 'bg-fuchsia-500 text-white'
-                          : 'text-slate-400 hover:text-white'
+                          : 'text-[var(--text-muted)] hover:text-white'
                       }`}
                     >
                       Processed
@@ -1396,7 +1396,7 @@ export default function BackgroundRemover() {
               </div>
               <button
                 onClick={() => setPreviewImage(null)}
-                className="p-2 text-slate-400 hover:text-white transition-colors rounded-lg hover:bg-slate-800"
+                className="p-2 text-[var(--text-muted)] hover:text-white transition-colors rounded-lg hover:bg-slate-800"
                 aria-label="Close preview"
               >
                 <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">

@@ -419,7 +419,7 @@ export default function ImageUpscaler() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Scale Factor */}
           <div>
-            <label className="block text-sm text-slate-400 mb-2">Scale Factor</label>
+            <label className="block text-sm text-[var(--text-muted)] mb-2">Scale Factor</label>
             <div className="flex gap-3">
               <button
                 onClick={() => handleScaleChange(2)}
@@ -427,7 +427,7 @@ export default function ImageUpscaler() {
                 className={`flex-1 p-3 rounded-lg border transition-all ${
                   scaleFactor === 2
                     ? 'border-violet-500 bg-violet-500/20 text-white'
-                    : 'border-slate-600 bg-slate-800/50 text-slate-400 hover:border-slate-500'
+                    : 'border-slate-600 bg-slate-800/50 text-[var(--text-muted)] hover:border-slate-500'
                 } disabled:opacity-50 disabled:cursor-not-allowed`}
               >
                 <div className="text-2xl font-bold mb-1">2x</div>
@@ -439,7 +439,7 @@ export default function ImageUpscaler() {
                 className={`flex-1 p-3 rounded-lg border transition-all ${
                   scaleFactor === 4
                     ? 'border-violet-500 bg-violet-500/20 text-white'
-                    : 'border-slate-600 bg-slate-800/50 text-slate-400 hover:border-slate-500'
+                    : 'border-slate-600 bg-slate-800/50 text-[var(--text-muted)] hover:border-slate-500'
                 } disabled:opacity-50 disabled:cursor-not-allowed`}
               >
                 <div className="text-2xl font-bold mb-1">4x</div>
@@ -450,7 +450,7 @@ export default function ImageUpscaler() {
 
           {/* Model Quality */}
           <div>
-            <label className="block text-sm text-slate-400 mb-2">Quality Mode</label>
+            <label className="block text-sm text-[var(--text-muted)] mb-2">Quality Mode</label>
             <div className="flex gap-2">
               {(['fast', 'balanced', 'quality'] as const).map((quality) => (
                 <button
@@ -460,7 +460,7 @@ export default function ImageUpscaler() {
                   className={`flex-1 p-3 rounded-lg border transition-all ${
                     modelQuality === quality
                       ? 'border-violet-500 bg-violet-500/20 text-white'
-                      : 'border-slate-600 bg-slate-800/50 text-slate-400 hover:border-slate-500'
+                      : 'border-slate-600 bg-slate-800/50 text-[var(--text-muted)] hover:border-slate-500'
                   } disabled:opacity-50 disabled:cursor-not-allowed`}
                 >
                   <div className="font-medium capitalize mb-1">{quality}</div>
@@ -468,7 +468,7 @@ export default function ImageUpscaler() {
                 </button>
               ))}
             </div>
-            <p className="mt-2 text-xs text-slate-400">{MODEL_INFO[modelQuality].description}</p>
+            <p className="mt-2 text-xs text-[var(--text-muted)]">{MODEL_INFO[modelQuality].description}</p>
           </div>
         </div>
 
@@ -522,7 +522,7 @@ export default function ImageUpscaler() {
         <h3 className="text-xl font-semibold text-white mb-2">
           Drop images here or click to browse
         </h3>
-        <p className="text-slate-400 text-sm">
+        <p className="text-[var(--text-muted)] text-sm">
           Supports PNG, JPEG, WebP. AI upscaling runs entirely in your browser.
         </p>
       </div>
@@ -538,7 +538,7 @@ export default function ImageUpscaler() {
       {images.length > 0 && (
         <div className="mt-6 space-y-4">
           <div className="flex items-center justify-between">
-            <h4 className="text-sm font-medium text-slate-400">
+            <h4 className="text-sm font-medium text-[var(--text-muted)]">
               {images.length} image{images.length > 1 ? 's' : ''} uploaded
             </h4>
 
@@ -561,7 +561,7 @@ export default function ImageUpscaler() {
               <div className="flex items-start gap-4 mb-4">
                 <div className="flex-1 min-w-0">
                   <p className="text-white font-medium truncate">{image.originalName}</p>
-                  <p className="text-slate-400 text-sm">
+                  <p className="text-[var(--text-muted)] text-sm">
                     {image.originalSize} - {image.originalWidth} x {image.originalHeight}px
                     {image.upscaledUrl && (
                       <span className="text-green-400 ml-2">
@@ -573,7 +573,7 @@ export default function ImageUpscaler() {
 
                 <button
                   onClick={() => removeImage(image.id)}
-                  className="p-2 text-slate-400 hover:text-red-400 transition-colors"
+                  className="p-2 text-[var(--text-muted)] hover:text-red-400 transition-colors"
                 >
                   <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -646,7 +646,7 @@ export default function ImageUpscaler() {
               {image.isProcessing && (
                 <div className="mb-4">
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm text-slate-400">{image.progressMessage}</span>
+                    <span className="text-sm text-[var(--text-muted)]">{image.progressMessage}</span>
                     <span className="text-sm text-violet-400">{image.progress}%</span>
                   </div>
                   <div className="h-2 bg-slate-700 rounded-full overflow-hidden">
@@ -710,12 +710,12 @@ export default function ImageUpscaler() {
       {/* Info Box */}
       <div className="mt-6 glass-card p-4">
         <h5 className="text-sm font-medium text-white mb-2">About AI Image Upscaling</h5>
-        <p className="text-slate-400 text-sm">
+        <p className="text-[var(--text-muted)] text-sm">
           This tool uses ESRGAN (Enhanced Super-Resolution Generative Adversarial Network) AI models
           running directly in your browser via TensorFlow.js. The AI learns patterns from millions of images
           to intelligently add detail when enlarging photos - much better than simple interpolation.
         </p>
-        <ul className="mt-3 text-slate-400 text-sm space-y-1">
+        <ul className="mt-3 text-[var(--text-muted)] text-sm space-y-1">
           <li className="flex items-start gap-2">
             <span className="text-green-400">*</span>
             <span>Best for: Photos, illustrations, artwork, game sprites</span>
@@ -732,7 +732,7 @@ export default function ImageUpscaler() {
       </div>
 
       {/* Privacy note */}
-      <p className="mt-6 text-center text-slate-400 text-sm">
+      <p className="mt-6 text-center text-[var(--text-muted)] text-sm">
         <svg className="w-4 h-4 inline-block mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
         </svg>

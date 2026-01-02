@@ -154,7 +154,7 @@ export default function DiffChecker() {
     if (!hasCompared) return null;
     if (diff.length === 0) {
       return (
-        <div className="text-center py-8 text-slate-400">
+        <div className="text-center py-8 text-[var(--text-muted)]">
           No differences found. Both texts are identical.
         </div>
       );
@@ -172,7 +172,7 @@ export default function DiffChecker() {
                   ? 'bg-green-500/30 text-green-300'
                   : part.type === 'removed'
                   ? 'bg-red-500/30 text-red-300 line-through'
-                  : 'text-slate-300'
+                  : 'text-[var(--text)]'
               }
             >
               {part.content}
@@ -198,10 +198,10 @@ export default function DiffChecker() {
                     : ''
                 }
               >
-                <td className="w-12 px-2 py-1 text-right text-slate-400 border-r border-slate-700 select-none">
+                <td className="w-12 px-2 py-1 text-right text-[var(--text-muted)] border-r border-slate-700 select-none">
                   {line.lineNumber.left || ''}
                 </td>
-                <td className="w-12 px-2 py-1 text-right text-slate-400 border-r border-slate-700 select-none">
+                <td className="w-12 px-2 py-1 text-right text-[var(--text-muted)] border-r border-slate-700 select-none">
                   {line.lineNumber.right || ''}
                 </td>
                 <td className="w-8 px-2 py-1 text-center border-r border-slate-700 select-none">
@@ -218,7 +218,7 @@ export default function DiffChecker() {
                       ? 'text-green-300'
                       : line.type === 'removed'
                       ? 'text-red-300'
-                      : 'text-slate-300'
+                      : 'text-[var(--text)]'
                   }`}
                 >
                   {line.content}
@@ -239,7 +239,7 @@ export default function DiffChecker() {
         <div className="glass-card p-6">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-white font-medium">Original</h3>
-            <span className="text-xs text-slate-400">
+            <span className="text-xs text-[var(--text-muted)]">
               {original.split('\n').length} lines
             </span>
           </div>
@@ -259,7 +259,7 @@ export default function DiffChecker() {
         <div className="glass-card p-6">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-white font-medium">Modified</h3>
-            <span className="text-xs text-slate-400">
+            <span className="text-xs text-[var(--text-muted)]">
               {modified.split('\n').length} lines
             </span>
           </div>
@@ -281,7 +281,7 @@ export default function DiffChecker() {
         <div className="flex flex-wrap items-center justify-between gap-4">
           {/* Mode Toggle */}
           <div className="flex items-center gap-2">
-            <span className="text-slate-400 text-sm">Mode:</span>
+            <span className="text-[var(--text-muted)] text-sm">Mode:</span>
             <div className="flex rounded-lg overflow-hidden border border-slate-700">
               <button
                 onClick={() => {
@@ -291,7 +291,7 @@ export default function DiffChecker() {
                 className={`px-4 py-2 text-sm font-medium transition-colors ${
                   diffMode === 'line'
                     ? 'bg-indigo-600 text-white'
-                    : 'bg-slate-800 text-slate-400 hover:text-white'
+                    : 'bg-slate-800 text-[var(--text-muted)] hover:text-white'
                 }`}
               >
                 Line-by-Line
@@ -304,7 +304,7 @@ export default function DiffChecker() {
                 className={`px-4 py-2 text-sm font-medium transition-colors ${
                   diffMode === 'word'
                     ? 'bg-indigo-600 text-white'
-                    : 'bg-slate-800 text-slate-400 hover:text-white'
+                    : 'bg-slate-800 text-[var(--text-muted)] hover:text-white'
                 }`}
               >
                 Word-by-Word
@@ -319,8 +319,8 @@ export default function DiffChecker() {
               disabled={!original && !modified}
               className={`px-4 py-2.5 rounded-lg font-medium text-sm transition-all flex items-center gap-2 ${
                 !original && !modified
-                  ? 'opacity-50 cursor-not-allowed bg-slate-800 text-slate-400'
-                  : 'bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white'
+                  ? 'opacity-50 cursor-not-allowed bg-slate-800 text-[var(--text-muted)]'
+                  : 'bg-slate-800 text-[var(--text)] hover:bg-slate-700 hover:text-white'
               }`}
             >
               <svg
@@ -343,8 +343,8 @@ export default function DiffChecker() {
               disabled={!original && !modified}
               className={`px-4 py-2.5 rounded-lg font-medium text-sm transition-all ${
                 !original && !modified
-                  ? 'opacity-50 cursor-not-allowed bg-slate-800 text-slate-400'
-                  : 'bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white'
+                  ? 'opacity-50 cursor-not-allowed bg-slate-800 text-[var(--text-muted)]'
+                  : 'bg-slate-800 text-[var(--text)] hover:bg-slate-700 hover:text-white'
               }`}
             >
               Clear
@@ -399,10 +399,10 @@ export default function DiffChecker() {
               </div>
             </div>
             <div className="bg-slate-500/20 border border-slate-500/30 rounded-lg p-4 text-center">
-              <div className="text-3xl font-bold text-slate-400">
+              <div className="text-3xl font-bold text-[var(--text-muted)]">
                 {stats.unchanged}
               </div>
-              <div className="text-sm text-slate-300 mt-1">
+              <div className="text-sm text-[var(--text)] mt-1">
                 {diffMode === 'line' ? 'Lines' : 'Words'} Unchanged
               </div>
             </div>
@@ -418,7 +418,7 @@ export default function DiffChecker() {
             {renderDiffContent()}
           </div>
           {diff.length > 0 && (
-            <div className="mt-4 flex items-center gap-4 text-xs text-slate-400">
+            <div className="mt-4 flex items-center gap-4 text-xs text-[var(--text-muted)]">
               <span className="flex items-center gap-1">
                 <span className="w-3 h-3 bg-green-500/30 rounded" /> Added
               </span>
@@ -434,7 +434,7 @@ export default function DiffChecker() {
       )}
 
       {/* Privacy note */}
-      <p className="mt-6 text-center text-slate-400 text-sm">
+      <p className="mt-6 text-center text-[var(--text-muted)] text-sm">
         <svg
           className="w-4 h-4 inline-block mr-1"
           fill="none"

@@ -379,13 +379,13 @@ export default function BatchProcessor({
     <div className={`batch-processor ${className}`}>
       {/* Header with stats */}
       <div className="flex items-center justify-between mb-4">
-        <h4 className="text-sm font-medium text-slate-400">
+        <h4 className="text-sm font-medium text-[var(--text-muted)]">
           {stats.total} file{stats.total !== 1 ? 's' : ''} in queue
         </h4>
         <button
           onClick={handleClear}
           disabled={isProcessing}
-          className="text-sm text-slate-400 hover:text-red-400 transition-colors disabled:opacity-50"
+          className="text-sm text-[var(--text-muted)] hover:text-red-400 transition-colors disabled:opacity-50"
           aria-label="Clear all files"
         >
           Clear all
@@ -396,13 +396,13 @@ export default function BatchProcessor({
       {(isProcessing || isPaused || hasCompletedItems) && (
         <div className="mb-4 glass-card p-4">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-sm text-slate-400">
+            <span className="text-sm text-[var(--text-muted)]">
               Overall Progress: {stats.completed + stats.error}/{stats.total}
             </span>
-            <span className="text-sm text-slate-400">
+            <span className="text-sm text-[var(--text-muted)]">
               {formatDuration(elapsedTime)}
               {isProcessing && estimatedRemaining > 0 && (
-                <span className="text-slate-400">
+                <span className="text-[var(--text-muted)]">
                   {' '}(~{formatDuration(estimatedRemaining)} remaining)
                 </span>
               )}
@@ -424,7 +424,7 @@ export default function BatchProcessor({
 
           {/* Size stats */}
           {hasCompletedItems && (
-            <div className="mt-2 flex items-center justify-between text-xs text-slate-400">
+            <div className="mt-2 flex items-center justify-between text-xs text-[var(--text-muted)]">
               <span>
                 {formatFileSize(totalOriginalSize)} total input
               </span>
@@ -532,11 +532,11 @@ export default function BatchProcessor({
             <div className="flex-1 min-w-0">
               <p className="text-white text-sm font-medium truncate">{item.name}</p>
               <div className="flex items-center gap-2 text-xs">
-                <span className="text-slate-400">{formatFileSize(item.size)}</span>
+                <span className="text-[var(--text-muted)]">{formatFileSize(item.size)}</span>
                 {item.status === 'completed' && item.result && (
                   <>
                     <svg
-                      className="w-3 h-3 text-slate-400"
+                      className="w-3 h-3 text-[var(--text-muted)]"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"

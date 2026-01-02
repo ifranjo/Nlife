@@ -409,11 +409,11 @@ export default function PdfMerge() {
             className="w-4 h-4 rounded border-white/20 bg-white/10 text-indigo-500 focus:ring-indigo-500/30"
             aria-label="Enable batch mode for multiple merge operations"
           />
-          <span className="text-sm text-slate-300">Batch Mode</span>
-          <span className="text-xs text-slate-400">(create multiple merged PDFs)</span>
+          <span className="text-sm text-[var(--text)]">Batch Mode</span>
+          <span className="text-xs text-[var(--text-muted)]">(create multiple merged PDFs)</span>
         </label>
         {batchMode && mergeGroups.length > 0 && (
-          <span className="text-sm text-slate-400">
+          <span className="text-sm text-[var(--text-muted)]">
             {mergeGroups.length} merge group{mergeGroups.length !== 1 ? 's' : ''} queued
           </span>
         )}
@@ -455,7 +455,7 @@ export default function PdfMerge() {
         <h3 className="text-xl font-semibold text-white mb-2">
           Drop PDFs here or click to browse
         </h3>
-        <p className="text-slate-400 text-sm">
+        <p className="text-[var(--text-muted)] text-sm">
           {batchMode
             ? 'Add PDFs for a merge group, then click "Add to Queue"'
             : 'Supports multiple PDF files. Drag to reorder.'
@@ -483,7 +483,7 @@ export default function PdfMerge() {
           aria-label={`${files.length} PDF files selected. Use arrow keys to navigate, Delete to remove.`}
           className="mt-6 space-y-3"
         >
-          <h4 className="text-sm font-medium text-slate-400 mb-3">
+          <h4 className="text-sm font-medium text-[var(--text-muted)] mb-3">
             {files.length} file{files.length > 1 ? 's' : ''} selected
           </h4>
 
@@ -507,7 +507,7 @@ export default function PdfMerge() {
                     onClick={() => moveFile(index, 'up')}
                     disabled={index === 0}
                     aria-label={`Move ${file.name} up`}
-                    className="p-1 text-slate-400 hover:text-white hover:scale-110 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+                    className="p-1 text-[var(--text-muted)] hover:text-white hover:scale-110 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
                   >
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
@@ -517,7 +517,7 @@ export default function PdfMerge() {
                     onClick={() => moveFile(index, 'down')}
                     disabled={index === files.length - 1}
                     aria-label={`Move ${file.name} down`}
-                    className="p-1 text-slate-400 hover:text-white hover:scale-110 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+                    className="p-1 text-[var(--text-muted)] hover:text-white hover:scale-110 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
                   >
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
@@ -528,7 +528,7 @@ export default function PdfMerge() {
                 {/* File info */}
                 <div className="flex-1 min-w-0">
                   <p className="text-white font-medium truncate">{file.name}</p>
-                  <p className="text-slate-400 text-sm">{file.size}</p>
+                  <p className="text-[var(--text-muted)] text-sm">{file.size}</p>
                 </div>
 
                 {/* Spacer for delete button area (handled by SwipeableListItem) */}
@@ -614,7 +614,7 @@ export default function PdfMerge() {
       {/* Batch Mode: Merge Groups List */}
       {batchMode && mergeGroups.length > 0 && (
         <div className="mt-6">
-          <h4 className="text-sm font-medium text-slate-400 mb-3">
+          <h4 className="text-sm font-medium text-[var(--text-muted)] mb-3">
             Merge Queue ({mergeGroups.length} group{mergeGroups.length !== 1 ? 's' : ''})
           </h4>
           <div className="space-y-2 mb-4">
@@ -625,14 +625,14 @@ export default function PdfMerge() {
               >
                 <div className="flex-1 min-w-0">
                   <p className="text-white text-sm font-medium truncate">{group.name}</p>
-                  <p className="text-slate-400 text-xs">
+                  <p className="text-[var(--text-muted)] text-xs">
                     {group.files.length} PDFs - {group.files.map(f => f.name).join(', ').substring(0, 50)}...
                   </p>
                 </div>
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => editMergeGroup(group)}
-                    className="p-1.5 text-slate-400 hover:text-white transition-colors"
+                    className="p-1.5 text-[var(--text-muted)] hover:text-white transition-colors"
                     title="Edit group"
                     aria-label={`Edit ${group.name}`}
                   >
@@ -642,7 +642,7 @@ export default function PdfMerge() {
                   </button>
                   <button
                     onClick={() => removeMergeGroup(group.id)}
-                    className="p-1.5 text-slate-400 hover:text-red-400 transition-colors"
+                    className="p-1.5 text-[var(--text-muted)] hover:text-red-400 transition-colors"
                     title="Remove group"
                     aria-label={`Remove ${group.name}`}
                   >
@@ -671,7 +671,7 @@ export default function PdfMerge() {
       )}
 
       {/* Privacy note */}
-      <p className="mt-6 text-center text-slate-400 text-sm">
+      <p className="mt-6 text-center text-[var(--text-muted)] text-sm">
         <svg className="w-4 h-4 inline-block mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
         </svg>

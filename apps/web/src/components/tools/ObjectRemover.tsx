@@ -567,7 +567,7 @@ export default function ObjectRemover() {
           <h3 className="text-xl font-semibold text-white mb-2">
             Drop an image here or click to browse
           </h3>
-          <p className="text-slate-400 text-sm">
+          <p className="text-[var(--text-muted)] text-sm">
             Supports PNG, JPEG, WebP. Click on objects to remove them.
           </p>
         </div>
@@ -587,11 +587,11 @@ export default function ObjectRemover() {
           <div className="glass-card p-4 flex items-center justify-between">
             <div>
               <p className="text-white font-medium">{image && sanitizeFilename(image.name)}</p>
-              <p className="text-slate-400 text-sm">{image && formatFileSize(image.size)}</p>
+              <p className="text-[var(--text-muted)] text-sm">{image && formatFileSize(image.size)}</p>
             </div>
             <button
               onClick={reset}
-              className="p-2 text-slate-400 hover:text-red-400 transition-colors"
+              className="p-2 text-[var(--text-muted)] hover:text-red-400 transition-colors"
               title="Remove image"
             >
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -602,7 +602,7 @@ export default function ObjectRemover() {
 
           {/* Instructions */}
           <div className="glass-card p-4">
-            <p className="text-slate-300 text-sm">
+            <p className="text-[var(--text)] text-sm">
               <strong className="text-white">Step 1:</strong> Click on the object you want to remove.
               {maskData && (
                 <span className="ml-2">
@@ -611,7 +611,7 @@ export default function ObjectRemover() {
               )}
             </p>
             {maskData && (
-              <p className="text-slate-300 text-sm mt-2">
+              <p className="text-[var(--text)] text-sm mt-2">
                 <strong className="text-white">Step 2:</strong> Review the red overlay (area to remove), then click "Remove Object".
               </p>
             )}
@@ -624,7 +624,7 @@ export default function ObjectRemover() {
                 /* Show result */
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <p className="text-slate-400 text-xs mb-2 text-center">Before</p>
+                    <p className="text-[var(--text-muted)] text-xs mb-2 text-center">Before</p>
                     <img
                       src={imageUrl}
                       alt="Original"
@@ -632,7 +632,7 @@ export default function ObjectRemover() {
                     />
                   </div>
                   <div>
-                    <p className="text-slate-400 text-xs mb-2 text-center">After</p>
+                    <p className="text-[var(--text-muted)] text-xs mb-2 text-center">After</p>
                     <img
                       src={resultUrl}
                       alt="Result"
@@ -674,7 +674,7 @@ export default function ObjectRemover() {
             {/* Mask toggle */}
             {maskData && !resultUrl && (
               <div className="mt-4 flex items-center gap-2">
-                <label className="flex items-center gap-2 text-sm text-slate-400 cursor-pointer">
+                <label className="flex items-center gap-2 text-sm text-[var(--text-muted)] cursor-pointer">
                   <input
                     type="checkbox"
                     checked={showMaskOverlay}
@@ -727,7 +727,7 @@ export default function ObjectRemover() {
 
           {/* First-time model notice */}
           {!modelRef.current && processingStage === 'idle' && !maskData && (
-            <div className="glass-card p-4 text-sm text-slate-400">
+            <div className="glass-card p-4 text-sm text-[var(--text-muted)]">
               <p>
                 <strong className="text-cyan-400">First time?</strong> The AI model (~100MB) will be downloaded and cached.
                 Future uses will be instant.
@@ -738,7 +738,7 @@ export default function ObjectRemover() {
       )}
 
       {/* Privacy note */}
-      <p className="mt-6 text-center text-slate-400 text-sm">
+      <p className="mt-6 text-center text-[var(--text-muted)] text-sm">
         <svg className="w-4 h-4 inline-block mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
         </svg>

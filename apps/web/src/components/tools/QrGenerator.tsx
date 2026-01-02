@@ -210,7 +210,7 @@ export default function QrGenerator() {
                   py-2 px-3 rounded-lg text-sm font-medium transition-all
                   ${inputType === type
                     ? 'bg-indigo-600 text-white'
-                    : 'bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-white'
+                    : 'bg-slate-800 text-[var(--text-muted)] hover:bg-slate-700 hover:text-white'
                   }
                 `}
               >
@@ -223,7 +223,7 @@ export default function QrGenerator() {
           {/* URL/Text Input */}
           {(inputType === 'url' || inputType === 'text') && (
             <div>
-              <label className="block text-slate-400 text-sm mb-2">
+              <label className="block text-[var(--text-muted)] text-sm mb-2">
                 {inputType === 'url' ? 'Enter URL' : 'Enter Text'}
               </label>
               {inputType === 'url' ? (
@@ -250,7 +250,7 @@ export default function QrGenerator() {
           {inputType === 'wifi' && (
             <div className="space-y-4">
               <div>
-                <label className="block text-slate-400 text-sm mb-2">Network Name (SSID)</label>
+                <label className="block text-[var(--text-muted)] text-sm mb-2">Network Name (SSID)</label>
                 <input
                   type="text"
                   value={wifiConfig.ssid}
@@ -261,7 +261,7 @@ export default function QrGenerator() {
               </div>
 
               <div>
-                <label htmlFor="wifi-encryption" className="block text-slate-400 text-sm mb-2">Encryption</label>
+                <label htmlFor="wifi-encryption" className="block text-[var(--text-muted)] text-sm mb-2">Encryption</label>
                 <select
                   id="wifi-encryption"
                   value={wifiConfig.encryption}
@@ -276,7 +276,7 @@ export default function QrGenerator() {
 
               {wifiConfig.encryption !== 'nopass' && (
                 <div>
-                  <label className="block text-slate-400 text-sm mb-2">Password</label>
+                  <label className="block text-[var(--text-muted)] text-sm mb-2">Password</label>
                   <input
                     type="password"
                     value={wifiConfig.password}
@@ -294,7 +294,7 @@ export default function QrGenerator() {
                   onChange={(e) => setWifiConfig(prev => ({ ...prev, hidden: e.target.checked }))}
                   className="w-4 h-4 accent-indigo-500"
                 />
-                <span className="text-slate-400 text-sm">Hidden network</span>
+                <span className="text-[var(--text-muted)] text-sm">Hidden network</span>
               </label>
             </div>
           )}
@@ -304,7 +304,7 @@ export default function QrGenerator() {
             <div className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-slate-400 text-sm mb-2">First Name</label>
+                  <label className="block text-[var(--text-muted)] text-sm mb-2">First Name</label>
                   <input
                     type="text"
                     value={vcardConfig.firstName}
@@ -314,7 +314,7 @@ export default function QrGenerator() {
                   />
                 </div>
                 <div>
-                  <label className="block text-slate-400 text-sm mb-2">Last Name</label>
+                  <label className="block text-[var(--text-muted)] text-sm mb-2">Last Name</label>
                   <input
                     type="text"
                     value={vcardConfig.lastName}
@@ -326,7 +326,7 @@ export default function QrGenerator() {
               </div>
 
               <div>
-                <label className="block text-slate-400 text-sm mb-2">Phone</label>
+                <label className="block text-[var(--text-muted)] text-sm mb-2">Phone</label>
                 <input
                   type="tel"
                   value={vcardConfig.phone}
@@ -337,7 +337,7 @@ export default function QrGenerator() {
               </div>
 
               <div>
-                <label className="block text-slate-400 text-sm mb-2">Email</label>
+                <label className="block text-[var(--text-muted)] text-sm mb-2">Email</label>
                 <input
                   type="email"
                   value={vcardConfig.email}
@@ -349,7 +349,7 @@ export default function QrGenerator() {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-slate-400 text-sm mb-2">Organization</label>
+                  <label className="block text-[var(--text-muted)] text-sm mb-2">Organization</label>
                   <input
                     type="text"
                     value={vcardConfig.organization}
@@ -359,7 +359,7 @@ export default function QrGenerator() {
                   />
                 </div>
                 <div>
-                  <label className="block text-slate-400 text-sm mb-2">Job Title</label>
+                  <label className="block text-[var(--text-muted)] text-sm mb-2">Job Title</label>
                   <input
                     type="text"
                     value={vcardConfig.title}
@@ -371,7 +371,7 @@ export default function QrGenerator() {
               </div>
 
               <div>
-                <label className="block text-slate-400 text-sm mb-2">Website</label>
+                <label className="block text-[var(--text-muted)] text-sm mb-2">Website</label>
                 <input
                   type="url"
                   value={vcardConfig.url}
@@ -406,7 +406,7 @@ export default function QrGenerator() {
           <div className="space-y-4">
             {/* Size */}
             <div>
-              <label className="block text-slate-400 text-sm mb-2">
+              <label className="block text-[var(--text-muted)] text-sm mb-2">
                 Size: {size}px
               </label>
               <input
@@ -422,7 +422,7 @@ export default function QrGenerator() {
 
             {/* Error Correction */}
             <div>
-              <label htmlFor="error-correction" className="block text-slate-400 text-sm mb-2">Error Correction</label>
+              <label htmlFor="error-correction" className="block text-[var(--text-muted)] text-sm mb-2">Error Correction</label>
               <select
                 id="error-correction"
                 value={errorCorrection}
@@ -439,7 +439,7 @@ export default function QrGenerator() {
             {/* Colors */}
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-slate-400 text-sm mb-2">Foreground</label>
+                <label className="block text-[var(--text-muted)] text-sm mb-2">Foreground</label>
                 <div className="flex items-center gap-2">
                   <input
                     type="color"
@@ -456,7 +456,7 @@ export default function QrGenerator() {
                 </div>
               </div>
               <div>
-                <label className="block text-slate-400 text-sm mb-2">Background</label>
+                <label className="block text-[var(--text-muted)] text-sm mb-2">Background</label>
                 <div className="flex items-center gap-2">
                   <input
                     type="color"
@@ -515,7 +515,7 @@ export default function QrGenerator() {
       )}
 
       {/* Privacy note */}
-      <p className="mt-6 text-center text-slate-400 text-sm">
+      <p className="mt-6 text-center text-[var(--text-muted)] text-sm">
         <svg className="w-4 h-4 inline-block mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
         </svg>

@@ -446,7 +446,7 @@ export default function ImageCompress() {
         <h3 className="text-xl font-semibold text-white mb-2">
           Drop images here or click to browse
         </h3>
-        <p className="text-slate-400 text-sm">
+        <p className="text-[var(--text-muted)] text-sm">
           Supports PNG, JPEG, WebP, GIF. Max 10MB per image, up to 20 images.
         </p>
       </div>
@@ -466,7 +466,7 @@ export default function ImageCompress() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Quality Slider */}
             <div>
-              <label className="block text-slate-400 text-sm mb-2">
+              <label className="block text-[var(--text-muted)] text-sm mb-2">
                 Quality: <span className="text-white font-medium">{quality}%</span>
               </label>
               <input
@@ -477,7 +477,7 @@ export default function ImageCompress() {
                 onChange={(e) => setQuality(parseInt(e.target.value, 10))}
                 className="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-indigo-500"
               />
-              <div className="flex justify-between text-xs text-slate-400 mt-1">
+              <div className="flex justify-between text-xs text-[var(--text-muted)] mt-1">
                 <span>Smaller file</span>
                 <span>Higher quality</span>
               </div>
@@ -485,7 +485,7 @@ export default function ImageCompress() {
 
             {/* Output Format */}
             <div>
-              <label className="block text-slate-400 text-sm mb-2">
+              <label className="block text-[var(--text-muted)] text-sm mb-2">
                 Output Format
               </label>
               <div className="flex gap-2">
@@ -497,7 +497,7 @@ export default function ImageCompress() {
                       px-4 py-2 rounded-lg text-sm font-medium transition-colors
                       ${outputFormat === format
                         ? 'bg-indigo-500 text-white'
-                        : 'bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-white'
+                        : 'bg-slate-800 text-[var(--text-muted)] hover:bg-slate-700 hover:text-white'
                       }
                     `}
                   >
@@ -545,7 +545,7 @@ export default function ImageCompress() {
               <span className="text-2xl font-bold">{stats.percentSaved}%</span>
               <span className="text-sm ml-2">total reduction</span>
             </div>
-            <div className="text-slate-400 text-sm">
+            <div className="text-[var(--text-muted)] text-sm">
               {formatFileSize(stats.totalOriginal)} → {formatFileSize(stats.totalCompressed)}
               <span className="text-green-400 ml-2">
                 (saved {formatFileSize(stats.totalSaved)})
@@ -559,12 +559,12 @@ export default function ImageCompress() {
       {files.length > 0 && (
         <div className="mt-6 space-y-3">
           <div className="flex items-center justify-between">
-            <h4 className="text-sm font-medium text-slate-400">
+            <h4 className="text-sm font-medium text-[var(--text-muted)]">
               {files.length} image{files.length > 1 ? 's' : ''} selected
             </h4>
             <button
               onClick={clearAllFiles}
-              className="text-sm text-slate-400 hover:text-red-400 transition-colors"
+              className="text-sm text-[var(--text-muted)] hover:text-red-400 transition-colors"
             >
               Clear all
             </button>
@@ -613,12 +613,12 @@ export default function ImageCompress() {
                 <div className="flex-1 min-w-0">
                   <p className="text-white font-medium truncate">{imageFile.name}</p>
                   <div className="flex items-center gap-2 text-sm">
-                    <span className="text-slate-400">
+                    <span className="text-[var(--text-muted)]">
                       {formatFileSize(imageFile.originalSize)}
                     </span>
                     {imageFile.status === 'done' && imageFile.compressedSize !== null && (
                       <>
-                        <svg className="w-4 h-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg className="w-4 h-4 text-[var(--text-muted)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
                         </svg>
                         <span className="text-white">
@@ -703,7 +703,7 @@ export default function ImageCompress() {
       )}
 
       {/* Privacy note */}
-      <p className="mt-6 text-center text-slate-400 text-sm">
+      <p className="mt-6 text-center text-[var(--text-muted)] text-sm">
         <svg className="w-4 h-4 inline-block mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
         </svg>
@@ -727,7 +727,7 @@ export default function ImageCompress() {
             <div className="flex items-center justify-between p-4 border-b border-slate-700">
               <div>
                 <h3 className="text-white font-medium">{previewImage.name}</h3>
-                <p className="text-slate-400 text-sm">
+                <p className="text-[var(--text-muted)] text-sm">
                   {formatFileSize(previewImage.originalSize)}
                   {previewImage.compressedSize && (
                     <span className="text-green-400 ml-2">
@@ -738,7 +738,7 @@ export default function ImageCompress() {
               </div>
               <button
                 onClick={() => setPreviewImage(null)}
-                className="p-2 text-slate-400 hover:text-white transition-colors rounded-lg hover:bg-slate-800"
+                className="p-2 text-[var(--text-muted)] hover:text-white transition-colors rounded-lg hover:bg-slate-800"
                 aria-label="Close preview"
               >
                 <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">

@@ -216,7 +216,7 @@ export default function JsonFormatter() {
             <div className="flex items-center gap-2">
               <button
                 onClick={() => fileInputRef.current?.click()}
-                className="text-xs px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white rounded-lg transition-colors"
+                className="text-xs px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-[var(--text-muted)] hover:text-white rounded-lg transition-colors"
               >
                 Upload .json
               </button>
@@ -230,7 +230,7 @@ export default function JsonFormatter() {
               {input && (
                 <button
                   onClick={clearAll}
-                  className="text-xs px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white rounded-lg transition-colors"
+                  className="text-xs px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-[var(--text-muted)] hover:text-white rounded-lg transition-colors"
                 >
                   Clear
                 </button>
@@ -255,7 +255,7 @@ export default function JsonFormatter() {
           <div className="mt-4 space-y-3">
             {/* Indent Type Selector */}
             <div>
-              <label className="block text-slate-400 text-xs mb-2">Indentation</label>
+              <label className="block text-[var(--text-muted)] text-xs mb-2">Indentation</label>
               <div className="grid grid-cols-3 gap-2">
                 {([
                   { type: '2spaces', label: '2 Spaces' },
@@ -269,7 +269,7 @@ export default function JsonFormatter() {
                       py-2 px-3 rounded-lg text-xs font-medium transition-all
                       ${indentType === type
                         ? 'bg-indigo-600 text-white'
-                        : 'bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-white'
+                        : 'bg-slate-800 text-[var(--text-muted)] hover:bg-slate-700 hover:text-white'
                       }
                     `}
                   >
@@ -313,8 +313,8 @@ export default function JsonFormatter() {
                 className={`
                   px-4 py-2.5 rounded-lg font-medium text-sm transition-all
                   ${!input.trim()
-                    ? 'opacity-50 cursor-not-allowed bg-slate-800 text-slate-400'
-                    : 'bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white'
+                    ? 'opacity-50 cursor-not-allowed bg-slate-800 text-[var(--text-muted)]'
+                    : 'bg-slate-800 text-[var(--text)] hover:bg-slate-700 hover:text-white'
                   }
                 `}
               >
@@ -347,7 +347,7 @@ export default function JsonFormatter() {
                       text-xs px-3 py-1.5 rounded-lg transition-all flex items-center gap-1.5
                       ${copySuccess
                         ? 'bg-green-600 text-white'
-                        : 'bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white'
+                        : 'bg-slate-800 hover:bg-slate-700 text-[var(--text-muted)] hover:text-white'
                       }
                     `}
                   >
@@ -369,7 +369,7 @@ export default function JsonFormatter() {
                   </button>
                   <button
                     onClick={downloadJson}
-                    className="text-xs px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white rounded-lg transition-colors flex items-center gap-1.5"
+                    className="text-xs px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-[var(--text-muted)] hover:text-white rounded-lg transition-colors flex items-center gap-1.5"
                   >
                     <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
@@ -392,7 +392,7 @@ export default function JsonFormatter() {
 
           {/* Character/Line Count */}
           {output && (
-            <div className="mt-4 flex items-center justify-between text-xs text-slate-400">
+            <div className="mt-4 flex items-center justify-between text-xs text-[var(--text-muted)]">
               <span>{output.length.toLocaleString()} characters</span>
               <span>{output.split('\n').length} lines</span>
             </div>
@@ -421,7 +421,7 @@ export default function JsonFormatter() {
       )}
 
       {/* Privacy note */}
-      <p className="mt-6 text-center text-slate-400 text-sm">
+      <p className="mt-6 text-center text-[var(--text-muted)] text-sm">
         <svg className="w-4 h-4 inline-block mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
         </svg>

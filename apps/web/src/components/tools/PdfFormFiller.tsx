@@ -596,7 +596,7 @@ export default function PdfFormFiller() {
             <h3 className="text-xl font-semibold text-white mb-2">
               Drop PDF here or click to browse
             </h3>
-            <p className="text-slate-400 text-sm">
+            <p className="text-[var(--text-muted)] text-sm">
               Fill forms, add signatures, and annotate PDFs
             </p>
           </div>
@@ -609,7 +609,7 @@ export default function PdfFormFiller() {
           )}
 
           {/* Privacy note */}
-          <p className="mt-6 text-center text-slate-400 text-sm">
+          <p className="mt-6 text-center text-[var(--text-muted)] text-sm">
             <svg className="w-4 h-4 inline-block mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
             </svg>
@@ -628,7 +628,7 @@ export default function PdfFormFiller() {
                   className={`px-3 py-2 rounded-lg text-sm font-medium transition-all ${
                     toolMode === 'form'
                       ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/50'
-                      : 'bg-slate-700/50 text-slate-300 hover:bg-slate-700'
+                      : 'bg-slate-700/50 text-[var(--text)] hover:bg-slate-700'
                   }`}
                 >
                   📝 Form
@@ -638,7 +638,7 @@ export default function PdfFormFiller() {
                   className={`px-3 py-2 rounded-lg text-sm font-medium transition-all ${
                     toolMode === 'text'
                       ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/50'
-                      : 'bg-slate-700/50 text-slate-300 hover:bg-slate-700'
+                      : 'bg-slate-700/50 text-[var(--text)] hover:bg-slate-700'
                   }`}
                 >
                   T Text
@@ -648,7 +648,7 @@ export default function PdfFormFiller() {
                   className={`px-3 py-2 rounded-lg text-sm font-medium transition-all ${
                     toolMode === 'signature'
                       ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/50'
-                      : 'bg-slate-700/50 text-slate-300 hover:bg-slate-700'
+                      : 'bg-slate-700/50 text-[var(--text)] hover:bg-slate-700'
                   }`}
                 >
                   ✍️ Sign
@@ -658,7 +658,7 @@ export default function PdfFormFiller() {
                   className={`px-3 py-2 rounded-lg text-sm font-medium transition-all ${
                     toolMode === 'date'
                       ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/50'
-                      : 'bg-slate-700/50 text-slate-300 hover:bg-slate-700'
+                      : 'bg-slate-700/50 text-[var(--text)] hover:bg-slate-700'
                   }`}
                 >
                   📅 Date
@@ -668,7 +668,7 @@ export default function PdfFormFiller() {
                   className={`px-3 py-2 rounded-lg text-sm font-medium transition-all ${
                     toolMode === 'checkbox'
                       ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/50'
-                      : 'bg-slate-700/50 text-slate-300 hover:bg-slate-700'
+                      : 'bg-slate-700/50 text-[var(--text)] hover:bg-slate-700'
                   }`}
                 >
                   ☑️ Check
@@ -678,7 +678,7 @@ export default function PdfFormFiller() {
               {/* Format controls */}
               {(toolMode === 'text' || toolMode === 'date' || toolMode === 'checkbox') && (
                 <div className="flex gap-3 items-center">
-                  <label className="flex items-center gap-2 text-sm text-slate-300">
+                  <label className="flex items-center gap-2 text-sm text-[var(--text)]">
                     Size:
                     <input
                       type="number"
@@ -689,7 +689,7 @@ export default function PdfFormFiller() {
                       className="w-16 px-2 py-1 rounded bg-slate-700 border border-slate-600 text-white text-sm"
                     />
                   </label>
-                  <label className="flex items-center gap-2 text-sm text-slate-300">
+                  <label className="flex items-center gap-2 text-sm text-[var(--text)]">
                     Color:
                     <input
                       type="color"
@@ -704,7 +704,7 @@ export default function PdfFormFiller() {
               {/* Actions */}
               <button
                 onClick={reset}
-                className="px-3 py-2 rounded-lg text-sm font-medium bg-slate-700/50 text-slate-300 hover:bg-slate-700 transition-all"
+                className="px-3 py-2 rounded-lg text-sm font-medium bg-slate-700/50 text-[var(--text)] hover:bg-slate-700 transition-all"
               >
                 ← New PDF
               </button>
@@ -736,7 +736,7 @@ export default function PdfFormFiller() {
                   >
                     ← Previous
                   </button>
-                  <span className="text-slate-300 text-sm">
+                  <span className="text-[var(--text)] text-sm">
                     Page {currentPage + 1} of {totalPages}
                   </span>
                   <button
@@ -759,7 +759,7 @@ export default function PdfFormFiller() {
                   <div className="space-y-3 max-h-96 overflow-y-auto">
                     {formFields.map((field, index) => (
                       <div key={index} className="space-y-1">
-                        <label className="text-sm text-slate-400 block">
+                        <label className="text-sm text-[var(--text-muted)] block">
                           {field.name}
                         </label>
                         {field.type === 'text' ? (
@@ -797,12 +797,12 @@ export default function PdfFormFiller() {
                   <div className="space-y-2 max-h-48 overflow-y-auto">
                     {annotations.map((ann) => (
                       <div key={ann.id} className="flex items-center justify-between p-2 bg-slate-700/50 rounded">
-                        <span className="text-sm text-slate-300 truncate flex-1">
+                        <span className="text-sm text-[var(--text)] truncate flex-1">
                           {ann.text}
                         </span>
                         <button
                           onClick={() => removeAnnotation(ann.id)}
-                          className="p-1 text-slate-400 hover:text-red-400 transition-colors"
+                          className="p-1 text-[var(--text-muted)] hover:text-red-400 transition-colors"
                         >
                           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -823,13 +823,13 @@ export default function PdfFormFiller() {
                       <div key={sig.id} className="flex items-center justify-between p-2 bg-slate-700/50 rounded">
                         <div className="flex items-center gap-2 flex-1">
                           <img src={sig.data} alt="Signature" className="h-8 border border-slate-600 rounded" />
-                          <span className="text-sm text-slate-300">
+                          <span className="text-sm text-[var(--text)]">
                             {sig.type} signature
                           </span>
                         </div>
                         <button
                           onClick={() => removeSignature(sig.id)}
-                          className="p-1 text-slate-400 hover:text-red-400 transition-colors"
+                          className="p-1 text-[var(--text-muted)] hover:text-red-400 transition-colors"
                         >
                           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -905,7 +905,7 @@ export default function PdfFormFiller() {
                 className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
                   signatureMode === 'draw'
                     ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/50'
-                    : 'bg-slate-700/50 text-slate-300 hover:bg-slate-700'
+                    : 'bg-slate-700/50 text-[var(--text)] hover:bg-slate-700'
                 }`}
               >
                 ✏️ Draw
@@ -915,14 +915,14 @@ export default function PdfFormFiller() {
                 className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
                   signatureMode === 'text'
                     ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/50'
-                    : 'bg-slate-700/50 text-slate-300 hover:bg-slate-700'
+                    : 'bg-slate-700/50 text-[var(--text)] hover:bg-slate-700'
                 }`}
               >
                 T Type
               </button>
               <button
                 onClick={() => signatureImageInputRef.current?.click()}
-                className="px-4 py-2 rounded-lg text-sm font-medium bg-slate-700/50 text-slate-300 hover:bg-slate-700 transition-all"
+                className="px-4 py-2 rounded-lg text-sm font-medium bg-slate-700/50 text-[var(--text)] hover:bg-slate-700 transition-all"
               >
                 🖼️ Upload Image
               </button>

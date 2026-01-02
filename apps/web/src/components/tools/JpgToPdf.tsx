@@ -310,7 +310,7 @@ export default function JpgToPdf() {
         <h3 className="text-lg font-semibold text-white mb-1">
           Drop images here or click to browse
         </h3>
-        <p className="text-slate-400 text-sm">
+        <p className="text-[var(--text-muted)] text-sm">
           Supports JPG, PNG, WebP, GIF • Multiple files allowed
         </p>
       </div>
@@ -322,7 +322,7 @@ export default function JpgToPdf() {
           <div className="glass-card p-4 mb-4">
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div>
-                <label className="block text-slate-400 text-sm mb-1">Page Size</label>
+                <label className="block text-[var(--text-muted)] text-sm mb-1">Page Size</label>
                 <select
                   value={pageSize}
                   onChange={(e) => setPageSize(e.target.value as PageSize)}
@@ -335,7 +335,7 @@ export default function JpgToPdf() {
                 </select>
               </div>
               <div>
-                <label className="block text-slate-400 text-sm mb-1">Orientation</label>
+                <label className="block text-[var(--text-muted)] text-sm mb-1">Orientation</label>
                 <select
                   value={orientation}
                   onChange={(e) => setOrientation(e.target.value as Orientation)}
@@ -348,7 +348,7 @@ export default function JpgToPdf() {
                 </select>
               </div>
               <div>
-                <label className="block text-slate-400 text-sm mb-1">Margin (px)</label>
+                <label className="block text-[var(--text-muted)] text-sm mb-1">Margin (px)</label>
                 <input
                   type="number"
                   min={0}
@@ -367,13 +367,13 @@ export default function JpgToPdf() {
               <span className="text-white font-medium">{images.length} image(s)</span>
               <button
                 onClick={clearAll}
-                className="text-sm text-slate-400 hover:text-red-400 transition-colors"
+                className="text-sm text-[var(--text-muted)] hover:text-red-400 transition-colors"
               >
                 Clear all
               </button>
             </div>
 
-            <p className="text-slate-400 text-xs mb-3">Drag to reorder • Images will appear in this order in the PDF</p>
+            <p className="text-[var(--text-muted)] text-xs mb-3">Drag to reorder • Images will appear in this order in the PDF</p>
 
             <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-3">
               {images.map((img, index) => (
@@ -455,7 +455,7 @@ export default function JpgToPdf() {
       )}
 
       {/* Privacy note */}
-      <p className="mt-6 text-center text-slate-400 text-sm">
+      <p className="mt-6 text-center text-[var(--text-muted)] text-sm">
         <svg className="w-4 h-4 inline-block mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
         </svg>

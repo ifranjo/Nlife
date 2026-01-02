@@ -372,7 +372,7 @@ export default function SvgEditor() {
             <div className="flex items-center gap-2">
               <button
                 onClick={() => fileInputRef.current?.click()}
-                className="text-xs px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white rounded-lg transition-colors"
+                className="text-xs px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-[var(--text-muted)] hover:text-white rounded-lg transition-colors"
               >
                 Upload .svg
               </button>
@@ -386,7 +386,7 @@ export default function SvgEditor() {
               {inputSvg && (
                 <button
                   onClick={clearAll}
-                  className="text-xs px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white rounded-lg transition-colors"
+                  className="text-xs px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-[var(--text-muted)] hover:text-white rounded-lg transition-colors"
                 >
                   Clear
                 </button>
@@ -420,7 +420,7 @@ export default function SvgEditor() {
 
           {/* Dimensions display */}
           {dimensions && (
-            <div className="mt-3 flex items-center gap-4 text-xs text-slate-400">
+            <div className="mt-3 flex items-center gap-4 text-xs text-[var(--text-muted)]">
               {dimensions.width > 0 && dimensions.height > 0 && (
                 <span>Size: {dimensions.width} x {dimensions.height}</span>
               )}
@@ -436,7 +436,7 @@ export default function SvgEditor() {
             <div className="grid grid-cols-2 gap-4">
               {/* Fill Color */}
               <div>
-                <label className="flex items-center gap-2 text-slate-400 text-xs mb-2">
+                <label className="flex items-center gap-2 text-[var(--text-muted)] text-xs mb-2">
                   <input
                     type="checkbox"
                     checked={applyFill}
@@ -465,7 +465,7 @@ export default function SvgEditor() {
 
               {/* Stroke Color */}
               <div>
-                <label className="flex items-center gap-2 text-slate-400 text-xs mb-2">
+                <label className="flex items-center gap-2 text-[var(--text-muted)] text-xs mb-2">
                   <input
                     type="checkbox"
                     checked={applyStroke}
@@ -495,7 +495,7 @@ export default function SvgEditor() {
 
             {/* Scale */}
             <div>
-              <label className="block text-slate-400 text-xs mb-2">
+              <label className="block text-[var(--text-muted)] text-xs mb-2">
                 Scale: {scalePercent}%
               </label>
               <div className="flex items-center gap-3">
@@ -563,7 +563,7 @@ export default function SvgEditor() {
                       text-xs px-3 py-1.5 rounded-lg transition-all flex items-center gap-1.5
                       ${copySuccess
                         ? 'bg-green-600 text-white'
-                        : 'bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white'
+                        : 'bg-slate-800 hover:bg-slate-700 text-[var(--text-muted)] hover:text-white'
                       }
                     `}
                   >
@@ -585,7 +585,7 @@ export default function SvgEditor() {
                   </button>
                   <button
                     onClick={downloadSvg}
-                    className="text-xs px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white rounded-lg transition-colors flex items-center gap-1.5"
+                    className="text-xs px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-[var(--text-muted)] hover:text-white rounded-lg transition-colors flex items-center gap-1.5"
                   >
                     <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
@@ -635,11 +635,11 @@ export default function SvgEditor() {
           {stats && (
             <div className="mt-4 grid grid-cols-3 gap-3">
               <div className="bg-slate-800 rounded-lg p-3 text-center">
-                <div className="text-xs text-slate-400 mb-1">Original</div>
+                <div className="text-xs text-[var(--text-muted)] mb-1">Original</div>
                 <div className="text-white font-medium">{formatBytes(stats.originalSize)}</div>
               </div>
               <div className="bg-slate-800 rounded-lg p-3 text-center">
-                <div className="text-xs text-slate-400 mb-1">Optimized</div>
+                <div className="text-xs text-[var(--text-muted)] mb-1">Optimized</div>
                 <div className="text-white font-medium">{formatBytes(stats.optimizedSize)}</div>
               </div>
               <div className="bg-green-500/20 border border-green-500/30 rounded-lg p-3 text-center">
@@ -670,7 +670,7 @@ export default function SvgEditor() {
       )}
 
       {/* Privacy note */}
-      <p className="mt-6 text-center text-slate-400 text-sm">
+      <p className="mt-6 text-center text-[var(--text-muted)] text-sm">
         <svg className="w-4 h-4 inline-block mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
         </svg>

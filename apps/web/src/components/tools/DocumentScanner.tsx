@@ -468,7 +468,7 @@ export default function DocumentScanner() {
           <h3 className="text-2xl font-semibold text-white mb-3">
             Ready to Scan Documents
           </h3>
-          <p className="text-slate-400 mb-6">
+          <p className="text-[var(--text-muted)] mb-6">
             Use your device camera to scan documents with automatic edge detection
           </p>
           <button
@@ -512,7 +512,7 @@ export default function DocumentScanner() {
               {/* Enhancement controls */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-slate-400 mb-2">
+                  <label className="block text-sm font-medium text-[var(--text-muted)] mb-2">
                     Brightness: {currentEnhancement.brightness}
                   </label>
                   <input
@@ -526,7 +526,7 @@ export default function DocumentScanner() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-slate-400 mb-2">
+                  <label className="block text-sm font-medium text-[var(--text-muted)] mb-2">
                     Contrast: {currentEnhancement.contrast}
                   </label>
                   <input
@@ -547,7 +547,7 @@ export default function DocumentScanner() {
                       onChange={(e) => setCurrentEnhancement(prev => ({ ...prev, blackAndWhite: e.target.checked }))}
                       className="w-4 h-4"
                     />
-                    <span className="text-sm font-medium text-slate-300">Black & White</span>
+                    <span className="text-sm font-medium text-[var(--text)]">Black & White</span>
                   </label>
                 </div>
               </div>
@@ -603,13 +603,13 @@ export default function DocumentScanner() {
                 />
 
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-slate-400">Page {index + 1}</span>
+                  <span className="text-sm text-[var(--text-muted)]">Page {index + 1}</span>
 
                   <div className="flex gap-1">
                     <button
                       onClick={() => movePage(index, 'up')}
                       disabled={index === 0}
-                      className="p-1 text-slate-400 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                      className="p-1 text-[var(--text-muted)] hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
                       title="Move up"
                     >
                       <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -620,7 +620,7 @@ export default function DocumentScanner() {
                     <button
                       onClick={() => movePage(index, 'down')}
                       disabled={index === pages.length - 1}
-                      className="p-1 text-slate-400 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                      className="p-1 text-[var(--text-muted)] hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
                       title="Move down"
                     >
                       <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -630,7 +630,7 @@ export default function DocumentScanner() {
 
                     <button
                       onClick={() => removePage(page.id)}
-                      className="p-1 text-slate-400 hover:text-red-400 transition-colors"
+                      className="p-1 text-[var(--text-muted)] hover:text-red-400 transition-colors"
                       title="Delete"
                     >
                       <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -708,7 +708,7 @@ export default function DocumentScanner() {
       )}
 
       {/* Privacy note */}
-      <p className="mt-8 text-center text-slate-400 text-sm">
+      <p className="mt-8 text-center text-[var(--text-muted)] text-sm">
         <svg className="w-4 h-4 inline-block mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
         </svg>

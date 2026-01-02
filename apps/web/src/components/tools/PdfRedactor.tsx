@@ -558,7 +558,7 @@ export default function PdfRedactor() {
             <h3 className="text-xl font-semibold text-white mb-2">
               Drop PDF here or click to browse
             </h3>
-            <p className="text-slate-400 text-sm">
+            <p className="text-[var(--text-muted)] text-sm">
               Permanently redact sensitive information from PDFs
             </p>
           </div>
@@ -568,28 +568,28 @@ export default function PdfRedactor() {
             <div className="glass-card p-4">
               <div className="text-2xl mb-2">🔍</div>
               <h4 className="text-white font-medium mb-1">Auto-Detect PII</h4>
-              <p className="text-slate-400 text-sm">
+              <p className="text-[var(--text-muted)] text-sm">
                 Automatically finds SSN, emails, phone numbers, credit cards, and dates of birth
               </p>
             </div>
             <div className="glass-card p-4">
               <div className="text-2xl mb-2">✏️</div>
               <h4 className="text-white font-medium mb-1">Manual Redaction</h4>
-              <p className="text-slate-400 text-sm">
+              <p className="text-[var(--text-muted)] text-sm">
                 Draw custom redaction boxes anywhere on the document
               </p>
             </div>
             <div className="glass-card p-4">
               <div className="text-2xl mb-2">🗑️</div>
               <h4 className="text-white font-medium mb-1">Strip Metadata</h4>
-              <p className="text-slate-400 text-sm">
+              <p className="text-[var(--text-muted)] text-sm">
                 Remove author, creation date, and other identifying metadata
               </p>
             </div>
             <div className="glass-card p-4">
               <div className="text-2xl mb-2">⚫</div>
               <h4 className="text-white font-medium mb-1">Permanent Redaction</h4>
-              <p className="text-slate-400 text-sm">
+              <p className="text-[var(--text-muted)] text-sm">
                 Redactions are burned into the PDF and cannot be removed
               </p>
             </div>
@@ -619,7 +619,7 @@ export default function PdfRedactor() {
                   d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
                 />
               </svg>
-              <p className="text-slate-400">Rendering PDF and detecting PII...</p>
+              <p className="text-[var(--text-muted)]">Rendering PDF and detecting PII...</p>
             </div>
           )}
 
@@ -633,7 +633,7 @@ export default function PdfRedactor() {
                     <h3 className="text-white font-medium mb-1">
                       {sanitizeFilename(file.name)}
                     </h3>
-                    <p className="text-slate-400 text-sm">
+                    <p className="text-[var(--text-muted)] text-sm">
                       {pages.length} page{pages.length !== 1 ? 's' : ''} •{' '}
                       {detectedPII.length} PII item{detectedPII.length !== 1 ? 's' : ''}{' '}
                       detected • {redactionBoxes.length} redaction
@@ -641,7 +641,7 @@ export default function PdfRedactor() {
                     </p>
                   </div>
                   <div className="flex gap-2">
-                    <label className="flex items-center gap-2 text-sm text-slate-300 cursor-pointer">
+                    <label className="flex items-center gap-2 text-sm text-[var(--text)] cursor-pointer">
                       <input
                         type="checkbox"
                         checked={stripMetadata}
@@ -682,10 +682,10 @@ export default function PdfRedactor() {
                           >
                             {getPIITypeLabel(pii.type)}
                           </span>
-                          <span className="text-slate-300 text-sm truncate">
+                          <span className="text-[var(--text)] text-sm truncate">
                             {pii.text}
                           </span>
-                          <span className="text-slate-400 text-xs">
+                          <span className="text-[var(--text-muted)] text-xs">
                             Page {pii.pageIndex + 1}
                           </span>
                         </div>
@@ -707,7 +707,7 @@ export default function PdfRedactor() {
                   <button
                     onClick={() => setCurrentPage((p) => Math.max(0, p - 1))}
                     disabled={currentPage === 0}
-                    className="p-2 text-slate-400 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                    className="p-2 text-[var(--text-muted)] hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
                   >
                     <svg
                       className="w-5 h-5"
@@ -731,7 +731,7 @@ export default function PdfRedactor() {
                       setCurrentPage((p) => Math.min(pages.length - 1, p + 1))
                     }
                     disabled={currentPage === pages.length - 1}
-                    className="p-2 text-slate-400 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                    className="p-2 text-[var(--text-muted)] hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
                   >
                     <svg
                       className="w-5 h-5"
@@ -753,7 +753,7 @@ export default function PdfRedactor() {
               {/* PDF Preview with redaction overlay */}
               <div className="glass-card p-4">
                 <div className="mb-3 flex items-center justify-between">
-                  <p className="text-slate-400 text-sm">
+                  <p className="text-[var(--text-muted)] text-sm">
                     Click and drag to create redaction boxes
                   </p>
                   {currentPageRedactions.length > 0 && (
@@ -914,7 +914,7 @@ export default function PdfRedactor() {
       )}
 
       {/* Privacy note */}
-      <p className="mt-6 text-center text-slate-400 text-sm">
+      <p className="mt-6 text-center text-[var(--text-muted)] text-sm">
         <svg
           className="w-4 h-4 inline-block mr-1"
           fill="none"

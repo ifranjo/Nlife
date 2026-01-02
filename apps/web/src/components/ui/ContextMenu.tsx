@@ -284,7 +284,7 @@ export function ContextMenu({
                   w-full px-4 py-3 flex items-center gap-3 text-left text-sm transition-colors
                   ${
                     item.disabled
-                      ? 'text-slate-400 cursor-not-allowed'
+                      ? 'text-[var(--text-muted)] cursor-not-allowed'
                       : item.danger
                       ? 'text-red-400 hover:bg-red-500/10 focus:bg-red-500/10'
                       : 'text-slate-200 hover:bg-slate-700/50 focus:bg-slate-700/50'

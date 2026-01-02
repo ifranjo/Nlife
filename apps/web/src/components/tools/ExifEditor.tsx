@@ -530,17 +530,17 @@ export default function ExifEditor() {
           />
 
           <div className="text-5xl mb-4">
-            <svg className="w-16 h-16 mx-auto text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className="w-16 h-16 mx-auto text-[var(--text-muted)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
             </svg>
           </div>
           <h3 className="text-xl font-semibold text-white mb-2">
             Drop a JPEG image here or click to browse
           </h3>
-          <p className="text-slate-400 text-sm mb-4">
+          <p className="text-[var(--text-muted)] text-sm mb-4">
             View and edit EXIF metadata, strip GPS location for privacy
           </p>
-          <p className="text-slate-400 text-xs">
+          <p className="text-[var(--text-muted)] text-xs">
             JPEG images only (PNG and other formats don't store EXIF data). Max 10MB.
           </p>
         </div>
@@ -583,13 +583,13 @@ export default function ExifEditor() {
 
                 <div className="space-y-2 text-sm">
                   <div className="flex items-center gap-2">
-                    <span className="text-slate-400">Original size:</span>
+                    <span className="text-[var(--text-muted)]">Original size:</span>
                     <span className="text-white">{formatFileSize(originalSize)}</span>
                   </div>
 
                   {cleanedSize !== null && (
                     <div className="flex items-center gap-2">
-                      <span className="text-slate-400">After cleaning:</span>
+                      <span className="text-[var(--text-muted)]">After cleaning:</span>
                       <span className="text-white">{formatFileSize(cleanedSize)}</span>
                       <span className={cleanedSize < originalSize ? 'text-green-400' : 'text-yellow-400'}>
                         ({cleanedSize < originalSize ? '-' : '+'}{Math.abs(((cleanedSize - originalSize) / originalSize) * 100).toFixed(1)}%)
@@ -598,7 +598,7 @@ export default function ExifEditor() {
                   )}
 
                   <div className="flex items-center gap-2">
-                    <span className="text-slate-400">Metadata fields:</span>
+                    <span className="text-[var(--text-muted)]">Metadata fields:</span>
                     <span className="text-white">{metadata.length}</span>
                   </div>
 
@@ -672,7 +672,7 @@ export default function ExifEditor() {
 
                   <button
                     onClick={clearImage}
-                    className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-sm font-medium transition-colors"
+                    className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-[var(--text)] rounded-lg text-sm font-medium transition-colors"
                   >
                     Clear
                   </button>
@@ -693,7 +693,7 @@ export default function ExifEditor() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-slate-400 text-sm mb-1">Date/Time</label>
+                  <label className="block text-[var(--text-muted)] text-sm mb-1">Date/Time</label>
                   <input
                     type="text"
                     value={editableFields.DateTime}
@@ -704,7 +704,7 @@ export default function ExifEditor() {
                 </div>
 
                 <div>
-                  <label className="block text-slate-400 text-sm mb-1">Artist / Author</label>
+                  <label className="block text-[var(--text-muted)] text-sm mb-1">Artist / Author</label>
                   <input
                     type="text"
                     value={editableFields.Artist}
@@ -715,7 +715,7 @@ export default function ExifEditor() {
                 </div>
 
                 <div>
-                  <label className="block text-slate-400 text-sm mb-1">Copyright</label>
+                  <label className="block text-[var(--text-muted)] text-sm mb-1">Copyright</label>
                   <input
                     type="text"
                     value={editableFields.Copyright}
@@ -726,7 +726,7 @@ export default function ExifEditor() {
                 </div>
 
                 <div>
-                  <label className="block text-slate-400 text-sm mb-1">Description</label>
+                  <label className="block text-[var(--text-muted)] text-sm mb-1">Description</label>
                   <input
                     type="text"
                     value={editableFields.ImageDescription}
@@ -799,7 +799,7 @@ export default function ExifEditor() {
                 {/* Camera Info */}
                 {groupedMetadata.camera.length > 0 && (
                   <div>
-                    <h5 className="text-sm font-medium text-slate-300 mb-2 flex items-center gap-2">
+                    <h5 className="text-sm font-medium text-[var(--text)] mb-2 flex items-center gap-2">
                       <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -809,8 +809,8 @@ export default function ExifEditor() {
                     <div className="grid grid-cols-2 gap-2">
                       {groupedMetadata.camera.map((item) => (
                         <div key={item.key} className="text-sm">
-                          <span className="text-slate-400">{item.displayName}:</span>
-                          <span className="text-slate-300 ml-2">{item.value}</span>
+                          <span className="text-[var(--text-muted)]">{item.displayName}:</span>
+                          <span className="text-[var(--text)] ml-2">{item.value}</span>
                         </div>
                       ))}
                     </div>
@@ -820,7 +820,7 @@ export default function ExifEditor() {
                 {/* Image Info */}
                 {groupedMetadata.image.length > 0 && (
                   <div>
-                    <h5 className="text-sm font-medium text-slate-300 mb-2 flex items-center gap-2">
+                    <h5 className="text-sm font-medium text-[var(--text)] mb-2 flex items-center gap-2">
                       <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                       </svg>
@@ -829,8 +829,8 @@ export default function ExifEditor() {
                     <div className="grid grid-cols-2 gap-2">
                       {groupedMetadata.image.map((item) => (
                         <div key={item.key} className="text-sm">
-                          <span className="text-slate-400">{item.displayName}:</span>
-                          <span className="text-slate-300 ml-2">{item.value}</span>
+                          <span className="text-[var(--text-muted)]">{item.displayName}:</span>
+                          <span className="text-[var(--text)] ml-2">{item.value}</span>
                         </div>
                       ))}
                     </div>
@@ -840,12 +840,12 @@ export default function ExifEditor() {
                 {/* Other Info */}
                 {groupedMetadata.other.length > 0 && (
                   <div>
-                    <h5 className="text-sm font-medium text-slate-300 mb-2">Other Information</h5>
+                    <h5 className="text-sm font-medium text-[var(--text)] mb-2">Other Information</h5>
                     <div className="grid grid-cols-2 gap-2">
                       {groupedMetadata.other.map((item) => (
                         <div key={item.key} className="text-sm">
-                          <span className="text-slate-400">{item.displayName}:</span>
-                          <span className="text-slate-300 ml-2">{item.value}</span>
+                          <span className="text-[var(--text-muted)]">{item.displayName}:</span>
+                          <span className="text-[var(--text)] ml-2">{item.value}</span>
                         </div>
                       ))}
                     </div>
@@ -862,14 +862,14 @@ export default function ExifEditor() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
               <p className="text-white font-medium">All metadata has been removed</p>
-              <p className="text-slate-400 text-sm mt-1">This image is now clean and safe to share</p>
+              <p className="text-[var(--text-muted)] text-sm mt-1">This image is now clean and safe to share</p>
             </div>
           )}
         </>
       )}
 
       {/* Privacy note */}
-      <p className="mt-6 text-center text-slate-400 text-sm">
+      <p className="mt-6 text-center text-[var(--text-muted)] text-sm">
         <svg className="w-4 h-4 inline-block mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
         </svg>

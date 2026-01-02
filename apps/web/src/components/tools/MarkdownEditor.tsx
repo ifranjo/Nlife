@@ -410,13 +410,13 @@ ${htmlContent}
           <div className="flex items-center gap-1 ml-auto">
             <button
               onClick={loadSample}
-              className="text-xs px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white rounded-lg transition-colors"
+              className="text-xs px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-[var(--text-muted)] hover:text-white rounded-lg transition-colors"
             >
               Sample
             </button>
             <button
               onClick={clearEditor}
-              className="text-xs px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white rounded-lg transition-colors"
+              className="text-xs px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-[var(--text-muted)] hover:text-white rounded-lg transition-colors"
             >
               Clear
             </button>
@@ -430,7 +430,7 @@ ${htmlContent}
         <div className="glass-card p-4">
           <div className="flex items-center justify-between mb-3">
             <h3 className="text-white font-medium flex items-center gap-2">
-              <svg className="w-5 h-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className="w-5 h-5 text-[var(--text-muted)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
               </svg>
               Markdown
@@ -441,7 +441,7 @@ ${htmlContent}
                 text-xs px-3 py-1.5 rounded-lg transition-all flex items-center gap-1.5
                 ${copySuccess
                   ? 'bg-green-600 text-white'
-                  : 'bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white'
+                  : 'bg-slate-800 hover:bg-slate-700 text-[var(--text-muted)] hover:text-white'
                 }
               `}
             >
@@ -469,7 +469,7 @@ ${htmlContent}
             placeholder="Write your markdown here..."
             className="w-full h-[500px] px-4 py-3 bg-slate-900 border border-slate-700 rounded-lg text-white font-mono text-sm placeholder:text-slate-600 focus:outline-none focus:border-indigo-500 resize-none"
           />
-          <div className="mt-3 flex items-center justify-between text-xs text-slate-400">
+          <div className="mt-3 flex items-center justify-between text-xs text-[var(--text-muted)]">
             <span>{markdown.length.toLocaleString()} characters</span>
             <span>{markdown.split('\n').length} lines</span>
           </div>
@@ -479,7 +479,7 @@ ${htmlContent}
         <div className="glass-card p-4">
           <div className="flex items-center justify-between mb-3">
             <h3 className="text-white font-medium flex items-center gap-2">
-              <svg className="w-5 h-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className="w-5 h-5 text-[var(--text-muted)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
               </svg>
@@ -488,7 +488,7 @@ ${htmlContent}
             <div className="flex items-center gap-2">
               <button
                 onClick={() => handleExport('html')}
-                className="text-xs px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white rounded-lg transition-colors flex items-center gap-1.5"
+                className="text-xs px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-[var(--text-muted)] hover:text-white rounded-lg transition-colors flex items-center gap-1.5"
               >
                 <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
@@ -499,7 +499,7 @@ ${htmlContent}
                 onClick={() => handleExport('pdf')}
                 disabled={isExporting}
                 className={`
-                  text-xs px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white rounded-lg transition-colors flex items-center gap-1.5
+                  text-xs px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-[var(--text-muted)] hover:text-white rounded-lg transition-colors flex items-center gap-1.5
                   ${isExporting ? 'opacity-50 cursor-not-allowed' : ''}
                 `}
               >
@@ -545,7 +545,7 @@ ${htmlContent}
       )}
 
       {/* Privacy note */}
-      <p className="mt-6 text-center text-slate-400 text-sm">
+      <p className="mt-6 text-center text-[var(--text-muted)] text-sm">
         <svg className="w-4 h-4 inline-block mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
         </svg>
@@ -647,7 +647,7 @@ function ToolbarButton({ onClick, title, icon }: ToolbarButtonProps) {
     <button
       onClick={onClick}
       title={title}
-      className="w-8 h-8 flex items-center justify-center rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white transition-colors"
+      className="w-8 h-8 flex items-center justify-center rounded-lg bg-slate-800 hover:bg-slate-700 text-[var(--text-muted)] hover:text-white transition-colors"
     >
       {icon}
     </button>

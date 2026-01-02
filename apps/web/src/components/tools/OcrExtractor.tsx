@@ -837,14 +837,14 @@ export default function OcrExtractor() {
             <h3 className="text-xl font-semibold text-white mb-2">
               Drop images or PDFs here
             </h3>
-            <p className="text-slate-400 text-sm">
+            <p className="text-[var(--text-muted)] text-sm">
               Supports PNG, JPEG, WebP, PDF. Multiple files supported. Max 50MB each.
             </p>
           </div>
 
           {/* Engine & Language Selection */}
           <div className="mt-6 glass-card p-6">
-            <label className="block text-sm font-medium text-slate-300 mb-3">
+            <label className="block text-sm font-medium text-[var(--text)] mb-3">
               OCR Engine
             </label>
             <div className="space-y-3">
@@ -861,7 +861,7 @@ export default function OcrExtractor() {
                   <span className="text-white group-hover:text-cyan-400 transition-colors font-medium">
                     Tesseract <span className="text-cyan-400 text-xs ml-1">Recommended</span>
                   </span>
-                  <p className="text-slate-400 text-xs mt-0.5">
+                  <p className="text-[var(--text-muted)] text-xs mt-0.5">
                     Supports PDFs, 100+ languages, multi-page documents. Best overall.
                   </p>
                 </div>
@@ -880,7 +880,7 @@ export default function OcrExtractor() {
                   <span className="text-white group-hover:text-cyan-400 transition-colors font-medium">
                     TrOCR Printed <span className="text-violet-400 text-xs ml-1">AI</span>
                   </span>
-                  <p className="text-slate-400 text-xs mt-0.5">
+                  <p className="text-[var(--text-muted)] text-xs mt-0.5">
                     Microsoft's transformer model. Best for single images with printed text.
                   </p>
                 </div>
@@ -899,7 +899,7 @@ export default function OcrExtractor() {
                   <span className="text-white group-hover:text-cyan-400 transition-colors font-medium">
                     TrOCR Handwritten <span className="text-violet-400 text-xs ml-1">AI</span>
                   </span>
-                  <p className="text-slate-400 text-xs mt-0.5">
+                  <p className="text-[var(--text-muted)] text-xs mt-0.5">
                     Optimized for handwritten notes and cursive text.
                   </p>
                 </div>
@@ -909,7 +909,7 @@ export default function OcrExtractor() {
             {/* Language Selection */}
             {selectedEngine === 'tesseract' && (
               <div className="mt-4 pt-4 border-t border-slate-700">
-                <label className="block text-sm font-medium text-slate-400 mb-2">
+                <label className="block text-sm font-medium text-[var(--text-muted)] mb-2">
                   Document Language
                 </label>
                 <select
@@ -947,7 +947,7 @@ export default function OcrExtractor() {
               <div className="mt-4 pt-4 border-t border-slate-700 space-y-4">
                 {/* Preprocessing Options */}
                 <div>
-                  <label className="block text-sm font-medium text-slate-400 mb-2">
+                  <label className="block text-sm font-medium text-[var(--text-muted)] mb-2">
                     Image Preprocessing
                   </label>
                   <div className="space-y-2">
@@ -958,7 +958,7 @@ export default function OcrExtractor() {
                         onChange={(e) => setPreprocessing(prev => ({ ...prev, grayscale: e.target.checked }))}
                         className="w-4 h-4 accent-cyan-500 rounded"
                       />
-                      <span className="text-slate-300 text-sm">Convert to grayscale</span>
+                      <span className="text-[var(--text)] text-sm">Convert to grayscale</span>
                     </label>
                     <label className="flex items-center gap-3 cursor-pointer">
                       <input
@@ -967,7 +967,7 @@ export default function OcrExtractor() {
                         onChange={(e) => setPreprocessing(prev => ({ ...prev, enhanceContrast: e.target.checked }))}
                         className="w-4 h-4 accent-cyan-500 rounded"
                       />
-                      <span className="text-slate-300 text-sm">Enhance contrast</span>
+                      <span className="text-[var(--text)] text-sm">Enhance contrast</span>
                     </label>
                     <label className="flex items-center gap-3 cursor-pointer opacity-50">
                       <input
@@ -977,14 +977,14 @@ export default function OcrExtractor() {
                         className="w-4 h-4 accent-cyan-500 rounded"
                         disabled
                       />
-                      <span className="text-slate-300 text-sm">Auto-deskew (coming soon)</span>
+                      <span className="text-[var(--text)] text-sm">Auto-deskew (coming soon)</span>
                     </label>
                   </div>
                 </div>
 
                 {/* Output Format */}
                 <div>
-                  <label className="block text-sm font-medium text-slate-400 mb-2">
+                  <label className="block text-sm font-medium text-[var(--text-muted)] mb-2">
                     Default Output Format
                   </label>
                   <div className="flex flex-wrap gap-2">
@@ -996,7 +996,7 @@ export default function OcrExtractor() {
                           px-3 py-1.5 rounded-lg text-sm font-medium transition-colors
                           ${outputFormat === format
                             ? 'bg-cyan-500 text-white'
-                            : 'bg-slate-800 text-slate-400 hover:bg-slate-700 hover:text-white'
+                            : 'bg-slate-800 text-[var(--text-muted)] hover:bg-slate-700 hover:text-white'
                           }
                         `}
                       >
@@ -1028,7 +1028,7 @@ export default function OcrExtractor() {
       {files.length > 0 && (
         <div className="mt-6 animate-fadeIn">
           <div className="flex items-center justify-between mb-4">
-            <h4 className="text-sm font-medium text-slate-400">
+            <h4 className="text-sm font-medium text-[var(--text-muted)]">
               {files.length} file{files.length > 1 ? 's' : ''} selected
             </h4>
             <div className="flex items-center gap-3">
@@ -1042,7 +1042,7 @@ export default function OcrExtractor() {
               <button
                 onClick={clearAllFiles}
                 disabled={isProcessing}
-                className="text-sm text-slate-400 hover:text-red-400 transition-colors disabled:opacity-50"
+                className="text-sm text-[var(--text-muted)] hover:text-red-400 transition-colors disabled:opacity-50"
               >
                 Clear all
               </button>
@@ -1087,14 +1087,14 @@ export default function OcrExtractor() {
                   <div className="flex-1 min-w-0">
                     <p className="text-white font-medium truncate">{fileItem.name}</p>
                     <div className="flex items-center gap-2 text-sm">
-                      <span className="text-slate-400">{formatFileSize(fileItem.size)}</span>
+                      <span className="text-[var(--text-muted)]">{formatFileSize(fileItem.size)}</span>
                       {fileItem.result?.pageCount && (
-                        <span className="text-slate-400">
+                        <span className="text-[var(--text-muted)]">
                           {fileItem.result.pageCount} pages
                         </span>
                       )}
                       {fileItem.result?.confidence && (
-                        <span className="text-slate-400">
+                        <span className="text-[var(--text-muted)]">
                           {fileItem.result.confidence.toFixed(1)}% confidence
                         </span>
                       )}
@@ -1104,7 +1104,7 @@ export default function OcrExtractor() {
                   {/* Status */}
                   <div className="flex items-center gap-2">
                     {fileItem.status === 'pending' && (
-                      <span className="px-2 py-1 text-xs rounded-full bg-slate-700 text-slate-400">
+                      <span className="px-2 py-1 text-xs rounded-full bg-slate-700 text-[var(--text-muted)]">
                         Pending
                       </span>
                     )}
@@ -1132,7 +1132,7 @@ export default function OcrExtractor() {
                         removeFile(fileItem.id);
                       }}
                       disabled={isProcessing}
-                      className="p-1 text-slate-400 hover:text-red-400 transition-colors disabled:opacity-50"
+                      className="p-1 text-[var(--text-muted)] hover:text-red-400 transition-colors disabled:opacity-50"
                     >
                       <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -1188,7 +1188,7 @@ export default function OcrExtractor() {
                 />
               </div>
               {currentPageProgress.total > 0 && (
-                <p className="text-xs text-slate-400 mt-2 text-center">
+                <p className="text-xs text-[var(--text-muted)] mt-2 text-center">
                   Page {currentPageProgress.current} of {currentPageProgress.total}
                 </p>
               )}
@@ -1205,26 +1205,26 @@ export default function OcrExtractor() {
             <div className="glass-card p-6">
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <div>
-                  <p className="text-slate-400 text-sm">Files Processed</p>
+                  <p className="text-[var(--text-muted)] text-sm">Files Processed</p>
                   <p className="text-white text-lg font-semibold mt-1">{stats.count}</p>
                 </div>
                 {stats.totalPages > 1 && (
                   <div>
-                    <p className="text-slate-400 text-sm">Total Pages</p>
+                    <p className="text-[var(--text-muted)] text-sm">Total Pages</p>
                     <p className="text-white text-lg font-semibold mt-1">{stats.totalPages}</p>
                   </div>
                 )}
                 <div>
-                  <p className="text-slate-400 text-sm">Words Extracted</p>
+                  <p className="text-[var(--text-muted)] text-sm">Words Extracted</p>
                   <p className="text-white text-lg font-semibold mt-1">{stats.totalWords.toLocaleString()}</p>
                 </div>
                 <div>
-                  <p className="text-slate-400 text-sm">Processing Time</p>
+                  <p className="text-[var(--text-muted)] text-sm">Processing Time</p>
                   <p className="text-white text-lg font-semibold mt-1">{stats.totalTime.toFixed(2)}s</p>
                 </div>
                 {stats.avgConfidence > 0 && (
                   <div>
-                    <p className="text-slate-400 text-sm">Avg. Confidence</p>
+                    <p className="text-[var(--text-muted)] text-sm">Avg. Confidence</p>
                     <p className="text-white text-lg font-semibold mt-1">{stats.avgConfidence.toFixed(1)}%</p>
                   </div>
                 )}
@@ -1236,10 +1236,10 @@ export default function OcrExtractor() {
           {selectedFile?.result && (
             <div className="glass-card p-6">
               <div className="flex items-center justify-between mb-4">
-                <h4 className="text-sm font-medium text-slate-300">
+                <h4 className="text-sm font-medium text-[var(--text)]">
                   {selectedFile.name}
                   {selectedFile.result.pageCount && (
-                    <span className="text-slate-400 ml-2">
+                    <span className="text-[var(--text-muted)] ml-2">
                       ({selectedFile.result.pageCount} pages)
                     </span>
                   )}
@@ -1275,10 +1275,10 @@ export default function OcrExtractor() {
                   {selectedFile.result.pageResults.map((page) => (
                     <button
                       key={page.pageNumber}
-                      className="px-3 py-1.5 text-sm rounded-lg bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white transition-colors whitespace-nowrap"
+                      className="px-3 py-1.5 text-sm rounded-lg bg-slate-800 text-[var(--text)] hover:bg-slate-700 hover:text-white transition-colors whitespace-nowrap"
                     >
                       Page {page.pageNumber}
-                      <span className="ml-1 text-xs text-slate-400">
+                      <span className="ml-1 text-xs text-[var(--text-muted)]">
                         ({page.confidence.toFixed(0)}%)
                       </span>
                     </button>
@@ -1292,7 +1292,7 @@ export default function OcrExtractor() {
                 className="w-full h-64 px-4 py-3 rounded-lg bg-slate-900/50 border border-slate-700 text-white font-mono text-sm resize-none focus:outline-none focus:border-cyan-500"
               />
 
-              <p className="mt-2 text-xs text-slate-400">
+              <p className="mt-2 text-xs text-[var(--text-muted)]">
                 {selectedFile.result.text.split(/\s+/).filter(w => w.length > 0).length} words
                 {' '}{selectedFile.result.text.length} characters
               </p>
@@ -1356,7 +1356,7 @@ export default function OcrExtractor() {
 
           <button
             onClick={reset}
-            className="w-full px-6 py-3 border border-slate-700 text-slate-300 rounded-lg font-medium hover:bg-slate-800/50 transition-colors"
+            className="w-full px-6 py-3 border border-slate-700 text-[var(--text)] rounded-lg font-medium hover:bg-slate-800/50 transition-colors"
           >
             Process More Files
           </button>
@@ -1364,7 +1364,7 @@ export default function OcrExtractor() {
       )}
 
       {/* Privacy note */}
-      <p className="mt-6 text-center text-slate-400 text-sm">
+      <p className="mt-6 text-center text-[var(--text-muted)] text-sm">
         <svg className="w-4 h-4 inline-block mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
         </svg>

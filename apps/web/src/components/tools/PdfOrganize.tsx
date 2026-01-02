@@ -250,7 +250,7 @@ export default function PdfOrganize() {
           <h3 className="text-xl font-semibold text-white mb-2">
             Drop a PDF here or click to browse
           </h3>
-          <p className="text-slate-400 text-sm">
+          <p className="text-[var(--text-muted)] text-sm">
             Upload a PDF to reorder, delete, or rearrange pages
           </p>
         </div>
@@ -271,7 +271,7 @@ export default function PdfOrganize() {
                 <div className="text-3xl">📄</div>
                 <div>
                   <p className="text-white font-medium">{file.name}</p>
-                  <p className="text-slate-400 text-sm">{pages.length} pages</p>
+                  <p className="text-[var(--text-muted)] text-sm">{pages.length} pages</p>
                 </div>
               </div>
               <div className="flex items-center gap-2">
@@ -282,7 +282,7 @@ export default function PdfOrganize() {
                 )}
                 <button
                   onClick={resetState}
-                  className="p-2 text-slate-400 hover:text-red-400 transition-colors"
+                  className="p-2 text-[var(--text-muted)] hover:text-red-400 transition-colors"
                   title="Remove file"
                 >
                   <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -341,7 +341,7 @@ export default function PdfOrganize() {
                     <button
                       onClick={() => movePage(index, 'up')}
                       disabled={index === 0}
-                      className="p-1.5 text-slate-400 hover:text-white hover:bg-slate-700 rounded disabled:opacity-30 disabled:cursor-not-allowed"
+                      className="p-1.5 text-[var(--text-muted)] hover:text-white hover:bg-slate-700 rounded disabled:opacity-30 disabled:cursor-not-allowed"
                       title="Move up"
                     >
                       <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -351,7 +351,7 @@ export default function PdfOrganize() {
                     <button
                       onClick={() => movePage(index, 'down')}
                       disabled={index === pages.length - 1}
-                      className="p-1.5 text-slate-400 hover:text-white hover:bg-slate-700 rounded disabled:opacity-30 disabled:cursor-not-allowed"
+                      className="p-1.5 text-[var(--text-muted)] hover:text-white hover:bg-slate-700 rounded disabled:opacity-30 disabled:cursor-not-allowed"
                       title="Move down"
                     >
                       <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -361,7 +361,7 @@ export default function PdfOrganize() {
                     <button
                       onClick={() => deletePage(index)}
                       disabled={pages.length <= 1}
-                      className="p-1.5 text-slate-400 hover:text-red-400 hover:bg-red-400/20 rounded disabled:opacity-30 disabled:cursor-not-allowed"
+                      className="p-1.5 text-[var(--text-muted)] hover:text-red-400 hover:bg-red-400/20 rounded disabled:opacity-30 disabled:cursor-not-allowed"
                       title="Delete page"
                     >
                       <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -411,7 +411,7 @@ export default function PdfOrganize() {
       )}
 
       {/* Privacy note */}
-      <p className="mt-6 text-center text-slate-400 text-sm">
+      <p className="mt-6 text-center text-[var(--text-muted)] text-sm">
         <svg className="w-4 h-4 inline-block mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
         </svg>

@@ -367,11 +367,11 @@ export default function PdfCompress() {
             className="w-4 h-4 rounded border-white/20 bg-white/10 text-indigo-500 focus:ring-indigo-500/30"
             aria-label="Enable batch mode with parallel processing"
           />
-          <span className="text-sm text-slate-300">Batch Mode</span>
-          <span className="text-xs text-slate-400">(parallel processing, pause/cancel)</span>
+          <span className="text-sm text-[var(--text)]">Batch Mode</span>
+          <span className="text-xs text-[var(--text-muted)]">(parallel processing, pause/cancel)</span>
         </label>
         {batchMode && files.length > 0 && (
-          <span className="text-sm text-slate-400">
+          <span className="text-sm text-[var(--text-muted)]">
             {files.length} file{files.length !== 1 ? 's' : ''} queued
           </span>
         )}
@@ -401,7 +401,7 @@ export default function PdfCompress() {
         <h3 className="text-xl font-semibold text-white mb-2">
           Drop PDFs here or click to browse
         </h3>
-        <p className="text-slate-400 text-sm">
+        <p className="text-[var(--text-muted)] text-sm">
           Compress up to {MAX_FILES} PDF files at once
           {batchMode && ' - with pause and cancel support'}
         </p>
@@ -413,7 +413,7 @@ export default function PdfCompress() {
 
         {/* Quality Presets */}
         <div className="mb-4">
-          <label className="text-sm text-slate-400 mb-2 block">Quality Preset</label>
+          <label className="text-sm text-[var(--text-muted)] mb-2 block">Quality Preset</label>
           <div className="grid grid-cols-3 gap-2">
             {(Object.keys(QUALITY_SETTINGS) as CompressionQuality[]).map((quality) => (
               <button
@@ -423,7 +423,7 @@ export default function PdfCompress() {
                   p-3 rounded-lg text-sm transition-all
                   ${options.quality === quality
                     ? 'bg-white/10 border border-white/30 text-white'
-                    : 'bg-white/5 border border-white/10 text-slate-400 hover:bg-white/10'
+                    : 'bg-white/5 border border-white/10 text-[var(--text-muted)] hover:bg-white/10'
                   }
                 `}
               >
@@ -443,7 +443,7 @@ export default function PdfCompress() {
               onChange={(e) => setOptions((prev) => ({ ...prev, removeMetadata: e.target.checked }))}
               className="w-4 h-4 rounded border-white/20 bg-white/10 text-white focus:ring-white/30"
             />
-            <span className="text-sm text-slate-300">Remove metadata</span>
+            <span className="text-sm text-[var(--text)]">Remove metadata</span>
           </label>
 
           <label className="flex items-center gap-2 cursor-pointer">
@@ -453,7 +453,7 @@ export default function PdfCompress() {
               onChange={(e) => setOptions((prev) => ({ ...prev, flattenForms: e.target.checked }))}
               className="w-4 h-4 rounded border-white/20 bg-white/10 text-white focus:ring-white/30"
             />
-            <span className="text-sm text-slate-300">Flatten form fields</span>
+            <span className="text-sm text-[var(--text)]">Flatten form fields</span>
           </label>
         </div>
       </div>
@@ -489,12 +489,12 @@ export default function PdfCompress() {
           {/* File List */}
           <div className="mt-6 space-y-3">
             <div className="flex justify-between items-center">
-              <h4 className="text-sm font-medium text-slate-400">
+              <h4 className="text-sm font-medium text-[var(--text-muted)]">
                 {files.length} file{files.length > 1 ? 's' : ''} selected
               </h4>
               <button
                 onClick={clearAll}
-                className="text-sm text-slate-400 hover:text-white transition-colors"
+                className="text-sm text-[var(--text-muted)] hover:text-white transition-colors"
               >
                 Clear all
               </button>
@@ -532,10 +532,10 @@ export default function PdfCompress() {
                 <div className="flex-1 min-w-0">
                   <p className="text-white font-medium truncate">{file.name}</p>
                   <div className="flex items-center gap-2 text-sm">
-                    <span className="text-slate-400">{formatFileSize(file.originalSize)}</span>
+                    <span className="text-[var(--text-muted)]">{formatFileSize(file.originalSize)}</span>
                     {file.status === 'done' && file.compressedSize !== null && (
                       <>
-                        <svg className="w-4 h-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg className="w-4 h-4 text-[var(--text-muted)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
                         </svg>
                         <span className="text-green-400">{formatFileSize(file.compressedSize)}</span>
@@ -555,7 +555,7 @@ export default function PdfCompress() {
                   {file.status === 'done' && file.compressedBlob && (
                     <button
                       onClick={() => downloadFile(file)}
-                      className="p-2 text-slate-400 hover:text-green-400 transition-colors"
+                      className="p-2 text-[var(--text-muted)] hover:text-green-400 transition-colors"
                       title="Download"
                     >
                       <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -565,7 +565,7 @@ export default function PdfCompress() {
                   )}
                   <button
                     onClick={() => removeFile(file.id)}
-                    className="p-2 text-slate-400 hover:text-red-400 transition-colors"
+                    className="p-2 text-[var(--text-muted)] hover:text-red-400 transition-colors"
                     title="Remove"
                   >
                     <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -580,10 +580,10 @@ export default function PdfCompress() {
             {hasCompletedFiles && (
               <div className="glass-card p-4 bg-green-500/10 border-green-500/20">
                 <div className="flex justify-between items-center text-sm">
-                  <span className="text-slate-300">Total Reduction</span>
+                  <span className="text-[var(--text)]">Total Reduction</span>
                   <div className="text-right">
-                    <span className="text-slate-400">{formatFileSize(totalOriginalSize)}</span>
-                    <span className="mx-2 text-slate-400">-&gt;</span>
+                    <span className="text-[var(--text-muted)]">{formatFileSize(totalOriginalSize)}</span>
+                    <span className="mx-2 text-[var(--text-muted)]">-&gt;</span>
                     <span className="text-green-400 font-medium">{formatFileSize(totalCompressedSize)}</span>
                     {totalOriginalSize > 0 && (
                       <span className="ml-2 text-emerald-400 font-bold">
@@ -642,7 +642,7 @@ export default function PdfCompress() {
       )}
 
       {/* Privacy note */}
-      <p className="mt-6 text-center text-slate-400 text-sm">
+      <p className="mt-6 text-center text-[var(--text-muted)] text-sm">
         <svg className="w-4 h-4 inline-block mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
         </svg>

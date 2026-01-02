@@ -263,7 +263,7 @@ export default function Base64Tool() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Mode Selection */}
           <div>
-            <label className="block text-sm font-medium text-slate-400 mb-3">
+            <label className="block text-sm font-medium text-[var(--text-muted)] mb-3">
               Mode
             </label>
             <div className="flex gap-3">
@@ -273,7 +273,7 @@ export default function Base64Tool() {
                   flex-1 px-4 py-2 rounded-lg font-medium transition-all
                   ${mode === 'encode'
                     ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/30'
-                    : 'bg-slate-800/50 text-slate-400 border border-slate-700/30 hover:border-slate-600/50'
+                    : 'bg-slate-800/50 text-[var(--text-muted)] border border-slate-700/30 hover:border-slate-600/50'
                   }
                 `}
               >
@@ -285,7 +285,7 @@ export default function Base64Tool() {
                   flex-1 px-4 py-2 rounded-lg font-medium transition-all
                   ${mode === 'decode'
                     ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/30'
-                    : 'bg-slate-800/50 text-slate-400 border border-slate-700/30 hover:border-slate-600/50'
+                    : 'bg-slate-800/50 text-[var(--text-muted)] border border-slate-700/30 hover:border-slate-600/50'
                   }
                 `}
               >
@@ -296,7 +296,7 @@ export default function Base64Tool() {
 
           {/* Input Type Selection */}
           <div>
-            <label className="block text-sm font-medium text-slate-400 mb-3">
+            <label className="block text-sm font-medium text-[var(--text-muted)] mb-3">
               Input Type
             </label>
             <div className="flex gap-3">
@@ -306,7 +306,7 @@ export default function Base64Tool() {
                   flex-1 px-4 py-2 rounded-lg font-medium transition-all
                   ${inputType === 'text'
                     ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/30'
-                    : 'bg-slate-800/50 text-slate-400 border border-slate-700/30 hover:border-slate-600/50'
+                    : 'bg-slate-800/50 text-[var(--text-muted)] border border-slate-700/30 hover:border-slate-600/50'
                   }
                 `}
               >
@@ -319,7 +319,7 @@ export default function Base64Tool() {
                   flex-1 px-4 py-2 rounded-lg font-medium transition-all
                   ${inputType === 'file'
                     ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/30'
-                    : 'bg-slate-800/50 text-slate-400 border border-slate-700/30 hover:border-slate-600/50'
+                    : 'bg-slate-800/50 text-[var(--text-muted)] border border-slate-700/30 hover:border-slate-600/50'
                   }
                   ${mode === 'decode' ? 'opacity-50 cursor-not-allowed' : ''}
                 `}
@@ -343,7 +343,7 @@ export default function Base64Tool() {
         <div className="space-y-6">
           {/* Input */}
           <div className="glass-card p-6">
-            <label className="block text-sm font-medium text-slate-400 mb-3">
+            <label className="block text-sm font-medium text-[var(--text-muted)] mb-3">
               {mode === 'encode' ? 'Text to Encode' : 'Base64 to Decode'}
             </label>
             <textarea
@@ -356,7 +356,7 @@ export default function Base64Tool() {
               className="w-full h-48 bg-slate-900/50 border border-slate-700/50 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/50 transition-all resize-none font-mono text-sm"
             />
             <div className="flex items-center justify-between mt-3">
-              <span className="text-xs text-slate-400">
+              <span className="text-xs text-[var(--text-muted)]">
                 {textInput.length.toLocaleString()} characters
               </span>
               <button
@@ -373,12 +373,12 @@ export default function Base64Tool() {
           {textOutput && (
             <div className="glass-card p-6">
               <div className="flex items-center justify-between mb-3">
-                <label className="block text-sm font-medium text-slate-400">
+                <label className="block text-sm font-medium text-[var(--text-muted)]">
                   {mode === 'encode' ? 'Base64 Output' : 'Decoded Text'}
                 </label>
                 <button
                   onClick={handleCopyToClipboard}
-                  className="flex items-center gap-2 px-3 py-1.5 text-sm rounded-lg bg-slate-800/50 text-slate-300 border border-slate-700/30 hover:border-cyan-500/50 transition-all"
+                  className="flex items-center gap-2 px-3 py-1.5 text-sm rounded-lg bg-slate-800/50 text-[var(--text)] border border-slate-700/30 hover:border-cyan-500/50 transition-all"
                 >
                   {copySuccess ? (
                     <>
@@ -402,7 +402,7 @@ export default function Base64Tool() {
                 readOnly
                 className="w-full h-48 bg-slate-900/50 border border-slate-700/50 rounded-lg px-4 py-3 text-white resize-none font-mono text-sm"
               />
-              <div className="text-xs text-slate-400 mt-3">
+              <div className="text-xs text-[var(--text-muted)] mt-3">
                 {textOutput.length.toLocaleString()} characters
               </div>
             </div>
@@ -435,7 +435,7 @@ export default function Base64Tool() {
             <h3 className="text-xl font-semibold text-white mb-2">
               {selectedFile ? selectedFile.name : 'Drop file here or click to browse'}
             </h3>
-            <p className="text-slate-400 text-sm">
+            <p className="text-[var(--text-muted)] text-sm">
               {selectedFile
                 ? `${(selectedFile.size / 1024).toFixed(2)} KB`
                 : `Maximum ${MAX_FILE_SIZE / (1024 * 1024)}MB`
@@ -458,13 +458,13 @@ export default function Base64Tool() {
           {fileOutput && (
             <div className="glass-card p-6">
               <div className="flex items-center justify-between mb-3">
-                <label className="block text-sm font-medium text-slate-400">
+                <label className="block text-sm font-medium text-[var(--text-muted)]">
                   Base64 Output
                 </label>
                 <div className="flex gap-2">
                   <button
                     onClick={handleCopyToClipboard}
-                    className="flex items-center gap-2 px-3 py-1.5 text-sm rounded-lg bg-slate-800/50 text-slate-300 border border-slate-700/30 hover:border-cyan-500/50 transition-all"
+                    className="flex items-center gap-2 px-3 py-1.5 text-sm rounded-lg bg-slate-800/50 text-[var(--text)] border border-slate-700/30 hover:border-cyan-500/50 transition-all"
                   >
                     {copySuccess ? (
                       <>
@@ -484,7 +484,7 @@ export default function Base64Tool() {
                   </button>
                   <button
                     onClick={() => downloadFile(fileOutput)}
-                    className="flex items-center gap-2 px-3 py-1.5 text-sm rounded-lg bg-slate-800/50 text-slate-300 border border-slate-700/30 hover:border-cyan-500/50 transition-all"
+                    className="flex items-center gap-2 px-3 py-1.5 text-sm rounded-lg bg-slate-800/50 text-[var(--text)] border border-slate-700/30 hover:border-cyan-500/50 transition-all"
                   >
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
@@ -498,7 +498,7 @@ export default function Base64Tool() {
                 readOnly
                 className="w-full h-48 bg-slate-900/50 border border-slate-700/50 rounded-lg px-4 py-3 text-white resize-none font-mono text-sm"
               />
-              <div className="text-xs text-slate-400 mt-3">
+              <div className="text-xs text-[var(--text-muted)] mt-3">
                 {fileOutput.length.toLocaleString()} characters
               </div>
             </div>
@@ -509,7 +509,7 @@ export default function Base64Tool() {
       {/* Decode to File */}
       {inputType === 'text' && mode === 'decode' && textOutput && (
         <div className="glass-card p-6 mt-6">
-          <h3 className="text-sm font-medium text-slate-400 mb-3">
+          <h3 className="text-sm font-medium text-[var(--text-muted)] mb-3">
             Download as File
           </h3>
           <button
@@ -539,14 +539,14 @@ export default function Base64Tool() {
       {(textInput || textOutput || selectedFile || fileOutput) && (
         <button
           onClick={clearAll}
-          className="mt-6 w-full px-4 py-2 rounded-lg bg-slate-800/50 text-slate-400 border border-slate-700/30 hover:border-slate-600/50 transition-all"
+          className="mt-6 w-full px-4 py-2 rounded-lg bg-slate-800/50 text-[var(--text-muted)] border border-slate-700/30 hover:border-slate-600/50 transition-all"
         >
           Clear All
         </button>
       )}
 
       {/* Privacy Note */}
-      <p className="mt-8 text-center text-slate-400 text-sm">
+      <p className="mt-8 text-center text-[var(--text-muted)] text-sm">
         <svg className="w-4 h-4 inline-block mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
         </svg>

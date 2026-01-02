@@ -238,7 +238,7 @@ export default function SwipeableListItem({
         className={`
           absolute top-1/2 -translate-y-1/2 right-2
           p-2 rounded-lg
-          text-slate-400 hover:text-red-400 hover:bg-red-400/10
+          text-[var(--text-muted)] hover:text-red-400 hover:bg-red-400/10
           transition-colors
           focus:outline-none focus:ring-2 focus:ring-red-400/50
           disabled:opacity-50 disabled:cursor-not-allowed

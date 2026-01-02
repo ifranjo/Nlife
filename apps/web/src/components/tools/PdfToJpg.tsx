@@ -262,7 +262,7 @@ export default function PdfToJpg() {
           <h3 className="text-xl font-semibold text-white mb-2">
             Drop a PDF here or click to browse
           </h3>
-          <p className="text-slate-400 text-sm">
+          <p className="text-[var(--text-muted)] text-sm">
             Convert PDF pages to JPG or PNG images
           </p>
         </div>
@@ -283,12 +283,12 @@ export default function PdfToJpg() {
                 <div className="text-3xl">📄</div>
                 <div>
                   <p className="text-white font-medium">{file.name}</p>
-                  <p className="text-slate-400 text-sm">{pages.length} pages</p>
+                  <p className="text-[var(--text-muted)] text-sm">{pages.length} pages</p>
                 </div>
               </div>
               <button
                 onClick={resetState}
-                className="p-2 text-slate-400 hover:text-red-400 transition-colors"
+                className="p-2 text-[var(--text-muted)] hover:text-red-400 transition-colors"
                 title="Remove file"
               >
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -302,7 +302,7 @@ export default function PdfToJpg() {
           <div className="glass-card p-4 mb-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-slate-400 text-sm mb-1">Format</label>
+                <label className="block text-[var(--text-muted)] text-sm mb-1">Format</label>
                 <select
                   value={format}
                   onChange={(e) => setFormat(e.target.value as ImageFormat)}
@@ -313,7 +313,7 @@ export default function PdfToJpg() {
                 </select>
               </div>
               <div>
-                <label className="block text-slate-400 text-sm mb-1">Quality</label>
+                <label className="block text-[var(--text-muted)] text-sm mb-1">Quality</label>
                 <select
                   value={quality}
                   onChange={(e) => setQuality(e.target.value as ImageQuality)}
@@ -332,7 +332,7 @@ export default function PdfToJpg() {
           <div className="flex items-center justify-between mb-3">
             <span className="text-white">
               <span className="font-medium">{selectedCount}</span>
-              <span className="text-slate-400"> of {pages.length} pages selected</span>
+              <span className="text-[var(--text-muted)]"> of {pages.length} pages selected</span>
             </span>
             <div className="flex gap-2">
               <button
@@ -344,7 +344,7 @@ export default function PdfToJpg() {
               <span className="text-slate-600">|</span>
               <button
                 onClick={deselectAll}
-                className="text-sm text-slate-400 hover:text-slate-300 transition-colors"
+                className="text-sm text-[var(--text-muted)] hover:text-[var(--text)] transition-colors"
               >
                 Deselect all
               </button>
@@ -432,7 +432,7 @@ export default function PdfToJpg() {
       )}
 
       {/* Privacy note */}
-      <p className="mt-6 text-center text-slate-400 text-sm">
+      <p className="mt-6 text-center text-[var(--text-muted)] text-sm">
         <svg className="w-4 h-4 inline-block mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
         </svg>

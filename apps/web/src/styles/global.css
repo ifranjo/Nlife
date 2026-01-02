@@ -601,10 +601,10 @@ h1, h2, h3, h4, h5, h6 {
   --bg-card: #ffffff;
   --bg-hover: #f1f3f5;
 
-  /* Professional text colors */
+  /* Professional text colors - WCAG AA compliant (4.5:1 minimum on #f8f9fa) */
   --text: #212529;
-  --text-dim: #495057;
-  --text-muted: #6c757d;
+  --text-dim: #495057;      /* WCAG AA 7.56:1 contrast ratio */
+  --text-muted: #5a6268;    /* WCAG AA 5.09:1 contrast ratio (was #6c757d at 4.44:1) */
   --accent: #0066cc;
 
   /* Subtle borders */
