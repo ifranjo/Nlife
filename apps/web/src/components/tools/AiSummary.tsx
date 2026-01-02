@@ -799,10 +799,11 @@ export default function AiSummary() {
         <div className="grid grid-cols-3 gap-4">
           {/* Length */}
           <div>
-            <label className="block text-xs text-[var(--text-muted)] mb-2 uppercase tracking-wider">
+            <label htmlFor="summary-length" className="block text-xs text-[var(--text-muted)] mb-2 uppercase tracking-wider">
               Length
             </label>
             <select
+              id="summary-length"
               value={summaryLength}
               onChange={(e) => setSummaryLength(e.target.value as SummaryLength)}
               className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2
@@ -816,10 +817,11 @@ export default function AiSummary() {
 
           {/* Format */}
           <div>
-            <label className="block text-xs text-[var(--text-muted)] mb-2 uppercase tracking-wider">
+            <label htmlFor="summary-format" className="block text-xs text-[var(--text-muted)] mb-2 uppercase tracking-wider">
               Format
             </label>
             <select
+              id="summary-format"
               value={summaryFormat}
               onChange={(e) => setSummaryFormat(e.target.value as SummaryFormat)}
               className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2
@@ -833,10 +835,11 @@ export default function AiSummary() {
 
           {/* Focus */}
           <div>
-            <label className="block text-xs text-[var(--text-muted)] mb-2 uppercase tracking-wider">
+            <label htmlFor="summary-focus" className="block text-xs text-[var(--text-muted)] mb-2 uppercase tracking-wider">
               Focus
             </label>
             <select
+              id="summary-focus"
               value={summaryFocus}
               onChange={(e) => setSummaryFocus(e.target.value as SummaryFocus)}
               className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2

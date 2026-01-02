@@ -101,6 +101,7 @@ export default function LoremIpsum() {
           <select
             value={type}
             onChange={(e) => setType(e.target.value as GenerateType)}
+            aria-label="Text generation type"
             className="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3
                        text-white focus:outline-none focus:border-white/30 transition-colors"
           >
@@ -112,10 +113,11 @@ export default function LoremIpsum() {
 
         {/* Count */}
         <div>
-          <label className="block text-xs text-[var(--text-muted)] uppercase tracking-wider mb-2">
+          <label htmlFor="lorem-count" className="block text-xs text-[var(--text-muted)] uppercase tracking-wider mb-2">
             Count
           </label>
           <input
+            id="lorem-count"
             type="number"
             min="1"
             max="100"

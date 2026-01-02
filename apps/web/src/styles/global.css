@@ -612,8 +612,8 @@ h1, h2, h3, h4, h5, h6 {
   --border-hover: #adb5bd;
   --border-accent: #0066cc;
 
-  /* Clean functional colors */
-  --success: #28a745;
+  /* Clean functional colors - WCAG AA compliant on light backgrounds */
+  --success: #166534; /* green-800: 5.5:1 contrast on #f8f9fa */
   --warning: #ffc107;
   --error: #dc3545;
 
@@ -725,6 +725,28 @@ h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-sans);
   font-weight: 600;
   letter-spacing: -0.02em;
+}
+
+/* Beta badge - WCAG compliant in both themes */
+.beta-badge {
+  background: rgba(120, 53, 15, 0.4); /* amber-900/40 */
+  border: 1px solid rgba(217, 119, 6, 0.4); /* amber-600/40 */
+  color: #fbbf24; /* amber-400 - 4.7:1 contrast on dark */
+}
+
+.beta-badge:hover {
+  background: rgba(120, 53, 15, 0.5);
+}
+
+/* Clean theme: Beta badge with dark text for light backgrounds */
+[data-theme="clean"] .beta-badge {
+  background: rgba(254, 243, 199, 1); /* amber-100 */
+  border: 1px solid rgba(217, 119, 6, 0.5); /* amber-600/50 */
+  color: #92400e; /* amber-800 - 5.74:1 contrast on amber-100 */
+}
+
+[data-theme="clean"] .beta-badge:hover {
+  background: rgba(253, 230, 138, 1); /* amber-200 */
 }
 
 /* Clean theme: Selection */

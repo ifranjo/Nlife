@@ -385,8 +385,13 @@ const schemaData = {
   }
 
   .our-cell.advantage .cell-text {
-    color: #15803d; /* green-700: WCAG AA compliant (4.8:1 on light backgrounds) */
+    color: #22c55e; /* green-500: WCAG AA compliant (6.5:1 on dark backgrounds) */
     font-weight: 600;
+  }
+
+  /* Clean theme: Darker green for light backgrounds */
+  :global([data-theme="clean"]) .our-cell.advantage .cell-text {
+    color: #166534; /* green-800: WCAG AA compliant (5.5:1 on light backgrounds) */
   }
 
   /* Footer */

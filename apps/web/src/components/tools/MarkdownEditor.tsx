@@ -590,6 +590,10 @@ ${htmlContent}
         }
         .prose a {
           color: #818cf8;
+          text-decoration: underline;
+        }
+        .prose a:hover {
+          color: #a5b4fc;
         }
         .prose img {
           max-width: 100%;

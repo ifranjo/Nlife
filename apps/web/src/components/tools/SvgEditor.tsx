@@ -451,6 +451,7 @@ export default function SvgEditor() {
                     value={fillColor}
                     onChange={(e) => setFillColor(e.target.value)}
                     disabled={!applyFill}
+                    aria-label="Fill color picker"
                     className="w-10 h-8 rounded cursor-pointer disabled:opacity-50"
                   />
                   <input
@@ -458,6 +459,7 @@ export default function SvgEditor() {
                     value={fillColor}
                     onChange={(e) => setFillColor(e.target.value)}
                     disabled={!applyFill}
+                    aria-label="Fill color hex value"
                     className="flex-1 px-3 py-1.5 bg-slate-800 border border-slate-700 rounded text-white text-xs font-mono disabled:opacity-50"
                   />
                 </div>
@@ -480,6 +482,7 @@ export default function SvgEditor() {
                     value={strokeColor}
                     onChange={(e) => setStrokeColor(e.target.value)}
                     disabled={!applyStroke}
+                    aria-label="Stroke color picker"
                     className="w-10 h-8 rounded cursor-pointer disabled:opacity-50"
                   />
                   <input
@@ -487,6 +490,7 @@ export default function SvgEditor() {
                     value={strokeColor}
                     onChange={(e) => setStrokeColor(e.target.value)}
                     disabled={!applyStroke}
+                    aria-label="Stroke color hex value"
                     className="flex-1 px-3 py-1.5 bg-slate-800 border border-slate-700 rounded text-white text-xs font-mono disabled:opacity-50"
                   />
                 </div>
@@ -506,6 +510,7 @@ export default function SvgEditor() {
                   step="10"
                   value={scalePercent}
                   onChange={(e) => setScalePercent(parseInt(e.target.value))}
+                  aria-label="SVG scale percentage"
                   className="flex-1"
                 />
                 <input
@@ -514,6 +519,7 @@ export default function SvgEditor() {
                   max="500"
                   value={scalePercent}
                   onChange={(e) => setScalePercent(Math.min(500, Math.max(10, parseInt(e.target.value) || 100)))}
+                  aria-label="SVG scale percentage value"
                   className="w-20 px-3 py-1.5 bg-slate-800 border border-slate-700 rounded text-white text-xs text-center"
                 />
               </div>

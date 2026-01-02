@@ -416,6 +416,7 @@ export default function QrGenerator() {
                 step={32}
                 value={size}
                 onChange={(e) => setSize(Number(e.target.value))}
+                aria-label="QR code size"
                 className="w-full accent-indigo-500"
               />
             </div>
@@ -445,12 +446,14 @@ export default function QrGenerator() {
                     type="color"
                     value={fgColor}
                     onChange={(e) => setFgColor(e.target.value)}
+                    aria-label="Foreground color picker"
                     className="w-10 h-10 rounded border-0 cursor-pointer bg-transparent"
                   />
                   <input
                     type="text"
                     value={fgColor}
                     onChange={(e) => setFgColor(e.target.value)}
+                    aria-label="Foreground color hex value"
                     className="flex-1 px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white text-sm focus:outline-none focus:border-indigo-500"
                   />
                 </div>
@@ -462,12 +465,14 @@ export default function QrGenerator() {
                     type="color"
                     value={bgColor}
                     onChange={(e) => setBgColor(e.target.value)}
+                    aria-label="Background color picker"
                     className="w-10 h-10 rounded border-0 cursor-pointer bg-transparent"
                   />
                   <input
                     type="text"
                     value={bgColor}
                     onChange={(e) => setBgColor(e.target.value)}
+                    aria-label="Background color hex value"
                     className="flex-1 px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white text-sm focus:outline-none focus:border-indigo-500"
                   />
                 </div>

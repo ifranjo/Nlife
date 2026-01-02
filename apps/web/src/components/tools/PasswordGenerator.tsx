@@ -209,6 +209,7 @@ export default function PasswordGenerator() {
             max="128"
             value={options.length}
             onChange={(e) => updateOption('length', parseInt(e.target.value))}
+            aria-label="Password length"
             className="w-full h-2 bg-white/10 rounded-lg appearance-none cursor-pointer
                        [&::-webkit-slider-thumb]:appearance-none
                        [&::-webkit-slider-thumb]:w-4

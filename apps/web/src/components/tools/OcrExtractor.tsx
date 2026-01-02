@@ -915,6 +915,7 @@ export default function OcrExtractor() {
                 <select
                   value={tesseractLang}
                   onChange={(e) => setTesseractLang(e.target.value)}
+                  aria-label="Document language"
                   className="w-full px-4 py-2 rounded-lg bg-slate-800/50 border border-slate-700 text-white text-sm focus:outline-none focus:border-cyan-500"
                 >
                   {TESSERACT_LANGUAGES.map((lang) => (

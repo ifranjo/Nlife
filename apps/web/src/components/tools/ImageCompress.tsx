@@ -475,6 +475,7 @@ export default function ImageCompress() {
                 max="100"
                 value={quality}
                 onChange={(e) => setQuality(parseInt(e.target.value, 10))}
+                aria-label="Image quality"
                 className="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-indigo-500"
               />
               <div className="flex justify-between text-xs text-[var(--text-muted)] mt-1">
