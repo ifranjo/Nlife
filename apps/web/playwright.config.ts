@@ -2,7 +2,22 @@ import { defineConfig, devices } from '@playwright/test';
 
 /**
  * Playwright configuration for New Life Solutions E2E tests
- * See https://playwright.dev/docs/test-configuration
+ *
+ * Features:
+ * - Full parallelism on CI with sharding support
+ * - Percy visual regression integration
+ * - Multi-browser testing (Chromium, Firefox, WebKit)
+ * - Mobile viewport testing
+ *
+ * Usage:
+ *   npm run test:e2e              # Run all tests
+ *   npm run test:e2e:visual       # Run visual regression only
+ *   npm run test:percy            # Run with Percy cloud
+ *
+ * Sharding (CI):
+ *   npx playwright test --shard=1/4  # Run 1st quarter of tests
+ *
+ * @see https://playwright.dev/docs/test-configuration
  */
 export default defineConfig({
   testDir: './tests',
@@ -13,17 +28,31 @@ export default defineConfig({
   /* Fail the build on CI if you accidentally left test.only in the source code */
   forbidOnly: !!process.env.CI,
 
-  /* Retry on CI only */
+  /* Retry on CI only - helps with flaky tests */
   retries: process.env.CI ? 2 : 0,
 
-  /* Opt out of parallel tests on CI */
-  workers: process.env.CI ? 1 : undefined,
+  /*
+   * Parallel workers configuration:
+   * - CI: Use 50% of available CPUs (GitHub Actions has 2 cores, so 1 worker per shard)
+   * - Local: Use all available CPUs
+   * - With sharding, each shard gets its own job with full parallelism
+   */
+  workers: process.env.CI ? '50%' : undefined,
+
+  /* Global timeout per test */
+  timeout: 30 * 1000,
 
   /* Reporter to use */
-  reporter: [
-    ['html'],
-    ['list']
-  ],
+  reporter: process.env.CI
+    ? [
+        ['github'],           // GitHub annotations
+        ['html', { open: 'never' }],
+        ['json', { outputFile: 'test-results/results.json' }],
+      ]
+    : [
+        ['html'],
+        ['list']
+      ],
 
   /* Visual regression snapshot settings */
   expect: {
