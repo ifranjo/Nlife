@@ -47,16 +47,18 @@ const ToolCard: React.FC<ToolCardProps> = ({ tool }) => {
         <span className="text-[0.625rem] text-[var(--text-muted)] uppercase tracking-[0.15em]">
           {tool.category}
         </span>
-        {tool.popular && (
-          <span className="text-[0.625rem] bg-gradient-to-r from-yellow-500 to-orange-500 text-white px-2 py-0.5 rounded uppercase tracking-[0.15em]">
-            Popular
-          </span>
-        )}
-        {!isDisabled && (
-          <svg className="tool-arrow w-4 h-4 text-[var(--text-muted)] ml-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-          </svg>
-        )}
+        <div className="flex items-center gap-2">
+          {tool.popular && (
+            <span className="text-[0.625rem] bg-gradient-to-r from-yellow-500 to-orange-500 text-white px-2 py-0.5 rounded uppercase tracking-[0.15em]">
+              Popular
+            </span>
+          )}
+          {!isDisabled && (
+            <svg className="tool-arrow w-4 h-4 text-[var(--text-muted)] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          )}
+        </div>
       </div>
     </a>
   );
