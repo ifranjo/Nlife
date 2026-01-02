@@ -469,7 +469,7 @@ ${htmlContent}
             placeholder="Write your markdown here..."
             className="w-full h-[500px] px-4 py-3 bg-slate-900 border border-slate-700 rounded-lg text-white font-mono text-sm placeholder:text-slate-600 focus:outline-none focus:border-indigo-500 resize-none"
           />
-          <div className="mt-3 flex items-center justify-between text-xs text-slate-500">
+          <div className="mt-3 flex items-center justify-between text-xs text-slate-400">
             <span>{markdown.length.toLocaleString()} characters</span>
             <span>{markdown.split('\n').length} lines</span>
           </div>
@@ -545,7 +545,7 @@ ${htmlContent}
       )}
 
       {/* Privacy note */}
-      <p className="mt-6 text-center text-slate-500 text-sm">
+      <p className="mt-6 text-center text-slate-400 text-sm">
         <svg className="w-4 h-4 inline-block mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
         </svg>

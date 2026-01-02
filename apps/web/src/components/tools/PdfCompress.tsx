@@ -368,7 +368,7 @@ export default function PdfCompress() {
             aria-label="Enable batch mode with parallel processing"
           />
           <span className="text-sm text-slate-300">Batch Mode</span>
-          <span className="text-xs text-slate-500">(parallel processing, pause/cancel)</span>
+          <span className="text-xs text-slate-400">(parallel processing, pause/cancel)</span>
         </label>
         {batchMode && files.length > 0 && (
           <span className="text-sm text-slate-400">
@@ -535,7 +535,7 @@ export default function PdfCompress() {
                     <span className="text-slate-400">{formatFileSize(file.originalSize)}</span>
                     {file.status === 'done' && file.compressedSize !== null && (
                       <>
-                        <svg className="w-4 h-4 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg className="w-4 h-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
                         </svg>
                         <span className="text-green-400">{formatFileSize(file.compressedSize)}</span>
@@ -583,7 +583,7 @@ export default function PdfCompress() {
                   <span className="text-slate-300">Total Reduction</span>
                   <div className="text-right">
                     <span className="text-slate-400">{formatFileSize(totalOriginalSize)}</span>
-                    <span className="mx-2 text-slate-500">-&gt;</span>
+                    <span className="mx-2 text-slate-400">-&gt;</span>
                     <span className="text-green-400 font-medium">{formatFileSize(totalCompressedSize)}</span>
                     {totalOriginalSize > 0 && (
                       <span className="ml-2 text-emerald-400 font-bold">
@@ -642,7 +642,7 @@ export default function PdfCompress() {
       )}
 
       {/* Privacy note */}
-      <p className="mt-6 text-center text-slate-500 text-sm">
+      <p className="mt-6 text-center text-slate-400 text-sm">
         <svg className="w-4 h-4 inline-block mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
         </svg>

@@ -90,7 +90,7 @@ export default function TextCase() {
             `}
           >
             <div className="text-sm font-medium truncate">{opt.label}</div>
-            <div className="text-[0.625rem] opacity-60">{opt.desc}</div>
+            <div className="text-[0.625rem] text-[var(--text-muted)]">{opt.desc}</div>
           </button>
         ))}
       </div>

@@ -385,7 +385,7 @@ export default function BatchProcessor({
         <button
           onClick={handleClear}
           disabled={isProcessing}
-          className="text-sm text-slate-500 hover:text-red-400 transition-colors disabled:opacity-50"
+          className="text-sm text-slate-400 hover:text-red-400 transition-colors disabled:opacity-50"
           aria-label="Clear all files"
         >
           Clear all
@@ -402,7 +402,7 @@ export default function BatchProcessor({
             <span className="text-sm text-slate-400">
               {formatDuration(elapsedTime)}
               {isProcessing && estimatedRemaining > 0 && (
-                <span className="text-slate-500">
+                <span className="text-slate-400">
                   {' '}(~{formatDuration(estimatedRemaining)} remaining)
                 </span>
               )}
@@ -424,7 +424,7 @@ export default function BatchProcessor({
 
           {/* Size stats */}
           {hasCompletedItems && (
-            <div className="mt-2 flex items-center justify-between text-xs text-slate-500">
+            <div className="mt-2 flex items-center justify-between text-xs text-slate-400">
               <span>
                 {formatFileSize(totalOriginalSize)} total input
               </span>
@@ -536,7 +536,7 @@ export default function BatchProcessor({
                 {item.status === 'completed' && item.result && (
                   <>
                     <svg
-                      className="w-3 h-3 text-slate-500"
+                      className="w-3 h-3 text-slate-400"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"

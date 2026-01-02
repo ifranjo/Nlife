@@ -356,7 +356,7 @@ export default function Base64Tool() {
               className="w-full h-48 bg-slate-900/50 border border-slate-700/50 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500/50 focus:ring-1 focus:ring-cyan-500/50 transition-all resize-none font-mono text-sm"
             />
             <div className="flex items-center justify-between mt-3">
-              <span className="text-xs text-slate-500">
+              <span className="text-xs text-slate-400">
                 {textInput.length.toLocaleString()} characters
               </span>
               <button
@@ -402,7 +402,7 @@ export default function Base64Tool() {
                 readOnly
                 className="w-full h-48 bg-slate-900/50 border border-slate-700/50 rounded-lg px-4 py-3 text-white resize-none font-mono text-sm"
               />
-              <div className="text-xs text-slate-500 mt-3">
+              <div className="text-xs text-slate-400 mt-3">
                 {textOutput.length.toLocaleString()} characters
               </div>
             </div>
@@ -498,7 +498,7 @@ export default function Base64Tool() {
                 readOnly
                 className="w-full h-48 bg-slate-900/50 border border-slate-700/50 rounded-lg px-4 py-3 text-white resize-none font-mono text-sm"
               />
-              <div className="text-xs text-slate-500 mt-3">
+              <div className="text-xs text-slate-400 mt-3">
                 {fileOutput.length.toLocaleString()} characters
               </div>
             </div>
@@ -546,7 +546,7 @@ export default function Base64Tool() {
       )}
 
       {/* Privacy Note */}
-      <p className="mt-8 text-center text-slate-500 text-sm">
+      <p className="mt-8 text-center text-slate-400 text-sm">
         <svg className="w-4 h-4 inline-block mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
         </svg>

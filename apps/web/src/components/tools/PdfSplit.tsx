@@ -273,7 +273,7 @@ export default function PdfSplit() {
                   <span className="text-white group-hover:text-indigo-400 transition-colors">
                     Split all pages
                   </span>
-                  <p className="text-slate-500 text-sm">
+                  <p className="text-slate-400 text-sm">
                     Create {pageCount} separate PDF files (downloaded as ZIP)
                   </p>
                 </div>
@@ -293,7 +293,7 @@ export default function PdfSplit() {
                   <span className="text-white group-hover:text-indigo-400 transition-colors">
                     Extract page range
                   </span>
-                  <p className="text-slate-500 text-sm mb-2">
+                  <p className="text-slate-400 text-sm mb-2">
                     Extract a continuous range of pages
                   </p>
                   {splitMode === 'range' && (
@@ -340,7 +340,7 @@ export default function PdfSplit() {
                   <span className="text-white group-hover:text-indigo-400 transition-colors">
                     Extract specific pages
                   </span>
-                  <p className="text-slate-500 text-sm mb-2">
+                  <p className="text-slate-400 text-sm mb-2">
                     Enter page numbers (e.g., 1, 3, 5-8, 12)
                   </p>
                   {splitMode === 'extract' && (
@@ -398,7 +398,7 @@ export default function PdfSplit() {
       )}
 
       {/* Privacy note */}
-      <p className="mt-6 text-center text-slate-500 text-sm">
+      <p className="mt-6 text-center text-slate-400 text-sm">
         <svg className="w-4 h-4 inline-block mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
         </svg>

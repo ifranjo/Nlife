@@ -198,10 +198,10 @@ export default function DiffChecker() {
                     : ''
                 }
               >
-                <td className="w-12 px-2 py-1 text-right text-slate-500 border-r border-slate-700 select-none">
+                <td className="w-12 px-2 py-1 text-right text-slate-400 border-r border-slate-700 select-none">
                   {line.lineNumber.left || ''}
                 </td>
-                <td className="w-12 px-2 py-1 text-right text-slate-500 border-r border-slate-700 select-none">
+                <td className="w-12 px-2 py-1 text-right text-slate-400 border-r border-slate-700 select-none">
                   {line.lineNumber.right || ''}
                 </td>
                 <td className="w-8 px-2 py-1 text-center border-r border-slate-700 select-none">
@@ -239,7 +239,7 @@ export default function DiffChecker() {
         <div className="glass-card p-6">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-white font-medium">Original</h3>
-            <span className="text-xs text-slate-500">
+            <span className="text-xs text-slate-400">
               {original.split('\n').length} lines
             </span>
           </div>
@@ -259,7 +259,7 @@ export default function DiffChecker() {
         <div className="glass-card p-6">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-white font-medium">Modified</h3>
-            <span className="text-xs text-slate-500">
+            <span className="text-xs text-slate-400">
               {modified.split('\n').length} lines
             </span>
           </div>
@@ -319,7 +319,7 @@ export default function DiffChecker() {
               disabled={!original && !modified}
               className={`px-4 py-2.5 rounded-lg font-medium text-sm transition-all flex items-center gap-2 ${
                 !original && !modified
-                  ? 'opacity-50 cursor-not-allowed bg-slate-800 text-slate-500'
+                  ? 'opacity-50 cursor-not-allowed bg-slate-800 text-slate-400'
                   : 'bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white'
               }`}
             >
@@ -343,7 +343,7 @@ export default function DiffChecker() {
               disabled={!original && !modified}
               className={`px-4 py-2.5 rounded-lg font-medium text-sm transition-all ${
                 !original && !modified
-                  ? 'opacity-50 cursor-not-allowed bg-slate-800 text-slate-500'
+                  ? 'opacity-50 cursor-not-allowed bg-slate-800 text-slate-400'
                   : 'bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white'
               }`}
             >
@@ -418,7 +418,7 @@ export default function DiffChecker() {
             {renderDiffContent()}
           </div>
           {diff.length > 0 && (
-            <div className="mt-4 flex items-center gap-4 text-xs text-slate-500">
+            <div className="mt-4 flex items-center gap-4 text-xs text-slate-400">
               <span className="flex items-center gap-1">
                 <span className="w-3 h-3 bg-green-500/30 rounded" /> Added
               </span>
@@ -434,7 +434,7 @@ export default function DiffChecker() {
       )}
 
       {/* Privacy note */}
-      <p className="mt-6 text-center text-slate-500 text-sm">
+      <p className="mt-6 text-center text-slate-400 text-sm">
         <svg
           className="w-4 h-4 inline-block mr-1"
           fill="none"

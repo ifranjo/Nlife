@@ -540,7 +540,7 @@ export default function ExifEditor() {
           <p className="text-slate-400 text-sm mb-4">
             View and edit EXIF metadata, strip GPS location for privacy
           </p>
-          <p className="text-slate-500 text-xs">
+          <p className="text-slate-400 text-xs">
             JPEG images only (PNG and other formats don't store EXIF data). Max 10MB.
           </p>
         </div>
@@ -809,7 +809,7 @@ export default function ExifEditor() {
                     <div className="grid grid-cols-2 gap-2">
                       {groupedMetadata.camera.map((item) => (
                         <div key={item.key} className="text-sm">
-                          <span className="text-slate-500">{item.displayName}:</span>
+                          <span className="text-slate-400">{item.displayName}:</span>
                           <span className="text-slate-300 ml-2">{item.value}</span>
                         </div>
                       ))}
@@ -829,7 +829,7 @@ export default function ExifEditor() {
                     <div className="grid grid-cols-2 gap-2">
                       {groupedMetadata.image.map((item) => (
                         <div key={item.key} className="text-sm">
-                          <span className="text-slate-500">{item.displayName}:</span>
+                          <span className="text-slate-400">{item.displayName}:</span>
                           <span className="text-slate-300 ml-2">{item.value}</span>
                         </div>
                       ))}
@@ -844,7 +844,7 @@ export default function ExifEditor() {
                     <div className="grid grid-cols-2 gap-2">
                       {groupedMetadata.other.map((item) => (
                         <div key={item.key} className="text-sm">
-                          <span className="text-slate-500">{item.displayName}:</span>
+                          <span className="text-slate-400">{item.displayName}:</span>
                           <span className="text-slate-300 ml-2">{item.value}</span>
                         </div>
                       ))}
@@ -869,7 +869,7 @@ export default function ExifEditor() {
       )}
 
       {/* Privacy note */}
-      <p className="mt-6 text-center text-slate-500 text-sm">
+      <p className="mt-6 text-center text-slate-400 text-sm">
         <svg className="w-4 h-4 inline-block mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
         </svg>

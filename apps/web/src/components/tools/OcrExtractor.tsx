@@ -861,7 +861,7 @@ export default function OcrExtractor() {
                   <span className="text-white group-hover:text-cyan-400 transition-colors font-medium">
                     Tesseract <span className="text-cyan-400 text-xs ml-1">Recommended</span>
                   </span>
-                  <p className="text-slate-500 text-xs mt-0.5">
+                  <p className="text-slate-400 text-xs mt-0.5">
                     Supports PDFs, 100+ languages, multi-page documents. Best overall.
                   </p>
                 </div>
@@ -880,7 +880,7 @@ export default function OcrExtractor() {
                   <span className="text-white group-hover:text-cyan-400 transition-colors font-medium">
                     TrOCR Printed <span className="text-violet-400 text-xs ml-1">AI</span>
                   </span>
-                  <p className="text-slate-500 text-xs mt-0.5">
+                  <p className="text-slate-400 text-xs mt-0.5">
                     Microsoft's transformer model. Best for single images with printed text.
                   </p>
                 </div>
@@ -899,7 +899,7 @@ export default function OcrExtractor() {
                   <span className="text-white group-hover:text-cyan-400 transition-colors font-medium">
                     TrOCR Handwritten <span className="text-violet-400 text-xs ml-1">AI</span>
                   </span>
-                  <p className="text-slate-500 text-xs mt-0.5">
+                  <p className="text-slate-400 text-xs mt-0.5">
                     Optimized for handwritten notes and cursive text.
                   </p>
                 </div>
@@ -1042,7 +1042,7 @@ export default function OcrExtractor() {
               <button
                 onClick={clearAllFiles}
                 disabled={isProcessing}
-                className="text-sm text-slate-500 hover:text-red-400 transition-colors disabled:opacity-50"
+                className="text-sm text-slate-400 hover:text-red-400 transition-colors disabled:opacity-50"
               >
                 Clear all
               </button>
@@ -1089,12 +1089,12 @@ export default function OcrExtractor() {
                     <div className="flex items-center gap-2 text-sm">
                       <span className="text-slate-400">{formatFileSize(fileItem.size)}</span>
                       {fileItem.result?.pageCount && (
-                        <span className="text-slate-500">
+                        <span className="text-slate-400">
                           {fileItem.result.pageCount} pages
                         </span>
                       )}
                       {fileItem.result?.confidence && (
-                        <span className="text-slate-500">
+                        <span className="text-slate-400">
                           {fileItem.result.confidence.toFixed(1)}% confidence
                         </span>
                       )}
@@ -1188,7 +1188,7 @@ export default function OcrExtractor() {
                 />
               </div>
               {currentPageProgress.total > 0 && (
-                <p className="text-xs text-slate-500 mt-2 text-center">
+                <p className="text-xs text-slate-400 mt-2 text-center">
                   Page {currentPageProgress.current} of {currentPageProgress.total}
                 </p>
               )}
@@ -1239,7 +1239,7 @@ export default function OcrExtractor() {
                 <h4 className="text-sm font-medium text-slate-300">
                   {selectedFile.name}
                   {selectedFile.result.pageCount && (
-                    <span className="text-slate-500 ml-2">
+                    <span className="text-slate-400 ml-2">
                       ({selectedFile.result.pageCount} pages)
                     </span>
                   )}
@@ -1278,7 +1278,7 @@ export default function OcrExtractor() {
                       className="px-3 py-1.5 text-sm rounded-lg bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white transition-colors whitespace-nowrap"
                     >
                       Page {page.pageNumber}
-                      <span className="ml-1 text-xs text-slate-500">
+                      <span className="ml-1 text-xs text-slate-400">
                         ({page.confidence.toFixed(0)}%)
                       </span>
                     </button>
@@ -1292,7 +1292,7 @@ export default function OcrExtractor() {
                 className="w-full h-64 px-4 py-3 rounded-lg bg-slate-900/50 border border-slate-700 text-white font-mono text-sm resize-none focus:outline-none focus:border-cyan-500"
               />
 
-              <p className="mt-2 text-xs text-slate-500">
+              <p className="mt-2 text-xs text-slate-400">
                 {selectedFile.result.text.split(/\s+/).filter(w => w.length > 0).length} words
                 {' '}{selectedFile.result.text.length} characters
               </p>
@@ -1364,7 +1364,7 @@ export default function OcrExtractor() {
       )}
 
       {/* Privacy note */}
-      <p className="mt-6 text-center text-slate-500 text-sm">
+      <p className="mt-6 text-center text-slate-400 text-sm">
         <svg className="w-4 h-4 inline-block mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
         </svg>

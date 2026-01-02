@@ -420,7 +420,7 @@ export default function SvgEditor() {
 
           {/* Dimensions display */}
           {dimensions && (
-            <div className="mt-3 flex items-center gap-4 text-xs text-slate-500">
+            <div className="mt-3 flex items-center gap-4 text-xs text-slate-400">
               {dimensions.width > 0 && dimensions.height > 0 && (
                 <span>Size: {dimensions.width} x {dimensions.height}</span>
               )}
@@ -635,11 +635,11 @@ export default function SvgEditor() {
           {stats && (
             <div className="mt-4 grid grid-cols-3 gap-3">
               <div className="bg-slate-800 rounded-lg p-3 text-center">
-                <div className="text-xs text-slate-500 mb-1">Original</div>
+                <div className="text-xs text-slate-400 mb-1">Original</div>
                 <div className="text-white font-medium">{formatBytes(stats.originalSize)}</div>
               </div>
               <div className="bg-slate-800 rounded-lg p-3 text-center">
-                <div className="text-xs text-slate-500 mb-1">Optimized</div>
+                <div className="text-xs text-slate-400 mb-1">Optimized</div>
                 <div className="text-white font-medium">{formatBytes(stats.optimizedSize)}</div>
               </div>
               <div className="bg-green-500/20 border border-green-500/30 rounded-lg p-3 text-center">
@@ -670,7 +670,7 @@ export default function SvgEditor() {
       )}
 
       {/* Privacy note */}
-      <p className="mt-6 text-center text-slate-500 text-sm">
+      <p className="mt-6 text-center text-slate-400 text-sm">
         <svg className="w-4 h-4 inline-block mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
         </svg>

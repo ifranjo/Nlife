@@ -181,7 +181,7 @@ export const ToolHub: React.FC<ToolHubProps> = ({ tools }) => {
               ].join(' ')}
             >
               {category === 'all' ? 'All' : category}
-              <span className="ml-1 text-[0.625rem] opacity-60">
+              <span className="ml-1 text-[0.625rem] text-[var(--text-muted)]">
                 ({categoryCounts[category] || 0})
               </span>
             </button>

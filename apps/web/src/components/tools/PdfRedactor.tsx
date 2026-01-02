@@ -685,7 +685,7 @@ export default function PdfRedactor() {
                           <span className="text-slate-300 text-sm truncate">
                             {pii.text}
                           </span>
-                          <span className="text-slate-500 text-xs">
+                          <span className="text-slate-400 text-xs">
                             Page {pii.pageIndex + 1}
                           </span>
                         </div>
@@ -914,7 +914,7 @@ export default function PdfRedactor() {
       )}
 
       {/* Privacy note */}
-      <p className="mt-6 text-center text-slate-500 text-sm">
+      <p className="mt-6 text-center text-slate-400 text-sm">
         <svg
           className="w-4 h-4 inline-block mr-1"
           fill="none"

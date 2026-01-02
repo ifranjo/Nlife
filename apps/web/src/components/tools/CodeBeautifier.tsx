@@ -572,7 +572,7 @@ export default function CodeBeautifier() {
 
           {/* Stats */}
           {output && (
-            <div className="mt-4 flex items-center justify-between text-xs text-slate-500">
+            <div className="mt-4 flex items-center justify-between text-xs text-slate-400">
               <span>{output.length.toLocaleString()} characters</span>
               <span>{output.split('\n').length} lines</span>
             </div>
@@ -607,14 +607,14 @@ export default function CodeBeautifier() {
           {LANGUAGES.map(({ id, label, extensions }) => (
             <div key={id} className="bg-slate-800 rounded-lg p-3">
               <div className="text-white font-medium mb-1">{label}</div>
-              <div className="text-slate-500">{extensions.join(', ')}</div>
+              <div className="text-slate-400">{extensions.join(', ')}</div>
             </div>
           ))}
         </div>
       </div>
 
       {/* Privacy note */}
-      <p className="mt-6 text-center text-slate-500 text-sm">
+      <p className="mt-6 text-center text-slate-400 text-sm">
         <svg className="w-4 h-4 inline-block mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
         </svg>

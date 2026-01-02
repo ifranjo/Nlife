@@ -373,7 +373,7 @@ export default function JpgToPdf() {
               </button>
             </div>
 
-            <p className="text-slate-500 text-xs mb-3">Drag to reorder • Images will appear in this order in the PDF</p>
+            <p className="text-slate-400 text-xs mb-3">Drag to reorder • Images will appear in this order in the PDF</p>
 
             <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-3">
               {images.map((img, index) => (
@@ -455,7 +455,7 @@ export default function JpgToPdf() {
       )}
 
       {/* Privacy note */}
-      <p className="mt-6 text-center text-slate-500 text-sm">
+      <p className="mt-6 text-center text-slate-400 text-sm">
         <svg className="w-4 h-4 inline-block mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
         </svg>

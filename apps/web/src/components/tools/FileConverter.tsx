@@ -480,7 +480,7 @@ export default function FileConverter() {
         <p className="text-slate-400 text-sm">
           Supports <span className="text-cyan-400 font-medium">HEIC</span> (iPhone), PNG, JPG, WebP, BMP, GIF
         </p>
-        <p className="text-slate-500 text-xs mt-2">
+        <p className="text-slate-400 text-xs mt-2">
           Max 50MB per image, up to 20 images
         </p>
       </div>
@@ -536,7 +536,7 @@ export default function FileConverter() {
                   onChange={(e) => setQuality(parseInt(e.target.value, 10))}
                   className="w-full h-2 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-cyan-500"
                 />
-                <div className="flex justify-between text-xs text-slate-500 mt-1">
+                <div className="flex justify-between text-xs text-slate-400 mt-1">
                   <span>Smaller file</span>
                   <span>Higher quality</span>
                 </div>
@@ -590,7 +590,7 @@ export default function FileConverter() {
             </h4>
             <button
               onClick={clearAllFiles}
-              className="text-sm text-slate-500 hover:text-red-400 transition-colors"
+              className="text-sm text-slate-400 hover:text-red-400 transition-colors"
             >
               Clear all
             </button>
@@ -640,7 +640,7 @@ export default function FileConverter() {
                   </span>
                   {imageFile.status === 'done' && imageFile.convertedSize !== null && (
                     <>
-                      <svg className="w-4 h-4 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <svg className="w-4 h-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
                       </svg>
                       <span className="px-2 py-0.5 rounded text-xs font-medium bg-green-500/20 text-green-300">
@@ -752,7 +752,7 @@ export default function FileConverter() {
       </div>
 
       {/* Privacy note */}
-      <p className="mt-6 text-center text-slate-500 text-sm">
+      <p className="mt-6 text-center text-slate-400 text-sm">
         <svg className="w-4 h-4 inline-block mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
         </svg>
