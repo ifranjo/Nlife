@@ -149,6 +149,8 @@ jobs:
     defaults:
       run:
         working-directory: apps/web
+    env:
+      PERCY_TOKEN: ${{ secrets.PERCY_TOKEN }}
 
     steps:
       - name: Checkout
@@ -179,13 +181,11 @@ jobs:
           sleep 5
 
       - name: Run Percy visual tests
-        if: ${{ secrets.PERCY_TOKEN != '' }}
-        env:
-          PERCY_TOKEN: ${{ secrets.PERCY_TOKEN }}
+        if: env.PERCY_TOKEN != ''
         run: npx percy exec -- npx playwright test tests/percy-visual.spec.ts --project=chromium --config=playwright.ci.config.ts
 
       - name: Skip Percy (no token)
-        if: ${{ secrets.PERCY_TOKEN == '' }}
+        if: env.PERCY_TOKEN == ''
         run: |
           echo "::warning::Percy token not configured. Skipping visual regression tests."
           echo "To enable Percy, add PERCY_TOKEN to GitHub Secrets."
