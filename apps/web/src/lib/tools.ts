@@ -4,7 +4,7 @@ export interface Tool {
   description: string;
   icon: string;
   thumbnail: string;
-  category: 'document' | 'media' | 'ai' | 'utility';
+  category: 'document' | 'media' | 'ai' | 'utility' | 'games';
   tier: 'free' | 'pro' | 'coming';
   href: string;
   color: string;

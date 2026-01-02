@@ -5,6 +5,29 @@ import Hero from '../components/ui/Hero.astro';
 import { ToolHub } from '../components/tools/ToolHub';
 import Footer from '../components/ui/Footer.astro';
 import { tools } from '../lib/tools';
+import { getLiveGames } from '../lib/games';
+
+// Convert games to tools format so they appear in the hub
+const liveGames = getLiveGames();
+const gamesAsTools = liveGames.map(game => ({
+  id: game.id,
+  name: game.name,
+  description: game.description,
+  icon: '🎮',
+  thumbnail: game.thumbnail,
+  category: 'games' as const,
+  tier: 'free' as const,
+  href: game.href,
+  color: 'from-purple-500 to-pink-500',
+  tags: ['game', 'casual', 'puzzle', 'arcade'],
+  popular: game.isNew || false,
+  releaseDate: game.releaseDate || '2026-01-01',
+  seo: game.seo,
+  stats: game.stats
+}));
+
+// Combine tools and games
+const allHubItems = [...tools, ...gamesAsTools];
 
 // SEO metadata
 const title = 'New Life Solutions - Free Privacy-First Browser Tools';
@@ -24,13 +47,13 @@ const description = 'Free online tools for developers and creatives. Merge PDFs,
           <div class="text-3xl mb-4 opacity-60">◇</div>
           <h1 class="text-2xl uppercase tracking-[0.3em] mb-4">Tool Hub</h1>
           <p class="text-[var(--text-dim)] text-sm max-w-2xl mx-auto leading-relaxed">
-            Browse our collection of 43 free browser-based tools. Search, filter by category,
+            Browse our collection of {allHubItems.length} free browser-based tools and games. Search, filter by category,
             or sort by popularity to find exactly what you need.
           </p>
         </div>
 
         <!-- Interactive Tool Hub Component -->
-        <ToolHub client:load tools={tools} />
+        <ToolHub client:load tools={allHubItems} />
       </div>
     </section>
 
