@@ -1,0 +1,170 @@
+---
+/**
+ * QR Code Reader - AI-Native Tool Page
+ *
+ * Optimized for LLM extraction with:
+ * - TL;DR answer box (50-70 words)
+ * - Semantic Q&A sections
+ * - Full schema markup (SoftwareApplication, HowTo, FAQPage)
+ */
+import Layout from '../../layouts/Layout.astro';
+import TrustBar from '../../components/ui/TrustBar.astro';
+import Navbar from '../../components/ui/Navbar.astro';
+import Footer from '../../components/ui/Footer.astro';
+import AnswerBox from '../../components/seo/AnswerBox.astro';
+import QASections from '../../components/seo/QASections.astro';
+import RelatedTools from '../../components/seo/RelatedTools.astro';
+import { getToolById } from '../../lib/tools';
+import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
+import QrReader from '../../components/tools/QrReader';
+
+// Get tool data from Single Source of Truth (tools.ts)
+const toolData = getToolById('qr-reader');
+if (!toolData) throw new Error('Tool not found: qr-reader');
+
+// Tool metadata derived from registry
+const tool = {
+  id: toolData.id,
+  name: toolData.name,
+  category: toolData.category,
+  url: toolData.href
+};
+
+// AI-optimized content - SEO from tools.ts, extended content page-specific
+const seoContent = {
+  // Page meta from Single Source of Truth
+  title: toolData.seo?.title || `${toolData.name} - Free Online Tool | New Life Solutions`,
+  description: toolData.seo?.metaDescription || toolData.description,
+
+  // TL;DR Answer Box (50-70 words - this is what AI extracts)
+  answerBox: {
+    title: 'QR Code Scanner & Reader - Free Online Tool',
+    queryTarget: 'How to Scan QR Code from Image or Camera Free',
+    tldr: `Scan and decode QR codes instantly from uploaded images or your camera. Upload a screenshot, photo, or use your device camera for real-time scanning. Automatically detects and formats URLs, WiFi credentials, contact cards (vCard), email, phone numbers, and plain text. No app installation required - works directly in your browser with 100% local processing.`,
+    trustSignals: [
+      'Upload image or use camera',
+      'Auto-detect QR type',
+      'WiFi & vCard formatting',
+      '100% local processing'
+    ]
+  },
+
+  // Q&A Sections
+  qa: {
+    whatIs: {
+      answer: `A QR code reader scans and decodes QR codes from images or your device camera. This tool uses the jsQR library to detect QR codes and extract their content - whether it's a URL, WiFi password, contact information, or plain text. It automatically identifies the type of QR code and formats the data for easy reading.`,
+      context: `QR codes are everywhere - from restaurant menus to product packaging to WiFi credentials. Instead of installing yet another app, use this browser-based scanner that works instantly without downloading anything.`
+    },
+    howItWorks: {
+      steps: [
+        'Choose your input method: Upload Image or Use Camera',
+        'For image mode: Click to select a photo or screenshot containing a QR code',
+        'For camera mode: Allow camera permission when prompted',
+        'The tool automatically detects and decodes the QR code',
+        'View the decoded data with automatic type detection (URL, WiFi, vCard, etc.)',
+        'Copy the data to clipboard or click "Open Link" for URLs',
+        'For WiFi QR codes, see formatted SSID, password, and encryption type'
+      ]
+    },
+    whyBrowserBased: {
+      benefits: [
+        'No app installation: Works directly in your browser on any device',
+        'Privacy first: All QR code processing happens locally - no server uploads',
+        'Dual input modes: Upload existing images or scan in real-time with camera',
+        'Smart formatting: Automatically parses WiFi credentials and contact cards',
+        'Universal compatibility: Works on phones, tablets, and computers',
+        'Instant results: Decode QR codes in milliseconds with no network delay'
+      ]
+    },
+    faqs: [
+      {
+        question: 'Can I scan a QR code from a screenshot?',
+        answer: `Yes! Upload any image file containing a QR code - screenshots, photos, or saved images all work. The tool will automatically detect and decode the QR code from your image.`
+      },
+      {
+        question: 'Does the camera mode work on mobile phones?',
+        answer: `Yes, camera mode works on mobile phones and tablets. When you select camera mode, your browser will request camera permission. On mobile devices, it automatically uses the rear camera for easier scanning.`
+      },
+      {
+        question: 'What types of QR codes are supported?',
+        answer: `All standard QR code types: URLs/links, plain text, WiFi credentials, contact cards (vCard), email addresses, phone numbers, SMS, and geographic coordinates. The tool automatically detects the type and formats the data accordingly.`
+      },
+      {
+        question: 'How does it format WiFi QR codes?',
+        answer: `WiFi QR codes are automatically parsed to extract the network name (SSID), password, and encryption type (WPA/WPA2/WEP/None). This makes it easy to copy the password without parsing the raw QR data yourself.`
+      },
+      {
+        question: 'Is my camera stream or uploaded image sent to a server?',
+        answer: `No, never. All QR code scanning happens entirely in your browser using the jsQR JavaScript library. Your images and camera feed never leave your device. We have no server-side processing for QR scanning.`
+      },
+      {
+        question: 'Why isn\'t it detecting my QR code?',
+        answer: `Make sure the QR code is clearly visible, well-lit, and not blurry. For uploaded images, ensure the QR code isn't too small or distorted. For camera mode, hold your device steady and ensure good lighting. The QR code should fill a good portion of the frame.`
+      }
+    ]
+  }
+};
+
+// Schema data
+const schemaData = {
+  toolId: tool.id,
+  toolName: tool.name,
+  description: seoContent.description,
+  category: tool.category,
+  steps: seoContent.qa.howItWorks.steps,
+  faqs: seoContent.qa.faqs,
+  url: tool.url
+};
+---
+
+<Layout
+  title={seoContent.title}
+  description={seoContent.description}
+  image="/thumbnails/qr-reader.svg"
+>
+  <!-- Schema Markup for AI extraction -->
+  <SchemaMarkup {...schemaData} />
+
+  <Navbar />
+
+  <main class="pt-20 pb-16 px-6 min-h-screen">
+    <div class="max-w-3xl mx-auto">
+
+      <!-- Answer Box: AI extracts this first -->
+      <AnswerBox
+        title={seoContent.answerBox.title}
+        tldr={seoContent.answerBox.tldr}
+        toolName={tool.name}
+        queryTarget={seoContent.answerBox.queryTarget}
+        trustSignals={seoContent.answerBox.trustSignals}
+      />
+
+      <!-- Tool Component -->
+      <section class="tool-section" aria-label="QR Code Reader Tool">
+        <QrReader client:load />
+        <TrustBar signals={seoContent.answerBox.trustSignals} />
+      </section>
+
+      <!-- Q&A Sections: Semantic structure for AI -->
+      <QASections
+        toolName={tool.name}
+        whatIs={seoContent.qa.whatIs}
+        howItWorks={seoContent.qa.howItWorks}
+        whyBrowserBased={seoContent.qa.whyBrowserBased}
+        faqs={seoContent.qa.faqs}
+        stats={toolData?.stats}
+      />
+
+      <RelatedTools currentToolId="qr-reader" />
+
+    </div>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+  .tool-section {
+    margin: 2rem 0;
+  }
+</style>

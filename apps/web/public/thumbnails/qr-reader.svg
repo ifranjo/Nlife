@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
+  <rect width="120" height="120" rx="16" fill="#1a1a2e"/>
+  <rect x="30" y="30" width="60" height="60" rx="4" fill="#16213e" stroke="#0f3460" stroke-width="2"/>
+  <rect x="38" y="38" width="16" height="16" rx="2" fill="#00d9ff"/>
+  <rect x="42" y="42" width="8" height="8" fill="#1a1a2e"/>
+  <rect x="66" y="38" width="16" height="16" rx="2" fill="#00d9ff"/>
+  <rect x="70" y="42" width="8" height="8" fill="#1a1a2e"/>
+  <rect x="38" y="66" width="16" height="16" rx="2" fill="#00d9ff"/>
+  <rect x="42" y="70" width="8" height="8" fill="#1a1a2e"/>
+  <rect x="66" y="66" width="6" height="6" fill="#e94560"/>
+  <rect x="76" y="66" width="6" height="6" fill="#e94560"/>
+  <rect x="66" y="76" width="6" height="6" fill="#e94560"/>
+  <path d="M20 35 L20 20 L35 20" stroke="#00d9ff" stroke-width="3" stroke-linecap="round"/>
+  <path d="M85 20 L100 20 L100 35" stroke="#00d9ff" stroke-width="3" stroke-linecap="round"/>
+  <path d="M100 85 L100 100 L85 100" stroke="#00d9ff" stroke-width="3" stroke-linecap="round"/>
+  <path d="M35 100 L20 100 L20 85" stroke="#00d9ff" stroke-width="3" stroke-linecap="round"/>
+</svg>

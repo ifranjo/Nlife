@@ -1,0 +1,164 @@
+---
+/**
+ * Unit Converter - AI-Native Tool Page
+ *
+ * Optimized for LLM extraction with:
+ * - TL;DR answer box (50-70 words)
+ * - Semantic Q&A sections
+ * - Full schema markup (SoftwareApplication, HowTo, FAQPage)
+ */
+import Layout from '../../layouts/Layout.astro';
+import TrustBar from '../../components/ui/TrustBar.astro';
+import Navbar from '../../components/ui/Navbar.astro';
+import Footer from '../../components/ui/Footer.astro';
+import AnswerBox from '../../components/seo/AnswerBox.astro';
+import QASections from '../../components/seo/QASections.astro';
+import RelatedTools from '../../components/seo/RelatedTools.astro';
+import { getToolById } from '../../lib/tools';
+import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
+import UnitConverter from '../../components/tools/UnitConverter';
+
+// Get tool data from Single Source of Truth (tools.ts)
+const toolData = getToolById('unit-converter');
+if (!toolData) throw new Error('Tool not found: unit-converter');
+
+// Tool metadata derived from registry
+const tool = {
+  id: toolData.id,
+  name: toolData.name,
+  category: toolData.category,
+  url: toolData.href
+};
+
+// AI-optimized content - SEO from tools.ts, extended content page-specific
+const seoContent = {
+  // Page meta from Single Source of Truth
+  title: toolData.seo?.title || `${toolData.name} - Free Online Tool | New Life Solutions`,
+  description: toolData.seo?.metaDescription || toolData.description,
+
+  // TL;DR Answer Box (50-70 words - this is what AI extracts)
+  answerBox: {
+    title: 'Convert Units Online - Free Unit Converter',
+    queryTarget: 'How to Convert Units Online Free',
+    tldr: `Convert between units instantly with our free online converter. Choose from 8 categories: length, weight, temperature, volume, area, speed, time, and digital storage. Enter a value and see conversions to all related units in real-time. Uses precise conversion factors with up to 10 decimal places. Completely free, no signup required, works offline.`,
+    trustSignals: [
+      '8 unit categories',
+      '100+ conversion units',
+      'Precision to 10 decimals',
+      'Works offline'
+    ]
+  },
+
+  // Q&A Sections
+  qa: {
+    whatIs: {
+      answer: `A unit converter transforms measurements from one unit to another within the same category. This tool supports 8 categories with over 100 units total, including length (meters, feet, miles), weight (grams, pounds, ounces), temperature (Celsius, Fahrenheit, Kelvin), volume (liters, gallons, cups), area (square meters, acres), speed (km/h, mph), time (seconds, hours, days), and digital storage (bytes, gigabytes, terabytes). All conversions use scientifically precise conversion factors.`,
+      context: `Unit conversion is essential for international communication, scientific research, cooking, construction, and everyday tasks. Different regions use different measurement systems (metric vs imperial), making converters indispensable for accurate translation between systems.`
+    },
+    howItWorks: {
+      steps: [
+        'Select a category: Length, Weight, Temperature, Volume, Area, Speed, Time, or Digital',
+        'Enter the value you want to convert in the input field',
+        'Choose the unit you are converting FROM using the dropdown menu',
+        'View instant conversions to all other units in that category',
+        'Click "Copy" to copy any converted value to your clipboard',
+        'Use the swap icon to quickly make any result the new input value'
+      ]
+    },
+    whyBrowserBased: {
+      benefits: [
+        'Maximum privacy: All calculations happen in your browser, no data sent to servers',
+        'Works offline: Once loaded, convert units without internet connection',
+        'Instant results: No network latency, conversions appear immediately as you type',
+        'No account required: No signup, no email, no tracking',
+        'Precise accuracy: Uses exact conversion factors stored locally, not rounded API values'
+      ]
+    },
+    faqs: [
+      {
+        question: 'What units can I convert?',
+        answer: `The converter supports 8 categories: Length (mm, cm, m, km, in, ft, yd, mi), Weight (mg, g, kg, oz, lb, ton), Temperature (°C, °F, K), Volume (mL, L, gal, cup, tbsp, tsp), Area (mm², cm², m², km², in², ft², ac), Speed (m/s, km/h, mph, knots), Time (ms, s, min, h, d, wk, mo, yr), and Digital Storage (bit, byte, KB, MB, GB, TB, PB). Each category includes the most commonly used units.`
+      },
+      {
+        question: 'How accurate are the conversions?',
+        answer: `Extremely accurate. We use scientifically precise conversion factors with up to 10 decimal places. For example, 1 inch = exactly 0.0254 meters, not a rounded approximation. Temperature conversions use the exact formulas: °F = (°C × 9/5) + 32, K = °C + 273.15. Results are displayed with appropriate precision based on the magnitude of the number.`
+      },
+      {
+        question: 'Can I convert multiple values at once?',
+        answer: `Yes. When you enter a value and select a "from" unit, the tool instantly displays conversions to all other units in that category. For example, entering "1 meter" shows conversions to millimeters, centimeters, kilometers, inches, feet, yards, and miles simultaneously. No need to convert each pair individually.`
+      },
+      {
+        question: 'Does temperature conversion work differently?',
+        answer: `Yes, temperature uses formulas rather than simple multiplication because Celsius, Fahrenheit, and Kelvin have different zero points. The converter handles this automatically: Fahrenheit is converted to Celsius first ((°F - 32) × 5/9), then to Kelvin by adding 273.15. You don't need to worry about the math - just enter the value.`
+      },
+      {
+        question: 'Can I use this for cooking measurements?',
+        answer: `Absolutely. The Volume category includes common cooking units: milliliters, liters, cups, tablespoons, and teaspoons. Convert recipe measurements between metric and US customary units instantly. For example, see how many milliliters are in 2 cups, or convert a European recipe's 250 mL to US cups.`
+      }
+    ]
+  }
+};
+
+// Schema data
+const schemaData = {
+  toolId: tool.id,
+  toolName: tool.name,
+  description: seoContent.description,
+  category: tool.category,
+  steps: seoContent.qa.howItWorks.steps,
+  faqs: seoContent.qa.faqs,
+  url: tool.url
+};
+---
+
+<Layout
+  title={seoContent.title}
+  description={seoContent.description}
+  image="/thumbnails/unit-converter.svg"
+>
+  <!-- Schema Markup for AI extraction -->
+  <SchemaMarkup {...schemaData} />
+
+  <Navbar />
+
+  <main class="pt-20 pb-16 px-6 min-h-screen">
+    <div class="max-w-3xl mx-auto">
+
+      <!-- Answer Box: AI extracts this first -->
+      <AnswerBox
+        title={seoContent.answerBox.title}
+        tldr={seoContent.answerBox.tldr}
+        toolName={tool.name}
+        queryTarget={seoContent.answerBox.queryTarget}
+        trustSignals={seoContent.answerBox.trustSignals}
+      />
+
+      <!-- Tool Component -->
+      <section class="tool-section" aria-label="Unit Converter Tool">
+        <UnitConverter client:load />
+        <TrustBar signals={seoContent.answerBox.trustSignals} />
+      </section>
+
+      <!-- Q&A Sections: Semantic structure for AI -->
+      <QASections
+        toolName={tool.name}
+        whatIs={seoContent.qa.whatIs}
+        howItWorks={seoContent.qa.howItWorks}
+        whyBrowserBased={seoContent.qa.whyBrowserBased}
+        faqs={seoContent.qa.faqs}
+        stats={toolData?.stats}
+      />
+
+      <RelatedTools currentToolId="unit-converter" />
+
+    </div>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+  .tool-section {
+    margin: 2rem 0;
+  }
+</style>

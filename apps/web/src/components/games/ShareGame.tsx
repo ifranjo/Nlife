@@ -61,7 +61,6 @@ export const ShareGame: React.FC<ShareGameProps> = ({
       }
     } catch (error) {
       // User canceled or error - silent fail is fine
-      console.log('Share canceled or not supported');
     }
   }, [gameName, shareMessage]);
 
@@ -83,8 +82,7 @@ export const ShareGame: React.FC<ShareGameProps> = ({
         // trackGameShare(payload); // Future implementation
       }
 
-      // Log to console (for now)
-      console.log('🎮 Game Shared:', payload);
+      // Analytics tracking - silent in production
 
       // In a real implementation, send to your analytics endpoint
       // fetch('/api/analytics/share', { method: 'POST', body: JSON.stringify(payload) });

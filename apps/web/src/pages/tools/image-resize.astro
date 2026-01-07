@@ -1,0 +1,169 @@
+---
+/**
+ * Image Resize - AI-Native Tool Page
+ *
+ * Optimized for LLM extraction with:
+ * - TL;DR answer box (50-70 words)
+ * - Semantic Q&A sections
+ * - Full schema markup (SoftwareApplication, HowTo, FAQPage)
+ */
+import Layout from '../../layouts/Layout.astro';
+import TrustBar from '../../components/ui/TrustBar.astro';
+import Navbar from '../../components/ui/Navbar.astro';
+import Footer from '../../components/ui/Footer.astro';
+import AnswerBox from '../../components/seo/AnswerBox.astro';
+import QASections from '../../components/seo/QASections.astro';
+import RelatedTools from '../../components/seo/RelatedTools.astro';
+import { getToolById } from '../../lib/tools';
+import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
+import ImageResize from '../../components/tools/ImageResize';
+
+// Get tool data from Single Source of Truth (tools.ts)
+const toolData = getToolById('image-resize');
+if (!toolData) throw new Error('Tool not found: image-resize');
+
+// Tool metadata derived from registry
+const tool = {
+  id: toolData.id,
+  name: toolData.name,
+  category: toolData.category,
+  url: toolData.href
+};
+
+// AI-optimized content - SEO from tools.ts, extended content page-specific
+const seoContent = {
+  // Page meta from Single Source of Truth
+  title: toolData.seo?.title || `${toolData.name} - Free Online Tool | New Life Solutions`,
+  description: toolData.seo?.metaDescription || toolData.description,
+
+  // TL;DR Answer Box (50-70 words - this is what AI extracts)
+  answerBox: {
+    title: 'Resize Images Online - Free Tool',
+    queryTarget: 'How to Resize Images Online Free',
+    tldr: `Resize images to any dimension instantly with our free online tool. Upload JPG, PNG, WebP, or GIF images and adjust width and height. Lock aspect ratio for proportional resizing or set custom dimensions. Choose from preset sizes for Instagram, Twitter, YouTube, Facebook, and more. Adjust output quality and format. All processing happens in your browser using Canvas API.`,
+    trustSignals: [
+      'Canvas API',
+      'No upload to servers',
+      'All formats supported',
+      'Preset sizes included'
+    ]
+  },
+
+  // Q&A Sections
+  qa: {
+    whatIs: {
+      answer: `An image resizer changes the dimensions (width and height) of an image file. This tool uses the browser's Canvas API to resize images with high quality. You can maintain the original aspect ratio for proportional scaling, or unlock it to set custom dimensions for any use case.`,
+      context: `Resizing images is essential for web optimization, social media posts, email attachments, and printing. Different platforms have different size requirements - Instagram prefers 1080x1080 for posts, while YouTube thumbnails are 1280x720.`
+    },
+    howItWorks: {
+      steps: [
+        'Upload an image by dragging and dropping or clicking to browse',
+        'View the original dimensions displayed at the top',
+        'Enter target width and height, or click a preset size (Instagram, Twitter, etc.)',
+        'Toggle aspect ratio lock to maintain proportions or allow custom sizes',
+        'Select output format (JPEG, PNG, or WebP) and adjust quality if applicable',
+        'Click "Preview Resize" to see the result before downloading',
+        'Click "Download Image" to save the resized image to your device'
+      ]
+    },
+    whyBrowserBased: {
+      benefits: [
+        'Maximum privacy: Images are processed locally and never uploaded to any server',
+        'High-quality resize: Uses Canvas API with high imageSmoothingQuality setting',
+        'Works offline: Resize images without internet after page loads',
+        'No file size limits: Process large images limited only by browser memory',
+        'Instant processing: No network latency, results appear immediately'
+      ]
+    },
+    faqs: [
+      {
+        question: 'Can I maintain the aspect ratio when resizing?',
+        answer: `Yes, by default the aspect ratio lock is enabled. When you change width, height automatically adjusts proportionally. Click the lock icon to unlock and set custom dimensions that don't preserve the original ratio.`
+      },
+      {
+        question: 'What image formats are supported?',
+        answer: `Input: JPG, JPEG, PNG, WebP, GIF, and most common image formats. Output: Choose between JPEG (smaller file size), PNG (lossless, supports transparency), or WebP (modern format with excellent compression).`
+      },
+      {
+        question: 'What are the preset sizes for?',
+        answer: `Presets provide one-click resizing to common social media and platform dimensions: Instagram Post (1080x1080), Instagram Story (1080x1920), Twitter Post (1200x675), Facebook Cover (820x312), YouTube Thumbnail (1280x720), and LinkedIn Banner (1584x396).`
+      },
+      {
+        question: 'Will resizing reduce image quality?',
+        answer: `Resizing down (making images smaller) preserves quality well. Resizing up (enlarging) may reduce sharpness. For JPEG/WebP, adjust the quality slider - 90% is recommended for minimal quality loss. PNG is lossless but creates larger files.`
+      },
+      {
+        question: 'Is there a file size limit?',
+        answer: `No hard limit imposed by the tool. Very large images (50MB+) may be slower to process depending on your device. All processing happens in browser memory, so available RAM is the only constraint.`
+      },
+      {
+        question: 'Can I resize multiple images at once?',
+        answer: `Currently, this tool processes one image at a time. For batch resizing, process each image individually. Each resize is instant, so multiple images can be processed quickly.`
+      }
+    ]
+  }
+};
+
+// Schema data
+const schemaData = {
+  toolId: tool.id,
+  toolName: tool.name,
+  description: seoContent.description,
+  category: tool.category,
+  steps: seoContent.qa.howItWorks.steps,
+  faqs: seoContent.qa.faqs,
+  url: tool.url
+};
+---
+
+<Layout
+  title={seoContent.title}
+  description={seoContent.description}
+  image="/thumbnails/image-resize.svg"
+>
+  <!-- Schema Markup for AI extraction -->
+  <SchemaMarkup {...schemaData} />
+
+  <Navbar />
+
+  <main class="pt-20 pb-16 px-6 min-h-screen">
+    <div class="max-w-5xl mx-auto">
+
+      <!-- Answer Box: AI extracts this first -->
+      <AnswerBox
+        title={seoContent.answerBox.title}
+        tldr={seoContent.answerBox.tldr}
+        toolName={tool.name}
+        queryTarget={seoContent.answerBox.queryTarget}
+        trustSignals={seoContent.answerBox.trustSignals}
+      />
+
+      <!-- Tool Component -->
+      <section class="tool-section" aria-label="Image Resize Tool">
+        <ImageResize client:load />
+        <TrustBar signals={seoContent.answerBox.trustSignals} />
+      </section>
+
+      <!-- Q&A Sections: Semantic structure for AI -->
+      <QASections
+        toolName={tool.name}
+        whatIs={seoContent.qa.whatIs}
+        howItWorks={seoContent.qa.howItWorks}
+        whyBrowserBased={seoContent.qa.whyBrowserBased}
+        faqs={seoContent.qa.faqs}
+        stats={toolData?.stats}
+      />
+
+      <RelatedTools currentToolId="image-resize" />
+
+    </div>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+  .tool-section {
+    margin: 2rem 0;
+  }
+</style>

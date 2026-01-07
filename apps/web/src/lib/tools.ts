@@ -1057,6 +1057,35 @@ export const tools: Tool[] = [
       }
 ]
   },
+  {
+    id: 'image-resize',
+    name: 'Image Resize',
+    description: 'Resize images to any dimension. Maintain aspect ratio or set custom sizes. Supports JPG, PNG, WebP.',
+    icon: '📐',
+    thumbnail: '/thumbnails/image-resize.svg',
+    category: 'media',
+    tier: 'free',
+    href: '/tools/image-resize',
+    color: 'from-blue-500 to-cyan-500',
+    tags: ['image', 'resize', 'scale', 'dimension', 'photo'],
+    popular: true,
+    seo: {
+      title: 'Resize Image Online Free - Change Dimensions | New Life',
+      metaDescription: 'Resize images to any dimension instantly. Maintain aspect ratio, set custom sizes. Supports JPG, PNG, WebP. 100% free, browser-based.',
+      h1: 'Resize Images Online - Free Tool',
+      keywords: ['resize image', 'image resizer', 'change image size', 'scale image', 'photo resize']
+    },
+    faq: [
+      { question: 'Can I maintain the aspect ratio?', answer: 'Yes, lock the aspect ratio to resize proportionally, or unlock to set custom dimensions.' },
+      { question: 'What formats are supported?', answer: 'JPG, JPEG, PNG, WebP, and GIF images can be resized and downloaded.' },
+      { question: 'Is there a size limit?', answer: 'No hard limit. Large images may take longer to process in browser.' }
+    ],
+    stats: [
+      { label: 'Formats supported', value: 'JPG, PNG, WebP, GIF' },
+      { label: 'Aspect ratio', value: 'Lock or custom dimensions' },
+      { label: 'Privacy', value: '100% client-side processing' }
+    ]
+  },
 
   // ═══════════════════════════════════════════════════════════════
   // UTILITY TOOLS
@@ -1384,10 +1413,217 @@ export const tools: Tool[] = [
       }
 ]
   },
+  {
+    id: 'qr-reader',
+    name: 'QR Code Reader',
+    description: 'Scan and decode QR codes from images or camera. Extract URLs, text, WiFi credentials, and contact info.',
+    icon: '📷',
+    thumbnail: '/thumbnails/qr-reader.svg',
+    category: 'utility',
+    tier: 'free',
+    href: '/tools/qr-reader',
+    color: 'from-purple-500 to-indigo-500',
+    tags: ['qr', 'scan', 'decode', 'reader', 'camera', 'barcode'],
+    popular: true,
+    seo: {
+      title: 'QR Code Reader Online Free - Scan from Image or Camera | New Life',
+      metaDescription: 'Scan QR codes from images or camera instantly. Extract URLs, text, WiFi credentials. 100% free, no app install needed.',
+      h1: 'QR Code Scanner & Reader - Free Online Tool',
+      keywords: ['qr code reader', 'qr scanner', 'scan qr code', 'decode qr', 'qr code scanner online']
+    },
+    faq: [
+      { question: 'Can I scan from a screenshot?', answer: 'Yes, upload any image containing a QR code and it will be decoded instantly.' },
+      { question: 'Does it use my camera?', answer: 'Only if you choose camera mode. You can also upload images. Camera access requires permission.' },
+      { question: 'What QR code types are supported?', answer: 'URLs, plain text, WiFi credentials, vCards, email, phone numbers, and more.' }
+    ],
+    stats: [
+      { label: 'Input modes', value: 'Image upload or live camera' },
+      { label: 'QR types', value: 'URL, text, WiFi, vCard, email, phone' },
+      { label: 'Privacy', value: '100% local processing' }
+    ]
+  },
+  {
+    id: 'unit-converter',
+    name: 'Unit Converter',
+    description: 'Convert between units of length, weight, temperature, volume, area, and more. Instant calculations.',
+    icon: '📏',
+    thumbnail: '/thumbnails/unit-converter.svg',
+    category: 'utility',
+    tier: 'free',
+    href: '/tools/unit-converter',
+    color: 'from-orange-500 to-amber-500',
+    tags: ['convert', 'units', 'length', 'weight', 'temperature', 'calculator'],
+    popular: true,
+    seo: {
+      title: 'Unit Converter Online Free - Length, Weight, Temperature | New Life',
+      metaDescription: 'Convert between units instantly. Length, weight, temperature, volume, area, speed, time. Free online converter, no signup required.',
+      h1: 'Unit Converter - Free Online Tool',
+      keywords: ['unit converter', 'convert units', 'length converter', 'weight converter', 'temperature converter']
+    },
+    faq: [
+      { question: 'What units can I convert?', answer: 'Length, weight/mass, temperature, volume, area, speed, time, and digital storage.' },
+      { question: 'How accurate are the conversions?', answer: 'Extremely accurate. We use precise conversion factors with up to 10 decimal places.' },
+      { question: 'Can I convert multiple values at once?', answer: 'Enter a value and see conversions to all related units instantly.' }
+    ],
+    stats: [
+      { label: 'Categories', value: '8 unit categories' },
+      { label: 'Total units', value: '100+ conversion units' },
+      { label: 'Precision', value: 'Up to 10 decimal places' }
+    ]
+  },
 
   // ═══════════════════════════════════════════════════════════════
   // AI TOOLS
   // ═══════════════════════════════════════════════════════════════
+  {
+    id: 'sentiment-analysis',
+    name: 'AI Sentiment Analysis',
+    description: 'Analyze text sentiment with AI. Detect positive, negative, or neutral tone. Runs 100% in your browser.',
+    icon: '😊',
+    thumbnail: '/thumbnails/sentiment-analysis.svg',
+    category: 'ai',
+    tier: 'free',
+    href: '/tools/sentiment-analysis',
+    color: 'from-pink-500 to-rose-500',
+    tags: ['ai', 'sentiment', 'text', 'emotion', 'analysis', 'nlp'],
+    popular: true,
+    seo: {
+      title: 'AI Sentiment Analysis Free Online - Analyze Text Emotion | New Life',
+      metaDescription: 'Analyze text sentiment with AI. Detect positive, negative, neutral emotions. 100% free, runs in browser, no data uploaded.',
+      h1: 'AI Sentiment Analysis - Free Online Tool',
+      keywords: ['sentiment analysis', 'text emotion', 'ai sentiment', 'analyze sentiment', 'positive negative text']
+    },
+    faq: [
+      { question: 'How does AI sentiment analysis work?', answer: 'A neural network model analyzes text patterns to determine emotional tone - positive, negative, or neutral.' },
+      { question: 'Is my text uploaded to a server?', answer: 'No, the AI model runs entirely in your browser. Your text stays private on your device.' },
+      { question: 'What languages are supported?', answer: 'English works best. The model may work with other languages but accuracy varies.' }
+    ],
+    stats: [
+      { label: 'AI model', value: 'DistilBERT sentiment classifier' },
+      { label: 'Model size', value: '~70MB (cached after first use)' },
+      { label: 'Privacy', value: '100% local processing' }
+    ]
+  },
+  {
+    id: 'object-detection',
+    name: 'AI Object Detection',
+    description: 'Detect and identify objects in images with AI. Draw bounding boxes around detected items. Runs 100% in your browser.',
+    icon: '🔍',
+    thumbnail: '/thumbnails/object-detection.svg',
+    category: 'ai',
+    tier: 'free',
+    href: '/tools/object-detection',
+    color: 'from-green-500 to-emerald-500',
+    tags: ['ai', 'object detection', 'image', 'recognition', 'computer vision'],
+    popular: true,
+    seo: {
+      title: 'AI Object Detection Free Online - Identify Objects in Images | New Life',
+      metaDescription: 'Detect and identify objects in images with AI. Draw bounding boxes, label items. 100% free, runs in browser, no upload needed.',
+      h1: 'AI Object Detection - Free Online Tool',
+      keywords: ['object detection', 'ai image analysis', 'detect objects', 'image recognition', 'computer vision']
+    },
+    faq: [
+      { question: 'What objects can it detect?', answer: 'The model can identify 80+ common objects including people, animals, vehicles, furniture, and everyday items.' },
+      { question: 'Is my image uploaded to a server?', answer: 'No, the AI model runs entirely in your browser. Your images stay private on your device.' },
+      { question: 'How accurate is the detection?', answer: 'Very accurate for common objects. The DETR model is state-of-the-art for object detection tasks.' }
+    ],
+    stats: [
+      { label: 'AI model', value: 'DETR (DEtection TRansformer)' },
+      { label: 'Object classes', value: '80+ detectable objects' },
+      { label: 'Privacy', value: '100% local processing' }
+    ]
+  },
+  {
+    id: 'image-captioning',
+    name: 'AI Image Captioning',
+    description: 'Generate descriptions for images using AI. Perfect for accessibility alt text, social media, and SEO. 100% browser-based.',
+    icon: 'AI',
+    thumbnail: '/thumbnails/image-captioning.svg',
+    category: 'ai',
+    tier: 'free',
+    href: '/tools/image-captioning',
+    color: 'from-pink-500 to-rose-500',
+    tags: ['ai', 'caption', 'description', 'alt text', 'accessibility', 'vision'],
+    popular: true,
+    releaseDate: '2025-01-07',
+    seo: {
+      title: 'AI Image Captioning Free - Generate Alt Text & Descriptions | New Life',
+      metaDescription: 'Generate image descriptions with AI. Create alt text for accessibility, social media captions, and SEO. 100% browser-based, private.',
+      h1: 'AI Image Captioning - Generate Image Descriptions Free',
+      keywords: ['ai image captioning', 'generate alt text', 'image description generator', 'accessibility alt text', 'auto caption images']
+    },
+    faq: [
+      { question: 'What is AI image captioning?', answer: 'AI image captioning uses vision-language models to analyze images and generate natural language descriptions. It understands objects, scenes, actions, and context.' },
+      { question: 'How can I use the generated captions?', answer: 'Use them as alt text for website accessibility, social media post descriptions, SEO image optimization, or content creation inspiration.' },
+      { question: 'Is this good for accessibility?', answer: 'Yes! Generated captions make excellent starting points for alt text. Screen readers use alt text to describe images to visually impaired users.' },
+      { question: 'Are my images uploaded anywhere?', answer: 'No. The AI model runs entirely in your browser using WebAssembly. Your images never leave your device.' }
+    ],
+    stats: [
+      { label: 'AI model', value: 'ViT-GPT2 Vision-Language Model' },
+      { label: 'Use cases', value: 'Alt text, social media, SEO' },
+      { label: 'Privacy', value: '100% local processing' }
+    ]
+  },
+  {
+    id: 'text-summarization',
+    name: 'AI Text Summarization',
+    description: 'Summarize long texts into concise summaries using AI. DistilBART model runs 100% in your browser for maximum privacy.',
+    icon: '📝',
+    thumbnail: '/thumbnails/text-summarization.svg',
+    category: 'ai',
+    tier: 'free',
+    href: '/tools/text-summarization',
+    color: 'from-blue-500 to-cyan-500',
+    tags: ['ai', 'summarize', 'text', 'tldr', 'condense', 'nlp'],
+    popular: true,
+    releaseDate: '2025-01-07',
+    seo: {
+      title: 'AI Text Summarization Free Online - Summarize Articles Instantly | New Life',
+      metaDescription: 'Summarize long articles, documents, and text with AI. Get concise TL;DR summaries instantly. 100% browser-based, private, no upload.',
+      h1: 'AI Text Summarization - Free Online Tool',
+      keywords: ['ai text summarization', 'summarize article', 'tldr generator', 'text condenser', 'ai summary tool']
+    },
+    faq: [
+      { question: 'How does AI text summarization work?', answer: 'The DistilBART model analyzes your text, identifies key information, and generates a condensed version that captures the main points.' },
+      { question: 'Is my text uploaded to a server?', answer: 'No, the AI model runs entirely in your browser. Your text stays private on your device.' },
+      { question: 'What is the ideal text length?', answer: 'Best results with 50-500 words. Very short texts may not summarize well. Very long texts may need to be processed in sections.' }
+    ],
+    stats: [
+      { label: 'AI model', value: 'DistilBART CNN summarizer' },
+      { label: 'Model size', value: '~300MB (cached after first use)' },
+      { label: 'Privacy', value: '100% local processing' }
+    ]
+  },
+  {
+    id: 'grammar-checker',
+    name: 'AI Grammar Checker',
+    description: 'Check grammar, spelling, and punctuation with AI. Get suggestions and explanations. 100% browser-based and private.',
+    icon: '✏️',
+    thumbnail: '/thumbnails/grammar-checker.svg',
+    category: 'ai',
+    tier: 'free',
+    href: '/tools/grammar-checker',
+    color: 'from-green-500 to-teal-500',
+    tags: ['ai', 'grammar', 'spelling', 'punctuation', 'writing', 'proofreading'],
+    popular: true,
+    releaseDate: '2025-01-07',
+    seo: {
+      title: 'AI Grammar Checker Free Online - Fix Writing Errors | New Life',
+      metaDescription: 'Check grammar, spelling, and punctuation with AI. Get suggestions with explanations. 100% browser-based, private, no upload.',
+      h1: 'AI Grammar Checker - Free Online Tool',
+      keywords: ['ai grammar checker', 'grammar check free', 'spelling checker', 'proofreading tool', 'fix grammar errors']
+    },
+    faq: [
+      { question: 'How does AI grammar checking work?', answer: 'The AI model analyzes your text for grammar, spelling, and punctuation errors, then suggests corrections with explanations.' },
+      { question: 'Is my text uploaded to a server?', answer: 'No, the AI model runs entirely in your browser. Your text stays private on your device.' },
+      { question: 'What types of errors does it catch?', answer: 'Grammar errors, spelling mistakes, punctuation issues, and common writing style problems.' }
+    ],
+    stats: [
+      { label: 'AI model', value: 'Flan-T5 language model' },
+      { label: 'Error types', value: 'Grammar, spelling, punctuation' },
+      { label: 'Privacy', value: '100% local processing' }
+    ]
+  },
   {
     id: 'image-upscaler',
     name: 'AI Image Upscaler',

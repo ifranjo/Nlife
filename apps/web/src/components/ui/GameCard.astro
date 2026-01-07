@@ -23,7 +23,7 @@ const statusLabel = game.status === 'live' ? 'Play Now' : 'Coming Soon';
   <!-- Header -->
   <div class="flex items-start justify-between mb-4">
     <div class="w-10 h-10 tool-icon">
-      <img src={game.thumbnail} alt="" class="w-full h-full" loading="lazy" />
+      <img src={game.thumbnail} alt={`${game.name} icon`} class="w-full h-full" loading="lazy" />
     </div>
     <div class="flex gap-2">
       {game.isNew && (

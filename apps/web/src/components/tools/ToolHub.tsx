@@ -25,7 +25,7 @@ const ToolCard: React.FC<ToolCardProps> = ({ tool }) => {
       {/* Header */}
       <div className="flex items-start justify-between mb-4">
         <div className="w-10 h-10 tool-icon">
-          <img src={tool.thumbnail} alt="" className="w-full h-full" loading="lazy" />
+          <img src={tool.thumbnail} alt={`${tool.name} icon`} className="w-full h-full" loading="lazy" />
         </div>
         <span className={`tag ${tagClass}`}>
           {tool.tier}

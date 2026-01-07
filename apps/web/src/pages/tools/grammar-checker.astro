@@ -1,0 +1,169 @@
+---
+/**
+ * Grammar Checker - AI-Native Tool Page
+ *
+ * Optimized for LLM extraction with:
+ * - TL;DR answer box (50-70 words)
+ * - Semantic Q&A sections
+ * - Full schema markup (SoftwareApplication, HowTo, FAQPage)
+ */
+import Layout from '../../layouts/Layout.astro';
+import TrustBar from '../../components/ui/TrustBar.astro';
+import Navbar from '../../components/ui/Navbar.astro';
+import Footer from '../../components/ui/Footer.astro';
+import AnswerBox from '../../components/seo/AnswerBox.astro';
+import QASections from '../../components/seo/QASections.astro';
+import RelatedTools from '../../components/seo/RelatedTools.astro';
+import { getToolById } from '../../lib/tools';
+import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
+import GrammarChecker from '../../components/tools/GrammarChecker';
+
+// Get tool data from Single Source of Truth (tools.ts)
+const toolData = getToolById('grammar-checker');
+if (!toolData) throw new Error('Tool not found: grammar-checker');
+
+// Tool metadata derived from registry
+const tool = {
+  id: toolData.id,
+  name: toolData.name,
+  category: toolData.category,
+  url: toolData.href
+};
+
+// AI-optimized content - SEO from tools.ts, extended content page-specific
+const seoContent = {
+  // Page meta from Single Source of Truth
+  title: toolData.seo?.title || `${toolData.name} - Free Online Tool | New Life Solutions`,
+  description: toolData.seo?.metaDescription || toolData.description,
+
+  // TL;DR Answer Box (50-70 words - this is what AI extracts)
+  answerBox: {
+    title: 'AI Grammar Checker - Free Online Tool',
+    queryTarget: 'How to Check Grammar with AI Free',
+    tldr: `Check grammar, spelling, and punctuation with our free AI-powered tool. The Flan-T5 model identifies errors and provides corrections with explanations. Paste your text, click check, and see highlighted issues with fix suggestions. The AI runs 100% in your browser - your text never leaves your device. First load downloads ~150MB model (cached for future use).`,
+    trustSignals: [
+      'Flan-T5 AI',
+      '100% private',
+      'Browser-based',
+      'Free forever'
+    ]
+  },
+
+  // Q&A Sections
+  qa: {
+    whatIs: {
+      answer: `Grammar checking with AI uses machine learning to identify and correct writing errors. This tool uses Flan-T5, a powerful language model that understands grammar rules, spelling conventions, and punctuation standards. It analyzes your text and suggests corrections with explanations to help you learn.`,
+      context: `AI grammar checkers are essential for students, professionals, and anyone who writes. They catch errors that spell-check misses, improve writing clarity, and help non-native speakers write more confidently. Unlike basic spell-checkers, AI understands context and grammar rules.`
+    },
+    howItWorks: {
+      steps: [
+        'Paste or type your text in the input area',
+        'Click "Load Model & Check Grammar" to start the AI analysis',
+        'On first use, the AI model (~150MB) will download and be cached',
+        'View highlighted errors color-coded by type (grammar, spelling, punctuation)',
+        'Click on each error to see the suggested fix and explanation',
+        'Apply fixes individually or use "Apply All Fixes" for quick correction',
+        'Copy the corrected text to clipboard when done'
+      ]
+    },
+    whyBrowserBased: {
+      benefits: [
+        'Maximum privacy: Your text never leaves your browser or gets sent to any server',
+        'Works offline: After initial model download, check grammar without internet',
+        'No limits: Check unlimited text without API quotas or usage restrictions',
+        'Instant results: No network latency, corrections happen locally on your device',
+        'Free forever: No subscription, no credits, no hidden costs'
+      ]
+    },
+    faqs: [
+      {
+        question: 'What types of errors does this catch?',
+        answer: `The AI grammar checker identifies grammar errors (subject-verb agreement, tense issues), spelling mistakes, punctuation problems, and common writing issues like "their/there/they're" confusion. Each error is color-coded and includes an explanation.`
+      },
+      {
+        question: 'Is this better than built-in spell check?',
+        answer: `Yes, AI grammar checking goes beyond basic spell-check. It understands context, catches grammar errors that spell-check misses (like "I seen that" instead of "I saw that"), and provides explanations to help you improve your writing.`
+      },
+      {
+        question: 'Is my text data uploaded to a server?',
+        answer: `No. The entire AI model runs in your browser using Transformers.js and WebAssembly. Your text is processed locally on your device and never transmitted to any server. Safe for confidential documents.`
+      },
+      {
+        question: 'Why is there a download on first use?',
+        answer: `The first time you use the tool, it downloads the Flan-T5 model (~150MB) to your browser cache. This one-time download enables all future grammar checks to happen instantly without server communication.`
+      },
+      {
+        question: 'Does it support languages other than English?',
+        answer: `This version is optimized for English. The AI may work with other languages but accuracy will vary significantly. For best results, use English text.`
+      },
+      {
+        question: 'Can I undo a correction?',
+        answer: `Yes, corrections are applied to your original text. If you apply a fix and want to undo it, simply edit the text box manually or reload the page and paste your original text again.`
+      }
+    ]
+  }
+};
+
+// Schema data
+const schemaData = {
+  toolId: tool.id,
+  toolName: tool.name,
+  description: seoContent.description,
+  category: tool.category,
+  steps: seoContent.qa.howItWorks.steps,
+  faqs: seoContent.qa.faqs,
+  url: tool.url
+};
+---
+
+<Layout
+  title={seoContent.title}
+  description={seoContent.description}
+  image="/thumbnails/grammar-checker.svg"
+>
+  <!-- Schema Markup for AI extraction -->
+  <SchemaMarkup {...schemaData} />
+
+  <Navbar />
+
+  <main class="pt-20 pb-16 px-6 min-h-screen">
+    <div class="max-w-3xl mx-auto">
+
+      <!-- Answer Box: AI extracts this first -->
+      <AnswerBox
+        title={seoContent.answerBox.title}
+        tldr={seoContent.answerBox.tldr}
+        toolName={tool.name}
+        queryTarget={seoContent.answerBox.queryTarget}
+        trustSignals={seoContent.answerBox.trustSignals}
+      />
+
+      <!-- Tool Component -->
+      <section class="tool-section" aria-label="Grammar Checker Tool">
+        <GrammarChecker client:load />
+        <TrustBar signals={seoContent.answerBox.trustSignals} />
+      </section>
+
+      <!-- Q&A Sections: Semantic structure for AI -->
+      <QASections
+        toolName={tool.name}
+        whatIs={seoContent.qa.whatIs}
+        howItWorks={seoContent.qa.howItWorks}
+        whyBrowserBased={seoContent.qa.whyBrowserBased}
+        faqs={seoContent.qa.faqs}
+        stats={toolData?.stats}
+      />
+
+      <RelatedTools currentToolId="grammar-checker" />
+
+    </div>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+  .tool-section {
+    margin: 2rem 0;
+  }
+</style>

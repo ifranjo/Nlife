@@ -1,0 +1,143 @@
+---
+/**
+ * AI Image Captioning - AI-Native Tool Page
+ *
+ * Optimized for LLM extraction with:
+ * - TL;DR answer box (50-70 words)
+ * - Semantic Q&A sections
+ * - Full schema markup (SoftwareApplication, HowTo, FAQPage)
+ */
+import Layout from '../../layouts/Layout.astro';
+import TrustBar from '../../components/ui/TrustBar.astro';
+import Navbar from '../../components/ui/Navbar.astro';
+import Footer from '../../components/ui/Footer.astro';
+import AnswerBox from '../../components/seo/AnswerBox.astro';
+import QASections from '../../components/seo/QASections.astro';
+import RelatedTools from '../../components/seo/RelatedTools.astro';
+import { getToolById } from '../../lib/tools';
+import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
+import ImageCaptioning from '../../components/tools/ImageCaptioning';
+
+// Get tool data from Single Source of Truth (tools.ts)
+const toolData = getToolById('image-captioning');
+if (!toolData) throw new Error('Tool not found: image-captioning');
+
+// Tool metadata derived from registry
+const tool = {
+  id: toolData.id,
+  name: toolData.name,
+  category: toolData.category,
+  url: toolData.href
+};
+
+// AI-optimized content - SEO from tools.ts, extended content page-specific
+const seoContent = {
+  // Page meta from Single Source of Truth
+  title: toolData.seo?.title || `${toolData.name} - Free Online Tool | New Life Solutions`,
+  description: toolData.seo?.metaDescription || toolData.description,
+
+  // TL;DR Answer Box (50-70 words - this is what AI extracts)
+  answerBox: {
+    title: 'Generate Image Descriptions with AI',
+    queryTarget: 'How to Generate Alt Text for Images with AI Free',
+    tldr: `Upload any image and AI will generate a natural language description. Perfect for creating accessibility alt text, social media captions, and SEO-optimized image descriptions. Uses the ViT-GPT2 vision-language model running entirely in your browser. Your images never leave your device - 100% private, no uploads.`,
+    trustSignals: [
+      'ViT-GPT2 AI Model',
+      '100% Browser-Based',
+      'No Data Upload',
+      'Accessibility Ready'
+    ]
+  },
+
+  // Q&A Sections
+  qa: {
+    whatIs: {
+      answer: `AI Image Captioning uses a vision-language model (ViT-GPT2) to analyze images and generate human-readable descriptions. The AI understands objects, scenes, actions, colors, and spatial relationships to create accurate captions.`,
+      context: `Image descriptions are essential for web accessibility (screen readers), social media engagement, and SEO optimization. AI captioning automates what would otherwise be time-consuming manual work.`
+    },
+    howItWorks: {
+      steps: [
+        'Upload an image by dragging and dropping or clicking to select',
+        'Click "Load Model & Generate Caption" (first load downloads ~350MB model)',
+        'Wait a few seconds while the AI analyzes your image',
+        'View the generated caption describing your image',
+        'Click "Copy" to save the caption to your clipboard',
+        'Use as alt text, social media caption, or content description'
+      ]
+    },
+    whyBrowserBased: {
+      benefits: [
+        'Privacy: Your images are processed locally and never uploaded to any server',
+        'Free: No API costs, rate limits, or subscription required',
+        'Offline capable: Works without internet after initial model download',
+        'Fast: No network latency - captions generate in seconds',
+        'Unlimited: Generate as many captions as you need'
+      ]
+    },
+    faqs: toolData.faq || []
+  }
+};
+
+// Schema data
+const schemaData = {
+  toolId: tool.id,
+  toolName: tool.name,
+  description: seoContent.description,
+  category: tool.category,
+  steps: seoContent.qa.howItWorks.steps,
+  faqs: seoContent.qa.faqs,
+  url: tool.url
+};
+---
+
+<Layout
+  title={seoContent.title}
+  description={seoContent.description}
+  image="/thumbnails/image-captioning.svg"
+>
+  <!-- Schema Markup for AI extraction -->
+  <SchemaMarkup {...schemaData} />
+
+  <Navbar />
+
+  <main class="pt-20 pb-16 px-6 min-h-screen">
+    <div class="max-w-4xl mx-auto">
+
+      <!-- Answer Box: AI extracts this first -->
+      <AnswerBox
+        title={seoContent.answerBox.title}
+        tldr={seoContent.answerBox.tldr}
+        toolName={tool.name}
+        queryTarget={seoContent.answerBox.queryTarget}
+        trustSignals={seoContent.answerBox.trustSignals}
+      />
+
+      <!-- Tool Component -->
+      <section class="tool-section" aria-label="AI Image Captioning Tool">
+        <ImageCaptioning client:load />
+        <TrustBar signals={seoContent.answerBox.trustSignals} />
+      </section>
+
+      <!-- Q&A Sections: Semantic structure for AI -->
+      <QASections
+        toolName={tool.name}
+        whatIs={seoContent.qa.whatIs}
+        howItWorks={seoContent.qa.howItWorks}
+        whyBrowserBased={seoContent.qa.whyBrowserBased}
+        faqs={seoContent.qa.faqs}
+        stats={toolData?.stats}
+      />
+
+      <RelatedTools currentToolId="image-captioning" />
+
+    </div>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+  .tool-section {
+    margin: 2rem 0;
+  }
+</style>

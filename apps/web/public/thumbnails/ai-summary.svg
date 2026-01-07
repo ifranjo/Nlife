@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
+  <rect width="120" height="120" rx="16" fill="#1a1a2e"/>
+  <rect x="20" y="25" width="55" height="70" rx="4" fill="#16213e" stroke="#0f3460" stroke-width="2"/>
+  <line x1="28" y1="38" x2="67" y2="38" stroke="#0f3460" stroke-width="2"/>
+  <line x1="28" y1="48" x2="60" y2="48" stroke="#0f3460" stroke-width="2"/>
+  <line x1="28" y1="58" x2="65" y2="58" stroke="#0f3460" stroke-width="2"/>
+  <line x1="28" y1="68" x2="55" y2="68" stroke="#0f3460" stroke-width="2"/>
+  <line x1="28" y1="78" x2="62" y2="78" stroke="#0f3460" stroke-width="2"/>
+  <rect x="60" y="50" width="40" height="45" rx="4" fill="#16213e" stroke="#00d9ff" stroke-width="2"/>
+  <line x1="68" y1="62" x2="92" y2="62" stroke="#00d9ff" stroke-width="2"/>
+  <line x1="68" y1="72" x2="88" y2="72" stroke="#00d9ff" stroke-width="2"/>
+  <line x1="68" y1="82" x2="85" y2="82" stroke="#00d9ff" stroke-width="2"/>
+  <circle cx="85" cy="35" r="12" fill="#0f3460" stroke="#00d9ff" stroke-width="2"/>
+  <text x="85" y="40" font-family="Arial" font-size="12" font-weight="bold" fill="#00d9ff" text-anchor="middle">AI</text>
+  <path d="M42 15 L50 25 M50 15 L42 25" stroke="#e94560" stroke-width="2" stroke-linecap="round"/>
+</svg>

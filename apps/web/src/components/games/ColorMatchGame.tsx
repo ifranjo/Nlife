@@ -520,6 +520,8 @@ export default function ColorMatchGame() {
             <span className="text-[var(--text-dim)]">Sound Effects</span>
             <button
               onClick={() => setSoundEnabled(!soundEnabled)}
+              aria-label={soundEnabled ? 'Disable sound effects' : 'Enable sound effects'}
+              aria-pressed={soundEnabled}
               className={`w-12 h-6 rounded-full transition-all relative ${
                 soundEnabled ? 'bg-[var(--success)]' : 'bg-[var(--border)]'
               }`}

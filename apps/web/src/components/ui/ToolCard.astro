@@ -22,7 +22,7 @@ const tagClass = tool.tier === 'free' ? 'tag-free' : tool.tier === 'pro' ? 'tag-
   <!-- Header -->
   <div class="flex items-start justify-between mb-4">
     <div class="w-10 h-10 tool-icon">
-      <img src={tool.thumbnail} alt="" class="w-full h-full" loading="lazy" />
+      <img src={tool.thumbnail} alt={`${tool.name} icon`} class="w-full h-full" loading="lazy" />
     </div>
     <span class={`tag ${tagClass}`}>{tool.tier}</span>
   </div>

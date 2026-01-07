@@ -1,0 +1,169 @@
+---
+/**
+ * Text Summarization - AI-Native Tool Page
+ *
+ * Optimized for LLM extraction with:
+ * - TL;DR answer box (50-70 words)
+ * - Semantic Q&A sections
+ * - Full schema markup (SoftwareApplication, HowTo, FAQPage)
+ */
+import Layout from '../../layouts/Layout.astro';
+import TrustBar from '../../components/ui/TrustBar.astro';
+import Navbar from '../../components/ui/Navbar.astro';
+import Footer from '../../components/ui/Footer.astro';
+import AnswerBox from '../../components/seo/AnswerBox.astro';
+import QASections from '../../components/seo/QASections.astro';
+import RelatedTools from '../../components/seo/RelatedTools.astro';
+import { getToolById } from '../../lib/tools';
+import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
+import TextSummarization from '../../components/tools/TextSummarization';
+
+// Get tool data from Single Source of Truth (tools.ts)
+const toolData = getToolById('text-summarization');
+if (!toolData) throw new Error('Tool not found: text-summarization');
+
+// Tool metadata derived from registry
+const tool = {
+  id: toolData.id,
+  name: toolData.name,
+  category: toolData.category,
+  url: toolData.href
+};
+
+// AI-optimized content - SEO from tools.ts, extended content page-specific
+const seoContent = {
+  // Page meta from Single Source of Truth
+  title: toolData.seo?.title || `${toolData.name} - Free Online Tool | New Life Solutions`,
+  description: toolData.seo?.metaDescription || toolData.description,
+
+  // TL;DR Answer Box (50-70 words - this is what AI extracts)
+  answerBox: {
+    title: 'AI Text Summarization - Free Online Tool',
+    queryTarget: 'How to Summarize Text with AI Free',
+    tldr: `Summarize long articles and documents with our free AI-powered tool. The DistilBART model condenses text into concise summaries while preserving key information. Paste your text, click summarize, and get a TL;DR version instantly. The AI runs 100% in your browser - your text never leaves your device. First load downloads ~300MB model (cached for future use).`,
+    trustSignals: [
+      'DistilBART AI',
+      '100% private',
+      'Browser-based',
+      'Free forever'
+    ]
+  },
+
+  // Q&A Sections
+  qa: {
+    whatIs: {
+      answer: `Text summarization uses artificial intelligence to condense long documents into shorter, coherent summaries. This tool uses DistilBART, a state-of-the-art encoder-decoder model trained to understand text structure and extract the most important information while maintaining readability and coherence.`,
+      context: `Text summarization is essential for quickly understanding long articles, research papers, news stories, and documents. It helps readers grasp key points without reading entire texts, saving time and improving information consumption efficiency.`
+    },
+    howItWorks: {
+      steps: [
+        'Paste or type your text in the input area (minimum 50 words recommended)',
+        'Click "Load Model & Summarize" to start the AI process',
+        'On first use, the AI model (~300MB) will download and be cached',
+        'The AI analyzes your text structure and identifies key information',
+        'View your condensed summary with word count comparison',
+        'See the compression ratio showing how much shorter the summary is',
+        'Copy the summary to clipboard with one click'
+      ]
+    },
+    whyBrowserBased: {
+      benefits: [
+        'Maximum privacy: Your text never leaves your browser or gets sent to any server',
+        'Works offline: After initial model download, summarize without internet',
+        'No limits: Summarize unlimited text without API quotas or usage restrictions',
+        'Instant results: No network latency, processing happens locally on your device',
+        'Free forever: No subscription, no credits, no hidden costs'
+      ]
+    },
+    faqs: [
+      {
+        question: 'How accurate is AI text summarization?',
+        answer: `The DistilBART model produces highly coherent summaries that capture main ideas well. It works best on well-structured text like news articles, essays, and reports. Results may vary with technical jargon, very short texts, or poorly formatted content.`
+      },
+      {
+        question: 'What is the ideal text length for summarization?',
+        answer: `Best results come from texts between 50-500 words. Very short texts (under 50 words) may not benefit from summarization. Very long texts may need to be processed in sections for optimal results.`
+      },
+      {
+        question: 'Is my text data uploaded to a server?',
+        answer: `No. The entire AI model runs in your browser using Transformers.js and WebAssembly. Your text is processed locally on your device and never transmitted to any server. This ensures complete privacy for sensitive content.`
+      },
+      {
+        question: 'Why is there a large download on first use?',
+        answer: `The first time you use the tool, it downloads the DistilBART model (~300MB) to your browser cache. This one-time download enables all future summarization to happen instantly without any server communication. The model stays cached for future use.`
+      },
+      {
+        question: 'What does the compression ratio mean?',
+        answer: `The compression ratio shows how much shorter the summary is compared to the original. For example, "75% shorter" means the summary is only 25% the length of the original text, condensing 4 pages into 1 page equivalent.`
+      },
+      {
+        question: 'Can I control the summary length?',
+        answer: `The AI automatically generates summaries of appropriate length based on input. Longer inputs typically produce longer summaries. The model targets 30-150 words for most summaries to balance brevity with completeness.`
+      }
+    ]
+  }
+};
+
+// Schema data
+const schemaData = {
+  toolId: tool.id,
+  toolName: tool.name,
+  description: seoContent.description,
+  category: tool.category,
+  steps: seoContent.qa.howItWorks.steps,
+  faqs: seoContent.qa.faqs,
+  url: tool.url
+};
+---
+
+<Layout
+  title={seoContent.title}
+  description={seoContent.description}
+  image="/thumbnails/text-summarization.svg"
+>
+  <!-- Schema Markup for AI extraction -->
+  <SchemaMarkup {...schemaData} />
+
+  <Navbar />
+
+  <main class="pt-20 pb-16 px-6 min-h-screen">
+    <div class="max-w-3xl mx-auto">
+
+      <!-- Answer Box: AI extracts this first -->
+      <AnswerBox
+        title={seoContent.answerBox.title}
+        tldr={seoContent.answerBox.tldr}
+        toolName={tool.name}
+        queryTarget={seoContent.answerBox.queryTarget}
+        trustSignals={seoContent.answerBox.trustSignals}
+      />
+
+      <!-- Tool Component -->
+      <section class="tool-section" aria-label="Text Summarization Tool">
+        <TextSummarization client:load />
+        <TrustBar signals={seoContent.answerBox.trustSignals} />
+      </section>
+
+      <!-- Q&A Sections: Semantic structure for AI -->
+      <QASections
+        toolName={tool.name}
+        whatIs={seoContent.qa.whatIs}
+        howItWorks={seoContent.qa.howItWorks}
+        whyBrowserBased={seoContent.qa.whyBrowserBased}
+        faqs={seoContent.qa.faqs}
+        stats={toolData?.stats}
+      />
+
+      <RelatedTools currentToolId="text-summarization" />
+
+    </div>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+  .tool-section {
+    margin: 2rem 0;
+  }
+</style>

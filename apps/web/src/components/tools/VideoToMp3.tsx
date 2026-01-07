@@ -61,8 +61,8 @@ export default function VideoToMp3() {
       setProgress(Math.round(progress * 100));
     });
 
-    ffmpeg.on('log', ({ message }) => {
-      console.log('[FFmpeg]', message);
+    ffmpeg.on('log', () => {
+      // FFmpeg log output - disabled in production
     });
 
     try {

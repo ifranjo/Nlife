@@ -1,0 +1,169 @@
+---
+/**
+ * Sentiment Analysis - AI-Native Tool Page
+ *
+ * Optimized for LLM extraction with:
+ * - TL;DR answer box (50-70 words)
+ * - Semantic Q&A sections
+ * - Full schema markup (SoftwareApplication, HowTo, FAQPage)
+ */
+import Layout from '../../layouts/Layout.astro';
+import TrustBar from '../../components/ui/TrustBar.astro';
+import Navbar from '../../components/ui/Navbar.astro';
+import Footer from '../../components/ui/Footer.astro';
+import AnswerBox from '../../components/seo/AnswerBox.astro';
+import QASections from '../../components/seo/QASections.astro';
+import RelatedTools from '../../components/seo/RelatedTools.astro';
+import { getToolById } from '../../lib/tools';
+import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
+import SentimentAnalysis from '../../components/tools/SentimentAnalysis';
+
+// Get tool data from Single Source of Truth (tools.ts)
+const toolData = getToolById('sentiment-analysis');
+if (!toolData) throw new Error('Tool not found: sentiment-analysis');
+
+// Tool metadata derived from registry
+const tool = {
+  id: toolData.id,
+  name: toolData.name,
+  category: toolData.category,
+  url: toolData.href
+};
+
+// AI-optimized content - SEO from tools.ts, extended content page-specific
+const seoContent = {
+  // Page meta from Single Source of Truth
+  title: toolData.seo?.title || `${toolData.name} - Free Online Tool | New Life Solutions`,
+  description: toolData.seo?.metaDescription || toolData.description,
+
+  // TL;DR Answer Box (50-70 words - this is what AI extracts)
+  answerBox: {
+    title: 'AI Sentiment Analysis - Free Online Tool',
+    queryTarget: 'How to Analyze Text Sentiment with AI Free',
+    tldr: `Analyze text sentiment with our free AI-powered tool. Detect whether text is positive, negative, or neutral using advanced DistilBERT neural network. Enter any text, click analyze, and see detailed sentiment scores with confidence levels. The AI model runs 100% in your browser - your text never leaves your device. First load downloads ~70MB model (cached for future use).`,
+    trustSignals: [
+      'DistilBERT AI',
+      '100% private',
+      'Browser-based',
+      'Free forever'
+    ]
+  },
+
+  // Q&A Sections
+  qa: {
+    whatIs: {
+      answer: `Sentiment analysis uses artificial intelligence to detect the emotional tone of text - whether it's positive, negative, or neutral. This tool uses DistilBERT, a state-of-the-art transformer model trained on millions of text samples to understand language patterns and emotional context. It analyzes word choice, phrasing, and context to determine overall sentiment.`,
+      context: `Sentiment analysis is widely used for analyzing customer feedback, social media monitoring, product reviews, survey responses, and brand reputation tracking. It helps businesses understand how people feel about their products or services at scale.`
+    },
+    howItWorks: {
+      steps: [
+        'Enter or paste the text you want to analyze in the text area',
+        'Click "Analyze Sentiment" to start the AI analysis',
+        'On first use, the AI model (~70MB) will download and be cached',
+        'View the overall sentiment (Positive/Negative/Neutral) with emoji indicator',
+        'Check the confidence score showing how certain the AI is about its prediction',
+        'Read the interpretation explaining what the sentiment means',
+        'Try sample texts to see how the AI analyzes different types of content'
+      ]
+    },
+    whyBrowserBased: {
+      benefits: [
+        'Maximum privacy: Your text never leaves your browser or gets sent to any server',
+        'Works offline: After initial model download, analyze sentiment without internet',
+        'No limits: Analyze unlimited text without API quotas or usage restrictions',
+        'Instant results: No network latency, predictions happen locally on your device',
+        'Free forever: No subscription, no credits, no hidden costs'
+      ]
+    },
+    faqs: [
+      {
+        question: 'How accurate is AI sentiment analysis?',
+        answer: `The DistilBERT model achieves 90%+ accuracy on standard sentiment benchmarks. It works best on clear, grammatically correct English text. Accuracy may vary with sarcasm, mixed emotions, or very short texts. The confidence score helps you understand how certain the AI is about each prediction.`
+      },
+      {
+        question: 'What languages does it support?',
+        answer: `This model is trained primarily on English text and works best for English language analysis. While it may produce results for other languages, accuracy will be significantly lower. For other languages, consider using language-specific sentiment models.`
+      },
+      {
+        question: 'Is my text data uploaded to a server?',
+        answer: `No. The entire AI model runs in your browser using Transformers.js. Your text is processed locally on your device and never transmitted to any server. This ensures complete privacy for sensitive content like customer feedback or confidential communications.`
+      },
+      {
+        question: 'Why is there a download on first use?',
+        answer: `The first time you use the tool, it downloads the DistilBERT model (~70MB) to your browser cache. This one-time download enables all future analysis to happen instantly without any server communication. The model stays cached, so subsequent uses are immediate.`
+      },
+      {
+        question: 'Can I analyze multiple texts at once?',
+        answer: `Currently, the tool analyzes one text at a time. For batch analysis of multiple texts, you'd need to analyze each one individually. The analysis is very fast (typically under 1 second), so processing multiple items is still quick.`
+      },
+      {
+        question: 'What does the confidence score mean?',
+        answer: `The confidence score (0-100%) indicates how certain the AI is about its prediction. A score above 80% suggests strong confidence. Lower scores (50-70%) may indicate mixed sentiment or ambiguous text. The AI always picks the most likely sentiment, but the confidence tells you how sure it is.`
+      }
+    ]
+  }
+};
+
+// Schema data
+const schemaData = {
+  toolId: tool.id,
+  toolName: tool.name,
+  description: seoContent.description,
+  category: tool.category,
+  steps: seoContent.qa.howItWorks.steps,
+  faqs: seoContent.qa.faqs,
+  url: tool.url
+};
+---
+
+<Layout
+  title={seoContent.title}
+  description={seoContent.description}
+  image="/thumbnails/sentiment-analysis.svg"
+>
+  <!-- Schema Markup for AI extraction -->
+  <SchemaMarkup {...schemaData} />
+
+  <Navbar />
+
+  <main class="pt-20 pb-16 px-6 min-h-screen">
+    <div class="max-w-3xl mx-auto">
+
+      <!-- Answer Box: AI extracts this first -->
+      <AnswerBox
+        title={seoContent.answerBox.title}
+        tldr={seoContent.answerBox.tldr}
+        toolName={tool.name}
+        queryTarget={seoContent.answerBox.queryTarget}
+        trustSignals={seoContent.answerBox.trustSignals}
+      />
+
+      <!-- Tool Component -->
+      <section class="tool-section" aria-label="Sentiment Analysis Tool">
+        <SentimentAnalysis client:load />
+        <TrustBar signals={seoContent.answerBox.trustSignals} />
+      </section>
+
+      <!-- Q&A Sections: Semantic structure for AI -->
+      <QASections
+        toolName={tool.name}
+        whatIs={seoContent.qa.whatIs}
+        howItWorks={seoContent.qa.howItWorks}
+        whyBrowserBased={seoContent.qa.whyBrowserBased}
+        faqs={seoContent.qa.faqs}
+        stats={toolData?.stats}
+      />
+
+      <RelatedTools currentToolId="sentiment-analysis" />
+
+    </div>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+  .tool-section {
+    margin: 2rem 0;
+  }
+</style>
