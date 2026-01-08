@@ -20,6 +20,12 @@ type ToolStat = {
   rank: number;
 };
 
+type ToolTotals = {
+  views: number;
+  uses: number;
+  uniques: number;
+};
+
 type ToolStatsResponse = {
   enabled: boolean;
   basis?: 'uses' | 'views';
@@ -29,6 +35,7 @@ type ToolStatsResponse = {
     uses: number;
     uniques: number;
   }>;
+  totals?: ToolTotals;
 };
 
 const formatCompact = (value: number) => {
@@ -151,6 +158,30 @@ export const ToolHub: React.FC<ToolHubProps> = ({ tools }) => {
   const [toolStats, setToolStats] = useState<Record<string, ToolStat>>({});
   const [statsBasis, setStatsBasis] = useState<'uses' | 'views'>('uses');
   const [topRankedIds, setTopRankedIds] = useState<string[]>([]);
+  const [totals, setTotals] = useState<ToolTotals | null>(null);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const params = new URLSearchParams(window.location.search);
+    const initialQuery = params.get('q');
+    if (initialQuery) {
+      setSearchQuery(initialQuery);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const params = new URLSearchParams(window.location.search);
+    const nextQuery = searchQuery.trim();
+    if (nextQuery) {
+      params.set('q', nextQuery);
+    } else {
+      params.delete('q');
+    }
+    const nextSearch = params.toString();
+    const nextUrl = `${window.location.pathname}${nextSearch ? `?${nextSearch}` : ''}${window.location.hash}`;
+    window.history.replaceState({}, '', nextUrl);
+  }, [searchQuery]);
 
   // Get unique categories
   const categories = useMemo(() => {
@@ -182,17 +213,19 @@ export const ToolHub: React.FC<ToolHubProps> = ({ tools }) => {
         const response = await fetch('/api/tool-stats');
         if (!response.ok) return;
         const data = (await response.json()) as ToolStatsResponse;
-        if (!data?.enabled || !Array.isArray(data.top)) {
+        if (!data?.enabled) {
           if (active) {
             setToolStats({});
             setTopRankedIds([]);
+            setTotals(null);
           }
           return;
         }
 
+        const topItems = Array.isArray(data.top) ? data.top : [];
         const nextStats: Record<string, ToolStat> = {};
         const nextRankedIds: string[] = [];
-        data.top.forEach((item, index) => {
+        topItems.forEach((item, index) => {
           nextStats[item.id] = {
             ...item,
             rank: index + 1
@@ -204,11 +237,13 @@ export const ToolHub: React.FC<ToolHubProps> = ({ tools }) => {
           setToolStats(nextStats);
           setStatsBasis(data.basis === 'views' ? 'views' : 'uses');
           setTopRankedIds(nextRankedIds);
+          setTotals(data.totals ?? null);
         }
       } catch {
         if (active) {
           setToolStats({});
           setTopRankedIds([]);
+          setTotals(null);
         }
       }
     };
@@ -225,6 +260,8 @@ export const ToolHub: React.FC<ToolHubProps> = ({ tools }) => {
       .map((id) => tools.find((tool) => tool.id === id))
       .filter((tool): tool is Tool => Boolean(tool));
   }, [topRankedIds, tools]);
+
+  const hasTotals = Boolean(totals && (totals.views || totals.uses || totals.uniques));
 
   const sendToolEvent = (toolId: string, event: 'hub_click') => {
     if (typeof window === 'undefined') return;
@@ -446,6 +483,23 @@ export const ToolHub: React.FC<ToolHubProps> = ({ tools }) => {
                   </button>
                 ))}
               </div>
+            </div>
+          </div>
+        )}
+
+        {hasTotals && totals && (
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 p-4 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg">
+            <div>
+              <div className="text-sm font-semibold text-[var(--text)]">{formatCompact(totals.uses)}</div>
+              <div className="text-[0.55rem] uppercase tracking-[0.2em] text-[var(--text-muted)]">All-time uses</div>
+            </div>
+            <div>
+              <div className="text-sm font-semibold text-[var(--text)]">{formatCompact(totals.views)}</div>
+              <div className="text-[0.55rem] uppercase tracking-[0.2em] text-[var(--text-muted)]">All-time views</div>
+            </div>
+            <div>
+              <div className="text-sm font-semibold text-[var(--text)]">{formatCompact(totals.uniques)}</div>
+              <div className="text-[0.55rem] uppercase tracking-[0.2em] text-[var(--text-muted)]">Visitors (30d)</div>
             </div>
           </div>
         )}

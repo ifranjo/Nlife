@@ -231,6 +231,31 @@ const breadcrumbSchema = {
         </p>
       </header>
 
+      <section class="how-section">
+        <h2 class="section-heading">
+          <span class="heading-line"></span>
+          How it works
+        </h2>
+
+        <div class="how-grid">
+          <div class="how-card">
+            <div class="how-step">01</div>
+            <h3 class="how-title">Choose a video tool</h3>
+            <p class="how-text">Pick compression, trimming, or conversion for your workflow.</p>
+          </div>
+          <div class="how-card">
+            <div class="how-step">02</div>
+            <h3 class="how-title">Process locally</h3>
+            <p class="how-text">Add files and let the browser handle the heavy lifting.</p>
+          </div>
+          <div class="how-card">
+            <div class="how-step">03</div>
+            <h3 class="how-title">Download quickly</h3>
+            <p class="how-text">Save optimized videos without uploads or accounts.</p>
+          </div>
+        </div>
+      </section>
+
       <section class="tools-grid tool-grid" aria-label="Video Tools Collection">
         {allVideoTools.map((tool) => (
           <ToolCard tool={tool} />
@@ -454,6 +479,52 @@ const breadcrumbSchema = {
     margin-bottom: 4rem;
     padding-top: 3rem;
     border-top: 1px solid var(--border);
+  }
+
+  .how-section {
+    margin-bottom: 4rem;
+    padding-top: 3rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .how-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .how-card {
+    border: 1px solid var(--border);
+    padding: 1.5rem;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.02) 0%,
+      rgba(255, 255, 255, 0.05) 100%
+    );
+  }
+
+  .how-step {
+    font-size: 0.625rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+  }
+
+  .how-title {
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+  }
+
+  .how-text {
+    font-size: 0.8125rem;
+    line-height: 1.6;
+    color: var(--text-dim);
+    margin: 0;
   }
 
   .workflows-grid {

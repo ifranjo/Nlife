@@ -308,26 +308,16 @@ npm run test -- new-tool
 
 ### SEO Victory Validation
 ```bash
-# Check all tools for SEO compliance
-npm run check-seo
-
-# Generate sitemap
-npm run sitemap
-
-# Validate schema markup
-npm run validate-schema
+# Run Astro validation + SEO-focused tests
+npm run check
+npx playwright test tests/seo-meta.spec.ts
+npx playwright test tests/guides-and-seo.spec.ts
 ```
 
 ### Accessibility Victory
 ```bash
 # Run accessibility tests
 npx playwright test tests/accessibility-comprehensive.spec.ts
-
-# Check color contrast
-npm run check-contrast
-
-# Validate form labels
-npm run validate-forms
 ```
 
 ## 🎯 Victory Decision Matrix

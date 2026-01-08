@@ -1,114 +1,128 @@
 # New Life Solutions - Performance Measurement Script (Windows)
-# PowerShell equivalent of measure-performance.sh
 # Usage: .\measure-performance.ps1 -Baseline -OutputFile "data\performance-YYYYMM.json"
 
 param(
     [switch]$Baseline,
-    [string]$OutputFile = ""
+    [string]$OutputFile = "",
+    [string]$BaseUrl = "https://www.newlifesolutions.dev"
 )
 
 Write-Host "=== New Life Solutions Performance Audit (Windows) ===" -ForegroundColor Cyan
 Write-Host "Timestamp: $((Get-Date).ToUniversalTime().ToString('yyyy-MM-dd HH:mm:ss UTC'))"
 Write-Host ""
 
-# Default output file
 if (-not $OutputFile) {
     $timestamp = Get-Date -Format "yyyyMMdd-HHmmss"
     $OutputFile = "..\..\data\performance-$timestamp.json"
 }
 
-# Create output directory
 $outputDir = Split-Path -Parent $OutputFile
 if (-not (Test-Path $outputDir)) {
     New-Item -ItemType Directory -Path $outputDir -Force | Out-Null
 }
 
-Write-Host "📊 Measuring Core Web Vitals..." -ForegroundColor Yellow
-Write-Host ""
+$lighthouseCmd = Get-Command lighthouse -ErrorAction SilentlyContinue
+$npxCmd = Get-Command npx -ErrorAction SilentlyContinue
 
-# Function to simulate Lighthouse-like metrics (since lighthouse may not be installed)
-function Get-SimulatedMetrics {
-    param($Url, $Device)
+if (-not $lighthouseCmd -and -not $npxCmd) {
+    Write-Error "Lighthouse is not available. Install it with: npm install -D lighthouse"
+    exit 1
+}
 
-    # Simulate realistic metrics based on device type
-    if ($Device -eq "desktop") {
-        $lcp = Get-Random -Minimum 2000 -Maximum 3500
-        $fid = Get-Random -Minimum 80 -Maximum 150
-        $cls = [Math]::Round((Get-Random -Minimum 0.05 -Maximum 0.15), 3)
-        $score = Get-Random -Minimum 70 -Maximum 85
+function Invoke-LighthouseRun {
+    param(
+        [string]$Url,
+        [string]$Preset
+    )
+
+    $tempFile = [System.IO.Path]::GetTempFileName()
+    $args = @(
+        $Url,
+        '--output=json',
+        "--output-path=$tempFile",
+        '--only-categories=performance',
+        "--preset=$Preset",
+        '--quiet',
+        '--chrome-flags=--headless'
+    )
+
+    if ($lighthouseCmd) {
+        & $lighthouseCmd.Source @args | Out-Null
     } else {
-        $lcp = Get-Random -Minimum 2500 -Maximum 4500
-        $fid = Get-Random -Minimum 100 -Maximum 250
-        $cls = [Math]::Round((Get-Random -Minimum 0.10 -Maximum 0.25), 3)
-        $score = Get-Random -Minimum 60 -Maximum 80
+        & $npxCmd.Source @('lighthouse') + $args | Out-Null
     }
 
+    if ($LASTEXITCODE -ne 0) {
+        Remove-Item $tempFile -Force -ErrorAction SilentlyContinue
+        throw "Lighthouse failed for $Url ($Preset)"
+    }
+
+    $report = Get-Content -Raw $tempFile | ConvertFrom-Json
+    Remove-Item $tempFile -Force -ErrorAction SilentlyContinue
+
     return @{
-        lcp = $lcp
-        fid = $fid
-        cls = $cls
-        score = $score
+        lcp_ms = [Math]::Round($report.audits.'largest-contentful-paint'.numericValue)
+        cls = [Math]::Round($report.audits.'cumulative-layout-shift'.numericValue, 3)
+        tbt_ms = [Math]::Round($report.audits.'total-blocking-time'.numericValue)
+        score = [Math]::Round($report.categories.performance.score * 100)
     }
 }
 
-# Test URLs (representative tools)
-$TOOLS = @(
-    @{ url = "https://www.newlifesolutions.dev/tools/pdf-merge"; name = "pdf-merge" }
-    @{ url = "https://www.newlifesolutions.dev/tools/image-compress"; name = "image-compress" }
-    @{ url = "https://www.newlifesolutions.dev/tools/video-compress"; name = "video-compress" }
-    @{ url = "https://www.newlifesolutions.dev/tools/ai-transcribe"; name = "ai-transcribe" }
-    @{ url = "https://www.newlifesolutions.dev/tools/json-format"; name = "json-format" }
+$tools = @(
+    @{ url = "$BaseUrl/tools/pdf-merge"; name = "pdf-merge" }
+    @{ url = "$BaseUrl/tools/image-compress"; name = "image-compress" }
+    @{ url = "$BaseUrl/tools/video-compressor"; name = "video-compressor" }
+    @{ url = "$BaseUrl/tools/audio-transcription"; name = "audio-transcription" }
+    @{ url = "$BaseUrl/tools/json-formatter"; name = "json-formatter" }
 )
 
-# Start building JSON output
 $output = @{
     audit_type = "performance"
-    baseline_mode = $Baseline
+    baseline_mode = [bool]$Baseline
     timestamp = (Get-Date).ToUniversalTime().ToString('yyyy-MM-dd HH:mm:ss UTC')
-    url_tested = "https://www.newlifesolutions.dev"
+    url_tested = $BaseUrl
+    audit_source = "lighthouse"
+    metric_notes = @{
+        tbt_ms = "Total Blocking Time (lab proxy for interactivity)"
+    }
     tools = @{}
 }
 
-foreach ($tool in $TOOLS) {
-    Write-Host "🛠️ Testing: $($tool.name)" -ForegroundColor Green
+try {
+    foreach ($tool in $tools) {
+        Write-Host "Testing: $($tool.name)" -ForegroundColor Green
 
-    # Simulate desktop metrics
-    $desktopMetrics = Get-SimulatedMetrics -Url $tool.url -Device "desktop"
+        $desktopMetrics = Invoke-LighthouseRun -Url $tool.url -Preset "desktop"
+        $mobileMetrics = Invoke-LighthouseRun -Url $tool.url -Preset "mobile"
 
-    # Simulate mobile metrics
-    $mobileMetrics = Get-SimulatedMetrics -Url $tool.url -Device "mobile"
-
-    $output.tools[$tool.name] = @{
-        desktop_lcp = $desktopMetrics.lcp
-        desktop_fid = $desktopMetrics.fid
-        desktop_cls = $desktopMetrics.cls
-        desktop_score = $desktopMetrics.score
-        mobile_lcp = $mobileMetrics.lcp
-        mobile_fid = $mobileMetrics.fid
-        mobile_cls = $mobileMetrics.cls
-        mobile_score = $mobileMetrics.score
+        $output.tools[$tool.name] = @{
+            desktop_lcp_ms = $desktopMetrics.lcp_ms
+            desktop_cls = $desktopMetrics.cls
+            desktop_tbt_ms = $desktopMetrics.tbt_ms
+            desktop_score = $desktopMetrics.score
+            mobile_lcp_ms = $mobileMetrics.lcp_ms
+            mobile_cls = $mobileMetrics.cls
+            mobile_tbt_ms = $mobileMetrics.tbt_ms
+            mobile_score = $mobileMetrics.score
+        }
     }
+} catch {
+    Write-Error $_
+    exit 1
 }
 
-# Convert to JSON and save
 $output | ConvertTo-Json -Depth 10 | Out-File -FilePath $OutputFile -Encoding UTF8
 
 Write-Host ""
-Write-Host "✅ Performance audit complete!" -ForegroundColor Green
+Write-Host "Performance audit complete." -ForegroundColor Green
 Write-Host "Results saved to: $OutputFile" -ForegroundColor Cyan
 Write-Host ""
 
-# Display summary
-Write-Host "📈 Summary:" -ForegroundColor Yellow
-Write-Host "============" -ForegroundColor Yellow
-
-foreach ($tool in $TOOLS) {
+foreach ($tool in $tools) {
     $data = $output.tools[$tool.name]
-    Write-Host "$($tool.name): LCP=$($data.desktop_lcp)ms, Score=$($data.desktop_score)/100"
+    if ($null -ne $data) {
+        Write-Host "$($tool.name): LCP=$($data.desktop_lcp_ms)ms, Score=$($data.desktop_score)/100"
+    }
 }
-
-Write-Host ""
-Write-Host "Note: These are simulated baseline metrics for initial setup." -ForegroundColor Gray
-Write-Host "Use actual Lighthouse CI for production measurements." -ForegroundColor Gray
 
 exit 0

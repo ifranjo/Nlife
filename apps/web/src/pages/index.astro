@@ -3,13 +3,40 @@
  * Index Page - Redirects to Tool Hub
  *
  * SEO Note: The splash page barrier was identified as hurting SEO and UX.
- * This page now performs an immediate redirect to /hub where the main content is.
+ * This page now uses a client-side redirect to /hub and keeps minimal schema signals for indexing.
  * The canonical URL remains "/" and /hub has its own canonical.
  */
 import '../styles/global.css';
 
-// Redirect to hub immediately
-return Astro.redirect('/hub', 301);
+const baseUrl = 'https://www.newlifesolutions.dev';
+const schema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebSite',
+      '@id': `${baseUrl}#website`,
+      url: baseUrl,
+      name: 'New Life Solutions',
+      publisher: {
+        '@type': 'Organization',
+        '@id': `${baseUrl}#org`,
+        name: 'New Life Solutions',
+        url: baseUrl
+      },
+      potentialAction: {
+        '@type': 'SearchAction',
+        target: `${baseUrl}/hub?q={search_term_string}`,
+        'query-input': 'required name=search_term_string'
+      }
+    },
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: baseUrl }
+      ]
+    }
+  ]
+};
 ---
 
 <!DOCTYPE html>
@@ -31,6 +58,7 @@ return Astro.redirect('/hub', 301);
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://www.newlifesolutions.dev/" />
     <meta property="og:site_name" content="New Life Solutions" />
+    <script type="application/ld+json" set:html={JSON.stringify(schema)} />
     <style>
       :root {
         --bg: #0a0a0a;
@@ -246,6 +274,11 @@ return Astro.redirect('/hub', 301);
     </style>
   </head>
   <body>
+    <script is:inline>
+      if (window.location.pathname === '/') {
+        window.location.replace('/hub');
+      }
+    </script>
     <div class="grid-bg"></div>
     <div class="scanlines"></div>
 

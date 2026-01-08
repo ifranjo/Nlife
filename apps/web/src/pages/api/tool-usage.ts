@@ -14,13 +14,13 @@ const parseToolIdFromPath = (path?: string | null) => {
   return match ? match[1] : null;
 };
 
-const getClientFingerprint = (headers: Headers, toolId: string) => {
+const getClientFingerprint = (headers: Headers, scope: string) => {
   const forwarded = headers.get('x-forwarded-for') || '';
   const ip = forwarded.split(',')[0]?.trim() || headers.get('x-real-ip') || '0.0.0.0';
   const ua = headers.get('user-agent') || 'unknown';
   const day = new Date().toISOString().slice(0, 10);
   return createHash('sha256')
-    .update(`${ip}|${ua}|${day}|${toolId}`)
+    .update(`${ip}|${ua}|${day}|${scope}`)
     .digest('hex')
     .slice(0, 32);
 };
@@ -48,15 +48,21 @@ export const POST: APIRoute = async ({ request }) => {
   if (event === 'view') {
     commands.push(['INCR', `tool:${toolId}:views`]);
     commands.push(['ZINCRBY', 'tools:rank:views', 1, toolId]);
+    commands.push(['INCR', 'tools:total:views']);
 
     const fingerprint = getClientFingerprint(request.headers, toolId);
     commands.push(['SADD', `tool:${toolId}:unique:30d`, fingerprint]);
     commands.push(['EXPIRE', `tool:${toolId}:unique:30d`, UNIQUE_TTL_SECONDS]);
+
+    const visitorFingerprint = getClientFingerprint(request.headers, 'site');
+    commands.push(['SADD', 'tools:unique:30d', visitorFingerprint]);
+    commands.push(['EXPIRE', 'tools:unique:30d', UNIQUE_TTL_SECONDS]);
   }
 
   if (event === 'use' || event === 'download' || event === 'hub_click') {
     commands.push(['INCR', `tool:${toolId}:uses`]);
     commands.push(['ZINCRBY', 'tools:rank:uses', 1, toolId]);
+    commands.push(['INCR', 'tools:total:uses']);
   }
 
   if (commands.length) {

@@ -32,12 +32,134 @@ const allHubItems = [...tools, ...gamesAsTools];
 // SEO metadata
 const title = 'Free Online Tools for PDF, Images, Video | New Life Solutions';
 const description = 'Merge PDFs, compress images, trim video, and more with privacy-first tools that run entirely in your browser. No uploads, no signup, works offline.';
+const baseUrl = 'https://www.newlifesolutions.dev';
+const currentDate = new Date().toISOString().split('T')[0];
+const lastUpdated = new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+
+const faqs = [
+  {
+    question: 'Are these tools really free?',
+    answer: 'Yes. All core tools are free to use with no sign-up, no watermarks, and no daily limits.'
+  },
+  {
+    question: 'Do you upload my files to a server?',
+    answer: 'No. All processing happens in your browser. Files stay on your device and are never uploaded.'
+  },
+  {
+    question: 'Can I use the tools offline?',
+    answer: 'Yes. After the first load, most tools work offline because the required code is cached in your browser.'
+  },
+  {
+    question: 'What file size limits should I expect?',
+    answer: 'Typical limits are PDF 50MB, images 10MB, video 500MB, and audio 100MB. Performance can vary by device.'
+  },
+  {
+    question: 'Which browsers are supported?',
+    answer: 'Chrome, Edge, Firefox, and Safari are supported. For best results, use the latest version.'
+  }
+];
+
+const hubSchema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Organization',
+      '@id': `${baseUrl}#org`,
+      name: 'New Life Solutions',
+      url: baseUrl,
+      logo: `${baseUrl}/favicon.svg`,
+      sameAs: ['https://github.com/newlifesolutions']
+    },
+    {
+      '@type': 'WebSite',
+      '@id': `${baseUrl}#website`,
+      url: baseUrl,
+      name: 'New Life Solutions',
+      publisher: { '@id': `${baseUrl}#org` },
+      inLanguage: 'en-US',
+      potentialAction: {
+        '@type': 'SearchAction',
+        target: `${baseUrl}/hub?q={search_term_string}`,
+        'query-input': 'required name=search_term_string'
+      }
+    },
+    {
+      '@type': ['WebPage', 'CollectionPage'],
+      '@id': `${baseUrl}/hub#webpage`,
+      url: `${baseUrl}/hub`,
+      name: title,
+      description,
+      dateModified: currentDate,
+      inLanguage: 'en-US',
+      isPartOf: { '@id': `${baseUrl}#website` },
+      about: { '@id': `${baseUrl}#org` },
+      mainEntity: { '@id': `${baseUrl}/hub#itemlist` }
+    },
+    {
+      '@type': 'ItemList',
+      '@id': `${baseUrl}/hub#itemlist`,
+      name: 'Free online tools',
+      numberOfItems: allHubItems.length,
+      itemListElement: allHubItems.slice(0, 10).map((tool, index) => ({
+        '@type': 'ListItem',
+        position: index + 1,
+        name: tool.name,
+        description: tool.description,
+        url: `${baseUrl}${tool.href}`
+      }))
+    },
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: baseUrl },
+        { '@type': 'ListItem', position: 2, name: 'Tool Hub', item: `${baseUrl}/hub` }
+      ]
+    },
+    {
+      '@type': 'FAQPage',
+      mainEntity: faqs.map((faq) => ({
+        '@type': 'Question',
+        name: faq.question,
+        acceptedAnswer: { '@type': 'Answer', text: faq.answer }
+      }))
+    }
+  ]
+};
 ---
 
 <Layout title={title} description={description} canonicalUrl="https://www.newlifesolutions.dev/">
   <Navbar />
   <main class="pt-16">
     <Hero />
+
+    <section class="py-16 px-6 border-t border-[var(--border)]">
+      <div class="max-w-5xl mx-auto">
+        <div class="text-center mb-10">
+          <div class="text-[0.625rem] uppercase tracking-[0.3em] text-[var(--text-muted)] mb-4">How it works</div>
+          <h2 class="text-xl sm:text-2xl font-semibold mb-4">Three steps, all in your browser</h2>
+          <p class="text-[var(--text-dim)] text-sm max-w-2xl mx-auto leading-relaxed">
+            Pick a tool, add your files, and download the result. Nothing is uploaded to a server.
+          </p>
+        </div>
+        <ol class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-left">
+          <li class="glass-card p-5">
+            <div class="text-[0.625rem] uppercase tracking-[0.2em] text-[var(--text-muted)]">Step 1</div>
+            <h3 class="mt-3 text-sm font-semibold text-[var(--text)]">Choose a tool</h3>
+            <p class="mt-2 text-sm text-[var(--text-dim)]">Find the PDF, image, video, or AI tool you need.</p>
+          </li>
+          <li class="glass-card p-5">
+            <div class="text-[0.625rem] uppercase tracking-[0.2em] text-[var(--text-muted)]">Step 2</div>
+            <h3 class="mt-3 text-sm font-semibold text-[var(--text)]">Add your files</h3>
+            <p class="mt-2 text-sm text-[var(--text-dim)]">Drag and drop or select files. Processing stays local.</p>
+          </li>
+          <li class="glass-card p-5">
+            <div class="text-[0.625rem] uppercase tracking-[0.2em] text-[var(--text-muted)]">Step 3</div>
+            <h3 class="mt-3 text-sm font-semibold text-[var(--text)]">Download instantly</h3>
+            <p class="mt-2 text-sm text-[var(--text-dim)]">Save results right away. No accounts, no waiting.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
 
     <!-- Tool Hub with Search and Filters -->
     <section id="tools" class="py-20 px-6">
@@ -50,6 +172,9 @@ const description = 'Merge PDFs, compress images, trim video, and more with priv
           </h1>
           <p class="text-[var(--text-dim)] text-sm max-w-2xl mx-auto leading-relaxed">
             Search {allHubItems.length} privacy-first tools and games. Filter by category, sort by popularity, and work entirely in your browser.
+          </p>
+          <p class="text-[0.625rem] uppercase tracking-[0.2em] text-[var(--text-muted)] mt-4">
+            Updated {lastUpdated}
           </p>
         </div>
 
@@ -75,29 +200,80 @@ const description = 'Merge PDFs, compress images, trim video, and more with priv
         </div>
       </div>
     </section>
+
+    <section id="faq" class="py-20 px-6 border-t border-[var(--border)]">
+      <div class="max-w-4xl mx-auto">
+        <div class="text-center mb-10">
+          <div class="text-[0.625rem] uppercase tracking-[0.3em] text-[var(--text-muted)] mb-4">FAQ</div>
+          <h2 class="text-xl sm:text-2xl font-semibold mb-4">Common questions</h2>
+          <p class="text-[var(--text-dim)] text-sm max-w-2xl mx-auto leading-relaxed">
+            Quick answers about privacy, offline use, and browser support.
+          </p>
+        </div>
+        <div class="faq-list" itemscope itemtype="https://schema.org/FAQPage">
+          {faqs.map((faq) => (
+            <details class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+              <summary itemprop="name" class="faq-question">
+                {faq.question}
+              </summary>
+              <div itemprop="acceptedAnswer" itemscope itemtype="https://schema.org/Answer" class="faq-answer">
+                <p itemprop="text">{faq.answer}</p>
+              </div>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
   </main>
   <Footer />
 </Layout>
 
 <!-- JSON-LD Structured Data for SEO -->
-<script type="application/ld+json" set:html={JSON.stringify({
-  "@context": "https://schema.org",
-  "@type": "WebPage",
-  "name": title,
-  "description": description,
-  "url": "https://www.newlifesolutions.dev/",
-  "about": {
-    "@type": "Thing",
-    "name": "Browser-based productivity tools"
-  },
-  "mainEntity": {
-    "@type": "ItemList",
-    "itemListElement": tools.slice(0, 5).map((tool, index) => ({
-      "@type": "ListItem",
-      "position": index + 1,
-      "name": tool.name,
-      "description": tool.description,
-      "url": `https://www.newlifesolutions.dev${tool.href}`
-    }))
+<script type="application/ld+json" set:html={JSON.stringify(hubSchema)} />
+
+<style>
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    max-width: 48rem;
+    margin: 0 auto;
   }
-})} />
+
+  .faq-item {
+    border: 1px solid var(--border);
+    background: var(--bg-secondary);
+  }
+
+  .faq-question {
+    padding: 1rem 1.25rem;
+    font-size: 0.875rem;
+    color: var(--text);
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .faq-question::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-question::after {
+    content: '+';
+    font-size: 1rem;
+    color: var(--text-muted);
+  }
+
+  .faq-item[open] .faq-question::after {
+    content: '-';
+  }
+
+  .faq-answer {
+    padding: 0 1.25rem 1rem;
+    font-size: 0.8125rem;
+    line-height: 1.6;
+    color: var(--text-dim);
+  }
+</style>

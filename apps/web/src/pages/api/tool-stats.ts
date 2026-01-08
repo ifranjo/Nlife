@@ -25,6 +25,12 @@ const parseTopList = (raw: unknown) => {
   return result;
 };
 
+const parseTotals = (results: Array<{ result: unknown }> | null | undefined, offset = 0) => ({
+  views: normalizeNumber(results?.[offset]?.result),
+  uses: normalizeNumber(results?.[offset + 1]?.result),
+  uniques: normalizeNumber(results?.[offset + 2]?.result)
+});
+
 export const GET: APIRoute = async () => {
   if (!kvEnabled) {
     return new Response(JSON.stringify({ enabled: false, top: [] }), {
@@ -35,6 +41,12 @@ export const GET: APIRoute = async () => {
       }
     });
   }
+
+  const totalsCommands: Array<[string, ...Array<string | number>]> = [
+    ['GET', 'tools:total:views'],
+    ['GET', 'tools:total:uses'],
+    ['SCARD', 'tools:unique:30d']
+  ];
 
   let basis: 'uses' | 'views' = 'uses';
   let topResponse = await kvCommand<Array<string>>(
@@ -59,7 +71,9 @@ export const GET: APIRoute = async () => {
   }
 
   if (!topList.length) {
-    return new Response(JSON.stringify({ enabled: true, top: [], basis }), {
+    const totalResults = await kvPipeline(totalsCommands);
+    const totals = parseTotals(totalResults);
+    return new Response(JSON.stringify({ enabled: true, top: [], basis, totals }), {
       status: 200,
       headers: {
         'Content-Type': 'application/json',
@@ -74,6 +88,8 @@ export const GET: APIRoute = async () => {
     statCommands.push(['GET', `tool:${entry.id}:uses`]);
     statCommands.push(['SCARD', `tool:${entry.id}:unique:30d`]);
   });
+  const totalsOffset = statCommands.length;
+  statCommands.push(...totalsCommands);
 
   const statResults = await kvPipeline(statCommands);
   const top = topList.map((entry, index) => {
@@ -88,8 +104,9 @@ export const GET: APIRoute = async () => {
       uniques
     };
   });
+  const totals = parseTotals(statResults, totalsOffset);
 
-  return new Response(JSON.stringify({ enabled: true, top, basis }), {
+  return new Response(JSON.stringify({ enabled: true, top, basis, totals }), {
     status: 200,
     headers: {
       'Content-Type': 'application/json',
