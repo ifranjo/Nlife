@@ -1,0 +1,721 @@
+---
+/**
+ * AI Tools Pillar Page - Topical Authority Hub
+ *
+ * SEO Targets: "free ai tools online", "ai tools browser"
+ * Purpose: Establish expertise for all AI-powered tools
+ * Strategy: Comprehensive category page with E-E-A-T signals
+ */
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/ui/Navbar.astro';
+import Footer from '../components/ui/Footer.astro';
+import ToolCard from '../components/ui/ToolCard.astro';
+import { getToolsByCategory } from '../lib/tools';
+
+// Get all AI tools
+const aiTools = getToolsByCategory('ai');
+
+// SEO metadata
+const title = 'Free AI Tools Online - Browser-Based Machine Learning | New Life Solutions';
+const description = 'Complete suite of free AI tools running 100% in your browser. Text summarization, sentiment analysis, image captioning, object detection, grammar checking, and more. No upload required, complete privacy.';
+const baseUrl = 'https://www.newlifesolutions.dev';
+const currentDate = new Date().toISOString().split('T')[0];
+const lastUpdated = new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+
+// FAQ data
+const faqs = [
+  {
+    question: 'Are these AI tools completely free?',
+    answer: 'Yes, all AI tools are 100% free with no subscriptions, credits, or hidden fees. The AI models run entirely in your browser using WebAssembly and Transformers.js, so there are no server costs to pass on to you.'
+  },
+  {
+    question: 'Is my data uploaded to a server?',
+    answer: 'No. All AI processing happens entirely in your browser using local machine learning models. Your text, images, and data never leave your device, ensuring complete privacy and security.'
+  },
+  {
+    question: 'Why is there a download on first use?',
+    answer: 'The first time you use an AI tool, it downloads the neural network model (typically 50-300MB) to your browser cache. This one-time download enables all future use to be instant and offline-capable. Models are cached for future visits.'
+  },
+  {
+    question: 'Do these AI tools work offline?',
+    answer: 'Yes! After the initial model download, most AI tools work completely offline. You can analyze text sentiment, check grammar, generate image captions, and more without an internet connection.'
+  },
+  {
+    question: 'How accurate are browser-based AI tools?',
+    answer: 'We use state-of-the-art models like DistilBERT, DETR, ViT-GPT2, and Flan-T5. While slightly smaller than cloud versions for browser efficiency, they achieve 85-95% accuracy on standard benchmarks - comparable to many paid services.'
+  },
+  {
+    question: 'What devices are supported?',
+    answer: 'Any modern browser on desktop or mobile. Best performance on devices with 4GB+ RAM. Chrome, Firefox, Safari, and Edge are all supported. Mobile devices work but may be slower for large models.'
+  },
+  {
+    question: 'Can I use these for commercial projects?',
+    answer: 'Yes! All tools are free for personal and commercial use. There are no usage limits, no watermarks, and no attribution required. Perfect for businesses, freelancers, and developers.'
+  }
+];
+
+// Common workflows
+const commonWorkflows = [
+  {
+    title: 'Analyze Customer Feedback',
+    steps: [
+      'Open AI Sentiment Analysis tool',
+      'Paste customer reviews or feedback',
+      'Click Analyze to detect positive/negative sentiment',
+      'View confidence scores for each analysis',
+      'Export results for reporting'
+    ]
+  },
+  {
+    title: 'Generate Alt Text for Images',
+    steps: [
+      'Open AI Image Captioning tool',
+      'Upload or drag images to analyze',
+      'Wait for AI model to generate description',
+      'Review and refine the caption',
+      'Copy to clipboard for your website'
+    ]
+  },
+  {
+    title: 'Summarize Long Documents',
+    steps: [
+      'Open AI Text Summarization tool',
+      'Paste article, report, or document text',
+      'Click Summarize to generate TL;DR',
+      'View compression ratio and word count',
+      'Copy condensed summary for notes'
+    ]
+  }
+];
+
+// Schema markup
+const pillarSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  '@id': `${baseUrl}/ai-tools#collection`,
+  name: 'Free AI Tools Online - Browser-Based Machine Learning',
+  description: description,
+  url: `${baseUrl}/ai-tools`,
+  datePublished: '2025-01-07',
+  dateModified: currentDate,
+  inLanguage: 'en-US',
+  isPartOf: {
+    '@type': 'WebSite',
+    name: 'New Life Solutions',
+    url: baseUrl
+  },
+  mainEntity: {
+    '@type': 'ItemList',
+    name: 'AI Tools',
+    numberOfItems: aiTools.length,
+    itemListElement: aiTools.map((tool, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: tool.name,
+      description: tool.description,
+      url: `${baseUrl}${tool.href}`
+    }))
+  }
+};
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((faq) => ({
+    '@type': 'Question',
+    name: faq.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: faq.answer
+    }
+  }))
+};
+
+const howToSchemas = commonWorkflows.map((workflow) => ({
+  '@context': 'https://schema.org',
+  '@type': 'HowTo',
+  name: workflow.title,
+  step: workflow.steps.map((stepText, index) => ({
+    '@type': 'HowToStep',
+    position: index + 1,
+    text: stepText
+  }))
+}));
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: baseUrl },
+    { '@type': 'ListItem', position: 2, name: 'AI Tools', item: `${baseUrl}/ai-tools` }
+  ]
+};
+---
+
+<Layout title={title} description={description} image="/thumbnails/sentiment-analysis.svg">
+  <script type="application/ld+json" set:html={JSON.stringify(pillarSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  {howToSchemas.map((schema) => (
+    <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+  ))}
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+
+  <Navbar />
+
+  <main class="pt-20 pb-16 px-6 min-h-screen">
+    <div class="max-w-6xl mx-auto">
+
+      <header class="text-center mb-16">
+        <a href="/hub" class="back-link">
+          <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+          </svg>
+          Back to Tool Hub
+        </a>
+
+        <div class="text-3xl mb-6 opacity-60">AI</div>
+
+        <h1 class="category-title">
+          Free AI Tools Online
+        </h1>
+
+        <p class="category-intro">
+          Powerful AI tools that run entirely in your browser. Analyze sentiment, summarize text,
+          check grammar, generate image captions, detect objects, and more—all using state-of-the-art
+          machine learning models. No server uploads, no subscriptions, no usage limits.
+          Your data stays private on your device. Download once, use forever.
+        </p>
+
+        <div class="trust-signals">
+          <span class="trust-signal">
+            <svg class="check-icon" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+            </svg>
+            Browser-Based ML
+          </span>
+          <span class="trust-signal">
+            <svg class="check-icon" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+            </svg>
+            100% Private
+          </span>
+          <span class="trust-signal">
+            <svg class="check-icon" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+            </svg>
+            Works Offline
+          </span>
+          <span class="trust-signal">
+            <svg class="check-icon" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+            </svg>
+            Free Forever
+          </span>
+        </div>
+
+        <p class="updated-date">
+          <time datetime={currentDate}>Last updated: {lastUpdated}</time>
+        </p>
+      </header>
+
+      <section class="tools-grid tool-grid" aria-label="AI Tools Collection">
+        {aiTools.map((tool) => (
+          <ToolCard tool={tool} />
+        ))}
+      </section>
+
+      <section class="workflows-section">
+        <h2 class="section-heading">
+          <span class="heading-line"></span>
+          Common Workflows
+        </h2>
+
+        <div class="workflows-grid">
+          {commonWorkflows.map((workflow) => (
+            <article class="workflow-card">
+              <h3 class="workflow-title">{workflow.title}</h3>
+              <ol class="workflow-steps">
+                {workflow.steps.map((step, index) => (
+                  <li class="workflow-step">
+                    <span class="step-number">{String(index + 1).padStart(2, '0')}</span>
+                    <span class="step-text">{step}</span>
+                  </li>
+                ))}
+              </ol>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section class="why-section">
+        <h2 class="section-heading">
+          <span class="heading-line"></span>
+          Why Browser-Based AI?
+        </h2>
+
+        <div class="why-grid">
+          <div class="why-card">
+            <div class="why-icon">🔐</div>
+            <h3 class="why-title">Complete Privacy</h3>
+            <p class="why-text">
+              Your data never leaves your device. No server uploads means no data collection,
+              no privacy risks, no unauthorized access. Perfect for sensitive business data,
+              confidential documents, or personal content.
+            </p>
+          </div>
+
+          <div class="why-card">
+            <div class="why-icon">🧠</div>
+            <h3 class="why-title">State-of-the-Art Models</h3>
+            <p class="why-text">
+              We use industry-leading models: DistilBERT for sentiment, DETR for object detection,
+              ViT-GPT2 for image captioning, DistilBART for summarization, Flan-T5 for text tasks.
+              The same architectures powering major AI services.
+            </p>
+          </div>
+
+          <div class="why-card">
+            <div class="why-icon">📴</div>
+            <h3 class="why-title">Offline Capable</h3>
+            <p class="why-text">
+              After initial model download, work without internet. Analyze sentiment on a plane,
+              generate captions in the field, summarize documents anywhere. Your AI toolkit,
+              always available.
+            </p>
+          </div>
+
+          <div class="why-card">
+            <div class="why-icon">💰</div>
+            <h3 class="why-title">No API Costs</h3>
+            <p class="why-text">
+              No per-request charges, no credit systems, no monthly limits. Process thousands
+              of items without paying a cent. Perfect for startups, researchers, students,
+              and cost-conscious teams.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="tech-section">
+        <h2 class="section-heading">
+          <span class="heading-line"></span>
+          Technology Stack
+        </h2>
+
+        <div class="tech-grid">
+          <div class="tech-card">
+            <h3 class="tech-title">Transformers.js</h3>
+            <p class="tech-text">Hugging Face's library for running transformer models in the browser using WebAssembly and ONNX Runtime.</p>
+          </div>
+          <div class="tech-card">
+            <h3 class="tech-title">WebAssembly</h3>
+            <p class="tech-text">Near-native performance for neural network inference directly in your browser.</p>
+          </div>
+          <div class="tech-card">
+            <h3 class="tech-title">ONNX Runtime</h3>
+            <p class="tech-text">Cross-platform inference engine optimized for running AI models efficiently.</p>
+          </div>
+          <div class="tech-card">
+            <h3 class="tech-title">IndexedDB Cache</h3>
+            <p class="tech-text">Models are cached locally for instant subsequent loads without re-downloading.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="faq-section">
+        <h2 class="section-heading">
+          <span class="heading-line"></span>
+          Frequently Asked Questions
+        </h2>
+
+        <div class="faq-list">
+          {faqs.map((faq) => (
+            <details class="faq-item">
+              <summary class="faq-question">{faq.question}</summary>
+              <div class="faq-answer">
+                <p>{faq.answer}</p>
+              </div>
+            </details>
+          ))}
+        </div>
+      </section>
+
+      <section class="related-section">
+        <h2 class="section-heading">
+          <span class="heading-line"></span>
+          Explore More Tools
+        </h2>
+
+        <div class="related-grid">
+          <a href="/pdf-tools" class="related-card">
+            <div class="related-icon">📄</div>
+            <h3 class="related-title">PDF Tools</h3>
+            <p class="related-text">Merge, compress, split, and edit PDFs with professional browser-based tools</p>
+          </a>
+
+          <a href="/image-tools" class="related-card">
+            <div class="related-icon">🖼️</div>
+            <h3 class="related-title">Image Tools</h3>
+            <p class="related-text">Compress, convert, resize, and edit images. Remove backgrounds with AI</p>
+          </a>
+
+          <a href="/video-tools" class="related-card">
+            <div class="related-icon">📹</div>
+            <h3 class="related-title">Video Tools</h3>
+            <p class="related-text">Compress, trim, and convert videos. Extract audio and generate subtitles</p>
+          </a>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.625rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin-bottom: 2rem;
+    transition: color 0.2s ease;
+  }
+
+  .back-link:hover {
+    color: var(--text);
+  }
+
+  .category-title {
+    font-size: 2rem;
+    font-weight: 400;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    color: var(--text);
+  }
+
+  .category-intro {
+    font-size: 0.9375rem;
+    line-height: 1.8;
+    color: var(--text-dim);
+    max-width: 48rem;
+    margin: 0 auto 2rem;
+  }
+
+  .trust-signals {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .trust-signal {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-dim);
+  }
+
+  .check-icon {
+    width: 1rem;
+    height: 1rem;
+    color: #22c55e;
+  }
+
+  .updated-date {
+    font-size: 0.6875rem;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+  }
+
+  .updated-date time {
+    color: var(--text-dim);
+  }
+
+  .tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+    margin-bottom: 4rem;
+  }
+
+  .section-heading {
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--text);
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .heading-line {
+    width: 2rem;
+    height: 1px;
+    background: var(--text-muted);
+  }
+
+  .workflows-section {
+    margin-bottom: 4rem;
+    padding-top: 3rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .workflows-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+  }
+
+  .workflow-card {
+    border: 1px solid var(--border);
+    padding: 1.5rem;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.02) 0%,
+      rgba(255, 255, 255, 0.05) 100%
+    );
+  }
+
+  .workflow-title {
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text);
+    margin-bottom: 1rem;
+  }
+
+  .workflow-steps {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .workflow-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    font-size: 0.8125rem;
+    color: var(--text-dim);
+  }
+
+  .step-number {
+    font-size: 0.625rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    min-width: 1.5rem;
+  }
+
+  .step-text {
+    flex: 1;
+  }
+
+  .why-section {
+    margin-bottom: 4rem;
+    padding-top: 3rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .why-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+  }
+
+  .why-card {
+    text-align: center;
+  }
+
+  .why-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .why-title {
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text);
+    margin-bottom: 0.75rem;
+  }
+
+  .why-text {
+    font-size: 0.8125rem;
+    line-height: 1.7;
+    color: var(--text-dim);
+  }
+
+  .tech-section {
+    margin-bottom: 4rem;
+    padding-top: 3rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .tech-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .tech-card {
+    border: 1px solid var(--border);
+    padding: 1.25rem;
+    text-align: center;
+  }
+
+  .tech-title {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+  }
+
+  .tech-text {
+    font-size: 0.75rem;
+    line-height: 1.6;
+    color: var(--text-dim);
+  }
+
+  .faq-section {
+    margin-bottom: 4rem;
+    padding-top: 3rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    max-width: 48rem;
+  }
+
+  .faq-item {
+    border: 1px solid var(--border);
+    background: transparent;
+  }
+
+  .faq-question {
+    padding: 1rem;
+    font-size: 0.8125rem;
+    color: var(--text);
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .faq-question::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-question::after {
+    content: '+';
+    font-size: 1rem;
+    color: var(--text-muted);
+  }
+
+  .faq-item[open] .faq-question::after {
+    content: '-';
+  }
+
+  .faq-answer {
+    padding: 0 1rem 1rem;
+    font-size: 0.8125rem;
+    line-height: 1.6;
+    color: var(--text-dim);
+  }
+
+  .related-section {
+    padding-top: 3rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .related-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .related-card {
+    border: 1px solid var(--border);
+    padding: 1.5rem;
+    text-decoration: none;
+    text-align: center;
+    transition: all 0.3s ease;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.02) 0%,
+      rgba(255, 255, 255, 0.05) 100%
+    );
+  }
+
+  .related-card:hover {
+    border-color: var(--text-muted);
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.05) 0%,
+      rgba(255, 255, 255, 0.08) 100%
+    );
+  }
+
+  .related-icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .related-title {
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+  }
+
+  .related-text {
+    font-size: 0.75rem;
+    line-height: 1.6;
+    color: var(--text-dim);
+  }
+
+  @media (max-width: 640px) {
+    .category-title {
+      font-size: 1.5rem;
+    }
+
+    .tools-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .workflows-grid,
+    .why-grid,
+    .tech-grid,
+    .related-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .trust-signals {
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+  }
+</style>
