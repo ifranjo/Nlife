@@ -4,7 +4,7 @@
  *
  * Displays related tools based on category and tag similarity.
  * Implements hub-spoke internal linking for SEO improvement.
- * Includes schema.org ItemList markup.
+ * Includes schema.org ItemList markup and UTM parameters.
  */
 
 interface Props {
@@ -13,6 +13,7 @@ interface Props {
 }
 
 import { getRelatedTools } from '../../lib/tools';
+import { addUTMParams, getUTMForLinkType } from '../../lib/analytics';
 
 const { currentToolId, maxItems = 6 } = Astro.props;
 const relatedTools = getRelatedTools(currentToolId, maxItems);
@@ -43,6 +44,10 @@ const itemListSchema = {
     }
   }))
 };
+
+// Add UTM parameters to track link performance
+const utmParams = getUTMForLinkType('related_tools', currentToolId);
+const getTrackedUrl = (href: string) => addUTMParams(href, utmParams);
 ---
 
 {relatedTools.length > 0 && (
@@ -51,7 +56,7 @@ const itemListSchema = {
 
     <div class="tools-grid">
       {relatedTools.map((tool) => (
-        <a href={tool.href} class="tool-link glass-card" data-tool-id={tool.id}>
+        <a href={getTrackedUrl(tool.href)} class="tool-link glass-card" data-tool-id={tool.id}>
           <div class="tool-icon">
             <img src={tool.thumbnail} alt={`${tool.name} icon`} loading="lazy" decoding="async" />
           </div>

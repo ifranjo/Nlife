@@ -493,6 +493,111 @@ export function trackWorkflow(
 }
 
 // ============================================================================
+// UTM PARAMETER TRACKING FOR AI TRAFFIC
+// ============================================================================
+
+export interface UTMParams {
+  source: string;
+  medium: string;
+  campaign: string;
+  content?: string;
+  term?: string;
+}
+
+/**
+ * Add UTM parameters to URLs for tracking AI traffic effectiveness
+ * Used for internal links to measure GEO campaign performance
+ */
+export function addUTMParams(url: string, params: UTMParams): string {
+  try {
+    const urlObj = new URL(url, 'https://www.newlifesolutions.dev');
+
+    // Only add UTM params to internal links
+    if (urlObj.hostname === 'www.newlifesolutions.dev' || urlObj.hostname === 'newlifesolutions.dev') {
+      Object.entries(params).forEach(([key, value]) => {
+        if (value) {
+          urlObj.searchParams.set(key, value);
+        }
+      });
+    }
+
+    return urlObj.toString();
+  } catch (error) {
+    console.error('Error adding UTM params:', error);
+    return url;
+  }
+}
+
+/**
+ * Get UTM parameters for different link types
+ */
+export function getUTMForLinkType(linkType: string, toolId?: string): UTMParams {
+  const baseParams = {
+    source: 'newlife_tools',
+    medium: 'internal',
+    campaign: 'hambredevictoria_2025'
+  };
+
+  switch (linkType) {
+    case 'related_tools':
+      return {
+        ...baseParams,
+        content: 'related_tools_section',
+        term: toolId || ''
+      };
+
+    case 'hub_category':
+      return {
+        ...baseParams,
+        content: 'category_hub_link',
+        term: toolId || ''
+      };
+
+    case 'breadcrumbs':
+      return {
+        ...baseParams,
+        content: 'breadcrumb_navigation',
+        term: toolId || ''
+      };
+
+    case 'navbar':
+      return {
+        ...baseParams,
+        content: 'navbar_menu',
+        term: toolId || ''
+      };
+
+    default:
+      return baseParams;
+  }
+}
+
+/**
+ * Track AI citation event when tool is discovered via AI search
+ */
+export function trackAICitation(toolName: string, source: string): void {
+  trackEvent('AI Citation', {
+    tool: toolName,
+    ai_source: source,
+    citation_type: 'tool_reference',
+    timestamp: new Date().toISOString()
+  });
+
+  // Store in localStorage for analytics
+  try {
+    const citations = JSON.parse(localStorage.getItem('ai_citations') || '[]');
+    citations.push({
+      tool: toolName,
+      source,
+      timestamp: new Date().toISOString()
+    });
+    localStorage.setItem('ai_citations', JSON.stringify(citations));
+  } catch (error) {
+    console.error('Error storing citation:', error);
+  }
+}
+
+// ============================================================================
 // EXPORTS
 // ============================================================================
 
@@ -511,4 +616,7 @@ export default {
   createTrackedDownload,
   createPerformanceTimer,
   trackWorkflow,
+  addUTMParams,
+  getUTMForLinkType,
+  trackAICitation
 };
