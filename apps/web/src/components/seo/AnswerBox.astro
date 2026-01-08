@@ -26,7 +26,57 @@ const { title, tldr, toolName } = Astro.props;
     <h1 class="answer-title">{title}</h1>
     <HelpTooltip content={tldr} id={`${toolName.toLowerCase().replace(/\s+/g, '-')}-help`} />
   </div>
+
+  <div class="stats-row" data-tool-stats hidden>
+    <span class="stats-badge" data-badge>Most Used</span>
+    <span class="stats-item"><strong data-stat="uses">0</strong> Uses</span>
+    <span class="stats-item"><strong data-stat="uniques">0</strong> Visitors</span>
+    <span class="stats-item"><strong data-stat="views">0</strong> Views</span>
+  </div>
 </section>
+
+<script is:inline>
+  (() => {
+    const container = document.querySelector('[data-tool-stats]');
+    if (!container) return;
+
+    const path = window.location.pathname;
+    const match = path.match(/^\/tools\/([^/]+)/);
+    if (!match) return;
+
+    const toolId = match[1];
+    const formatCompact = (value) => {
+      if (value >= 1000000) {
+        const formatted = (value / 1000000).toFixed(1);
+        return `${formatted.replace(/\.0$/, '')}m`;
+      }
+      if (value >= 1000) {
+        const formatted = (value / 1000).toFixed(1);
+        return `${formatted.replace(/\.0$/, '')}k`;
+      }
+      return `${value}`;
+    };
+
+    fetch('/api/tool-stats')
+      .then((response) => response.json())
+      .then((data) => {
+        if (!data?.enabled || !Array.isArray(data.top)) return;
+        const index = data.top.findIndex((item) => item.id === toolId);
+        if (index === -1) return;
+
+        const entry = data.top[index];
+        const basis = data.basis === 'views' ? 'views' : 'uses';
+        const badgeText = index === 0 ? (basis === 'views' ? 'Most Viewed' : 'Most Used') : 'Top 3';
+
+        container.querySelector('[data-badge]').textContent = badgeText;
+        container.querySelector('[data-stat=\"uses\"]').textContent = formatCompact(entry.uses || 0);
+        container.querySelector('[data-stat=\"uniques\"]').textContent = formatCompact(entry.uniques || 0);
+        container.querySelector('[data-stat=\"views\"]').textContent = formatCompact(entry.views || 0);
+        container.removeAttribute('hidden');
+      })
+      .catch(() => undefined);
+  })();
+</script>
 
 <style>
   .answer-box {
@@ -63,8 +113,36 @@ const { title, tldr, toolName } = Astro.props;
     margin: 0;
   }
 
+  .stats-row {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-top: 0.75rem;
+    font-size: 0.625rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .stats-badge {
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    padding: 0.25rem 0.5rem;
+    border-radius: 999px;
+    font-size: 0.5625rem;
+    letter-spacing: 0.2em;
+  }
+
+  .stats-item strong {
+    color: var(--text);
+    font-weight: 600;
+  }
+
   @media (max-width: 640px) {
     .answer-box { padding: 1rem 0.5rem 0.25rem; }
     .answer-title { font-size: 1rem; }
+    .stats-row { gap: 0.5rem; }
   }
 </style>

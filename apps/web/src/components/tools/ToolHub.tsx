@@ -150,6 +150,7 @@ export const ToolHub: React.FC<ToolHubProps> = ({ tools }) => {
   const [selectedTier, setSelectedTier] = useState<string>('all');
   const [toolStats, setToolStats] = useState<Record<string, ToolStat>>({});
   const [statsBasis, setStatsBasis] = useState<'uses' | 'views'>('uses');
+  const [topRankedIds, setTopRankedIds] = useState<string[]>([]);
 
   // Get unique categories
   const categories = useMemo(() => {
@@ -181,23 +182,33 @@ export const ToolHub: React.FC<ToolHubProps> = ({ tools }) => {
         const response = await fetch('/api/tool-stats');
         if (!response.ok) return;
         const data = (await response.json()) as ToolStatsResponse;
-        if (!data?.enabled || !Array.isArray(data.top)) return;
+        if (!data?.enabled || !Array.isArray(data.top)) {
+          if (active) {
+            setToolStats({});
+            setTopRankedIds([]);
+          }
+          return;
+        }
 
         const nextStats: Record<string, ToolStat> = {};
+        const nextRankedIds: string[] = [];
         data.top.forEach((item, index) => {
           nextStats[item.id] = {
             ...item,
             rank: index + 1
           };
+          nextRankedIds.push(item.id);
         });
 
         if (active) {
           setToolStats(nextStats);
           setStatsBasis(data.basis === 'views' ? 'views' : 'uses');
+          setTopRankedIds(nextRankedIds);
         }
       } catch {
         if (active) {
           setToolStats({});
+          setTopRankedIds([]);
         }
       }
     };
@@ -207,6 +218,13 @@ export const ToolHub: React.FC<ToolHubProps> = ({ tools }) => {
       active = false;
     };
   }, []);
+
+  const topRankedTools = useMemo(() => {
+    if (!topRankedIds.length) return [];
+    return topRankedIds
+      .map((id) => tools.find((tool) => tool.id === id))
+      .filter((tool): tool is Tool => Boolean(tool));
+  }, [topRankedIds, tools]);
 
   const sendToolEvent = (toolId: string, event: 'hub_click') => {
     if (typeof window === 'undefined') return;
@@ -448,6 +466,31 @@ export const ToolHub: React.FC<ToolHubProps> = ({ tools }) => {
         </div>
       </div>
 
+      {!hasActiveFilters && topRankedTools.length > 0 && (
+        <div className="mb-12">
+          <div className="flex items-center gap-3 mb-4">
+            <span className="text-[0.625rem] text-[var(--accent)] uppercase tracking-[0.2em]">
+              Popular right now
+            </span>
+            <div className="flex-1 h-px bg-[var(--border)]"></div>
+            <span className="text-[0.5rem] text-[var(--text-muted)] uppercase tracking-[0.2em]">
+              {statsBasis === 'views' ? 'Based on views' : 'Based on uses'}
+            </span>
+          </div>
+          <div className="tool-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {topRankedTools.map((tool) => (
+              <ToolCard
+                key={`top-${tool.id}`}
+                tool={tool}
+                stats={toolStats[tool.id]}
+                basis={statsBasis}
+                onClick={() => sendToolEvent(tool.id, 'hub_click')}
+              />
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* Tools Grid */}
       <div className="tool-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 mb-12">
         {filteredAndSortedTools.length > 0 ? (
@@ -482,7 +525,7 @@ export const ToolHub: React.FC<ToolHubProps> = ({ tools }) => {
       </div>
 
       {/* Popular Tools Section (when no filters applied) */}
-      {!hasActiveFilters && (
+      {!hasActiveFilters && topRankedTools.length === 0 && (
         <div className="mt-16">
           <div className="flex items-center gap-4 mb-6">
             <span className="text-[0.625rem] text-[var(--accent)] uppercase tracking-[0.2em]">Popular Tools</span>

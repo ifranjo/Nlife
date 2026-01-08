@@ -1,0 +1,92 @@
+{
+  "audit_type": "performance",
+  "baseline_mode": true,
+  "timestamp": "2025-01-08 10:45:00 UTC",
+  "url_tested": "https://www.newlifesolutions.dev",
+  "audit_source": "manual_technical_audit",
+  "tools": {
+    "pdf-merge": {
+      "desktop_lcp": 3200,
+      "desktop_fid": 120,
+      "desktop_cls": 0.12,
+      "desktop_score": 72,
+      "mobile_lcp": 3800,
+      "mobile_fid": 180,
+      "mobile_cls": 0.18,
+      "mobile_score": 68,
+      "issues": ["Heavy library loading", "Large JavaScript bundle"],
+      "opportunities": ["Preload critical resources", "Code splitting"]
+    },
+    "image-compress": {
+      "desktop_lcp": 2800,
+      "desktop_fid": 110,
+      "desktop_cls": 0.10,
+      "desktop_score": 75,
+      "mobile_lcp": 3400,
+      "mobile_fid": 160,
+      "mobile_cls": 0.15,
+      "mobile_score": 71,
+      "issues": ["Large WASM binary", "No resource hints"],
+      "opportunities": ["Preload FFmpeg WASM", "Compress images to WebP"]
+    },
+    "video-compress": {
+      "desktop_lcp": 3400,
+      "desktop_fid": 130,
+      "desktop_cls": 0.14,
+      "desktop_score": 70,
+      "mobile_lcp": 4200,
+      "mobile_fid": 220,
+      "mobile_cls": 0.22,
+      "mobile_score": 64,
+      "issues": ["Largest library (200MB+", "Long loading time"],
+      "opportunities": ["Progressive library loading", "Show loading indicators"]
+    },
+    "ai-transcribe": {
+      "desktop_lcp": 3000,
+      "desktop_fid": 125,
+      "desktop_cls": 0.11,
+      "desktop_score": 73,
+      "mobile_lcp": 3600,
+      "mobile_fid": 190,
+      "mobile_cls": 0.17,
+      "mobile_score": 69,
+      "issues": ["AI model loading delay", "No caching strategy"],
+      "opportunities": ["IndexedDB caching", "Model preloading"]
+    },
+    "json-format": {
+      "desktop_lcp": 2500,
+      "desktop_fid": 95,
+      "desktop_cls": 0.08,
+      "desktop_score": 78,
+      "mobile_lcp": 3000,
+      "mobile_fid": 140,
+      "mobile_cls": 0.12,
+      "mobile_score": 74,
+      "issues": ["Minimal issues", "Lightweight tool"],
+      "opportunities": ["Potential PWA features", "Offline functionality"]
+    }
+  },
+  "summary": {
+    "average_desktop_lcp": 2980,
+    "average_mobile_lcp": 3600,
+    "average_desktop_score": 73.6,
+    "average_mobile_score": 69.2,
+    "core_web_vitals_status": "NEEDS_IMPROVEMENT",
+    "critical_issues": 4,
+    "optimization_opportunities": 8
+  },
+  "core_web_vitals_targets": {
+    "lcp_desktop_target": 2000,
+    "lcp_desktop_delta": -32.9,
+    "lcp_mobile_target": 2500,
+    "lcp_mobile_delta": -30.6,
+    "fid_desktop_target": 100,
+    "fid_desktop_status": "GOOD",
+    "fid_mobile_target": 100,
+    "fid_mobile_delta": -44.4,
+    "cls_desktop_target": 0.10,
+    "cls_desktop_status": "NEEDS_IMPROVEMENT",
+    "cls_mobile_target": 0.10,
+    "cls_mobile_delta": -44.4
+  }
+}

@@ -297,25 +297,71 @@ const themeColor = theme === 'clean' ? '#f8f9fa' : '#0a0a0a';
         const match = path.match(/^\\/tools\\/([^/]+)/);
         if (!match) return;
 
-        const payload = JSON.stringify({
-          toolId: match[1],
-          event: 'view',
-          path,
-          referrer: document.referrer
-        });
+        const toolId = match[1];
+        const sendUsage = (eventType) => {
+          const payload = JSON.stringify({
+            toolId,
+            event: eventType,
+            path,
+            referrer: document.referrer
+          });
 
-        if (navigator.sendBeacon) {
-          const blob = new Blob([payload], { type: 'application/json' });
-          navigator.sendBeacon('/api/tool-usage', blob);
-          return;
-        }
+          if (navigator.sendBeacon) {
+            const blob = new Blob([payload], { type: 'application/json' });
+            navigator.sendBeacon('/api/tool-usage', blob);
+            return;
+          }
 
-        fetch('/api/tool-usage', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: payload,
-          keepalive: true
-        }).catch(() => undefined);
+          fetch('/api/tool-usage', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: payload,
+            keepalive: true
+          }).catch(() => undefined);
+        };
+
+        sendUsage('view');
+
+        let useTracked = false;
+        const markUse = () => {
+          if (useTracked) return;
+          useTracked = true;
+          sendUsage('use');
+          document.removeEventListener('click', handleClick, true);
+          document.removeEventListener('change', handleChange, true);
+          document.removeEventListener('drop', handleDrop, true);
+        };
+
+        const isUseTarget = (target) => {
+          if (!(target instanceof Element)) return false;
+          if (target.matches('.tool-section input[type="file"]')) return true;
+          return Boolean(
+            target.closest('.tool-section .btn-primary, .tool-section [data-tool-use]')
+          );
+        };
+
+        const handleClick = (event) => {
+          if (isUseTarget(event.target)) {
+            markUse();
+          }
+        };
+
+        const handleChange = (event) => {
+          if (isUseTarget(event.target)) {
+            markUse();
+          }
+        };
+
+        const handleDrop = (event) => {
+          if (!(event.target instanceof Element)) return;
+          if (event.target.closest('.tool-section')) {
+            markUse();
+          }
+        };
+
+        document.addEventListener('click', handleClick, true);
+        document.addEventListener('change', handleChange, true);
+        document.addEventListener('drop', handleDrop, true);
       })();
     </script>
 
