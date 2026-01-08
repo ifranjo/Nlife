@@ -30,8 +30,8 @@ const gamesAsTools = liveGames.map(game => ({
 const allHubItems = [...tools, ...gamesAsTools];
 
 // SEO metadata
-const title = 'New Life Solutions - Free Privacy-First Browser Tools';
-const description = 'Free online tools for developers and creatives. Merge PDFs, compress images, generate QR codes, and more. 100% browser-based, private, and secure. No signup required.';
+const title = 'Free Online Tools for PDF, Images, Video | New Life Solutions';
+const description = 'Merge PDFs, compress images, trim video, and more with privacy-first tools that run entirely in your browser. No uploads, no signup, works offline.';
 ---
 
 <Layout title={title} description={description} canonicalUrl="https://www.newlifesolutions.dev/">
@@ -45,10 +45,11 @@ const description = 'Free online tools for developers and creatives. Merge PDFs,
         <!-- SEO-friendly heading structure -->
         <div class="text-center mb-16">
           <div class="text-3xl mb-4 opacity-60">◇</div>
-          <h1 class="text-2xl uppercase tracking-[0.3em] mb-4">Tool Hub</h1>
+          <h1 class="text-2xl sm:text-3xl font-semibold mb-4">
+            Free online tools for PDFs, images, video, and more
+          </h1>
           <p class="text-[var(--text-dim)] text-sm max-w-2xl mx-auto leading-relaxed">
-            Browse our collection of {allHubItems.length} free browser-based tools and games. Search, filter by category,
-            or sort by popularity to find exactly what you need.
+            Search {allHubItems.length} privacy-first tools and games. Filter by category, sort by popularity, and work entirely in your browser.
           </p>
         </div>
 
@@ -61,7 +62,7 @@ const description = 'Free online tools for developers and creatives. Merge PDFs,
     <section id="about" class="py-20 px-6 border-t border-[var(--border)]">
       <div class="max-w-2xl mx-auto text-center">
         <div class="text-3xl mb-6 opacity-60">∞</div>
-        <h2 class="text-xl uppercase tracking-[0.3em] mb-6">About Our Tools</h2>
+        <h2 class="text-xl sm:text-2xl font-semibold mb-6">About Our Tools</h2>
         <p class="text-[var(--text-dim)] text-sm leading-relaxed mb-8">
           New Life Solutions provides browser-based tools that respect your privacy.
           All processing happens locally on your device. Your files never leave your browser.

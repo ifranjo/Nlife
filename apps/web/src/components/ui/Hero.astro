@@ -5,62 +5,52 @@ import { tools } from '../../lib/tools';
 const freeTools = tools.filter(t => t.tier === 'free');
 const toolCount = freeTools.length;
 ---
-
-<section class="relative pt-32 pb-20 px-6">
-  <div class="max-w-4xl mx-auto text-center">
-    <!-- Symbol -->
-    <div class="text-5xl mb-8 pulse">◈</div>
-
-    <!-- Brand Name (not h1 - page h1 is in main content) -->
-    <p class="text-2xl sm:text-3xl tracking-[0.5em] uppercase mb-6 glitch" role="img" aria-label="New Life Solutions">
-      New Life
-    </p>
-
-    <!-- Dots -->
-    <div class="flex justify-center gap-3 mb-8">
-      {[0, 1, 2, 3, 4, 5, 6].map((i) => (
-        <span
-          class="w-1.5 h-1.5 bg-[var(--text-muted)]"
-          style={`animation: dotPulse 2s infinite; animation-delay: ${i * 0.15}s`}
-        />
-      ))}
+<section class="relative pt-28 pb-16 px-6">
+  <div class="max-w-5xl mx-auto text-center">
+    <div class="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-[var(--border)] bg-[var(--bg-secondary)] text-[0.625rem] uppercase tracking-[0.3em] text-[var(--text-dim)]">
+      New Life Solutions
     </div>
 
-    <!-- Subtitle -->
-    <p class="text-[var(--text-dim)] max-w-xl mx-auto mb-12 text-sm tracking-wide leading-relaxed">
-      A collection of tools designed to simplify your digital workflow.
-      <span class="text-[var(--text)]">Free. Private. Browser-based.</span>
+    <h2 class="mt-6 text-3xl sm:text-4xl font-semibold text-[var(--text)] tracking-tight">
+      Free online tools that keep your files private.
+    </h2>
+
+    <p class="text-[var(--text-dim)] max-w-2xl mx-auto mt-4 text-sm sm:text-base leading-relaxed">
+      Merge PDFs, compress images, trim video, and generate files in seconds.
+      Everything runs in your browser with no uploads, no accounts, and no limits.
     </p>
 
-    <!-- CTA -->
-    <a href="#tools" class="btn-primary">
-      <span>Explore Tools</span>
-      <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 9l-7 7-7-7" />
-      </svg>
-    </a>
+    <div class="mt-8 flex flex-wrap justify-center gap-4">
+      <a href="#tools" class="btn-primary">
+        <span>Browse All Tools</span>
+        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 12h14M13 6l6 6-6 6" />
+        </svg>
+      </a>
+      <a href="/pdf-tools" class="btn-secondary">
+        PDF Tools
+      </a>
+    </div>
 
-    <!-- Stats -->
-    <div class="mt-20 grid grid-cols-3 gap-8 max-w-lg mx-auto">
-      <div class="text-center">
-        <div class="text-2xl text-[var(--text)] mb-1">{toolCount}</div>
-        <div class="text-[0.625rem] text-[var(--text-muted)] uppercase tracking-[0.15em]">Free Tools</div>
+    <div class="mt-12 grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-4xl mx-auto">
+      <div class="glass-card p-5 text-left">
+        <div class="text-xs uppercase tracking-[0.2em] text-[var(--text-muted)]">Private by design</div>
+        <p class="mt-2 text-sm text-[var(--text-dim)]">
+          Files never leave your device. No uploads, no tracking, no storage.
+        </p>
       </div>
-      <div class="text-center">
-        <div class="text-2xl text-[var(--text)] mb-1">100%</div>
-        <div class="text-[0.625rem] text-[var(--text-muted)] uppercase tracking-[0.15em]">Private</div>
+      <div class="glass-card p-5 text-left">
+        <div class="text-xs uppercase tracking-[0.2em] text-[var(--text-muted)]">Fast and offline</div>
+        <p class="mt-2 text-sm text-[var(--text-dim)]">
+          Everything runs locally in your browser, even without an internet connection.
+        </p>
       </div>
-      <div class="text-center">
-        <div class="text-2xl text-[var(--text)] mb-1">$0</div>
-        <div class="text-[0.625rem] text-[var(--text-muted)] uppercase tracking-[0.15em]">Cost</div>
+      <div class="glass-card p-5 text-left">
+        <div class="text-xs uppercase tracking-[0.2em] text-[var(--text-muted)]">Always free</div>
+        <p class="mt-2 text-sm text-[var(--text-dim)]">
+          {toolCount}+ tools with no accounts, no limits, and no hidden paywalls.
+        </p>
       </div>
     </div>
   </div>
 </section>
-
-<style>
-  @keyframes dotPulse {
-    0%, 100% { background: var(--text-muted); }
-    50% { background: var(--accent); }
-  }
-</style>

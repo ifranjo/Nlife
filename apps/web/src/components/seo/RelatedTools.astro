@@ -52,7 +52,9 @@ const itemListSchema = {
     <div class="tools-grid">
       {relatedTools.map((tool) => (
         <a href={tool.href} class="tool-link glass-card" data-tool-id={tool.id}>
-          <div class="tool-icon" aria-hidden="true">{tool.icon}</div>
+          <div class="tool-icon">
+            <img src={tool.thumbnail} alt={`${tool.name} icon`} loading="lazy" />
+          </div>
           <div class="tool-content">
             <h3 class="tool-name">{tool.name}</h3>
             <p class="tool-desc">{tool.description}</p>
@@ -119,7 +121,6 @@ const itemListSchema = {
   }
 
   .tool-icon {
-    font-size: 2rem;
     flex-shrink: 0;
     width: 3rem;
     height: 3rem;
@@ -127,7 +128,13 @@ const itemListSchema = {
     align-items: center;
     justify-content: center;
     background: rgba(255, 255, 255, 0.05);
-    border-radius: 8px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+  }
+
+  .tool-icon img {
+    width: 70%;
+    height: 70%;
   }
 
   .tool-content {

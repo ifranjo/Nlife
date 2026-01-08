@@ -9,9 +9,25 @@ interface ToolCardProps {
   tool: Tool;
 }
 
+const categoryLabels: Record<Tool['category'], string> = {
+  document: 'PDF & Docs',
+  media: 'Images & Media',
+  ai: 'AI Tools',
+  utility: 'Text & Dev',
+  games: 'Games'
+};
+
+const categoryDisplay: Record<string, string> = {
+  all: 'All Tools',
+  ...categoryLabels
+};
+
+const categoryOrder = ['all', 'document', 'media', 'ai', 'utility', 'games'] as const;
+
 const ToolCard: React.FC<ToolCardProps> = ({ tool }) => {
   const isDisabled = tool.tier === 'coming' || tool.tier === 'pro';
   const tagClass = tool.tier === 'free' ? 'tag-free' : tool.tier === 'pro' ? 'tag-pro' : 'tag-coming';
+  const categoryLabel = categoryLabels[tool.category] ?? tool.category;
 
   return (
     <a
@@ -45,7 +61,7 @@ const ToolCard: React.FC<ToolCardProps> = ({ tool }) => {
       {/* Category and Popular Badge */}
       <div className="flex items-center justify-between">
         <span className="text-[0.625rem] text-[var(--text-muted)] uppercase tracking-[0.15em]">
-          {tool.category}
+          {categoryLabel}
         </span>
         <div className="flex items-center gap-2">
           {tool.popular && (
@@ -73,9 +89,25 @@ export const ToolHub: React.FC<ToolHubProps> = ({ tools }) => {
 
   // Get unique categories
   const categories = useMemo(() => {
-    const cats = ['all', ...new Set(tools.map(t => t.category))];
-    return cats;
+    const available = new Set(tools.map(tool => tool.category));
+    return categoryOrder.filter((category) =>
+      category === 'all' || available.has(category as Tool['category'])
+    );
   }, [tools]);
+
+  const hasActiveFilters = Boolean(
+    searchQuery.trim() ||
+    selectedCategory !== 'all' ||
+    selectedTier !== 'all' ||
+    sortBy !== 'popular'
+  );
+
+  const clearFilters = () => {
+    setSearchQuery('');
+    setSelectedCategory('all');
+    setSelectedTier('all');
+    setSortBy('popular');
+  };
 
   // Get unique tags
   const allTags = useMemo(() => {
@@ -151,11 +183,12 @@ export const ToolHub: React.FC<ToolHubProps> = ({ tools }) => {
         {/* Search Bar */}
         <div className="relative">
           <input
-            type="text"
-            placeholder="🔍 Search tools..."
+            type="search"
+            placeholder="Search tools..."
+            aria-label="Search tools"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full px-4 py-3 pl-12 bg-white/5 border border-white/10 rounded-lg text-sm placeholder-[var(--text-dim)] focus:outline-none focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent)]/20 transition-all"
+            className="w-full px-4 py-3 pl-12 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg text-sm placeholder-[var(--text-dim)] focus:outline-none focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent)]/20 transition-all"
           />
           <svg
             className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--text-dim)]"
@@ -176,11 +209,11 @@ export const ToolHub: React.FC<ToolHubProps> = ({ tools }) => {
               className={[
                 'px-4 py-2 rounded-full text-[0.625rem] uppercase tracking-[0.2em] transition-all',
                 selectedCategory === category
-                  ? 'bg-gradient-to-r from-[var(--accent)] to-[var(--accent-light)] text-black font-medium'
-                  : 'bg-white/5 border border-white/10 text-[var(--text-dim)] hover:bg-white/10'
+                  ? 'bg-[var(--accent)] border border-[var(--accent)] text-white font-medium'
+                  : 'bg-[var(--bg-secondary)] border border-[var(--border)] text-[var(--text-dim)] hover:border-[var(--border-hover)]'
               ].join(' ')}
             >
-              {category === 'all' ? 'All' : category}
+              {categoryDisplay[category] ?? category}
               <span className="ml-1 text-[0.625rem] text-[var(--text-muted)]">
                 ({categoryCounts[category] || 0})
               </span>
@@ -190,16 +223,27 @@ export const ToolHub: React.FC<ToolHubProps> = ({ tools }) => {
 
         {/* Advanced Controls */}
         <div className="flex flex-wrap items-center justify-between gap-4">
-          <button
-            onClick={() => setShowFilters(!showFilters)}
-            className="flex items-center gap-2 px-3 py-2 text-[0.625rem] uppercase tracking-[0.2em] text-[var(--text-dim)] hover:text-[var(--text)] transition-colors"
-          >
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 3c7.2 0 9 1.8 9 9s-1.8 9-9 9-9-1.8-9-9 1.8-9 9-9z" />
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 8v8m4-4H8" />
-            </svg>
-            {showFilters ? 'Hide' : 'Show'} Filters
-          </button>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => setShowFilters(!showFilters)}
+              className="flex items-center gap-2 px-3 py-2 text-[0.625rem] uppercase tracking-[0.2em] text-[var(--text-dim)] hover:text-[var(--text)] transition-colors"
+            >
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 3c7.2 0 9 1.8 9 9s-1.8 9-9 9-9-1.8-9-9 1.8-9 9-9z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 8v8m4-4H8" />
+              </svg>
+              {showFilters ? 'Hide' : 'Show'} Filters
+            </button>
+
+            {hasActiveFilters && (
+              <button
+                onClick={clearFilters}
+                className="px-3 py-2 text-[0.625rem] uppercase tracking-[0.2em] text-[var(--accent)] border border-[var(--accent)] rounded hover:bg-[var(--accent)] hover:text-white transition-colors"
+              >
+                Clear All
+              </button>
+            )}
+          </div>
 
           <div className="flex items-center gap-2">
             <label className="text-[0.625rem] uppercase tracking-[0.2em] text-[var(--text-dim)]">
@@ -208,7 +252,7 @@ export const ToolHub: React.FC<ToolHubProps> = ({ tools }) => {
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="px-3 py-2 bg-white/5 border border-white/10 rounded text-[0.625rem] uppercase tracking-[0.2em] text-[var(--text)] focus:outline-none focus:border-[var(--accent)]"
+              className="px-3 py-2 bg-[var(--bg-secondary)] border border-[var(--border)] rounded text-[0.625rem] uppercase tracking-[0.2em] text-[var(--text)] focus:outline-none focus:border-[var(--accent)]"
             >
               <option value="popular">Popular</option>
               <option value="name">Name A-Z</option>
@@ -219,7 +263,7 @@ export const ToolHub: React.FC<ToolHubProps> = ({ tools }) => {
 
         {/* Collapsible Filters */}
         {showFilters && (
-          <div className="p-4 bg-white/5 border border-white/10 rounded-lg space-y-4">
+          <div className="p-4 bg-[var(--bg-secondary)] border border-[var(--border)] rounded-lg space-y-4">
             <div>
               <label className="block text-[0.625rem] uppercase tracking-[0.2em] text-[var(--text-dim)] mb-2">
                 Tool Tier:
@@ -232,8 +276,8 @@ export const ToolHub: React.FC<ToolHubProps> = ({ tools }) => {
                     className={[
                       'px-3 py-1 rounded text-[0.625rem] uppercase tracking-[0.2em]',
                       selectedTier === tier
-                        ? 'bg-[var(--accent)] text-black'
-                        : 'bg-white/10 text-[var(--text-dim)] hover:bg-white/20'
+                        ? 'bg-[var(--accent)] text-white'
+                        : 'bg-[var(--bg-secondary)] border border-[var(--border)] text-[var(--text-dim)] hover:border-[var(--border-hover)]'
                     ].join(' ')}
                   >
                     {tier}
@@ -248,12 +292,14 @@ export const ToolHub: React.FC<ToolHubProps> = ({ tools }) => {
               </label>
               <div className="flex flex-wrap gap-2">
                 {allTags.map(tag => (
-                  <span
+                  <button
                     key={tag}
-                    className="px-2 py-1 bg-white/10 text-[var(--text-dim)] text-[0.625rem] rounded lowercase"
+                    type="button"
+                    onClick={() => setSearchQuery(tag)}
+                    className="px-2 py-1 bg-[var(--bg-secondary)] border border-[var(--border)] text-[var(--text-dim)] text-[0.625rem] rounded lowercase hover:border-[var(--border-hover)]"
                   >
                     #{tag}
-                  </span>
+                  </button>
                 ))}
               </div>
             </div>
@@ -265,12 +311,12 @@ export const ToolHub: React.FC<ToolHubProps> = ({ tools }) => {
           <span>
             Showing {filteredAndSortedTools.length} of {tools.length} tools
           </span>
-          {searchQuery && (
+          {hasActiveFilters && (
             <button
-              onClick={() => setSearchQuery('')}
+              onClick={clearFilters}
               className="text-[var(--accent)] hover:text-[var(--accent-light)] transition-colors"
             >
-              Clear search
+              Clear all
             </button>
           )}
         </div>
@@ -284,17 +330,27 @@ export const ToolHub: React.FC<ToolHubProps> = ({ tools }) => {
           ))
         ) : (
           <div className="col-span-full text-center py-12">
-            <div className="text-4xl mb-4 opacity-30">🔍</div>
+            <svg className="w-10 h-10 mx-auto mb-4 text-[var(--text-muted)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M15 15l5 5M9 13a4 4 0 100-8 4 4 0 000 8z" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M4 20l4-4" />
+            </svg>
             <h3 className="text-lg mb-2">No tools found</h3>
             <p className="text-[var(--text-dim)] text-sm">
               Try adjusting your search or filters
             </p>
+            <button
+              type="button"
+              onClick={clearFilters}
+              className="mt-4 inline-flex items-center gap-2 px-4 py-2 text-[0.625rem] uppercase tracking-[0.2em] border border-[var(--border)] text-[var(--text-dim)] hover:text-[var(--text)] hover:border-[var(--border-hover)] transition-colors"
+            >
+              Reset filters
+            </button>
           </div>
         )}
       </div>
 
       {/* Popular Tools Section (when no filters applied) */}
-      {selectedCategory === 'all' && !searchQuery && selectedTier === 'all' && (
+      {!hasActiveFilters && (
         <div className="mt-16">
           <div className="flex items-center gap-4 mb-6">
             <span className="text-[0.625rem] text-[var(--accent)] uppercase tracking-[0.2em]">Popular Tools</span>

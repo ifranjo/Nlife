@@ -7,9 +7,11 @@ import InstallPrompt from './InstallPrompt';
     <div class="flex items-center justify-between h-14">
       <!-- Logo (44px+ touch target) -->
       <a href="/" class="flex items-center gap-3 group min-h-[44px] py-2">
-        <span class="text-xl opacity-60 group-hover:opacity-100 transition-opacity">◈</span>
+        <span class="inline-flex items-center justify-center w-8 h-8 rounded-lg border border-[var(--border)] bg-[var(--bg-secondary)] text-[10px] font-semibold tracking-[0.35em] text-[var(--text)]">
+          NL
+        </span>
         <span class="text-xs tracking-[0.3em] uppercase text-[var(--text-dim)] group-hover:text-[var(--text)] transition-colors">
-          New Life
+          New Life Solutions
         </span>
       </a>
 
@@ -43,7 +45,7 @@ import InstallPrompt from './InstallPrompt';
         <div class="flex items-center gap-2 text-[var(--text-muted)]" id="desktop-status" role="status" aria-live="polite">
           <span class="status-dot"></span>
           <span class="status-text text-[0.625rem] tracking-[0.15em] uppercase">Online</span>
-          <span class="cached-indicator hidden text-[0.625rem] text-[var(--text-muted)] ml-2" title="Cached for offline use">📦</span>
+          <span class="cached-indicator hidden text-[0.625rem] text-[var(--text-muted)] ml-2" title="Cached for offline use">Cached</span>
         </div>
       </div>
     </div>
@@ -66,7 +68,7 @@ import InstallPrompt from './InstallPrompt';
     <div class="flex items-center gap-3 py-3 border-t border-[var(--border)] text-[var(--text-muted)]" role="status" aria-live="polite">
       <span class="status-dot"></span>
       <span class="status-text text-xs uppercase tracking-widest">Online</span>
-      <span class="cached-indicator hidden text-xs text-[var(--text-muted)]" title="Cached for offline use">📦</span>
+      <span class="cached-indicator hidden text-xs text-[var(--text-muted)]" title="Cached for offline use">Cached</span>
     </div>
   </div>
 </nav>

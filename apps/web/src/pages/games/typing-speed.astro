@@ -17,7 +17,7 @@ const title = game?.seo?.title || 'Typing Speed Test - Free WPM Test | New Life 
 const description = game?.seo?.metaDescription || 'Test your typing speed and accuracy. Track WPM, compete with yourself, and improve over time. Free online typing test.';
 ---
 
-<Layout title={title} description={description}>
+<Layout title={title} description={description} theme="default">
   <!-- Schema Markup for Game -->
   <script type="application/ld+json" slot="head" set:html={JSON.stringify({
     "@context": "https://schema.org",
