@@ -11,6 +11,8 @@ export interface Tool {
   tags?: string[];
   popular?: boolean;
   releaseDate?: string;
+  /** 50-70 word optimized answer for AI extraction (HAMBREDEVICTORIA Protocol) */
+  answer?: string;
   seo?: {
     title: string;           // Optimized page title (50-60 chars)
     metaDescription: string; // Meta description (150-160 chars)
