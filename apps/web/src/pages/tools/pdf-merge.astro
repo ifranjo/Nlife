@@ -17,6 +17,7 @@ import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
 import RelatedTools from '../../components/seo/RelatedTools.astro';
 import ComparisonTable from '../../components/seo/ComparisonTable.astro';
 import TrustBar from '../../components/ui/TrustBar.astro';
+import AuthorBio from '../../components/seo/AuthorBio.astro';
 import PdfMerge from '../../components/tools/PdfMerge';
 
 // Get tool data from Single Source of Truth (tools.ts)
@@ -204,6 +205,7 @@ const schemaData = {
     </div>
   </main>
 
+  <AuthorBio />
   <Footer />
 </Layout>
 

@@ -18,6 +18,7 @@ import { getCompetitorData } from '../../lib/competitors';
 import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
 import RelatedTools from '../../components/seo/RelatedTools.astro';
 import ComparisonTable from '../../components/seo/ComparisonTable.astro';
+import AuthorBio from '../../components/seo/AuthorBio.astro';
 import ImageCompress from '../../components/tools/ImageCompress';
 
 // Get tool data from Single Source of Truth (tools.ts)
@@ -173,6 +174,7 @@ const schemaData = {
     </div>
   </main>
 
+  <AuthorBio />
   <Footer />
 </Layout>
 

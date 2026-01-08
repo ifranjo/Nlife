@@ -18,13 +18,15 @@ import { getToolById } from '../../lib/tools';
 import { getCompetitorData } from '../../lib/competitors';
 import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
 import ComparisonTable from '../../components/seo/ComparisonTable.astro';
+import AuthorBio from '../../components/seo/AuthorBio.astro';
 import BackgroundRemover from '../../components/tools/BackgroundRemover';
 
 // Get tool data from Single Source of Truth (tools.ts)
 const toolData = getToolById('background-remover');
-n// Get competitor data
-const competitorData = getCompetitorData('background-remover');
 if (!toolData) throw new Error('Tool not found: background-remover');
+
+// Get competitor data
+const competitorData = getCompetitorData('background-remover');
 
 // Tool metadata derived from registry
 const tool = {
@@ -143,7 +145,7 @@ const schemaData = {
         <TrustBar signals={seoContent.answerBox.trustSignals} />
       </section>
 
-n      <!-- Comparison Table: GEO optimization (32% of AI citations) -->
+      <!-- Comparison Table: GEO optimization (32% of AI citations) -->
       <ComparisonTable
         toolName={tool.name}
         competitors={competitorData.competitors}
@@ -173,6 +175,7 @@ n      <!-- Comparison Table: GEO optimization (32% of AI citations) -->
     </div>
   </main>
 
+  <AuthorBio />
   <Footer />
 </Layout>
 
