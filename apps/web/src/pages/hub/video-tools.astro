@@ -1,0 +1,129 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/ui/Navbar.astro';
+import Footer from '../../components/ui/Footer.astro';
+import ToolCard from '../../components/ui/ToolCard.astro';
+import { getToolsByCategory } from '../../lib/tools';
+
+const tools = getToolsByCategory('media').filter(tool =>
+  tool.name.toLowerCase().includes('video') ||
+  tool.name.toLowerCase().includes('gif') ||
+  tool.tags?.some(tag => ['video', 'mp4', 'gif', 'convert'].includes(tag.toLowerCase()))
+);
+
+// SEO metadata
+const title = 'Free Video Tools Online | Compress, Trim, Convert to MP3, GIF Maker';
+const description = 'Complete video toolkit - compress file sizes, trim clips, extract audio to MP3, create GIFs. 100% browser-based, no uploads required.';
+---
+
+<Layout title={title} description={description} canonicalUrl="https://www.newlifesolutions.dev/hub/video-tools">
+  <Navbar />
+  <main class="pt-16">
+    <!-- Hero Section -->
+    <section class="py-20 px-6">
+      <div class="max-w-4xl mx-auto text-center">
+        <div class="text-[0.625rem] uppercase tracking-[0.3em] text-[var(--text-muted)] mb-4">Video Tools Hub</div>
+        <h1 class="text-3xl sm:text-4xl font-semibold mb-6">
+          Complete Video Toolkit
+        </h1>
+        <p class="text-[var(--text-dim)] text-base max-w-2xl mx-auto leading-relaxed mb-8">
+          Everything you need to work with videos - compress large files, trim clips to perfect length,
+          extract audio tracks to MP3, and create animated GIFs. All processing happens in your browser
+          for maximum privacy and speed.
+        </p>
+        <div class="flex flex-wrap justify-center gap-4 text-[0.625rem] text-[var(--text-muted)] uppercase tracking-[0.15em]">
+          <span>No File Uploads</span>
+          <span>500MB Max Size</span>
+          <span>Multiple Formats</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tools Grid -->
+    <section id="tools" class="py-20 px-6 border-t border-[var(--border)]">
+      <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-16">
+          <h2 class="text-2xl sm:text-3xl font-semibold mb-4">
+            {tools.length} Video Tools Available
+          </h2>
+          <p class="text-[var(--text-dim)] text-sm max-w-2xl mx-auto leading-relaxed">
+            Click any tool to start processing your videos immediately. Supports MP4, WebM, MOV, AVI and more formats up to 500MB.
+          </p>
+        </div>
+
+        <div class="tool-grid">
+          {tools.map(tool => (
+            <ToolCard tool={tool} />
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section id="benefits" class="py-20 px-6 border-t border-[var(--border)]">
+      <div class="max-w-4xl mx-auto">
+        <div class="text-center mb-16">
+          <h2 class="text-2xl sm:text-3xl font-semibold mb-6">Why Choose Our Video Tools?</h2>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-8">
+          <div class="glass-card p-8">
+            <h3 class="text-lg font-semibold mb-4">FFmpeg Powered</h3>
+            <p class="text-[var(--text-dim)] text-sm leading-relaxed">
+              Built with the industry-standard FFmpeg library for reliable, high-quality video processing.
+              Professional-grade encoding with optimized settings for web and mobile.
+            </p>
+          </div>
+
+          <div class="glass-card p-8">
+            <h3 class="text-lg font-semibold mb-4">Large File Support</h3>
+            <p class="text-[var(--text-dim)] text-sm leading-relaxed">
+              Process videos up to 500MB directly in your browser. Smart chunking and streaming
+              technology handles large files efficiently without memory issues.
+            </p>
+          </div>
+
+          <div class="glass-card p-8">
+            <h3 class="text-lg font-semibold mb-4">Multiple Formats</h3>
+            <p class="text-[var(--text-dim)] text-sm leading-relaxed">
+              Support for all popular video formats including MP4, WebM, MOV, AVI, and more.
+              Automatic format detection and conversion when needed.
+            </p>
+          </div>
+
+          <div class="glass-card p-8">
+            <h3 class="text-lg font-semibold mb-4">Privacy Guaranteed</h3>
+            <p class="text-[var(--text-dim)] text-sm leading-relaxed">
+              Your videos never leave your device. All processing happens locally using
+              WebAssembly technology. No cloud servers, no data transmission, complete privacy.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>
+
+<!-- JSON-LD Structured Data for SEO -->
+<script type="application/ld+json" set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": title,
+  "description": description,
+  "url": "https://www.newlifesolutions.dev/hub/video-tools",
+  "about": {
+    "@type": "Thing",
+    "name": "Video Tools"
+  },
+  "mainEntity": {
+    "@type": "ItemList",
+    "itemListElement": tools.slice(0, 10).map((tool, index) => ({
+      "@type": "ListItem",
+      "position": index + 1,
+      "name": tool.name,
+      "description": tool.description,
+      "url": `https://www.newlifesolutions.dev${tool.href}`
+    }))
+  }
+})} />

@@ -1,0 +1,125 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/ui/Navbar.astro';
+import Footer from '../../components/ui/Footer.astro';
+import ToolCard from '../../components/ui/ToolCard.astro';
+import { getToolsByCategory } from '../../lib/tools';
+
+const tools = getToolsByCategory('media');
+
+// SEO metadata
+const title = 'Free Image Tools Online | Compress, Convert, Resize, Enhance';
+const description = 'Complete image toolkit - compress, convert formats, resize dimensions, upscale quality, remove backgrounds. 100% browser-based, no uploads required.';
+---
+
+<Layout title={title} description={description} canonicalUrl="https://www.newlifesolutions.dev/hub/image-tools">
+  <Navbar />
+  <main class="pt-16">
+    <!-- Hero Section -->
+    <section class="py-20 px-6">
+      <div class="max-w-4xl mx-auto text-center">
+        <div class="text-[0.625rem] uppercase tracking-[0.3em] text-[var(--text-muted)] mb-4">Image Tools Hub</div>
+        <h1 class="text-3xl sm:text-4xl font-semibold mb-6">
+          Complete Image Toolkit
+        </h1>
+        <p class="text-[var(--text-dim)] text-base max-w-2xl mx-auto leading-relaxed mb-8">
+          Everything you need to work with images - compress file sizes, convert between formats,
+          resize dimensions, enhance quality with AI upscaling, and remove backgrounds automatically.
+          All processing happens in your browser for maximum privacy.
+        </p>
+        <div class="flex flex-wrap justify-center gap-4 text-[0.625rem] text-[var(--text-muted)] uppercase tracking-[0.15em]">
+          <span>No File Uploads</span>
+          <span>AI-Powered Tools</span>
+          <span>Batch Processing</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tools Grid -->
+    <section id="tools" class="py-20 px-6 border-t border-[var(--border)]">
+      <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-16">
+          <h2 class="text-2xl sm:text-3xl font-semibold mb-4">
+            {tools.length} Image Tools Available
+          </h2>
+          <p class="text-[var(--text-dim)] text-sm max-w-2xl mx-auto leading-relaxed">
+            Click any tool to start processing your images immediately. All tools support popular formats including JPG, PNG, WebP, and more.
+          </p>
+        </div>
+
+        <div class="tool-grid">
+          {tools.map(tool => (
+            <ToolCard tool={tool} />
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section id="benefits" class="py-20 px-6 border-t border-[var(--border)]">
+      <div class="max-w-4xl mx-auto">
+        <div class="text-center mb-16">
+          <h2 class="text-2xl sm:text-3xl font-semibold mb-6">Why Choose Our Image Tools?</h2>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-8">
+          <div class="glass-card p-8">
+            <h3 class="text-lg font-semibold mb-4">AI-Powered Enhancement</h3>
+            <p class="text-[var(--text-dim)] text-sm leading-relaxed">
+              Advanced AI upscaling increases image resolution while maintaining quality.
+              Background removal uses machine learning for precise cutouts with clean edges.
+            </p>
+          </div>
+
+          <div class="glass-card p-8">
+            <h3 class="text-lg font-semibold mb-4">Lossless Processing</h3>
+            <p class="text-[var(--text-dim)] text-sm leading-relaxed">
+              Intelligent compression reduces file sizes without visible quality loss.
+              Format conversion maintains color accuracy and transparency when supported.
+            </p>
+          </div>
+
+          <div class="glass-card p-8">
+            <h3 class="text-lg font-semibold mb-4">Batch Operations</h3>
+            <p class="text-[var(--text-dim)] text-sm leading-relaxed">
+              Process multiple images at once with batch resize, compress, and convert tools.
+              Save time with consistent settings applied across all your images.
+            </p>
+          </div>
+
+          <div class="glass-card p-8">
+            <h3 class="text-lg font-semibold mb-4">Privacy Guaranteed</h3>
+            <p class="text-[var(--text-dim)] text-sm leading-relaxed">
+              Your images never leave your device. All processing happens locally using
+              WebAssembly and WebGL technologies. No cloud servers, complete privacy.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>
+
+<!-- JSON-LD Structured Data for SEO -->
+<script type="application/ld+json" set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": title,
+  "description": description,
+  "url": "https://www.newlifesolutions.dev/hub/image-tools",
+  "about": {
+    "@type": "Thing",
+    "name": "Image Tools"
+  },
+  "mainEntity": {
+    "@type": "ItemList",
+    "itemListElement": tools.slice(0, 10).map((tool, index) => ({
+      "@type": "ListItem",
+      "position": index + 1,
+      "name": tool.name,
+      "description": tool.description,
+      "url": `https://www.newlifesolutions.dev${tool.href}`
+    }))
+  }
+})} />
