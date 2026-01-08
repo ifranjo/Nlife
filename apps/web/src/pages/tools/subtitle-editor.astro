@@ -38,9 +38,9 @@ const seoContent = {
 
   // TL;DR Answer Box (50-70 words - this is what AI extracts)
   answerBox: {
-    title: 'Edit SRT & VTT Subtitles — Free Online Editor',
-    queryTarget: 'How to Edit Subtitle Files Online Free',
-    tldr: `Upload your SRT or VTT subtitle file to edit captions directly in your browser. Adjust timing for out-of-sync subtitles, fix auto-generated text errors, add new entries, or delete unwanted captions. Convert between SRT and VTT formats instantly. Preview with video upload. All processing happens locally—no file upload to servers. Works offline.`,
+    title: toolData.seo?.h1 || 'Summarize Text & Documents with AI',
+    queryTarget: toolData.seo?.keywords?.[0] || 'How to Summarize Documents Online Free',
+    tldr: toolData.answer || `Paste text, upload a PDF/DOCX/TXT file, or enter a URL to generate an instant summary. Choose from brief, standard, or detailed lengths. Select bullet points, paragraphs, or key takeaways format. Use extractive mode for 100% local processing, or connect your own OpenAI/Claude API key for AI-powered summaries. Free, private, no signup required.`,
     trustSignals: [
       'Edit timing & text',
       'Convert SRT ⇄ VTT',

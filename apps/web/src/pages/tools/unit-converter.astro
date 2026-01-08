@@ -38,9 +38,9 @@ const seoContent = {
 
   // TL;DR Answer Box (50-70 words - this is what AI extracts)
   answerBox: {
-    title: 'Convert Units Online - Free Unit Converter',
-    queryTarget: 'How to Convert Units Online Free',
-    tldr: `Convert between units instantly with our free online converter. Choose from 8 categories: length, weight, temperature, volume, area, speed, time, and digital storage. Enter a value and see conversions to all related units in real-time. Uses precise conversion factors with up to 10 decimal places. Completely free, no signup required, works offline.`,
+    title: toolData.seo?.h1 || 'Summarize Text & Documents with AI',
+    queryTarget: toolData.seo?.keywords?.[0] || 'How to Summarize Documents Online Free',
+    tldr: toolData.answer || `Paste text, upload a PDF/DOCX/TXT file, or enter a URL to generate an instant summary. Choose from brief, standard, or detailed lengths. Select bullet points, paragraphs, or key takeaways format. Use extractive mode for 100% local processing, or connect your own OpenAI/Claude API key for AI-powered summaries. Free, private, no signup required.`,
     trustSignals: [
       '8 unit categories',
       '100+ conversion units',

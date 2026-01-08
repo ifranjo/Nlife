@@ -38,9 +38,9 @@ const seoContent = {
 
   // TL;DR Answer Box (50-70 words - this is what AI extracts)
   answerBox: {
-    title: 'AI Grammar Checker - Free Online Tool',
-    queryTarget: 'How to Check Grammar with AI Free',
-    tldr: `Check grammar, spelling, and punctuation with our free AI-powered tool. The Flan-T5 model identifies errors and provides corrections with explanations. Paste your text, click check, and see highlighted issues with fix suggestions. The AI runs 100% in your browser - your text never leaves your device. First load downloads ~150MB model (cached for future use).`,
+    title: toolData.seo?.h1 || 'Summarize Text & Documents with AI',
+    queryTarget: toolData.seo?.keywords?.[0] || 'How to Summarize Documents Online Free',
+    tldr: toolData.answer || `Paste text, upload a PDF/DOCX/TXT file, or enter a URL to generate an instant summary. Choose from brief, standard, or detailed lengths. Select bullet points, paragraphs, or key takeaways format. Use extractive mode for 100% local processing, or connect your own OpenAI/Claude API key for AI-powered summaries. Free, private, no signup required.`,
     trustSignals: [
       'Flan-T5 AI',
       '100% private',

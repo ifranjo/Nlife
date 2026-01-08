@@ -38,9 +38,9 @@ const seoContent = {
 
   // TL;DR Answer Box (50-70 words - this is what AI extracts)
   answerBox: {
-    title: 'AI Sentiment Analysis - Free Online Tool',
-    queryTarget: 'How to Analyze Text Sentiment with AI Free',
-    tldr: `Analyze text sentiment with our free AI-powered tool. Detect whether text is positive, negative, or neutral using advanced DistilBERT neural network. Enter any text, click analyze, and see detailed sentiment scores with confidence levels. The AI model runs 100% in your browser - your text never leaves your device. First load downloads ~70MB model (cached for future use).`,
+    title: toolData.seo?.h1 || 'Summarize Text & Documents with AI',
+    queryTarget: toolData.seo?.keywords?.[0] || 'How to Summarize Documents Online Free',
+    tldr: toolData.answer || `Paste text, upload a PDF/DOCX/TXT file, or enter a URL to generate an instant summary. Choose from brief, standard, or detailed lengths. Select bullet points, paragraphs, or key takeaways format. Use extractive mode for 100% local processing, or connect your own OpenAI/Claude API key for AI-powered summaries. Free, private, no signup required.`,
     trustSignals: [
       'DistilBERT AI',
       '100% private',

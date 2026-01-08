@@ -39,9 +39,9 @@ const seoContent = {
 
   // TL;DR Answer Box (50-70 words - this is what AI extracts)
   answerBox: {
-    title: 'Compress Images Online — Free, Private, No Upload',
-    queryTarget: 'How to Compress Images Online Free',
-    tldr: `Drop your images below to compress them up to 90% smaller while maintaining quality. All compression happens directly in your browser—files never leave your device. Supports PNG, JPEG, and WebP formats. Adjust quality settings, preview results, then download optimized images instantly. No signup required, no file limits, completely free.`,
+    title: toolData.seo?.h1 || 'Summarize Text & Documents with AI',
+    queryTarget: toolData.seo?.keywords?.[0] || 'How to Summarize Documents Online Free',
+    tldr: toolData.answer || `Paste text, upload a PDF/DOCX/TXT file, or enter a URL to generate an instant summary. Choose from brief, standard, or detailed lengths. Select bullet points, paragraphs, or key takeaways format. Use extractive mode for 100% local processing, or connect your own OpenAI/Claude API key for AI-powered summaries. Free, private, no signup required.`,
     trustSignals: [
       '100% browser-based',
       'Files never uploaded',

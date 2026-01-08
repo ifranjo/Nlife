@@ -37,11 +37,11 @@ const seoContent = {
   title: toolData.seo?.title || `${toolData.name} - Free Online Tool | New Life Solutions`,
   description: toolData.seo?.metaDescription || toolData.description,
 
-  // TL;DR Answer Box (50-70 words - this is what AI extracts)
+  // TL;DR Answer Box (50-70 words - from tools.ts answer field)
   answerBox: {
-    title: 'Merge PDF Files Online — Free, Private, No Upload',
-    queryTarget: 'How to Merge PDF Files Online Free',
-    tldr: `Drag and drop your PDF files below to combine them into a single document. All processing happens directly in your browser—your files never leave your device. Reorder pages by dragging, remove unwanted files, then download your merged PDF instantly. No signup required, no file size limits, no watermarks. Works completely offline.`,
+    title: toolData.seo?.h1 || `Merge PDF Files Online — Free, Private, No Upload`,
+    queryTarget: toolData.seo?.keywords?.[0] || 'How to Merge PDF Files Online Free',
+    tldr: toolData.answer || `Drag and drop your PDF files below to combine them into a single document. All processing happens directly in your browser—your files never leave your device.`,
     trustSignals: [
       '100% browser-based',
       'Files never uploaded',

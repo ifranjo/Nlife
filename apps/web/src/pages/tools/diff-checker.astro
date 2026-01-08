@@ -38,9 +38,9 @@ const seoContent = {
 
   // TL;DR Answer Box (50-70 words - this is what AI extracts)
   answerBox: {
-    title: 'Compare Text & Find Differences - Free Online Diff Tool',
-    queryTarget: 'How to Compare Two Texts Online Free',
-    tldr: `Paste your original and modified text in the two panels below, then click Compare. The tool highlights additions in green, deletions in red, and unchanged content in gray. Switch between line-by-line and word-by-word diff modes. See statistics for lines added, removed, and unchanged. All processing happens in your browser—your data stays private.`,
+    title: toolData.seo?.h1 || 'Summarize Text & Documents with AI',
+    queryTarget: toolData.seo?.keywords?.[0] || 'How to Summarize Documents Online Free',
+    tldr: toolData.answer || `Paste text, upload a PDF/DOCX/TXT file, or enter a URL to generate an instant summary. Choose from brief, standard, or detailed lengths. Select bullet points, paragraphs, or key takeaways format. Use extractive mode for 100% local processing, or connect your own OpenAI/Claude API key for AI-powered summaries. Free, private, no signup required.`,
     trustSignals: [
       'Instant comparison',
       'Line & word modes',

@@ -38,9 +38,9 @@ const seoContent = {
 
   // TL;DR Answer Box (50-70 words - this is what AI extracts)
   answerBox: {
-    title: 'Base64 Encode & Decode — Free Online Converter',
-    queryTarget: 'How to Encode Base64 Online Free',
-    tldr: `Paste your text or upload a file below to encode it to Base64, or paste Base64 data to decode it back. Supports text-to-Base64, file-to-Base64, and decoding. All processing happens in your browser—your data never leaves your device. No file size limits, no signup, completely free. Works with images, PDFs, and any file type.`,
+    title: toolData.seo?.h1 || 'Summarize Text & Documents with AI',
+    queryTarget: toolData.seo?.keywords?.[0] || 'How to Summarize Documents Online Free',
+    tldr: toolData.answer || `Paste text, upload a PDF/DOCX/TXT file, or enter a URL to generate an instant summary. Choose from brief, standard, or detailed lengths. Select bullet points, paragraphs, or key takeaways format. Use extractive mode for 100% local processing, or connect your own OpenAI/Claude API key for AI-powered summaries. Free, private, no signup required.`,
     trustSignals: [
       'Instant conversion',
       'No file uploads',

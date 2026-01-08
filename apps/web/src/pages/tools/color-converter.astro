@@ -38,9 +38,9 @@ const seoContent = {
 
   // TL;DR Answer Box (50-70 words - this is what AI extracts)
   answerBox: {
-    title: 'Convert Colors — HEX, RGB, HSL, RGBA',
-    queryTarget: 'How to Convert HEX to RGB Online Free',
-    tldr: `Enter any color value below—HEX (#ff5500), RGB (255, 85, 0), or HSL (20, 100%, 50%)—to instantly convert to all formats. See a live color preview and get copy-ready CSS code. Adjust values with sliders for precise color tuning. All processing is in your browser. Free, private, no signup.`,
+    title: toolData.seo?.h1 || 'Summarize Text & Documents with AI',
+    queryTarget: toolData.seo?.keywords?.[0] || 'How to Summarize Documents Online Free',
+    tldr: toolData.answer || `Paste text, upload a PDF/DOCX/TXT file, or enter a URL to generate an instant summary. Choose from brief, standard, or detailed lengths. Select bullet points, paragraphs, or key takeaways format. Use extractive mode for 100% local processing, or connect your own OpenAI/Claude API key for AI-powered summaries. Free, private, no signup required.`,
     trustSignals: [
       'All major formats',
       'Live preview',

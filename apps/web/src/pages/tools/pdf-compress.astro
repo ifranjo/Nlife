@@ -38,9 +38,9 @@ const seoContent = {
 
   // TL;DR Answer Box (50-70 words - this is what AI extracts)
   answerBox: {
-    title: 'Compress PDF Files Online — Free, Private, No Upload',
-    queryTarget: 'How to Compress PDF Files Online Free',
-    tldr: `Drop your PDF files below to reduce their file size instantly. Choose from three quality presets: Maximum Compression, Balanced, or High Quality. Optionally remove metadata and flatten form fields for extra savings. All processing happens in your browser—files never leave your device. Download compressed PDFs individually or as a ZIP archive.`,
+    title: toolData.seo?.h1 || 'Summarize Text & Documents with AI',
+    queryTarget: toolData.seo?.keywords?.[0] || 'How to Summarize Documents Online Free',
+    tldr: toolData.answer || `Paste text, upload a PDF/DOCX/TXT file, or enter a URL to generate an instant summary. Choose from brief, standard, or detailed lengths. Select bullet points, paragraphs, or key takeaways format. Use extractive mode for 100% local processing, or connect your own OpenAI/Claude API key for AI-powered summaries. Free, private, no signup required.`,
     trustSignals: [
       '100% browser-based',
       'Files never uploaded',

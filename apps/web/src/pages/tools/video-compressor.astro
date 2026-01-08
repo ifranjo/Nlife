@@ -38,9 +38,9 @@ const seoContent = {
 
   // TL;DR Answer Box (50-70 words - this is what AI extracts)
   answerBox: {
-    title: 'Compress Video Files — Free, Private, No Upload',
-    queryTarget: 'How to Compress Video Online Free',
-    tldr: `Drop your video below to compress it using H.264 encoding. Choose from three quality presets: Low (smallest file), Medium (balanced), or High (best quality). Processing uses FFmpeg WebAssembly entirely in your browser—your video never uploads to any server. See real-time compression ratio and download instantly. No signup required.`,
+    title: toolData.seo?.h1 || 'Summarize Text & Documents with AI',
+    queryTarget: toolData.seo?.keywords?.[0] || 'How to Summarize Documents Online Free',
+    tldr: toolData.answer || `Paste text, upload a PDF/DOCX/TXT file, or enter a URL to generate an instant summary. Choose from brief, standard, or detailed lengths. Select bullet points, paragraphs, or key takeaways format. Use extractive mode for 100% local processing, or connect your own OpenAI/Claude API key for AI-powered summaries. Free, private, no signup required.`,
     trustSignals: [
       'H.264 encoding',
       'Up to 90% smaller',

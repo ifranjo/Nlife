@@ -38,9 +38,9 @@ const seoContent = {
 
   // TL;DR Answer Box (50-70 words - this is what AI extracts)
   answerBox: {
-    title: 'Remove Image Backgrounds — Free AI Tool, No Upload',
-    queryTarget: 'How to Remove Background from Image Online Free',
-    tldr: `Drop your image below to instantly remove the background using AI. Works on portraits, product photos, logos, and any image. The AI model runs entirely in your browser—your photos are never uploaded to any server. Download as PNG with transparent background. No signup, no watermarks, unlimited free use. First load downloads the AI model (~40MB).`,
+    title: toolData.seo?.h1 || 'Summarize Text & Documents with AI',
+    queryTarget: toolData.seo?.keywords?.[0] || 'How to Summarize Documents Online Free',
+    tldr: toolData.answer || `Paste text, upload a PDF/DOCX/TXT file, or enter a URL to generate an instant summary. Choose from brief, standard, or detailed lengths. Select bullet points, paragraphs, or key takeaways format. Use extractive mode for 100% local processing, or connect your own OpenAI/Claude API key for AI-powered summaries. Free, private, no signup required.`,
     trustSignals: [
       'AI-powered accuracy',
       'No file uploads',

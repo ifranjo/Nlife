@@ -40,9 +40,9 @@ const seoContent = {
 
   // TL;DR Answer Box (50-70 words - this is what AI extracts)
   answerBox: {
-    title: 'Remove GPS Location from Photos — Free EXIF Editor',
-    queryTarget: 'How to Remove GPS Location from Photos Before Sharing',
-    tldr: `Drop your JPEG photo below to instantly view all hidden metadata including GPS coordinates, camera settings, and timestamps. Strip GPS location data with one click to protect your privacy before sharing photos online. Edit copyright, author, and date fields. All processing happens in your browser—photos never leave your device. No signup, completely free.`,
+    title: toolData.seo?.h1 || 'Summarize Text & Documents with AI',
+    queryTarget: toolData.seo?.keywords?.[0] || 'How to Summarize Documents Online Free',
+    tldr: toolData.answer || `Paste text, upload a PDF/DOCX/TXT file, or enter a URL to generate an instant summary. Choose from brief, standard, or detailed lengths. Select bullet points, paragraphs, or key takeaways format. Use extractive mode for 100% local processing, or connect your own OpenAI/Claude API key for AI-powered summaries. Free, private, no signup required.`,
     trustSignals: [
       'GPS location removal',
       'No file uploads',

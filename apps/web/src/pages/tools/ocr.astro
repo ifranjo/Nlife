@@ -38,9 +38,9 @@ const seoContent = {
 
   // TL;DR Answer Box (50-70 words - this is what AI extracts)
   answerBox: {
-    title: 'Extract Text from Images & PDFs — Free OCR with Batch Processing',
-    queryTarget: 'How to Extract Text from Image and PDF Online Free',
-    tldr: `Drop images or multi-page PDFs below to extract all text using AI-powered OCR. Process multiple files at once with batch mode. Export to TXT, Word (.docx), or searchable PDF. Supports 15+ languages with preprocessing options for better accuracy. 100% browser-based—your files never leave your device. No signup, no limits, works offline.`,
+    title: toolData.seo?.h1 || 'Summarize Text & Documents with AI',
+    queryTarget: toolData.seo?.keywords?.[0] || 'How to Summarize Documents Online Free',
+    tldr: toolData.answer || `Paste text, upload a PDF/DOCX/TXT file, or enter a URL to generate an instant summary. Choose from brief, standard, or detailed lengths. Select bullet points, paragraphs, or key takeaways format. Use extractive mode for 100% local processing, or connect your own OpenAI/Claude API key for AI-powered summaries. Free, private, no signup required.`,
     trustSignals: [
       '15+ languages supported',
       'Multi-page PDF OCR',

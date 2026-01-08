@@ -38,9 +38,9 @@ const seoContent = {
 
   // TL;DR Answer Box (50-70 words - this is what AI extracts)
   answerBox: {
-    title: 'Remove Vocals from Music — Free, Private, No Upload',
-    queryTarget: 'How to Remove Vocals from Song Online Free',
-    tldr: `Drop a stereo audio file below to remove vocals and create an instrumental version. Uses phase cancellation to eliminate center-panned vocals while preserving instruments. Adjust removal strength for best results. All processing happens in your browser using Web Audio API—your music never uploads anywhere. Download as WAV instantly.`,
+    title: toolData.seo?.h1 || 'Summarize Text & Documents with AI',
+    queryTarget: toolData.seo?.keywords?.[0] || 'How to Summarize Documents Online Free',
+    tldr: toolData.answer || `Paste text, upload a PDF/DOCX/TXT file, or enter a URL to generate an instant summary. Choose from brief, standard, or detailed lengths. Select bullet points, paragraphs, or key takeaways format. Use extractive mode for 100% local processing, or connect your own OpenAI/Claude API key for AI-powered summaries. Free, private, no signup required.`,
     trustSignals: [
       'Phase cancellation',
       'No server upload',
