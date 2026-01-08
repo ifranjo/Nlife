@@ -290,6 +290,35 @@ const themeColor = theme === 'clean' ? '#f8f9fa' : '#0a0a0a';
       };
     </script>
 
+    <!-- Tool usage tracking (serverless KV) -->
+    <script is:inline>
+      (() => {
+        const path = window.location.pathname;
+        const match = path.match(/^\\/tools\\/([^/]+)/);
+        if (!match) return;
+
+        const payload = JSON.stringify({
+          toolId: match[1],
+          event: 'view',
+          path,
+          referrer: document.referrer
+        });
+
+        if (navigator.sendBeacon) {
+          const blob = new Blob([payload], { type: 'application/json' });
+          navigator.sendBeacon('/api/tool-usage', blob);
+          return;
+        }
+
+        fetch('/api/tool-usage', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: payload,
+          keepalive: true
+        }).catch(() => undefined);
+      })();
+    </script>
+
     <!-- Vercel Analytics & Speed Insights -->
     <Analytics />
     <SpeedInsights />

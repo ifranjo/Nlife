@@ -374,6 +374,16 @@ body {
   background: transparent;
 }
 
+.tag-highlight {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: rgba(27, 108, 241, 0.12);
+}
+
+[data-theme="clean"] .tag-highlight {
+  background: rgba(27, 108, 241, 0.18);
+}
+
 /* === DROP ZONE === */
 .drop-zone {
   border: 2px dashed var(--border);

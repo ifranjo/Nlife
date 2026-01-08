@@ -31,7 +31,7 @@ const categoryLabel = categoryLabels[tool.category] ?? tool.category;
   <!-- Header -->
   <div class="flex items-start justify-between mb-4">
     <div class="w-10 h-10 tool-icon">
-      <img src={tool.thumbnail} alt={`${tool.name} icon`} class="w-full h-full" loading="lazy" />
+      <img src={tool.thumbnail} alt={`${tool.name} icon`} class="w-full h-full" loading="lazy" decoding="async" />
     </div>
     <span class={`tag ${tagClass}`}>{tool.tier}</span>
   </div>

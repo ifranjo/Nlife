@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import type { Tool } from '../../lib/tools';
 
 interface ToolHubProps {
@@ -7,7 +7,41 @@ interface ToolHubProps {
 
 interface ToolCardProps {
   tool: Tool;
+  stats?: ToolStat;
+  basis?: 'uses' | 'views';
+  onClick?: () => void;
 }
+
+type ToolStat = {
+  id: string;
+  views: number;
+  uses: number;
+  uniques: number;
+  rank: number;
+};
+
+type ToolStatsResponse = {
+  enabled: boolean;
+  basis?: 'uses' | 'views';
+  top: Array<{
+    id: string;
+    views: number;
+    uses: number;
+    uniques: number;
+  }>;
+};
+
+const formatCompact = (value: number) => {
+  if (value >= 1_000_000) {
+    const formatted = (value / 1_000_000).toFixed(1);
+    return `${formatted.replace(/\.0$/, '')}m`;
+  }
+  if (value >= 1_000) {
+    const formatted = (value / 1_000).toFixed(1);
+    return `${formatted.replace(/\.0$/, '')}k`;
+  }
+  return `${value}`;
+};
 
 const categoryLabels: Record<Tool['category'], string> = {
   document: 'PDF & Docs',
@@ -24,14 +58,18 @@ const categoryDisplay: Record<string, string> = {
 
 const categoryOrder = ['all', 'document', 'media', 'ai', 'utility', 'games'] as const;
 
-const ToolCard: React.FC<ToolCardProps> = ({ tool }) => {
+const ToolCard: React.FC<ToolCardProps> = ({ tool, stats, basis = 'uses', onClick }) => {
   const isDisabled = tool.tier === 'coming' || tool.tier === 'pro';
   const tagClass = tool.tier === 'free' ? 'tag-free' : tool.tier === 'pro' ? 'tag-pro' : 'tag-coming';
   const categoryLabel = categoryLabels[tool.category] ?? tool.category;
+  const hasStats = Boolean(stats && (stats.views || stats.uses || stats.uniques));
+  const primaryBadge = basis === 'views' ? 'Most Viewed' : 'Most Used';
+  const badge = hasStats ? (stats?.rank === 1 ? primaryBadge : 'Top 3') : null;
 
   return (
     <a
       href={isDisabled ? undefined : tool.href}
+      onClick={isDisabled ? undefined : onClick}
       className={[
         'tool-card block',
         isDisabled ? 'opacity-50 cursor-not-allowed pointer-events-none' : ''
@@ -41,11 +79,18 @@ const ToolCard: React.FC<ToolCardProps> = ({ tool }) => {
       {/* Header */}
       <div className="flex items-start justify-between mb-4">
         <div className="w-10 h-10 tool-icon">
-          <img src={tool.thumbnail} alt={`${tool.name} icon`} className="w-full h-full" loading="lazy" />
+          <img src={tool.thumbnail} alt={`${tool.name} icon`} className="w-full h-full" loading="lazy" decoding="async" />
         </div>
-        <span className={`tag ${tagClass}`}>
-          {tool.tier}
-        </span>
+        <div className="flex items-center gap-2">
+          <span className={`tag ${tagClass}`}>
+            {tool.tier}
+          </span>
+          {badge && (
+            <span className="tag tag-highlight">
+              {badge}
+            </span>
+          )}
+        </div>
       </div>
 
       {/* Title */}
@@ -57,6 +102,23 @@ const ToolCard: React.FC<ToolCardProps> = ({ tool }) => {
       <p className="text-[var(--text-dim)] text-xs leading-relaxed mb-4">
         {tool.description}
       </p>
+
+      {hasStats && stats && (
+        <div className="grid grid-cols-3 gap-2 text-[0.55rem] uppercase tracking-[0.15em] text-[var(--text-muted)] mb-4">
+          <div>
+            <div className="text-[var(--text)] text-xs font-semibold">{formatCompact(stats.uses)}</div>
+            <div>Uses</div>
+          </div>
+          <div>
+            <div className="text-[var(--text)] text-xs font-semibold">{formatCompact(stats.uniques)}</div>
+            <div>Visitors</div>
+          </div>
+          <div>
+            <div className="text-[var(--text)] text-xs font-semibold">{formatCompact(stats.views)}</div>
+            <div>Views</div>
+          </div>
+        </div>
+      )}
 
       {/* Category and Popular Badge */}
       <div className="flex items-center justify-between">
@@ -86,6 +148,8 @@ export const ToolHub: React.FC<ToolHubProps> = ({ tools }) => {
   const [sortBy, setSortBy] = useState<string>('popular');
   const [showFilters, setShowFilters] = useState(false);
   const [selectedTier, setSelectedTier] = useState<string>('all');
+  const [toolStats, setToolStats] = useState<Record<string, ToolStat>>({});
+  const [statsBasis, setStatsBasis] = useState<'uses' | 'views'>('uses');
 
   // Get unique categories
   const categories = useMemo(() => {
@@ -107,6 +171,65 @@ export const ToolHub: React.FC<ToolHubProps> = ({ tools }) => {
     setSelectedCategory('all');
     setSelectedTier('all');
     setSortBy('popular');
+  };
+
+  useEffect(() => {
+    let active = true;
+
+    const loadStats = async () => {
+      try {
+        const response = await fetch('/api/tool-stats');
+        if (!response.ok) return;
+        const data = (await response.json()) as ToolStatsResponse;
+        if (!data?.enabled || !Array.isArray(data.top)) return;
+
+        const nextStats: Record<string, ToolStat> = {};
+        data.top.forEach((item, index) => {
+          nextStats[item.id] = {
+            ...item,
+            rank: index + 1
+          };
+        });
+
+        if (active) {
+          setToolStats(nextStats);
+          setStatsBasis(data.basis === 'views' ? 'views' : 'uses');
+        }
+      } catch {
+        if (active) {
+          setToolStats({});
+        }
+      }
+    };
+
+    loadStats();
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  const sendToolEvent = (toolId: string, event: 'hub_click') => {
+    if (typeof window === 'undefined') return;
+
+    const payload = JSON.stringify({
+      toolId,
+      event,
+      path: window.location.pathname,
+      referrer: document.referrer
+    });
+
+    if (navigator.sendBeacon) {
+      const blob = new Blob([payload], { type: 'application/json' });
+      navigator.sendBeacon('/api/tool-usage', blob);
+      return;
+    }
+
+    fetch('/api/tool-usage', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: payload,
+      keepalive: true
+    }).catch(() => undefined);
   };
 
   // Get unique tags
@@ -206,6 +329,7 @@ export const ToolHub: React.FC<ToolHubProps> = ({ tools }) => {
             <button
               key={category}
               onClick={() => setSelectedCategory(category)}
+              aria-pressed={selectedCategory === category}
               className={[
                 'px-4 py-2 rounded-full text-[0.625rem] uppercase tracking-[0.2em] transition-all',
                 selectedCategory === category
@@ -246,10 +370,11 @@ export const ToolHub: React.FC<ToolHubProps> = ({ tools }) => {
           </div>
 
           <div className="flex items-center gap-2">
-            <label className="text-[0.625rem] uppercase tracking-[0.2em] text-[var(--text-dim)]">
+            <label htmlFor="toolhub-sort" className="text-[0.625rem] uppercase tracking-[0.2em] text-[var(--text-dim)]">
               Sort by:
             </label>
             <select
+              id="toolhub-sort"
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
               className="px-3 py-2 bg-[var(--bg-secondary)] border border-[var(--border)] rounded text-[0.625rem] uppercase tracking-[0.2em] text-[var(--text)] focus:outline-none focus:border-[var(--accent)]"
@@ -273,6 +398,7 @@ export const ToolHub: React.FC<ToolHubProps> = ({ tools }) => {
                   <button
                     key={tier}
                     onClick={() => setSelectedTier(tier)}
+                    aria-pressed={selectedTier === tier}
                     className={[
                       'px-3 py-1 rounded text-[0.625rem] uppercase tracking-[0.2em]',
                       selectedTier === tier
@@ -326,7 +452,13 @@ export const ToolHub: React.FC<ToolHubProps> = ({ tools }) => {
       <div className="tool-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 mb-12">
         {filteredAndSortedTools.length > 0 ? (
           filteredAndSortedTools.map(tool => (
-            <ToolCard key={tool.id} tool={tool} />
+            <ToolCard
+              key={tool.id}
+              tool={tool}
+              stats={toolStats[tool.id]}
+              basis={statsBasis}
+              onClick={() => sendToolEvent(tool.id, 'hub_click')}
+            />
           ))
         ) : (
           <div className="col-span-full text-center py-12">
@@ -358,7 +490,13 @@ export const ToolHub: React.FC<ToolHubProps> = ({ tools }) => {
           </div>
           <div className="tool-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {tools.filter(t => t.popular).map(tool => (
-              <ToolCard key={`popular-${tool.id}`} tool={tool} />
+              <ToolCard
+                key={`popular-${tool.id}`}
+                tool={tool}
+                stats={toolStats[tool.id]}
+                basis={statsBasis}
+                onClick={() => sendToolEvent(tool.id, 'hub_click')}
+              />
             ))}
           </div>
         </div>
