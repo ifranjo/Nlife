@@ -403,14 +403,14 @@ test.describe('Canvas and WebGL', () => {
 
     const webGLInfo = await page.evaluate(() => {
       const canvas = document.createElement('canvas');
-      const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+      const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl') as WebGLRenderingContext | null;
       if (!gl) return { supported: false };
 
-      const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+      const debugInfo = (gl as WebGLRenderingContext).getExtension('WEBGL_debug_renderer_info');
       return {
         supported: true,
-        renderer: debugInfo ? gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL) : 'Unknown',
-        vendor: debugInfo ? gl.getParameter(debugInfo.UNMASKED_VENDOR_WEBGL) : 'Unknown'
+        renderer: debugInfo ? (gl as WebGLRenderingContext).getParameter(debugInfo.UNMASKED_RENDERER_WEBGL) : 'Unknown',
+        vendor: debugInfo ? (gl as WebGLRenderingContext).getParameter(debugInfo.UNMASKED_VENDOR_WEBGL) : 'Unknown'
       };
     });
 

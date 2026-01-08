@@ -70,6 +70,14 @@ const PAGES = {
     { path: '/tools/svg-editor', name: 'SVG Editor' },
     { path: '/tools/markdown-editor', name: 'Markdown Editor' },
     { path: '/tools/ai-summary', name: 'AI Summary' },
+    { path: '/tools/sentiment-analysis', name: 'AI Sentiment Analysis' },
+    { path: '/tools/object-detection', name: 'AI Object Detection' },
+    { path: '/tools/image-captioning', name: 'AI Image Captioning' },
+    { path: '/tools/text-summarization', name: 'AI Text Summarization' },
+    { path: '/tools/grammar-checker', name: 'AI Grammar Checker' },
+    { path: '/tools/image-resize', name: 'Image Resize' },
+    { path: '/tools/unit-converter', name: 'Unit Converter' },
+    { path: '/tools/qr-reader', name: 'QR Code Reader' },
   ],
 
   // Category pages
@@ -140,17 +148,17 @@ async function getMetaContent(page: Page, attribute: string, value: string): Pro
 /**
  * Check if a JSON-LD script exists and is valid JSON
  */
-async function getJsonLd(page: Page): Promise<object[] | null> {
+async function getJsonLd(page: Page): Promise<Record<string, unknown>[] | null> {
   const scripts = page.locator('script[type="application/ld+json"]');
   const count = await scripts.count();
   if (count === 0) return null;
 
-  const results: object[] = [];
+  const results: Record<string, unknown>[] = [];
   for (let i = 0; i < count; i++) {
     const content = await scripts.nth(i).textContent();
     if (content) {
       try {
-        results.push(JSON.parse(content));
+        results.push(JSON.parse(content) as Record<string, unknown>);
       } catch {
         // Invalid JSON, skip
       }

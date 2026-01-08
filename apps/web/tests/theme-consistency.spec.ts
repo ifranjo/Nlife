@@ -15,7 +15,8 @@
  * 7. No flash of wrong theme on load
  * 8. Theme persists across page navigation
  */
-import { test, expect, Page } from '@playwright/test';
+import { test, expect } from '@playwright/test';
+import type { Page } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
 // ============================================================================

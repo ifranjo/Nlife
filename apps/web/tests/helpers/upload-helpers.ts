@@ -1,4 +1,4 @@
-import { Page } from '@playwright/test';
+import type { Page } from '@playwright/test';
 
 /**
  * Helper para subir múltiples archivos PDF a PDF Merge

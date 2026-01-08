@@ -253,7 +253,12 @@ test.describe('File Converter - Functional', () => {
     // Select JPG output format (if there's a selector)
     const formatSelector = page.locator('select, [role="combobox"]').first();
     if (await formatSelector.isVisible()) {
-      await formatSelector.selectOption({ label: /jpg|jpeg/i });
+      // Try common JPG label variations
+      const options = await formatSelector.locator('option').allTextContents();
+      const jpgOption = options.find(opt => /jpg|jpeg/i.test(opt));
+      if (jpgOption) {
+        await formatSelector.selectOption({ label: jpgOption });
+      }
     }
 
     // Find and click convert button (says "Convert X Image(s) to FORMAT")

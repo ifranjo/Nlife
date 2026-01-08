@@ -12,7 +12,8 @@
  * Run: npx playwright test tests/accessibility-comprehensive.spec.ts
  * Run single browser: npx playwright test tests/accessibility-comprehensive.spec.ts --project=chromium
  */
-import { test, expect, Page } from '@playwright/test';
+import { test, expect } from '@playwright/test';
+import type { Page } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
 // All tool pages in the project
@@ -66,6 +67,16 @@ const TOOL_PAGES = [
 
   // AI Tools
   { path: '/tools/ai-summary', name: 'AI Summary', category: 'ai' },
+  { path: '/tools/sentiment-analysis', name: 'AI Sentiment Analysis', category: 'ai' },
+  { path: '/tools/object-detection', name: 'AI Object Detection', category: 'ai' },
+  { path: '/tools/image-captioning', name: 'AI Image Captioning', category: 'ai' },
+  { path: '/tools/text-summarization', name: 'AI Text Summarization', category: 'ai' },
+  { path: '/tools/grammar-checker', name: 'AI Grammar Checker', category: 'ai' },
+
+  // Utility Tools (new)
+  { path: '/tools/image-resize', name: 'Image Resize', category: 'utility' },
+  { path: '/tools/unit-converter', name: 'Unit Converter', category: 'utility' },
+  { path: '/tools/qr-reader', name: 'QR Code Reader', category: 'utility' },
 ];
 
 // Interface for accessibility results
