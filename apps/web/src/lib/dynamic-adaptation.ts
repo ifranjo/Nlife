@@ -5,7 +5,7 @@
  * for optimal extraction and citation by different AI systems
  */
 
-import { AITrafficDetector, PersonalizationContext } from './ai-detection';
+import { AITrafficDetector, type PersonalizationContext } from './ai-detection';
 
 interface AdaptationRules {
   contentFormat: {
@@ -344,7 +344,9 @@ class DynamicAdaptationEngine {
   }
 }
 
-// Export singleton instance
+// Export both the class constructor and instance
+export { DynamicAdaptationEngine };
+export { type AdaptationRules };
 export const adaptationEngine = new DynamicAdaptationEngine();
 
 // Auto-initialize when DOM is ready
@@ -361,5 +363,3 @@ if (typeof window !== 'undefined') {
   }
 }
 
-export type { AdaptationRules };
-export type { AITrafficProfile, PersonalizationContext } from './ai-detection';

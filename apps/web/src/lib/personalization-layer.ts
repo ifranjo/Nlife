@@ -5,7 +5,7 @@
  * traffic detection, dynamic adaptation, and performance optimization
  */
 
-import { AITrafficDetector } from './ai-detection';
+import { AITrafficDetector, type PersonalizationContext } from './ai-detection';
 import { DynamicAdaptationEngine } from './dynamic-adaptation';
 import { PerformanceOptimizer } from './performance-optimizer';
 
@@ -132,7 +132,8 @@ class PersonalizationLayer {
 
     } catch (error) {
       console.error('Failed to initialize PersonalizationLayer:', error);
-      this.logEvent('initialization_error', { error: error.message });
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      this.logEvent('initialization_error', { error: errorMessage });
     }
   }
 
@@ -361,7 +362,7 @@ class PersonalizationLayer {
   /**
    * Get personalization session data
    */
-  getSessionData(): Partial<PersonalizationSession> {
+  getSessionData(): Partial<PersonalizationSession & { platforms: string[] }> {
     return {
       sessionId: this.session.sessionId,
       startTime: this.session.startTime,
@@ -472,3 +473,5 @@ export type {
   PersonalizationSession,
   PersonalizationConfig
 };
+// Export types
+export type { PersonalizationContext, PersonalizationEvent, PersonalizationSession, PersonalizationConfig };

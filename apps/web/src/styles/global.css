@@ -1781,3 +1781,184 @@ textarea,
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ============================ */
+/* AI PERSONALIZATION STYLES */
+/* ============================ */
+
+/* AI Traffic Indicators */
+.ai-crawler-claude .voice-answer,
+.ai-crawler-gpt4 .voice-answer,
+.ai-crawler-gemini .voice-answer {
+  border-width: 3px !important;
+}
+
+/* Keyword Emphasis */
+.ai-keyword {
+  background: linear-gradient(120deg, var(--success) 0%, transparent 100%);
+  background-size: 100% 0.3em;
+  background-repeat: no-repeat;
+  background-position: 0 88%;
+  padding: 2px 4px;
+  border-radius: 3px;
+  font-weight: 600;
+}
+
+.ai-crawler-gemini .ai-keyword {
+  background: none;
+  color: inherit;
+  padding: 0;
+  border-radius: 0;
+}
+
+/* Answer Highlighting */
+.ai-answer-highlight {
+  position: relative;
+  border-left: 4px solid var(--success) !important;
+  background: linear-gradient(90deg, var(--success)/0.1 0%, transparent 100%);
+  padding-left: 1.5rem !important;
+}
+
+.ai-answer-indicator {
+  position: absolute;
+  top: -10px;
+  right: 10px;
+  background: var(--success);
+  color: var(--bg);
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.625rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Citation Blocks */
+.ai-citation-block {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg) 100%);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  border-left: 4px solid var(--warning);
+}
+
+.ai-citation-block h4 {
+  color: var(--warning);
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.ai-citation-block ul {
+  list-style: none;
+  padding: 0;
+}
+
+.ai-citation-block li {
+  padding: 0.25rem 0;
+  border-bottom: 1px dashed var(--border);
+}
+
+.ai-citation-block li:last-child {
+  border-bottom: none;
+}
+
+.ai-citation-block a {
+  color: var(--text);
+  text-decoration: none;
+}
+
+.ai-citation-block a:hover {
+  color: var(--success);
+  text-decoration: underline;
+}
+
+/* TL;DR Expansion */
+.tldr-expand-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background: var(--success);
+  color: var(--bg);
+  border: none;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.tldr-expand-btn:hover {
+  background: #00cc00;
+  transform: translateY(-1px);
+}
+
+.tldr-details {
+  display: none;
+  margin-top: 1rem;
+  padding: 1.5rem;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+/* Streamlined Mode for AI Crawlers */
+.ai-streamlined-mode {
+  animation: none !important;
+}
+
+.ai-streamlined-mode * {
+  transition: none !important;
+  animation-duration: 0.001ms !important;
+}
+
+.ai-streamlined-mode .glass-card {
+  backdrop-filter: none !important;
+  box-shadow: none !important;
+}
+
+.ai-streamlined-mode .btn-primary,
+.ai-streamlined-mode .btn-secondary {
+  transform: none !important;
+}
+
+/* AI Platform Specific Styles */
+.ai-crawler-claude .constitutional-ai-notice {
+  display: block !important;
+  background: linear-gradient(135deg, var(--success)/0.1 0%, transparent 100%);
+  border-color: var(--success);
+}
+
+.ai-crawler-perplexity .academic-citations {
+  display: block !important;
+}
+
+.ai-crawler-gpt4 .technical-details {
+  display: block !important;
+}
+
+.ai-crawler-gemini .concise-facts {
+  display: block !important;
+}
+
+/* Content Hierarchy Markers */
+[data-content-level="h1"] {
+  border-left: 4px solid var(--success);
+  padding-left: 1rem;
+}
+
+[data-content-level="h2"] {
+  border-left: 3px solid var(--warning);
+  padding-left: 0.75rem;
+}
+
+/* Extraction Priority */
+[data-extraction-priority="0"] {
+  outline: 2px solid var(--success);
+}
+
+[data-extraction-priority="1"] {
+  outline: 2px solid var(--warning);
+}
+

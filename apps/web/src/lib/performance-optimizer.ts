@@ -291,7 +291,8 @@ class PerformanceOptimizer {
     if ('PerformanceObserver' in window) {
       const observer = new PerformanceObserver((list) => {
         for (const entry of list.getEntries()) {
-          this.metrics[`${entry.entryType}-${entry.name}`] = entry.duration;
+          const key = `${entry.entryType}-${entry.name}` as keyof PerformanceMetrics;
+          (this.metrics as any)[key] = entry.duration;
         }
       });
 
@@ -429,8 +430,12 @@ class PerformanceOptimizer {
   }
 }
 
-// Export singleton instance
+// Export both the class constructor and instance
+export { PerformanceOptimizer };
+export { type PerformanceMetrics, type OptimizationConfig };
 export const performanceOptimizer = new PerformanceOptimizer();
+
+// Auto-initialize when ready
 
 // Auto-initialize when ready
 if (typeof window !== 'undefined') {
@@ -445,4 +450,3 @@ if (typeof window !== 'undefined') {
   }
 }
 
-export type { PerformanceMetrics, OptimizationConfig };

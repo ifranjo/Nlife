@@ -326,6 +326,9 @@ class AITrafficDetector {
 }
 
 // Export singleton instance
+// Export both the class constructor and instance
+export { AITrafficDetector };
+export type { AITrafficProfile, PersonalizationContext };
 export const aiTrafficDetector = new AITrafficDetector();
 
 // Auto-initialize on page load
@@ -342,4 +345,3 @@ if (typeof window !== 'undefined') {
   }
 }
 
-export type { AITrafficProfile, PersonalizationContext };
