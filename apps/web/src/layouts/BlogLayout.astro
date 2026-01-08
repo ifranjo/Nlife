@@ -1,0 +1,340 @@
+---
+/**
+ * BlogLayout.astro
+ *
+ * Blog post layout optimized for voice search and AI extraction.
+ * Includes structured data markup for conversational queries.
+ */
+
+import Layout from './Layout.astro';
+import Navbar from '../components/ui/Navbar.astro';
+import Footer from '../components/ui/Footer.astro';
+import AuthorBio from '../components/seo/AuthorBio.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  published: string;
+  modified?: string;
+  author?: string;
+  tags?: string[];
+  category?: string;
+  readingTime?: string;
+  featuredImage?: string;
+}
+
+const {
+  title,
+  description,
+  published,
+  modified,
+  author = "Sarah Chen",
+  tags = [],
+  category = "Privacy",
+  readingTime = "5 min",
+  featuredImage
+} = Astro.props;
+
+// Generate schema.org Article markup for voice search
+const articleSchema = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": title,
+  "description": description,
+  "datePublished": published,
+  "dateModified": modified || published,
+  "author": {
+    "@type": "Person",
+    "name": author
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "New Life Solutions",
+    "url": "https://www.newlifesolutions.dev"
+  },
+  "keywords": tags.join(", ")
+};
+
+// Generate FAQPage schema if article has Q&A sections
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": []
+};
+---
+
+<Layout title={`${title} | New Life Solutions Blog`}>
+  <Navbar />
+
+  <main class="blog-container">
+    <article class="blog-post" itemscope itemtype="https://schema.org/BlogPosting">
+      <header class="blog-header">
+        <nav class="blog-breadcrumbs">
+          <a href="/">Home</a>
+          <span>/</span>
+          <a href="/blog">Blog</a>
+          <span>/</span>
+          <span class="current">{title}</span>
+        </nav>
+
+        <div class="blog-meta">
+          <span class="category">{category}</span>
+          <time datetime={published} itemprop="datePublished">
+            {new Date(published).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+          </time>
+          <span class="reading-time">{readingTime} read</span>
+        </div>
+
+        <h1 class="blog-title" itemprop="headline">{title}</h1>
+
+        <p class="blog-excerpt" itemprop="description">{description}</p>
+
+        {tags.length > 0 && (
+          <div class="blog-tags">
+            {tags.map(tag => (
+              <span class="tag" itemprop="keywords">{tag}</span>
+            ))}
+          </div>
+        )}
+      </header>
+
+      {featuredImage && (
+        <figure class="blog-image">
+          <img src={featuredImage} alt={title} itemprop="image" />
+        </figure>
+      )}
+
+      <div class="blog-content" itemprop="articleBody">
+        <slot />
+      </div>
+
+      <footer class="blog-footer">
+        <AuthorBio />
+      </footer>
+    </article>
+
+    <aside class="blog-sidebar">
+      <section class="related-posts">
+        <h3>Related Articles</h3>
+        <!-- Related blog posts would go here -->
+      </section>
+    </aside>
+  </main>
+
+  <Footer />
+
+  {/* Structured data for voice search */}
+  <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+</Layout>
+
+<style>
+  .blog-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 3rem;
+  }
+
+  .blog-post {
+    background: var(--bg-secondary);
+    border-radius: 12px;
+    padding: 3rem;
+    border: 1px solid var(--border);
+  }
+
+  .blog-header {
+    margin-bottom: 3rem;
+  }
+
+  .blog-breadcrumbs {
+    font-size: 0.875rem;
+    color: var(--text-dim);
+    margin-bottom: 1.5rem;
+  }
+
+  .blog-breadcrumbs a {
+    color: var(--text-dim);
+    text-decoration: none;
+  }
+
+  .blog-breadcrumbs a:hover {
+    color: var(--text);
+    text-decoration: underline;
+  }
+
+  .blog-meta {
+    display: flex;
+    gap: 1.5rem;
+    font-size: 0.875rem;
+    color: var(--text-dim);
+    margin-bottom: 1.5rem;
+  }
+
+  .category {
+    background: var(--success);
+    color: var(--bg);
+    padding: 0.25rem 0.75rem;
+    border-radius: 4px;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+  }
+
+  .blog-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin: 0 0 1rem 0;
+    color: var(--text);
+  }
+
+  .blog-excerpt {
+    font-size: 1.25rem;
+    line-height: 1.5;
+    color: var(--text-dim);
+    margin-bottom: 1.5rem;
+  }
+
+  .blog-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .tag {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+  }
+
+  .blog-image {
+    margin: 2rem -3rem;
+    text-align: center;
+  }
+
+  .blog-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+  }
+
+  .blog-content {
+    font-size: 1.125rem;
+    line-height: 1.8;
+    color: var(--text);
+  }
+
+  .blog-content :global(h2) {
+    font-size: 1.75rem;
+    font-weight: 600;
+    margin: 2.5rem 0 1rem;
+    color: var(--text);
+  }
+
+  .blog-content :global(h3) {
+    font-size: 1.375rem;
+    font-weight: 600;
+    margin: 2rem 0 1rem;
+    color: var(--text);
+  }
+
+  .blog-content :global(p) {
+    margin: 1rem 0;
+  }
+
+  .blog-content :global(ul), .blog-content :global(ol) {
+    margin: 1rem 0;
+    padding-left: 2rem;
+  }
+
+  .blog-content :global(li) {
+    margin: 0.5rem 0;
+  }
+
+  .blog-content :global(code) {
+    background: var(--bg);
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.9em;
+  }
+
+  .blog-content :global(pre) {
+    background: var(--bg);
+    padding: 1.5rem;
+    border-radius: 8px;
+    overflow-x: auto;
+    border: 1px solid var(--border);
+    margin: 1.5rem 0;
+  }
+
+  .blog-content :global(blockquote) {
+    border-left: 4px solid var(--success);
+    padding-left: 1.5rem;
+    margin: 1.5rem 0;
+    font-style: italic;
+    color: var(--text-dim);
+  }
+
+  .blog-footer {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .blog-sidebar {
+    position: sticky;
+    top: 2rem;
+    align-self: start;
+  }
+
+  .related-posts h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--text);
+  }
+
+  @media (max-width: 1024px) {
+    .blog-container {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .blog-sidebar {
+      position: static;
+    }
+
+    .blog-post {
+      padding: 2rem;
+    }
+
+    .blog-title {
+      font-size: 2rem;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .blog-post {
+      padding: 1.5rem;
+    }
+
+    .blog-title {
+      font-size: 1.75rem;
+    }
+
+    .blog-meta {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .blog-image {
+      margin: 1.5rem -1.5rem;
+    }
+  }
+</style>
