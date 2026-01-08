@@ -14,6 +14,7 @@ import Footer from '../../components/ui/Footer.astro';
 import AnswerBox from '../../components/seo/AnswerBox.astro';
 import QASections from '../../components/seo/QASections.astro';
 import { getToolById } from '../../lib/tools';
+import { getCompetitorData } from '../../lib/competitors';
 import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
 import RelatedTools from '../../components/seo/RelatedTools.astro';
 import ComparisonTable from '../../components/seo/ComparisonTable.astro';
@@ -22,6 +23,9 @@ import ImageCompress from '../../components/tools/ImageCompress';
 // Get tool data from Single Source of Truth (tools.ts)
 const toolData = getToolById('image-compress');
 if (!toolData) throw new Error('Tool not found: image-compress');
+
+// Get competitor data
+const competitorData = getCompetitorData('image-compress');
 
 // Tool metadata derived from registry
 const tool = {
@@ -141,49 +145,15 @@ const schemaData = {
 
       <!-- Comparison Table: GEO optimization (32% of AI citations) -->
       <ComparisonTable
-        toolName="Image Compress"
-        competitors={[
-          {
-            name: "TinyPNG",
-            features: {
-              price: "$25/year",
-              privacy: "Cloud upload",
-              accountRequired: "Optional",
-              usageLimits: "500 images/month (free)",
-              watermarks: "None",
-              worksOffline: "No"
-            }
-          },
-          {
-            name: "Squoosh (Google)",
-            features: {
-              price: "Free",
-              privacy: "100% local",
-              accountRequired: "No",
-              usageLimits: "1 image at a time",
-              watermarks: "None",
-              worksOffline: "Yes"
-            }
-          },
-          {
-            name: "iLoveIMG",
-            features: {
-              price: "$6/month",
-              privacy: "Cloud upload",
-              accountRequired: "Optional",
-              usageLimits: "15 images/batch (free)",
-              watermarks: "None",
-              worksOffline: "No"
-            }
-          }
-        ]}
-        ourFeatures={{
+        toolName={tool.name}
+        competitors={competitorData.competitors}
+        ourFeatures={competitorData.ourFeatures || {
           price: "Free forever",
-          privacy: "100% local",
-          accountRequired: "No",
-          usageLimits: "Unlimited",
-          watermarks: "None",
-          worksOffline: "Yes"
+          privacy: "100% local browser processing",
+          accountRequired: "No signup needed",
+          usageLimits: "Unlimited usage",
+          watermarks: "No watermarks",
+          worksOffline: "Yes, fully offline capable"
         }}
       />
 

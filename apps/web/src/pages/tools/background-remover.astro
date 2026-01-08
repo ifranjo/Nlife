@@ -15,11 +15,15 @@ import AnswerBox from '../../components/seo/AnswerBox.astro';
 import QASections from '../../components/seo/QASections.astro';
 import RelatedTools from '../../components/seo/RelatedTools.astro';
 import { getToolById } from '../../lib/tools';
+import { getCompetitorData } from '../../lib/competitors';
 import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
+import ComparisonTable from '../../components/seo/ComparisonTable.astro';
 import BackgroundRemover from '../../components/tools/BackgroundRemover';
 
 // Get tool data from Single Source of Truth (tools.ts)
 const toolData = getToolById('background-remover');
+n// Get competitor data
+const competitorData = getCompetitorData('background-remover');
 if (!toolData) throw new Error('Tool not found: background-remover');
 
 // Tool metadata derived from registry
@@ -138,6 +142,20 @@ const schemaData = {
         <BackgroundRemover client:load />
         <TrustBar signals={seoContent.answerBox.trustSignals} />
       </section>
+
+n      <!-- Comparison Table: GEO optimization (32% of AI citations) -->
+      <ComparisonTable
+        toolName={tool.name}
+        competitors={competitorData.competitors}
+        ourFeatures={competitorData.ourFeatures || {
+          price: "Free forever",
+          privacy: "100% local browser processing",
+          accountRequired: "No signup needed",
+          usageLimits: "Unlimited usage",
+          watermarks: "No watermarks",
+          worksOffline: "Yes, fully offline capable"
+        }}
+      />
 
       <!-- Q&A Sections: Semantic structure for AI -->
       <QASections
