@@ -298,7 +298,7 @@ const themeColor = theme === 'clean' ? '#f8f9fa' : '#0a0a0a';
     <script is:inline>
       (() => {
         const path = window.location.pathname;
-        const match = path.match(/^\\/tools\\/([^/]+)/);
+        const match = path.match(/^\/tools\/([^/]+)/);
         if (!match) return;
 
         const toolId = match[1];

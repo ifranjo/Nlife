@@ -20,11 +20,17 @@
     "test:shard:3": "playwright test --shard=3/4 --project=chromium",
     "test:shard:4": "playwright test --shard=4/4 --project=chromium",
     "test:update-snapshots": "playwright test --update-snapshots",
-    "test:report": "playwright show-report"
+    "test:report": "playwright show-report",
+    "test:ci": "playwright test --config=playwright.ci.config.ts",
+    "test:affected": "node ../../scripts/detect-affected-tests.js",
+    "test:performance": "node ../../scripts/performance-monitor.js",
+    "ci:all": "npm run test:ci -- --project=chromium",
+    "ci:shard": "npm run test:ci -- --shard="
   },
   "dependencies": {
     "@astrojs/react": "^4.4.2",
     "@astrojs/sitemap": "^3.6.0",
+    "@astrojs/vercel": "^9.0.3",
     "@ffmpeg/ffmpeg": "^0.12.15",
     "@ffmpeg/util": "^0.12.2",
     "@huggingface/transformers": "^3.8.1",

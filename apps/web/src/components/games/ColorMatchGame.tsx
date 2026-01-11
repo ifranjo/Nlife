@@ -73,55 +73,72 @@ const ANIMATION_CONFIG = {
 } as const;
 
 // ============================================
-// SOUND MANAGER
+// SOUND MANAGER - Lazily initialized with fallback
 // ============================================
 
 class SoundManager {
   private audioContext: AudioContext | null = null;
   private enabled: boolean = false;
   private isInitialized: boolean = false;
+  private hasError: boolean = false;
 
   async setEnabled(enabled: boolean) {
+    // If audio failed permanently, don't try again
+    if (this.hasError && enabled && !this.isInitialized) {
+      console.warn('Audio permanently disabled due to previous errors');
+      return;
+    }
+
     this.enabled = enabled;
-    if (enabled && !this.isInitialized) {
+    if (enabled && !this.isInitialized && !this.hasError) {
       try {
-        if (!this.audioContext) {
-          const AudioCtx = window.AudioContext || (window as any).webkitAudioContext;
-          if (!AudioCtx) {
-            console.warn('Web Audio API not supported');
-            return;
-          }
-          this.audioContext = new AudioCtx();
+        // Check for Web Audio API support
+        const AudioCtx = window.AudioContext || (window as any).webkitAudioContext;
+        if (!AudioCtx) {
+          console.warn('Web Audio API not supported - audio disabled');
+          this.hasError = true;
+          return;
         }
 
-        // Handle suspended state (common on mobile)
+        // Create audio context on user gesture if needed
+        this.audioContext = new AudioCtx();
+
+        // Handle suspended state (required on iOS/Safari)
         if (this.audioContext.state === 'suspended') {
-          await this.audioContext.resume().catch(() => {
-            console.warn('AudioContext resume failed - user interaction required');
-          });
+          try {
+            await this.audioContext.resume();
+          } catch {
+            // iOS requires direct user interaction - will resume on first play
+            console.log('AudioContext suspended - will resume on first play');
+          }
         }
 
         this.isInitialized = true;
+        console.log('Audio initialized successfully');
       } catch (error) {
         console.error('Failed to initialize AudioContext:', error);
         this.enabled = false;
-        this.isInitialized = false;
+        this.hasError = true; // Mark as failed permanently
       }
     }
   }
 
   private safePlay(callback: (ctx: AudioContext) => void) {
     if (!this.enabled || !this.audioContext || !this.isInitialized) return;
+    if (this.hasError) return; // Don't attempt if permanently failed
 
     try {
-      // Resume if suspended
+      // Resume if suspended (needed for iOS)
       if (this.audioContext.state === 'suspended') {
-        this.audioContext.resume().catch(() => {});
+        this.audioContext.resume().catch(() => {
+          // Resume failed, but don't crash the game
+        });
       }
 
       callback(this.audioContext);
     } catch (error) {
       console.error('Audio playback failed:', error);
+      this.hasError = true; // Disable future attempts
     }
   }
 

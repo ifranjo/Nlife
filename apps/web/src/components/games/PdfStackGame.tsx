@@ -1,12 +1,6 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 import ShareGame from './ShareGame';
 
-// Phaser is loaded via CDN at runtime - types are declared as any
-declare const Phaser: any;
-type PhaserGame = any;
-type PhaserScene = any;
-type PhaserGameObject = any;
-
 // Daily seed based on current date (same worldwide)
 const getDailySeed = (): number => {
   const now = new Date();
@@ -47,392 +41,477 @@ interface GameStats {
   perfectDrops: number;
 }
 
+interface PdfBlock {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  color: string;
+  velocityY: number;
+  rotation: number;
+  angularVelocity: number;
+  isMoving: boolean;
+}
+
 export default function PdfStackGame() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const gameRef = useRef<PhaserGame | null>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const animationRef = useRef<number | null>(null);
+  const ctxRef = useRef<CanvasRenderingContext2D | null>(null);
+
   const [gameState, setGameState] = useState<GameState>('start');
   const [stats, setStats] = useState<GameStats>({ score: 0, maxHeight: 0, perfectDrops: 0 });
   const [highScore, setHighScore] = useState<number>(0);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  // Load high score from localStorage
+  // Game state refs (to avoid re-renders during gameplay)
+  const gameStateRef = useRef({
+    pdfs: [] as PdfBlock[],
+    fallingPdf: null as PdfBlock | null,
+    rng: null as SeededRandom | null,
+    score: 0,
+    perfectDrops: 0,
+    gameOver: false,
+    moveSpeed: 3,
+    moveDirection: 1,
+    lastDropX: 0,
+    baseY: 0,
+    lowestY: 0,
+    startY: 0,
+    cameraY: 0,
+    cameraTargetY: 0,
+    width: 400,
+    height: 600,
+    pdfWidth: 80,
+    pdfHeight: 20,
+  });
+
+  // Load high score
   useEffect(() => {
     const stored = localStorage.getItem('pdfstack-highscore');
     if (stored) setHighScore(parseInt(stored, 10));
   }, []);
 
-  // Initialize Phaser
+  // Initialize canvas
   useEffect(() => {
-    if (!containerRef.current || gameRef.current) return;
+    if (!canvasRef.current) return;
 
-    // Dynamically load Phaser
-    const loadPhaser = async () => {
-      // @ts-ignore - Phaser is loaded via CDN
-      if (typeof Phaser === 'undefined') {
-        const script = document.createElement('script');
-        script.src = 'https://cdn.jsdelivr.net/npm/phaser@3.80.1/dist/phaser.min.js';
-        script.async = true;
-        await new Promise((resolve, reject) => {
-          script.onload = resolve;
-          script.onerror = reject;
-          document.head.appendChild(script);
-        });
-      }
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
 
-      initGame();
+    ctxRef.current = ctx;
+
+    // Set canvas size
+    const resizeCanvas = () => {
+      const containerWidth = canvas.parentElement?.clientWidth || 400;
+      const width = Math.min(400, containerWidth);
+      const height = 600;
+
+      canvas.width = width;
+      canvas.height = height;
+
+      gameStateRef.current.width = width;
+      gameStateRef.current.height = height;
+      gameStateRef.current.baseY = height - 80;
+      gameStateRef.current.lowestY = gameStateRef.current.baseY;
+      gameStateRef.current.startY = gameStateRef.current.baseY;
+      gameStateRef.current.pdfWidth = 80;
+      gameStateRef.current.pdfHeight = 20;
     };
 
-    loadPhaser();
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    // Set up input handlers
+    const handlePointerDown = () => dropPdf();
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.code === 'Space' || e.key === ' ') {
+        e.preventDefault();
+        dropPdf();
+      }
+    };
+
+    canvas.addEventListener('click', handlePointerDown);
+    canvas.addEventListener('touchstart', handlePointerDown);
+    window.addEventListener('keydown', handleKeyDown);
 
     return () => {
-      if (gameRef.current) {
-        gameRef.current.destroy(true);
-        gameRef.current = null;
+      window.removeEventListener('resize', resizeCanvas);
+      canvas.removeEventListener('click', handlePointerDown);
+      canvas.removeEventListener('touchstart', handlePointerDown);
+      window.removeEventListener('keydown', handleKeyDown);
+
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
       }
     };
   }, []);
 
-  const initGame = useCallback(() => {
-    if (!containerRef.current) return;
+  // Draw PDF block
+  const drawPdf = (ctx: CanvasRenderingContext2D, pdf: PdfBlock) => {
+    ctx.save();
+    ctx.translate(pdf.x, pdf.y);
 
-    // @ts-ignore - Phaser is loaded via CDN
-    const Phaser = window.Phaser;
-    if (!Phaser) return;
+    // Draw shadow
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
+    ctx.fillRect(-pdf.width/2 + 2, -pdf.height/2 + 2, pdf.width, pdf.height);
 
-    const width = Math.min(400, window.innerWidth - 32);
-    const height = 600;
+    // Draw main body
+    ctx.fillStyle = pdf.color;
+    ctx.fillRect(-pdf.width/2, -pdf.height/2, pdf.width, pdf.height);
 
-    // Game Scene - extends Phaser.Scene (loaded from CDN)
-    // @ts-ignore - Phaser is loaded at runtime via CDN
-    class GameScene extends Phaser.Scene {
-      [key: string]: any; // Allow any Phaser.Scene properties
-      private platforms!: any; // Phaser.Physics.Arcade.StaticGroup
-      private fallingPdf: any = null; // Phaser.GameObjects.Container
-      private pdfs: any[] = []; // Phaser.GameObjects.Container[]
-      private rng!: SeededRandom;
-      private score = 0;
-      private perfectDrops = 0;
-      private gameOver = false;
-      private dropSpeed = 150;
-      private moveDirection = 1;
-      private moveSpeed = 3;
-      private pdfWidth = 80;
-      private pdfHeight = 20;
-      private baseY!: number;
-      private lastDropX = 0;
-      private cameraTarget = 0;
-      private startY!: number;
-      private lowestY!: number;
+    // Draw border
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+    ctx.lineWidth = 2;
+    ctx.strokeRect(-pdf.width/2, -pdf.height/2, pdf.width, pdf.height);
 
-      constructor() {
-        super({ key: 'GameScene' });
+    // Draw PDF text
+    ctx.fillStyle = '#ffffff';
+    ctx.font = '10px Courier New, monospace';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('PDF', 0, 0);
+
+    // Draw corner fold
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
+    ctx.beginPath();
+    ctx.moveTo(pdf.width/2 - 10, -pdf.height/2);
+    ctx.lineTo(pdf.width/2, -pdf.height/2);
+    ctx.lineTo(pdf.width/2, -pdf.height/2 + 10);
+    ctx.closePath();
+    ctx.fill();
+
+    ctx.restore();
+  };
+
+  // Draw ground
+  const drawGround = (ctx: CanvasRenderingContext2D) => {
+    const { width, height } = gameStateRef.current;
+
+    // Draw ground rectangle
+    ctx.fillStyle = '#222222';
+    ctx.fillRect(0, height - 80, width, 80);
+
+    // Draw grid pattern
+    ctx.strokeStyle = '#333333';
+    ctx.lineWidth = 1;
+    for (let x = 0; x < width; x += 20) {
+      ctx.beginPath();
+      ctx.moveTo(x, height - 80);
+      ctx.lineTo(x, height);
+      ctx.stroke();
+    }
+  };
+
+  // Spawn new falling PDF
+  const spawnFallingPdf = useCallback(() => {
+    const { rng, width, pdfWidth, pdfHeight } = gameStateRef.current;
+    if (!rng || gameStateRef.current.gameOver) return;
+
+    // Spawn at top
+    const spawnY = -50 - gameStateRef.current.cameraY;
+    const startX = rng.next() > 0.5 ? 50 : width - 50;
+
+    const colors = ['#ef4444', '#dc2626', '#b91c1c', '#f87171'];
+    const color = colors[Math.floor(rng.next() * colors.length)];
+
+    gameStateRef.current.fallingPdf = {
+      x: startX,
+      y: spawnY,
+      width: pdfWidth,
+      height: pdfHeight,
+      color,
+      velocityY: 0,
+      rotation: 0,
+      angularVelocity: 0,
+      isMoving: true,
+    };
+
+    gameStateRef.current.moveDirection = startX < width / 2 ? 1 : -1;
+    gameStateRef.current.moveSpeed = Math.min(3 + Math.floor(gameStateRef.current.score / 5) * 0.5, 8);
+  }, []);
+
+  // Drop the current PDF
+  const dropPdf = useCallback(() => {
+    const state = gameStateRef.current;
+    if (!state.fallingPdf || state.gameOver || gameState !== 'playing') return;
+
+    const pdf = state.fallingPdf;
+    state.fallingPdf = null;
+
+    // Simulate drop animation with easing
+    const targetY = state.lowestY - state.pdfHeight;
+    const distance = targetY - pdf.y;
+    const duration = 200 + distance / 2;
+    const startTime = Date.now();
+    const startY = pdf.y;
+
+    const animateDrop = () => {
+      const elapsed = Date.now() - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+
+      // Bounce easing out
+      const bounce = 1 - Math.pow(1 - progress, 3);
+      pdf.y = startY + (targetY - startY) * bounce;
+
+      if (progress < 1) {
+        requestAnimationFrame(animateDrop);
+      } else {
+        // Landed
+        onPdfLanded(pdf, pdf.x);
       }
+    };
 
-      preload() {
-        // No assets to preload - we draw everything
-      }
+    animateDrop();
+  }, [gameState]);
 
-      create() {
-        this.rng = new SeededRandom(getDailySeed());
-        this.score = 0;
-        this.perfectDrops = 0;
-        this.gameOver = false;
-        this.dropSpeed = 150;
-        this.moveSpeed = 3;
-        this.pdfs = [];
+  // Handle PDF landing
+  const onPdfLanded = (pdf: PdfBlock, dropX: number) => {
+    const state = gameStateRef.current;
+    if (state.gameOver) return;
 
-        // Set up world
-        const worldHeight = 3000;
-        this.physics.world.setBounds(0, -worldHeight, width, worldHeight + height);
-        this.baseY = height - 80;
-        this.startY = this.baseY;
-        this.lowestY = this.baseY;
+    // Check overlap
+    const overlapThreshold = state.pdfWidth * 0.3;
+    const offset = Math.abs(dropX - state.lastDropX);
 
-        // Create ground platform
-        this.platforms = this.physics.add.staticGroup();
-        const ground = this.add.rectangle(width / 2, height - 40, width, 80, 0x222222);
-        this.platforms.add(ground);
-
-        // Draw ground pattern
-        const groundGraphics = this.add.graphics();
-        groundGraphics.lineStyle(1, 0x333333);
-        for (let x = 0; x < width; x += 20) {
-          groundGraphics.moveTo(x, height - 80);
-          groundGraphics.lineTo(x, height);
-        }
-        groundGraphics.strokePath();
-
-        // Create first PDF at center
-        this.lastDropX = width / 2;
-        this.spawnFallingPdf();
-
-        // Input handling
-        this.input.on('pointerdown', () => this.dropPdf());
-
-        // Capture space key with preventDefault to stop Chrome scroll
-        const handleKeyDown = (e: KeyboardEvent) => {
-          if (e.code === 'Space' || e.key === ' ') {
-            e.preventDefault();
-            this.dropPdf();
-          }
-        };
-        window.addEventListener('keydown', handleKeyDown);
-
-        // Cleanup on scene shutdown
-        this.events.on('shutdown', () => {
-          window.removeEventListener('keydown', handleKeyDown);
-        });
-
-        // Camera setup
-        this.cameras.main.setBounds(0, -worldHeight, width, worldHeight + height);
-        this.cameraTarget = 0;
-      }
-
-      createPdfGraphics(x: number, y: number, color: number = 0xef4444): any {
-        const container = this.add.container(x, y);
-
-        // PDF body
-        const body = this.add.rectangle(0, 0, this.pdfWidth, this.pdfHeight, color);
-        body.setStrokeStyle(2, 0xffffff, 0.3);
-
-        // PDF icon/text
-        const text = this.add.text(0, 0, 'PDF', {
-          fontSize: '10px',
-          fontFamily: 'Courier New, monospace',
-          color: '#ffffff'
-        }).setOrigin(0.5);
-
-        // Corner fold effect
-        const fold = this.add.triangle(
-          this.pdfWidth / 2 - 6,
-          -this.pdfHeight / 2 + 6,
-          0, 0, 8, 0, 0, 8,
-          0xffffff, 0.2
-        );
-
-        container.add([body, text, fold]);
-        return container;
-      }
-
-      spawnFallingPdf() {
-        if (this.gameOver) return;
-
-        // Spawn at top of visible area
-        const spawnY = this.cameras.main.scrollY - 50;
-
-        // Random starting side with some variation
-        const startX = this.rng.next() > 0.5 ? 50 : width - 50;
-        this.moveDirection = startX < width / 2 ? 1 : -1;
-
-        // Vary the color slightly for visual interest
-        const colors = [0xef4444, 0xdc2626, 0xb91c1c, 0xf87171];
-        const color = colors[Math.floor(this.rng.next() * colors.length)];
-
-        this.fallingPdf = this.createPdfGraphics(startX, spawnY, color);
-
-        // Increase speed as score increases
-        this.moveSpeed = 3 + Math.floor(this.score / 5) * 0.5;
-        this.moveSpeed = Math.min(this.moveSpeed, 8);
-      }
-
-      dropPdf() {
-        if (!this.fallingPdf || this.gameOver) return;
-
-        const pdf = this.fallingPdf;
-        const targetX = pdf.x;
-        this.fallingPdf = null;
-
-        // Animate drop
-        this.tweens.add({
-          targets: pdf,
-          y: this.lowestY - this.pdfHeight,
-          duration: 200 + (this.lowestY - pdf.y) / 2,
-          ease: 'Bounce.easeOut',
-          onComplete: () => this.onPdfLanded(pdf, targetX)
-        });
-      }
-
-      onPdfLanded(pdf: any, dropX: number) {
-        if (this.gameOver) return;
-
-        // Check if it's a valid stack
-        const overlapThreshold = this.pdfWidth * 0.3;
-        const offset = Math.abs(dropX - this.lastDropX);
-
-        if (offset > this.pdfWidth - overlapThreshold && this.pdfs.length > 0) {
-          // Missed - game over!
-          this.triggerGameOver(pdf);
-          return;
-        }
-
-        // Successfully stacked!
-        this.pdfs.push(pdf);
-        this.lastDropX = dropX;
-
-        // Perfect drop bonus
-        if (offset < 10) {
-          this.perfectDrops++;
-          this.score += 2;
-          this.showPerfectText(dropX, pdf.y);
-        } else {
-          this.score++;
-        }
-
-        // Update camera to follow stack
-        this.lowestY = pdf.y - this.pdfHeight / 2;
-        const targetScroll = Math.max(0, (this.startY - this.lowestY) - height / 2);
-        this.cameraTarget = -targetScroll;
-
-        // Update stats
-        setStats({
-          score: this.score,
-          maxHeight: this.pdfs.length,
-          perfectDrops: this.perfectDrops
-        });
-
-        // Spawn next PDF
-        this.time.delayedCall(300, () => this.spawnFallingPdf());
-      }
-
-      showPerfectText(x: number, y: number) {
-        const text = this.add.text(x, y - 30, 'PERFECT!', {
-          fontSize: '14px',
-          fontFamily: 'Courier New, monospace',
-          color: '#00ff00',
-          stroke: '#000000',
-          strokeThickness: 2
-        }).setOrigin(0.5);
-
-        this.tweens.add({
-          targets: text,
-          y: y - 60,
-          alpha: 0,
-          duration: 800,
-          onComplete: () => text.destroy()
-        });
-      }
-
-      triggerGameOver(failedPdf: any) {
-        this.gameOver = true;
-
-        // Animate failed PDF falling off
-        this.tweens.add({
-          targets: failedPdf,
-          y: height + 100,
-          x: failedPdf.x + (this.moveDirection * 100),
-          angle: this.moveDirection * 90,
-          duration: 1000,
-          ease: 'Quad.easeIn'
-        });
-
-        // Shake camera
-        this.cameras.main.shake(300, 0.01);
-
-        // Update high score
-        const finalScore = this.score;
-        const currentHigh = parseInt(localStorage.getItem('pdfstack-highscore') || '0', 10);
-        if (finalScore > currentHigh) {
-          localStorage.setItem('pdfstack-highscore', finalScore.toString());
-          setHighScore(finalScore);
-        }
-
-        // Trigger game over state
-        this.time.delayedCall(800, () => {
-          setStats({
-            score: finalScore,
-            maxHeight: this.pdfs.length,
-            perfectDrops: this.perfectDrops
-          });
-          setGameState('gameover');
-        });
-      }
-
-      update() {
-        // Move falling PDF
-        if (this.fallingPdf && !this.gameOver) {
-          this.fallingPdf.x += this.moveSpeed * this.moveDirection;
-
-          // Bounce off walls
-          if (this.fallingPdf.x <= this.pdfWidth / 2) {
-            this.fallingPdf.x = this.pdfWidth / 2;
-            this.moveDirection = 1;
-          } else if (this.fallingPdf.x >= width - this.pdfWidth / 2) {
-            this.fallingPdf.x = width - this.pdfWidth / 2;
-            this.moveDirection = -1;
-          }
-        }
-
-        // Smooth camera follow
-        const currentScroll = this.cameras.main.scrollY;
-        const diff = this.cameraTarget - currentScroll;
-        if (Math.abs(diff) > 1) {
-          this.cameras.main.scrollY += diff * 0.05;
-        }
-      }
+    if (offset > state.pdfWidth - overlapThreshold && state.pdfs.length > 0) {
+      // Missed - game over
+      triggerGameOver(pdf);
+      return;
     }
 
-    // Game config
-    const config: any = {
-      type: Phaser.AUTO,
-      width,
-      height,
-      parent: containerRef.current,
-      backgroundColor: '#0a0a0a',
-      physics: {
-        default: 'arcade',
-        arcade: {
-          gravity: { x: 0, y: 0 },
-          debug: false
-        }
-      },
-      scene: GameScene,
-      scale: {
-        mode: Phaser.Scale.FIT,
-        autoCenter: Phaser.Scale.CENTER_BOTH
+    // Successfully stacked
+    state.pdfs.push({ ...pdf, x: dropX });
+    state.lastDropX = dropX;
+
+    // Perfect drop bonus
+    if (offset < 10) {
+      state.perfectDrops++;
+      state.score += 2;
+      showPerfectText(dropX, pdf.y);
+    } else {
+      state.score++;
+    }
+
+    // Update camera target
+    state.lowestY = pdf.y - state.pdfHeight / 2;
+    state.cameraTargetY = Math.max(0, (state.startY - state.lowestY) - state.height / 2);
+
+    // Update stats
+    setStats({
+      score: state.score,
+      maxHeight: state.pdfs.length,
+      perfectDrops: state.perfectDrops
+    });
+
+    // Spawn next PDF after delay
+    setTimeout(() => spawnFallingPdf(), 300);
+  };
+
+  // Show perfect text animation
+  const showPerfectText = (x: number, y: number) => {
+    const state = gameStateRef.current;
+    const canvas = canvasRef.current;
+    const ctx = ctxRef.current;
+    if (!canvas || !ctx) return;
+
+    const text = {
+      x,
+      y: y - 30,
+      text: 'PERFECT!',
+      opacity: 1,
+    };
+
+    const animate = () => {
+      text.y -= 1;
+      text.opacity -= 0.015;
+
+      if (text.opacity > 0) {
+        requestAnimationFrame(animate);
       }
     };
 
-    gameRef.current = new Phaser.Game(config);
-  }, []);
+    // Store for rendering
+    state.perfectText = text;
+    setTimeout(() => { delete state.perfectText; }, 800);
 
+    animate();
+  };
+
+  // Trigger game over
+  const triggerGameOver = (failedPdf: PdfBlock) => {
+    const state = gameStateRef.current;
+    state.gameOver = true;
+
+    // Animate failed PDF falling off
+    const animateFall = () => {
+      failedPdf.y += 8;
+      failedPdf.x += state.moveDirection * 2;
+      failedPdf.rotation += state.moveDirection * 0.1;
+
+      if (failedPdf.y < state.height + 100) {
+        requestAnimationFrame(animateFall);
+      }
+    };
+    animateFall();
+
+    // Update high score
+    const finalScore = state.score;
+    if (finalScore > highScore) {
+      localStorage.setItem('pdfstack-highscore', finalScore.toString());
+      setHighScore(finalScore);
+    }
+
+    // Delay game over screen
+    setTimeout(() => {
+      setStats({
+        score: finalScore,
+        maxHeight: state.pdfs.length,
+        perfectDrops: state.perfectDrops
+      });
+      setGameState('gameover');
+    }, 800);
+  };
+
+  // Game loop
+  const gameLoop = useCallback(() => {
+    const canvas = canvasRef.current;
+    const ctx = ctxRef.current;
+    const state = gameStateRef.current;
+
+    if (!canvas || !ctx || gameState !== 'playing') return;
+
+    // Clear canvas
+    ctx.fillStyle = '#0a0a0a';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Apply camera transform
+    ctx.save();
+    ctx.translate(0, -state.cameraY);
+
+    // Draw ground
+    drawGround(ctx);
+
+    // Update and draw stacked PDFs
+    state.pdfs.forEach(pdf => {
+      drawPdf(ctx, pdf);
+    });
+
+    // Update and draw falling PDF
+    if (state.fallingPdf && !state.gameOver) {
+      const pdf = state.fallingPdf;
+
+      // Move horizontally
+      pdf.x += state.moveSpeed * state.moveDirection;
+
+      // Bounce off walls
+      if (pdf.x <= state.pdfWidth / 2) {
+        pdf.x = state.pdfWidth / 2;
+        state.moveDirection = 1;
+      } else if (pdf.x >= state.width - state.pdfWidth / 2) {
+        pdf.x = state.width - state.pdfWidth / 2;
+        state.moveDirection = -1;
+      }
+
+      drawPdf(ctx, pdf);
+    }
+
+    // Draw perfect text (if any)
+    if (state.perfectText) {
+      const text = state.perfectText;
+      ctx.save();
+      ctx.translate(0, state.cameraY);
+      ctx.fillStyle = `rgba(0, 255, 0, ${text.opacity})`;
+      ctx.font = 'bold 14px Courier New, monospace';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.strokeStyle = '#000000';
+      ctx.lineWidth = 2;
+      ctx.strokeText(text.text, text.x, text.y);
+      ctx.fillText(text.text, text.x, text.y);
+      ctx.restore();
+    }
+
+    ctx.restore();
+
+    // Smooth camera follow
+    const cameraDiff = state.cameraTargetY - state.cameraY;
+    if (Math.abs(cameraDiff) > 1) {
+      state.cameraY += cameraDiff * 0.05;
+    }
+
+    animationRef.current = requestAnimationFrame(gameLoop);
+  }, [gameState]);
+
+  // Start game
   const startGame = useCallback(() => {
-    setGameState('playing');
-    setStats({ score: 0, maxHeight: 0, perfectDrops: 0 });
+    const canvas = canvasRef.current;
+    if (!canvas) return;
 
-    // Restart the scene
-    if (gameRef.current) {
-      const scene = gameRef.current.scene.getScene('GameScene');
-      if (scene) {
-        scene.scene.restart();
-      }
+    const state = gameStateRef.current;
+
+    // Reset game state
+    state.pdfs = [];
+    state.fallingPdf = null;
+    state.rng = new SeededRandom(getDailySeed());
+    state.score = 0;
+    state.perfectDrops = 0;
+    state.gameOver = false;
+    state.moveSpeed = 3;
+    state.moveDirection = 1;
+    state.lastDropX = canvas.width / 2;
+    state.cameraY = 0;
+    state.cameraTargetY = 0;
+    state.baseY = canvas.height - 80;
+    state.lowestY = state.baseY;
+    state.startY = state.baseY;
+
+    setStats({ score: 0, maxHeight: 0, perfectDrops: 0 });
+    setGameState('playing');
+
+    // Start spawning PDFs
+    setTimeout(() => spawnFallingPdf(), 100);
+
+    // Start game loop
+    if (animationRef.current) {
+      cancelAnimationFrame(animationRef.current);
     }
-  }, []);
+    animationRef.current = requestAnimationFrame(gameLoop);
+  }, [gameLoop, spawnFallingPdf]);
+
+  // Start initial game loop
+  useEffect(() => {
+    if (gameState === 'playing' && !animationRef.current) {
+      animationRef.current = requestAnimationFrame(gameLoop);
+    }
+
+    return () => {
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+        animationRef.current = null;
+      }
+    };
+  }, [gameState, gameLoop]);
 
   return (
     <div className="relative w-full max-w-[400px] mx-auto">
-      {/* Game Container */}
-      <div
-        ref={containerRef}
-        className="w-full aspect-[2/3] bg-[#0a0a0a] rounded-lg overflow-hidden border border-[var(--border)]"
-        style={{ touchAction: 'manipulation' }}
+      {/* Game Canvas */}
+      <canvas
+        ref={canvasRef}
+        className="w-full aspect-[2/3] bg-[#0a0a0a] rounded-lg overflow-hidden border border-[var(--border)] cursor-pointer"
+        style={{ touchAction: 'manipulation', imageRendering: 'crisp-edges' as any }}
       />
 
-      {/* Loading Indicator */}
+      {/* Loading Indicator (now instant) */}
       {isLoading && (
         <div className="absolute inset-0 flex flex-col items-center justify-center bg-[#0a0a0a] rounded-lg">
-          <div className="text-center">
-            <div className="text-2xl mb-2 opacity-60">📄</div>
-            <h3 className="text-lg font-semibold text-[var(--text)] mb-2">Loading PDF Stack</h3>
-            <p className="text-sm text-[var(--text-dim)] mb-4">Downloading game engine...</p>
-            <div className="w-32 h-1 bg-[var(--border)] rounded-full overflow-hidden">
-              <div className="h-full bg-[var(--accent)] animate-pulse" style={{ width: '100%' }}></div>
-            </div>
-          </div>
+          <div className="text-2xl mb-2 opacity-60 animate-spin">📄</div>
+          <h3 className="text-lg font-semibold text-[var(--text)] mb-2">Initializing...</h3>
         </div>
       )}
 
-      {/* Score Display -- not shown while loading */}
-      {gameState === 'playing' && !isLoading && (
+      {/* Score Display */}
+      {gameState === 'playing' && (
         <div className="absolute top-4 left-4 right-4 flex justify-between items-start pointer-events-none">
           <div className="glass-card px-3 py-2 rounded">
             <div className="text-xs text-[var(--text-muted)] uppercase tracking-wider">Score</div>
@@ -442,14 +521,13 @@ export default function PdfStackGame() {
             <div className="text-xs text-[var(--text-muted)] uppercase tracking-wider">Best</div>
             <div className="text-lg text-[var(--text-dim)]">{highScore}</div>
           </div>
-
         </div>
       )}
+
       {/* Start Screen Overlay */}
       {gameState === 'start' && (
         <div className="absolute inset-0 flex flex-col items-center justify-center bg-[#0a0a0a]/90 backdrop-blur-sm rounded-lg">
           <div className="text-center px-6">
-            {/* Title */}
             <div className="mb-2">
               <span className="text-5xl">📄</span>
             </div>
@@ -460,7 +538,6 @@ export default function PdfStackGame() {
               Stack PDFs as high as you can. Tap or press SPACE to drop.
             </p>
 
-            {/* Daily Challenge Badge */}
             <div className="inline-block glass-card px-4 py-2 rounded-full mb-6">
               <span className="text-xs text-[var(--text-dim)] uppercase tracking-wider">
                 Daily Challenge
@@ -470,7 +547,6 @@ export default function PdfStackGame() {
               </span>
             </div>
 
-            {/* High Score */}
             {highScore > 0 && (
               <div className="mb-6 text-center">
                 <span className="text-xs text-[var(--text-muted)] uppercase tracking-wider block">
@@ -480,7 +556,6 @@ export default function PdfStackGame() {
               </div>
             )}
 
-            {/* Start Button */}
             <button
               onClick={startGame}
               className="btn-primary w-full py-4 text-lg animate-pulse"
@@ -499,7 +574,6 @@ export default function PdfStackGame() {
               GAME OVER
             </h2>
 
-            {/* Stats */}
             <div className="grid grid-cols-3 gap-2 mb-6">
               <div className="glass-card p-3 rounded">
                 <div className="text-xs text-[var(--text-muted)] uppercase">Score</div>
@@ -515,7 +589,6 @@ export default function PdfStackGame() {
               </div>
             </div>
 
-            {/* New High Score */}
             {stats.score >= highScore && stats.score > 0 && (
               <div className="mb-4 py-2 px-4 bg-[var(--success)]/10 border border-[var(--success)]/30 rounded">
                 <span className="text-[var(--success)] text-sm font-bold uppercase tracking-wider">
@@ -524,7 +597,6 @@ export default function PdfStackGame() {
               </div>
             )}
 
-            {/* Emoji Tower Preview */}
             <div className="glass-card p-4 rounded mb-4 font-mono text-sm text-left max-h-32 overflow-y-auto">
               <div className="text-[var(--text-muted)] text-xs mb-2">Your Stack:</div>
               {Array(Math.min(stats.maxHeight, 8)).fill(null).map((_, i) => (
@@ -537,9 +609,7 @@ export default function PdfStackGame() {
               )}
             </div>
 
-            {/* Action Buttons */}
             <div className="space-y-3">
-              {/* Share Game Component */}
               <ShareGame
                 gameName="PDF Stack"
                 score={stats.score}
@@ -552,7 +622,6 @@ Play at newlifesolutions.dev/games/pdf-stack`}
                 className="w-full"
               />
 
-              {/* Play Again Button */}
               <button
                 onClick={startGame}
                 className="btn-primary w-full py-3"

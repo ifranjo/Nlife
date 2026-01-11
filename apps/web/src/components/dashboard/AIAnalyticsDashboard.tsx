@@ -8,7 +8,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import type { AnalyticsReport } from '../../lib/ai-analytics';
 import { aiAnalytics } from '../../lib/ai-analytics';
-import { geoABTesting } from '../../lib/geo-ab-testing';
 
 interface DashboardProps {
   className?: string;

@@ -1,0 +1,272 @@
+{
+  "name": "New Life Solutions - Quality Gates",
+  "version": "1.0.0",
+  "description": "Quality gates checklist for new tool onboarding",
+  "gates": [
+    {
+      "name": "Tool Registration",
+      "category": "Configuration",
+      "checks": [
+        {
+          "id": "TR-001",
+          "name": "Tool ID Format",
+          "description": "Tool ID must be lowercase with hyphens (e.g., pdf-merge)",
+          "required": true,
+          "validator": "toolId.match(/^[a-z0-9-]+$/)",
+          "error": "Tool ID must contain only lowercase letters, numbers, and hyphens"
+        },
+        {
+          "id": "TR-002",
+          "name": "Required Fields",
+          "description": "All required tool fields must be present",
+          "required": true,
+          "fields": ["id", "name", "description", "icon", "thumbnail", "category", "tier", "href", "color"],
+          "error": "Missing required field: {field}"
+        },
+        {
+          "id": "TR-003",
+          "name": "SEO Configuration",
+          "description": "SEO fields must be present and optimized",
+          "required": true,
+          "fields": ["seo.title", "seo.metaDescription", "seo.h1", "seo.keywords"],
+          "rules": {
+            "seo.title": "40-60 characters",
+            "seo.metaDescription": "120-160 characters",
+            "seo.keywords": "3-8 keywords"
+          }
+        },
+        {
+          "id": "TR-004",
+          "name": "FAQ Section",
+          "description": "Tool must have at least 2 FAQ entries",
+          "required": true,
+          "validator": "tool.faq && tool.faq.length >= 2",
+          "error": "Tool must have at least 2 FAQ entries"
+        }
+      ]
+    },
+    {
+      "name": "Component Implementation",
+      "category": "Frontend",
+      "checks": [
+        {
+          "id": "CI-001",
+          "name": "Security Imports",
+          "description": "Component must import security utilities",
+          "required": true,
+          "imports": ["validateFile", "sanitizeFilename", "createSafeErrorMessage"],
+          "error": "Missing security import: {import}"
+        },
+        {
+          "id": "CI-002",
+          "name": "File Validation",
+          "description": "Files must be validated before processing",
+          "required": true,
+          "validator": "content.includes('validateFile')",
+          "error": "Missing file validation"
+        },
+        {
+          "id": "CI-003",
+          "name": "Error Handling",
+          "description": "Try-catch blocks for all async operations",
+          "required": true,
+          "validator": "content.includes('try') && content.includes('catch')",
+          "error": "Missing error handling"
+        },
+        {
+          "id": "CI-004",
+          "name": "Privacy Notice",
+          "description": "Display privacy notice to users",
+          "required": true,
+          "validator": "content.includes('never leave your browser') || content.includes('processed locally')",
+          "error": "Missing privacy notice"
+        },
+        {
+          "id": "CI-005",
+          "name": "Progress Indication",
+          "description": "Show progress during processing",
+          "required": true,
+          "patterns": ["progress", "Progress", "loading", "Loading"],
+          "error": "Missing progress indication"
+        }
+      ]
+    },
+    {
+      "name": "Accessibility",
+      "category": "A11y",
+      "checks": [
+        {
+          "id": "A11Y-001",
+          "name": "Axe-core Integration",
+          "description": "Tests must use axe-core for accessibility validation",
+          "required": true,
+          "validator": "testContent.includes('AxeBuilder')",
+          "error": "Missing axe-core integration"
+        },
+        {
+          "id": "A11Y-002",
+          "name": "WCAG 2.1 AA Compliance",
+          "description": "All WCAG 2.1 Level AA checks must pass",
+          "required": true,
+          "validator": "testContent.includes('wcag21aa')",
+          "error": "Missing WCAG 2.1 AA tests"
+        },
+        {
+          "id": "A11Y-003",
+          "name": "Keyboard Navigation",
+          "description": "All interactive elements must be keyboard accessible",
+          "required": true,
+          "tests": [
+            "Tab navigation works",
+            "Focus indicators visible",
+            "Enter/Space activate buttons"
+          ]
+        },
+        {
+          "id": "A11Y-004",
+          "name": "Form Labels",
+          "description": "All form inputs must have accessible names",
+          "required": true,
+          "validator": "testContent.includes('accessible name') || testContent.includes('aria-label')",
+          "error": "Missing form label tests"
+        },
+        {
+          "id": "A11Y-005",
+          "name": "ARIA Attributes",
+          "description": "Proper ARIA attributes for dynamic content",
+          "required": true,
+          "patterns": ["role=", "aria-", "aria-live"],
+          "error": "Missing ARIA attribute tests"
+        }
+      ]
+    },
+    {
+      "name": "Testing",
+      "category": "Quality",
+      "checks": [
+        {
+          "id": "TEST-001",
+          "name": "Functional Test Coverage",
+          "description": "All core functionality must be tested",
+          "required": true,
+          "testCases": [
+            "Page loads correctly",
+            "File upload works",
+            "Processing completes",
+            "Download functions",
+            "Error states handled"
+          ]
+        },
+        {
+          "id": "TEST-002",
+          "name": "Multiple Browser Support",
+          "description": "Tests must run on Chromium, Firefox, and WebKit",
+          "required": true,
+          "browsers": ["chromium", "firefox", "webkit"],
+          "error": "Missing browser support"
+        },
+        {
+          "id": "TEST-003",
+          "name": "Visual Regression Tests",
+          "description": "Visual tests for all major states",
+          "required": true,
+          "screenshots": [
+            "Initial state",
+            "With file",
+            "Processing",
+            "Completed",
+            "Error state"
+          ]
+        },
+        {
+          "id": "TEST-004",
+          "name": "Performance Tests",
+          "description": "Performance benchmarks where applicable",
+          "required": false,
+          "metrics": [
+            "Page load time < 3s",
+            "Processing time < 10s for 10MB",
+            "Memory usage < 500MB"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "SEO & Performance",
+      "category": "Optimization",
+      "checks": [
+        {
+          "id": "SEO-001",
+          "name": "Page Speed",
+          "description": "Page must load quickly",
+          "required": true,
+          "targets": {
+            "LCP": "< 2.5s",
+            "FID": "< 100ms",
+            "CLS": "< 0.1"
+          }
+        },
+        {
+          "id": "SEO-002",
+          "name": "Meta Tags",
+          "description": "All required meta tags present",
+          "required": true,
+          "tags": [
+            "title",
+            "description",
+            "og:title",
+            "og:description",
+            "og:image"
+          ]
+        },
+        {
+          "id": "SEO-003",
+          "name": "Schema Markup",
+          "description": "JSON-LD schema for tool page",
+          "required": true,
+          "schemas": [
+            "SoftwareApplication",
+            "FAQPage"
+          ]
+        }
+      ]
+    }
+  ],
+  "automationLevel": {
+    "80": "Automated via scripts",
+    "20": "Manual review required"
+  },
+  "checklist": {
+    "preDevelopment": [
+      "[ ] Tool ID defined (lowercase, hyphens)",
+      "[ ] Category selected (document/media/ai/utility/games)",
+      "[ ] Processing type determined (pdf-lib/canvas/ffmpeg/etc)"
+    ],
+    "development": [
+      "[ ] Run: node scripts/create-new-tool.js 'Tool Name' tool-id category",
+      "[ ] Implement processing logic in React component",
+      "[ ] Add tool to lib/tools.ts",
+      "[ ] Test locally with npm run dev"
+    ],
+    "testing": [
+      "[ ] Run functional tests",
+      "[ ] Run accessibility tests",
+      "[ ] Run visual tests",
+      "[ ] Test on multiple browsers",
+      "[ ] Test file size limits",
+      "[ ] Test error scenarios"
+    ],
+    "validation": [
+      "[ ] Run: node scripts/validate-new-tool.js tool-id",
+      "[ ] Fix any failed checks",
+      "[ ] Address warnings where applicable",
+      "[ ] Update snapshots if needed"
+    ],
+    "deployment": [
+      "[ ] Create pull request",
+      "[ ] All CI checks pass",
+      "[ ] Code review approval",
+      "[ ] Merge to main branch"
+    ]
+  }
+}
