@@ -103,6 +103,11 @@ export default function OcrExtractor() {
     grayscale: false,
   });
 
+  // Preload transformers on component mount
+  useEffect(() => {
+    preloadTransformers();
+  }, []);
+
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // ============================================================================
@@ -179,7 +184,7 @@ export default function OcrExtractor() {
   const extractWithTrOCR = async (imageSource: string | File): Promise<string> => {
     setProgressText('Loading AI model (~100MB first time)...');
 
-    const { pipeline } = await import('@huggingface/transformers');
+    const transcriber = await initPipeline;
 
     const modelName = selectedEngine === 'trocr-handwritten'
       ? 'Xenova/trocr-base-handwritten'
@@ -187,7 +192,7 @@ export default function OcrExtractor() {
 
     setProgressText(`Loading ${selectedEngine === 'trocr-handwritten' ? 'handwritten' : 'printed'} text model...`);
 
-    const pipe = await pipeline('image-to-text', modelName, {
+    const pipe = await initPipeline('image-to-text', modelName, {
       progress_callback: (progress: any) => {
         if (progress.status === 'progress') {
           const pct = Math.round((progress.loaded / progress.total) * 100);

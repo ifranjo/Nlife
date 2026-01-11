@@ -27,6 +27,11 @@ export default function AudioTranscription() {
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
   const [transcript, setTranscript] = useState<string>('');
   const [language, setLanguage] = useState('en');
+
+  // Preload transformers on component mount
+  useEffect(() => {
+    preloadTransformers();
+  }, []);
   const pipelineRef = useRef<any>(null);
 
   const languages = [
@@ -71,12 +76,12 @@ export default function AudioTranscription() {
     setError(null);
 
     try {
-      const { pipeline } = await import('@huggingface/transformers');
+      const transcriber = await initPipeline;
 
       if (!pipelineRef.current) {
         setProgressText('Downloading model (first time ~150MB)...');
 
-        pipelineRef.current = await pipeline(
+        pipelineRef.current = await initPipeline(
           'automatic-speech-recognition',
           'Xenova/whisper-tiny',
           {

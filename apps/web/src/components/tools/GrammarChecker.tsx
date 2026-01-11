@@ -21,6 +21,11 @@ export default function GrammarChecker() {
   const [loadingProgress, setLoadingProgress] = useState(0);
   const [copied, setCopied] = useState(false);
 
+  // Preload transformers on component mount
+  useEffect(() => {
+    preloadTransformers();
+  }, []);
+
   const correctorRef = useRef<any>(null);
 
   const sampleTexts = [
@@ -46,7 +51,7 @@ export default function GrammarChecker() {
     setLoadingProgress(0);
 
     try {
-      const { pipeline } = await import('@huggingface/transformers');
+      const transcriber = await initPipeline;
 
       const progressCallback = (progress: any) => {
         if (progress.status === 'progress' && progress.progress) {
@@ -54,7 +59,7 @@ export default function GrammarChecker() {
         }
       };
 
-      correctorRef.current = await pipeline(
+      correctorRef.current = await initPipeline(
         'text2text-generation',
         'Xenova/flan-t5-small',
         { progress_callback: progressCallback }

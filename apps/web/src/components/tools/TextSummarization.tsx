@@ -11,6 +11,11 @@ export default function TextSummarization() {
   const [loadingProgress, setLoadingProgress] = useState(0);
   const [copied, setCopied] = useState(false);
 
+  // Preload transformers on component mount
+  useEffect(() => {
+    preloadTransformers();
+  }, []);
+
   const summarizerRef = useRef<any>(null);
 
   const sampleTexts = [
@@ -36,7 +41,7 @@ export default function TextSummarization() {
     setLoadingProgress(0);
 
     try {
-      const { pipeline } = await import('@huggingface/transformers');
+      const transcriber = await initPipeline;
 
       const progressCallback = (progress: any) => {
         if (progress.status === 'progress' && progress.progress) {
@@ -44,7 +49,7 @@ export default function TextSummarization() {
         }
       };
 
-      summarizerRef.current = await pipeline(
+      summarizerRef.current = await initPipeline(
         'summarization',
         'Xenova/distilbart-cnn-6-6',
         { progress_callback: progressCallback }

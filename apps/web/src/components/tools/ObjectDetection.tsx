@@ -21,6 +21,11 @@ export default function ObjectDetection() {
   const [error, setError] = useState<string | null>(null);
   const [loadingProgress, setLoadingProgress] = useState(0);
 
+  // Preload transformers on component mount
+  useEffect(() => {
+    preloadTransformers();
+  }, []);
+
   const fileInputRef = useRef<HTMLInputElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const imageRef = useRef<HTMLImageElement>(null);
@@ -118,7 +123,7 @@ export default function ObjectDetection() {
     setLoadingProgress(0);
 
     try {
-      const { pipeline } = await import('@huggingface/transformers');
+      const transcriber = await initPipeline;
 
       const progressCallback = (progress: any) => {
         if (progress.status === 'progress' && progress.progress) {
@@ -126,7 +131,7 @@ export default function ObjectDetection() {
         }
       };
 
-      detectorRef.current = await pipeline(
+      detectorRef.current = await initPipeline(
         'object-detection',
         'Xenova/detr-resnet-50',
         { progress_callback: progressCallback }
