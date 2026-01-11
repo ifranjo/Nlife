@@ -16,7 +16,7 @@ import QASections from '../../components/seo/QASections.astro';
 import RelatedTools from '../../components/seo/RelatedTools.astro';
 import { getToolById } from '../../lib/tools';
 import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
-import ObjectDetection from '../../components/tools/ObjectDetection';
+import ObjectDetectionComponent from '../../components/tools/ObjectDetection';
 
 // Get tool data from Single Source of Truth (tools.ts)
 const toolData = getToolById('object-detection');
@@ -139,7 +139,7 @@ const schemaData = {
 
       <!-- Tool Component -->
       <section class="tool-section" aria-label="AI Object Detection Tool">
-        <ObjectDetection client:load />
+        <ObjectDetectionComponent client:load />
         <TrustBar signals={seoContent.answerBox.trustSignals} />
       </section>
 

@@ -16,7 +16,7 @@ import QASections from '../../components/seo/QASections.astro';
 import RelatedTools from '../../components/seo/RelatedTools.astro';
 import { getToolById } from '../../lib/tools';
 import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
-import ObjectRemover from '../../components/tools/ObjectRemover';
+import ObjectRemoverComponent from '../../components/tools/ObjectRemover';
 
 // Get tool data from Single Source of Truth (tools.ts)
 const toolData = getToolById('object-remover');
@@ -127,7 +127,7 @@ const schemaData = {
 
       <!-- Tool Component -->
       <section class="tool-section" aria-label="AI Object Remover Tool">
-        <ObjectRemover client:load />
+        <ObjectRemoverComponent client:load />
         <TrustBar signals={seoContent.answerBox.trustSignals} />
       </section>
 

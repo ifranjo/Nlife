@@ -16,7 +16,7 @@ import QASections from '../../components/seo/QASections.astro';
 import RelatedTools from '../../components/seo/RelatedTools.astro';
 import { getToolById } from '../../lib/tools';
 import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
-import UnitConverter from '../../components/tools/UnitConverter';
+import UnitConverterComponent from '../../components/tools/UnitConverter';
 
 // Get tool data from Single Source of Truth (tools.ts)
 const toolData = getToolById('unit-converter');
@@ -135,7 +135,7 @@ const schemaData = {
 
       <!-- Tool Component -->
       <section class="tool-section" aria-label="Unit Converter Tool">
-        <UnitConverter client:load />
+        <UnitConverterComponent client:load />
         <TrustBar signals={seoContent.answerBox.trustSignals} />
       </section>
 

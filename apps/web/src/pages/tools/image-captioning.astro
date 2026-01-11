@@ -16,7 +16,7 @@ import QASections from '../../components/seo/QASections.astro';
 import RelatedTools from '../../components/seo/RelatedTools.astro';
 import { getToolById } from '../../lib/tools';
 import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
-import ImageCaptioning from '../../components/tools/ImageCaptioning';
+import ImageCaptioningComponent from '../../components/tools/ImageCaptioning';
 
 // Get tool data from Single Source of Truth (tools.ts)
 const toolData = getToolById('image-captioning');
@@ -114,7 +114,7 @@ const schemaData = {
 
       <!-- Tool Component -->
       <section class="tool-section" aria-label="AI Image Captioning Tool">
-        <ImageCaptioning client:load />
+        <ImageCaptioningComponent client:load />
         <TrustBar signals={seoContent.answerBox.trustSignals} />
       </section>
 

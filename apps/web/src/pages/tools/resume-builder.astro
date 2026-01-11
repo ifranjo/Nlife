@@ -16,7 +16,7 @@ import QASections from '../../components/seo/QASections.astro';
 import RelatedTools from '../../components/seo/RelatedTools.astro';
 import { getToolById } from '../../lib/tools';
 import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
-import ResumeBuilder from '../../components/tools/ResumeBuilder';
+import ResumeBuilderComponent from '../../components/tools/ResumeBuilder';
 
 // Get tool data from Single Source of Truth (tools.ts)
 const toolData = getToolById('resume-builder');
@@ -135,7 +135,7 @@ const schemaData = {
 
       <!-- Tool Component -->
       <section class="tool-section" aria-label="Resume Builder Tool">
-        <ResumeBuilder client:load />
+        <ResumeBuilderComponent client:load />
         <TrustBar signals={seoContent.answerBox.trustSignals} />
       </section>
 

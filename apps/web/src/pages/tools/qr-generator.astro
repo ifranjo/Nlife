@@ -16,7 +16,7 @@ import QASections from '../../components/seo/QASections.astro';
 import RelatedTools from '../../components/seo/RelatedTools.astro';
 import { getToolById } from '../../lib/tools';
 import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
-import QrGenerator from '../../components/tools/QrGenerator';
+import QrGeneratorComponent from '../../components/tools/QrGenerator';
 
 // Get tool data from Single Source of Truth (tools.ts)
 const toolData = getToolById('qr-generator');
@@ -135,7 +135,7 @@ const schemaData = {
 
       <!-- Tool Component -->
       <section class="tool-section" aria-label="QR Generator Tool">
-        <QrGenerator client:load />
+        <QrGeneratorComponent client:load />
         <TrustBar signals={seoContent.answerBox.trustSignals} />
       </section>
 

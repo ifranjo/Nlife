@@ -16,7 +16,7 @@ import QASections from '../../components/seo/QASections.astro';
 import RelatedTools from '../../components/seo/RelatedTools.astro';
 import { getToolById } from '../../lib/tools';
 import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
-import TextSummarization from '../../components/tools/TextSummarization';
+import TextSummarizationComponent from '../../components/tools/TextSummarization';
 
 // Get tool data from Single Source of Truth (tools.ts)
 const toolData = getToolById('text-summarization');
@@ -140,7 +140,7 @@ const schemaData = {
 
       <!-- Tool Component -->
       <section class="tool-section" aria-label="Text Summarization Tool">
-        <TextSummarization client:load />
+        <TextSummarizationComponent client:load />
         <TrustBar signals={seoContent.answerBox.trustSignals} />
       </section>
 

@@ -11,7 +11,7 @@ import QASections from '../../components/seo/QASections.astro';
 import RelatedTools from '../../components/seo/RelatedTools.astro';
 import { getToolById } from '../../lib/tools';
 import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
-import AudiogramMaker from '../../components/tools/AudiogramMaker';
+import AudiogramMakerComponent from '../../components/tools/AudiogramMaker';
 
 // Get tool data from Single Source of Truth (tools.ts)
 const toolData = getToolById('audiogram-maker');
@@ -130,7 +130,7 @@ const schemaData = {
       />
 
       <section class="tool-section" aria-label="Audiogram Maker Tool">
-        <AudiogramMaker client:load />
+        <AudiogramMakerComponent client:load />
         <TrustBar signals={seoContent.answerBox.trustSignals} />
       </section>
 

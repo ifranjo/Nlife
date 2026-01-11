@@ -16,7 +16,7 @@ import QASections from '../../components/seo/QASections.astro';
 import RelatedTools from '../../components/seo/RelatedTools.astro';
 import { getToolById } from '../../lib/tools';
 import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
-import LoremIpsum from '../../components/tools/LoremIpsum';
+import LoremIpsumComponent from '../../components/tools/LoremIpsum';
 
 // Get tool data from Single Source of Truth (tools.ts)
 const toolData = getToolById('lorem-ipsum');
@@ -135,7 +135,7 @@ const schemaData = {
 
       <!-- Tool Component -->
       <section class="tool-section" aria-label="Lorem Ipsum Generator Tool">
-        <LoremIpsum client:load />
+        <LoremIpsumComponent client:load />
         <TrustBar signals={seoContent.answerBox.trustSignals} />
       </section>
 

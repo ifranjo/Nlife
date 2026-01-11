@@ -16,7 +16,7 @@ import QASections from '../../components/seo/QASections.astro';
 import RelatedTools from '../../components/seo/RelatedTools.astro';
 import { getToolById } from '../../lib/tools';
 import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
-import ImageUpscaler from '../../components/tools/ImageUpscaler';
+import ImageUpscalerComponent from '../../components/tools/ImageUpscaler';
 
 // Get tool data from Single Source of Truth (tools.ts)
 const toolData = getToolById('image-upscaler');
@@ -139,7 +139,7 @@ const schemaData = {
 
       <!-- Tool Component -->
       <section class="tool-section" aria-label="AI Image Upscaler Tool">
-        <ImageUpscaler client:load />
+        <ImageUpscalerComponent client:load />
         <TrustBar signals={seoContent.answerBox.trustSignals} />
       </section>
 

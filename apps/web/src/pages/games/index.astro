@@ -159,12 +159,12 @@ const categories = Object.entries(categoryInfo);
       // Update active state
       pills.forEach(p => {
         p.classList.remove('active');
-        p.style.borderColor = '';
-        p.style.color = '';
+        (p as HTMLElement).style.borderColor = '';
+        (p as HTMLElement).style.color = '';
       });
       pill.classList.add('active');
-      pill.style.borderColor = 'var(--accent)';
-      pill.style.color = 'var(--accent)';
+      (pill as HTMLElement).style.borderColor = 'var(--accent)';
+      (pill as HTMLElement).style.color = 'var(--accent)';
 
       // Filter cards
       gameCards.forEach(card => {

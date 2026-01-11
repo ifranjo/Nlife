@@ -16,7 +16,7 @@ import QASections from '../../components/seo/QASections.astro';
 import RelatedTools from '../../components/seo/RelatedTools.astro';
 import { getToolById } from '../../lib/tools';
 import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
-import GifMaker from '../../components/tools/GifMaker';
+import GifMakerComponent from '../../components/tools/GifMaker';
 
 // Get tool data from Single Source of Truth (tools.ts)
 const toolData = getToolById('gif-maker');
@@ -134,7 +134,7 @@ const schemaData = {
 
       <!-- Tool Component -->
       <section class="tool-section" aria-label="GIF Maker Tool">
-        <GifMaker client:load />
+        <GifMakerComponent client:load />
         <TrustBar signals={seoContent.answerBox.trustSignals} />
       </section>
 

@@ -4,7 +4,7 @@ import TrustBar from '../../components/ui/TrustBar.astro';
 import Navbar from '../../components/ui/Navbar.astro';
 import Footer from '../../components/ui/Footer.astro';
 import RelatedTools from '../../components/seo/RelatedTools.astro';
-import FileConverter from '../../components/tools/FileConverter';
+import FileConverterComponent from '../../components/tools/FileConverter';
 import { getToolById } from '../../lib/tools';
 
 // Get tool data from Single Source of Truth (tools.ts)
@@ -49,7 +49,7 @@ const seoDescription = toolData.seo?.metaDescription || toolData.description;
       </div>
 
       <!-- Tool -->
-      <FileConverter client:only="react" />
+      <FileConverterComponent client:only="react" />
 
       <!-- SEO Content Section -->
       <section class="mt-16 space-y-12">

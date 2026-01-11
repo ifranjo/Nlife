@@ -16,7 +16,7 @@ import QASections from '../../components/seo/QASections.astro';
 import RelatedTools from '../../components/seo/RelatedTools.astro';
 import { getToolById } from '../../lib/tools';
 import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
-import QrReader from '../../components/tools/QrReader';
+import QrReaderComponent from '../../components/tools/QrReader';
 
 // Get tool data from Single Source of Truth (tools.ts)
 const toolData = getToolById('qr-reader');
@@ -141,7 +141,7 @@ const schemaData = {
 
       <!-- Tool Component -->
       <section class="tool-section" aria-label="QR Code Reader Tool">
-        <QrReader client:load />
+        <QrReaderComponent client:load />
         <TrustBar signals={seoContent.answerBox.trustSignals} />
       </section>
 

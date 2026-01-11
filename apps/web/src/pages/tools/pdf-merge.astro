@@ -17,7 +17,7 @@ import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
 import RelatedTools from '../../components/seo/RelatedTools.astro';
 import ComparisonTable from '../../components/seo/ComparisonTable.astro';
 import TrustBar from '../../components/ui/TrustBar.astro';
-import PdfMerge from '../../components/tools/PdfMerge';
+import PdfMergeComponent from '../../components/tools/PdfMerge';
 
 // Get tool data from Single Source of Truth (tools.ts)
 const toolData = getToolById('pdf-merge');
@@ -136,7 +136,7 @@ const schemaData = {
 
       <!-- Tool Component -->
       <section class="tool-section" aria-label="PDF Merge Tool">
-        <PdfMerge client:load />
+        <PdfMergeComponent client:load />
         <TrustBar signals={seoContent.answerBox.trustSignals} />
       </section>
 

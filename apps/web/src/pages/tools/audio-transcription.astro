@@ -16,7 +16,7 @@ import QASections from '../../components/seo/QASections.astro';
 import RelatedTools from '../../components/seo/RelatedTools.astro';
 import { getToolById } from '../../lib/tools';
 import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
-import AudioTranscription from '../../components/tools/AudioTranscription';
+import AudioTranscriptionComponent from '../../components/tools/AudioTranscription';
 
 // Get tool data from Single Source of Truth (tools.ts)
 const toolData = getToolById('audio-transcription');
@@ -134,7 +134,7 @@ const schemaData = {
 
       <!-- Tool Component -->
       <section class="tool-section" aria-label="Audio Transcription Tool">
-        <AudioTranscription client:load />
+        <AudioTranscriptionComponent client:load />
         <TrustBar signals={seoContent.answerBox.trustSignals} />
       </section>
 

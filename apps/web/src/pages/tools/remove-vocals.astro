@@ -16,7 +16,7 @@ import QASections from '../../components/seo/QASections.astro';
 import RelatedTools from '../../components/seo/RelatedTools.astro';
 import { getToolById } from '../../lib/tools';
 import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
-import RemoveVocals from '../../components/tools/RemoveVocals';
+import RemoveVocalsComponent from '../../components/tools/RemoveVocals';
 
 // Get tool data from Single Source of Truth (tools.ts)
 const toolData = getToolById('remove-vocals');
@@ -134,7 +134,7 @@ const schemaData = {
 
       <!-- Tool Component -->
       <section class="tool-section" aria-label="Vocal Remover Tool">
-        <RemoveVocals client:load />
+        <RemoveVocalsComponent client:load />
         <TrustBar signals={seoContent.answerBox.trustSignals} />
       </section>
 

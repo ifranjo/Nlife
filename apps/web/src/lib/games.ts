@@ -18,6 +18,10 @@ export interface Game {
     h1: string;
     keywords: string[];
   };
+  faq?: Array<{
+    question: string;
+    answer: string;
+  }>;
 }
 
 export const games: Game[] = [

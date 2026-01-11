@@ -16,7 +16,7 @@ import QASections from '../../components/seo/QASections.astro';
 import RelatedTools from '../../components/seo/RelatedTools.astro';
 import { getToolById } from '../../lib/tools';
 import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
-import ColorConverter from '../../components/tools/ColorConverter';
+import ColorConverterComponent from '../../components/tools/ColorConverter';
 
 // Get tool data from Single Source of Truth (tools.ts)
 const toolData = getToolById('color-converter');
@@ -135,7 +135,7 @@ const schemaData = {
 
       <!-- Tool Component -->
       <section class="tool-section" aria-label="Color Converter Tool">
-        <ColorConverter client:load />
+        <ColorConverterComponent client:load />
         <TrustBar signals={seoContent.answerBox.trustSignals} />
       </section>
 

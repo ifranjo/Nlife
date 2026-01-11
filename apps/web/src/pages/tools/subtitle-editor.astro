@@ -16,7 +16,7 @@ import QASections from '../../components/seo/QASections.astro';
 import RelatedTools from '../../components/seo/RelatedTools.astro';
 import { getToolById } from '../../lib/tools';
 import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
-import SubtitleEditor from '../../components/tools/SubtitleEditor';
+import SubtitleEditorComponent from '../../components/tools/SubtitleEditor';
 
 // Get tool data from Single Source of Truth (tools.ts)
 const toolData = getToolById('subtitle-editor');
@@ -138,7 +138,7 @@ const schemaData = {
 
       <!-- Tool Component -->
       <section class="tool-section" aria-label="Subtitle Editor Tool">
-        <SubtitleEditor client:load />
+        <SubtitleEditorComponent client:load />
         <TrustBar signals={seoContent.answerBox.trustSignals} />
       </section>
 

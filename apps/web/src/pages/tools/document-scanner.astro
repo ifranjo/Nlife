@@ -15,7 +15,7 @@ import AnswerBox from '../../components/seo/AnswerBox.astro';
 import QASections from '../../components/seo/QASections.astro';
 import { getToolById } from '../../lib/tools';
 import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
-import DocumentScanner from '../../components/tools/DocumentScanner';
+import DocumentScannerComponent from '../../components/tools/DocumentScanner';
 import RelatedTools from '../../components/seo/RelatedTools.astro';
 
 // Get tool data from Single Source of Truth (tools.ts)
@@ -135,7 +135,7 @@ const schemaData = {
 
       <!-- Tool Component -->
       <section class="tool-section" aria-label="Document Scanner Tool">
-        <DocumentScanner client:load />
+        <DocumentScannerComponent client:load />
         <TrustBar signals={seoContent.answerBox.trustSignals} />
       </section>
 

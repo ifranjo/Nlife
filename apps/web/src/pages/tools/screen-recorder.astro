@@ -16,7 +16,7 @@ import QASections from '../../components/seo/QASections.astro';
 import RelatedTools from '../../components/seo/RelatedTools.astro';
 import { getToolById } from '../../lib/tools';
 import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
-import ScreenRecorder from '../../components/tools/ScreenRecorder';
+import ScreenRecorderComponent from '../../components/tools/ScreenRecorder';
 
 // Get tool data from Single Source of Truth (tools.ts)
 const toolData = getToolById('screen-recorder');
@@ -139,7 +139,7 @@ const schemaData = {
 
       <!-- Tool Component -->
       <section class="tool-section" aria-label="Screen Recorder Tool">
-        <ScreenRecorder client:load />
+        <ScreenRecorderComponent client:load />
         <TrustBar signals={seoContent.answerBox.trustSignals} />
       </section>
 

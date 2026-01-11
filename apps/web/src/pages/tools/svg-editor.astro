@@ -16,7 +16,7 @@ import QASections from '../../components/seo/QASections.astro';
 import RelatedTools from '../../components/seo/RelatedTools.astro';
 import { getToolById } from '../../lib/tools';
 import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
-import SvgEditor from '../../components/tools/SvgEditor';
+import SvgEditorComponent from '../../components/tools/SvgEditor';
 
 // Get tool data from Single Source of Truth (tools.ts)
 const toolData = getToolById('svg-editor');
@@ -136,7 +136,7 @@ const schemaData = {
 
       <!-- Tool Component -->
       <section class="tool-section" aria-label="SVG Editor Tool">
-        <SvgEditor client:load />
+        <SvgEditorComponent client:load />
         <TrustBar signals={seoContent.answerBox.trustSignals} />
       </section>
 
