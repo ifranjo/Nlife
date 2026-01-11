@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- Background -->
+  <rect width="200" height="200" fill="#0a0a0a"/>
+
+  <!-- Grid -->
+  <g fill="#fff" font-family="monospace" font-size="14" text-anchor="middle" dominant-baseline="central">
+    <!-- H -->
+    <text x="35" y="35">H</text>
+    <text x="65" y="35">C</text>
+    <text x="95" y="35">O</text>
+    <text x="125" y="35" fill="#22c55e" font-weight="bold">D</text>
+    <text x="155" y="35" fill="#22c55e" font-weight="bold">E</text>
+
+    <!-- Second row -->
+    <text x="35" y="65" fill="#22c55e" font-weight="bold">T</text>
+    <text x="65" y="65">M</text>
+    <text x="95" y="65">L</text>
+    <text x="125" y="65" fill="#22c55e" font-weight="bold">B</text>
+    <text x="155" y="65">U</text>
+
+    <!-- Third row -->
+    <text x="35" y="95" fill="#22c55e" font-weight="bold">M</text>
+    <text x="65" y="95" fill="#22c55e" font-weight="bold">L</text>
+    <text x="95" y="95" fill="#22c55e" font-weight="bold">E</text>
+    <text x="125" y="95" fill="#22c55e" font-weight="bold">U</text>
+    <text x="155" y="95">G</text>
+
+    <!-- Fourth row -->
+    <text x="35" y="125">W</text>
+    <text x="65" y="125">P</text>
+    <text x="95" y="125">V</text>
+    <text x="125" y="125">S</text>
+    <text x="155" y="125" fill="#3b82f6" font-weight="bold">A</text>
+
+    <!-- Fifth row -->
+    <text x="35" y="155">R</text>
+    <text x="65" y="155">X</text>
+    <text x="95" y="155">Y</text>
+    <text x="125" y="155">Z</text>
+    <text x="155" y="155" fill="#3b82f6" font-weight="bold">P</text>
+  </g>
+
+  <!-- Highlight lines for found words -->
+  <g stroke="#22c55e" stroke-width="2" fill="none" opacity="0.3">
+    <line x1="30" y1="35" x2="170" y2="35"/>
+    <line x1="35" y1="30" x2="35" y2="105"/>
+  </g>
+
+  <g stroke="#3b82f6" stroke-width="2" fill="none" opacity="0.3">
+    <line x1="155" y1="95" x2="155" y2="175"/>
+  </g>
+
+  <!-- Word Search icon -->
+  <text x="100" y="185" font-family="monospace" font-size="10" fill="#666" text-anchor="middle" letter-spacing="2">FIND</text>
+</svg>

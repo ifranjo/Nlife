@@ -1,0 +1,435 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { week7ScalingAutomation } from '../lib/week7-index';
+
+// Generate status data at build time
+const systemStatus = await week7ScalingAutomation.getSystemStatus();
+
+// SEO metadata
+const title = 'System Status - New Life Solutions';
+const description = 'Real-time system status page showing the health and performance of all Week 7 HAMBREDEVICTORIA components.';
+
+// Add JSON-LD structured data for SEO
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "New Life Solutions System Status",
+  "url": "https://www.newlifesolutions.dev/status",
+  "description": "Real-time status of Week 7 HAMBREDEVICTORIA scaling and automation systems"
+};
+
+// Format date
+const formattedDate = new Date(systemStatus.timestamp).toLocaleString('en-US', {
+  weekday: 'long',
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+  hour: 'numeric',
+  minute: 'numeric'
+});
+---
+
+<Layout title={title} description={description} structuredData={structuredData}>
+  <script define:vars={{ systemStatus }} >
+    // Make status available globally for client-side updates
+    window.__SYSTEM_STATUS__ = systemStatus;
+  </script>
+
+  <style>
+    .status-page {
+      min-height: 100vh;
+      padding: 2rem 0;
+    }
+
+    .status-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .status-header h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #00ff00, #818cf8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .status-summary {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .status-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      border-radius: 2rem;
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+
+    .status-indicator.healthy {
+      background: rgba(0, 255, 0, 0.1);
+      border: 1px solid rgba(0, 255, 0, 0.3);
+      color: #00ff00;
+    }
+
+    .status-indicator.degraded {
+      background: rgba(255, 170, 0, 0.1);
+      border: 1px solid rgba(255, 170, 0, 0.3);
+      color: #ffaa00;
+    }
+
+    .status-indicator.unhealthy {
+      background: rgba(255, 68, 68, 0.1);
+      border: 1px solid rgba(255, 68, 68, 0.3);
+      color: #ff4444;
+    }
+
+    .status-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    .status-dot.healthy {
+      background: #00ff00;
+      box-shadow: 0 0 10px #00ff00;
+    }
+
+    .status-dot.degraded {
+      background: #ffaa00;
+      box-shadow: 0 0 10px #ffaa00;
+    }
+
+    .status-dot.unhealthy {
+      background: #ff4444;
+      box-shadow: 0 0 10px #ff4444;
+    }
+
+    @keyframes pulse {
+      0% { opacity: 1; }
+      50% { opacity: 0.5; }
+      100% { opacity: 1; }
+    }
+
+    .status-details {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .component-status {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 0.75rem;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .component-status:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.15);
+    }
+
+    .component-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .component-name {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin: 0;
+    }
+
+    .component-status-badge {
+      padding: 0.25rem 0.75rem;
+      border-radius: 0.25rem;
+      font-size: 0.875rem;
+      font-weight: 500;
+      text-transform: uppercase;
+    }
+
+    .component-status-badge.healthy {
+      background: rgba(0, 255, 0, 0.2);
+      color: #00ff00;
+    }
+
+    .component-status-badge.degraded {
+      background: rgba(255, 170, 0, 0.2);
+      color: #ffaa00;
+    }
+
+    .component-status-badge.unhealthy {
+      background: rgba(255, 68, 68, 0.2);
+      color: #ff4444;
+    }
+
+    .component-metrics {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .metric {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .metric-label {
+      font-size: 0.875rem;
+      color: rgba(255, 255, 255, 0.6);
+      margin-bottom: 0.25rem;
+    }
+
+    .metric-value {
+      font-size: 1.125rem;
+      font-weight: 500;
+    }
+
+    .response-time {
+      font-size: 0.875rem;
+      color: rgba(255, 255, 255, 0.6);
+      margin-top: 0.5rem;
+    }
+
+    .uptime-section {
+      text-align: center;
+      margin-top: 3rem;
+      padding: 2rem;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 0.75rem;
+    }
+
+    .uptime-label {
+      font-size: 0.875rem;
+      color: rgba(255, 255, 255, 0.6);
+      margin-bottom: 0.5rem;
+    }
+
+    .uptime-value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #00ff00;
+    }
+
+    .version-info {
+      text-align: center;
+      margin-top: 1rem;
+      font-size: 0.875rem;
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .refresh-indicator {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      padding: 0.5rem 1rem;
+      background: rgba(0, 0, 0, 0.8);
+      border-radius: 0.5rem;
+      font-size: 0.875rem;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .refresh-indicator.updating {
+      opacity: 1;
+    }
+
+    @media (max-width: 768px) {
+      .status-header h1 {
+        font-size: 2rem;
+      }
+
+      .component-metrics {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+
+  <main class="status-page">
+    <div class="container">
+      <div class="status-header">
+        <h1>System Status</h1>
+        <p>Real-time monitoring of all Week 7 HAMBREDEVICTORIA components</p>
+      </div>
+
+      <div class="status-summary">
+        <div class={`status-indicator ${systemStatus.overall}`}>
+          <span class={`status-dot ${systemStatus.overall}`}></span>
+          System {systemStatus.overall.charAt(0).toUpperCase() + systemStatus.overall.slice(1)}
+        </div>
+        <span class="version-info">Version: {systemStatus.version}</span>
+      </div>
+
+      <div class="status-details">
+        {systemStatus.checks.map((check) => (
+          <div class="component-status">
+            <div class="component-header">
+              <h3 class="component-name">{check.component.replace('-', ' ').toUpperCase()}</h3>
+              <span class={`component-status-badge ${check.status}`}>{check.status}</span>
+            </div>
+
+            <p>{check.message}</p>
+
+            {check.details && Object.keys(check.details).length > 0 && (
+              <div class="component-metrics">
+                {Object.entries(check.details).map(([key, value]) => (
+                  <div class="metric">
+                    <span class="metric-label">{key.replace(/([A-Z])/g, ' $1').trim()}:</span>
+                    <span class="metric-value">{typeof value === 'number' ? value.toLocaleString() : String(value)}</span>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            <div class="response-time">Response time: {check.responseTime}ms</div>
+          </div>
+        ))}
+      </div>
+
+      <div class="uptime-section">
+        <div class="uptime-label">System Uptime</div>
+        <div class="uptime-value">{formatUptime(systemStatus.uptime)}</div>
+      </div>
+
+      <div class="version-info">
+        Last updated: {formattedDate}
+      </div>
+    </div>
+  </main>
+
+  <div class="refresh-indicator" id="refreshIndicator">Updating...</div>
+
+  <script>
+    // Client-side refresh functionality
+    let refreshInterval;
+    let isUpdating = false;
+
+    async function refreshStatus() {
+      if (isUpdating) return;
+
+      isUpdating = true;
+      const indicator = document.getElementById('refreshIndicator');
+      indicator.classList.add('updating');
+
+      try {
+        // Import the week7 module dynamically
+        const { week7ScalingAutomation } = await import('/src/lib/week7-index.js');
+        const newStatus = await week7ScalingAutomation.getSystemStatus();
+
+        // Update the UI
+        updateUI(newStatus);
+        window.__SYSTEM_STATUS__ = newStatus;
+      } catch (error) {
+        console.error('Failed to refresh status:', error);
+      } finally {
+        isUpdating = false;
+        indicator.classList.remove('updating');
+      }
+    }
+
+    function updateUI(status) {
+      // Update overall status
+      const statusIndicator = document.querySelector('.status-indicator');
+      statusIndicator.className = `status-indicator ${status.overall}`;
+      statusIndicator.innerHTML = `
+        <span class="status-dot ${status.overall}"></span>
+        System ${status.overall.charAt(0).toUpperCase() + status.overall.slice(1)}
+      `;
+
+      // Update component statuses
+      const components = document.querySelectorAll('.component-status');
+      components.forEach((component, index) => {
+        const check = status.checks[index];
+        if (!check) return;
+
+        const badge = component.querySelector('.component-status-badge');
+        badge.className = `component-status-badge ${check.status}`;
+        badge.textContent = check.status;
+
+        const message = component.querySelector('p');
+        message.textContent = check.message;
+
+        const responseTime = component.querySelector('.response-time');
+        responseTime.textContent = `Response time: ${check.responseTime}ms`;
+      });
+
+      // Update uptime
+      const uptimeValue = document.querySelector('.uptime-value');
+      uptimeValue.textContent = formatUptime(status.uptime);
+
+      // Update timestamp
+      const timestamp = document.querySelector('.version-info');
+      timestamp.textContent = `Last updated: ${new Date(status.timestamp).toLocaleString()}`;
+    }
+
+    function formatUptime(ms) {
+      const seconds = Math.floor(ms / 1000);
+      const minutes = Math.floor(seconds / 60);
+      const hours = Math.floor(minutes / 60);
+      const days = Math.floor(hours / 24);
+
+      if (days > 0) return `${days}d ${hours % 24}h ${minutes % 60}m`;
+      if (hours > 0) return `${hours}h ${minutes % 60}m ${seconds % 60}s`;
+      if (minutes > 0) return `${minutes}m ${seconds % 60}s`;
+      return `${seconds}s`;
+    }
+
+    // Start auto-refresh
+    function startAutoRefresh() {
+      refreshInterval = setInterval(refreshStatus, 30000); // Refresh every 30 seconds
+    }
+
+    function stopAutoRefresh() {
+      if (refreshInterval) {
+        clearInterval(refreshInterval);
+      }
+    }
+
+    // Handle visibility change
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        stopAutoRefresh();
+      } else {
+        refreshStatus();
+        startAutoRefresh();
+      }
+    });
+
+    // Start on page load
+    startAutoRefresh();
+
+    // Manual refresh on click
+    document.addEventListener('click', (e) => {
+      if (e.target.closest('.status-page')) {
+        refreshStatus();
+      }
+    });
+  </script>
+</Layout>
+
+<script>
+  // Helper function to format uptime
+  function formatUptime(ms) {
+    const seconds = Math.floor(ms / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const hours = Math.floor(minutes / 60);
+    const days = Math.floor(hours / 24);
+
+    if (days > 0) return `${days}d ${hours % 24}h ${minutes % 60}m`;
+    if (hours > 0) return `${hours}h ${minutes % 60}m ${seconds % 60}s`;
+    if (minutes > 0) return `${minutes}m ${seconds % 60}s`;
+    return `${seconds}s`;
+  }
+</script>

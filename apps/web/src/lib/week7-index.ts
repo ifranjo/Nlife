@@ -28,7 +28,8 @@ export { cdnIntegration } from './cdn-integration';
 export type { CDNConfig } from './cdn-integration';
 
 // Week 7 Integration Layer
-export { week7Integration, Week7IntegrationConfig } from './week7-integration';
+export { week7Integration } from './week7-integration';
+export type { Week7IntegrationConfig } from './week7-integration';
 
 // Health Check System
 export interface HealthCheck {

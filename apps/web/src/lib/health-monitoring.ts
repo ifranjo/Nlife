@@ -418,6 +418,8 @@ class HealthMonitor extends EventTarget {
    * Save to localStorage
    */
   private saveToStorage(): void {
+    if (typeof localStorage === 'undefined') return;
+
     try {
       const data = {
         metrics: Array.from(this.metricData.entries()),
@@ -434,6 +436,8 @@ class HealthMonitor extends EventTarget {
    * Load from localStorage
    */
   private loadFromStorage(): void {
+    if (typeof localStorage === 'undefined') return;
+
     try {
       const stored = localStorage.getItem(this.storageKey);
       if (stored) {

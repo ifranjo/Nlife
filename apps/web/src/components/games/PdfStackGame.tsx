@@ -83,6 +83,7 @@ export default function PdfStackGame() {
     height: 600,
     pdfWidth: 80,
     pdfHeight: 20,
+    perfectText: null as { x: number; y: number; text: string; opacity: number } | null,
   });
 
   // Load high score
@@ -333,7 +334,7 @@ export default function PdfStackGame() {
 
     // Store for rendering
     state.perfectText = text;
-    setTimeout(() => { delete state.perfectText; }, 800);
+    setTimeout(() => { state.perfectText = null; }, 800);
 
     animate();
   };
