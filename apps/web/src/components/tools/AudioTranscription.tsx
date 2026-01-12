@@ -1,5 +1,6 @@
 import { useState, useRef } from 'react';
 import ToolFeedback from '../ui/ToolFeedback';
+import UpgradePrompt, { UsageIndicator, useToolUsage } from '../ui/UpgradePrompt';
 import { validateAudioFile, sanitizeFilename, createSafeErrorMessage, sanitizeTextContent } from '../../lib/security';
 import { copyToClipboard } from '../../lib/clipboard';
 
@@ -19,6 +20,7 @@ const ensureAudioContext = async (ctx: AudioContext): Promise<AudioContext> => {
 };
 
 export default function AudioTranscription() {
+  const { canUse, showPrompt, checkUsage, recordUsage, dismissPrompt } = useToolUsage('audio-transcription');
   const [status, setStatus] = useState<Status>('idle');
   const [progress, setProgress] = useState(0);
   const [progressText, setProgressText] = useState('');
@@ -64,6 +66,10 @@ export default function AudioTranscription() {
 
   const handleTranscribe = async () => {
     if (!audioFile) return;
+
+    if (!checkUsage()) {
+      return;
+    }
 
     setStatus('loading');
     setProgress(0);
@@ -118,6 +124,7 @@ export default function AudioTranscription() {
       const sanitizedTranscript = sanitizeTextContent(result.text);
       setTranscript(sanitizedTranscript);
       setStatus('done');
+      recordUsage();
     } catch (err) {
       setError(createSafeErrorMessage(err, 'Transcription failed. Try a smaller audio file or different format.'));
       setStatus('error');
@@ -146,6 +153,8 @@ export default function AudioTranscription() {
 
   return (
     <div className="space-y-6">
+      <UpgradePrompt toolId="audio-transcription" toolName="Audio Transcription" onDismiss={dismissPrompt} />
+      <UsageIndicator toolId="audio-transcription" />
       {/* Upload */}
       <div className="border border-dashed border-[var(--border)] rounded-lg p-8 text-center hover:border-[var(--accent)] transition-colors">
         <input

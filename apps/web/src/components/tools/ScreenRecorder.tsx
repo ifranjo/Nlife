@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import ToolFeedback from '../ui/ToolFeedback';
+import UpgradePrompt, { UsageIndicator, useToolUsage } from '../ui/UpgradePrompt';
 
 type Status = 'idle' | 'requesting' | 'recording' | 'paused' | 'processing' | 'done' | 'error';
 type Quality = '720p' | '1080p' | 'source';
@@ -16,6 +17,7 @@ const QUALITY_SETTINGS: Record<Quality, { width: number; height: number; label: 
 };
 
 export default function ScreenRecorder() {
+  const { canUse, showPrompt, checkUsage, recordUsage, dismissPrompt } = useToolUsage('screen-recorder');
   const [status, setStatus] = useState<Status>('idle');
   const [error, setError] = useState<string | null>(null);
   const [options, setOptions] = useState<RecordingOptions>({
@@ -73,6 +75,10 @@ export default function ScreenRecorder() {
   }, []);
 
   const startRecording = async () => {
+    if (!checkUsage()) {
+      return;
+    }
+
     setError(null);
     setStatus('requesting');
     chunksRef.current = [];
@@ -132,6 +138,7 @@ export default function ScreenRecorder() {
         const url = URL.createObjectURL(blob);
         setOutputUrl(url);
         setStatus('done');
+        recordUsage();
         stopTimer();
         stopAllTracks();
       };
@@ -220,6 +227,8 @@ export default function ScreenRecorder() {
 
   return (
     <div className="space-y-6">
+      {showPrompt && <UpgradePrompt toolId="screen-recorder" toolName="Screen Recorder" onDismiss={dismissPrompt} />}
+      <UsageIndicator toolId="screen-recorder" />
       {/* Settings - Only shown when idle */}
       {status === 'idle' && (
         <div className="glass-card p-6 space-y-6">

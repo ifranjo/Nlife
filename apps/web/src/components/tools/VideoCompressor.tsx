@@ -3,6 +3,7 @@ import { FFmpeg } from '@ffmpeg/ffmpeg';
 import { fetchFile, toBlobURL } from '@ffmpeg/util';
 import ToolFeedback from '../ui/ToolFeedback';
 import { validateVideoFile, sanitizeFilename, createSafeErrorMessage } from '../../lib/security';
+import UpgradePrompt, { UsageIndicator, useToolUsage } from '../ui/UpgradePrompt';
 
 type Status = 'idle' | 'loading' | 'processing' | 'done' | 'error';
 
@@ -32,6 +33,7 @@ export default function VideoCompressor() {
   const ffmpegRef = useRef<FFmpeg | null>(null);
   const [ffmpegLoaded, setFfmpegLoaded] = useState(false);
   const [sharedArrayBufferSupported, setSharedArrayBufferSupported] = useState<boolean | null>(null);
+  const { canUse, showPrompt, checkUsage, recordUsage, dismissPrompt } = useToolUsage('video-compressor');
 
   useEffect(() => {
     const check = checkSharedArrayBuffer();
@@ -106,6 +108,10 @@ export default function VideoCompressor() {
   const handleCompress = async () => {
     if (!videoFile || !ffmpegRef.current) return;
 
+    if (!checkUsage()) {
+      return;
+    }
+
     setStatus('processing');
     setProgress(0);
     setError(null);
@@ -151,6 +157,7 @@ export default function VideoCompressor() {
       setOutputSize(blob.size);
       setOutputUrl(URL.createObjectURL(blob));
       setStatus('done');
+      recordUsage();
 
       // Cleanup
       try {
@@ -219,6 +226,10 @@ export default function VideoCompressor() {
 
   return (
     <div className="space-y-6">
+      <div className="mb-4 flex justify-end">
+        <UsageIndicator toolId="video-compressor" />
+      </div>
+
       {/* Upload */}
       <div className="border border-dashed border-[var(--border)] rounded-lg p-8 text-center hover:border-[var(--accent)] transition-colors">
         <input
@@ -357,6 +368,8 @@ export default function VideoCompressor() {
         <p>• All processing happens in your browser - videos never uploaded</p>
         <p>• Output is MP4 (H.264) for maximum compatibility</p>
       </div>
+
+      {showPrompt && <UpgradePrompt toolId="video-compressor" toolName="Video Compressor" onDismiss={dismissPrompt} />}
     </div>
   );
 }

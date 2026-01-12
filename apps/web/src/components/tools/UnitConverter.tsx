@@ -1,5 +1,6 @@
 import { useState, useMemo } from 'react';
 import { copyToClipboard } from '../../lib/clipboard';
+import UpgradePrompt, { UsageIndicator, useToolUsage } from '../ui/UpgradePrompt';
 
 type Category = 'length' | 'weight' | 'temperature' | 'volume' | 'area' | 'speed' | 'time' | 'digital';
 
@@ -359,6 +360,8 @@ function formatNumber(value: number): string {
 }
 
 export default function UnitConverter() {
+  const { canUse, showPrompt, checkUsage, recordUsage, dismissPrompt } = useToolUsage('unit-converter');
+
   const [category, setCategory] = useState<Category>('length');
   const [inputValue, setInputValue] = useState('1');
   const [fromUnit, setFromUnit] = useState('meter');
@@ -389,10 +392,14 @@ export default function UnitConverter() {
   }, [inputValue, fromUnit, units]);
 
   const handleCategoryChange = (newCategory: Category) => {
+    if (!checkUsage()) {
+      return;
+    }
     setCategory(newCategory);
     const newUnits = UNITS[newCategory];
     setFromUnit(Object.keys(newUnits)[0]);
     setInputValue('1');
+    recordUsage();
   };
 
   const handleCopy = async (key: string, value: number) => {
@@ -414,6 +421,14 @@ export default function UnitConverter() {
 
   return (
     <div className="max-w-3xl mx-auto space-y-6">
+      <UpgradePrompt
+        toolId="unit-converter"
+        toolName="Unit Converter"
+        onDismiss={dismissPrompt}
+      />
+
+      <UsageIndicator toolId="unit-converter" />
+
       {/* Category Selector */}
       <div className="bg-white/5 border border-white/10 rounded-xl p-4">
         <label className="block text-sm text-white mb-3">Category</label>

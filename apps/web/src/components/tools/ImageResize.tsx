@@ -1,4 +1,5 @@
 import { useState, useCallback, useRef } from 'react';
+import UpgradePrompt, { UsageIndicator, useToolUsage } from '../ui/UpgradePrompt';
 
 interface ImageDimensions {
   width: number;
@@ -15,6 +16,7 @@ const PRESET_SIZES = [
 ];
 
 export default function ImageResize() {
+  const { canUse, showPrompt, checkUsage, recordUsage, dismissPrompt } = useToolUsage('image-resize');
   const [originalImage, setOriginalImage] = useState<HTMLImageElement | null>(null);
   const [originalDimensions, setOriginalDimensions] = useState<ImageDimensions | null>(null);
   const [targetDimensions, setTargetDimensions] = useState<ImageDimensions>({ width: 0, height: 0 });
@@ -87,6 +89,10 @@ export default function ImageResize() {
   const resizeImage = useCallback(() => {
     if (!originalImage || !canvasRef.current) return;
 
+    if (!checkUsage()) {
+      return;
+    }
+
     setProcessing(true);
 
     const canvas = canvasRef.current;
@@ -108,13 +114,14 @@ export default function ImageResize() {
           if (previewUrl) URL.revokeObjectURL(previewUrl);
           const url = URL.createObjectURL(blob);
           setPreviewUrl(url);
+          recordUsage();
         }
         setProcessing(false);
       },
       `image/${format}`,
       quality / 100
     );
-  }, [originalImage, targetDimensions, format, quality, previewUrl]);
+  }, [originalImage, targetDimensions, format, quality, previewUrl, recordUsage, checkUsage]);
 
   const downloadImage = useCallback(() => {
     if (!canvasRef.current) return;
@@ -136,6 +143,9 @@ export default function ImageResize() {
 
   return (
     <div className="max-w-5xl mx-auto space-y-6">
+      <div className="mb-4 flex justify-end">
+        <UsageIndicator toolId="image-resize" />
+      </div>
       {/* Upload Zone */}
       {!originalImage && (
         <div
@@ -361,6 +371,8 @@ export default function ImageResize() {
           Your images never leave your device. No upload to servers.
         </p>
       </div>
+
+      {showPrompt && <UpgradePrompt toolId="image-resize" toolName="Image Resize" onDismiss={dismissPrompt} />}
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { createSafeErrorMessage } from '../../lib/security';
 import { copyToClipboard } from '../../lib/clipboard';
+import UpgradePrompt, { UsageIndicator, useToolUsage } from '../ui/UpgradePrompt';
 
 type Language = 'javascript' | 'typescript' | 'css' | 'html' | 'json' | 'sql';
 type IndentType = '2spaces' | '4spaces' | 'tabs';
@@ -22,6 +23,8 @@ const LANGUAGES: { id: Language; label: string; extensions: string[] }[] = [
 ];
 
 export default function CodeBeautifier() {
+  const { canUse, showPrompt, checkUsage, recordUsage, dismissPrompt } = useToolUsage('code-beautifier');
+
   const [input, setInput] = useState('');
   const [output, setOutput] = useState('');
   const [language, setLanguage] = useState<Language>('javascript');
@@ -139,6 +142,10 @@ export default function CodeBeautifier() {
 
   // Format code
   const formatCode = useCallback(async () => {
+    if (!checkUsage()) {
+      return;
+    }
+
     if (!input.trim()) {
       setError({ message: 'Input is empty' });
       return;
@@ -185,6 +192,7 @@ export default function CodeBeautifier() {
       }
 
       setOutput(formatted);
+      recordUsage();
     } catch (err: any) {
       // Try to extract line/column from error
       let line: number | undefined;
@@ -204,10 +212,14 @@ export default function CodeBeautifier() {
     } finally {
       setIsFormatting(false);
     }
-  }, [input, language, indentType, loadPrettier, loadSqlFormatter]);
+  }, [input, language, indentType, loadPrettier, loadSqlFormatter, checkUsage, recordUsage]);
 
   // Minify code (JS/CSS only)
   const minifyCode = useCallback(async () => {
+    if (!checkUsage()) {
+      return;
+    }
+
     if (!input.trim()) {
       setError({ message: 'Input is empty' });
       return;
@@ -264,6 +276,7 @@ export default function CodeBeautifier() {
       }
 
       setOutput(minified);
+      recordUsage();
     } catch (err: any) {
       setError({
         message: err.message || createSafeErrorMessage(err, 'Failed to minify code'),
@@ -272,7 +285,7 @@ export default function CodeBeautifier() {
     } finally {
       setIsFormatting(false);
     }
-  }, [input, language, loadPrettier]);
+  }, [input, language, loadPrettier, checkUsage, recordUsage]);
 
   // Handle file upload
   const handleFileUpload = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -362,6 +375,14 @@ export default function CodeBeautifier() {
 
   return (
     <div className="max-w-6xl mx-auto">
+      <UpgradePrompt
+        toolId="code-beautifier"
+        toolName="Code Beautifier"
+        onDismiss={dismissPrompt}
+      />
+
+      <UsageIndicator toolId="code-beautifier" />
+
       <div className="grid lg:grid-cols-2 gap-6">
         {/* Input Panel */}
         <div className="glass-card p-6">

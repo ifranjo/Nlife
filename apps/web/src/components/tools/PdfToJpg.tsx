@@ -4,6 +4,7 @@ import {
   sanitizeFilename,
   createSafeErrorMessage,
 } from '../../lib/security';
+import UpgradePrompt, { UsageIndicator, useToolUsage } from '../ui/UpgradePrompt';
 
 interface PageImage {
   pageNumber: number;
@@ -35,6 +36,9 @@ export default function PdfToJpg() {
   const [format, setFormat] = useState<ImageFormat>('jpeg');
   const [quality, setQuality] = useState<ImageQuality>('high');
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Usage limits for free tier
+  const { canUse, showPrompt, checkUsage, recordUsage, dismissPrompt } = useToolUsage('pdf-to-jpg');
 
   const resetState = () => {
     setFile(null);
@@ -147,6 +151,11 @@ export default function PdfToJpg() {
   const convertToImages = async () => {
     if (!file || selectedCount === 0) return;
 
+    // Check usage limits for free tier
+    if (!checkUsage()) {
+      return; // Prompt will be shown automatically
+    }
+
     setIsProcessing(true);
     setError(null);
     setProgress('Preparing conversion...');
@@ -186,6 +195,9 @@ export default function PdfToJpg() {
           document.body.appendChild(link);
           link.click();
           document.body.removeChild(link);
+
+          // Record usage for free tier tracking
+          recordUsage();
         }
       } else {
         // Multiple pages: create ZIP
@@ -225,6 +237,9 @@ export default function PdfToJpg() {
         link.click();
         document.body.removeChild(link);
         URL.revokeObjectURL(url);
+
+        // Record usage for free tier tracking
+        recordUsage();
       }
 
       setProgress('');
@@ -238,6 +253,11 @@ export default function PdfToJpg() {
 
   return (
     <div className="max-w-5xl mx-auto">
+      {/* Usage Indicator */}
+      <div className="mb-4 flex justify-end">
+        <UsageIndicator toolId="pdf-to-jpg" />
+      </div>
+
       {/* Drop Zone */}
       {!file ? (
         <div
@@ -438,6 +458,9 @@ export default function PdfToJpg() {
         </svg>
         Your files never leave your browser. All processing happens locally.
       </p>
+
+      {/* Upgrade Prompt Modal */}
+      {showPrompt && <UpgradePrompt toolId="pdf-to-jpg" toolName="PDF to JPG" onDismiss={dismissPrompt} />}
     </div>
   );
 }

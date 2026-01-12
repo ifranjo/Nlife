@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
+import UpgradePrompt, { UsageIndicator, useToolUsage } from '../ui/UpgradePrompt';
 
 interface Detection {
   box: { xmin: number; ymin: number; xmax: number; ymax: number };
@@ -14,6 +15,8 @@ const COLORS = [
 ];
 
 export default function ObjectDetection() {
+  const { canUse, showPrompt, checkUsage, recordUsage, dismissPrompt } = useToolUsage('object-detection');
+
   const [image, setImage] = useState<string | null>(null);
   const [detections, setDetections] = useState<Detection[]>([]);
   const [modelStatus, setModelStatus] = useState<ModelStatus>('idle');
@@ -143,12 +146,17 @@ export default function ObjectDetection() {
   const detectObjects = async () => {
     if (!image || !detectorRef.current) return;
 
+    if (!checkUsage()) {
+      return;
+    }
+
     setModelStatus('detecting');
     setError(null);
 
     try {
       const results = await detectorRef.current(image, { threshold });
       setDetections(results);
+      recordUsage();
       setModelStatus('ready');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Detection failed');
@@ -167,6 +175,16 @@ export default function ObjectDetection() {
 
   return (
     <div className="max-w-5xl mx-auto space-y-6">
+      <div className="mb-4 flex justify-end">
+        <UsageIndicator toolId="object-detection" />
+      </div>
+      {showPrompt && (
+        <UpgradePrompt
+          toolId="object-detection"
+          toolName="Object Detection"
+          onDismiss={dismissPrompt}
+        />
+      )}
       {/* Upload Area */}
       {!image && (
         <div

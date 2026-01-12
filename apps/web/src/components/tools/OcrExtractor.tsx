@@ -6,6 +6,7 @@ import {
   generateDownloadFilename,
 } from '../../lib/security';
 import { copyToClipboard } from '../../lib/clipboard';
+import UpgradePrompt, { UsageIndicator, useToolUsage } from '../ui/UpgradePrompt';
 
 // ============================================================================
 // Types & Interfaces
@@ -78,6 +79,9 @@ const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB
 // ============================================================================
 
 export default function OcrExtractor() {
+  // Usage tracking
+  const { canUse, showPrompt, checkUsage, recordUsage, dismissPrompt } = useToolUsage('ocr-extractor');
+
   // State
   const [files, setFiles] = useState<FileItem[]>([]);
   const [isDragging, setIsDragging] = useState(false);
@@ -451,6 +455,10 @@ export default function OcrExtractor() {
       return;
     }
 
+    if (!checkUsage()) {
+      return;
+    }
+
     setIsProcessing(true);
     setError(null);
     setProgress(0);
@@ -523,6 +531,7 @@ export default function OcrExtractor() {
       }
     }
 
+    recordUsage();
     setIsProcessing(false);
     setProgress(0);
     setProgressText('');
@@ -811,6 +820,12 @@ export default function OcrExtractor() {
 
   return (
     <div className="max-w-4xl mx-auto">
+      {/* Upgrade Prompt */}
+      {showPrompt && <UpgradePrompt toolId="ocr-extractor" toolName="OCR Extractor" onDismiss={dismissPrompt} />}
+
+      {/* Usage Indicator */}
+      <UsageIndicator toolId="ocr-extractor" />
+
       {/* Drop Zone - Always visible when no files */}
       {files.length === 0 && (
         <>

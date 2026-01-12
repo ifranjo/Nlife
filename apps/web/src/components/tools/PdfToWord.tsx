@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Document, Packer, Paragraph, TextRun, HeadingLevel } from 'docx';
 import ToolFeedback from '../ui/ToolFeedback';
 import { validateFile, sanitizeFilename, createSafeErrorMessage, sanitizeTextContent } from '../../lib/security';
+import UpgradePrompt, { UsageIndicator, useToolUsage } from '../ui/UpgradePrompt';
 
 type Status = 'idle' | 'processing' | 'done' | 'error';
 
@@ -11,6 +12,9 @@ export default function PdfToWord() {
   const [pdfFile, setPdfFile] = useState<File | null>(null);
   const [extractedText, setExtractedText] = useState<string>('');
   const [pageCount, setPageCount] = useState(0);
+
+  // Usage limits for free tier
+  const { canUse, showPrompt, checkUsage, recordUsage, dismissPrompt } = useToolUsage('pdf-to-word');
 
   const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -30,6 +34,10 @@ export default function PdfToWord() {
 
   const handleConvert = async () => {
     if (!pdfFile) return;
+
+    if (!checkUsage()) {
+      return; // Prompt will be shown automatically
+    }
 
     setStatus('processing');
     setError(null);
@@ -95,6 +103,7 @@ export default function PdfToWord() {
       a.click();
       URL.revokeObjectURL(url);
 
+      recordUsage();
       setStatus('done');
     } catch (err) {
       setError(createSafeErrorMessage(err, 'Conversion failed. The PDF may be scanned or protected.'));
@@ -109,6 +118,10 @@ export default function PdfToWord() {
 
   return (
     <div className="space-y-6">
+      <div className="mb-4 flex justify-end">
+        <UsageIndicator toolId="pdf-to-word" />
+      </div>
+
       {/* Upload */}
       <div className="border border-dashed border-[var(--border)] rounded-lg p-8 text-center hover:border-[var(--accent)] transition-colors">
         <input
@@ -203,6 +216,8 @@ export default function PdfToWord() {
         <p>• Complex layouts may not preserve perfectly</p>
         <p>• All processing happens in your browser</p>
       </div>
+
+      {showPrompt && <UpgradePrompt toolId="pdf-to-word" toolName="PDF to Word" onDismiss={dismissPrompt} />}
     </div>
   );
 }

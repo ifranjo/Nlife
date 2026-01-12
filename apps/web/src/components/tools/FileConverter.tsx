@@ -1,6 +1,7 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
 import { sanitizeFilename, createSafeErrorMessage, validateImageFileExtended } from '../../lib/security';
 import { announce, haptic } from '../../lib/accessibility';
+import UpgradePrompt, { UsageIndicator, useToolUsage } from '../ui/UpgradePrompt';
 
 interface ImageFile {
   id: string;
@@ -72,6 +73,8 @@ const canvasToBlob = async (
 };
 
 export default function FileConverter() {
+  const { canUse, showPrompt, checkUsage, recordUsage, dismissPrompt } = useToolUsage('file-converter');
+
   const [files, setFiles] = useState<ImageFile[]>([]);
   const [isDragging, setIsDragging] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
@@ -329,6 +332,10 @@ export default function FileConverter() {
       return;
     }
 
+    if (!checkUsage()) {
+      return;
+    }
+
     setIsProcessing(true);
     setError(null);
 
@@ -387,6 +394,7 @@ export default function FileConverter() {
       }
     }
 
+    recordUsage();
     setIsProcessing(false);
   };
 
@@ -453,6 +461,9 @@ export default function FileConverter() {
 
   return (
     <div className="max-w-4xl mx-auto">
+      {showPrompt && <UpgradePrompt toolId="file-converter" toolName="File Converter" onDismiss={dismissPrompt} />}
+      <UsageIndicator toolId="file-converter" />
+
       {/* Drop Zone */}
       <div
         onDragOver={handleDragOver}

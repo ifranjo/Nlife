@@ -1,6 +1,7 @@
 import { useState, useRef, useCallback } from 'react';
 import { createSafeErrorMessage } from '../../lib/security';
 import { copyToClipboard } from '../../lib/clipboard';
+import UpgradePrompt, { UsageIndicator, useToolUsage } from '../ui/UpgradePrompt';
 
 type IndentType = '2spaces' | '4spaces' | 'tabs';
 
@@ -17,6 +18,7 @@ export default function JsonFormatter() {
   const [error, setError] = useState<JsonError | null>(null);
   const [isValid, setIsValid] = useState(false);
   const [copySuccess, setCopySuccess] = useState(false);
+  const { canUse, showPrompt, checkUsage, recordUsage, dismissPrompt } = useToolUsage('json-formatter');
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const outputRef = useRef<HTMLTextAreaElement>(null);
@@ -83,6 +85,9 @@ export default function JsonFormatter() {
 
   // Format (prettify) JSON
   const formatJson = useCallback(() => {
+    if (!checkUsage()) {
+      return;
+    }
     const result = parseJson(input);
 
     if (!result.valid) {
@@ -97,15 +102,19 @@ export default function JsonFormatter() {
       setOutput(formatted);
       setError(null);
       setIsValid(true);
+      recordUsage();
     } catch (err) {
       setError({ message: createSafeErrorMessage(err, 'Failed to format JSON') });
       setIsValid(false);
       setOutput('');
     }
-  }, [input, indentType, parseJson]);
+  }, [input, indentType, parseJson, checkUsage, recordUsage]);
 
   // Minify JSON
   const minifyJson = useCallback(() => {
+    if (!checkUsage()) {
+      return;
+    }
     const result = parseJson(input);
 
     if (!result.valid) {
@@ -120,12 +129,13 @@ export default function JsonFormatter() {
       setOutput(minified);
       setError(null);
       setIsValid(true);
+      recordUsage();
     } catch (err) {
       setError({ message: createSafeErrorMessage(err, 'Failed to minify JSON') });
       setIsValid(false);
       setOutput('');
     }
-  }, [input, parseJson]);
+  }, [input, parseJson, checkUsage, recordUsage]);
 
   // Validate JSON without formatting
   const validateJson = useCallback(() => {
@@ -208,6 +218,8 @@ export default function JsonFormatter() {
 
   return (
     <div className="max-w-6xl mx-auto">
+      {showPrompt && <UpgradePrompt toolId="json-formatter" toolName="JSON Formatter" onDismiss={dismissPrompt} />}
+      <UsageIndicator toolId="json-formatter" />
       <div className="grid lg:grid-cols-2 gap-6">
         {/* Input Panel */}
         <div className="glass-card p-6">

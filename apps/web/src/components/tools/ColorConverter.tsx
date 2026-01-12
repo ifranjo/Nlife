@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { copyToClipboard } from '../../lib/clipboard';
+import UpgradePrompt, { UsageIndicator, useToolUsage } from '../ui/UpgradePrompt';
 
 interface RGB { r: number; g: number; b: number; }
 interface HSL { h: number; s: number; l: number; }
@@ -84,6 +85,7 @@ export default function ColorConverter() {
   const [rgb, setRgb] = useState<RGB>({ r: 59, g: 130, b: 246 });
   const [hsl, setHsl] = useState<HSL>({ h: 217, s: 91, l: 60 });
   const [copied, setCopied] = useState<string | null>(null);
+  const { canUse, showPrompt, checkUsage, recordUsage, dismissPrompt } = useToolUsage('color-converter');
 
   // Sync from hex
   const updateFromHex = (newHex: string) => {
@@ -116,10 +118,15 @@ export default function ColorConverter() {
   };
 
   const handleCopy = async (format: string, value: string) => {
+    if (!checkUsage()) {
+      return;
+    }
+
     const success = await copyToClipboard(value);
     if (success) {
       setCopied(format);
       setTimeout(() => setCopied(null), 2000);
+      recordUsage();
     }
   };
 
@@ -129,6 +136,9 @@ export default function ColorConverter() {
 
   return (
     <div className="max-w-3xl mx-auto space-y-6">
+      <div className="mb-4 flex justify-end">
+        <UsageIndicator toolId="color-converter" />
+      </div>
       {/* Color Preview */}
       <div
         className="h-32 rounded-2xl flex items-center justify-center transition-colors"
@@ -274,6 +284,7 @@ export default function ColorConverter() {
 --color-hsl: ${hsl.h}, ${hsl.s}%, ${hsl.l}%;`}
         </code>
       </div>
+      {showPrompt && <UpgradePrompt toolId="color-converter" toolName="Color Converter" onDismiss={dismissPrompt} />}
     </div>
   );
 }

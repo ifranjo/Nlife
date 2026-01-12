@@ -4,6 +4,7 @@ import {
   sanitizeFilename,
   createSafeErrorMessage,
 } from '../../lib/security';
+import UpgradePrompt, { UsageIndicator, useToolUsage } from '../ui/UpgradePrompt';
 
 interface FormField {
   name: string;
@@ -35,6 +36,7 @@ interface Signature {
 type ToolMode = 'form' | 'text' | 'signature' | 'date' | 'checkbox';
 
 export default function PdfFormFiller() {
+  const { canUse, showPrompt, checkUsage, recordUsage, dismissPrompt } = useToolUsage('pdf-form-filler');
   const [pdfFile, setPdfFile] = useState<File | null>(null);
   const [pdfFileName, setPdfFileName] = useState<string>('');
   const [isDragging, setIsDragging] = useState(false);
@@ -426,6 +428,10 @@ export default function PdfFormFiller() {
   const fillAndDownload = async () => {
     if (!pdfDoc) return;
 
+    if (!checkUsage()) {
+      return;
+    }
+
     setIsProcessing(true);
     setError(null);
 
@@ -536,6 +542,7 @@ export default function PdfFormFiller() {
       document.body.removeChild(link);
       URL.revokeObjectURL(url);
 
+      recordUsage();
     } catch (err) {
       setError(createSafeErrorMessage(err, 'Failed to fill PDF. Please try again.'));
     } finally {
@@ -571,6 +578,8 @@ export default function PdfFormFiller() {
 
   return (
     <div className="max-w-5xl mx-auto">
+      {showPrompt && <UpgradePrompt toolId="pdf-form-filler" toolName="PDF Form Filler" onDismiss={dismissPrompt} />}
+      <UsageIndicator toolId="pdf-form-filler" />
       {!pdfFile ? (
         <>
           {/* Drop Zone */}

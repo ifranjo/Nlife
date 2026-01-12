@@ -1,9 +1,12 @@
 import { useState, useRef } from 'react';
 import { copyToClipboard } from '../../lib/clipboard';
+import UpgradePrompt, { UsageIndicator, useToolUsage } from '../ui/UpgradePrompt';
 
 type ModelStatus = 'idle' | 'loading' | 'ready' | 'captioning' | 'error';
 
 export default function ImageCaptioning() {
+  const { canUse, showPrompt, checkUsage, recordUsage, dismissPrompt } = useToolUsage('image-captioning');
+
   const [image, setImage] = useState<string | null>(null);
   const [caption, setCaption] = useState<string>('');
   const [modelStatus, setModelStatus] = useState<ModelStatus>('idle');
@@ -88,6 +91,10 @@ export default function ImageCaptioning() {
   const generateCaption = async () => {
     if (!image || !captionerRef.current) return;
 
+    if (!checkUsage()) {
+      return;
+    }
+
     setModelStatus('captioning');
     setError(null);
 
@@ -95,6 +102,7 @@ export default function ImageCaptioning() {
       const results = await captionerRef.current(image);
       if (results && results.length > 0) {
         setCaption(results[0].generated_text);
+        recordUsage();
       }
       setModelStatus('ready');
     } catch (err) {
@@ -123,6 +131,16 @@ export default function ImageCaptioning() {
 
   return (
     <div className="max-w-4xl mx-auto space-y-6">
+      <div className="mb-4 flex justify-end">
+        <UsageIndicator toolId="image-captioning" />
+      </div>
+      {showPrompt && (
+        <UpgradePrompt
+          toolId="image-captioning"
+          toolName="Image Captioning"
+          onDismiss={dismissPrompt}
+        />
+      )}
       {/* Upload Area */}
       {!image && (
         <div

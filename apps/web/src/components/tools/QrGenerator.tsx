@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import QRCode from 'qrcode';
 import { escapeHtml, createSafeErrorMessage } from '../../lib/security';
+import UpgradePrompt, { UsageIndicator, useToolUsage } from '../ui/UpgradePrompt';
 
 type InputType = 'url' | 'text' | 'wifi' | 'vcard';
 type ErrorCorrectionLevel = 'L' | 'M' | 'Q' | 'H';
@@ -52,6 +53,7 @@ export default function QrGenerator() {
 
   const [error, setError] = useState<string | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
+  const { canUse, showPrompt, checkUsage, recordUsage, dismissPrompt } = useToolUsage('qr-generator');
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -147,18 +149,27 @@ export default function QrGenerator() {
     const content = getQrContent();
     if (!content || !canvasRef.current) return;
 
+    if (!checkUsage()) {
+      return;
+    }
+
     const link = document.createElement('a');
     link.download = `qrcode_${Date.now()}.png`;
     link.href = canvasRef.current.toDataURL('image/png');
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+    recordUsage();
   };
 
   // Download as SVG
   const downloadSvg = async () => {
     const content = getQrContent();
     if (!content) return;
+
+    if (!checkUsage()) {
+      return;
+    }
 
     try {
       const svgString = await QRCode.toString(content, {
@@ -181,6 +192,7 @@ export default function QrGenerator() {
       link.click();
       document.body.removeChild(link);
       URL.revokeObjectURL(url);
+      recordUsage();
     } catch (err) {
       setError(createSafeErrorMessage(err, 'Failed to generate SVG. Please try again.'));
     }
@@ -190,6 +202,9 @@ export default function QrGenerator() {
 
   return (
     <div className="max-w-4xl mx-auto">
+      <div className="mb-4 flex justify-end">
+        <UsageIndicator toolId="qr-generator" />
+      </div>
       <div className="grid md:grid-cols-2 gap-6">
         {/* Input Panel */}
         <div className="glass-card p-6">
@@ -526,6 +541,7 @@ export default function QrGenerator() {
         </svg>
         QR codes are generated entirely in your browser. No data is sent to any server.
       </p>
+      {showPrompt && <UpgradePrompt toolId="qr-generator" toolName="QR Generator" onDismiss={dismissPrompt} />}
     </div>
   );
 }

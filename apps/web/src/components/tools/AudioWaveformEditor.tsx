@@ -2,6 +2,7 @@ import { useState, useRef, useEffect, useCallback } from 'react';
 import { FFmpeg } from '@ffmpeg/ffmpeg';
 import { fetchFile, toBlobURL } from '@ffmpeg/util';
 import ToolFeedback from '../ui/ToolFeedback';
+import UpgradePrompt, { UsageIndicator, useToolUsage } from '../ui/UpgradePrompt';
 import { validateAudioFile, sanitizeFilename, createSafeErrorMessage } from '../../lib/security';
 
 type Status = 'idle' | 'loading' | 'analyzing' | 'processing' | 'done' | 'error';
@@ -26,6 +27,7 @@ interface WaveformData {
 }
 
 export default function AudioWaveformEditor() {
+  const { canUse, showPrompt, checkUsage, recordUsage, dismissPrompt } = useToolUsage('audio-waveform');
   const [status, setStatus] = useState<Status>('idle');
   const [progress, setProgress] = useState(0);
   const [error, setError] = useState<string | null>(null);
@@ -488,6 +490,10 @@ export default function AudioWaveformEditor() {
   const handleProcess = async () => {
     if (!audioFile || !ffmpegRef.current) return;
 
+    if (!checkUsage()) {
+      return;
+    }
+
     setStatus('processing');
     setProgress(0);
     setError(null);
@@ -540,6 +546,7 @@ export default function AudioWaveformEditor() {
       const blob = new Blob([new Uint8Array(data)], { type: mimeType });
       setOutputUrl(URL.createObjectURL(blob));
       setStatus('done');
+      recordUsage();
 
       await ffmpeg.deleteFile(inputName);
       await ffmpeg.deleteFile(outputName);
@@ -585,6 +592,8 @@ export default function AudioWaveformEditor() {
 
   return (
     <div className="space-y-6">
+      <UpgradePrompt toolId="audio-waveform" toolName="Audio Waveform Editor" onDismiss={dismissPrompt} />
+      <UsageIndicator toolId="audio-waveform" />
       {/* Hidden audio element */}
       {audioUrl && (
         <audio

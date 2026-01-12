@@ -4,6 +4,7 @@ import {
   sanitizeFilename,
   createSafeErrorMessage,
 } from '../../lib/security';
+import UpgradePrompt, { UsageIndicator, useToolUsage } from '../ui/UpgradePrompt';
 
 // EXIF Tag Names for display
 const EXIF_TAG_NAMES: Record<string, string> = {
@@ -105,6 +106,8 @@ interface EditableFields {
 const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
 
 export default function ExifEditor() {
+  const { canUse, showPrompt, checkUsage, recordUsage, dismissPrompt } = useToolUsage('exif-editor');
+
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imageSrc, setImageSrc] = useState<string | null>(null);
   const [metadata, setMetadata] = useState<MetadataItem[]>([]);
@@ -325,6 +328,10 @@ export default function ExifEditor() {
   const stripGpsData = async () => {
     if (!imageSrc || !rawExifData) return;
 
+    if (!checkUsage()) {
+      return;
+    }
+
     setIsProcessing(true);
     setError(null);
 
@@ -347,6 +354,8 @@ export default function ExifEditor() {
       setCleanedSize(blob.size);
       setGpsStripped(true);
       setSuccess('GPS location data has been removed! Your photo is now safer to share.');
+
+      recordUsage();
 
       // Update metadata display
       setMetadata(prev => prev.filter(item => !item.isGps));
@@ -509,6 +518,9 @@ export default function ExifEditor() {
 
   return (
     <div className="max-w-4xl mx-auto">
+      {showPrompt && <UpgradePrompt toolId="exif-editor" toolName="EXIF Editor" onDismiss={dismissPrompt} />}
+      <UsageIndicator toolId="exif-editor" />
+
       {/* Drop Zone */}
       {!imageFile && (
         <div

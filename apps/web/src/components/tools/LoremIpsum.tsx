@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { copyToClipboard } from '../../lib/clipboard';
+import UpgradePrompt, { UsageIndicator, useToolUsage } from '../ui/UpgradePrompt';
 
 const LOREM_WORDS = [
   'lorem', 'ipsum', 'dolor', 'sit', 'amet', 'consectetur', 'adipiscing', 'elit',
@@ -70,6 +71,8 @@ function generateLorem(type: GenerateType, count: number, startWithLorem: boolea
 }
 
 export default function LoremIpsum() {
+  const { canUse, showPrompt, checkUsage, recordUsage, dismissPrompt } = useToolUsage('lorem-ipsum');
+
   const [type, setType] = useState<GenerateType>('paragraphs');
   const [count, setCount] = useState(3);
   const [startWithLorem, setStartWithLorem] = useState(true);
@@ -77,7 +80,11 @@ export default function LoremIpsum() {
   const [copied, setCopied] = useState(false);
 
   const handleGenerate = () => {
+    if (!checkUsage()) {
+      return;
+    }
     setOutput(generateLorem(type, count, startWithLorem));
+    recordUsage();
   };
 
   const handleCopy = async () => {
@@ -91,6 +98,14 @@ export default function LoremIpsum() {
 
   return (
     <div className="max-w-3xl mx-auto space-y-6">
+      <UpgradePrompt
+        toolId="lorem-ipsum"
+        toolName="Lorem Ipsum Generator"
+        onDismiss={dismissPrompt}
+      />
+
+      <UsageIndicator toolId="lorem-ipsum" />
+
       {/* Options */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {/* Type */}

@@ -4,6 +4,7 @@ import {
   sanitizeFilename,
   createSafeErrorMessage,
 } from '../../lib/security';
+import UpgradePrompt, { UsageIndicator, useToolUsage } from '../ui/UpgradePrompt';
 
 interface UpscaledImage {
   id: string;
@@ -46,6 +47,8 @@ const MODEL_INFO: Record<ModelQuality, { name: string; description: string; size
 const MAX_FILES = 5;
 
 export default function ImageUpscaler() {
+  const { canUse, showPrompt, checkUsage, recordUsage, dismissPrompt } = useToolUsage('image-upscaler');
+
   const [images, setImages] = useState<UpscaledImage[]>([]);
   const [isDragging, setIsDragging] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -235,6 +238,10 @@ export default function ImageUpscaler() {
     const image = images.find(img => img.id === imageId);
     if (!image) return;
 
+    if (!checkUsage()) {
+      return;
+    }
+
     // Load model if not already loaded
     if (!upscalerRef.current && !modelLoading) {
       await loadModel();
@@ -309,6 +316,8 @@ export default function ImageUpscaler() {
             }
           : img
       ));
+
+      recordUsage();
     } catch (err) {
       console.error('Upscale error:', err);
       const errorMsg = createSafeErrorMessage(err, 'Failed to upscale image. Try a smaller image or different settings.');
@@ -412,6 +421,9 @@ export default function ImageUpscaler() {
 
   return (
     <div className="max-w-5xl mx-auto">
+      {showPrompt && <UpgradePrompt toolId="image-upscaler" toolName="Image Upscaler" onDismiss={dismissPrompt} />}
+      <UsageIndicator toolId="image-upscaler" />
+
       {/* Settings Panel */}
       <div className="glass-card p-6 mb-6">
         <h4 className="text-sm font-medium text-white mb-4">Upscaling Settings</h4>

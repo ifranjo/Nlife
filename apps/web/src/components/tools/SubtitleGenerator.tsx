@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import ToolFeedback from '../ui/ToolFeedback';
 import { validateAudioFile, validateVideoFile, sanitizeFilename, createSafeErrorMessage, sanitizeTextContent } from '../../lib/security';
 import { copyToClipboard } from '../../lib/clipboard';
+import UpgradePrompt, { UsageIndicator, useToolUsage } from '../ui/UpgradePrompt';
 
 type Status = 'idle' | 'loading' | 'transcribing' | 'done' | 'error';
 type ExportFormat = 'srt' | 'vtt';
@@ -27,6 +28,7 @@ interface SubtitleChunk {
 }
 
 export default function SubtitleGenerator() {
+  const { canUse, showPrompt, checkUsage, recordUsage, dismissPrompt } = useToolUsage('subtitle-generator');
   const [status, setStatus] = useState<Status>('idle');
   const [progress, setProgress] = useState(0);
   const [progressText, setProgressText] = useState('');
@@ -129,6 +131,10 @@ export default function SubtitleGenerator() {
   const handleGenerate = async () => {
     if (!mediaFile) return;
 
+    if (!checkUsage()) {
+      return;
+    }
+
     setStatus('loading');
     setProgress(0);
     setProgressText('Loading Whisper AI model...');
@@ -207,6 +213,7 @@ export default function SubtitleGenerator() {
 
       setSubtitles(chunks);
       setStatus('done');
+      recordUsage();
     } catch (err) {
       setError(createSafeErrorMessage(err, 'Subtitle generation failed. Try a smaller file or different format.'));
       setStatus('error');
@@ -254,6 +261,8 @@ export default function SubtitleGenerator() {
 
   return (
     <div className="space-y-6">
+      {showPrompt && <UpgradePrompt toolId="subtitle-generator" toolName="Subtitle Generator" onDismiss={dismissPrompt} />}
+      <UsageIndicator toolId="subtitle-generator" />
       {/* Upload */}
       <div className="border border-dashed border-[var(--border)] rounded-lg p-8 text-center hover:border-[var(--accent)] transition-colors">
         <input

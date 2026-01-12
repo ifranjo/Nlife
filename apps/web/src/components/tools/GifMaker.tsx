@@ -3,6 +3,7 @@ import { FFmpeg } from '@ffmpeg/ffmpeg';
 import { fetchFile, toBlobURL } from '@ffmpeg/util';
 import ToolFeedback from '../ui/ToolFeedback';
 import { validateVideoFile, sanitizeFilename, createSafeErrorMessage } from '../../lib/security';
+import UpgradePrompt, { UsageIndicator, useToolUsage } from '../ui/UpgradePrompt';
 
 type Status = 'idle' | 'loading' | 'processing' | 'done' | 'error';
 
@@ -14,6 +15,7 @@ interface GifSettings {
 }
 
 export default function GifMaker() {
+  const { canUse, showPrompt, checkUsage, recordUsage, dismissPrompt } = useToolUsage('gif-maker');
   const [status, setStatus] = useState<Status>('idle');
   const [progress, setProgress] = useState(0);
   const [error, setError] = useState<string | null>(null);
@@ -132,6 +134,10 @@ export default function GifMaker() {
   const handleConvert = async () => {
     if (!videoFile || !ffmpegRef.current) return;
 
+    if (!checkUsage()) {
+      return;
+    }
+
     setStatus('processing');
     setProgress(0);
     setError(null);
@@ -172,6 +178,7 @@ export default function GifMaker() {
       setOutputSize(blob.size);
       setOutputUrl(URL.createObjectURL(blob));
       setStatus('done');
+      recordUsage();
 
       // Cleanup
       await ffmpeg.deleteFile(inputName);
@@ -222,6 +229,9 @@ export default function GifMaker() {
 
   return (
     <div className="space-y-6">
+      <div className="mb-4 flex justify-end">
+        <UsageIndicator toolId="gif-maker" />
+      </div>
       {/* Upload */}
       {!videoFile && (
         <div
@@ -478,6 +488,8 @@ export default function GifMaker() {
         <p>* Uses optimized palette generation for high-quality GIFs</p>
         <p>* Shorter clips and lower frame rates produce smaller files</p>
       </div>
+
+      {showPrompt && <UpgradePrompt toolId="gif-maker" toolName="GIF Maker" onDismiss={dismissPrompt} />}
     </div>
   );
 }

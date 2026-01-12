@@ -1,4 +1,5 @@
 import { useState, useCallback } from 'react';
+import UpgradePrompt, { UsageIndicator, useToolUsage } from '../ui/UpgradePrompt';
 
 type DiffMode = 'line' | 'word';
 
@@ -126,13 +127,18 @@ export default function DiffChecker() {
   const [diff, setDiff] = useState<DiffLine[]>([]);
   const [stats, setStats] = useState<DiffStats | null>(null);
   const [hasCompared, setHasCompared] = useState(false);
+  const { canUse, showPrompt, checkUsage, recordUsage, dismissPrompt } = useToolUsage('diff-checker');
 
   const handleCompare = useCallback(() => {
+    if (!checkUsage()) {
+      return;
+    }
     const result = computeDiff(original, modified, diffMode);
     setDiff(result);
     setStats(calculateStats(result));
     setHasCompared(true);
-  }, [original, modified, diffMode]);
+    recordUsage();
+  }, [original, modified, diffMode, checkUsage, recordUsage]);
 
   const handleSwap = useCallback(() => {
     setOriginal(modified);
@@ -233,6 +239,8 @@ export default function DiffChecker() {
 
   return (
     <div className="max-w-6xl mx-auto">
+      {showPrompt && <UpgradePrompt toolId="diff-checker" toolName="Diff Checker" onDismiss={dismissPrompt} />}
+      <UsageIndicator toolId="diff-checker" />
       {/* Input Areas */}
       <div className="grid lg:grid-cols-2 gap-6">
         {/* Original Text */}

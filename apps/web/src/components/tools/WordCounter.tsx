@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react';
+import UpgradePrompt, { UsageIndicator, useToolUsage } from '../ui/UpgradePrompt';
 
 interface Stats {
   characters: number;
@@ -55,15 +56,20 @@ function StatCard({ label, value, sublabel }: StatCardProps) {
 
 export default function WordCounter() {
   const [text, setText] = useState('');
+  const { canUse, showPrompt, checkUsage, recordUsage, dismissPrompt } = useToolUsage('word-counter');
 
   const stats = useMemo(() => calculateStats(text), [text]);
 
   const handleClear = () => setText('');
 
   const handlePaste = async () => {
+    if (!checkUsage()) {
+      return;
+    }
     try {
       const clipboardText = await navigator.clipboard.readText();
       setText(clipboardText);
+      recordUsage();
     } catch {
       // Clipboard access denied
     }
@@ -71,6 +77,8 @@ export default function WordCounter() {
 
   return (
     <div className="max-w-3xl mx-auto space-y-6">
+      {showPrompt && <UpgradePrompt toolId="word-counter" toolName="Word Counter" onDismiss={dismissPrompt} />}
+      <UsageIndicator toolId="word-counter" />
       {/* Stats Grid */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         <StatCard label="Words" value={stats.words} />

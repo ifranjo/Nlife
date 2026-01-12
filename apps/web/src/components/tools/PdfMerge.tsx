@@ -9,6 +9,7 @@ import SwipeableListItem from '../ui/SwipeableListItem';
 import { ContextMenuIcons, type ContextMenuItem } from '../ui/ContextMenu';
 import BatchProcessor, { type BatchFileItem } from './BatchProcessor';
 import { generateBatchId } from '../../lib/batch';
+import UpgradePrompt, { UsageIndicator, useToolUsage } from '../ui/UpgradePrompt';
 
 interface PDFFile {
   id: string;
@@ -41,6 +42,9 @@ export default function PdfMerge() {
   const [batchMode, setBatchMode] = useState(false);
   const [mergeGroups, setMergeGroups] = useState<MergeGroup[]>([]);
   const [activeGroupId, setActiveGroupId] = useState<string | null>(null);
+
+  // Usage limits for free tier
+  const { canUse, showPrompt, checkUsage, recordUsage, dismissPrompt } = useToolUsage('pdf-merge');
 
   const formatFileSize = (bytes: number): string => {
     if (bytes < 1024) return `${bytes} B`;
@@ -212,6 +216,11 @@ export default function PdfMerge() {
       return;
     }
 
+    // Check usage limits for free tier
+    if (!checkUsage()) {
+      return; // Prompt will be shown automatically
+    }
+
     setIsProcessing(true);
     setError(null);
     announce(`Merging ${files.length} PDF files`);
@@ -244,6 +253,10 @@ export default function PdfMerge() {
 
       // Clear files after successful merge
       setFiles([]);
+
+      // Record usage for free tier tracking
+      recordUsage();
+
       announce('PDF merge complete. Download started.');
       haptic.success();
     } catch (err) {
@@ -399,6 +412,11 @@ export default function PdfMerge() {
 
   return (
     <div className="max-w-3xl mx-auto">
+      {/* Usage Indicator */}
+      <div className="mb-4 flex justify-end">
+        <UsageIndicator toolId="pdf-merge" />
+      </div>
+
       {/* Batch Mode Toggle */}
       <div className="mb-4 flex items-center justify-between">
         <label className="flex items-center gap-2 cursor-pointer">
@@ -677,6 +695,15 @@ export default function PdfMerge() {
         </svg>
         Your files never leave your browser. All processing happens locally.
       </p>
+
+      {/* Upgrade Prompt Modal */}
+      {showPrompt && (
+        <UpgradePrompt
+          toolId="pdf-merge"
+          toolName="PDF Merge"
+          onDismiss={dismissPrompt}
+        />
+      )}
     </div>
   );
 }

@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import ToolFeedback from '../ui/ToolFeedback';
 import { sanitizeFilename, createSafeErrorMessage, sanitizeTextContent } from '../../lib/security';
 import { announce, haptic } from '../../lib/accessibility';
+import UpgradePrompt, { UsageIndicator, useToolUsage } from '../ui/UpgradePrompt';
 
 type Status = 'idle' | 'processing' | 'error';
 type Format = 'srt' | 'vtt';
@@ -15,6 +16,7 @@ interface SubtitleEntry {
 }
 
 export default function SubtitleEditor() {
+  const { canUse, showPrompt, checkUsage, recordUsage, dismissPrompt } = useToolUsage('subtitle-editor');
   const [status, setStatus] = useState<Status>('idle');
   const [error, setError] = useState<string | null>(null);
   const [fileName, setFileName] = useState<string>('');
@@ -310,6 +312,10 @@ export default function SubtitleEditor() {
 
   // Download subtitle file
   const handleDownload = () => {
+    if (!checkUsage()) {
+      return;
+    }
+
     const content = outputFormat === 'srt' ? toSRT() : toVTT();
     const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
     const url = URL.createObjectURL(blob);
@@ -319,6 +325,8 @@ export default function SubtitleEditor() {
     a.download = `${baseName}_edited.${outputFormat}`;
     a.click();
     URL.revokeObjectURL(url);
+
+    recordUsage();
   };
 
   // Seek video to subtitle time
@@ -332,6 +340,8 @@ export default function SubtitleEditor() {
 
   return (
     <div className="space-y-6">
+      {showPrompt && <UpgradePrompt toolId="subtitle-editor" toolName="Subtitle Editor" onDismiss={dismissPrompt} />}
+      <UsageIndicator toolId="subtitle-editor" />
       {/* Upload Section */}
       <div className="grid md:grid-cols-2 gap-4">
         {/* Subtitle File Upload */}

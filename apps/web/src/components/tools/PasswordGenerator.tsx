@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect } from 'react';
 import { copyToClipboard } from '../../lib/clipboard';
+import UpgradePrompt, { UsageIndicator, useToolUsage } from '../ui/UpgradePrompt';
 
 interface PasswordOptions {
   length: number;
@@ -100,6 +101,7 @@ export default function PasswordGenerator() {
     numbers: true,
     symbols: true
   });
+  const { canUse, showPrompt, checkUsage, recordUsage, dismissPrompt } = useToolUsage('password-generator');
 
   const strength = calculateStrength(password, options);
 
@@ -107,10 +109,15 @@ export default function PasswordGenerator() {
     const hasAnyOption = options.uppercase || options.lowercase || options.numbers || options.symbols;
     if (!hasAnyOption) return;
 
+    if (!checkUsage()) {
+      return;
+    }
+
     const newPassword = generateSecurePassword(options);
     setPassword(newPassword);
     setCopied(false);
-  }, [options]);
+    recordUsage();
+  }, [options, checkUsage, recordUsage]);
 
   // Generate initial password on mount
   useEffect(() => {
@@ -134,6 +141,9 @@ export default function PasswordGenerator() {
 
   return (
     <div className="max-w-3xl mx-auto space-y-6">
+      <div className="mb-4 flex justify-end">
+        <UsageIndicator toolId="password-generator" />
+      </div>
       {/* Password Display */}
       <div className="bg-white/5 border border-white/10 rounded-xl p-4">
         <div className="flex items-center gap-3">
@@ -275,6 +285,7 @@ export default function PasswordGenerator() {
           Your passwords never leave your browser. We never store or transmit them.
         </p>
       </div>
+      {showPrompt && <UpgradePrompt toolId="password-generator" toolName="Password Generator" onDismiss={dismissPrompt} />}
     </div>
   );
 }

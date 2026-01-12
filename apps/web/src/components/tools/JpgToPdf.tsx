@@ -4,6 +4,7 @@ import {
   sanitizeFilename,
   createSafeErrorMessage,
 } from '../../lib/security';
+import UpgradePrompt, { UsageIndicator, useToolUsage } from '../ui/UpgradePrompt';
 
 interface ImageFile {
   id: string;
@@ -28,6 +29,9 @@ export default function JpgToPdf() {
   const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
   const [dragOverIndex, setDragOverIndex] = useState<number | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Usage limits for free tier
+  const { canUse, showPrompt, checkUsage, recordUsage, dismissPrompt } = useToolUsage('jpg-to-pdf');
 
   const generateId = () => Math.random().toString(36).substring(2, 9);
 
@@ -183,6 +187,10 @@ export default function JpgToPdf() {
   const convertToPdf = async () => {
     if (images.length === 0) return;
 
+    if (!checkUsage()) {
+      return; // Prompt will be shown automatically
+    }
+
     setIsProcessing(true);
     setError(null);
     setProgress('Creating PDF...');
@@ -275,6 +283,7 @@ export default function JpgToPdf() {
       document.body.removeChild(link);
       URL.revokeObjectURL(url);
 
+      recordUsage();
       setProgress('');
     } catch (err) {
       setError(createSafeErrorMessage(err, 'Failed to create PDF. Please try again.'));
@@ -286,6 +295,10 @@ export default function JpgToPdf() {
 
   return (
     <div className="max-w-4xl mx-auto">
+      <div className="mb-4 flex justify-end">
+        <UsageIndicator toolId="jpg-to-pdf" />
+      </div>
+
       {/* Drop Zone */}
       <div
         onDragOver={handleDragOver}
@@ -461,6 +474,8 @@ export default function JpgToPdf() {
         </svg>
         Your files never leave your browser. All processing happens locally.
       </p>
+
+      {showPrompt && <UpgradePrompt toolId="jpg-to-pdf" toolName="JPG to PDF" onDismiss={dismissPrompt} />}
     </div>
   );
 }

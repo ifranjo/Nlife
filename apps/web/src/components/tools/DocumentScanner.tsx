@@ -3,6 +3,7 @@ import {
   createSafeErrorMessage,
   generateDownloadFilename,
 } from '../../lib/security';
+import UpgradePrompt, { UsageIndicator, useToolUsage } from '../ui/UpgradePrompt';
 
 interface ScannedPage {
   id: string;
@@ -30,6 +31,8 @@ const DEFAULT_ENHANCEMENT: Enhancement = {
 };
 
 export default function DocumentScanner() {
+  const { canUse, showPrompt, checkUsage, recordUsage, dismissPrompt } = useToolUsage('document-scanner');
+
   const [pages, setPages] = useState<ScannedPage[]>([]);
   const [isCameraActive, setIsCameraActive] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
@@ -370,6 +373,10 @@ export default function DocumentScanner() {
       return;
     }
 
+    if (!checkUsage()) {
+      return;
+    }
+
     setIsProcessing(true);
     setError(null);
 
@@ -406,6 +413,8 @@ export default function DocumentScanner() {
       link.click();
       document.body.removeChild(link);
       URL.revokeObjectURL(url);
+
+      recordUsage();
 
       // Clear pages after download
       setPages([]);
@@ -461,6 +470,9 @@ export default function DocumentScanner() {
 
   return (
     <div className="max-w-5xl mx-auto">
+      {showPrompt && <UpgradePrompt toolId="document-scanner" toolName="Document Scanner" onDismiss={dismissPrompt} />}
+      <UsageIndicator toolId="document-scanner" />
+
       {/* Camera Section */}
       {!isCameraActive ? (
         <div className="glass-card p-12 text-center">

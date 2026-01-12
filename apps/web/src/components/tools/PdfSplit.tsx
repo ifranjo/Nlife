@@ -4,6 +4,7 @@ import {
   sanitizeFilename,
   createSafeErrorMessage,
 } from '../../lib/security';
+import UpgradePrompt, { UsageIndicator, useToolUsage } from '../ui/UpgradePrompt';
 
 type SplitMode = 'all' | 'range' | 'extract';
 
@@ -24,6 +25,9 @@ export default function PdfSplit() {
   const [error, setError] = useState<string | null>(null);
   const [progress, setProgress] = useState<string>('');
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Usage limits for free tier
+  const { canUse, showPrompt, checkUsage, recordUsage, dismissPrompt } = useToolUsage('pdf-split');
 
   const resetState = () => {
     setFile(null);
@@ -114,6 +118,11 @@ export default function PdfSplit() {
   const splitPdf = async () => {
     if (!file || pageCount === 0) return;
 
+    // Check usage limits for free tier
+    if (!checkUsage()) {
+      return; // Prompt will be shown automatically
+    }
+
     setIsProcessing(true);
     setError(null);
     setProgress('Processing...');
@@ -173,6 +182,9 @@ export default function PdfSplit() {
           document.body.removeChild(link);
           URL.revokeObjectURL(url);
 
+          // Record usage for free tier tracking
+          recordUsage();
+
           setProgress('');
           setIsProcessing(false);
           return;
@@ -191,6 +203,9 @@ export default function PdfSplit() {
       document.body.removeChild(link);
       URL.revokeObjectURL(url);
 
+      // Record usage for free tier tracking
+      recordUsage();
+
       setProgress('');
     } catch (err) {
       setError(createSafeErrorMessage(err, 'Failed to split PDF. Please try again.'));
@@ -202,6 +217,11 @@ export default function PdfSplit() {
 
   return (
     <div className="max-w-3xl mx-auto">
+      {/* Usage Indicator */}
+      <div className="mb-4 flex justify-end">
+        <UsageIndicator toolId="pdf-split" />
+      </div>
+
       {/* Drop Zone */}
       {!file ? (
         <div
@@ -404,6 +424,9 @@ export default function PdfSplit() {
         </svg>
         Your files never leave your browser. All processing happens locally.
       </p>
+
+      {/* Upgrade Prompt Modal */}
+      {showPrompt && <UpgradePrompt toolId="pdf-split" toolName="PDF Split" onDismiss={dismissPrompt} />}
     </div>
   );
 }
