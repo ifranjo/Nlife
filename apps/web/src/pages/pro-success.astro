@@ -1,0 +1,175 @@
+---
+/**
+ * Pro Success Page - Post-Stripe Payment
+ *
+ * This page is shown after a successful Stripe payment.
+ * It activates the Pro subscription in localStorage.
+ *
+ * Query params:
+ * - session_id: Stripe checkout session ID (for future webhook verification)
+ */
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/ui/Navbar.astro';
+import Footer from '../components/ui/Footer.astro';
+
+const title = 'Welcome to Pro! - New Life Solutions';
+const description = 'Your Pro subscription is now active. Enjoy unlimited access to all tools.';
+---
+
+<Layout title={title} description={description}>
+  <Navbar />
+
+  <main class="min-h-screen pt-24 pb-16 flex items-center justify-center">
+    <div class="max-w-lg mx-auto px-4 text-center">
+
+      <!-- Success Animation -->
+      <div class="success-icon mb-8">
+        <div class="checkmark-circle">
+          <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+            <circle class="checkmark-circle-bg" cx="26" cy="26" r="25" fill="none"/>
+            <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Content -->
+      <h1 class="text-4xl font-light mb-4">
+        Welcome to <span class="text-white font-semibold">Pro</span>!
+      </h1>
+
+      <p class="text-[var(--text-muted)] mb-8 text-lg">
+        Your subscription is now active. Enjoy unlimited access to all tools with no limits or watermarks.
+      </p>
+
+      <!-- Pro Features -->
+      <div class="glass-card rounded-2xl p-6 mb-8 text-left">
+        <h2 class="text-sm uppercase tracking-wider text-[var(--text-muted)] mb-4">What's Unlocked</h2>
+        <ul class="space-y-3">
+          <li class="flex items-center gap-3">
+            <span class="text-emerald-400">✓</span>
+            <span>Unlimited operations on all 40+ tools</span>
+          </li>
+          <li class="flex items-center gap-3">
+            <span class="text-emerald-400">✓</span>
+            <span>10x larger file size limits (100 MB)</span>
+          </li>
+          <li class="flex items-center gap-3">
+            <span class="text-emerald-400">✓</span>
+            <span>Batch processing for multiple files</span>
+          </li>
+          <li class="flex items-center gap-3">
+            <span class="text-emerald-400">✓</span>
+            <span>No watermarks on any outputs</span>
+          </li>
+          <li class="flex items-center gap-3">
+            <span class="text-emerald-400">✓</span>
+            <span>Priority processing queue</span>
+          </li>
+          <li class="flex items-center gap-3">
+            <span class="text-emerald-400">✓</span>
+            <span>Email support</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- CTA -->
+      <a
+        href="/hub"
+        class="inline-block w-full py-4 px-8 rounded-xl bg-white text-black font-semibold text-lg hover:bg-white/90 transition-all"
+      >
+        Start Using Pro Tools
+      </a>
+
+      <p class="text-sm text-[var(--text-muted)] mt-6">
+        Need help? <a href="mailto:support@newlifesolutions.dev" class="underline hover:text-white">Contact support</a>
+      </p>
+
+    </div>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+  .glass-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+  }
+
+  /* Checkmark Animation */
+  .success-icon {
+    display: flex;
+    justify-content: center;
+  }
+
+  .checkmark-circle {
+    width: 100px;
+    height: 100px;
+  }
+
+  .checkmark {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    display: block;
+    stroke-width: 2;
+    stroke: #10b981;
+    stroke-miterlimit: 10;
+    animation: scale 0.3s ease-in-out 0.9s both;
+  }
+
+  .checkmark-circle-bg {
+    stroke: #10b981;
+    stroke-dasharray: 166;
+    stroke-dashoffset: 166;
+    stroke-width: 2;
+    stroke-miterlimit: 10;
+    fill: none;
+    animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+  }
+
+  .checkmark-check {
+    transform-origin: 50% 50%;
+    stroke-dasharray: 48;
+    stroke-dashoffset: 48;
+    stroke-width: 3;
+    animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+  }
+
+  @keyframes stroke {
+    100% {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  @keyframes scale {
+    0%, 100% {
+      transform: none;
+    }
+    50% {
+      transform: scale3d(1.1, 1.1, 1);
+    }
+  }
+</style>
+
+<script>
+  import { activateSubscription } from '../lib/subscription';
+
+  // Activate Pro subscription on page load
+  document.addEventListener('DOMContentLoaded', () => {
+    // Get session_id from URL if present (for future verification)
+    const urlParams = new URLSearchParams(window.location.search);
+    const sessionId = urlParams.get('session_id');
+
+    // Activate Pro for 30 days
+    activateSubscription('pro', sessionId, 30);
+
+    console.log('[Pro Success] Subscription activated', { sessionId });
+
+    // Track conversion
+    if (typeof window !== 'undefined' && (window as any).plausible) {
+      (window as any).plausible('Pro Activated', { props: { source: 'stripe' } });
+    }
+  });
+</script>

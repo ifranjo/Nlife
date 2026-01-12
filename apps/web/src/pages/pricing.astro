@@ -1,0 +1,337 @@
+---
+/**
+ * Pricing Page - Tier comparison for demand validation
+ *
+ * Purpose: Validate willingness to pay before implementing payments
+ * Tracks: CTA clicks to measure conversion intent
+ */
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/ui/Navbar.astro';
+import Footer from '../components/ui/Footer.astro';
+
+const title = 'Pricing - New Life Solutions';
+const description = 'Choose the plan that fits your needs. Free tools for casual use, Pro for power users, Business for teams. All plans include privacy-first browser-based processing.';
+
+// TODO: Replace with your Stripe Payment Link after creating the product
+// Go to: https://dashboard.stripe.com/payment-links
+const STRIPE_PRO_PAYMENT_LINK = import.meta.env.PUBLIC_STRIPE_PRO_LINK || '#waitlist';
+
+const tiers = [
+  {
+    name: 'Free',
+    price: '$0',
+    period: 'forever',
+    description: 'Perfect for occasional use',
+    features: [
+      '40+ browser-based tools',
+      '5 operations per tool/day',
+      'Standard file size limits',
+      'Community support',
+      'Basic export formats',
+    ],
+    limitations: [
+      'Watermark on some outputs',
+      'Queue during peak times',
+    ],
+    cta: 'Get Started',
+    ctaLink: '/hub',
+    highlight: false,
+    badge: null,
+  },
+  {
+    name: 'Pro',
+    price: '$7',
+    period: '/month',
+    description: 'For power users and freelancers',
+    features: [
+      'Everything in Free, plus:',
+      'Unlimited operations',
+      '10x larger file limits',
+      'Batch processing',
+      'Priority processing',
+      'No watermarks',
+      'All export formats',
+      'Email support',
+    ],
+    limitations: [],
+    cta: 'Upgrade to Pro',
+    ctaLink: STRIPE_PRO_PAYMENT_LINK,
+    highlight: true,
+    badge: 'Most Popular',
+  },
+  {
+    name: 'Business',
+    price: '$19',
+    period: '/month',
+    description: 'For teams and agencies',
+    features: [
+      'Everything in Pro, plus:',
+      'API access (10K calls/mo)',
+      'Team seats (up to 5)',
+      'Custom branding',
+      'Audit logs',
+      'Priority support',
+      'SSO integration',
+      'SLA guarantee',
+    ],
+    limitations: [],
+    cta: 'Contact Sales',
+    ctaLink: '#waitlist',
+    highlight: false,
+    badge: 'Coming Soon',
+  },
+];
+
+const faqs = [
+  {
+    q: 'Is my data really private?',
+    a: 'Yes. All processing happens in your browser. Files never leave your device, even on paid plans. We physically cannot access your data.',
+  },
+  {
+    q: 'Can I cancel anytime?',
+    a: 'Absolutely. No contracts, no commitments. Cancel with one click and keep access until the end of your billing period.',
+  },
+  {
+    q: 'What payment methods do you accept?',
+    a: 'We accept all major credit cards, PayPal, and bank transfers for Business plans. Payments are processed securely via Stripe.',
+  },
+  {
+    q: 'Is there a free trial for Pro?',
+    a: 'Yes! Pro comes with a 7-day free trial. No credit card required to start.',
+  },
+];
+---
+
+<Layout title={title} description={description}>
+  <Navbar />
+
+  <main class="min-h-screen pt-24 pb-16">
+    <div class="max-w-6xl mx-auto px-4">
+
+      <!-- Header -->
+      <header class="text-center mb-16">
+        <div class="inline-block px-4 py-1 mb-6 text-xs uppercase tracking-widest border border-[var(--border)] rounded-full text-[var(--text-muted)]">
+          Simple, transparent pricing
+        </div>
+        <h1 class="text-4xl md:text-5xl font-light mb-4">
+          Choose your plan
+        </h1>
+        <p class="text-[var(--text-muted)] max-w-xl mx-auto">
+          Start free, upgrade when you need more. All plans include our core privacy promise: your files never leave your browser.
+        </p>
+      </header>
+
+      <!-- Pricing Cards -->
+      <div class="grid md:grid-cols-3 gap-6 mb-20">
+        {tiers.map((tier) => (
+          <div
+            class={`relative rounded-2xl p-8 transition-all duration-300 ${
+              tier.highlight
+                ? 'bg-white/[0.08] border-2 border-white/20 scale-105 shadow-2xl'
+                : 'bg-white/[0.03] border border-[var(--border)] hover:border-white/20'
+            }`}
+          >
+            {tier.badge && (
+              <div class={`absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 text-xs font-medium rounded-full ${
+                tier.badge === 'Most Popular'
+                  ? 'bg-white text-black'
+                  : 'bg-amber-500/20 text-amber-400 border border-amber-500/30'
+              }`}>
+                {tier.badge}
+              </div>
+            )}
+
+            <div class="mb-6">
+              <h2 class="text-xl font-semibold mb-2">{tier.name}</h2>
+              <p class="text-sm text-[var(--text-muted)]">{tier.description}</p>
+            </div>
+
+            <div class="mb-6">
+              <span class="text-4xl font-light">{tier.price}</span>
+              <span class="text-[var(--text-muted)]">{tier.period}</span>
+            </div>
+
+            <a
+              href={tier.ctaLink}
+              class={`block w-full py-3 px-6 rounded-lg text-center font-medium transition-all ${
+                tier.highlight
+                  ? 'bg-white text-black hover:bg-white/90'
+                  : 'bg-white/10 hover:bg-white/20'
+              }`}
+              data-track-pricing={tier.name.toLowerCase()}
+            >
+              {tier.cta}
+            </a>
+
+            <ul class="mt-8 space-y-3">
+              {tier.features.map((feature) => (
+                <li class="flex items-start gap-3 text-sm">
+                  <svg class="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span class={feature.startsWith('Everything') ? 'text-[var(--text-muted)] italic' : ''}>
+                    {feature}
+                  </span>
+                </li>
+              ))}
+              {tier.limitations.map((limit) => (
+                <li class="flex items-start gap-3 text-sm text-[var(--text-muted)]">
+                  <svg class="w-5 h-5 text-[var(--text-muted)] flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                  {limit}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+
+      <!-- Waitlist Section -->
+      <section id="waitlist" class="max-w-xl mx-auto text-center mb-20 p-8 rounded-2xl bg-white/[0.03] border border-[var(--border)]">
+        <h2 class="text-2xl font-light mb-4">Join the Waitlist</h2>
+        <p class="text-[var(--text-muted)] mb-6">
+          Pro and Business plans are launching soon. Join the waitlist to get early access and a 20% discount.
+        </p>
+        <form class="flex gap-3" id="waitlist-form">
+          <input
+            type="email"
+            placeholder="Enter your email"
+            required
+            class="flex-1 px-4 py-3 rounded-lg bg-black/50 border border-[var(--border)] focus:border-white/30 focus:outline-none transition-colors"
+          />
+          <button
+            type="submit"
+            class="px-6 py-3 rounded-lg bg-white text-black font-medium hover:bg-white/90 transition-colors"
+          >
+            Notify Me
+          </button>
+        </form>
+        <p class="text-xs text-[var(--text-muted)] mt-4">
+          No spam. Unsubscribe anytime.
+        </p>
+      </section>
+
+      <!-- Comparison Table -->
+      <section class="mb-20 overflow-x-auto">
+        <h2 class="text-2xl font-light text-center mb-8">Feature Comparison</h2>
+        <table class="w-full text-sm border-collapse">
+          <thead>
+            <tr class="border-b border-[var(--border)]">
+              <th class="text-left py-4 px-4 font-medium">Feature</th>
+              <th class="text-center py-4 px-4 font-medium">Free</th>
+              <th class="text-center py-4 px-4 font-medium bg-white/5">Pro</th>
+              <th class="text-center py-4 px-4 font-medium">Business</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-[var(--border)]">
+            <tr>
+              <td class="py-3 px-4">Tools Available</td>
+              <td class="text-center py-3 px-4">40+</td>
+              <td class="text-center py-3 px-4 bg-white/5">40+</td>
+              <td class="text-center py-3 px-4">40+</td>
+            </tr>
+            <tr>
+              <td class="py-3 px-4">Daily Operations</td>
+              <td class="text-center py-3 px-4">5/tool</td>
+              <td class="text-center py-3 px-4 bg-white/5">Unlimited</td>
+              <td class="text-center py-3 px-4">Unlimited</td>
+            </tr>
+            <tr>
+              <td class="py-3 px-4">Max File Size</td>
+              <td class="text-center py-3 px-4">10 MB</td>
+              <td class="text-center py-3 px-4 bg-white/5">100 MB</td>
+              <td class="text-center py-3 px-4">500 MB</td>
+            </tr>
+            <tr>
+              <td class="py-3 px-4">Batch Processing</td>
+              <td class="text-center py-3 px-4 text-[var(--text-muted)]">-</td>
+              <td class="text-center py-3 px-4 bg-white/5 text-emerald-400">&#10003;</td>
+              <td class="text-center py-3 px-4 text-emerald-400">&#10003;</td>
+            </tr>
+            <tr>
+              <td class="py-3 px-4">API Access</td>
+              <td class="text-center py-3 px-4 text-[var(--text-muted)]">-</td>
+              <td class="text-center py-3 px-4 bg-white/5 text-[var(--text-muted)]">-</td>
+              <td class="text-center py-3 px-4 text-emerald-400">10K/mo</td>
+            </tr>
+            <tr>
+              <td class="py-3 px-4">Team Seats</td>
+              <td class="text-center py-3 px-4">1</td>
+              <td class="text-center py-3 px-4 bg-white/5">1</td>
+              <td class="text-center py-3 px-4">Up to 5</td>
+            </tr>
+            <tr>
+              <td class="py-3 px-4">Support</td>
+              <td class="text-center py-3 px-4">Community</td>
+              <td class="text-center py-3 px-4 bg-white/5">Email</td>
+              <td class="text-center py-3 px-4">Priority</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- FAQ -->
+      <section class="max-w-2xl mx-auto">
+        <h2 class="text-2xl font-light text-center mb-8">Frequently Asked Questions</h2>
+        <div class="space-y-4">
+          {faqs.map((faq) => (
+            <details class="group p-4 rounded-xl bg-white/[0.03] border border-[var(--border)]">
+              <summary class="flex justify-between items-center cursor-pointer list-none font-medium">
+                {faq.q}
+                <svg class="w-5 h-5 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+              </summary>
+              <p class="mt-4 text-sm text-[var(--text-muted)]">
+                {faq.a}
+              </p>
+            </details>
+          ))}
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <Footer />
+</Layout>
+
+<script>
+  // Track pricing CTA clicks
+  document.querySelectorAll('[data-track-pricing]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const tier = btn.getAttribute('data-track-pricing');
+      // Track with Plausible if available
+      if (typeof window !== 'undefined' && (window as any).plausible) {
+        (window as any).plausible('Pricing Click', { props: { tier } });
+      }
+      // Also log for development
+      console.log(`[Pricing] CTA clicked: ${tier}`);
+    });
+  });
+
+  // Waitlist form submission
+  const form = document.getElementById('waitlist-form');
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const email = (form.querySelector('input[type="email"]') as HTMLInputElement)?.value;
+
+    // Track signup intent
+    if (typeof window !== 'undefined' && (window as any).plausible) {
+      (window as any).plausible('Waitlist Signup', { props: { email: email.split('@')[1] } }); // Only domain, not full email
+    }
+
+    // Show success message (replace form)
+    form.innerHTML = `
+      <div class="text-center py-4">
+        <div class="text-2xl mb-2">&#10003;</div>
+        <p class="text-emerald-400 font-medium">You're on the list!</p>
+        <p class="text-sm text-[var(--text-muted)] mt-2">We'll notify you when Pro launches.</p>
+      </div>
+    `;
+
+    // TODO: Actually send email to backend when ready
+    console.log('[Waitlist] Signup:', email);
+  });
+</script>
