@@ -826,6 +826,28 @@ h1, h2, h3, h4, h5, h6 {
   background: rgba(253, 230, 138, 1); /* amber-200 */
 }
 
+/* Offline badge - WCAG compliant in both themes */
+.offline-badge {
+  background: rgba(6, 78, 59, 0.4); /* emerald-900/40 */
+  border: 1px solid rgba(16, 185, 129, 0.4); /* emerald-500/40 */
+  color: #34d399; /* emerald-400 - 4.5:1 contrast on dark */
+}
+
+.offline-badge:hover {
+  background: rgba(6, 78, 59, 0.5);
+}
+
+/* Clean theme: Offline badge with dark text for light backgrounds */
+[data-theme="clean"] .offline-badge {
+  background: rgba(209, 250, 229, 1); /* emerald-100 */
+  border: 1px solid rgba(16, 185, 129, 0.5); /* emerald-500/50 */
+  color: #065f46; /* emerald-800 - 5.9:1 contrast on emerald-100 */
+}
+
+[data-theme="clean"] .offline-badge:hover {
+  background: rgba(167, 243, 208, 1); /* emerald-200 */
+}
+
 /* Clean theme: Selection */
 [data-theme="clean"] ::selection {
   background: rgba(0, 102, 204, 0.2);
