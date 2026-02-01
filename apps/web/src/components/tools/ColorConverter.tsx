@@ -1,18 +1,31 @@
 import { useState, useEffect } from 'react';
 import { copyToClipboard } from '../../lib/clipboard';
+import { sanitizeTextContent, escapeHtml } from '../../lib/security';
 import UpgradePrompt, { UsageIndicator, useToolUsage } from '../ui/UpgradePrompt';
 
 interface RGB { r: number; g: number; b: number; }
 interface HSL { h: number; s: number; l: number; }
 
-function hexToRgb(hex: string): RGB | null {
-  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-  if (!result) return null;
-  return {
-    r: parseInt(result[1], 16),
-    g: parseInt(result[2], 16),
-    b: parseInt(result[3], 16),
-  };
+// Color format validation regex patterns
+const HEX_PATTERN = /^#?([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/;
+const RGB_PATTERN = /^(0|[1-9]\d?|1\d\d|2[0-4]\d|25[0-5])\s*,\s*(0|[1-9]\d?|1\d\d|2[0-4]\d|25[0-5])\s*,\s*(0|[1-9]\d?|1\d\d|2[0-4]\d|25[0-5])$/;
+const HSL_PATTERN = /^(0|[1-9]\d?|[12]\d\d|3[0-5]\d)\s*,\s*(0|[1-9]\d?|100)\s*%\s*,\s*(0|[1-9]\d?|100)\s*%$/;
+
+function isValidHex(hex: string): boolean {
+  const sanitized = sanitizeTextContent(hex, 20);
+  return HEX_PATTERN.test(sanitized);
+}
+
+function isValidRgbValue(value: number): boolean {
+  return Number.isInteger(value) && value >= 0 && value <= 255;
+}
+
+function isValidHslValue(h: number, s: number, l: number): boolean {
+  return (
+    Number.isInteger(h) && h >= 0 && h <= 360 &&
+    Number.isInteger(s) && s >= 0 && s <= 100 &&
+    Number.isInteger(l) && l >= 0 && l <= 100
+  );
 }
 
 function rgbToHex(r: number, g: number, b: number): string {
@@ -89,8 +102,9 @@ export default function ColorConverter() {
 
   // Sync from hex
   const updateFromHex = (newHex: string) => {
-    setHex(newHex);
-    const newRgb = hexToRgb(newHex);
+    const sanitized = sanitizeTextContent(newHex, 20);
+    setHex(sanitized);
+    const newRgb = hexToRgb(sanitized);
     if (newRgb) {
       setRgb(newRgb);
       setHsl(rgbToHsl(newRgb.r, newRgb.g, newRgb.b));
@@ -99,8 +113,10 @@ export default function ColorConverter() {
 
   // Sync from RGB
   const updateFromRgb = (newRgb: RGB) => {
-    const clamp = (v: number) => Math.max(0, Math.min(255, v));
-    const clamped = { r: clamp(newRgb.r), g: clamp(newRgb.g), b: clamp(newRgb.b) };
+    if (!isValidRgbValue(newRgb.r) || !isValidRgbValue(newRgb.g) || !isValidRgbValue(newRgb.b)) {
+      return; // Reject invalid values
+    }
+    const clamped = { r: newRgb.r, g: newRgb.g, b: newRgb.b };
     setRgb(clamped);
     setHex(rgbToHex(clamped.r, clamped.g, clamped.b));
     setHsl(rgbToHsl(clamped.r, clamped.g, clamped.b));
@@ -108,6 +124,9 @@ export default function ColorConverter() {
 
   // Sync from HSL
   const updateFromHsl = (newHsl: HSL) => {
+    if (!isValidHslValue(newHsl.h, newHsl.s, newHsl.l)) {
+      return; // Reject invalid values
+    }
     const clampH = (v: number) => ((v % 360) + 360) % 360;
     const clampSL = (v: number) => Math.max(0, Math.min(100, v));
     const clamped = { h: clampH(newHsl.h), s: clampSL(newHsl.s), l: clampSL(newHsl.l) };
@@ -130,9 +149,9 @@ export default function ColorConverter() {
     }
   };
 
-  const hexValue = hex.toUpperCase();
-  const rgbValue = `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`;
-  const hslValue = `hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`;
+  const hexValue = escapeHtml(hex.toUpperCase());
+  const rgbValue = escapeHtml(`rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`);
+  const hslValue = escapeHtml(`hsl(${hsl.h}, ${hsl.s}%, ${hsl.l}%)`);
 
   return (
     <div className="max-w-3xl mx-auto space-y-6">
@@ -177,7 +196,9 @@ export default function ColorConverter() {
           type="text"
           value={hex}
           onChange={(e) => {
-            let val = e.target.value;
+            const rawVal = e.target.value;
+            const sanitized = sanitizeTextContent(rawVal, 20);
+            let val = sanitized;
             if (!val.startsWith('#')) val = '#' + val;
             setHex(val);
             if (/^#[0-9A-Fa-f]{6}$/.test(val)) {
@@ -186,6 +207,7 @@ export default function ColorConverter() {
           }}
           className="w-full bg-transparent text-white font-mono text-lg focus:outline-none"
           placeholder="#000000"
+          aria-label="HEX color value"
         />
       </div>
 

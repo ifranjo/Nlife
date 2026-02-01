@@ -1,5 +1,6 @@
 import { useState, useMemo } from 'react';
 import UpgradePrompt, { UsageIndicator, useToolUsage } from '../ui/UpgradePrompt';
+import { sanitizeTextContent, escapeHtml } from '../../lib/security';
 
 interface Stats {
   characters: number;
@@ -12,11 +13,12 @@ interface Stats {
 }
 
 function calculateStats(text: string): Stats {
-  const characters = text.length;
-  const charactersNoSpaces = text.replace(/\s/g, '').length;
-  const words = text.split(/\s+/).filter(Boolean).length;
-  const sentences = text.split(/[.!?]+/).filter(s => s.trim().length > 0).length;
-  const paragraphs = text.split(/\n\n+/).filter(p => p.trim().length > 0).length;
+  const sanitized = sanitizeTextContent(text);
+  const characters = sanitized.length;
+  const charactersNoSpaces = sanitized.replace(/\s/g, '').length;
+  const words = sanitized.split(/\s+/).filter(Boolean).length;
+  const sentences = sanitized.split(/[.!?]+/).filter(s => s.trim().length > 0).length;
+  const paragraphs = sanitized.split(/\n\n+/).filter(p => p.trim().length > 0).length;
 
   // Average reading speed: 200 wpm, speaking: 150 wpm
   const readingMinutes = Math.ceil(words / 200);
@@ -136,7 +138,7 @@ export default function WordCounter() {
                 key={word}
                 className="px-2 py-1 bg-white/10 rounded text-xs text-white"
               >
-                {word} <span className="text-[var(--text-muted)]">×{count}</span>
+                {escapeHtml(word)} <span className="text-[var(--text-muted)]">×{count}</span>
               </span>
             ))}
           </div>

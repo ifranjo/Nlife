@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { copyToClipboard } from '../../lib/clipboard';
+import { sanitizeTextContent, escapeHtml, createSafeErrorMessage } from '../../lib/security';
 import UpgradePrompt, { UsageIndicator, useToolUsage } from '../ui/UpgradePrompt';
 
 interface SentimentResult {
@@ -76,7 +77,7 @@ export default function SentimentAnalysis() {
       return loadedClassifier;
     } catch (err) {
       console.error('Failed to load model:', err);
-      setError('Failed to load AI model. Please refresh and try again.');
+      setError(createSafeErrorMessage(err, 'Failed to load AI model. Please refresh and try again.'));
       setIsModelLoading(false);
       return null;
     }
@@ -102,12 +103,14 @@ export default function SentimentAnalysis() {
         return;
       }
 
-      const output = await loadedClassifier(text.trim());
+      // Sanitize input text before analysis
+      const sanitizedText = sanitizeTextContent(text.trim());
+      const output = await loadedClassifier(sanitizedText);
       setResult(output[0]);
       recordUsage();
     } catch (err) {
       console.error('Sentiment analysis failed:', err);
-      setError('Analysis failed. Please try again.');
+      setError(createSafeErrorMessage(err, 'Analysis failed. Please try again.'));
     } finally {
       setIsLoading(false);
     }
@@ -126,7 +129,8 @@ export default function SentimentAnalysis() {
   };
 
   const formatLabel = (label: string) => {
-    return label.charAt(0).toUpperCase() + label.slice(1).toLowerCase();
+    const escaped = escapeHtml(label);
+    return escaped.charAt(0).toUpperCase() + escaped.slice(1).toLowerCase();
   };
 
   return (

@@ -1,5 +1,6 @@
 import { useState, useMemo } from 'react';
 import { copyToClipboard } from '../../lib/clipboard';
+import { sanitizeTextContent, escapeHtml } from '../../lib/security';
 import UpgradePrompt, { UsageIndicator, useToolUsage } from '../ui/UpgradePrompt';
 
 type Category = 'length' | 'weight' | 'temperature' | 'volume' | 'area' | 'speed' | 'time' | 'digital';
@@ -335,9 +336,56 @@ const CATEGORIES: { id: Category; label: string; icon: string }[] = [
   { id: 'digital', label: 'Digital', icon: '💾' },
 ];
 
+// Numeric input validation constants
+const MAX_INPUT_LENGTH = 50;
+const MAX_ABS_VALUE = 1e308; // JavaScript Number.MAX_VALUE
+const MAX_PRECISION_DIGITS = 15;
+
+/**
+ * Validates numeric input for security
+ * Prevents: buffer overflow, ReDoS, NaN injection, infinite loops
+ */
+function validateNumericInput(input: string): { valid: boolean; sanitized: string; error?: string } {
+  // Sanitize first to remove control characters
+  const sanitized = sanitizeTextContent(input.trim(), MAX_INPUT_LENGTH);
+
+  if (!sanitized) {
+    return { valid: false, sanitized: '', error: 'Empty input' };
+  }
+
+  if (sanitized.length > MAX_INPUT_LENGTH) {
+    return { valid: false, sanitized: '', error: 'Input too long' };
+  }
+
+  // Allow: digits, single decimal point, leading sign, scientific notation
+  const numericPattern = /^[+-]?(\d+\.?\d*|\d*\.?\d+)([eE][+-]?\d+)?$/;
+  if (!numericPattern.test(sanitized)) {
+    return { valid: false, sanitized: '', error: 'Invalid numeric format' };
+  }
+
+  // Parse and validate range
+  const value = parseFloat(sanitized);
+  if (isNaN(value) || !isFinite(value)) {
+    return { valid: false, sanitized: '', error: 'Invalid number' };
+  }
+
+  if (Math.abs(value) > MAX_ABS_VALUE) {
+    return { valid: false, sanitized: '', error: 'Value too large' };
+  }
+
+  // Check for too many significant digits (precision attack)
+  if (sanitized.replace(/[.-+eE]/g, '').length > MAX_PRECISION_DIGITS) {
+    return { valid: false, sanitized: '', error: 'Too many digits' };
+  }
+
+  return { valid: true, sanitized };
+}
+
 function formatNumber(value: number): string {
+  // Handle edge cases safely
   if (value === 0) return '0';
   if (!isFinite(value)) return 'N/A';
+  if (Number.isNaN(value)) return 'N/A';
 
   const abs = Math.abs(value);
 
@@ -364,6 +412,7 @@ export default function UnitConverter() {
 
   const [category, setCategory] = useState<Category>('length');
   const [inputValue, setInputValue] = useState('1');
+  const [inputValidationError, setInputValidationError] = useState<string | null>(null);
   const [fromUnit, setFromUnit] = useState('meter');
   const [copiedUnit, setCopiedUnit] = useState<string | null>(null);
 
@@ -374,21 +423,41 @@ export default function UnitConverter() {
     setFromUnit(firstUnitKey);
   }
 
+  // Validate input and set error state
+  useMemo(() => {
+    const validation = validateNumericInput(inputValue);
+    setInputValidationError(validation.valid ? null : validation.error || null);
+  }, [inputValue]);
+
   const conversions = useMemo(() => {
-    const value = parseFloat(inputValue);
-    if (isNaN(value) || !fromUnit || !units[fromUnit]) {
+    // Validate numeric input
+    const validation = validateNumericInput(inputValue);
+    if (!validation.valid || !fromUnit || !units[fromUnit]) {
+      return [];
+    }
+
+    const value = parseFloat(validation.sanitized);
+    if (isNaN(value) || !isFinite(value)) {
       return [];
     }
 
     const baseValue = units[fromUnit].toBase(value);
 
+    // Check for overflow
+    if (!isFinite(baseValue)) {
+      return [];
+    }
+
     return Object.entries(units)
       .filter(([key]) => key !== fromUnit)
-      .map(([key, unit]) => ({
-        key,
-        unit,
-        value: unit.fromBase(baseValue),
-      }));
+      .map(([key, unit]) => {
+        const convertedValue = unit.fromBase(baseValue);
+        // Validate converted value
+        if (!isFinite(convertedValue) || Math.abs(convertedValue) > MAX_ABS_VALUE) {
+          return { key, unit, value: NaN };
+        }
+        return { key, unit, value: convertedValue };
+      });
   }, [inputValue, fromUnit, units]);
 
   const handleCategoryChange = (newCategory: Category) => {
@@ -412,10 +481,12 @@ export default function UnitConverter() {
   };
 
   const handleSwap = (targetUnit: string) => {
-    const targetValue = conversions.find(c => c.key === targetUnit)?.value;
-    if (targetValue !== undefined) {
+    // Validate the target unit key
+    const sanitizedUnit = sanitizeTextContent(targetUnit, 50);
+    const targetValue = conversions.find(c => c.key === sanitizedUnit)?.value;
+    if (targetValue !== undefined && !isNaN(targetValue)) {
       setInputValue(formatNumber(targetValue));
-      setFromUnit(targetUnit);
+      setFromUnit(sanitizedUnit);
     }
   };
 
@@ -454,16 +525,23 @@ export default function UnitConverter() {
 
       {/* Input Section */}
       <div className="bg-white/5 border border-white/10 rounded-xl p-6">
-        <label className="block text-sm text-white mb-3">Convert From</label>
+        <label htmlFor="unit-input" className="block text-sm text-white mb-3">Convert From</label>
         <div className="flex gap-3">
           <input
-            type="number"
+            id="unit-input"
+            type="text"
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             placeholder="Enter value"
-            className="flex-1 bg-white/10 border border-white/20 rounded-lg px-4 py-3
+            aria-invalid={inputValidationError !== null}
+            aria-describedby="input-error"
+            className={`flex-1 bg-white/10 border rounded-lg px-4 py-3
                        text-white placeholder-[var(--text-dim)] focus:outline-none
-                       focus:border-cyan-400/50 transition-colors"
+                       transition-colors ${
+                         inputValidationError
+                           ? 'border-red-500/50 focus:border-red-500/50'
+                           : 'border-white/20 focus:border-cyan-400/50'
+                       }`}
           />
           <select
             value={fromUnit}
@@ -474,19 +552,26 @@ export default function UnitConverter() {
           >
             {Object.entries(units).map(([key, unit]) => (
               <option key={key} value={key} className="bg-[var(--bg-primary)]">
-                {unit.name} ({unit.symbol})
+                {escapeHtml(unit.name)} ({escapeHtml(unit.symbol)})
               </option>
             ))}
           </select>
         </div>
+        {inputValidationError && (
+          <p id="input-error" className="mt-2 text-sm text-red-400" role="alert">
+            {escapeHtml(inputValidationError)}
+          </p>
+        )}
       </div>
 
       {/* Results */}
       <div className="bg-white/5 border border-white/10 rounded-xl p-6">
         <h3 className="text-sm text-white mb-4">Converted Values</h3>
-        {conversions.length === 0 ? (
+        {conversions.length === 0 || inputValidationError ? (
           <p className="text-[var(--text-muted)] text-sm text-center py-8">
-            Enter a valid number to see conversions
+            {inputValidationError
+              ? 'Fix the input error to see conversions'
+              : 'Enter a valid number to see conversions'}
           </p>
         ) : (
           <div className="space-y-2">
@@ -499,10 +584,10 @@ export default function UnitConverter() {
               >
                 <div className="flex-1">
                   <div className="text-sm text-[var(--text-muted)]">
-                    {unit.name} ({unit.symbol})
+                    {escapeHtml(unit.name)} ({escapeHtml(unit.symbol)})
                   </div>
                   <div className="text-lg font-mono text-cyan-400 mt-1">
-                    {formatNumber(value)}
+                    {escapeHtml(formatNumber(value))}
                   </div>
                 </div>
                 <div className="flex gap-2">

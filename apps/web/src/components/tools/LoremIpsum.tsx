@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { copyToClipboard } from '../../lib/clipboard';
+import { escapeHtml, sanitizeFilename, sanitizeTextContent } from '../../lib/security';
 import UpgradePrompt, { UsageIndicator, useToolUsage } from '../ui/UpgradePrompt';
 
 const LOREM_WORDS = [
@@ -48,14 +49,14 @@ function generateLorem(type: GenerateType, count: number, startWithLorem: boolea
       if (startWithLorem && result.length > 0) {
         result[0] = FIRST_SENTENCE + ' ' + result[0].split('. ').slice(1).join('. ');
       }
-      return result.join('\n\n');
+      return sanitizeTextContent(result.join('\n\n'));
 
     case 'sentences':
       result = Array.from({ length: count }, () => generateSentence());
       if (startWithLorem && result.length > 0) {
         result[0] = FIRST_SENTENCE;
       }
-      return result.join(' ');
+      return sanitizeTextContent(result.join(' '));
 
     case 'words':
       result = Array.from({ length: count }, () => generateWord());
@@ -63,11 +64,27 @@ function generateLorem(type: GenerateType, count: number, startWithLorem: boolea
         result[0] = 'Lorem';
         result[1] = 'ipsum';
       }
-      return result.join(' ');
+      return sanitizeTextContent(result.join(' '));
 
     default:
       return '';
   }
+}
+
+function handleDownload(content: string, type: GenerateType) {
+  const safeName = sanitizeFilename('lorem-ipsum');
+  const extension = type === 'words' ? 'txt' : type;
+  const filename = `${safeName}.${extension}`;
+
+  const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
 }
 
 export default function LoremIpsum() {
@@ -175,15 +192,23 @@ export default function LoremIpsum() {
             <label className="text-xs text-[var(--text-muted)] uppercase tracking-wider">
               Generated Text
             </label>
-            <button
-              onClick={handleCopy}
-              className={`
-                text-xs transition-colors
-                ${copied ? 'text-green-400' : 'text-[var(--text-muted)] hover:text-white'}
-              `}
-            >
-              {copied ? '✓ Copied!' : 'Copy'}
-            </button>
+            <div className="flex items-center gap-3">
+              <button
+                onClick={() => handleDownload(output, type)}
+                className="text-xs text-[var(--text-muted)] hover:text-white transition-colors"
+              >
+                Download
+              </button>
+              <button
+                onClick={handleCopy}
+                className={`
+                  text-xs transition-colors
+                  ${copied ? 'text-green-400' : 'text-[var(--text-muted)] hover:text-white'}
+                `}
+              >
+                {copied ? '✓ Copied!' : 'Copy'}
+              </button>
+            </div>
           </div>
           <div
             className="w-full min-h-48 max-h-96 overflow-y-auto bg-white/5 border border-white/10

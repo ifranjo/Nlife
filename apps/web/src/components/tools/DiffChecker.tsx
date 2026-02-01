@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
 import UpgradePrompt, { UsageIndicator, useToolUsage } from '../ui/UpgradePrompt';
+import { sanitizeTextContent, escapeHtml } from '../../lib/security';
 
 type DiffMode = 'line' | 'word';
 
@@ -133,7 +134,10 @@ export default function DiffChecker() {
     if (!checkUsage()) {
       return;
     }
-    const result = computeDiff(original, modified, diffMode);
+    // Sanitize inputs before processing
+    const sanitizedOriginal = sanitizeTextContent(original);
+    const sanitizedModified = sanitizeTextContent(modified);
+    const result = computeDiff(sanitizedOriginal, sanitizedModified, diffMode);
     setDiff(result);
     setStats(calculateStats(result));
     setHasCompared(true);
@@ -167,7 +171,7 @@ export default function DiffChecker() {
     }
 
     if (diffMode === 'word') {
-      // Word mode: inline rendering
+      // Word mode: inline rendering with escaped content
       return (
         <div className="font-mono text-sm whitespace-pre-wrap break-words p-4 bg-slate-900 rounded-lg border border-slate-700">
           {diff.map((part, idx) => (
@@ -180,9 +184,8 @@ export default function DiffChecker() {
                   ? 'bg-red-500/30 text-red-300 line-through'
                   : 'text-[var(--text)]'
               }
-            >
-              {part.content}
-            </span>
+              dangerouslySetInnerHTML={{ __html: escapeHtml(part.content) }}
+            />
           ))}
         </div>
       );
@@ -226,9 +229,8 @@ export default function DiffChecker() {
                       ? 'text-red-300'
                       : 'text-[var(--text)]'
                   }`}
-                >
-                  {line.content}
-                </td>
+                  dangerouslySetInnerHTML={{ __html: escapeHtml(line.content) }}
+                />
               </tr>
             ))}
           </tbody>

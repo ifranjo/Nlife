@@ -1,6 +1,7 @@
 import { useState, useCallback, useEffect } from 'react';
 import { copyToClipboard } from '../../lib/clipboard';
 import UpgradePrompt, { UsageIndicator, useToolUsage } from '../ui/UpgradePrompt';
+import { sanitizeFilename, escapeHtml } from '../../lib/security';
 
 interface PasswordOptions {
   length: number;
@@ -322,7 +323,10 @@ function ToggleOption({ label, checked, onChange, disabled }: ToggleOptionProps)
           </svg>
         )}
       </div>
-      <span className="text-sm">{label}</span>
+      <span className="text-sm" dangerouslySetInnerHTML={{ __html: escapeHtml(label) }} />
     </button>
   );
 }
+
+// Re-export security utilities for convenience
+export { sanitizeFilename, escapeHtml };

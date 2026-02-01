@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { copyToClipboard } from '../../lib/clipboard';
 import UpgradePrompt, { UsageIndicator, useToolUsage } from '../ui/UpgradePrompt';
+import { sanitizeTextContent, escapeHtml } from '../../lib/security';
 
 type CaseType = 'upper' | 'lower' | 'title' | 'sentence' | 'toggle' | 'camel' | 'snake' | 'kebab';
 
@@ -60,14 +61,22 @@ export default function TextCase() {
   const [copied, setCopied] = useState(false);
   const { canUse, showPrompt, checkUsage, recordUsage, dismissPrompt } = useToolUsage('text-case');
 
-  const output = convertCase(input, caseType);
+  // Sanitize input on change to prevent XSS before processing
+  const handleInputChange = (value: string) => {
+    setInput(sanitizeTextContent(value, 50000));
+  };
+
+  // Convert and escape output for safe display
+  const sanitizedInput = sanitizeTextContent(input, 50000);
+  const rawOutput = convertCase(sanitizedInput, caseType);
+  const output = escapeHtml(rawOutput);
 
   const handleCopy = async () => {
     if (!checkUsage()) {
       return;
     }
-    if (!output) return;
-    const success = await copyToClipboard(output);
+    if (!rawOutput) return;
+    const success = await copyToClipboard(rawOutput);
     if (success) {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
@@ -118,7 +127,7 @@ export default function TextCase() {
         </div>
         <textarea
           value={input}
-          onChange={(e) => setInput(e.target.value)}
+          onChange={(e) => handleInputChange(e.target.value)}
           placeholder="Type or paste your text here..."
           className="w-full h-40 bg-white/5 border border-white/10 rounded-xl p-4
                      text-white placeholder-[var(--text-muted)] resize-none
@@ -134,7 +143,7 @@ export default function TextCase() {
           </label>
           <button
             onClick={handleCopy}
-            disabled={!output}
+            disabled={!rawOutput}
             className={`
               text-xs transition-colors
               ${copied

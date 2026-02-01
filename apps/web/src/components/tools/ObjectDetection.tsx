@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import UpgradePrompt, { UsageIndicator, useToolUsage } from '../ui/UpgradePrompt';
+import { validateImageFileExtended, sanitizeFilename, createSafeErrorMessage } from '../../lib/security';
 
 interface Detection {
   box: { xmin: number; ymin: number; xmax: number; ymax: number };
@@ -72,15 +73,17 @@ export default function ObjectDetection() {
     });
   };
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    if (!file.type.startsWith('image/')) {
-      setError('Please upload an image file');
+    const validation = await validateImageFileExtended(file, 50 * 1024 * 1024);
+    if (!validation.valid) {
+      setError(validation.error || 'Invalid image file');
       return;
     }
 
+    const safeName = sanitizeFilename(file.name);
     const reader = new FileReader();
     reader.onload = (event) => {
       setImage(event.target?.result as string);
@@ -94,13 +97,14 @@ export default function ObjectDetection() {
     e.preventDefault();
   };
 
-  const handleDrop = (e: React.DragEvent) => {
+  const handleDrop = async (e: React.DragEvent) => {
     e.preventDefault();
     const file = e.dataTransfer.files[0];
     if (!file) return;
 
-    if (!file.type.startsWith('image/')) {
-      setError('Please upload an image file');
+    const validation = await validateImageFileExtended(file, 50 * 1024 * 1024);
+    if (!validation.valid) {
+      setError(validation.error || 'Invalid image file');
       return;
     }
 
@@ -138,7 +142,7 @@ export default function ObjectDetection() {
       setModelStatus('ready');
       setLoadingProgress(100);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to load model');
+      setError(createSafeErrorMessage(err, 'Failed to load model'));
       setModelStatus('error');
     }
   };
@@ -159,7 +163,7 @@ export default function ObjectDetection() {
       recordUsage();
       setModelStatus('ready');
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Detection failed');
+      setError(createSafeErrorMessage(err, 'Detection failed'));
       setModelStatus('error');
     }
   };
