@@ -1,7 +1,6 @@
 import { useState, useRef } from 'react';
 import ToolFeedback from '../ui/ToolFeedback';
 import { validateAudioFile, sanitizeFilename, createSafeErrorMessage } from '../../lib/security';
-import UpgradePrompt, { UsageIndicator, useToolUsage } from '../ui/UpgradePrompt';
 
 type Status = 'idle' | 'processing' | 'done' | 'error';
 
@@ -26,8 +25,7 @@ export default function RemoveVocals() {
   const [processedUrl, setProcessedUrl] = useState<string | null>(null);
   const [vocalStrength, setVocalStrength] = useState(1.0);
   const audioContextRef = useRef<AudioContext | null>(null);
-  const { canUse, showPrompt, checkUsage, recordUsage, dismissPrompt } = useToolUsage('remove-vocals');
-
+  
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -53,10 +51,7 @@ export default function RemoveVocals() {
   const processAudio = async () => {
     if (!audioFile) return;
 
-    if (!checkUsage()) {
-      return;
-    }
-
+    
     setStatus('processing');
     setError(null);
 
@@ -105,8 +100,7 @@ export default function RemoveVocals() {
       const wavBlob = audioBufferToWav(outputBuffer);
       setProcessedUrl(URL.createObjectURL(wavBlob));
       setStatus('done');
-      recordUsage();
-    } catch (err) {
+          } catch (err) {
       setError(createSafeErrorMessage(err, 'Failed to process audio. Try a different file.'));
       setStatus('error');
     }
@@ -185,8 +179,7 @@ export default function RemoveVocals() {
   return (
     <div className="space-y-6">
       <div className="mb-4 flex justify-end">
-        <UsageIndicator toolId="remove-vocals" />
-      </div>
+              </div>
 
       {/* Upload */}
       <div className="border border-dashed border-[var(--border)] rounded-lg p-8 text-center hover:border-[var(--accent)] transition-colors">
@@ -315,7 +308,6 @@ export default function RemoveVocals() {
         <p>• All processing happens in your browser</p>
       </div>
 
-      {showPrompt && <UpgradePrompt toolId="remove-vocals" toolName="Remove Vocals" onDismiss={dismissPrompt} />}
-    </div>
+          </div>
   );
 }

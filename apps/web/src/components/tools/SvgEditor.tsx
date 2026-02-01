@@ -2,7 +2,6 @@ import { useState, useRef, useCallback, useEffect, useMemo } from 'react';
 import DOMPurify from 'dompurify';
 import { createSafeErrorMessage, sanitizeFilename } from '../../lib/security';
 import { copyToClipboard } from '../../lib/clipboard';
-import UpgradePrompt, { UsageIndicator, useToolUsage } from '../ui/UpgradePrompt';
 
 interface SvgStats {
   originalSize: number;
@@ -18,8 +17,7 @@ interface SvgDimensions {
 }
 
 export default function SvgEditor() {
-  const { canUse, showPrompt, checkUsage, recordUsage, dismissPrompt } = useToolUsage('svg-editor');
-
+  
   const [inputSvg, setInputSvg] = useState('');
   const [outputSvg, setOutputSvg] = useState('');
   const [error, setError] = useState<string | null>(null);
@@ -216,10 +214,7 @@ export default function SvgEditor() {
 
   // Process SVG
   const processSvg = useCallback(async () => {
-    if (!checkUsage()) {
-      return;
-    }
-
+    
     if (!inputSvg.trim()) {
       setError('Please enter or upload an SVG');
       return;
@@ -255,8 +250,7 @@ export default function SvgEditor() {
         savingsPercent: Math.max(0, savingsPercent)
       });
 
-      recordUsage();
-    } catch (err) {
+          } catch (err) {
       setError(createSafeErrorMessage(err, 'Failed to process SVG'));
     } finally {
       setIsProcessing(false);
@@ -373,14 +367,8 @@ export default function SvgEditor() {
 
   return (
     <div className="max-w-6xl mx-auto">
-      <UpgradePrompt
-        toolId="svg-editor"
-        toolName="SVG Editor"
-        onDismiss={dismissPrompt}
-      />
 
-      <UsageIndicator toolId="svg-editor" />
-
+      
       <div className="grid lg:grid-cols-2 gap-6">
         {/* Input Panel */}
         <div className="glass-card p-6">

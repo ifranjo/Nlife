@@ -4,7 +4,6 @@ import {
   sanitizeFilename,
   createSafeErrorMessage,
 } from '../../lib/security';
-import UpgradePrompt, { UsageIndicator, useToolUsage } from '../ui/UpgradePrompt';
 
 type SplitMode = 'all' | 'range' | 'extract';
 
@@ -27,8 +26,7 @@ export default function PdfSplit() {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Usage limits for free tier
-  const { canUse, showPrompt, checkUsage, recordUsage, dismissPrompt } = useToolUsage('pdf-split');
-
+  
   const resetState = () => {
     setFile(null);
     setFileName('');
@@ -183,8 +181,7 @@ export default function PdfSplit() {
           URL.revokeObjectURL(url);
 
           // Record usage for free tier tracking
-          recordUsage();
-
+          
           setProgress('');
           setIsProcessing(false);
           return;
@@ -204,8 +201,7 @@ export default function PdfSplit() {
       URL.revokeObjectURL(url);
 
       // Record usage for free tier tracking
-      recordUsage();
-
+      
       setProgress('');
     } catch (err) {
       setError(createSafeErrorMessage(err, 'Failed to split PDF. Please try again.'));
@@ -219,8 +215,7 @@ export default function PdfSplit() {
     <div className="max-w-3xl mx-auto">
       {/* Usage Indicator */}
       <div className="mb-4 flex justify-end">
-        <UsageIndicator toolId="pdf-split" />
-      </div>
+              </div>
 
       {/* Drop Zone */}
       {!file ? (
@@ -426,7 +421,6 @@ export default function PdfSplit() {
       </p>
 
       {/* Upgrade Prompt Modal */}
-      {showPrompt && <UpgradePrompt toolId="pdf-split" toolName="PDF Split" onDismiss={dismissPrompt} />}
-    </div>
+          </div>
   );
 }

@@ -8,7 +8,6 @@ import {
 } from '../../lib/security';
 import { announce, haptic } from '../../lib/accessibility';
 import { copyToClipboard } from '../../lib/clipboard';
-import UpgradePrompt, { UsageIndicator, useToolUsage } from '../ui/UpgradePrompt';
 
 // Types
 type InputType = 'text' | 'file' | 'url';
@@ -343,8 +342,7 @@ function StatCard({ label, value }: { label: string; value: string | number }) {
 // Main Component
 export default function AiSummary() {
   // Usage tracking
-  const { canUse, showPrompt, checkUsage, recordUsage, dismissPrompt } = useToolUsage('ai-summary');
-
+  
   // State
   const [inputType, setInputType] = useState<InputType>('text');
   const [inputText, setInputText] = useState('');
@@ -482,10 +480,7 @@ export default function AiSummary() {
       return;
     }
 
-    if (!checkUsage()) {
-      return;
-    }
-
+    
     setError(null);
     setIsProcessing(true);
     announce('Generating summary');
@@ -533,8 +528,7 @@ export default function AiSummary() {
       }
 
       setSummary(result);
-      recordUsage();
-      announce('Summary generated');
+            announce('Summary generated');
       haptic.success();
     } catch (err) {
       setError(createSafeErrorMessage(err, 'Failed to generate summary. Please try again.'));
@@ -573,11 +567,9 @@ export default function AiSummary() {
   return (
     <div className="max-w-4xl mx-auto space-y-6">
       {/* Upgrade Prompt */}
-      {showPrompt && <UpgradePrompt toolId="ai-summary" toolName="AI Summary" onDismiss={dismissPrompt} />}
-
+      
       {/* Usage Indicator */}
-      <UsageIndicator toolId="ai-summary" />
-
+      
       {/* Input Type Tabs */}
       <div className="flex gap-2 p-1 bg-white/5 rounded-xl">
         {(['text', 'file', 'url'] as InputType[]).map((type) => (

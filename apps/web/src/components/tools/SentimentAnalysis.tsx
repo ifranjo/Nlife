@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { copyToClipboard } from '../../lib/clipboard';
 import { sanitizeTextContent, escapeHtml, createSafeErrorMessage } from '../../lib/security';
-import UpgradePrompt, { UsageIndicator, useToolUsage } from '../ui/UpgradePrompt';
 
 interface SentimentResult {
   label: string;
@@ -42,8 +41,7 @@ const SENTIMENT_CONFIG = {
 
 export default function SentimentAnalysis() {
   // Usage tracking
-  const { canUse, showPrompt, checkUsage, recordUsage, dismissPrompt } = useToolUsage('sentiment-analysis');
-
+  
   const [text, setText] = useState('');
   const [result, setResult] = useState<SentimentResult | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -89,10 +87,7 @@ export default function SentimentAnalysis() {
       return;
     }
 
-    if (!checkUsage()) {
-      return;
-    }
-
+    
     setIsLoading(true);
     setError(null);
 
@@ -107,8 +102,7 @@ export default function SentimentAnalysis() {
       const sanitizedText = sanitizeTextContent(text.trim());
       const output = await loadedClassifier(sanitizedText);
       setResult(output[0]);
-      recordUsage();
-    } catch (err) {
+          } catch (err) {
       console.error('Sentiment analysis failed:', err);
       setError(createSafeErrorMessage(err, 'Analysis failed. Please try again.'));
     } finally {
@@ -136,11 +130,9 @@ export default function SentimentAnalysis() {
   return (
     <div className="max-w-3xl mx-auto space-y-6">
       {/* Upgrade Prompt */}
-      {showPrompt && <UpgradePrompt toolId="sentiment-analysis" toolName="Sentiment Analysis" onDismiss={dismissPrompt} />}
-
+      
       {/* Usage Indicator */}
-      <UsageIndicator toolId="sentiment-analysis" />
-
+      
       {/* Text Input */}
       <div className="bg-white/5 border border-white/10 rounded-xl p-6 space-y-4">
         <label className="block text-sm text-white">

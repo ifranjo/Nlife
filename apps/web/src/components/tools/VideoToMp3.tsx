@@ -3,7 +3,6 @@ import { FFmpeg } from '@ffmpeg/ffmpeg';
 import { fetchFile, toBlobURL } from '@ffmpeg/util';
 import ToolFeedback from '../ui/ToolFeedback';
 import { validateVideoFile, sanitizeFilename, createSafeErrorMessage } from '../../lib/security';
-import UpgradePrompt, { UsageIndicator, useToolUsage } from '../ui/UpgradePrompt';
 
 type ConversionStatus = 'idle' | 'loading' | 'converting' | 'done' | 'error';
 
@@ -32,8 +31,7 @@ export default function VideoToMp3() {
   const ffmpegRef = useRef<FFmpeg | null>(null);
   const [ffmpegLoaded, setFfmpegLoaded] = useState(false);
   const [sharedArrayBufferSupported, setSharedArrayBufferSupported] = useState<boolean | null>(null);
-  const { canUse, showPrompt, checkUsage, recordUsage, dismissPrompt } = useToolUsage('video-to-mp3');
-
+  
   useEffect(() => {
     const check = checkSharedArrayBuffer();
     setSharedArrayBufferSupported(check.supported);
@@ -104,10 +102,7 @@ export default function VideoToMp3() {
   const handleConvert = async () => {
     if (!videoFile || !ffmpegRef.current) return;
 
-    if (!checkUsage()) {
-      return;
-    }
-
+    
     setStatus('converting');
     setProgress(0);
     setError(null);
@@ -140,8 +135,7 @@ export default function VideoToMp3() {
 
       setAudioUrl(url);
       setStatus('done');
-      recordUsage();
-
+      
       // Cleanup
       try {
         await ffmpeg.deleteFile(inputName);
@@ -212,8 +206,7 @@ export default function VideoToMp3() {
   return (
     <div className="space-y-6">
       <div className="mb-4 flex justify-end">
-        <UsageIndicator toolId="video-to-mp3" />
-      </div>
+              </div>
 
       {/* Upload Area */}
       <div className="border border-dashed border-[var(--border)] rounded-lg p-8 text-center hover:border-[var(--accent)] transition-colors">
@@ -352,7 +345,6 @@ export default function VideoToMp3() {
         <p>• Large videos may take longer to process</p>
       </div>
 
-      {showPrompt && <UpgradePrompt toolId="video-to-mp3" toolName="Video to MP3" onDismiss={dismissPrompt} />}
-    </div>
+          </div>
   );
 }

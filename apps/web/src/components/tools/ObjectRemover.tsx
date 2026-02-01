@@ -4,7 +4,6 @@ import {
   sanitizeFilename,
   createSafeErrorMessage,
 } from '../../lib/security';
-import UpgradePrompt, { UsageIndicator, useToolUsage } from '../ui/UpgradePrompt';
 
 interface Point {
   x: number;
@@ -19,8 +18,7 @@ interface MaskData {
 type ProcessingStage = 'idle' | 'loading-model' | 'generating-mask' | 'inpainting';
 
 export default function ObjectRemover() {
-  const { canUse, showPrompt, checkUsage, recordUsage, dismissPrompt } = useToolUsage('object-remover');
-
+  
   const [image, setImage] = useState<File | null>(null);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [clickPoint, setClickPoint] = useState<Point | null>(null);
@@ -229,10 +227,7 @@ export default function ObjectRemover() {
   const removeObject = async () => {
     if (!maskData || !imageUrl || !canvasRef.current) return;
 
-    if (!checkUsage()) {
-      return;
-    }
-
+    
     setProcessingStage('inpainting');
     setError(null);
 
@@ -289,8 +284,7 @@ export default function ObjectRemover() {
       setResultUrl(url);
       setProcessingStage('idle');
 
-      recordUsage();
-
+      
     } catch (err) {
       setError(createSafeErrorMessage(err, 'Failed to remove object. Please try again.'));
       setProcessingStage('idle');
@@ -552,9 +546,7 @@ export default function ObjectRemover() {
 
   return (
     <div className="max-w-4xl mx-auto">
-      {showPrompt && <UpgradePrompt toolId="object-remover" toolName="Object Remover" onDismiss={dismissPrompt} />}
-      <UsageIndicator toolId="object-remover" />
-
+            
       {/* Drop Zone (shown when no image) */}
       {!imageUrl && (
         <div

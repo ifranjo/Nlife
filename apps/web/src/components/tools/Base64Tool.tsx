@@ -5,7 +5,6 @@ import {
   generateDownloadFilename,
 } from '../../lib/security';
 import { copyToClipboard } from '../../lib/clipboard';
-import UpgradePrompt, { UsageIndicator, useToolUsage } from '../ui/UpgradePrompt';
 
 type Mode = 'encode' | 'decode';
 type InputType = 'text' | 'file';
@@ -14,8 +13,7 @@ const MAX_TEXT_SIZE = 10 * 1024 * 1024; // 10MB for text input
 const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB for file input
 
 export default function Base64Tool() {
-  const { canUse, showPrompt, checkUsage, recordUsage, dismissPrompt } = useToolUsage('base64-tool');
-
+  
   const [mode, setMode] = useState<Mode>('encode');
   const [inputType, setInputType] = useState<InputType>('text');
   const [textInput, setTextInput] = useState('');
@@ -55,10 +53,7 @@ export default function Base64Tool() {
 
   // Process text encoding/decoding
   const processText = useCallback(() => {
-    if (!checkUsage()) {
-      return;
-    }
-
+    
     if (!textInput.trim()) {
       setError('Please enter some text');
       return;
@@ -76,13 +71,11 @@ export default function Base64Tool() {
       if (mode === 'encode') {
         const encoded = btoa(unescape(encodeURIComponent(textInput)));
         setTextOutput(encoded);
-        recordUsage();
-      } else {
+              } else {
         try {
           const decoded = decodeURIComponent(escape(atob(textInput)));
           setTextOutput(decoded);
-          recordUsage();
-        } catch {
+                  } catch {
           setError('Invalid Base64 string. Please check your input.');
           setTextOutput('');
         }
@@ -110,10 +103,7 @@ export default function Base64Tool() {
 
   // Process file encoding
   const processFileEncode = useCallback(async () => {
-    if (!checkUsage()) {
-      return;
-    }
-
+    
     if (!selectedFile) {
       setError('Please select a file');
       return;
@@ -136,8 +126,7 @@ export default function Base64Tool() {
 
       const base64 = btoa(binary);
       setFileOutput(base64);
-      recordUsage();
-    } catch (err) {
+          } catch (err) {
       setError(createSafeErrorMessage(err, 'Failed to encode file'));
       setFileOutput(null);
     } finally {
@@ -272,14 +261,8 @@ export default function Base64Tool() {
 
   return (
     <div className="max-w-4xl mx-auto">
-      <UpgradePrompt
-        toolId="base64-tool"
-        toolName="Base64 Encoder"
-        onDismiss={dismissPrompt}
-      />
 
-      <UsageIndicator toolId="base64-tool" />
-
+      
       {/* Mode and Type Selection */}
       <div className="glass-card p-6 mb-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

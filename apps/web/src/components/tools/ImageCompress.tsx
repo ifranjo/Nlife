@@ -5,9 +5,6 @@ import {
   createSafeErrorMessage,
 } from '../../lib/security';
 import { announce, haptic } from '../../lib/accessibility';
-import SwipeableListItem from '../ui/SwipeableListItem';
-import ZoomableImage from '../ui/ZoomableImage';
-import UpgradePrompt, { UsageIndicator, useToolUsage } from '../ui/UpgradePrompt';
 
 interface ImageFile {
   id: string;
@@ -63,8 +60,7 @@ const canvasToBlob = async (
 };
 
 export default function ImageCompress() {
-  const { canUse, showPrompt, checkUsage, recordUsage, dismissPrompt } = useToolUsage('image-compress');
-  const [files, setFiles] = useState<ImageFile[]>([]);
+    const [files, setFiles] = useState<ImageFile[]>([]);
   const [isDragging, setIsDragging] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -282,10 +278,7 @@ export default function ImageCompress() {
       return;
     }
 
-    if (!checkUsage()) {
-      return;
-    }
-
+    
     setIsProcessing(true);
     setError(null);
 
@@ -345,8 +338,7 @@ export default function ImageCompress() {
     }
 
     setIsProcessing(false);
-    recordUsage();
-  };
+      };
 
   const downloadSingleImage = (imageFile: ImageFile) => {
     if (!imageFile.compressedBlob) return;
@@ -430,8 +422,7 @@ export default function ImageCompress() {
   return (
     <div className="max-w-4xl mx-auto">
       <div className="mb-4 flex justify-end">
-        <UsageIndicator toolId="image-compress" />
-      </div>
+              </div>
       {/* Drop Zone */}
       <div
         onDragOver={handleDragOver}
@@ -771,7 +762,6 @@ export default function ImageCompress() {
         </div>
       )}
 
-      {showPrompt && <UpgradePrompt toolId="image-compress" toolName="Image Compress" onDismiss={dismissPrompt} />}
-    </div>
+          </div>
   );
 }

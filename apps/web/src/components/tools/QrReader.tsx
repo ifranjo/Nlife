@@ -2,7 +2,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { copyToClipboard } from '../../lib/clipboard';
 import { validateFile } from '../../lib/security';
-import UpgradePrompt, { UsageIndicator, useToolUsage } from '../ui/UpgradePrompt';
 
 type InputMode = 'upload' | 'camera';
 
@@ -79,8 +78,7 @@ export default function QrReader() {
   const [copied, setCopied] = useState(false);
   const [scanning, setScanning] = useState(false);
   const [cameraActive, setCameraActive] = useState(false);
-  const { canUse, showPrompt, checkUsage, recordUsage, dismissPrompt } = useToolUsage('qr-reader');
-
+  
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -100,10 +98,7 @@ export default function QrReader() {
   };
 
   const handleImageUpload = async (file: File) => {
-    if (!checkUsage()) {
-      return;
-    }
-
+    
     // Validate file with security checks
     const validation = await validateFile(file, 'image');
     if (!validation.valid) {
@@ -137,8 +132,7 @@ export default function QrReader() {
 
       if (code) {
         setQrData(formatQrData(code.data));
-        recordUsage();
-      } else {
+              } else {
         setError('No QR code found in the image. Make sure the QR code is clearly visible.');
       }
     };
@@ -208,8 +202,7 @@ export default function QrReader() {
 
       if (code) {
         setQrData(formatQrData(code.data));
-        recordUsage();
-        setScanning(false);
+                setScanning(false);
         stopCamera();
       } else {
         scanIntervalRef.current = requestAnimationFrame(scan);
@@ -251,8 +244,7 @@ export default function QrReader() {
   return (
     <div className="max-w-3xl mx-auto space-y-6">
       <div className="mb-4 flex justify-end">
-        <UsageIndicator toolId="qr-reader" />
-      </div>
+              </div>
       {/* Mode Selector */}
       <div className="flex gap-2 bg-white/5 border border-white/10 rounded-xl p-1">
         <button
@@ -443,7 +435,6 @@ export default function QrReader() {
           No data is sent to any server. All processing happens locally.
         </p>
       </div>
-      {showPrompt && <UpgradePrompt toolId="qr-reader" toolName="QR Reader" onDismiss={dismissPrompt} />}
-    </div>
+          </div>
   );
 }

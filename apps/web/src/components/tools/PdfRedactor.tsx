@@ -5,8 +5,6 @@ import {
   createSafeErrorMessage,
   generateDownloadFilename,
 } from '../../lib/security';
-import ZoomableImage from '../ui/ZoomableImage';
-import UpgradePrompt, { UsageIndicator, useToolUsage } from '../ui/UpgradePrompt';
 
 interface RedactionBox {
   id: string;
@@ -48,8 +46,7 @@ const PII_PATTERNS = {
 };
 
 export default function PdfRedactor() {
-  const { canUse, showPrompt, checkUsage, recordUsage, dismissPrompt } = useToolUsage('pdf-redactor');
-  const [file, setFile] = useState<File | null>(null);
+    const [file, setFile] = useState<File | null>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [isRendering, setIsRendering] = useState(false);
@@ -403,10 +400,7 @@ export default function PdfRedactor() {
       return;
     }
 
-    if (!checkUsage()) {
-      return;
-    }
-
+    
     setIsProcessing(true);
     setError(null);
 
@@ -484,8 +478,7 @@ export default function PdfRedactor() {
       document.body.removeChild(link);
       URL.revokeObjectURL(url);
 
-      recordUsage();
-
+      
       // Reset state after successful redaction
       setFile(null);
       setPages([]);
@@ -541,9 +534,7 @@ export default function PdfRedactor() {
 
   return (
     <div className="max-w-6xl mx-auto">
-      {showPrompt && <UpgradePrompt toolId="pdf-redactor" toolName="PDF Redactor" onDismiss={dismissPrompt} />}
-      <UsageIndicator toolId="pdf-redactor" />
-      {!file ? (
+                  {!file ? (
         <>
           {/* Drop Zone */}
           <div

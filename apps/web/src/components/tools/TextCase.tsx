@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { copyToClipboard } from '../../lib/clipboard';
-import UpgradePrompt, { UsageIndicator, useToolUsage } from '../ui/UpgradePrompt';
 import { sanitizeTextContent, escapeHtml } from '../../lib/security';
 
 type CaseType = 'upper' | 'lower' | 'title' | 'sentence' | 'toggle' | 'camel' | 'snake' | 'kebab';
@@ -59,8 +58,7 @@ export default function TextCase() {
   const [input, setInput] = useState('');
   const [caseType, setCaseType] = useState<CaseType>('upper');
   const [copied, setCopied] = useState(false);
-  const { canUse, showPrompt, checkUsage, recordUsage, dismissPrompt } = useToolUsage('text-case');
-
+  
   // Sanitize input on change to prevent XSS before processing
   const handleInputChange = (value: string) => {
     setInput(sanitizeTextContent(value, 50000));
@@ -72,16 +70,12 @@ export default function TextCase() {
   const output = escapeHtml(rawOutput);
 
   const handleCopy = async () => {
-    if (!checkUsage()) {
-      return;
-    }
-    if (!rawOutput) return;
+        if (!rawOutput) return;
     const success = await copyToClipboard(rawOutput);
     if (success) {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
-      recordUsage();
-    }
+          }
   };
 
   const handleClear = () => {
@@ -90,9 +84,7 @@ export default function TextCase() {
 
   return (
     <div className="max-w-3xl mx-auto space-y-6">
-      {showPrompt && <UpgradePrompt toolId="text-case" toolName="Text Case Converter" onDismiss={dismissPrompt} />}
-      <UsageIndicator toolId="text-case" />
-      {/* Case Type Selector */}
+                  {/* Case Type Selector */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
         {CASE_OPTIONS.map((opt) => (
           <button

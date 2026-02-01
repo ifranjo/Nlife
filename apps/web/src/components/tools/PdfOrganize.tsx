@@ -4,7 +4,6 @@ import {
   sanitizeFilename,
   createSafeErrorMessage,
 } from '../../lib/security';
-import UpgradePrompt, { UsageIndicator, useToolUsage } from '../ui/UpgradePrompt';
 
 interface PagePreview {
   index: number;
@@ -27,8 +26,7 @@ export default function PdfOrganize() {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Usage limits for free tier
-  const { canUse, showPrompt, checkUsage, recordUsage, dismissPrompt } = useToolUsage('pdf-organize');
-
+  
   const resetState = () => {
     setFile(null);
     setFileName('');
@@ -221,8 +219,7 @@ export default function PdfOrganize() {
       document.body.removeChild(link);
       URL.revokeObjectURL(url);
 
-      recordUsage();
-      setProgress('');
+            setProgress('');
     } catch (err) {
       setError(createSafeErrorMessage(err, 'Failed to save PDF. Please try again.'));
       setProgress('');
@@ -236,8 +233,7 @@ export default function PdfOrganize() {
   return (
     <div className="max-w-5xl mx-auto">
       <div className="mb-4 flex justify-end">
-        <UsageIndicator toolId="pdf-organize" />
-      </div>
+              </div>
 
       {/* Drop Zone */}
       {!file ? (
@@ -431,7 +427,6 @@ export default function PdfOrganize() {
         Your files never leave your browser. All processing happens locally.
       </p>
 
-      {showPrompt && <UpgradePrompt toolId="pdf-organize" toolName="PDF Organize" onDismiss={dismissPrompt} />}
-    </div>
+          </div>
   );
 }

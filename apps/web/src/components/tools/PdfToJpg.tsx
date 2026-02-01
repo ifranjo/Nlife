@@ -4,7 +4,6 @@ import {
   sanitizeFilename,
   createSafeErrorMessage,
 } from '../../lib/security';
-import UpgradePrompt, { UsageIndicator, useToolUsage } from '../ui/UpgradePrompt';
 
 interface PageImage {
   pageNumber: number;
@@ -38,8 +37,7 @@ export default function PdfToJpg() {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Usage limits for free tier
-  const { canUse, showPrompt, checkUsage, recordUsage, dismissPrompt } = useToolUsage('pdf-to-jpg');
-
+  
   const resetState = () => {
     setFile(null);
     setFileName('');
@@ -197,8 +195,7 @@ export default function PdfToJpg() {
           document.body.removeChild(link);
 
           // Record usage for free tier tracking
-          recordUsage();
-        }
+                  }
       } else {
         // Multiple pages: create ZIP
         const JSZip = (await import('jszip')).default;
@@ -239,8 +236,7 @@ export default function PdfToJpg() {
         URL.revokeObjectURL(url);
 
         // Record usage for free tier tracking
-        recordUsage();
-      }
+              }
 
       setProgress('');
     } catch (err) {
@@ -255,8 +251,7 @@ export default function PdfToJpg() {
     <div className="max-w-5xl mx-auto">
       {/* Usage Indicator */}
       <div className="mb-4 flex justify-end">
-        <UsageIndicator toolId="pdf-to-jpg" />
-      </div>
+              </div>
 
       {/* Drop Zone */}
       {!file ? (
@@ -460,7 +455,6 @@ export default function PdfToJpg() {
       </p>
 
       {/* Upgrade Prompt Modal */}
-      {showPrompt && <UpgradePrompt toolId="pdf-to-jpg" toolName="PDF to JPG" onDismiss={dismissPrompt} />}
-    </div>
+          </div>
   );
 }

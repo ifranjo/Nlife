@@ -1,7 +1,6 @@
 import { useState, useCallback } from 'react';
 import { createSafeErrorMessage } from '../../lib/security';
 import { copyToClipboard } from '../../lib/clipboard';
-import UpgradePrompt, { UsageIndicator, useToolUsage } from '../ui/UpgradePrompt';
 
 type HashAlgorithm = 'MD5' | 'SHA-1' | 'SHA-256' | 'SHA-384' | 'SHA-512';
 
@@ -143,18 +142,14 @@ export default function HashGenerator() {
   const [isProcessing, setIsProcessing] = useState(false);
   const [copiedAlgo, setCopiedAlgo] = useState<HashAlgorithm | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const { canUse, showPrompt, checkUsage, recordUsage, dismissPrompt } = useToolUsage('hash-generator');
-
+  
   const generateHashes = useCallback(async () => {
     if (!input) {
       setHashes({ 'MD5': '', 'SHA-1': '', 'SHA-256': '', 'SHA-384': '', 'SHA-512': '' });
       return;
     }
 
-    if (!checkUsage()) {
-      return;
-    }
-
+    
     setIsProcessing(true);
     setError(null);
     try {
@@ -166,8 +161,7 @@ export default function HashGenerator() {
         'SHA-512': await hashWithWebCrypto(input, 'SHA-512'),
       };
       setHashes(results);
-      recordUsage();
-    } catch (err) {
+          } catch (err) {
       setError(createSafeErrorMessage(err, 'Failed to generate hashes. Please try again.'));
     } finally {
       setIsProcessing(false);
@@ -186,8 +180,7 @@ export default function HashGenerator() {
   return (
     <div className="max-w-3xl mx-auto space-y-6">
       <div className="mb-4 flex justify-end">
-        <UsageIndicator toolId="hash-generator" />
-      </div>
+              </div>
       {/* Input */}
       <div>
         <label className="block text-xs text-[var(--text-muted)] uppercase tracking-wider mb-2">
@@ -257,7 +250,6 @@ export default function HashGenerator() {
           Note: MD5 and SHA-1 are cryptographically broken. Use SHA-256+ for security.
         </p>
       </div>
-      {showPrompt && <UpgradePrompt toolId="hash-generator" toolName="Hash Generator" onDismiss={dismissPrompt} />}
-    </div>
+          </div>
   );
 }

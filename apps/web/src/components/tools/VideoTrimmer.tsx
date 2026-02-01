@@ -3,7 +3,6 @@ import { FFmpeg } from '@ffmpeg/ffmpeg';
 import { fetchFile, toBlobURL } from '@ffmpeg/util';
 import ToolFeedback from '../ui/ToolFeedback';
 import { validateVideoFile, sanitizeFilename, createSafeErrorMessage } from '../../lib/security';
-import UpgradePrompt, { UsageIndicator, useToolUsage } from '../ui/UpgradePrompt';
 
 type Status = 'idle' | 'loading' | 'processing' | 'done' | 'error';
 
@@ -37,8 +36,7 @@ export default function VideoTrimmer() {
   const ffmpegRef = useRef<FFmpeg | null>(null);
   const [ffmpegLoaded, setFfmpegLoaded] = useState(false);
   const [sharedArrayBufferSupported, setSharedArrayBufferSupported] = useState<boolean | null>(null);
-  const { canUse, showPrompt, checkUsage, recordUsage, dismissPrompt } = useToolUsage('video-trimmer');
-
+  
   useEffect(() => {
     const check = checkSharedArrayBuffer();
     setSharedArrayBufferSupported(check.supported);
@@ -117,10 +115,7 @@ export default function VideoTrimmer() {
   const handleTrim = async () => {
     if (!videoFile || !ffmpegRef.current) return;
 
-    if (!checkUsage()) {
-      return;
-    }
-
+    
     setStatus('processing');
     setProgress(0);
     setError(null);
@@ -179,8 +174,7 @@ export default function VideoTrimmer() {
       const blob = new Blob([new Uint8Array(data)], { type: mimeType });
       setOutputUrl(URL.createObjectURL(blob));
       setStatus('done');
-      recordUsage();
-
+      
       // Cleanup
       try {
         await ffmpeg.deleteFile(inputName);
@@ -261,8 +255,7 @@ export default function VideoTrimmer() {
   return (
     <div className="space-y-6">
       <div className="mb-4 flex justify-end">
-        <UsageIndicator toolId="video-trimmer" />
-      </div>
+              </div>
 
       {/* Upload */}
       {!videoFile && (
@@ -468,7 +461,6 @@ export default function VideoTrimmer() {
         <p>• Output is MP4 (H.264) for maximum compatibility</p>
       </div>
 
-      {showPrompt && <UpgradePrompt toolId="video-trimmer" toolName="Video Trimmer" onDismiss={dismissPrompt} />}
-    </div>
+          </div>
   );
 }

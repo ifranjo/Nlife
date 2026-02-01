@@ -6,7 +6,6 @@ import {
 } from '../../lib/security';
 import { announce, haptic } from '../../lib/accessibility';
 import BatchProcessor, { type BatchFileItem } from './BatchProcessor';
-import UpgradePrompt, { UsageIndicator, useToolUsage } from '../ui/UpgradePrompt';
 
 interface PDFFile {
   id: string;
@@ -52,8 +51,7 @@ export default function PdfCompress() {
   const [batchMode, setBatchMode] = useState(false);
 
   // Usage limits for free tier
-  const { canUse, showPrompt, checkUsage, recordUsage, dismissPrompt } = useToolUsage('pdf-compress');
-
+  
   const formatFileSize = (bytes: number): string => {
     if (bytes < 1024) return `${bytes} B`;
     if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
@@ -221,8 +219,7 @@ export default function PdfCompress() {
     }
 
     // Record usage for free tier tracking
-    recordUsage();
-
+    
     setIsProcessing(false);
   };
 
@@ -371,8 +368,7 @@ export default function PdfCompress() {
     <div className="max-w-3xl mx-auto">
       {/* Usage Indicator */}
       <div className="mb-4 flex justify-end">
-        <UsageIndicator toolId="pdf-compress" />
-      </div>
+              </div>
 
       {/* Batch Mode Toggle */}
       <div className="mb-4 flex items-center justify-between">
@@ -667,7 +663,6 @@ export default function PdfCompress() {
       </p>
 
       {/* Upgrade Prompt Modal */}
-      {showPrompt && <UpgradePrompt toolId="pdf-compress" toolName="PDF Compress" onDismiss={dismissPrompt} />}
-    </div>
+          </div>
   );
 }

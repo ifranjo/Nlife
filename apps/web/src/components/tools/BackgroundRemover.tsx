@@ -4,8 +4,6 @@ import {
   sanitizeFilename,
   createSafeErrorMessage,
 } from '../../lib/security';
-import ZoomableImage from '../ui/ZoomableImage';
-import UpgradePrompt, { UsageIndicator, useToolUsage } from '../ui/UpgradePrompt';
 
 interface ProcessedImage {
   id: string;
@@ -65,8 +63,7 @@ const defaultBrushState: MagicBrushState = {
 };
 
 export default function BackgroundRemover() {
-  const { canUse, showPrompt, checkUsage, recordUsage, dismissPrompt } = useToolUsage('background-remover');
-  const [images, setImages] = useState<ProcessedImage[]>([]);
+    const [images, setImages] = useState<ProcessedImage[]>([]);
   const [isDragging, setIsDragging] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [backgroundMode, setBackgroundMode] = useState<BackgroundMode>('transparent');
@@ -198,10 +195,7 @@ export default function BackgroundRemover() {
     const image = images.find(img => img.id === imageId);
     if (!image) return;
 
-    if (!checkUsage()) {
-      return;
-    }
-
+    
     // Update state to show processing
     setImages(prev => prev.map(img =>
       img.id === imageId
@@ -236,8 +230,7 @@ export default function BackgroundRemover() {
           ? { ...img, processedUrl, isProcessing: false, progress: 100 }
           : img
       ));
-      recordUsage();
-    } catch (err) {
+          } catch (err) {
       const errorMsg = createSafeErrorMessage(err, 'Failed to remove background. Please try again.');
       setImages(prev => prev.map(img =>
         img.id === imageId
@@ -1018,8 +1011,7 @@ export default function BackgroundRemover() {
   return (
     <div className="max-w-5xl mx-auto">
       <div className="mb-4 flex justify-end">
-        <UsageIndicator toolId="background-remover" />
-      </div>
+              </div>
       {/* Drop Zone */}
       <div
         onDragOver={handleDragOver}
@@ -1443,7 +1435,6 @@ export default function BackgroundRemover() {
         </div>
       )}
 
-      {showPrompt && <UpgradePrompt toolId="background-remover" toolName="Background Remover" onDismiss={dismissPrompt} />}
-    </div>
+          </div>
   );
 }

@@ -2,7 +2,6 @@ import { useState, useRef, useEffect } from 'react';
 import ToolFeedback from '../ui/ToolFeedback';
 import { sanitizeFilename } from '../../lib/security';
 import { announce, haptic } from '../../lib/accessibility';
-import UpgradePrompt, { UsageIndicator, useToolUsage } from '../ui/UpgradePrompt';
 
 interface ResumeData {
   name: string;
@@ -38,8 +37,7 @@ const defaultData: ResumeData = {
 type Template = 'modern' | 'classic' | 'minimal';
 
 export default function ResumeBuilder() {
-  const { canUse, showPrompt, checkUsage, recordUsage, dismissPrompt } = useToolUsage('resume-builder');
-  const [data, setData] = useState<ResumeData>(defaultData);
+    const [data, setData] = useState<ResumeData>(defaultData);
   const [template, setTemplate] = useState<Template>('modern');
   const [generated, setGenerated] = useState(false);
 
@@ -219,10 +217,7 @@ export default function ResumeBuilder() {
   }, [activeEducationIndex, data.education.length]);
 
   const generatePDF = async () => {
-    if (!checkUsage()) {
-      return;
-    }
-
+    
     const { jsPDF } = await import('jspdf');
 
     const doc = new jsPDF();
@@ -341,14 +336,11 @@ export default function ResumeBuilder() {
     const safeName = sanitizeFilename(data.name || 'resume');
     doc.save(`${safeName}.pdf`);
     setGenerated(true);
-    recordUsage();
-  };
+      };
 
   return (
     <div className="space-y-6">
-      {showPrompt && <UpgradePrompt toolId="resume-builder" toolName="Resume Builder" onDismiss={dismissPrompt} />}
-      <UsageIndicator toolId="resume-builder" />
-      {/* Template Selection */}
+                  {/* Template Selection */}
       <div className="bg-[var(--bg-secondary)] rounded-lg p-4">
         <label className="block text-sm text-[var(--text-muted)] mb-2">Template Style</label>
         <div className="grid grid-cols-3 gap-2">

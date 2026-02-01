@@ -4,7 +4,6 @@ import {
   sanitizeFilename,
   createSafeErrorMessage,
 } from '../../lib/security';
-import UpgradePrompt, { UsageIndicator, useToolUsage } from '../ui/UpgradePrompt';
 
 interface ImageFile {
   id: string;
@@ -31,8 +30,7 @@ export default function JpgToPdf() {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Usage limits for free tier
-  const { canUse, showPrompt, checkUsage, recordUsage, dismissPrompt } = useToolUsage('jpg-to-pdf');
-
+  
   const generateId = () => Math.random().toString(36).substring(2, 9);
 
   const loadImage = (file: File): Promise<ImageFile> => {
@@ -283,8 +281,7 @@ export default function JpgToPdf() {
       document.body.removeChild(link);
       URL.revokeObjectURL(url);
 
-      recordUsage();
-      setProgress('');
+            setProgress('');
     } catch (err) {
       setError(createSafeErrorMessage(err, 'Failed to create PDF. Please try again.'));
       setProgress('');
@@ -296,8 +293,7 @@ export default function JpgToPdf() {
   return (
     <div className="max-w-4xl mx-auto">
       <div className="mb-4 flex justify-end">
-        <UsageIndicator toolId="jpg-to-pdf" />
-      </div>
+              </div>
 
       {/* Drop Zone */}
       <div
@@ -475,7 +471,6 @@ export default function JpgToPdf() {
         Your files never leave your browser. All processing happens locally.
       </p>
 
-      {showPrompt && <UpgradePrompt toolId="jpg-to-pdf" toolName="JPG to PDF" onDismiss={dismissPrompt} />}
-    </div>
+          </div>
   );
 }

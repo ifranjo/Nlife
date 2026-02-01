@@ -1,8 +1,6 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { FFmpeg } from '@ffmpeg/ffmpeg';
 import { fetchFile, toBlobURL } from '@ffmpeg/util';
-import ToolFeedback from '../ui/ToolFeedback';
-import UpgradePrompt, { UsageIndicator, useToolUsage } from '../ui/UpgradePrompt';
 import { validateAudioFile, validateFile, sanitizeFilename, createSafeErrorMessage } from '../../lib/security';
 
 type Status = 'idle' | 'loading' | 'analyzing' | 'rendering' | 'done' | 'error';
@@ -28,8 +26,7 @@ interface WaveformData {
 }
 
 export default function AudiogramMaker() {
-  const { canUse, showPrompt, checkUsage, recordUsage, dismissPrompt } = useToolUsage('audiogram-maker');
-  const [status, setStatus] = useState<Status>('idle');
+    const [status, setStatus] = useState<Status>('idle');
   const [progress, setProgress] = useState(0);
   const [error, setError] = useState<string | null>(null);
   const [audioFile, setAudioFile] = useState<File | null>(null);
@@ -391,10 +388,7 @@ export default function AudiogramMaker() {
   const handleRender = async () => {
     if (!audioFile || !ffmpegRef.current || !waveformData) return;
 
-    if (!checkUsage()) {
-      return;
-    }
-
+    
     setStatus('rendering');
     setProgress(0);
     setError(null);
@@ -464,8 +458,7 @@ export default function AudiogramMaker() {
       const blob = new Blob([new Uint8Array(data)], { type: 'video/mp4' });
       setOutputUrl(URL.createObjectURL(blob));
       setStatus('done');
-      recordUsage();
-
+      
       // Cleanup
       await ffmpeg.deleteFile(`input.${audioExt}`);
       await ffmpeg.deleteFile('output.mp4');
@@ -514,9 +507,7 @@ export default function AudiogramMaker() {
 
   return (
     <div className="space-y-6">
-      <UpgradePrompt toolId="audiogram-maker" toolName="Audiogram Maker" onDismiss={dismissPrompt} />
-      <UsageIndicator toolId="audiogram-maker" />
-      {/* Upload Section */}
+            {/* Upload Section */}
       {!audioFile && (
         <div className="border border-dashed border-[var(--border)] rounded-lg p-8 text-center hover:border-[var(--accent)] transition-colors">
           <input

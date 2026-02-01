@@ -4,7 +4,6 @@ import hljs from 'highlight.js';
 import DOMPurify from 'dompurify';
 import { createSafeErrorMessage } from '../../lib/security';
 import { copyToClipboard } from '../../lib/clipboard';
-import UpgradePrompt, { UsageIndicator, useToolUsage } from '../ui/UpgradePrompt';
 
 // Sample markdown content
 const SAMPLE_MARKDOWN = `# Welcome to Markdown Editor
@@ -71,8 +70,7 @@ export default function MarkdownEditor() {
   const [error, setError] = useState<string | null>(null);
   const [isExporting, setIsExporting] = useState(false);
   const [copySuccess, setCopySuccess] = useState(false);
-  const { canUse, showPrompt, checkUsage, recordUsage, dismissPrompt } = useToolUsage('markdown-editor');
-
+  
   // Parse markdown to HTML
   const htmlContent = useMemo(() => {
     try {
@@ -132,10 +130,7 @@ export default function MarkdownEditor() {
 
   // Export functions
   const exportAsHtml = useCallback(() => {
-    if (!checkUsage()) {
-      return;
-    }
-    const fullHtml = `<!DOCTYPE html>
+        const fullHtml = `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -208,14 +203,10 @@ ${htmlContent}
     link.click();
     document.body.removeChild(link);
     URL.revokeObjectURL(url);
-    recordUsage();
-  }, [htmlContent, checkUsage, recordUsage]);
+      }, [htmlContent, checkUsage, recordUsage]);
 
   const exportAsPdf = useCallback(async () => {
-    if (!checkUsage()) {
-      return;
-    }
-    setIsExporting(true);
+        setIsExporting(true);
     setError(null);
 
     try {
@@ -249,8 +240,7 @@ ${htmlContent}
           doc.save(`markdown_export_${Date.now()}.pdf`);
           document.body.removeChild(container);
           setIsExporting(false);
-          recordUsage();
-        },
+                  },
         x: 15,
         y: 15,
         width: 170,
@@ -295,9 +285,7 @@ ${htmlContent}
 
   return (
     <div className="max-w-7xl mx-auto">
-      {showPrompt && <UpgradePrompt toolId="markdown-editor" toolName="Markdown Editor" onDismiss={dismissPrompt} />}
-      <UsageIndicator toolId="markdown-editor" />
-      {/* Toolbar */}
+                  {/* Toolbar */}
       <div className="glass-card p-3 mb-4">
         <div className="flex flex-wrap items-center gap-1 sm:gap-2">
           {/* Text formatting */}

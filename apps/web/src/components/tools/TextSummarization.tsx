@@ -1,14 +1,12 @@
 import { useState, useRef } from 'react';
 import { copyToClipboard } from '../../lib/clipboard';
 import { escapeHtml } from '../../lib/security';
-import UpgradePrompt, { UsageIndicator, useToolUsage } from '../ui/UpgradePrompt';
 
 type ModelStatus = 'idle' | 'loading' | 'ready' | 'summarizing' | 'error';
 
 export default function TextSummarization() {
   // Usage tracking
-  const { canUse, showPrompt, checkUsage, recordUsage, dismissPrompt } = useToolUsage('text-summarization');
-
+  
   const [inputText, setInputText] = useState('');
   const [summary, setSummary] = useState('');
   const [modelStatus, setModelStatus] = useState<ModelStatus>('idle');
@@ -66,10 +64,7 @@ export default function TextSummarization() {
   const summarizeText = async () => {
     if (!inputText.trim() || !summarizerRef.current) return;
 
-    if (!checkUsage()) {
-      return;
-    }
-
+    
     setModelStatus('summarizing');
     setError(null);
 
@@ -82,8 +77,7 @@ export default function TextSummarization() {
 
       if (results && results.length > 0) {
         setSummary(results[0].summary_text);
-        recordUsage();
-      }
+              }
       setModelStatus('ready');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Summarization failed');
@@ -119,11 +113,9 @@ export default function TextSummarization() {
   return (
     <div className="max-w-4xl mx-auto space-y-6">
       {/* Upgrade Prompt */}
-      {showPrompt && <UpgradePrompt toolId="text-summarization" toolName="Text Summarization" onDismiss={dismissPrompt} />}
-
+      
       {/* Usage Indicator */}
-      <UsageIndicator toolId="text-summarization" />
-
+      
       {/* Input Area */}
       <div className="bg-white/5 border border-white/10 rounded-xl p-6">
         <div className="flex items-center justify-between mb-3">

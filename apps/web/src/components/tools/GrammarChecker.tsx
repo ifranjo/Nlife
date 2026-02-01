@@ -1,7 +1,6 @@
 import { useState, useRef } from 'react';
 import { copyToClipboard } from '../../lib/clipboard';
 import { escapeHtml } from '../../lib/security';
-import UpgradePrompt, { UsageIndicator, useToolUsage } from '../ui/UpgradePrompt';
 
 type ModelStatus = 'idle' | 'loading' | 'ready' | 'checking' | 'error';
 
@@ -16,8 +15,7 @@ interface Correction {
 
 export default function GrammarChecker() {
   // Usage tracking
-  const { canUse, showPrompt, checkUsage, recordUsage, dismissPrompt } = useToolUsage('grammar-checker');
-
+  
   const [inputText, setInputText] = useState('');
   const [corrections, setCorrections] = useState<Correction[]>([]);
   const [correctedText, setCorrectedText] = useState('');
@@ -76,10 +74,7 @@ export default function GrammarChecker() {
   const checkGrammar = async () => {
     if (!inputText.trim() || !correctorRef.current) return;
 
-    if (!checkUsage()) {
-      return;
-    }
-
+    
     setModelStatus('checking');
     setError(null);
     setCorrections([]);
@@ -100,8 +95,7 @@ export default function GrammarChecker() {
         // Find differences between original and corrected
         const foundCorrections = findCorrections(inputText, corrected);
         setCorrections(foundCorrections);
-        recordUsage();
-      }
+              }
 
       setModelStatus('ready');
     } catch (err) {
@@ -241,11 +235,9 @@ export default function GrammarChecker() {
   return (
     <div className="max-w-4xl mx-auto space-y-6">
       {/* Upgrade Prompt */}
-      {showPrompt && <UpgradePrompt toolId="grammar-checker" toolName="Grammar Checker" onDismiss={dismissPrompt} />}
-
+      
       {/* Usage Indicator */}
-      <UsageIndicator toolId="grammar-checker" />
-
+      
       {/* Input Area */}
       <div className="bg-white/5 border border-white/10 rounded-xl p-6">
         <div className="flex items-center justify-between mb-3">
