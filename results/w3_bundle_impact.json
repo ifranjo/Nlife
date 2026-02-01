@@ -1,0 +1,71 @@
+{
+  "worker": "W3",
+  "task": "Bundle Size Impact Analysis - AI Models",
+  "analyzed_date": "2026-02-01",
+  "dependencies": [
+    {
+      "name": "@huggingface/transformers",
+_mb":       "package_size139.0,
+      "downloaded_models_mb": 0,
+      "runtime_download_mb": 40,
+      "impact": "high",
+      "notes": "Whisper models (tiny ~40MB, base ~74MB, small ~244MB) - loaded on demand"
+    },
+    {
+      "name": "@imgly/background-removal",
+      "package_size_mb": 1.2,
+      "downloaded_models_mb": 0,
+      "runtime_download_mb": 180,
+      "impact": "high",
+      "notes": "Downloads briaai/RMBG-1.4 model (~180MB) at first use"
+    },
+    {
+      "name": "onnxruntime-web",
+      "package_size_mb": 93.0,
+      "downloaded_models_mb": 0,
+      "runtime_download_mb": 0,
+      "impact": "high",
+      "notes": "Core ONNX runtime for all AI inference in browser"
+    },
+    {
+      "name": "tesseract.js",
+      "package_size_mb": 1.6,
+      "downloaded_models_mb": 0,
+      "runtime_download_mb": 20,
+      "impact": "medium",
+      "notes": "OCR engine - downloads language data (~20MB) on first use"
+    },
+    {
+      "name": "@ffmpeg/ffmpeg",
+      "package_size_mb": 0.1,
+      "downloaded_models_mb": 0,
+      "runtime_download_mb": 35,
+      "impact": "medium",
+      "notes": "FFmpeg WASM binaries (~35MB) loaded dynamically"
+    },
+    {
+      "name": "@upscalerjs/esrgan-*",
+      "package_size_mb": 133.0,
+      "downloaded_models_mb": 0,
+      "runtime_download_mb": 12,
+      "impact": "high",
+      "notes": "ESRGAN models for image upscaling (12MB each, 3 variants)"
+    }
+  ],
+  "npm_packages_total_mb": 367.9,
+  "runtime_downloads_total_mb": 287,
+  "total_ai_impact_mb": 654.9,
+  "initial_bundle_mb": 0.5,
+  "lazy_loaded_mb": 287,
+  "cache_hf_global_gb": 71.0,
+  "cache_hf_project_mb": 40,
+  "recommendations": [
+    "Use dynamic imports for AI tools: const { pipeline } = await import('@huggingface/transformers')",
+    "Implement model selection UI to let users choose smaller models (whisper-tiny vs small)",
+    "Add progress indicators for model downloads with size estimates",
+    "Consider Service Worker caching for models to avoid re-downloads",
+    "For background removal, offer lightweight alternative using color keying for simple cases",
+    "Use WebGPU backend when available (faster, smaller than WebAssembly)",
+    "Compress ONNX models with quantization (INT8) to reduce size by ~4x"
+  ]
+}

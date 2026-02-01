@@ -1,0 +1,134 @@
+{
+  "worker": "W2",
+  "task": "Model Loading Analysis",
+  "loading_patterns": {
+    "lazy_imports": [
+      "AudioTranscription",
+      "SubtitleGenerator",
+      "SentimentAnalysis",
+      "ObjectDetection",
+      "ImageCaptioning",
+      "TextSummarization",
+      "GrammarChecker",
+      "ObjectRemover"
+    ],
+    "eager_loading": [],
+    "web_workers": [],
+    "dynamic_imports": [
+      "ImageUpscaler"
+    ]
+  },
+  "models_used": {
+    "AudioTranscription": {
+      "model": "Xenova/whisper-tiny",
+      "task": "automatic-speech-recognition",
+      "size": "~150MB"
+    },
+    "SubtitleGenerator": {
+      "model": "Xenova/whisper-tiny",
+      "task": "automatic-speech-recognition",
+      "size": "~150MB"
+    },
+    "SentimentAnalysis": {
+      "model": "Xenova/distilbert-base-uncased-finetuned-sst-2-english",
+      "task": "sentiment-analysis",
+      "size": "~70MB"
+    },
+    "ObjectDetection": {
+      "model": "Xenova/detr-resnet-50",
+      "task": "object-detection",
+      "size": "~160MB"
+    },
+    "ImageCaptioning": {
+      "model": "Xenova/vit-gpt2-image-captioning",
+      "task": "image-to-text",
+      "size": "~350MB"
+    },
+    "TextSummarization": {
+      "model": "Xenova/distilbart-cnn-6-6",
+      "task": "summarization",
+      "size": "~300MB"
+    },
+    "GrammarChecker": {
+      "model": "Xenova/flan-t5-small",
+      "task": "text2text-generation",
+      "size": "~150MB"
+    },
+    "ImageUpscaler": {
+      "model": "@upscalerjs/esrgan-slim/medium/thick",
+      "task": "image-super-resolution",
+      "size": "~5-20MB"
+    },
+    "ObjectRemover": {
+      "model": "Xenova/slimsam-77-uniform",
+      "task": "segment-anything",
+      "size": "~100MB"
+    },
+    "AiSummary": {
+      "model": "local-extractive",
+      "task": "tf-idf summarization (local)",
+      "size": "0MB"
+    }
+  },
+  "performance_issues": [
+    {
+      "tool": "AudioTranscription",
+      "issue": "Model loaded on first use only - no preload mechanism",
+      "severity": "medium",
+      "recommendation": "Consider preloading model on page hover or idle"
+    },
+    {
+      "tool": "SubtitleGenerator",
+      "issue": "Model loaded on first use only - no preload mechanism",
+      "severity": "medium",
+      "recommendation": "Consider preloading model on page hover or idle"
+    },
+    {
+      "tool": "ImageCaptioning",
+      "issue": "350MB model - largest among tools, loaded lazily",
+      "severity": "high",
+      "recommendation": "Add prominent progress indicator, consider smaller model variant"
+    },
+    {
+      "tool": "TextSummarization",
+      "issue": "300MB model - large bundle, loaded on demand",
+      "severity": "medium",
+      "recommendation": "Consider smaller distilbart variant or preload on hover"
+    },
+    {
+      "tool": "ImageUpscaler",
+      "issue": "Multiple model packages loaded dynamically per quality selection",
+      "severity": "medium",
+      "recommendation": "Cache selected model quality in localStorage"
+    },
+    {
+      "tool": "ObjectRemover",
+      "issue": "SAM model with WebGPU/WASM fallback - no explicit worker thread",
+      "severity": "low",
+      "recommendation": "Consider Web Worker for mask generation to avoid UI blocking"
+    },
+    {
+      "tool": "SentimentAnalysis",
+      "issue": "Model loaded but no useRef caching between sessions",
+      "severity": "low",
+      "recommendation": "Cache loaded classifier in sessionStorage"
+    },
+    {
+      "tool": "AllTools",
+      "issue": "No shared model cache across different tool pages",
+      "severity": "medium",
+      "recommendation": "Implement cross-tool model registry for shared models (e.g., whisper-tiny used in 2 tools)"
+    }
+  ],
+  "caching_strategy": {
+    "type": "browser_cache",
+    "details": "@huggingface/transformers uses IndexedDB for model caching automatically",
+    "validation": "progress_callback shows 'downloading' status on first load only"
+  },
+  "anti_patterns": [
+    "No explicit error handling for model load failures",
+    "No retry mechanism for interrupted downloads",
+    "No progress persistence for large model downloads",
+    "No model version pinning - uses latest from Xenova"
+  ]
+}

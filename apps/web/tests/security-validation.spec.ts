@@ -338,7 +338,7 @@ test.describe('Error Message Security - All Tools', () => {
       const pageContent = await page.content();
 
       expect(pageContent).not.toMatch(/C:\\Users\\/i);
-      expect(pageContent).not.toMatch(/\\/etc\\/i);
+      expect(pageContent).not.toMatch(/\/etc\//i);
       expect(pageContent).not.toMatch(/at Object\./i);
       expect(pageContent).not.toMatch(/ConnectionString/i);
     });

@@ -1,0 +1,99 @@
+{
+  "worker": "W1",
+  "task": "AI Models Inventory",
+  "models": [
+    {
+      "tool": "audio-transcription",
+      "model": "openai/whisper-tiny",
+      "source": "Hugging Face Transformers (Xenova)",
+      "estimated_size_mb": 150,
+      "inference": "browser"
+    },
+    {
+      "tool": "subtitle-generator",
+      "model": "openai/whisper-tiny",
+      "source": "Hugging Face Transformers (Xenova)",
+      "estimated_size_mb": 150,
+      "inference": "browser"
+    },
+    {
+      "tool": "sentiment-analysis",
+      "model": "distilbert-base-uncased-finetuned-sst-2-english",
+      "source": "Hugging Face Transformers (Xenova)",
+      "estimated_size_mb": 70,
+      "inference": "browser"
+    },
+    {
+      "tool": "object-detection",
+      "model": "DETR (DEtection TRansformer) resnet-50",
+      "source": "Hugging Face Transformers (Xenova)",
+      "estimated_size_mb": 160,
+      "inference": "browser"
+    },
+    {
+      "tool": "image-captioning",
+      "model": "ViT-GPT2 (image-to-text)",
+      "source": "Hugging Face Transformers (Xenova)",
+      "estimated_size_mb": 350,
+      "inference": "browser"
+    },
+    {
+      "tool": "text-summarization",
+      "model": "DistilBART-CNN-6-6",
+      "source": "Hugging Face Transformers (Xenova)",
+      "estimated_size_mb": 300,
+      "inference": "browser"
+    },
+    {
+      "tool": "grammar-checker",
+      "model": "FLAN-T5-Small",
+      "source": "Hugging Face Transformers (Xenova)",
+      "estimated_size_mb": 150,
+      "inference": "browser"
+    },
+    {
+      "tool": "image-upscaler",
+      "model": "ESRGAN (Enhanced Super-Resolution GAN)",
+      "source": "upscalerjs (@upscalerjs/esrgan-slim/medium/thick)",
+      "estimated_size_mb": 20,
+      "inference": "browser"
+    },
+    {
+      "tool": "object-remover",
+      "model": "SlimSAM-77-uniform (Segment Anything Model)",
+      "source": "Hugging Face Transformers (Xenova)",
+      "estimated_size_mb": 100,
+      "inference": "browser"
+    },
+    {
+      "tool": "background-remover",
+      "model": "Self-supervised Learning (ISNET)",
+      "source": "@imgly/background-removal (remote CDN)",
+      "estimated_size_mb": 180,
+      "inference": "browser"
+    },
+    {
+      "tool": "ai-summary",
+      "model": "Multi-model: TF-IDF (local), GPT-3.5-turbo (OpenAI), Claude-3-Haiku (Anthropic)",
+      "source": "Local algorithm + Remote API",
+      "estimated_size_mb": 0,
+      "inference": "hybrid"
+    },
+    {
+      "tool": "ocr-extractor",
+      "model": "TrOCR (Transformer OCR) + Tesseract",
+      "source": "Hugging Face Transformers (Xenova) + Tesseract.js",
+      "estimated_size_mb": 100,
+      "inference": "browser"
+    }
+  ],
+  "total_models": 12,
+  "total_estimated_size_mb": 1730,
+  "summary": {
+    "browser_based": 11,
+    "remote_api": 1,
+    "hybrid": 1,
+    "primary_source": "Hugging Face Transformers (Xenova/ONNX optimized)",
+    "all_models_run_client_side": true
+  }
+}
