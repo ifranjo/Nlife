@@ -1,0 +1,819 @@
+╔════════════════════════════════════════════════════════════════════════════════════════╗
+║                    BACKGROUND REMOVER REFACTORING PLAN - AGENTE T6                      ║
+║                         Component Analysis & Modularization Strategy                    ║
+╚════════════════════════════════════════════════════════════════════════════════════════╝
+
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ 1. CURRENT STRUCTURE ANALYSIS                                                        │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+File: BackgroundRemover.tsx
+Current Size: 1449 lines
+Status: ★★★★★ CRITICAL - Requires immediate refactoring
+
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ Line Breakdown by Section                                                            │
+├──────────────────────────────────────────────────────────────────────────────────────┤
+│ Section                              │ Lines   │ Percentage                           │
+├──────────────────────────────────────┼─────────┼───────────────                       │
+│ Imports & Interfaces                 │   66    │   4.6%                               │
+│ Constants                            │   16    │   1.1%                               │
+│ Main Component State                 │   23    │   1.6%                               │
+│ Helper Functions                     │   13    │   0.9%                               │
+│ File Upload Handlers                 │   92    │   6.3%                               │
+│ Background Removal Logic             │   64    │   4.4%                               │
+│ Magic Brush State Management         │  144    │   9.9%                               │
+│ Magic Brush Canvas Operations        │  124    │   8.6%                               │
+│ Download Functions                   │  142    │   9.8%                               │
+│ MagicBrushEditor Component           │  333    │  23.0%   ★ LARGEST BLOCK            │
+│ JSX Rendering (Main Component)       │  430    │  29.7%   ★ SECOND LARGEST            │
+└──────────────────────────────────────┴─────────┴───────────────                       │
+
+Total: 1449 lines
+───────────────────────────────────────────────────────────────────────────────────────
+
+
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ 2. IDENTIFIED EXTRACTABLE MODULES                                                    │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ PHASE 1: TYPES & CONSTANTS (Priority: HIGH)                                         ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+File: src/components/tools/background-remover/types.ts
+Lines: ~66
+Purpose: Centralize all TypeScript interfaces and types
+
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ Content to Extract:                                                                   │
+├──────────────────────────────────────────────────────────────────────────────────────┤
+│ • ProcessedImage interface (lines 10-22)                                             │
+│ • BackgroundMode type (line 24)                                                      │
+│ • BrushMode type (line 27)                                                           │
+│ • BrushPoint interface (lines 30-33)                                                 │
+│ • BrushStroke interface (lines 36-40)                                                │
+│ • MagicBrushState interface (lines 43-50)                                            │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+Estimated Reduction: 66 lines (4.6%)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+File: src/components/tools/background-remover/constants.ts
+Lines: ~16
+Purpose: Centralize configuration constants
+
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ Content to Extract:                                                                   │
+├──────────────────────────────────────────────────────────────────────────────────────┤
+│ • MAX_FILES (line 52)                                                                │
+│ • MIN_BRUSH_SIZE (line 53)                                                           │
+│ • MAX_BRUSH_SIZE (line 54)                                                           │
+│ • DEFAULT_BRUSH_SIZE (line 55)                                                       │
+│ • defaultBrushState (lines 58-65)                                                    │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+Estimated Reduction: 16 lines (1.1%)
+
+
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ PHASE 2: CUSTOM HOOKS (Priority: HIGH)                                              ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+File: src/components/tools/background-remover/hooks/useImageUpload.ts
+Lines: ~92
+Purpose: Handle file upload, drag & drop, validation
+
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ Content to Extract:                                                                   │
+├──────────────────────────────────────────────────────────────────────────────────────┤
+│ • addFiles function (lines 94-137)                                                   │
+│ • removeImage function (lines 139-158)                                               │
+│ • handleDragOver (lines 160-163)                                                     │
+│ • handleDragLeave (lines 165-168)                                                    │
+│ • handleDrop (lines 170-174)                                                         │
+│ • handleFileSelect (lines 176-180)                                                   │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+Hook Interface:
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ interface UseImageUploadReturn {                                                     │
+│   images: ProcessedImage[];                                                          │
+│   isDragging: boolean;                                                               │
+│   error: string | null;                                                              │
+│   addFiles: (files: FileList | File[]) => Promise<void>;                             │
+│   removeImage: (id: string) => void;                                                 │
+│   handleDragOver: (e: React.DragEvent) => void;                                      │
+│   handleDragLeave: (e: React.DragEvent) => void;                                     │
+│   handleDrop: (e: React.DragEvent) => void;                                          │
+│   handleFileSelect: (e: React.ChangeEvent<HTMLInputElement>) => void;                │
+│   setError: (error: string | null) => void;                                          │
+│ }                                                                                     │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+Estimated Reduction: 92 lines (6.3%)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+File: src/components/tools/background-remover/hooks/useBackgroundRemoval.ts
+Lines: ~64
+Purpose: Handle AI background removal processing
+
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ Content to Extract:                                                                   │
+├──────────────────────────────────────────────────────────────────────────────────────┤
+│ • removeBackground function (lines 197-248)                                          │
+│ • processAllImages function (lines 250-256)                                          │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+Hook Interface:
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ interface UseBackgroundRemovalProps {                                                │
+│   images: ProcessedImage[];                                                          │
+│   setImages: React.Dispatch<React.SetStateAction<ProcessedImage[]>>;                 │
+│   checkUsage: () => boolean;                                                         │
+│   recordUsage: () => void;                                                           │
+│   setError: (error: string | null) => void;                                          │
+│ }                                                                                     │
+│                                                                                        │
+│ interface UseBackgroundRemovalReturn {                                               │
+│   removeBackground: (imageId: string) => Promise<void>;                              │
+│   processAllImages: () => Promise<void>;                                             │
+│ }                                                                                     │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+Estimated Reduction: 64 lines (4.4%)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+File: src/components/tools/background-remover/hooks/useMagicBrush.ts
+Lines: ~268
+Purpose: Manage Magic Brush state and operations
+
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ Content to Extract:                                                                   │
+├──────────────────────────────────────────────────────────────────────────────────────┤
+│ • getBrushState function (lines 265-267)                                             │
+│ • updateBrushState function (lines 272-280)                                          │
+│ • toggleMagicBrush function (lines 285-300)                                          │
+│ • setBrushMode function (lines 305-307)                                              │
+│ • setBrushSize function (lines 312-315)                                              │
+│ • startStroke function (lines 320-332)                                               │
+│ • continueStroke function (lines 337-346)                                             │
+│ • endStroke function (lines 351-362)                                                 │
+│ • undoStroke function (lines 367-376)                                                │
+│ • redoStroke function (lines 381-390)                                                │
+│ • clearAllStrokes function (lines 395-402)                                           │
+│ • applyBrushStrokes function (lines 408-509)                                         │
+│ • saveEditedMask function (lines 514-531)                                            │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+Hook Interface:
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ interface UseMagicBrushProps {                                                       │
+│   images: ProcessedImage[];                                                          │
+│   setImages: React.Dispatch<React.SetStateAction<ProcessedImage[]>>;                 │
+│ }                                                                                     │
+│                                                                                        │
+│ interface UseMagicBrushReturn {                                                      │
+│   brushStates: Record<string, MagicBrushState>;                                      │
+│   activeBrushImageId: string | null;                                                 │
+│   toggleMagicBrush: (imageId: string) => void;                                       │
+│   setBrushMode: (imageId: string, mode: BrushMode) => void;                          │
+│   setBrushSize: (imageId: string, size: number) => void;                             │
+│   startStroke: (imageId: string, point: BrushPoint) => void;                         │
+│   continueStroke: (imageId: string, point: BrushPoint) => void;                      │
+│   endStroke: (imageId: string) => void;                                              │
+│   undoStroke: (imageId: string) => void;                                             │
+│   redoStroke: (imageId: string) => void;                                             │
+│   clearAllStrokes: (imageId: string) => void;                                        │
+│   saveEditedMask: (imageId: string) => Promise<void>;                                │
+│   getBrushState: (imageId: string) => MagicBrushState;                               │
+│ }                                                                                     │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+Estimated Reduction: 268 lines (18.5%)
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+File: src/components/tools/background-remover/hooks/useImageDownload.ts
+Lines: ~142
+Purpose: Handle image download with background options
+
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ Content to Extract:                                                                   │
+├──────────────────────────────────────────────────────────────────────────────────────┤
+│ • downloadImage function (lines 533-595)                                             │
+│ • downloadAllImages function (lines 597-674)                                          │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+Hook Interface:
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ interface UseImageDownloadProps {                                                    │
+│   images: ProcessedImage[];                                                          │
+│   backgroundMode: BackgroundMode;                                                    │
+│   backgroundColor: string;                                                           │
+│   backgroundImage: string | null;                                                    │
+│   setError: (error: string | null) => void;                                          │
+│ }                                                                                     │
+│                                                                                        │
+│ interface UseImageDownloadReturn {                                                   │
+│   downloadImage: (imageId: string) => Promise<void>;                                 │
+│   downloadAllImages: () => Promise<void>;                                            │
+│ }                                                                                     │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+Estimated Reduction: 142 lines (9.8%)
+
+
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ PHASE 3: UI COMPONENTS (Priority: MEDIUM)                                           ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+File: src/components/tools/background-remover/components/MagicBrushEditor.tsx
+Lines: ~333 (already a component, just extract)
+Purpose: Canvas overlay for interactive brush editing
+
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ Content to Extract:                                                                   │
+├──────────────────────────────────────────────────────────────────────────────────────┤
+│ • MagicBrushEditor component (lines 684-1016)                                        │
+│   - Canvas rendering logic                                                           │
+│   - Touch/mouse event handlers                                                       │
+│   - Brush controls UI                                                                │
+│   - Stroke visualization                                                             │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+Component Props:
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ interface MagicBrushEditorProps {                                                    │
+│   imageId: string;                                                                   │
+│   processedUrl: string;                                                              │
+│   originalUrl: string;                                                               │
+│   brushState: MagicBrushState;                                                       │
+│   onSetBrushMode: (mode: BrushMode) => void;                                         │
+│   onSetBrushSize: (size: number) => void;                                            │
+│   onStartStroke: (point: BrushPoint) => void;                                        │
+│   onContinueStroke: (point: BrushPoint) => void;                                     │
+│   onEndStroke: () => void;                                                           │
+│   onUndo: () => void;                                                                │
+│   onRedo: () => void;                                                                │
+│   onClearAll: () => void;                                                            │
+│   onSave: () => void;                                                                │
+│   onCancel: () => void;                                                              │
+│ }                                                                                     │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+Estimated Reduction: 333 lines (23.0%)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+File: src/components/tools/background-remover/components/DropZone.tsx
+Lines: ~40
+Purpose: File upload drop zone
+
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ Content to Extract:                                                                   │
+├──────────────────────────────────────────────────────────────────────────────────────┤
+│ • Drop zone JSX (lines 1023-1050)                                                    │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+Component Props:
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ interface DropZoneProps {                                                             │
+│   isDragging: boolean;                                                               │
+│   onDragOver: (e: React.DragEvent) => void;                                          │
+│   onDragLeave: (e: React.DragEvent) => void;                                         │
+│   onDrop: (e: React.DragEvent) => void;                                              │
+│   onClick: () => void;                                                               │
+│   onFileSelect: (e: React.ChangeEvent<HTMLInputElement>) => void;                     │
+│   fileInputRef: React.RefObject<HTMLInputElement>;                                    │
+│ }                                                                                     │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+Estimated Reduction: 40 lines (2.8%)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+File: src/components/tools/background-remover/components/BackgroundOptions.tsx
+Lines: ~70
+Purpose: Background selection controls
+
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ Content to Extract:                                                                   │
+├──────────────────────────────────────────────────────────────────────────────────────┤
+│ • Background options JSX (lines 1060-1129)                                            │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+Component Props:
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ interface BackgroundOptionsProps {                                                   │
+│   show: boolean;                                                                     │
+│   backgroundMode: BackgroundMode;                                                    │
+│   backgroundColor: string;                                                           │
+│   backgroundImage: string | null;                                                    │
+│   onModeChange: (mode: BackgroundMode) => void;                                      │
+│   onColorChange: (color: string) => void;                                            │
+│   onImageSelect: (e: React.ChangeEvent<HTMLInputElement>) => void;                    │
+│   backgroundInputRef: React.RefObject<HTMLInputElement>;                              │
+│ }                                                                                     │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+Estimated Reduction: 70 lines (4.8%)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+File: src/components/tools/background-remover/components/ImageCard.tsx
+Lines: ~180
+Purpose: Individual image display with actions
+
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ Content to Extract:                                                                   │
+├──────────────────────────────────────────────────────────────────────────────────────┤
+│ • Image card JSX (lines 1149-1339)                                                    │
+│   - Before/after comparison slider                                                   │
+│   - Processing progress                                                              │
+│   - Action buttons                                                                   │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+Component Props:
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ interface ImageCardProps {                                                            │
+│   image: ProcessedImage;                                                             │
+│   backgroundMode: BackgroundMode;                                                    │
+│   backgroundColor: string;                                                           │
+│   backgroundImage: string | null;                                                    │
+│   sliderPosition: number;                                                            │
+│   onSliderPositionChange: (pos: number) => void;                                     │
+│   onRemove: () => void;                                                              │
+│   onRemoveBackground: () => void;                                                    │
+│   onToggleMagicBrush: () => void;                                                    │
+│   onDownload: () => void;                                                            │
+│   onPreview: (mode: 'original' | 'processed') => void;                               │
+│   isMagicBrushActive: boolean;                                                       │
+│ }                                                                                     │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+Estimated Reduction: 180 lines (12.4%)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+File: src/components/tools/background-remover/components/ImagePreviewModal.tsx
+Lines: ~80
+Purpose: Modal for zoomed image preview
+
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ Content to Extract:                                                                   │
+├──────────────────────────────────────────────────────────────────────────────────────┤
+│ • Preview modal JSX (lines 1365-1444)                                                 │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+Component Props:
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ interface ImagePreviewModalProps {                                                   │
+│   image: ProcessedImage;                                                             │
+│   previewMode: 'original' | 'processed';                                             │
+│   backgroundMode: BackgroundMode;                                                    │
+│   backgroundColor: string;                                                           │
+│   backgroundImage: string | null;                                                    │
+│   onClose: () => void;                                                               │
+│   onPreviewModeChange: (mode: 'original' | 'processed') => void;                     │
+│ }                                                                                     │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+Estimated Reduction: 80 lines (5.5%)
+
+
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃ PHASE 4: UTILITIES (Priority: LOW)                                                  ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+File: src/components/tools/background-remover/utils/imageHelpers.ts
+Lines: ~13
+Purpose: Image utility functions
+
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ Content to Extract:                                                                   │
+├──────────────────────────────────────────────────────────────────────────────────────┤
+│ • formatFileSize function (lines 86-90)                                               │
+│ • generateId function (line 92)                                                       │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+Estimated Reduction: 13 lines (0.9%)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+File: src/components/tools/background-remover/utils/canvasHelpers.ts
+Lines: ~60
+Purpose: Canvas manipulation utilities
+
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ Content to Extract:                                                                   │
+├──────────────────────────────────────────────────────────────────────────────────────┤
+│ • Image loading helper (extracted from applyBrushStrokes)                            │
+│ • Canvas composition helper                                                          │
+│ • Background application helper                                                      │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+Functions:
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ export async function loadImageUrl(url: string): Promise<HTMLImageElement>           │
+│ export function createCanvas(width: number, height: number): HTMLCanvasElement       │
+│ export function applyBackgroundToCanvas(                                             │
+│   ctx: CanvasRenderingContext2D,                                                     │
+│   canvas: HTMLCanvasElement,                                                         │
+│   backgroundMode: BackgroundMode,                                                    │
+│   backgroundColor: string,                                                           │
+│   backgroundImage: string | null                                                     │
+│ ): void                                                                              │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+Estimated Reduction: 60 lines (4.1%)
+
+
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ 3. NEW FILE STRUCTURE                                                                 │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+src/components/tools/background-remover/
+├── index.ts                          (~10 lines)    - Barrel export
+├── BackgroundRemover.tsx             (~150 lines)   - Main orchestrator
+├── types.ts                          (~66 lines)    - TypeScript interfaces
+├── constants.ts                      (~16 lines)    - Configuration
+├── hooks/
+│   ├── index.ts                      (~10 lines)    - Hook exports
+│   ├── useImageUpload.ts             (~100 lines)   - File upload logic
+│   ├── useBackgroundRemoval.ts       (~70 lines)    - AI processing
+│   ├── useMagicBrush.ts              (~280 lines)   - Brush state mgmt
+│   └── useImageDownload.ts           (~150 lines)   - Download logic
+├── components/
+│   ├── index.ts                      (~10 lines)    - Component exports
+│   ├── MagicBrushEditor.tsx          (~340 lines)   - Canvas editor
+│   ├── DropZone.tsx                  (~45 lines)    - Upload area
+│   ├── BackgroundOptions.tsx         (~75 lines)    - Background controls
+│   ├── ImageCard.tsx                 (~190 lines)   - Image display
+│   └── ImagePreviewModal.tsx         (~85 lines)    - Preview modal
+└── utils/
+    ├── index.ts                      (~10 lines)    - Utility exports
+    ├── imageHelpers.ts               (~20 lines)    - File size, ID gen
+    └── canvasHelpers.ts              (~70 lines)    - Canvas operations
+
+
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ 4. REFACTORED MAIN COMPONENT                                                          │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+File: BackgroundRemover.tsx (after refactoring)
+Estimated Size: ~150 lines (90% reduction!)
+
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ Structure:                                                                             │
+├──────────────────────────────────────────────────────────────────────────────────────┤
+│ 1. Imports (from submodules)                                                          │
+│ 2. Main component function                                                            │
+│ 3. Hook instantiations                                                                │
+│ 4. State for background options only                                                 │
+│ 5. JSX composition                                                                    │
+│    - UsageIndicator                                                                   │
+│    - DropZone component                                                               │
+│    - Error display                                                                    │
+│    - BackgroundOptions component                                                      │
+│    - Image list with ImageCard components                                             │
+│    - Batch download button                                                            │
+│    - Privacy note                                                                     │
+│    - ImagePreviewModal component                                                      │
+│    - UpgradePrompt                                                                    │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+Example Hook Usage:
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ export default function BackgroundRemover() {                                        │
+│   const { canUse, showPrompt, checkUsage, recordUsage, dismissPrompt } =             │
+│     useToolUsage('background-remover');                                               │
+│                                                                                        │
+│   // Custom hooks                                                                     │
+│   const imageUpload = useImageUpload();                                               │
+│   const backgroundRemoval = useBackgroundRemoval({                                    │
+│     images: imageUpload.images,                                                       │
+│     setImages: imageUpload.setImages,                                                 │
+│     checkUsage,                                                                       │
+│     recordUsage,                                                                      │
+│     setError: imageUpload.setError,                                                   │
+│   });                                                                                 │
+│                                                                                        │
+│   const magicBrush = useMagicBrush({                                                  │
+│     images: imageUpload.images,                                                       │
+│     setImages: imageUpload.setImages,                                                 │
+│   });                                                                                 │
+│                                                                                        │
+│   const imageDownload = useImageDownload({                                            │
+│     images: imageUpload.images,                                                       │
+│     backgroundMode,                                                                   │
+│     backgroundColor,                                                                  │
+│     backgroundImage,                                                                  │
+│     setError: imageUpload.setError,                                                   │
+│   });                                                                                 │
+│                                                                                        │
+│   // Component render...                                                              │
+│ }                                                                                     │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ 5. IMPLEMENTATION PHASES                                                              │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ Phase 1: Foundation (Week 1)                                                          │
+├──────────────────────────────────────────────────────────────────────────────────────┤
+│ ✓ Create folder structure                                                            │
+│ ✓ Extract types.ts                                                                    │
+│ ✓ Extract constants.ts                                                                │
+│ ✓ Create barrel exports (index.ts files)                                             │
+│ ✓ Update imports in main component                                                    │
+│                                                                                        │
+│ Risk: LOW                                                                             │
+│ Impact: 82 lines (5.6%)                                                               │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ Phase 2: Hooks (Week 2)                                                               │
+├──────────────────────────────────────────────────────────────────────────────────────┤
+│ ✓ Extract useImageUpload                                                             │
+│ ✓ Extract useBackgroundRemoval                                                       │
+│ ✓ Extract useMagicBrush                                                              │
+│ ✓ Extract useImageDownload                                                           │
+│ ✓ Test all hooks independently                                                       │
+│                                                                                        │
+│ Risk: MEDIUM                                                                          │
+│ Impact: 566 lines (39.1%)                                                             │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ Phase 3: UI Components (Week 3)                                                       │
+├──────────────────────────────────────────────────────────────────────────────────────┤
+│ ✓ Extract MagicBrushEditor                                                           │
+│ ✓ Extract DropZone                                                                   │
+│ ✓ Extract BackgroundOptions                                                          │
+│ ✓ Extract ImageCard                                                                  │
+│ ✓ Extract ImagePreviewModal                                                          │
+│ ✓ Test all components with Storybook/Test                                            │
+│                                                                                        │
+│ Risk: MEDIUM                                                                          │
+│ Impact: 703 lines (48.5%)                                                             │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ Phase 4: Utilities (Week 4)                                                           │
+├──────────────────────────────────────────────────────────────────────────────────────┤
+│ ✓ Extract imageHelpers                                                               │
+│ ✓ Extract canvasHelpers                                                              │
+│ ✓ Update all imports                                                                  │
+│ ✓ Final integration testing                                                          │
+│                                                                                        │
+│ Risk: LOW                                                                             │
+│ Impact: 73 lines (5.0%)                                                               │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ Phase 5: Cleanup & Documentation (Week 5)                                            │
+├──────────────────────────────────────────────────────────────────────────────────────┤
+│ ✓ Remove old file                                                                     │
+│ ✓ Update all imports across codebase                                                  │
+│ ✓ Add JSDoc comments to all exports                                                   │
+│ ✓ Update tests to use new modules                                                     │
+│ ✓ Verify all functionality still works                                                │
+│ ✓ Performance audit                                                                   │
+│                                                                                        │
+│ Risk: LOW                                                                             │
+│ Impact: Better maintainability                                                        │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ 6. SUMMARY & METRICS                                                                  │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ Current State:                                                                        │
+├──────────────────────────────────────────────────────────────────────────────────────┤
+│ • Single file: 1449 lines                                                             │
+│ • Maintainability: ★☆☆☆☆ (Very Poor)                                                 │
+│ • Testability: ★☆☆☆☆ (Very Poor)                                                     │
+│ • Reusability: ★☆☆☆☆ (None)                                                          │
+│ • Cognitive Load: ★★★★★ (Extreme)                                                    │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ After Refactoring:                                                                    │
+├──────────────────────────────────────────────────────────────────────────────────────┤
+│ • Main component: ~150 lines                                                          │
+│ • Total modules: 16 files                                                             │
+│ • Maintainability: ★★★★★ (Excellent)                                                 │
+│ • Testability: ★★★★★ (Excellent)                                                     │
+│ • Reusability: ★★★★☆ (High)                                                          │
+│ • Cognitive Load: ★★☆☆☆ (Low per module)                                             │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ Benefits:                                                                              │
+├──────────────────────────────────────────────────────────────────────────────────────┤
+│ ✓ 90% reduction in main component size                                                │
+│ ✓ Each module has single responsibility                                               │
+│ ✓ Hooks can be tested independently                                                   │
+│ ✓ Components can be reused in other tools                                            │
+│ ✓ Easier to onboard new developers                                                    │
+│ ✓ Better TypeScript type inference                                                   │
+│ ✓ Improved code splitting (smaller bundles)                                          │
+│ ✓ Enhanced error isolation                                                           │
+│ ✓ Simpler debugging                                                                   │
+│ ✓ Better Git history (smaller, focused PRs)                                          │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ Risks & Mitigation:                                                                    │
+├──────────────────────────────────────────────────────────────────────────────────────┤
+│ Risk: Breaking existing functionality                                                 │
+│ Mitigation: Comprehensive test suite + incremental migration                          │
+│                                                                                        │
+│ Risk: Circular dependencies                                                            │
+│ Mitigation: Careful import planning + barrel exports                                  │
+│                                                                                        │
+│ Risk: Performance regression                                                           │
+│ Mitigation: Bundle size monitoring + lazy loading where appropriate                    │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ 7. FILES TO CREATE                                                                     │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+Priority Order (1 = highest):
+
+┌──────┬─────────────────────────────────────────┬─────────┬──────────┬─────────────┐
+│ Pri  │ File                                    │ Lines   │ Impact   │ Risk        │
+├──────┼─────────────────────────────────────────┼─────────┼──────────┼─────────────┤
+│  1   │ types.ts                                │   66    │   4.6%   │ LOW         │
+│  2   │ constants.ts                            │   16    │   1.1%   │ LOW         │
+│  3   │ hooks/useImageUpload.ts                 │  100    │   6.9%   │ MEDIUM      │
+│  4   │ hooks/useBackgroundRemoval.ts           │   70    │   4.8%   │ MEDIUM      │
+│  5   │ hooks/useMagicBrush.ts                  │  280    │  19.3%   │ HIGH        │
+│  6   │ hooks/useImageDownload.ts               │  150    │  10.4%   │ MEDIUM      │
+│  7   │ components/MagicBrushEditor.tsx          │  340    │  23.5%   │ MEDIUM      │
+│  8   │ components/DropZone.tsx                  │   45    │   3.1%   │ LOW         │
+│  9   │ components/BackgroundOptions.tsx         │   75    │   5.2%   │ LOW         │
+│ 10   │ components/ImageCard.tsx                 │  190    │  13.1%   │ MEDIUM      │
+│ 11   │ components/ImagePreviewModal.tsx         │   85    │   5.9%   │ LOW         │
+│ 12   │ utils/imageHelpers.ts                    │   20    │   1.4%   │ LOW         │
+│ 13   │ utils/canvasHelpers.ts                   │   70    │   4.8%   │ LOW         │
+│ 14   │ BackgroundRemover.tsx (refactored)       │  150    │  90% ↓   │ MEDIUM      │
+│ 15   │ index.ts (barrel exports)                │   40    │   N/A    │ LOW         │
+├──────┼─────────────────────────────────────────┼─────────┼──────────┼─────────────┤
+│ TOTAL│                                          │  1687   │          │             │
+└──────┴─────────────────────────────────────────┴─────────┴──────────┴─────────────┘
+
+Note: Total is higher than original due to:
+  - Import statements in each module
+  - Barrel export files
+  - JSDoc documentation
+  - Interface definitions
+
+This is NORMAL and acceptable for modular code!
+
+
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ 8. TESTING STRATEGY                                                                   │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ Unit Tests (per module):                                                              │
+├──────────────────────────────────────────────────────────────────────────────────────┤
+│ • hooks/useImageUpload.test.ts                                                       │
+│   - File validation                                                                   │
+│   - Drag & drop handling                                                              │
+│   - Error states                                                                      │
+│                                                                                        │
+│ • hooks/useBackgroundRemoval.test.ts                                                 │
+│   - Progress updates                                                                   │
+│   - Error handling                                                                    │
+│   - Usage tracking                                                                     │
+│                                                                                        │
+│ • hooks/useMagicBrush.test.ts                                                        │
+│   - Stroke creation                                                                   │
+│   - Undo/redo functionality                                                           │
+│   - State management                                                                  │
+│                                                                                        │
+│ • utils/imageHelpers.test.ts                                                         │
+│   - File size formatting                                                              │
+│   - ID generation uniqueness                                                          │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ Integration Tests:                                                                    │
+├──────────────────────────────────────────────────────────────────────────────────────┤
+│ • BackgroundRemover.test.ts                                                          │
+│   - Full workflow: upload → process → download                                        │
+│   - Batch processing                                                                  │
+│   - Error recovery                                                                    │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ E2E Tests (Playwright):                                                               │
+├──────────────────────────────────────────────────────────────────────────────────────┤
+│ • background-remover.spec.ts                                                         │
+│   - Upload images                                                                     │
+│   - Remove background                                                                 │
+│   - Use Magic Brush                                                                   │
+│   - Download results                                                                  │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ 9. MIGRATION CHECKLIST                                                                │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+Phase 1 - Foundation:
+  ☐ Create background-remover directory
+  ☐ Create types.ts with all interfaces
+  ☐ Create constants.ts with configuration
+  ☐ Create index.ts barrel exports
+  ☐ Update BackgroundRemover.tsx imports
+  ☐ Run tests to verify no breaking changes
+
+Phase 2 - Hooks:
+  ☐ Extract useImageUpload hook
+  ☐ Extract useBackgroundRemoval hook
+  ☐ Extract useMagicBrush hook
+  ☐ Extract useImageDownload hook
+  ☐ Write unit tests for each hook
+  ☐ Update BackgroundRemover.tsx to use hooks
+
+Phase 3 - Components:
+  ☐ Extract MagicBrushEditor component
+  ☐ Extract DropZone component
+  ☐ Extract BackgroundOptions component
+  ☐ Extract ImageCard component
+  ☐ Extract ImagePreviewModal component
+  ☐ Write component tests
+  ☐ Update BackgroundRemover.tsx to use components
+
+Phase 4 - Utilities:
+  ☐ Extract imageHelpers utilities
+  ☐ Extract canvasHelpers utilities
+  ☐ Update all imports
+  ☐ Write utility tests
+
+Phase 5 - Finalization:
+  ☐ Remove unused code from BackgroundRemover.tsx
+  ☐ Verify all tests pass
+  ☐ Run E2E tests
+  ☐ Performance audit
+  ☐ Update documentation
+  ☐ Create PR for review
+
+
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ 10. RECOMMENDATIONS                                                                   │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ Short Term (This Sprint):                                                             │
+├──────────────────────────────────────────────────────────────────────────────────────┤
+│ 1. Start with Phase 1 (types & constants) - safest, high ROI                          │
+│ 2. Extract useImageUpload hook next - well-defined boundaries                         │
+│ 3. Create DropZone component - visual, isolated                                       │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ Medium Term (Next Sprint):                                                            │
+├──────────────────────────────────────────────────────────────────────────────────────┤
+│ 1. Extract useMagicBrush hook - most complex, needs care                              │
+│ 2. Extract MagicBrushEditor component - tightly coupled to hook                        │
+│ 3. Extract ImageCard component - renders sub-components                               │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────────────────────────────────────┐
+│ Long Term (Future):                                                                   │
+├──────────────────────────────────────────────────────────────────────────────────────┤
+│ 1. Consider extracting MagicBrush as a standalone npm package                         │
+│ 2. Create Storybook stories for all components                                        │
+│ 3. Add performance monitoring                                                         │
+│ 4. Consider Web Workers for heavy canvas operations                                   │
+└──────────────────────────────────────────────────────────────────────────────────────┘
+
+
+╔════════════════════════════════════════════════════════════════════════════════════════╗
+║                           END OF REFACTORING PLAN                                      ║
+║                                                                                       ║
+║  Generated by: AGENTE T6 - Refactorización de Componentes                             ║
+║  Date: 2026-02-01                                                                     ║
+║  Component: BackgroundRemover.tsx                                                     ║
+║  Current Size: 1449 lines                                                             ║
+║  Target Size: ~150 lines (main) + ~1500 lines (modules)                              ║
+║  Reduction: 90% in main file                                                          ║
+║                                                                                       ║
+║  Status: PLAN READY FOR IMPLEMENTATION                                                ║
+║  Next Step: Begin Phase 1 - Foundation                                                ║
+╚════════════════════════════════════════════════════════════════════════════════════════╝

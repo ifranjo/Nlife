@@ -1,0 +1,736 @@
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                                                                              ║
+║                    T10 - OCR EXTRACTOR REFACTORING PLAN                      ║
+║                         Agent: T10 (Refactorization)                         ║
+║                                                                              ║
+║              Analysis of OcrExtractor.tsx (1391 lines)                       ║
+║                                                                              ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                            EXECUTIVE SUMMARY                                 │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+Current State:
+  • File: OcrExtractor.tsx
+  • Lines: 1391
+  • Complexity: HIGH (monolithic component)
+  • Maintainability: LOW (mixed concerns)
+
+Target State:
+  • Main Component: ~350 lines (75% reduction)
+  • Total Lines: ~1,200 (modularized across files)
+  • Reusability: HIGH (extracted services/hooks)
+  • Testability: HIGH (isolated business logic)
+
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                         CURRENT STRUCTURE ANALYSIS                           │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+╔══════════════════════════════════════════════════════════════════════════════╗
+║  SECTION                        LINES    %      RESPONSIBILITY               ║
+╠══════════════════════════════════════════════════════════════════════════════╣
+║  Imports & Types                50      4%     Dependencies & Interfaces    ║
+║  Constants                      20      1%     Config & Static Data         ║
+║  Component State                30      2%     React State Management       ║
+║  Utility Functions              20      1%     Helpers (format, id, etc)    ║
+║  Image Preprocessing            45      3%     Canvas manipulation          ║
+║  TrOCR Engine                   45      3%     AI model extraction          ║
+║  Tesseract Engine              110      8%     OCR processing + PDF         ║
+║  File Handling                  75      5%     Upload, validation, removal  ║
+║  Drag & Drop Handlers           25      2%     File input events            ║
+║  OCR Processing                 90      6%     Batch orchestration          ║
+║  Output Generation             240     17%     Export (TXT/DOCX/PDF/ZIP)    ║
+║  Computed Values                35      3%     Stats & calculations         ║
+║  RENDER (JSX)                  600     43%    UI Layout                    ║
+╠══════════════════════════════════════════════════════════════════════════════╣
+║  TOTAL                         1391   100%                                    ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                        IDENTIFIED ISSUES & PAIN POINTS                       │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+Issue Category                  Description                            Severity
+
+  MONOLITHIC DESIGN
+  ─────────────────────────────────────────────────────────────────────────────
+  ❌ Single Responsibility Violation  Component handles UI + logic + I/O   HIGH
+  ❌ Hard to Test                     Business logic tied to React        HIGH
+  ❌ Code Duplication Risk            No reusable extraction modules      MED
+  ❌ Maintenance Burden               1391 lines to understand           HIGH
+
+  PERFORMANCE & UX
+  ─────────────────────────────────────────────────────────────────────────────
+  ⚠️  Large Bundle Impact            All imports in single file         MED
+  ⚠️  No Code Splitting              Engines loaded together            MED
+  ⚠️  Re-renders                      State changes trigger full render  LOW
+
+  ARCHITECTURAL
+  ─────────────────────────────────────────────────────────────────────────────
+  ⚠️  Tight Coupling                  Export logic in component          MED
+  ⚠️  No Abstraction Layer            Direct tesseract.js calls         MED
+  ⚠️  Missing Error Boundaries       No error isolation                 LOW
+
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                      PROPOSED ARCHITECTURE (MODULES)                         │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+                              ┌─────────────────────┐
+                              │   OcrExtractor.tsx  │
+                              │   (Main Component)  │
+                              │   ~350 lines        │
+                              └─────────┬───────────┘
+                                        │
+        ┌───────────────────────────────┼───────────────────────────────┐
+        │                               │                               │
+        ▼                               ▼                               ▼
+┌──────────────────┐          ┌──────────────────┐           ┌──────────────────┐
+│   UI Modules     │          │   Business Logic │           │   Data Layer     │
+├──────────────────┤          ├──────────────────┤           ├──────────────────┤
+│                  │          │                  │           │                  │
+│ • DropZone       │          │ • useOcrProcessing│           │ • ocr/           │
+│ • FileList       │          │ • useFileUpload   │           │   - engines.ts   │
+│ • EngineSelector │          │ • useExport       │           │   - types.ts     │
+│ • ResultsPanel   │          │                  │           │ • exporters/     │
+│ • ProgressBar    │          │                  │           │   - txt.ts       │
+│ • StatsSummary   │          │                  │           │   - docx.ts      │
+└──────────────────┘          └──────────────────┘           │   - pdf.ts       │
+                                                          │   - zip.ts       │
+                                                          │ • preprocessing/ │
+                                                          │   - image.ts     │
+                                                          └──────────────────┘
+
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                       DETAILED MODULE BREAKDOWN                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃  1. TYPES & CONSTANTS (lib/ocr/types.ts)  [80 lines]                         ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+Purpose: Centralized type definitions and constants
+
+Extract from: Lines 14-76
+
+  export interface PageResult {
+    pageNumber: number;
+    text: string;
+    confidence: number;
+    imagePreview?: string;
+  }
+
+  export interface OcrResult {
+    text: string;
+    confidence?: number;
+    processingTime: number;
+    engine: 'trocr' | 'tesseract';
+    pageCount?: number;
+    pageResults?: PageResult[];
+  }
+
+  export interface FileItem {
+    id: string;
+    file: File;
+    name: string;
+    size: number;
+    status: 'pending' | 'processing' | 'done' | 'error';
+    result?: OcrResult;
+    error?: string;
+    preview?: string;
+  }
+
+  export type OcrEngine = 'trocr-printed' | 'trocr-handwritten' | 'tesseract';
+  export type OutputFormat = 'txt' | 'searchable-pdf' | 'docx';
+
+  export interface PreprocessingOptions {
+    deskew: boolean;
+    enhanceContrast: boolean;
+    grayscale: boolean;
+  }
+
+  export const TESSERACT_LANGUAGES = [/* ... */];
+  export const MAX_FILES = 20;
+  export const MAX_FILE_SIZE = 50 * 1024 * 1024;
+
+
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃  2. OCR ENGINES (lib/ocr/engines.ts)  [200 lines]                            ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+Purpose: Abstraction layer for OCR engines (TrOCR + Tesseract)
+
+Extract from: Lines 136-341
+
+  export class OcrEngine {
+    private onProgress?: (progress: number, text: string) => void;
+    private onPageComplete?: (page: PageResult) => void;
+
+    constructor(options?: {
+      onProgress?: (progress: number, text: string) => void;
+      onPageComplete?: (page: PageResult) => void;
+    }) { /* ... */ }
+
+    async extractWithTrOCR(
+      imageSource: string | File,
+      modelType: 'printed' | 'handwritten'
+    ): Promise<string> { /* Lines 183-228 */ }
+
+    async extractWithTesseract(
+      file: File,
+      language: string,
+      preprocessing: PreprocessingOptions
+    ): Promise<OcrResult> { /* Lines 231-341 */ }
+  }
+
+  // Helper function for PDF page rendering
+  async function renderPdfPage(
+    page: any,
+    scale: number,
+    preprocessing: PreprocessingOptions
+  ): Promise<{ canvas: HTMLCanvasElement; preview: string }> { /* ... */ }
+
+
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃  3. IMAGE PREPROCESSING (lib/ocr/preprocessing.ts)  [60 lines]               ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+Purpose: Image enhancement operations
+
+Extract from: Lines 136-176
+
+  export class ImagePreprocessor {
+    static async preprocess(
+      canvas: HTMLCanvasElement,
+      options: PreprocessingOptions
+    ): Promise<HTMLCanvasElement> {
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return canvas;
+
+      const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      const data = imageData.data;
+
+      if (options.grayscale) {
+        // Grayscale conversion logic
+      }
+
+      if (options.enhanceContrast) {
+        // Contrast enhancement logic
+      }
+
+      if (options.deskew) {
+        // Deskew logic (placeholder for future)
+      }
+
+      ctx.putImageData(imageData, 0, 0);
+      return canvas;
+    }
+
+    static async createImagePreview(file: File): Promise<string | undefined> {
+      if (file.type.startsWith('image/')) {
+        return URL.createObjectURL(file);
+      }
+      return undefined;
+    }
+  }
+
+
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃  4. EXPORT SERVICES (lib/ocr/exporters/)  [300 lines total]                  ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+Extract from: Lines 571-771
+
+┌─ lib/ocr/exporters/txt.ts ──────────────────────────────────────────────┐
+│  export async function exportAsTxt(text: string, filename: string): Promise<void> {
+│    const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+│    downloadBlob(blob, filename);
+│  }
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─ lib/ocr/exporters/docx.ts ─────────────────────────────────────────────┐
+│  export async function exportAsDocx(
+│    text: string,
+│    filename: string
+│  ): Promise<void> {
+│    const { Document, Packer, Paragraph, TextRun, HeadingLevel } =
+│      await import('docx');
+│    // Word document generation logic (Lines 587-641)
+│  }
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─ lib/ocr/exporters/searchable-pdf.ts ───────────────────────────────────┐
+│  export async function exportAsSearchablePdf(
+│    results: OcrResult[],
+│    filename: string
+│  ): Promise<void> {
+│    const { PDFDocument, rgb, StandardFonts } = await import('pdf-lib');
+│    // Searchable PDF generation logic (Lines 643-736)
+│  }
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─ lib/ocr/exporters/zip.ts ───────────────────────────────────────────────┐
+│  export async function exportAsZip(
+│    files: FileItem[],
+│    filename: string
+│  ): Promise<void> {
+│    const JSZip = (await import('jszip')).default;
+│    // ZIP archive logic (Lines 738-771)
+│  }
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─ lib/ocr/exporters/index.ts ─────────────────────────────────────────────┐
+│  export * from './txt';
+│  export * from './docx';
+│  export * from './searchable-pdf';
+│  export * from './zip';
+└─────────────────────────────────────────────────────────────────────────────┘
+
+
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃  5. CUSTOM HOOKS (hooks/useOcr.ts)  [250 lines]                            ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+Purpose: Encapsulate OCR business logic
+
+Extract from: Lines 347-539, 545-569, 773-815
+
+  export interface UseOcrOptions {
+    maxFiles?: number;
+    onProgress?: (progress: number, text: string) => void;
+    onPageComplete?: (page: PageResult) => void;
+  }
+
+  export function useOcr(options: UseOcrOptions = {}) {
+    // State management
+    const [files, setFiles] = useState<FileItem[]>([]);
+    const [isProcessing, setIsProcessing] = useState(false);
+    const [progress, setProgress] = useState(0);
+    const [progressText, setProgressText] = useState('');
+
+    // File handling
+    const addFile = useCallback(async (file: File) => { /* ... */ }, []);
+    const removeFile = useCallback((id: string) => { /* ... */ }, []);
+    const clearFiles = useCallback(() => { /* ... */ }, []);
+
+    // OCR processing
+    const processFiles = useCallback(async (
+      engine: OcrEngine,
+      language: string,
+      preprocessing: PreprocessingOptions
+    ) => { /* ... */ }, []);
+
+    // Export utilities
+    const getCombinedText = useCallback((): string => { /* ... */ }, []);
+    const copyToClipboard = useCallback(async () => { /* ... */ }, []);
+
+    // Computed values
+    const stats = useMemo(() => ({
+      totalWords: files.reduce(/* ... */),
+      totalChars: files.reduce(/* ... */),
+      avgConfidence: files.reduce(/* ... */),
+    }), [files]);
+
+    return {
+      // State
+      files,
+      isProcessing,
+      progress,
+      progressText,
+      stats,
+
+      // Actions
+      addFile,
+      removeFile,
+      clearFiles,
+      processFiles,
+      getCombinedText,
+      copyToClipboard,
+    };
+  }
+
+
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃  6. UI COMPONENTS (components/tools/ocr/)  [400 lines total]                 ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+Purpose: Modular UI sections
+
+┌─ OcrDropZone.tsx ─────────────────────────────────────────────────────────┐
+│  Lines: 830-858
+│  Props: { isDragging, onDragOver, onDragLeave, onDrop, onFileSelect }
+│  - Drop zone with drag-over state
+│  - File input (hidden)
+│  - Icon and instructions
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─ OcrEngineSelector.tsx ───────────────────────────────────────────────────┐
+│  Lines: 860-1032
+│  Props: {
+│    selectedEngine, onEngineChange,
+│    tesseractLang, onLangChange,
+│    preprocessing, onPreprocessingChange,
+│    showAdvanced, onToggleAdvanced,
+│    outputFormat, onOutputFormatChange,
+│    modelLoaded
+│  }
+│  - Radio buttons for engine selection
+│  - Language dropdown (Tesseract only)
+│  - Advanced settings panel
+│  - Preprocessing checkboxes
+│  - Output format buttons
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─ OcrFileList.tsx ─────────────────────────────────────────────────────────┐
+│  Lines: 1043-1214
+│  Props: {
+│    files, selectedFileId, onFileSelect,
+│    onRemoveFile, onClearAll, onProcess,
+│    isProcessing, progress, progressText, currentPageProgress
+│  }
+│  - File list header with add/clear buttons
+│  - File cards with preview, status, remove button
+│  - Process button with loading state
+│  - Progress bar with page indicator
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─ OcrResultsPanel.tsx ──────────────────────────────────────────────────────┐
+│  Lines: 1216-1379
+│  Props: {
+│    files, selectedFileId, onFileSelect,
+│    stats, onDownloadTxt, onDownloadDocx,
+│    onDownloadPdf, onDownloadZip, onCopy, onReset
+│  }
+│  - Stats summary grid
+│  - Selected file preview
+│  - Page tabs for multi-page documents
+│  - Download buttons (TXT, DOCX, PDF, ZIP)
+│  - Copy to clipboard button
+│  - Reset button
+└─────────────────────────────────────────────────────────────────────────────┘
+
+
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃  7. REFACTORED MAIN COMPONENT (OcrExtractor.tsx)  [350 lines]               ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+Purpose: Orchestration and composition only
+
+  import { useOcr } from '../../hooks/useOcr';
+  import { useToolUsage } from '../ui/UpgradePrompt';
+  import { exportAsTxt, exportAsDocx, exportAsSearchablePdf, exportAsZip }
+    from '../../lib/ocr/exporters';
+  import { OcrDropZone } from './ocr/OcrDropZone';
+  import { OcrEngineSelector } from './ocr/OcrEngineSelector';
+  import { OcrFileList } from './ocr/OcrFileList';
+  import { OcrResultsPanel } from './ocr/OcrResultsPanel';
+
+  export default function OcrExtractor() {
+    // Usage tracking
+    const { canUse, showPrompt, checkUsage, recordUsage, dismissPrompt } =
+      useToolUsage('ocr-extractor');
+
+    // OCR business logic
+    const {
+      files,
+      isProcessing,
+      progress,
+      progressText,
+      stats,
+      selectedFileId,
+      setSelectedFileId,
+      addFile,
+      removeFile,
+      clearFiles,
+      processFiles,
+      copyToClipboard,
+    } = useOcr();
+
+    // Settings state
+    const [selectedEngine, setSelectedEngine] = useState<OcrEngine>('tesseract');
+    const [tesseractLang, setTesseractLang] = useState('eng');
+    const [preprocessing, setPreprocessing] = useState<PreprocessingOptions>({ /* */ });
+    const [outputFormat, setOutputFormat] = useState<OutputFormat>('txt');
+
+    // Handlers
+    const handleProcess = async () => {
+      if (!checkUsage()) return;
+      await processFiles(selectedEngine, tesseractLang, preprocessing);
+      recordUsage();
+    };
+
+    const handleDownloadTxt = () => {
+      const text = getCombinedText();
+      if (text) exportAsTxt(text, 'ocr_extracted.txt');
+    };
+
+    // ... similar handlers for other exports
+
+    return (
+      <div className="max-w-4xl mx-auto">
+        {showPrompt && <UpgradePrompt ... />}
+        <UsageIndicator toolId="ocr-extractor" />
+
+        {files.length === 0 ? (
+          <>
+            <OcrDropZone /* ... */ />
+            <OcrEngineSelector /* ... */ />
+          </>
+        ) : (
+          <OcrFileList /* ... */ />
+        )}
+
+        {stats && <OcrResultsPanel /* ... */ />}
+
+        <p className="mt-6 text-center ...">
+          100% browser-based. Your files never leave your device.
+        </p>
+      </div>
+    );
+  }
+
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                         FILE STRUCTURE SUMMARY                               │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+BEFORE (Monolithic):
+  apps/web/src/components/tools/OcrExtractor.tsx  [1391 lines]
+
+AFTER (Modular):
+  apps/web/src/
+  ├── lib/ocr/
+  │   ├── types.ts                    [80 lines]
+  │   ├── engines.ts                  [200 lines]
+  │   ├── preprocessing.ts            [60 lines]
+  │   └── exporters/
+  │       ├── index.ts                [10 lines]
+  │       ├── txt.ts                  [20 lines]
+  │       ├── docx.ts                  [80 lines]
+  │       ├── searchable-pdf.ts        [140 lines]
+  │       └── zip.ts                   [50 lines]
+  │
+  ├── hooks/
+  │   └── useOcr.ts                   [250 lines]
+  │
+  └── components/tools/ocr/
+      ├── OcrDropZone.tsx             [50 lines]
+      ├── OcrEngineSelector.tsx       [180 lines]
+      ├── OcrFileList.tsx             [170 lines]
+      └── OcrResultsPanel.tsx         [160 lines]
+
+  Main Component:
+  └── components/tools/OcrExtractor.tsx  [350 lines]
+
+TOTAL: ~1,760 lines (vs 1,391 original)
+  - Main component: 75% reduction (1,391 → 350)
+  - Total increase: 369 lines (headers, imports, exports)
+  - Code reuse: HIGH (engines, exporters usable elsewhere)
+
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                         MIGRATION PLAN (STEP BY STEP)                        │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌─ PHASE 1: Extract Types & Utilities ─────────────────────────────────────────┐
+│  Estimated Time: 30 minutes                                                  │
+│  Risk: LOW                                                                   │
+│                                                                              │
+│  Steps:                                                                      │
+│  1. Create apps/web/src/lib/ocr/                                             │
+│  2. Create types.ts with all interfaces                                      │
+│  3. Extract constants (TESSERACT_LANGUAGES, MAX_FILES, etc.)                │
+│  4. Update OcrExtractor.tsx imports                                          │
+│  5. Verify: Component still works                                            │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌─ PHASE 2: Extract OCR Engines ───────────────────────────────────────────────┐
+│  Estimated Time: 1 hour                                                      │
+│  Risk: MEDIUM                                                                │
+│                                                                              │
+│  Steps:                                                                      │
+│  1. Create lib/ocr/engines.ts                                                │
+│  2. Extract TrOCR logic (extractWithTrOCR)                                   │
+│  3. Extract Tesseract logic (extractWithTesseract)                           │
+│  4. Create OcrEngine class with progress callbacks                           │
+│  5. Update component to use OcrEngine                                        │
+│  6. Verify: All OCR engines still work                                       │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌─ PHASE 3: Extract Preprocessing ─────────────────────────────────────────────┐
+│  Estimated Time: 20 minutes                                                  │
+│  Risk: LOW                                                                   │
+│                                                                              │
+│  Steps:                                                                      │
+│  1. Create lib/ocr/preprocessing.ts                                          │
+│  2. Extract preprocessImage function                                        │
+│  3. Extract createPreview function                                          │
+│  4. Update engines.ts to use ImagePreprocessor                              │
+│  5. Verify: Preprocessing options work                                       │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌─ PHASE 4: Extract Export Services ───────────────────────────────────────────┐
+│  Estimated Time: 45 minutes                                                  │
+│  Risk: LOW                                                                   │
+│                                                                              │
+│  Steps:                                                                      │
+│  1. Create lib/ocr/exporters/ directory                                     │
+│  2. Extract TXT export → txt.ts                                              │
+│  3. Extract DOCX export → docx.ts                                            │
+│  4. Extract PDF export → searchable-pdf.ts                                   │
+│  5. Extract ZIP export → zip.ts                                              │
+│  6. Create index.ts barrel export                                            │
+│  7. Update component imports                                                 │
+│  8. Verify: All export formats work                                          │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌─ PHASE 5: Create Custom Hook ────────────────────────────────────────────────┐
+│  Estimated Time: 1 hour                                                      │
+│  Risk: MEDIUM                                                                │
+│                                                                              │
+│  Steps:                                                                      │
+│  1. Create hooks/useOcr.ts                                                   │
+│  2. Move state management from component                                     │
+│  3. Move file handling logic                                                 │
+│  4. Move processAllFiles logic                                              │
+│  5. Move computed values (stats)                                             │
+│  6. Update component to use useOcr()                                         │
+│  7. Verify: All features work                                                │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌─ PHASE 6: Extract UI Components ─────────────────────────────────────────────┐
+│  Estimated Time: 1.5 hours                                                   │
+│  Risk: MEDIUM                                                                │
+│                                                                              │
+│  Steps:                                                                      │
+│  1. Create components/tools/ocr/ directory                                   │
+│  2. Extract DropZone → OcrDropZone.tsx                                       │
+│  3. Extract EngineSelector → OcrEngineSelector.tsx                           │
+│  4. Extract FileList → OcrFileList.tsx                                       │
+│  5. Extract ResultsPanel → OcrResultsPanel.tsx                               │
+│  6. Update main component imports                                            │
+│  7. Verify: UI renders correctly                                             │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌─ PHASE 7: Final Cleanup & Testing ───────────────────────────────────────────┐
+│  Estimated Time: 30 minutes                                                  │
+│  Risk: LOW                                                                   │
+│                                                                              │
+│  Steps:                                                                      │
+│  1. Remove unused code from main component                                  │
+│  2. Add TypeScript checks                                                   │
+│  3. Run ESLint                                                               │
+│  4. Test all user flows:                                                     │
+│    • Single file upload                                                      │
+│    • Multi-file batch                                                        │
+│    • PDF processing                                                          │
+│    • All 3 engines                                                           │
+│    • All 4 export formats                                                    │
+│    • Preprocessing options                                                   │
+│  5. Run accessibility tests                                                 │
+│  6. Performance check (bundle size)                                          │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                            SUMMARY METRICS                                   │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│  BEFORE REFACTORING                                                          │
+├──────────────────────────────────────────────────────────────────────────────┤
+│  Main Component:           1,391 lines                                      │
+│  Files:                    1 file                                           │
+│  Testability:              LOW (logic tied to UI)                           │
+│  Reusability:              LOW                                             │
+│  Maintainability:          LOW (large monolith)                             │
+│  Bundle Impact:            HIGH (all code loaded)                           │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│  AFTER REFACTORING                                                           │
+├──────────────────────────────────────────────────────────────────────────────┤
+│  Main Component:           350 lines  (▼ 75%)                               │
+│  Files:                    11 files (modular)                               │
+│  Testability:              HIGH (isolated logic)                            │
+│  Reusability:              HIGH (engines/exporters)                         │
+│  Maintainability:          HIGH (small modules)                             │
+│  Bundle Impact:            LOW (code splitting possible)                    │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│  ESTIMATED TOTAL TIME: 4.5 hours                                             │
+│  LINES REDUCTION (main): 1,041 lines (75%)                                   │
+│  NEW FILES CREATED: 10                                                       │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                            FUTURE ENHANCEMENTS                               │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+After refactoring, these enhancements become easier:
+
+  ✓ Web Workers
+    - Move OCR processing to background thread
+    - Prevent UI freezing during large PDFs
+
+  ✓ Progress Persistence
+    - Save progress to localStorage
+    - Resume interrupted processing
+
+  ✓ Additional Engines
+    - Add Google Cloud Vision API
+    - Add Azure Computer Vision
+    - Easy to add new engine class
+
+  ✓ Additional Export Formats
+    - HTML output
+    - Markdown with formatting
+    - JSON with metadata
+
+  ✓ Unit Tests
+    - Test engines independently
+    - Test exporters with mocks
+    - Test hooks with renderHook
+
+  ✓ E2E Tests
+    - Test each UI component
+    - Test integration scenarios
+
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                            RECOMMENDATIONS                                   │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+1. PRIORITY: HIGH
+   Extract types and constants first - enables parallel work
+
+2. PRIORITY: HIGH
+   Create engines abstraction layer - most complex, highest risk
+
+3. PRIORITY: MEDIUM
+   UI components can be extracted incrementally
+
+4. PRIORITY: LOW
+   Consider lazy loading for TrOCR model (already large)
+
+5. NICE TO HAVE
+   Add JSDoc comments to all public APIs
+   Add unit tests for exporters (easy win)
+
+
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                              END OF REPORT                                   ║
+║                                                                              ║
+║  Generated by: T10 Refactorization Agent                                    ║
+║  Date: 2026-02-01                                                           ║
+║  Target: OcrExtractor.tsx                                                   ║
+║  Current Lines: 1,391 → Target: 350 (main component)                        ║
+║                                                                              ║
+╚══════════════════════════════════════════════════════════════════════════════╝
