@@ -6,61 +6,130 @@ const freeTools = tools.filter(t => t.tier === 'free');
 const toolCount = freeTools.length;
 ---
 
-<section class="relative pt-32 pb-20 px-6">
-  <div class="max-w-4xl mx-auto text-center">
-    <!-- Symbol -->
-    <div class="text-5xl mb-8 pulse">◈</div>
+<section class="hero relative min-h-screen flex items-center justify-center px-8 py-24">
+  <!-- Gradient overlay - subtle depth -->
+  <div class="hero-gradient"></div>
 
-    <!-- Brand Name (not h1 - page h1 is in main content) -->
-    <p class="text-2xl sm:text-3xl tracking-[0.5em] uppercase mb-6 glitch" role="img" aria-label="New Life Solutions">
-      New Life
-    </p>
+  <div class="hero-content relative z-10 text-center max-w-4xl mx-auto">
+    <!-- Status badge -->
+    <div class="hero-status inline-flex items-center gap-2 px-4 py-2 border border-[var(--border)] mb-12">
+      <span class="status-dot w-1.5 h-1.5 rounded-full bg-[var(--success)]"></span>
+      <span class="text-[0.625rem] tracking-[0.2em] uppercase text-[var(--text-muted)]">100% Client-Side Processing</span>
+    </div>
 
-    <!-- Dots -->
-    <div class="flex justify-center gap-3 mb-8">
+    <!-- Symbol (pulsing) -->
+    <div class="hero-symbol text-7xl mb-8 text-[var(--cyan)] symbol-float" aria-hidden="true">◈</div>
+
+    <!-- Brand Name (glitch effect) -->
+    <h1 class="hero-title font-display text-3xl sm:text-4xl font-semibold tracking-[0.05em] uppercase mb-6">
+      Your Files.<br/>
+      Your Privacy.
+    </h1>
+
+    <!-- 7 Dots (staggered pulse) -->
+    <div class="hero-dots flex justify-center gap-2 mb-8" aria-hidden="true">
       {[0, 1, 2, 3, 4, 5, 6].map((i) => (
         <span
-          class="w-1.5 h-1.5 bg-[var(--text-muted)]"
-          style={`animation: dotPulse 2s infinite; animation-delay: ${i * 0.15}s`}
+          class="dot w-1 h-1 bg-[var(--border)]"
+          style={`animation: dotPulseEnigmatic 2.5s infinite; animation-delay: ${i * 0.35}s`}
         />
       ))}
     </div>
 
     <!-- Subtitle -->
-    <p class="text-[var(--text-dim)] max-w-xl mx-auto mb-12 text-sm tracking-wide leading-relaxed">
-      A collection of tools designed to simplify your digital workflow.
-      <span class="text-[var(--text)]">Free. Private. Browser-based.</span>
+    <p class="hero-subtitle text-base text-[var(--text-dim)] max-w-lg mx-auto mb-12 tracking-wide leading-relaxed">
+      {toolCount}+ powerful tools that run entirely in your browser.
+      No servers. No uploads. Complete privacy.
     </p>
 
-    <!-- CTA -->
-    <a href="#tools" class="btn-primary">
-      <span>Explore Tools</span>
-      <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 9l-7 7-7-7" />
-      </svg>
-    </a>
-
-    <!-- Stats -->
-    <div class="mt-20 grid grid-cols-3 gap-8 max-w-lg mx-auto">
-      <div class="text-center">
-        <div class="text-2xl text-[var(--text)] mb-1">{toolCount}</div>
-        <div class="text-[0.625rem] text-[var(--text-muted)] uppercase tracking-[0.15em]">Free Tools</div>
+    <!-- Stats: 43+ | 100% | $0 -->
+    <div class="hero-stats flex justify-center gap-16 mb-12">
+      <div class="stat text-center">
+        <div class="stat-value font-display text-4xl font-semibold text-[var(--text)] mb-1">{toolCount}+</div>
+        <div class="stat-label text-[0.625rem] text-[var(--text-muted)] tracking-[0.2em] uppercase">Free Tools</div>
       </div>
-      <div class="text-center">
-        <div class="text-2xl text-[var(--text)] mb-1">100%</div>
-        <div class="text-[0.625rem] text-[var(--text-muted)] uppercase tracking-[0.15em]">Private</div>
+      <div class="stat text-center">
+        <div class="stat-value font-display text-4xl font-semibold text-[var(--text)] mb-1">100%</div>
+        <div class="stat-label text-[0.625rem] text-[var(--text-muted)] tracking-[0.2em] uppercase">Private</div>
       </div>
-      <div class="text-center">
-        <div class="text-2xl text-[var(--text)] mb-1">$0</div>
-        <div class="text-[0.625rem] text-[var(--text-muted)] uppercase tracking-[0.15em]">Cost</div>
+      <div class="stat text-center">
+        <div class="stat-value font-display text-4xl font-semibold text-[var(--text)] mb-1">$0</div>
+        <div class="stat-label text-[0.625rem] text-[var(--text-muted)] tracking-[0.2em] uppercase">Forever</div>
       </div>
     </div>
+
+    <!-- CTA Buttons -->
+    <div class="hero-ctas flex justify-center gap-4 flex-wrap">
+      <a href="#tools" class="btn-primary border-[var(--cyan)] text-[var(--cyan)] hover:bg-[var(--cyan)] hover:text-[var(--void)]">
+        <span>Explore Tools</span>
+        <span>→</span>
+      </a>
+      <button class="btn-secondary" onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})">
+        <span>Learn More</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="scroll-indicator">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
   </div>
 </section>
 
 <style>
-  @keyframes dotPulse {
-    0%, 100% { background: var(--text-muted); }
-    50% { background: var(--accent); }
+  .hero {
+    position: relative;
+  }
+
+  .hero-gradient {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 30%, var(--cyan-subtle) 0%, transparent 60%);
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .hero-symbol {
+    filter: drop-shadow(0 0 40px var(--cyan-glow));
+  }
+
+  .hero-title {
+    font-family: var(--font-display);
+    line-height: 1.1;
+  }
+
+  .hero-status {
+    animation: fadeIn 0.5s ease-out;
+  }
+
+  .status-dot {
+    animation: statusBlink 2s infinite;
+  }
+
+  @keyframes statusBlink {
+    0%, 100% { opacity: 1; box-shadow: 0 0 8px var(--success); }
+    50% { opacity: 0.4; box-shadow: none; }
+  }
+
+  @keyframes dotPulseEnigmatic {
+    0%, 100% { background: var(--border); }
+    50% { background: var(--cyan); box-shadow: 0 0 8px var(--cyan); }
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .hero-stats {
+      gap: 2rem;
+    }
+
+    .stat-value {
+      font-size: 2rem;
+    }
+
+    .hero-ctas {
+      flex-direction: column;
+      align-items: center;
+    }
   }
 </style>

@@ -1,0 +1,97 @@
+---
+// Wave Background - Clean animated stripes moving left to right
+// Different widths, different amplitudes, all white
+---
+
+<div class="wave-container">
+  <canvas id="wave-canvas"></canvas>
+</div>
+
+<style>
+  .wave-container {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.04;
+  }
+
+  #wave-canvas {
+    width: 100%;
+    height: 100%;
+  }
+</style>
+
+<script>
+  const canvas = document.getElementById('wave-canvas') as HTMLCanvasElement;
+  const ctx = canvas.getContext('2d');
+
+  if (ctx) {
+    // Configuration
+    const waves = [
+      { amplitude: 30, frequency: 0.008, speed: 0.3, width: 1, phase: 0 },
+      { amplitude: 50, frequency: 0.005, speed: 0.2, width: 2, phase: Math.PI / 3 },
+      { amplitude: 20, frequency: 0.012, speed: 0.5, width: 0.5, phase: Math.PI / 2 },
+      { amplitude: 40, frequency: 0.006, speed: 0.25, width: 1.5, phase: Math.PI },
+      { amplitude: 60, frequency: 0.004, speed: 0.15, width: 3, phase: Math.PI / 4 },
+      { amplitude: 25, frequency: 0.01, speed: 0.4, width: 0.8, phase: Math.PI * 1.5 },
+    ];
+
+    let time = 0;
+    let animationId: number;
+
+    const resize = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    };
+
+    const drawWave = (wave: typeof waves[0], yOffset: number) => {
+      if (!ctx) return;
+
+      ctx.beginPath();
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.8)';
+      ctx.lineWidth = wave.width;
+
+      for (let x = 0; x < canvas.width; x++) {
+        const y = yOffset + Math.sin((x * wave.frequency) + (time * wave.speed) + wave.phase) * wave.amplitude;
+
+        if (x === 0) {
+          ctx.moveTo(x, y);
+        } else {
+          ctx.lineTo(x, y);
+        }
+      }
+
+      ctx.stroke();
+    };
+
+    const animate = () => {
+      if (!ctx) return;
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Distribute waves vertically
+      const spacing = canvas.height / (waves.length + 1);
+
+      waves.forEach((wave, index) => {
+        const yOffset = spacing * (index + 1);
+        drawWave(wave, yOffset);
+      });
+
+      time += 0.02;
+      animationId = requestAnimationFrame(animate);
+    };
+
+    // Initialize
+    resize();
+    animate();
+
+    // Handle resize
+    window.addEventListener('resize', resize);
+
+    // Cleanup on page navigation (Astro)
+    document.addEventListener('astro:before-swap', () => {
+      cancelAnimationFrame(animationId);
+    });
+  }
+</script>

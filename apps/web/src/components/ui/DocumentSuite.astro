@@ -1,0 +1,134 @@
+---
+// Document Suite - Grouped PDF/Word/JPG tools with conversions
+// Inspired by iLovePDF but "I Hate PDF" style - all-in-one document processing
+
+const pdfTools = [
+  { id: 'pdf-merge', name: 'Merge PDF', icon: '◧', href: '/tools/pdf-merge' },
+  { id: 'pdf-split', name: 'Split PDF', icon: '◫', href: '/tools/pdf-split' },
+  { id: 'pdf-compress', name: 'Compress PDF', icon: '◈', href: '/tools/pdf-compress' },
+  { id: 'pdf-organize', name: 'Organize PDF', icon: '◇', href: '/tools/pdf-organize' },
+  { id: 'pdf-redactor', name: 'Redact PDF', icon: '⊘', href: '/tools/pdf-redactor' },
+  { id: 'pdf-form-filler', name: 'Fill Forms', icon: '◎', href: '/tools/pdf-form-filler' },
+];
+
+const conversions = [
+  { from: 'PDF', to: 'Word', icon: '→', href: '/tools/pdf-to-word' },
+  { from: 'PDF', to: 'JPG', icon: '→', href: '/tools/pdf-to-jpg' },
+  { from: 'JPG', to: 'PDF', icon: '→', href: '/tools/jpg-to-pdf' },
+  { from: 'Photo', to: 'Scan', icon: '→', href: '/tools/document-scanner' },
+];
+
+const imageTools = [
+  { id: 'image-compress', name: 'Compress', icon: '◐', href: '/tools/image-compress' },
+  { id: 'image-resize', name: 'Resize', icon: '◑', href: '/tools/image-resize' },
+];
+---
+
+<section class="document-suite py-24 px-8 border-t border-[var(--border)]">
+  <div class="max-w-6xl mx-auto">
+    <!-- Header -->
+    <div class="text-center mb-16">
+      <div class="text-[0.625rem] text-[var(--cyan)] tracking-[0.3em] uppercase mb-4">// Document Suite</div>
+      <h2 class="font-display text-2xl uppercase tracking-[0.1em] mb-4">All-in-One Document Tools</h2>
+      <p class="text-[var(--text-dim)] text-sm max-w-xl mx-auto">
+        PDF, Word, JPG - all conversions and manipulations in one place.
+        100% browser-based, your files never leave your device.
+      </p>
+    </div>
+
+    <!-- Main Grid -->
+    <div class="grid md:grid-cols-3 gap-8">
+
+      <!-- PDF Tools -->
+      <div class="suite-section p-6 border border-[var(--border)] bg-[var(--surface)]">
+        <div class="flex items-center gap-3 mb-6">
+          <span class="text-2xl text-[var(--cat-document)]">◧</span>
+          <h3 class="font-display text-sm uppercase tracking-[0.1em]">PDF Tools</h3>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          {pdfTools.map(tool => (
+            <a
+              href={tool.href}
+              class="suite-tool flex items-center gap-2 p-3 border border-[var(--border)] hover:border-[var(--cat-document)] hover:bg-[var(--elevated)] transition-all group"
+            >
+              <span class="text-[var(--text-muted)] group-hover:text-[var(--cat-document)] transition-colors">{tool.icon}</span>
+              <span class="text-xs text-[var(--text-dim)] group-hover:text-[var(--text)] transition-colors">{tool.name}</span>
+            </a>
+          ))}
+        </div>
+      </div>
+
+      <!-- Conversions -->
+      <div class="suite-section p-6 border border-[var(--border)] bg-[var(--surface)]">
+        <div class="flex items-center gap-3 mb-6">
+          <span class="text-2xl text-[var(--cyan)]">⇄</span>
+          <h3 class="font-display text-sm uppercase tracking-[0.1em]">Convert</h3>
+        </div>
+        <div class="space-y-3">
+          {conversions.map(conv => (
+            <a
+              href={conv.href}
+              class="suite-tool flex items-center justify-between p-3 border border-[var(--border)] hover:border-[var(--cyan)] hover:bg-[var(--elevated)] transition-all group"
+            >
+              <div class="flex items-center gap-2">
+                <span class="text-xs font-medium text-[var(--text)]">{conv.from}</span>
+                <span class="text-[var(--cyan)]">→</span>
+                <span class="text-xs font-medium text-[var(--text)]">{conv.to}</span>
+              </div>
+              <span class="text-[var(--text-muted)] group-hover:text-[var(--cyan)] group-hover:translate-x-1 transition-all">→</span>
+            </a>
+          ))}
+        </div>
+      </div>
+
+      <!-- Image Tools -->
+      <div class="suite-section p-6 border border-[var(--border)] bg-[var(--surface)]">
+        <div class="flex items-center gap-3 mb-6">
+          <span class="text-2xl text-[var(--cat-media)]">◐</span>
+          <h3 class="font-display text-sm uppercase tracking-[0.1em]">Image Tools</h3>
+        </div>
+        <div class="space-y-3">
+          {imageTools.map(tool => (
+            <a
+              href={tool.href}
+              class="suite-tool flex items-center gap-3 p-3 border border-[var(--border)] hover:border-[var(--cat-media)] hover:bg-[var(--elevated)] transition-all group"
+            >
+              <span class="text-[var(--text-muted)] group-hover:text-[var(--cat-media)] transition-colors">{tool.icon}</span>
+              <span class="text-xs text-[var(--text-dim)] group-hover:text-[var(--text)] transition-colors">{tool.name}</span>
+              <span class="ml-auto text-[var(--text-muted)] group-hover:text-[var(--cat-media)] group-hover:translate-x-1 transition-all">→</span>
+            </a>
+          ))}
+        </div>
+
+        <!-- Quick stats -->
+        <div class="mt-6 pt-4 border-t border-[var(--border)]">
+          <div class="flex justify-between text-[0.5rem] uppercase tracking-[0.2em] text-[var(--text-muted)]">
+            <span>Formats: JPG, PNG, WebP</span>
+            <span>Batch: Yes</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom CTA -->
+    <div class="mt-12 text-center">
+      <p class="text-[0.625rem] text-[var(--text-muted)] uppercase tracking-[0.2em] mb-4">
+        All tools run 100% in your browser · No server uploads · Works offline
+      </p>
+      <a href="#tools" class="inline-flex items-center gap-2 text-xs text-[var(--cyan)] hover:underline">
+        <span>View all {pdfTools.length + conversions.length + imageTools.length}+ document tools</span>
+        <span>↓</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .suite-section {
+    transition: all 300ms ease-out;
+  }
+
+  .suite-section:hover {
+    border-color: var(--border-hover);
+  }
+</style>

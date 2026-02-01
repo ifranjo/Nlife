@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import Analytics from '@vercel/analytics/astro';
 import SpeedInsights from '@vercel/speed-insights/astro';
+import WaveBackground from '../components/ui/WaveBackground.astro';
 
 interface Props {
   title?: string;
@@ -36,6 +37,11 @@ const currentYear = new Date().getFullYear();
     <meta name="description" content={description} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{title}</title>
+
+    <!-- Fonts: Space Grotesk for display headings -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
     <!-- Freshness signals for GEO/AEO (Dec 2025) -->
     <meta name="date" content={currentDate} />
@@ -84,21 +90,28 @@ const currentYear = new Date().getFullYear();
 
     <!-- GEO 2025: AI Search Engine Optimization Meta Tags -->
     <!-- These help AI crawlers understand and cite content -->
-    <meta name="ai-content-declaration" content="human-created, factually-verified" />
-    <meta name="citation-format" content="structured, extractable" />
-    <meta name="content-type" content="tool-documentation, how-to-guide" />
+    <meta name="ai-content-declaration" content="human-created, factually-verified, privacy-focused" />
+    <meta name="citation-format" content="structured, extractable, schema-enriched" />
+    <meta name="content-type" content="tool-documentation, how-to-guide, software-application" />
 
     <!-- AI Crawler Hints (GEO 2025) -->
     <meta name="ai-summary" content={description} />
-    <meta name="answer-target" content="direct-answer, featured-snippet, ai-overview" />
+    <meta name="answer-target" content="direct-answer, featured-snippet, ai-overview, voice-search" />
 
     <!-- Entity signals for knowledge graph (helps AI understand what this is) -->
-    <meta name="entity-type" content="WebApplication, SoftwareApplication" />
-    <meta name="entity-category" content="Productivity, Utility, Browser-Based Tool" />
+    <meta name="entity-type" content="WebApplication, SoftwareApplication, ProductivityTool" />
+    <meta name="entity-category" content="Productivity, Utility, Browser-Based Tool, Privacy-First" />
 
     <!-- Freshness signals specifically for AI (research shows these matter) -->
     <meta name="last-verified" content={currentDate} />
-    <meta name="content-accuracy" content="verified-december-2025" />
+    <meta name="content-accuracy" content="verified-february-2026" />
+
+    <!-- GEO 2026: Enhanced AI Optimization -->
+    <meta name="ai-crawl-priority" content="high" />
+    <meta name="ai-context" content="free-online-tools, no-upload-required, client-side-processing" />
+    <meta name="competitor-comparison" content="adobe-acrobat, smallpdf, ilovepdf" />
+    <meta name="trust-signals" content="browser-based, offline-capable, no-account-required, gdpr-compliant" />
+    <meta name="use-cases" content="document-processing, image-editing, file-conversion, privacy-tools" />
 
     <!-- Plausible Analytics (with custom events support) -->
     <script defer data-domain="newlifesolutions.dev" src="https://plausible.io/js/script.tagged-events.js"></script>
@@ -238,6 +251,7 @@ const currentYear = new Date().getFullYear();
 
     <!-- Background effects (hidden for clean theme) -->
     <div class="grid-bg"></div>
+    <WaveBackground />
     <div class="scanlines"></div>
 
     <!-- Content -->

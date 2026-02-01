@@ -7,17 +7,25 @@
 
 /* === DESIGN TOKENS === */
 :root {
-  /* Background colors - DARK */
+  /* Background colors - VOID */
   --bg: #0a0a0a;
   --bg-secondary: #0f0f0f;
   --bg-card: #111111;
   --bg-hover: #1a1a1a;
+  --void: #0a0a0a;
+  --surface: #111111;
+  --elevated: #1a1a1a;
 
   /* Text colors - WCAG AA compliant (4.5:1 minimum on #0a0a0a) */
   --text: #e0e0e0;
   --text-dim: #9a9a9a;    /* WCAG AA 4.89:1 contrast ratio */
-  --text-muted: #969696;  /* WCAG AA 4.54:1 contrast ratio */
+  --text-muted: #5a5a5a;  /* Enigmatic muted */
   --accent: #ffffff;
+
+  /* Cyan accent (sparingly) */
+  --cyan: #00d4ff;
+  --cyan-glow: rgba(0, 212, 255, 0.15);
+  --cyan-subtle: rgba(0, 212, 255, 0.03);
 
   /* Borders */
   --border: #222222;
@@ -29,23 +37,30 @@
   --warning: #ffaa00;
   --error: #ff4444;
 
-  /* Grid */
-  --grid-color: #1a1a1a;
+  /* Category accents (muted) */
+  --cat-document: rgba(0, 212, 255, 0.6);
+  --cat-media: rgba(139, 92, 246, 0.6);
+  --cat-ai: rgba(236, 72, 153, 0.6);
+  --cat-utility: rgba(16, 185, 129, 0.6);
 
-  /* Typography */
+  /* Grid */
+  --grid-color: #222222;
+
+  /* Typography - Courier New default, Space Grotesk for display */
   --font-mono: 'Courier New', 'Monaco', monospace;
+  --font-display: 'Space Grotesk', sans-serif;
   --font-sans: 'Inter', -apple-system, sans-serif;
 
-  /* Transitions - ease-out feels snappier */
-  --transition: 250ms ease-out;
-  --transition-slow: 400ms ease-out;
+  /* Transitions - slowed down for mysterious feel */
+  --transition: 300ms ease-out;
+  --transition-slow: 500ms ease-out;
   --transition-snappy: 150ms ease-out;
 
-  /* Glow effects for dark mode (light-based elevation) */
-  --glow-subtle: 0 0 20px rgba(255, 255, 255, 0.03);
-  --glow-hover: 0 0 30px rgba(255, 255, 255, 0.06);
-  --glow-focus: 0 0 0 3px rgba(255, 255, 255, 0.1);
-  --glow-accent: 0 0 20px rgba(255, 255, 255, 0.08);
+  /* Glow effects - cyan based */
+  --glow-subtle: 0 0 20px rgba(0, 212, 255, 0.05);
+  --glow-hover: 0 0 30px rgba(0, 212, 255, 0.1);
+  --glow-focus: 0 0 0 3px rgba(0, 212, 255, 0.15);
+  --glow-accent: 0 0 20px rgba(0, 212, 255, 0.1);
 
   /* Border refinements */
   --border-glass: rgba(255, 255, 255, 0.08);
@@ -75,21 +90,22 @@ body {
   background-image:
     linear-gradient(var(--grid-color) 1px, transparent 1px),
     linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
-  background-size: 50px 50px;
-  opacity: 0.4;
+  background-size: 60px 60px;
+  opacity: 0.15;
   z-index: 0;
   pointer-events: none;
 }
 
+/* Scanlines - 8% opacity (enigmatic signature) */
 .scanlines {
   position: fixed;
   inset: 0;
   background: repeating-linear-gradient(
     0deg,
     transparent,
-    transparent 2px,
-    rgba(0, 0, 0, 0.15) 2px,
-    rgba(0, 0, 0, 0.15) 4px
+    transparent 3px,
+    rgba(0, 0, 0, 0.08) 3px,
+    rgba(0, 0, 0, 0.08) 6px
   );
   pointer-events: none;
   z-index: 100;
@@ -502,34 +518,95 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
-/* Glitch effect */
+/* Glitch effect (6s cycle - more mysterious) */
 @keyframes glitch {
-  0%, 95%, 100% {
+  0%, 94%, 98%, 100% {
     text-shadow: none;
     transform: translate(0);
   }
-  96% {
-    text-shadow: -2px 0 #ff0000, 2px 0 #00ffff;
-    transform: translate(-2px, 0);
+  95% {
+    text-shadow: -2px 0 var(--cyan), 2px 0 var(--cat-media);
+    transform: translate(-2px, 1px);
   }
   97% {
-    text-shadow: 2px 0 #ff0000, -2px 0 #00ffff;
-    transform: translate(2px, 0);
+    text-shadow: 2px 0 var(--cyan), -2px 0 var(--cat-media);
+    transform: translate(2px, -1px);
   }
 }
 
 .glitch {
-  animation: glitch 5s infinite;
+  animation: glitch 6s linear infinite;
 }
 
-/* Pulse */
+/* Symbol pulse (4s cycle - enigmatic) */
+@keyframes symbolPulse {
+  0%, 100% { opacity: 0.8; }
+  50% { opacity: 1; filter: drop-shadow(0 0 20px var(--cyan)); }
+}
+
+.symbol-pulse {
+  animation: symbolPulse 4s ease-in-out infinite;
+}
+
+/* Symbol float (4s cycle) */
+@keyframes symbolFloat {
+  0%, 100% { transform: translateY(0); opacity: 0.9; }
+  50% { transform: translateY(-10px); opacity: 1; filter: drop-shadow(0 0 60px var(--cyan-glow)); }
+}
+
+.symbol-float {
+  animation: symbolFloat 4s ease-in-out infinite;
+}
+
+/* Staggered dot pulse (2.5s) */
+@keyframes dotPulseEnigmatic {
+  0%, 100% { background: var(--border); }
+  50% { background: var(--cyan); box-shadow: 0 0 8px var(--cyan); }
+}
+
+/* Status blink with glow */
+@keyframes statusBlink {
+  0%, 100% { opacity: 1; box-shadow: 0 0 8px var(--success); }
+  50% { opacity: 0.4; box-shadow: none; }
+}
+
+/* Slow rotation (30s - footer symbol) */
+@keyframes rotateSlow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.rotate-slow {
+  animation: rotateSlow 30s linear infinite;
+}
+
+/* Scroll pulse indicator */
+@keyframes scrollPulse {
+  0%, 100% { transform: scaleY(1); opacity: 0.5; }
+  50% { transform: scaleY(0.6); opacity: 1; }
+}
+
+/* Ring pulse (privacy section) */
+@keyframes ringPulse {
+  0% { transform: scale(0.9); opacity: 0; border-color: var(--cyan); }
+  50% { opacity: 0.5; }
+  100% { transform: scale(1.1); opacity: 0; }
+}
+
+/* Orb float (6s) */
+@keyframes orbFloat {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+/* Pulse (4s - slowed for enigmatic feel) */
 @keyframes pulse {
   0%, 100% { opacity: 0.5; }
   50% { opacity: 1; }
 }
 
 .pulse {
-  animation: pulse 3s ease-in-out infinite;
+  animation: pulse 4s ease-in-out infinite;
 }
 
 /* Blink */
@@ -885,6 +962,131 @@ button:disabled,
   font-size: 0.625rem;
   color: var(--text-muted);
   letter-spacing: 0.2em;
+}
+
+/* === SECTION DIVIDERS (Enigmatic) === */
+.section-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 0;
+  position: relative;
+  z-index: 10;
+}
+
+.divider-symbol {
+  font-size: 1.5rem;
+  color: var(--text-muted);
+  opacity: 0.5;
+}
+
+.divider-symbol.rotating {
+  animation: rotateSlow 30s linear infinite;
+}
+
+/* === CATEGORY PILLS (Enigmatic) === */
+.category-pill {
+  padding: 12px 24px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text-dim);
+  font-size: 0.625rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: all var(--transition);
+  cursor: pointer;
+  font-family: var(--font-mono);
+}
+
+.category-pill:hover,
+.category-pill.active {
+  border-color: var(--pill-color, var(--cyan));
+  color: var(--pill-color, var(--cyan));
+  box-shadow: 0 0 20px rgba(0, 212, 255, 0.1);
+}
+
+.category-pill[data-category="document"] { --pill-color: var(--cat-document); }
+.category-pill[data-category="media"] { --pill-color: var(--cat-media); }
+.category-pill[data-category="ai"] { --pill-color: var(--cat-ai); }
+.category-pill[data-category="utility"] { --pill-color: var(--cat-utility); }
+
+/* === SCROLL INDICATOR (Enigmatic) === */
+.scroll-indicator {
+  position: absolute;
+  bottom: 48px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.scroll-indicator span {
+  font-size: 0.5rem;
+  color: var(--text-muted);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+
+.scroll-line {
+  width: 1px;
+  height: 40px;
+  background: linear-gradient(180deg, var(--cyan), transparent);
+  animation: scrollPulse 2s ease-in-out infinite;
+}
+
+/* === PRIVACY VISUAL (Enigmatic) === */
+.privacy-visual {
+  position: relative;
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.privacy-orb {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, var(--cyan-subtle) 0%, transparent 70%);
+  border-radius: 50%;
+  animation: orbFloat 6s ease-in-out infinite;
+}
+
+.privacy-rings {
+  position: absolute;
+}
+
+.ring {
+  position: absolute;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  animation: ringPulse 4s ease-out infinite;
+}
+
+.ring:nth-child(1) { width: 150px; height: 150px; margin: -75px 0 0 -75px; animation-delay: 0s; }
+.ring:nth-child(2) { width: 220px; height: 220px; margin: -110px 0 0 -110px; animation-delay: 1.33s; }
+.ring:nth-child(3) { width: 290px; height: 290px; margin: -145px 0 0 -145px; animation-delay: 2.66s; }
+
+.privacy-lock {
+  position: relative;
+  z-index: 10;
+  font-size: 3rem;
+  color: var(--cyan);
+  filter: drop-shadow(0 0 20px var(--cyan-glow));
+  animation: symbolPulse 4s ease-in-out infinite;
+}
+
+/* === DISPLAY FONT CLASS === */
+.font-display {
+  font-family: var(--font-display);
+}
+
+/* === CYAN ACCENT TEXT === */
+.text-cyan {
+  color: var(--cyan);
 }
 
 /* === LOADING SKELETON (Premium - synchronized shimmer) === */

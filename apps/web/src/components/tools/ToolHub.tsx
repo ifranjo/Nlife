@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import type { Tool } from '../../lib/tools';
 
 interface ToolHubProps {
@@ -9,56 +9,75 @@ interface ToolCardProps {
   tool: Tool;
 }
 
+// Map categories to CSS variable colors
+const categoryColors: Record<string, string> = {
+  pdf: 'var(--cat-document)',
+  image: 'var(--cat-media)',
+  video: 'var(--cat-media)',
+  audio: 'var(--cat-media)',
+  text: 'var(--cat-utility)',
+  dev: 'var(--cyan)',
+  ai: 'var(--cat-ai)',
+  utility: 'var(--cat-utility)',
+  media: 'var(--cat-media)',
+  games: 'var(--cat-ai)',
+};
+
 const ToolCard: React.FC<ToolCardProps> = ({ tool }) => {
   const isDisabled = tool.tier === 'coming' || tool.tier === 'pro';
-  const tagClass = tool.tier === 'free' ? 'tag-free' : tool.tier === 'pro' ? 'tag-pro' : 'tag-coming';
+  const accentColor = categoryColors[tool.category] || 'var(--cyan)';
 
   return (
     <a
       href={isDisabled ? undefined : tool.href}
-      className={[
-        'tool-card block',
-        isDisabled ? 'opacity-50 cursor-not-allowed pointer-events-none' : ''
-      ].join(' ')}
+      className={`tool-card-enigmatic group block relative p-6 bg-[var(--surface)] border border-[var(--border)] transition-all duration-300 overflow-hidden ${
+        isDisabled ? 'opacity-50 cursor-not-allowed pointer-events-none' : 'hover:border-[var(--border-hover)] hover:bg-[var(--elevated)] hover:-translate-y-1'
+      }`}
+      style={{ '--card-accent': accentColor } as React.CSSProperties}
       data-category={tool.category}
     >
+      {/* Top accent line */}
+      <div
+        className="absolute top-0 left-0 right-0 h-0.5 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"
+        style={{ background: accentColor }}
+      />
+
       {/* Header */}
       <div className="flex items-start justify-between mb-4">
-        <div className="w-10 h-10 tool-icon">
-          <img src={tool.thumbnail} alt={`${tool.name} icon`} className="w-full h-full" loading="lazy" />
+        <div className="w-10 h-10 opacity-90 group-hover:opacity-100 transition-opacity">
+          <img src={tool.thumbnail} alt="" className="w-full h-full" loading="lazy" />
         </div>
-        <span className={`tag ${tagClass}`}>
+        <span className={`text-[0.5rem] uppercase tracking-[0.15em] px-2 py-1 border ${
+          tool.tier === 'free'
+            ? 'text-[var(--success)] border-[var(--success)] bg-[rgba(0,255,0,0.05)]'
+            : tool.tier === 'pro'
+            ? 'text-[var(--warning)] border-[var(--warning)] bg-[rgba(255,170,0,0.05)]'
+            : 'text-[var(--text-muted)] border-[var(--border)]'
+        }`}>
           {tool.tier}
         </span>
       </div>
 
       {/* Title */}
-      <h3 className="tool-title text-[var(--text)] text-sm uppercase tracking-[0.1em] mb-2 font-medium">
+      <h3 className="font-display text-sm font-medium text-[var(--text)] group-hover:text-white transition-colors mb-2">
         {tool.name}
       </h3>
 
       {/* Description */}
-      <p className="text-[var(--text-dim)] text-xs leading-relaxed mb-4">
+      <p className="text-xs text-[var(--text-muted)] leading-relaxed mb-4">
         {tool.description}
       </p>
 
-      {/* Category and Popular Badge */}
+      {/* Footer */}
       <div className="flex items-center justify-between">
-        <span className="text-[0.625rem] text-[var(--text-muted)] uppercase tracking-[0.15em]">
+        <span className="text-[0.5rem] uppercase tracking-[0.2em]" style={{ color: accentColor }}>
           {tool.category}
         </span>
-        <div className="flex items-center gap-2">
-          {tool.popular && (
-            <span className="text-[0.625rem] bg-gradient-to-r from-yellow-500 to-orange-500 text-white px-2 py-0.5 rounded uppercase tracking-[0.15em]">
-              Popular
-            </span>
-          )}
-          {!isDisabled && (
-            <svg className="tool-arrow w-4 h-4 text-[var(--text-muted)] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-            </svg>
-          )}
-        </div>
+        {!isDisabled && (
+          <span className="text-[var(--text-muted)] group-hover:text-[var(--cyan)] group-hover:translate-x-1 transition-all duration-300">
+            →
+          </span>
+        )}
       </div>
     </a>
   );
@@ -68,22 +87,25 @@ export const ToolHub: React.FC<ToolHubProps> = ({ tools }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [sortBy, setSortBy] = useState<string>('popular');
-  const [showFilters, setShowFilters] = useState(false);
   const [selectedTier, setSelectedTier] = useState<string>('all');
+
+  // Listen for category filter events from parent
+  useEffect(() => {
+    const handleCategoryFilter = (e: CustomEvent) => {
+      const category = e.detail?.category;
+      if (category) {
+        setSelectedCategory(category);
+      }
+    };
+
+    window.addEventListener('categoryFilter', handleCategoryFilter as EventListener);
+    return () => window.removeEventListener('categoryFilter', handleCategoryFilter as EventListener);
+  }, []);
 
   // Get unique categories
   const categories = useMemo(() => {
     const cats = ['all', ...new Set(tools.map(t => t.category))];
     return cats;
-  }, [tools]);
-
-  // Get unique tags
-  const allTags = useMemo(() => {
-    const tags = new Set<string>();
-    tools.forEach(tool => {
-      tool.tags?.forEach(tag => tags.add(tag));
-    });
-    return Array.from(tags).slice(0, 10); // Limit to 10 most common
   }, [tools]);
 
   // Filter and sort tools
@@ -147,166 +169,87 @@ export const ToolHub: React.FC<ToolHubProps> = ({ tools }) => {
   return (
     <div className="tool-hub w-full">
       {/* Search and Controls */}
-      <div className="mb-8 space-y-4">
-        {/* Search Bar */}
+      <div className="mb-8 space-y-6">
+        {/* Search Bar - Enigmatic style */}
         <div className="relative">
           <input
             type="text"
-            placeholder="🔍 Search tools..."
+            placeholder="Search tools..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full px-4 py-3 pl-12 bg-white/5 border border-white/10 rounded-lg text-sm placeholder-[var(--text-dim)] focus:outline-none focus:border-[var(--accent)] focus:ring-2 focus:ring-[var(--accent)]/20 transition-all"
+            aria-label="Search tools"
+            className="w-full px-4 py-3 pl-12 bg-[var(--surface)] border border-[var(--border)] text-sm text-[var(--text)] placeholder-[var(--text-muted)] focus:outline-none focus:border-[var(--cyan)] focus:shadow-[0_0_20px_rgba(0,212,255,0.1)] transition-all font-mono tracking-wide"
           />
-          <svg
-            className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--text-dim)]"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-          </svg>
+          <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--text-muted)]">○</span>
         </div>
 
-        {/* Category Tabs */}
-        <div className="flex flex-wrap gap-2">
-          {categories.map(category => (
-            <button
-              key={category}
-              onClick={() => setSelectedCategory(category)}
-              className={[
-                'px-4 py-2 rounded-full text-[0.625rem] uppercase tracking-[0.2em] transition-all',
-                selectedCategory === category
-                  ? 'bg-gradient-to-r from-[var(--accent)] to-[var(--accent-light)] text-black font-medium'
-                  : 'bg-white/5 border border-white/10 text-[var(--text-dim)] hover:bg-white/10'
-              ].join(' ')}
-            >
-              {category === 'all' ? 'All' : category}
-              <span className="ml-1 text-[0.625rem] text-[var(--text-muted)]">
-                ({categoryCounts[category] || 0})
-              </span>
-            </button>
-          ))}
-        </div>
-
-        {/* Advanced Controls */}
+        {/* Controls Row */}
         <div className="flex flex-wrap items-center justify-between gap-4">
-          <button
-            onClick={() => setShowFilters(!showFilters)}
-            className="flex items-center gap-2 px-3 py-2 text-[0.625rem] uppercase tracking-[0.2em] text-[var(--text-dim)] hover:text-[var(--text)] transition-colors"
-          >
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 3c7.2 0 9 1.8 9 9s-1.8 9-9 9-9-1.8-9-9 1.8-9 9-9z" />
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 8v8m4-4H8" />
-            </svg>
-            {showFilters ? 'Hide' : 'Show'} Filters
-          </button>
-
-          <div className="flex items-center gap-2">
-            <label className="text-[0.625rem] uppercase tracking-[0.2em] text-[var(--text-dim)]">
-              Sort by:
+          {/* Sort */}
+          <div className="flex items-center gap-3">
+            <label htmlFor="sort-select" className="text-[0.625rem] uppercase tracking-[0.2em] text-[var(--text-muted)]">
+              Sort:
             </label>
             <select
+              id="sort-select"
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="px-3 py-2 bg-white/5 border border-white/10 rounded text-[0.625rem] uppercase tracking-[0.2em] text-[var(--text)] focus:outline-none focus:border-[var(--accent)]"
+              className="px-3 py-2 bg-[var(--surface)] border border-[var(--border)] text-[0.625rem] uppercase tracking-[0.15em] text-[var(--text)] focus:outline-none focus:border-[var(--cyan)] font-mono"
             >
               <option value="popular">Popular</option>
               <option value="name">Name A-Z</option>
-              <option value="recent">Recently Added</option>
+              <option value="recent">Recent</option>
             </select>
           </div>
-        </div>
 
-        {/* Collapsible Filters */}
-        {showFilters && (
-          <div className="p-4 bg-white/5 border border-white/10 rounded-lg space-y-4">
-            <div>
-              <label className="block text-[0.625rem] uppercase tracking-[0.2em] text-[var(--text-dim)] mb-2">
-                Tool Tier:
-              </label>
-              <div className="flex gap-2">
-                {['all', 'free', 'pro', 'coming'].map(tier => (
-                  <button
-                    key={tier}
-                    onClick={() => setSelectedTier(tier)}
-                    className={[
-                      'px-3 py-1 rounded text-[0.625rem] uppercase tracking-[0.2em]',
-                      selectedTier === tier
-                        ? 'bg-[var(--accent)] text-black'
-                        : 'bg-white/10 text-[var(--text-dim)] hover:bg-white/20'
-                    ].join(' ')}
-                  >
-                    {tier}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-[0.625rem] uppercase tracking-[0.2em] text-[var(--text-dim)] mb-2">
-                Popular Tags:
-              </label>
-              <div className="flex flex-wrap gap-2">
-                {allTags.map(tag => (
-                  <span
-                    key={tag}
-                    className="px-2 py-1 bg-white/10 text-[var(--text-dim)] text-[0.625rem] rounded lowercase"
-                  >
-                    #{tag}
-                  </span>
-                ))}
-              </div>
-            </div>
+          {/* Tier Filter */}
+          <div className="flex items-center gap-2">
+            {['all', 'free'].map(tier => (
+              <button
+                key={tier}
+                onClick={() => setSelectedTier(tier)}
+                className={`px-3 py-2 text-[0.625rem] uppercase tracking-[0.15em] border transition-all ${
+                  selectedTier === tier
+                    ? 'border-[var(--cyan)] text-[var(--cyan)]'
+                    : 'border-[var(--border)] text-[var(--text-muted)] hover:border-[var(--border-hover)]'
+                }`}
+              >
+                {tier}
+              </button>
+            ))}
           </div>
-        )}
 
-        {/* Results Count */}
-        <div className="flex items-center justify-between text-[0.625rem] text-[var(--text-dim)] uppercase tracking-[0.2em]">
-          <span>
-            Showing {filteredAndSortedTools.length} of {tools.length} tools
+          {/* Results Count */}
+          <span className="text-[0.625rem] text-[var(--text-muted)] uppercase tracking-[0.2em]">
+            {filteredAndSortedTools.length} of {tools.length} tools
           </span>
-          {searchQuery && (
-            <button
-              onClick={() => setSearchQuery('')}
-              className="text-[var(--accent)] hover:text-[var(--accent-light)] transition-colors"
-            >
-              Clear search
-            </button>
-          )}
         </div>
       </div>
 
       {/* Tools Grid */}
-      <div className="tool-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 mb-12">
+      <div className="tool-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {filteredAndSortedTools.length > 0 ? (
           filteredAndSortedTools.map(tool => (
             <ToolCard key={tool.id} tool={tool} />
           ))
         ) : (
-          <div className="col-span-full text-center py-12">
-            <div className="text-4xl mb-4 opacity-30">🔍</div>
-            <h3 className="text-lg mb-2">No tools found</h3>
-            <p className="text-[var(--text-dim)] text-sm">
+          <div className="col-span-full text-center py-16">
+            <div className="text-4xl mb-4 opacity-30">○</div>
+            <h3 className="font-display text-lg mb-2">No tools found</h3>
+            <p className="text-[var(--text-muted)] text-sm">
               Try adjusting your search or filters
             </p>
+            {searchQuery && (
+              <button
+                onClick={() => setSearchQuery('')}
+                className="mt-4 text-[var(--cyan)] text-xs uppercase tracking-[0.15em] hover:underline"
+              >
+                Clear search
+              </button>
+            )}
           </div>
         )}
       </div>
-
-      {/* Popular Tools Section (when no filters applied) */}
-      {selectedCategory === 'all' && !searchQuery && selectedTier === 'all' && (
-        <div className="mt-16">
-          <div className="flex items-center gap-4 mb-6">
-            <span className="text-[0.625rem] text-[var(--accent)] uppercase tracking-[0.2em]">Popular Tools</span>
-            <div className="flex-1 h-px bg-[var(--border)]"></div>
-          </div>
-          <div className="tool-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-            {tools.filter(t => t.popular).map(tool => (
-              <ToolCard key={`popular-${tool.id}`} tool={tool} />
-            ))}
-          </div>
-        </div>
-      )}
     </div>
   );
 };

@@ -7,8 +7,8 @@ import InstallPrompt from './InstallPrompt';
     <div class="flex items-center justify-between h-14">
       <!-- Logo (44px+ touch target) -->
       <a href="/" class="flex items-center gap-3 group min-h-[44px] py-2">
-        <span class="text-xl opacity-60 group-hover:opacity-100 transition-opacity">◈</span>
-        <span class="text-xs tracking-[0.3em] uppercase text-[var(--text-dim)] group-hover:text-[var(--text)] transition-colors">
+        <span class="text-xl text-[var(--cyan)] symbol-pulse group-hover:opacity-100 transition-opacity">◈</span>
+        <span class="logo-text font-display text-sm tracking-[0.1em] uppercase text-[var(--text-dim)] group-hover:text-[var(--text)] transition-colors">
           New Life
         </span>
       </a>
@@ -156,3 +156,25 @@ import InstallPrompt from './InstallPrompt';
     });
   }
 </script>
+
+<style>
+  /* Glitch effect for brand text (6s cycle) */
+  .logo-text {
+    animation: glitch 6s linear infinite;
+  }
+
+  @keyframes glitch {
+    0%, 94%, 98%, 100% {
+      text-shadow: none;
+      transform: translate(0);
+    }
+    95% {
+      text-shadow: -2px 0 var(--cyan), 2px 0 var(--cat-media);
+      transform: translate(-2px, 1px);
+    }
+    97% {
+      text-shadow: 2px 0 var(--cyan), -2px 0 var(--cat-media);
+      transform: translate(2px, -1px);
+    }
+  }
+</style>
