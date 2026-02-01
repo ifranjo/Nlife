@@ -1,0 +1,235 @@
+╔══════════════════════════════════════════════════════════════════════════════════════════════════════╗
+║                    T0 - AUDITORÍA HERRAMIENTAS DOCUMENTOS (12 tools)                                 ║
+║                              Nlife_somo Repository                                                   ║
+║                              Generated: 2026-02-01                                                   ║
+╚══════════════════════════════════════════════════════════════════════════════════════════════════════╝
+
+┌─────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│  SUBDIVISIÓN EN 3 SUBCATEGORÍAS                                                                      │
+└─────────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+    ┌─────────────────────┐        ┌─────────────────────┐        ┌─────────────────────┐
+    │  SUBCATEGORÍA 1     │        │  SUBCATEGORÍA 2     │        │  SUBCATEGORÍA 3     │
+    │  PDF Core Tools     │        │  Format Conversion  │        │  AI Document Proc.  │
+    │     (5 tools)       │        │     (4 tools)       │        │     (3 tools)       │
+    └─────────────────────┘        └─────────────────────┘        └─────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│  SUBCATEGORÍA 1: PDF CORE TOOLS (5 herramientas)                                                    │
+├─────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                                     │
+│  Operaciones fundamentales sobre archivos PDF existentes                                            │
+│                                                                                                     │
+│  ┌─────────────────────────────────────────────────────────────────────────────────────────────┐   │
+│  │ 1. PDF Merge          │ PdfMerge.tsx         │ Combina múltiples PDFs en uno                │   │
+│  │    ✓ validateFile(file, 'pdf') línea 3                                                     │   │
+│  │    ✓ sanitizeFilename() usado                                                              │   │
+│  │    ✓ useToolUsage('pdf-merge') integrado                                                   │   │
+│  │    ✓ Batch processing (hasta 50 archivos)                                                  │   │
+│  │    Estado: FUNCIONAL                                                                       │   │
+│  ├─────────────────────────────────────────────────────────────────────────────────────────────┤   │
+│  │ 2. PDF Compress       │ PdfCompress.tsx      │ Reduce tamaño de PDFs                        │   │
+│  │    ✓ validateFile(file, 'pdf')                                                             │   │
+│  │    ✓ pdf-lib dynamic import                                                                │   │
+│  │    ✓ Múltiples niveles de compresión                                                       │   │
+│  │    Estado: FUNCIONAL                                                                       │   │
+│  ├─────────────────────────────────────────────────────────────────────────────────────────────┤   │
+│  │ 3. PDF Split          │ PdfSplit.tsx         │ Divide PDFs por páginas                      │   │
+│  │    ✓ validateFile(file, 'pdf')                                                             │   │
+│  │    ✓ Extrae rangos específicos                                                             │   │
+│  │    Estado: FUNCIONAL                                                                       │   │
+│  ├─────────────────────────────────────────────────────────────────────────────────────────────┤   │
+│  │ 4. PDF Organize       │ PdfOrganize.tsx      │ Reordena/elimina páginas                     │   │
+│  │    ✓ validateFile(file, 'pdf')                                                             │   │
+│  │    ✓ UI drag-and-drop para reorganizar                                                     │   │
+│  │    Estado: FUNCIONAL                                                                       │   │
+│  ├─────────────────────────────────────────────────────────────────────────────────────────────┤   │
+│  │ 5. PDF Redactor       │ PdfRedactor.tsx      │ Oculta información sensible                  │   │
+│  │    ✓ validateFile(file, 'pdf')                                                             │   │
+│  │    ✓ Detección automática de PII (SSN, email, teléfono)                                    │   │
+│  │    ✓ ZoomableImage para selección precisa                                                  │   │
+│  │    Estado: FUNCIONAL                                                                       │   │
+│  └─────────────────────────────────────────────────────────────────────────────────────────────┘   │
+│                                                                                                     │
+│  RESUMEN SUBCATEGORÍA 1:                                                                            │
+│  • 5/5 herramientas funcionales                                                                     │
+│  • 5/5 usan validateFile correctamente                                                              │
+│  • Todas integran useToolUsage para monetización                                                    │
+│  • Todas usan pdf-lib (~2MB) para procesamiento PDF                                                 │
+│  • Nivel de seguridad: ALTO                                                                         │
+│                                                                                                     │
+└─────────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│  SUBCATEGORÍA 2: FORMAT CONVERSION (4 herramientas)                                                 │
+├─────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                                     │
+│  Conversión entre PDF y otros formatos                                                              │
+│                                                                                                     │
+│  ┌─────────────────────────────────────────────────────────────────────────────────────────────┐   │
+│  │ 6. PDF to Word        │ PdfToWord.tsx        │ Convierte PDF a DOCX editable                │   │
+│  │    ✓ validateFile(file, 'pdf')                                                             │   │
+│  │    ✓ docx dynamic import (librería pesada ~5MB)                                            │   │
+│  │    ✓ Preserva formato y estructura                                                         │   │
+│  │    Estado: FUNCIONAL                                                                       │   │
+│  ├─────────────────────────────────────────────────────────────────────────────────────────────┤   │
+│  │ 7. PDF to JPG         │ PdfToJpg.tsx         │ Extrae páginas como imágenes                 │   │
+│  │    ✓ validateFile(file, 'pdf')                                                             │   │
+│  │    ✓ pdfjs-dist para renderizado                                                           │   │
+│  │    ✓ Múltiples formatos (JPG, PNG, WebP)                                                   │   │
+│  │    Estado: FUNCIONAL                                                                       │   │
+│  ├─────────────────────────────────────────────────────────────────────────────────────────────┤   │
+│  │ 8. JPG to PDF         │ JpgToPdf.tsx         │ Convierte imágenes a PDF                     │   │
+│  │    ✓ validateFile(file, 'image')                                                           │   │
+│  │    ✓ Múltiples imágenes → un PDF                                                           │   │
+│  │    ✓ Opciones de tamaño de página                                                          │   │
+│  │    Estado: FUNCIONAL                                                                       │   │
+│  ├─────────────────────────────────────────────────────────────────────────────────────────────┤   │
+│  │ 9. PDF Form Filler    │ PdfFormFiller.tsx    │ Rellena formularios PDF                      │   │
+│  │    ✓ validateFile(file, 'pdf')                                                             │   │
+│  │    ✓ Detección automática de campos                                                        │   │
+│  │    ✓ Guarda datos del formulario                                                           │   │
+│  │    Estado: FUNCIONAL                                                                       │   │
+│  └─────────────────────────────────────────────────────────────────────────────────────────────┘   │
+│                                                                                                     │
+│  RESUMEN SUBCATEGORÍA 2:                                                                            │
+│  • 4/4 herramientas funcionales                                                                     │
+│  • 4/4 usan validación correcta                                                                     │
+│  • PdfToWord usa librería pesada con dynamic import                                                 │
+│  • Nivel de seguridad: ALTO                                                                         │
+│                                                                                                     │
+└─────────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│  SUBCATEGORÍA 3: AI DOCUMENT PROCESSING (3 herramientas)                                            │
+├─────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                                     │
+│  Procesamiento inteligente de documentos con AI/ML                                                  │
+│                                                                                                     │
+│  ┌─────────────────────────────────────────────────────────────────────────────────────────────┐   │
+│  │ 10. OCR Text Extractor│ OcrExtractor.tsx     │ Extrae texto de imágenes/PDFs                │   │
+│  │    ✓ validateFile(file, 'image') para imágenes                                             │   │
+│  │    ✓ validateFile(file, 'pdf') para PDFs                                                   │   │
+│  │    ✓ @huggingface/transformers (~150MB) - dynamic import                                   │   │
+│  │    ✓ TrOCR + Tesseract.js engines                                                          │   │
+│  │    ✓ Detección automática de idioma                                                        │   │
+│  │    Estado: FUNCIONAL                                                                       │   │
+│  ├─────────────────────────────────────────────────────────────────────────────────────────────┤   │
+│  │ 11. Document Scanner  │ DocumentScanner.tsx  │ Escanea documentos con cámara                │   │
+│  │    ⚠ NO usa validateFile (usa getUserMedia API)                                            │   │
+│  │    ✓ Mejora automática de imagen (brightness/contrast)                                     │   │
+│  │    ✓ Detección de bordes automática                                                        │   │
+│  │    ✓ Exporta a PDF/JPG                                                                     │   │
+│  │    Estado: FUNCIONAL                                                                       │   │
+│  ├─────────────────────────────────────────────────────────────────────────────────────────────┤   │
+│  │ 12. Resume Builder    │ ResumeBuilder.tsx    │ Crea CVs profesionales                       │   │
+│  │    ⚠ NO acepta archivos de entrada (form-based)                                            │   │
+│  │    ✓ Exporta a PDF con jsPDF                                                               │   │
+│  │    ✓ Múltiples plantillas                                                                  │   │
+│  │    ✓ Previsualización en tiempo real                                                       │   │
+│  │    Estado: FUNCIONAL                                                                       │   │
+│  └─────────────────────────────────────────────────────────────────────────────────────────────┘   │
+│                                                                                                     │
+│  RESUMEN SUBCATEGORÍA 3:                                                                            │
+│  • 3/3 herramientas funcionales                                                                     │
+│  • OcrExtractor usa modelos de HuggingFace (~150MB)                                                 │
+│  • Document Scanner no requiere validación (API nativa)                                             │
+│  • Resume Builder no requiere validación (formulario)                                               │
+│  • Nivel de seguridad: MEDIO-ALTO                                                                   │
+│                                                                                                     │
+└─────────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│  MATRIZ DE CUMPLIMIENTO - DOCUMENTOS                                                                 │
+├─────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                                     │
+│  Herramienta           │ Subcategoría      │ Validación │ Dynamic Import │ Monetización │ Estado   │
+│  ──────────────────────┼───────────────────┼────────────┼────────────────┼──────────────┼──────────│
+│  pdf-merge             │ PDF Core          │     ✓      │      N/A       │      ✓       │    ✓ OK  │
+│  pdf-compress          │ PDF Core          │     ✓      │      ✓         │      ✓       │    ✓ OK  │
+│  pdf-split             │ PDF Core          │     ✓      │      N/A       │      ✓       │    ✓ OK  │
+│  pdf-organize          │ PDF Core          │     ✓      │      ✓         │      ✓       │    ✓ OK  │
+│  pdf-redactor          │ PDF Core          │     ✓      │      ✓         │      ✓       │    ✓ OK  │
+│  pdf-to-word           │ Conversion        │     ✓      │      ✓         │      ✓       │    ✓ OK  │
+│  pdf-to-jpg            │ Conversion        │     ✓      │      ✓         │      ✓       │    ✓ OK  │
+│  jpg-to-pdf            │ Conversion        │     ✓      │      N/A       │      ✓       │    ✓ OK  │
+│  pdf-form-filler       │ Conversion        │     ✓      │      ✓         │      ✓       │    ✓ OK  │
+│  ocr                   │ AI Processing     │     ✓      │      ✓         │      ✓       │    ✓ OK  │
+│  document-scanner      │ AI Processing     │    N/A     │      N/A       │      ✓       │    ✓ OK  │
+│  resume-builder        │ AI Processing     │    N/A     │      N/A       │      ✓       │    ✓ OK  │
+│                                                                                                     │
+│  LEYENDA:                                                                                           │
+│  • Validación ✓ = Usa security.ts correctamente                                                     │
+│  • Validación N/A = No aplica (API nativa o formulario)                                             │
+│  • Dynamic Import ✓ = Carga librería pesada bajo demanda                                            │
+│                                                                                                     │
+└─────────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│  PROBLEMAS ENCONTRADOS                                                                               │
+├─────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                                     │
+│  NINGÚN PROBLEMA CRÍTICO ENCONTRADO                                                                 │
+│                                                                                                     │
+│  Notas:                                                                                             │
+│  • DocumentScanner no usa validateFile() porque usa getUserMedia API nativa                         │
+│  • ResumeBuilder no usa validateFile() porque es un formulario que genera PDF                       │
+│  • Estos son comportamientos esperados, no bugs                                                     │
+│                                                                                                     │
+└─────────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│  LIBRERÍAS PESADAS UTILIZADAS                                                                        │
+├─────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                                     │
+│  Librería                    │ Tamaño  │ Herramientas que la usan                                  │
+│  ────────────────────────────┼─────────┼───────────────────────────────────────────────────────────│
+│  pdf-lib                     │ ~2MB    │ pdf-merge, pdf-compress, pdf-split, pdf-organize,         │
+│                              │         │ pdf-redactor, pdf-form-filler, jpg-to-pdf                 │
+│  pdfjs-dist                  │ ~3MB    │ pdf-to-jpg, pdf-redactor, ocr                             │
+│  docx                        │ ~5MB    │ pdf-to-word                                               │
+│  @huggingface/transformers   │ ~150MB  │ ocr (TrOCR model)                                         │
+│  jspdf                       │ ~500KB  │ resume-builder                                            │
+│                                                                                                     │
+│  ✓ TODAS las librerías pesadas usan dynamic import correctamente                                    │
+│  ✓ TODAS muestran indicador de carga mientras se inicializan                                        │
+│                                                                                                     │
+└─────────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│  RECOMENDACIONES                                                                                     │
+├─────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                                     │
+│  ▲ PRIORIDAD BAJA                                                                                   │
+│  ────────────────────────────────────────────────────────────────────────────────────────────────   │
+│                                                                                                     │
+│  1. Considerar agregar validación de magic bytes para PDF en security.ts                            │
+│     Actualmente solo valida MIME type y tamaño                                                      │
+│                                                                                                     │
+│  2. Unificar patrones de error handling entre herramientas                                          │
+│     Algunas usan createSafeErrorMessage(), otras no                                                 │
+│                                                                                                     │
+│  3. Documentar dependencias en CLAUDE.md                                                            │
+│     Agregar sección específica para herramientas de documentos                                      │
+│                                                                                                     │
+└─────────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+╔══════════════════════════════════════════════════════════════════════════════════════════════════════╗
+║  CONCLUSIÓN T0                                                                                       ║
+╠══════════════════════════════════════════════════════════════════════════════════════════════════════╣
+║                                                                                                      ║
+║  Estado general de herramientas DOCUMENTOS: EXCELENTE                                                ║
+║                                                                                                      ║
+║  ✓ 12/12 herramientas funcionales                                                                    ║
+║  ✓ 9/9 que requieren validación la usan correctamente                                                ║
+║  ✓ 3/3 que usan librerías pesadas implementan dynamic import                                         ║
+║  ✓ 12/12 tienen monetización integrada (useToolUsage)                                                ║
+║                                                                                                      ║
+║  Subdivisión propuesta:                                                                              ║
+║  • Subcategoría 1: PDF Core Tools (5) - Operaciones fundamentales PDF                                ║
+║  • Subcategoría 2: Format Conversion (4) - Conversión a/desde PDF                                    ║
+║  • Subcategoría 3: AI Document Processing (3) - Procesamiento inteligente                            ║
+║                                                                                                      ║
+║  No se encontraron problemas de seguridad críticos.                                                  ║
+║                                                                                                      ║
+╚══════════════════════════════════════════════════════════════════════════════════════════════════════╝

@@ -1,0 +1,46 @@
+═══════════════════════════════════════════════════════════════════════════════
+                    COMANDOS PARA EJECUTAR WORKERS EN PARALELO
+═══════════════════════════════════════════════════════════════════════════════
+
+ABRIR 2 TERMINALES NUEVAS EN ESTA CARPETA Y EJECUTAR:
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ TERMINAL 1 - T1 (MEDIA Tools)                                                │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+cd "C:\Users\Kaos\scripts\Nlife_somo" && npx @anthropic-ai/claude-code --dangerously-skip-permissions
+
+# Dentro de Claude Code, ejecutar:
+/worker-t1
+
+O MANUALMENTE:
+Eres t1. Revisa las 15 herramientas MEDIA en apps/web/src/components/tools/.
+Subcategorías: Imágenes(5), Video(5), Audio(5).
+Genera reporte ASCII con estado, validación, dynamic imports y monetización.
+Guarda en .workertasks/t1_reporte.txt
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│ TERMINAL 2 - T2 (AI + UTILITY Tools)                                         │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+cd "C:\Users\Kaos\scripts\Nlife_somo" && npx @anthropic-ai/claude-code --dangerously-skip-permissions
+
+# Dentro de Claude Code, ejecutar:
+/worker-t2
+
+O MANUALMENTE:
+Eres t2. Revisa 25 herramientas: AI(10) + UTILITY(15).
+Enfoque en seguridad: DOMPurify, validación, sanitización.
+Genera reporte de seguridad con issues por severidad.
+Guarda en .workertasks/t2_reporte.txt
+
+═══════════════════════════════════════════════════════════════════════════════
+                               WORKER T0 (ACTUAL)
+═══════════════════════════════════════════════════════════════════════════════
+
+YO (t0) reviso DOCUMENTOS(12) y subdivido en 3 subcategorías:
+- PDF Manipulation
+- PDF Conversion
+- Document AI/Scan
+
+═══════════════════════════════════════════════════════════════════════════════

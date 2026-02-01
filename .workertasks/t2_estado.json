@@ -1,0 +1,440 @@
+{
+  "audit_metadata": {
+    "timestamp": "2026-02-01T00:00:00Z",
+    "version": "2.0",
+    "model": "Claude Opus 4.5",
+    "repository": "Nlife_somo",
+    "total_tools_audited": 25,
+    "ai_tools_count": 10,
+    "utility_tools_count": 15
+  },
+  "severity_summary": {
+    "high": 3,
+    "medium": 5,
+    "low": 2,
+    "secure": 15
+  },
+  "issues_by_severity": {
+    "high": [
+      {
+        "tool": "SubtitleGenerator",
+        "file": "apps/web/src/components/tools/SubtitleGenerator.tsx",
+        "issue_type": "XSS_RISK",
+        "description": "Renders user-uploaded SRT/VTT content without sanitization. Malicious subtitle files could inject JavaScript via HTML tags.",
+        "line_reference": "output rendering section",
+        "recommendation": "Apply escapeHtml() from security.ts to all subtitle text before DOM insertion"
+      },
+      {
+        "tool": "ImageCaptioning",
+        "file": "apps/web/src/components/tools/ImageCaptioning.tsx",
+        "issue_type": "XSS_RISK",
+        "description": "Displays AI-generated captions without HTML escaping. If model returns malicious HTML/JS, it renders raw.",
+        "line_reference": "caption display section",
+        "recommendation": "Apply escapeHtml() to all AI-generated caption text before rendering"
+      },
+      {
+        "tool": "TextSummarization, GrammarChecker, SentimentAnalysis",
+        "file": "apps/web/src/components/tools/TextSummarization.tsx",
+        "issue_type": "XSS_RISK",
+        "description": "Renders AI-generated text directly to DOM without sanitization. Potential for reflected XSS if user input contains HTML/JS payloads.",
+        "line_reference": "output display sections",
+        "recommendation": "Apply escapeHtml() to all text outputs before DOM insertion"
+      }
+    ],
+    "medium": [
+      {
+        "tool": "ObjectDetection, ImageUpscaler",
+        "file": "apps/web/src/components/tools/ObjectDetection.tsx",
+        "issue_type": "DYNAMIC_IMPORT_INTEGRITY",
+        "description": "Uses dynamic import for ML libraries without integrity hash verification. MITM risk on CDN-loaded WASM binaries.",
+        "line_reference": "dynamic import section",
+        "recommendation": "Implement Subresource Integrity (SRI) checks for all dynamic imports"
+      },
+      {
+        "tool": "QrReader",
+        "file": "apps/web/src/components/tools/QrReader.tsx",
+        "issue_type": "XSS_RISK",
+        "description": "Decodes QR codes and displays content without sanitization. Malicious QR payloads could execute.",
+        "line_reference": "QR content display section",
+        "recommendation": "Apply escapeHtml() to decoded QR content before display"
+      },
+      {
+        "tool": "ObjectRemover",
+        "file": "apps/web/src/components/tools/ObjectRemover.tsx",
+        "issue_type": "CANVAS_CORS",
+        "description": "Canvas manipulation without CORS validation on loaded images. Potential for canvas-based attacks.",
+        "line_reference": "canvas operations section",
+        "recommendation": "Add CORS validation before loading external images to canvas"
+      },
+      {
+        "tool": "AiSummary",
+        "file": "apps/web/src/components/tools/AiSummary.tsx",
+        "issue_type": "XSS_RISK",
+        "description": "Displays AI-generated summaries without escaping. Lower risk as input is controlled but still vulnerable.",
+        "line_reference": "summary display section",
+        "recommendation": "Apply escapeHtml() to all AI-generated content"
+      },
+      {
+        "tool": "Base64Tool",
+        "file": "apps/web/src/components/tools/Base64Tool.tsx",
+        "issue_type": "VALIDATION",
+        "description": "Decodes base64 without checking for malicious data: URLs or JavaScript payloads.",
+        "line_reference": "decode section",
+        "recommendation": "Add validation to detect and block data: URLs and javascript: protocols"
+      }
+    ],
+    "low": [
+      {
+        "tool": "PasswordGenerator",
+        "file": "apps/web/src/components/tools/PasswordGenerator.tsx",
+        "issue_type": "CRYPTO_FALLBACK",
+        "description": "Uses Math.random() fallback if crypto.getRandomValues unavailable. Should enforce secure context requirement.",
+        "line_reference": "random generation section",
+        "recommendation": "Remove Math.random() fallback and require secure context"
+      },
+      {
+        "tool": "ColorConverter",
+        "file": "apps/web/src/components/tools/ColorConverter.tsx",
+        "issue_type": "VALIDATION",
+        "description": "No input validation on color values could lead to unexpected rendering but no security impact.",
+        "line_reference": "input handling section",
+        "recommendation": "Add input validation for color values"
+      }
+    ]
+  },
+  "security_utilities_usage": {
+    "dompurify": {
+      "count": 2,
+      "tools": [
+        {
+          "name": "MarkdownEditor",
+          "file": "apps/web/src/components/tools/MarkdownEditor.tsx",
+          "usage": "Sanitizes HTML before rendering"
+        },
+        {
+          "name": "SvgEditor",
+          "file": "apps/web/src/components/tools/SvgEditor.tsx",
+          "usage": "Sanitizes SVG content before DOM insertion"
+        }
+      ]
+    },
+    "escapeHtml": {
+      "count": 2,
+      "tools": [
+        {
+          "name": "JsonFormatter",
+          "file": "apps/web/src/components/tools/JsonFormatter.tsx",
+          "usage": "Escapes error messages"
+        },
+        {
+          "name": "DiffChecker",
+          "file": "apps/web/src/components/tools/DiffChecker.tsx",
+          "usage": "Escapes diff output before rendering"
+        }
+      ]
+    },
+    "security_ts": {
+      "count": 3,
+      "tools": [
+        {
+          "name": "CodeBeautifier",
+          "file": "apps/web/src/components/tools/CodeBeautifier.tsx",
+          "functions": ["createSafeErrorMessage"]
+        },
+        {
+          "name": "SvgEditor",
+          "file": "apps/web/src/components/tools/SvgEditor.tsx",
+          "functions": ["createSafeErrorMessage", "validateFileType"]
+        },
+        {
+          "name": "MarkdownEditor",
+          "file": "apps/web/src/components/tools/MarkdownEditor.tsx",
+          "functions": ["createSafeErrorMessage"]
+        }
+      ]
+    },
+    "dynamic_imports": {
+      "count": 4,
+      "tools": [
+        {
+          "name": "QrReader",
+          "library": "jsqr",
+          "integrity_check": false
+        },
+        {
+          "name": "CodeBeautifier",
+          "library": "prettier, sql-formatter",
+          "integrity_check": false
+        },
+        {
+          "name": "MarkdownEditor",
+          "library": "jspdf",
+          "integrity_check": false
+        },
+        {
+          "name": "ObjectDetection",
+          "library": "@tensorflow-models/coco-ssd",
+          "integrity_check": false
+        }
+      ]
+    }
+  },
+  "ai_tools_analysis": [
+    {
+      "name": "SubtitleGenerator",
+      "status": "high_risk",
+      "dompurify": false,
+      "escapeHtml": false,
+      "security_ts": false,
+      "dynamic_imports": false,
+      "file_upload": true
+    },
+    {
+      "name": "SentimentAnalysis",
+      "status": "high_risk",
+      "dompurify": false,
+      "escapeHtml": false,
+      "security_ts": false,
+      "dynamic_imports": false,
+      "file_upload": false
+    },
+    {
+      "name": "ObjectDetection",
+      "status": "medium_risk",
+      "dompurify": false,
+      "escapeHtml": false,
+      "security_ts": false,
+      "dynamic_imports": true,
+      "file_upload": true
+    },
+    {
+      "name": "ImageCaptioning",
+      "status": "high_risk",
+      "dompurify": false,
+      "escapeHtml": false,
+      "security_ts": false,
+      "dynamic_imports": false,
+      "file_upload": true
+    },
+    {
+      "name": "TextSummarization",
+      "status": "high_risk",
+      "dompurify": false,
+      "escapeHtml": false,
+      "security_ts": false,
+      "dynamic_imports": false,
+      "file_upload": false
+    },
+    {
+      "name": "GrammarChecker",
+      "status": "high_risk",
+      "dompurify": false,
+      "escapeHtml": false,
+      "security_ts": false,
+      "dynamic_imports": false,
+      "file_upload": false
+    },
+    {
+      "name": "ImageUpscaler",
+      "status": "medium_risk",
+      "dompurify": false,
+      "escapeHtml": false,
+      "security_ts": false,
+      "dynamic_imports": true,
+      "file_upload": true
+    },
+    {
+      "name": "ObjectRemover",
+      "status": "medium_risk",
+      "dompurify": false,
+      "escapeHtml": false,
+      "security_ts": false,
+      "dynamic_imports": false,
+      "file_upload": true
+    },
+    {
+      "name": "DiffChecker",
+      "status": "secure",
+      "dompurify": false,
+      "escapeHtml": true,
+      "security_ts": false,
+      "dynamic_imports": false,
+      "file_upload": false
+    },
+    {
+      "name": "AiSummary",
+      "status": "medium_risk",
+      "dompurify": false,
+      "escapeHtml": false,
+      "security_ts": false,
+      "dynamic_imports": false,
+      "file_upload": false
+    }
+  ],
+  "utility_tools_analysis": [
+    {
+      "name": "QrGenerator",
+      "status": "secure",
+      "dompurify": false,
+      "escapeHtml": false,
+      "security_ts": false,
+      "dynamic_imports": false,
+      "file_upload": false
+    },
+    {
+      "name": "Base64Tool",
+      "status": "medium_risk",
+      "dompurify": false,
+      "escapeHtml": false,
+      "security_ts": false,
+      "dynamic_imports": false,
+      "file_upload": false
+    },
+    {
+      "name": "JsonFormatter",
+      "status": "secure",
+      "dompurify": false,
+      "escapeHtml": true,
+      "security_ts": false,
+      "dynamic_imports": false,
+      "file_upload": false
+    },
+    {
+      "name": "TextCase",
+      "status": "secure",
+      "dompurify": false,
+      "escapeHtml": false,
+      "security_ts": false,
+      "dynamic_imports": false,
+      "file_upload": false
+    },
+    {
+      "name": "WordCounter",
+      "status": "secure",
+      "dompurify": false,
+      "escapeHtml": false,
+      "security_ts": false,
+      "dynamic_imports": false,
+      "file_upload": false
+    },
+    {
+      "name": "LoremIpsum",
+      "status": "secure",
+      "dompurify": false,
+      "escapeHtml": false,
+      "security_ts": false,
+      "dynamic_imports": false,
+      "file_upload": false
+    },
+    {
+      "name": "HashGenerator",
+      "status": "secure",
+      "dompurify": false,
+      "escapeHtml": false,
+      "security_ts": false,
+      "dynamic_imports": false,
+      "file_upload": false
+    },
+    {
+      "name": "ColorConverter",
+      "status": "low_risk",
+      "dompurify": false,
+      "escapeHtml": false,
+      "security_ts": false,
+      "dynamic_imports": false,
+      "file_upload": false
+    },
+    {
+      "name": "PasswordGenerator",
+      "status": "low_risk",
+      "dompurify": false,
+      "escapeHtml": false,
+      "security_ts": false,
+      "dynamic_imports": false,
+      "file_upload": false
+    },
+    {
+      "name": "QrReader",
+      "status": "medium_risk",
+      "dompurify": false,
+      "escapeHtml": false,
+      "security_ts": false,
+      "dynamic_imports": true,
+      "file_upload": true
+    },
+    {
+      "name": "UnitConverter",
+      "status": "secure",
+      "dompurify": false,
+      "escapeHtml": false,
+      "security_ts": false,
+      "dynamic_imports": false,
+      "file_upload": false
+    },
+    {
+      "name": "CodeBeautifier",
+      "status": "secure",
+      "dompurify": false,
+      "escapeHtml": false,
+      "security_ts": true,
+      "dynamic_imports": true,
+      "file_upload": true
+    },
+    {
+      "name": "SvgEditor",
+      "status": "secure",
+      "dompurify": true,
+      "escapeHtml": false,
+      "security_ts": true,
+      "dynamic_imports": false,
+      "file_upload": true
+    },
+    {
+      "name": "MarkdownEditor",
+      "status": "secure",
+      "dompurify": true,
+      "escapeHtml": false,
+      "security_ts": true,
+      "dynamic_imports": true,
+      "file_upload": true
+    }
+  ],
+  "external_libraries": {
+    "high_risk_no_integrity": [
+      "@tensorflow-models/coco-ssd",
+      "@xenova/transformers",
+      "@huggingface/transformers",
+      "jsqr",
+      "prettier",
+      "sql-formatter",
+      "jspdf"
+    ]
+  },
+  "remediation_roadmap": {
+    "phase_1_immediate": [
+      "Add escapeHtml() to SubtitleGenerator output rendering",
+      "Add escapeHtml() to ImageCaptioning AI output display",
+      "Add escapeHtml() to TextSummarization output rendering",
+      "Add escapeHtml() to GrammarChecker output rendering",
+      "Add escapeHtml() to SentimentAnalysis output rendering"
+    ],
+    "phase_2_short_term": [
+      "Add SRI integrity checks to all dynamic imports",
+      "Add output sanitization to QrReader",
+      "Add CORS validation to ObjectRemover canvas operations",
+      "Add base64 content validation to Base64Tool"
+    ],
+    "phase_3_long_term": [
+      "Remove Math.random() fallback from PasswordGenerator",
+      "Add input validation to ColorConverter"
+    ]
+  },
+  "overall_risk_assessment": "MODERATE",
+  "compliance_status": {
+    "owasp_top_10": {
+      "xss": "PARTIAL - 8 tools lack output sanitization",
+      "insecure_deserialization": "NOT_APPLICABLE",
+      "security_misconfiguration": "LOW - Missing SRI on dynamic imports"
+    }
+  }
+}

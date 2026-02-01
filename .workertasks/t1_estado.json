@@ -1,0 +1,425 @@
+{
+  "auditoria": {
+    "fecha": "2026-02-01",
+    "auditor": "Claude Code (Worker T1)",
+    "total_herramientas": 15,
+    "categorias": {
+      "imagenes": 5,
+      "video": 5,
+      "audio": 5
+    }
+  },
+  "metricas": {
+    "validacion_completa": {
+      "count": 14,
+      "total": 15,
+      "percentage": 93.3
+    },
+    "validacion_incompleta": {
+      "count": 1,
+      "total": 15,
+      "percentage": 6.7
+    },
+    "monetizacion_integrada": {
+      "count": 15,
+      "total": 15,
+      "percentage": 100
+    },
+    "dynamic_imports": {
+      "count": 8,
+      "total": 15,
+      "percentage": 53.3
+    },
+    "uso_security_ts": {
+      "count": 14,
+      "total": 15,
+      "percentage": 93.3
+    }
+  },
+  "herramientas": {
+    "imagenes": [
+      {
+        "id": "image-compress",
+        "nombre": "ImageCompress",
+        "archivo": "ImageCompress.tsx",
+        "validacion": {
+          "tipo": "completa",
+          "funcion": "validateFile(file, 'image')",
+          "magic_bytes": true
+        },
+        "dynamic_imports": ["jszip"],
+        "monetizacion": {
+          "hook": "useToolUsage('image-compress')",
+          "usage_indicator": true,
+          "check_usage": true,
+          "record_usage": true
+        },
+        "estado": "ok",
+        "observaciones": "Batch processing con thumbnails"
+      },
+      {
+        "id": "image-resize",
+        "nombre": "ImageResize",
+        "archivo": "ImageResize.tsx",
+        "validacion": {
+          "tipo": "incompleta",
+          "funcion": "file.type.startsWith('image/')",
+          "magic_bytes": false
+        },
+        "dynamic_imports": [],
+        "monetizacion": {
+          "hook": "useToolUsage('image-resize')",
+          "usage_indicator": true,
+          "check_usage": true,
+          "record_usage": true
+        },
+        "estado": "parcial",
+        "observaciones": "Necesita usar validateFile de security.ts"
+      },
+      {
+        "id": "file-converter",
+        "nombre": "FileConverter",
+        "archivo": "FileConverter.tsx",
+        "validacion": {
+          "tipo": "completa",
+          "funcion": "validateImageFileExtended()",
+          "magic_bytes": true
+        },
+        "dynamic_imports": ["heic2any", "jszip"],
+        "monetizacion": {
+          "hook": "useToolUsage('file-converter')",
+          "usage_indicator": true,
+          "check_usage": true,
+          "record_usage": true
+        },
+        "estado": "ok",
+        "observaciones": "Soporta HEIC con conversion"
+      },
+      {
+        "id": "background-remover",
+        "nombre": "BackgroundRemover",
+        "archivo": "BackgroundRemover.tsx",
+        "validacion": {
+          "tipo": "completa",
+          "funcion": "validateFile(file, 'image')",
+          "magic_bytes": true
+        },
+        "dynamic_imports": ["@imgly/background-removal", "jszip"],
+        "monetizacion": {
+          "hook": "useToolUsage('background-remover')",
+          "usage_indicator": true,
+          "check_usage": true,
+          "record_usage": true
+        },
+        "estado": "ok",
+        "observaciones": "AI removal + Magic Brush editor"
+      },
+      {
+        "id": "exif-editor",
+        "nombre": "ExifEditor",
+        "archivo": "ExifEditor.tsx",
+        "validacion": {
+          "tipo": "completa",
+          "funcion": "validateFile(file, 'image')",
+          "magic_bytes": true
+        },
+        "dynamic_imports": ["piexifjs"],
+        "monetizacion": {
+          "hook": "useToolUsage('exif-editor')",
+          "usage_indicator": true,
+          "check_usage": true,
+          "record_usage": true
+        },
+        "estado": "ok",
+        "observaciones": "GPS stripping y metadata editing"
+      }
+    ],
+    "video": [
+      {
+        "id": "video-to-mp3",
+        "nombre": "VideoToMp3",
+        "archivo": "VideoToMp3.tsx",
+        "validacion": {
+          "tipo": "completa",
+          "funcion": "validateVideoFile()",
+          "magic_bytes": false
+        },
+        "dynamic_imports": ["@ffmpeg/ffmpeg"],
+        "monetizacion": {
+          "hook": "useToolUsage('video-to-mp3')",
+          "usage_indicator": true,
+          "check_usage": true,
+          "record_usage": true
+        },
+        "estado": "ok",
+        "observaciones": "SharedArrayBuffer check"
+      },
+      {
+        "id": "video-compressor",
+        "nombre": "VideoCompressor",
+        "archivo": "VideoCompressor.tsx",
+        "validacion": {
+          "tipo": "completa",
+          "funcion": "validateVideoFile()",
+          "magic_bytes": false
+        },
+        "dynamic_imports": ["@ffmpeg/ffmpeg"],
+        "monetizacion": {
+          "hook": "useToolUsage('video-compressor')",
+          "usage_indicator": true,
+          "check_usage": true,
+          "record_usage": true
+        },
+        "estado": "ok",
+        "observaciones": "Quality presets con CRF"
+      },
+      {
+        "id": "video-trimmer",
+        "nombre": "VideoTrimmer",
+        "archivo": "VideoTrimmer.tsx",
+        "validacion": {
+          "tipo": "completa",
+          "funcion": "validateVideoFile()",
+          "magic_bytes": false
+        },
+        "dynamic_imports": ["@ffmpeg/ffmpeg"],
+        "monetizacion": {
+          "hook": "useToolUsage('video-trimmer')",
+          "usage_indicator": true,
+          "check_usage": true,
+          "record_usage": true
+        },
+        "estado": "ok",
+        "observaciones": "Precise mode con re-encoding"
+      },
+      {
+        "id": "gif-maker",
+        "nombre": "GifMaker",
+        "archivo": "GifMaker.tsx",
+        "validacion": {
+          "tipo": "completa",
+          "funcion": "validateVideoFile()",
+          "magic_bytes": false
+        },
+        "dynamic_imports": ["@ffmpeg/ffmpeg"],
+        "monetizacion": {
+          "hook": "useToolUsage('gif-maker')",
+          "usage_indicator": true,
+          "check_usage": true,
+          "record_usage": true
+        },
+        "estado": "ok",
+        "observaciones": "Palette optimization"
+      },
+      {
+        "id": "screen-recorder",
+        "nombre": "ScreenRecorder",
+        "archivo": "ScreenRecorder.tsx",
+        "validacion": {
+          "tipo": "n/a",
+          "funcion": "getDisplayMedia API",
+          "magic_bytes": false
+        },
+        "dynamic_imports": [],
+        "monetizacion": {
+          "hook": "useToolUsage('screen-recorder')",
+          "usage_indicator": true,
+          "check_usage": true,
+          "record_usage": true
+        },
+        "estado": "ok",
+        "observaciones": "MediaRecorder API nativa"
+      }
+    ],
+    "audio": [
+      {
+        "id": "remove-vocals",
+        "nombre": "RemoveVocals",
+        "archivo": "RemoveVocals.tsx",
+        "validacion": {
+          "tipo": "completa",
+          "funcion": "validateAudioFile()",
+          "magic_bytes": false
+        },
+        "dynamic_imports": [],
+        "monetizacion": {
+          "hook": "useToolUsage('remove-vocals')",
+          "usage_indicator": true,
+          "check_usage": true,
+          "record_usage": true
+        },
+        "estado": "ok",
+        "observaciones": "Web Audio API nativo"
+      },
+      {
+        "id": "audio-transcription",
+        "nombre": "AudioTranscription",
+        "archivo": "AudioTranscription.tsx",
+        "validacion": {
+          "tipo": "completa",
+          "funcion": "validateAudioFile()",
+          "magic_bytes": false
+        },
+        "dynamic_imports": ["@huggingface/transformers"],
+        "monetizacion": {
+          "hook": "useToolUsage('audio-transcription')",
+          "usage_indicator": true,
+          "check_usage": true,
+          "record_usage": true
+        },
+        "estado": "ok",
+        "observaciones": "Whisper AI ~150MB"
+      },
+      {
+        "id": "audio-editor",
+        "nombre": "AudioWaveformEditor",
+        "archivo": "AudioWaveformEditor.tsx",
+        "validacion": {
+          "tipo": "completa",
+          "funcion": "validateAudioFile()",
+          "magic_bytes": false
+        },
+        "dynamic_imports": ["@ffmpeg/ffmpeg"],
+        "monetizacion": {
+          "hook": "useToolUsage('audio-waveform')",
+          "usage_indicator": true,
+          "check_usage": true,
+          "record_usage": true
+        },
+        "estado": "ok",
+        "observaciones": "Waveform visualization"
+      },
+      {
+        "id": "audiogram-maker",
+        "nombre": "AudiogramMaker",
+        "archivo": "AudiogramMaker.tsx",
+        "validacion": {
+          "tipo": "completa",
+          "funcion": "validateAudioFile() + validateFile(image)",
+          "magic_bytes": true
+        },
+        "dynamic_imports": ["@ffmpeg/ffmpeg"],
+        "monetizacion": {
+          "hook": "useToolUsage('audiogram-maker')",
+          "usage_indicator": true,
+          "check_usage": true,
+          "record_usage": true
+        },
+        "estado": "ok",
+        "observaciones": "Video generation from audio"
+      },
+      {
+        "id": "subtitle-generator",
+        "nombre": "SubtitleGenerator",
+        "archivo": "SubtitleGenerator.tsx",
+        "validacion": {
+          "tipo": "completa",
+          "funcion": "validateAudioFile() / validateVideoFile()",
+          "magic_bytes": false
+        },
+        "dynamic_imports": ["@huggingface/transformers"],
+        "monetizacion": {
+          "hook": "useToolUsage('subtitle-generator')",
+          "usage_indicator": true,
+          "check_usage": true,
+          "record_usage": true
+        },
+        "estado": "ok",
+        "observaciones": "SRT/VTT export con timestamps"
+      },
+      {
+        "id": "subtitle-editor",
+        "nombre": "SubtitleEditor",
+        "archivo": "SubtitleEditor.tsx",
+        "validacion": {
+          "tipo": "especifica",
+          "funcion": "extension check + size limit",
+          "magic_bytes": false
+        },
+        "dynamic_imports": [],
+        "monetizacion": {
+          "hook": "useToolUsage('subtitle-editor')",
+          "usage_indicator": true,
+          "check_usage": true,
+          "record_usage": true
+        },
+        "estado": "ok",
+        "observaciones": "Editor de subtitulos SRT/VTT"
+      }
+    ]
+  },
+  "librerias_pesadas": [
+    {
+      "nombre": "@ffmpeg/ffmpeg",
+      "tamano_mb": 31,
+      "herramientas": [
+        "video-to-mp3",
+        "video-compressor",
+        "video-trimmer",
+        "gif-maker",
+        "audio-editor",
+        "audiogram-maker"
+      ]
+    },
+    {
+      "nombre": "@huggingface/transformers",
+      "tamano_mb": 150,
+      "herramientas": [
+        "audio-transcription",
+        "subtitle-generator"
+      ]
+    },
+    {
+      "nombre": "@imgly/background-removal",
+      "tamano_mb": 180,
+      "herramientas": [
+        "background-remover"
+      ]
+    },
+    {
+      "nombre": "heic2any",
+      "tamano_mb": 0.5,
+      "herramientas": [
+        "file-converter"
+      ]
+    },
+    {
+      "nombre": "piexifjs",
+      "tamano_mb": 0.05,
+      "herramientas": [
+        "exif-editor"
+      ]
+    },
+    {
+      "nombre": "jszip",
+      "tamano_mb": 0.1,
+      "herramientas": [
+        "image-compress",
+        "file-converter",
+        "background-remover"
+      ]
+    }
+  ],
+  "problemas": [
+    {
+      "prioridad": "media",
+      "herramienta": "image-resize",
+      "archivo": "apps/web/src/components/tools/ImageResize.tsx",
+      "linea": 32,
+      "problema": "Validacion incompleta - solo verifica file.type.startsWith('image/')",
+      "impacto": "No valida magic bytes ni tamanio maximo consistente con otras herramientas",
+      "solucion": "Importar y usar validateFile(file, 'image') de security.ts"
+    }
+  ],
+  "recomendaciones": [
+    "Actualizar ImageResize para usar validateFile de security.ts",
+    "Considerar agregar validacion de magic bytes para videos (complejo debido a formatos)",
+    "Mantener patron de dynamic imports para todas las librerias > 100KB"
+  ],
+  "conclusion": {
+    "estado_general": "operativo",
+    "herramientas_funcionales": 15,
+    "herramientas_con_problemas": 1,
+    "porcentaje_completitud": 93.3
+  }
+}

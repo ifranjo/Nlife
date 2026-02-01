@@ -1,0 +1,43 @@
+{
+  "worker": "t0",
+  "categoria": "DOCUMENTOS",
+  "fecha": "2026-02-01",
+  "total_herramientas": 12,
+  "estado": "COMPLETADO",
+  "subcategorias": [
+    {
+      "id": "pdf-core",
+      "nombre": "PDF Core Tools",
+      "cantidad": 5,
+      "herramientas": ["pdf-merge", "pdf-compress", "pdf-split", "pdf-organize", "pdf-redactor"],
+      "estado": "FUNCIONAL",
+      "librerias_pesadas": ["pdf-lib"]
+    },
+    {
+      "id": "format-conversion",
+      "nombre": "Format Conversion",
+      "cantidad": 4,
+      "herramientas": ["pdf-to-word", "pdf-to-jpg", "jpg-to-pdf", "pdf-form-filler"],
+      "estado": "FUNCIONAL",
+      "librerias_pesadas": ["docx", "pdfjs-dist"]
+    },
+    {
+      "id": "ai-processing",
+      "nombre": "AI Document Processing",
+      "cantidad": 3,
+      "herramientas": ["ocr", "document-scanner", "resume-builder"],
+      "estado": "FUNCIONAL",
+      "librerias_pesadas": ["@huggingface/transformers", "jspdf"]
+    }
+  ],
+  "metricas": {
+    "funcionales": 12,
+    "con_validacion": 9,
+    "sin_validacion_requerida": 3,
+    "con_dynamic_import": 3,
+    "con_monetizacion": 12,
+    "problemas_criticos": 0,
+    "problemas_menores": 0
+  },
+  "reporte_file": ".workertasks/t0_reporte.txt"
+}

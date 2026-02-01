@@ -1,0 +1,222 @@
+╔══════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+║                                                                                                          ║
+║   ███████╗███████╗ ██████╗██╗   ██╗██████╗ ██╗████████╗██╗   ██╗    █████╗ ██╗   ██╗██████╗ ██╗████████╗ ║
+║   ██╔════╝██╔════╝██╔════╝██║   ██║██╔══██╗██║╚══██╔══╝╚██╗ ██╔╝   ██╔══██╗██║   ██║██╔══██╗██║╚══██╔══╝ ║
+║   ███████╗█████╗  ██║     ██║   ██║██████╔╝██║   ██║    ╚████╔╝    ███████║██║   ██║██████╔╝██║   ██║    ║
+║   ╚════██║██╔══╝  ██║     ██║   ██║██╔══██╗██║   ██║     ╚██╔╝     ██╔══██║██║   ██║██╔══██╗██║   ██║    ║
+║   ███████║███████╗╚██████╗╚██████╔╝██║  ██║██║   ██║      ██║      ██║  ██║╚██████╔╝██║  ██║██║   ██║    ║
+║   ╚══════╝╚══════╝ ╚═════╝ ╚═════╝ ╚═╝  ╚═╝╚═╝   ╚═╝      ╚═╝      ╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═╝╚═╝   ╚═╝    ║
+║                                                                                                          ║
+║                    ╔═══════════════════════════════════════════════════════╗                             ║
+║                    ║     25 TOOLS AUDITED - Nlife_somo Repository          ║                             ║
+║                    ║     Generated: 2026-02-01 | v2.0 | Agentic Audit      ║                             ║
+║                    ╚═══════════════════════════════════════════════════════╝                             ║
+╚══════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+
+┌──────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│  EXECUTIVE SUMMARY                                                                                       │
+├──────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                                          │
+│  ┌────────────────┐  ┌────────────────┐  ┌────────────────┐  ┌────────────────┐                         │
+│  │  ▲ HIGH        │  │  ◆ MEDIUM      │  │  ● LOW         │  │  ★ SECURE      │                         │
+│  │       3        │  │       5        │  │       2        │  │      15        │                         │
+│  │   [CRITICAL]   │  │  [ATTENTION]   │  │  [ADVISORY]    │  │   [PASSED]     │                         │
+│  └────────────────┘  └────────────────┘  └────────────────┘  └────────────────┘                         │
+│                                                                                                          │
+│  AUDIT SCOPE: 25 Tools (10 AI + 15 UTILITY)                                                             │
+│  FOCUS AREAS: DOMPurify, escapeHtml(), security.ts, Dynamic Imports, File Validation                    │
+│  OVERALL RISK: MODERATE - Several HIGH severity issues require immediate attention                      │
+│                                                                                                          │
+└──────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃  HIGH SEVERITY ISSUES (3) - REQUIRES IMMEDIATE ACTION                                                    ┃
+┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
+┃                                                                                                          ┃
+┃  ╔═══════════════════════════╦═══════════════╦══════════════════════════════════════════════════════════╗┃
+┃  ║ TOOL                      ║ ISSUE TYPE    ║ DESCRIPTION                                              ║┃
+┃  ╠═══════════════════════════╬═══════════════╬══════════════════════════════════════════════════════════╣┃
+┃  ║ SubtitleGenerator         ║ XSS RISK      ║ Renders user-uploaded SRT/VTT content without            ║┃
+┃  ║                           ║               ║ sanitization. Malicious subtitle files could inject      ║┃
+┃  ║                           ║               ║ JavaScript via HTML tags in subtitle text.               ║┃
+┃  ╠═══════════════════════════╬═══════════════╬══════════════════════════════════════════════════════════╣┃
+┃  ║ ImageCaptioning           ║ XSS RISK      ║ Displays AI-generated captions without HTML escaping.    ║┃
+┃  ║                           ║               ║ If model returns malicious HTML/JS, it renders raw.      ║┃
+┃  ╠═══════════════════════════╬═══════════════╬══════════════════════════════════════════════════════════╣┃
+┃  ║ TextSummarization         ║ XSS RISK      ║ Renders summarized text directly to DOM without          ║┃
+┃  ║ GrammarChecker            ║               ║ sanitization. Potential for reflected XSS if user        ║┃
+┃  ║ SentimentAnalysis         ║               ║ input contains HTML/JS payloads.                         ║┃
+┃  ╚═══════════════════════════╩═══════════════╩══════════════════════════════════════════════════════════╝┃
+┃                                                                                                          ┃
+┃  RECOMMENDATION: Apply escapeHtml() from security.ts to all text outputs before DOM insertion.          ┃
+┃                                                                                                          ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃  MEDIUM SEVERITY ISSUES (5) - SHOULD BE ADDRESSED                                                        ┃
+┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
+┃                                                                                                          ┃
+┃  ╔═══════════════════════════╦═══════════════╦══════════════════════════════════════════════════════════╗┃
+┃  ║ TOOL                      ║ ISSUE TYPE    ║ DESCRIPTION                                              ║┃
+┃  ╠═══════════════════════════╬═══════════════╬══════════════════════════════════════════════════════════╣┃
+┃  ║ ObjectDetection           ║ VALIDATION    ║ Uses dynamic import for @tensorflow-models/coco-ssd      ║┃
+┃  ║ ImageUpscaler             ║               ║ but no integrity hash verification. MITM risk on         ║┃
+┃  ║                           ║               ║ CDN-loaded WASM binaries.                                ║┃
+┃  ╠═══════════════════════════╬═══════════════╬══════════════════════════════════════════════════════════╣┃
+┃  ║ QrReader                  ║ VALIDATION    ║ Decodes QR codes and displays content without            ┑┃
+┃  ║                           ║               ║ sanitization. Malicious QR payloads could execute.       ║┃
+┃  ╠═══════════════════════════╬═══════════════╬══════════════════════════════════════════════════════════╣┃
+┃  ║ ObjectRemover             ║ FILE UPLOAD   ║ Canvas manipulation without CORS validation on           ║┃
+┃  ║                           ║               ║ loaded images. Potential for canvas-based attacks.       ║┃
+┃  ╠═══════════════════════════╬═══════════════╬══════════════════════════════════════════════════════════╣┃
+┃  ║ AiSummary                 ║ XSS RISK      ║ Displays AI-generated summaries without escaping.        ║┃
+┃  ║                           ║               ║ Lower risk as input is controlled but still vulnerable.  ║┃
+┃  ╠═══════════════════════════╬═══════════════╬══════════════════════════════════════════════════════════╣┃
+┃  ║ Base64Tool                ║ VALIDATION    ║ Decodes base64 without checking for malicious            ║┃
+┃  ║                           ║               ║ data: URLs or JavaScript payloads.                       ║┃
+┃  ╚═══════════════════════════╩═══════════════╩══════════════════════════════════════════════════════════╝┃
+┃                                                                                                          ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃  LOW SEVERITY ISSUES (2) - ADVISORY                                                                      ┃
+┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
+┃                                                                                                          ┃
+┃  ╔═══════════════════════════╦═══════════════╦══════════════════════════════════════════════════════════╗┃
+┃  ║ TOOL                      ║ ISSUE TYPE    ║ DESCRIPTION                                              ║┃
+┃  ╠═══════════════════════════╬═══════════════╬══════════════════════════════════════════════════════════╣┃
+┃  ║ PasswordGenerator         ║ CRYPTO        ║ Uses Math.random() fallback if crypto.getRandomValues    ║┃
+┃  ║                           ║               ║ unavailable. Should enforce secure context requirement.  ║┃
+┃  ╠═══════════════════════════╬═══════════════╬══════════════════════════════════════════════════════════╣┃
+┃  ║ ColorConverter            ║ VALIDATION    ║ No input validation on color values could lead to        ║┃
+┃  ║                           ║               ║ unexpected rendering but no security impact.             ║┃
+┃  ╚═══════════════════════════╩═══════════════╩══════════════════════════════════════════════════════════╝┃
+┃                                                                                                          ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃  SECURITY UTILITIES USAGE ANALYSIS                                                                       ┃
+┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
+┃                                                                                                          ┃
+┃  DOMPURIFY USAGE (2 tools):                                                                              ┃
+┃  ├── [✓] MarkdownEditor.tsx - Sanitizes HTML before rendering                                           ┃
+┃  └── [✓] SvgEditor.tsx - Sanitizes SVG content before DOM insertion                                     ┃
+┃                                                                                                          ┃
+┃  ESCAPEHTML() USAGE (2 tools):                                                                           ┃
+┃  ├── [✓] JsonFormatter.tsx - Escapes error messages                                                     ┃
+┃  └── [✓] DiffChecker.tsx - Escapes diff output before rendering                                         ┃
+┃                                                                                                          ┃
+┃  SECURITY.TS FUNCTIONS (3 tools):                                                                        ┃
+┃  ├── [✓] CodeBeautifier.tsx - Uses createSafeErrorMessage                                               ┃
+┃  ├── [✓] SvgEditor.tsx - Uses createSafeErrorMessage + validateFileType                                 ┃
+┃  └── [✓] MarkdownEditor.tsx - Uses createSafeErrorMessage                                               ┃
+┃                                                                                                          ┃
+┃  DYNAMIC IMPORTS (4 tools):                                                                              ┃
+┃  ├── [◐] QrReader.tsx - jsqr (no integrity check)                                                       ┃
+┃  ├── [◐] CodeBeautifier.tsx - prettier, sql-formatter (no integrity check)                              ┃
+┃  ├── [◐] MarkdownEditor.tsx - jspdf (no integrity check)                                                ┃
+┃  └── [◐] ObjectDetection.tsx - @tensorflow-models/coco-ssd (no integrity check)                         ┃
+┃                                                                                                          ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃  AI TOOLS SECURITY BREAKDOWN (10 tools)                                                                  ┃
+┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
+┃                                                                                                          ┃
+┃  ╔═══════════════════════════╦═══════════════╦══════════════════════════════════════════════════════════╗┃
+┃  ║ TOOL                      ║ STATUS        ║ SECURITY NOTES                                           ║┃
+┃  ╠═══════════════════════════╬═══════════════╬══════════════════════════════════════════════════════════╣┃
+┃  ║ SubtitleGenerator         ║ [✗] HIGH      ║ No output sanitization, file upload validation present   ║┃
+┃  ║ SentimentAnalysis         ║ [✗] HIGH      ║ No output sanitization on AI results                     ║┃
+┃  ║ ObjectDetection           ║ [◐] MEDIUM    ║ Dynamic import without integrity verification            ║┃
+┃  ║ ImageCaptioning           ║ [✗] HIGH      ║ No output sanitization on AI captions                    ║┃
+┃  ║ TextSummarization         ║ [✗] HIGH      ║ No output sanitization on summarized text                ║┃
+┃  ║ GrammarChecker            ║ [✗] HIGH      ║ No output sanitization on corrected text                 ║┃
+┃  ║ ImageUpscaler             ║ [◐] MEDIUM    ║ Dynamic import without integrity verification            ║┃
+┃  ║ ObjectRemover             ║ [◐] MEDIUM    ║ Canvas manipulation without CORS validation              ║┃
+┃  ║ DiffChecker               ║ [✓] SECURE    ║ Uses escapeHtml() for output sanitization                ║┃
+┃  ║ AiSummary                 ║ [◐] MEDIUM    ║ No output sanitization but lower risk profile            ║┃
+┃  ╚═══════════════════════════╩═══════════════╩══════════════════════════════════════════════════════════╝┃
+┃                                                                                                          ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃  UTILITY TOOLS SECURITY BREAKDOWN (15 tools)                                                             ┃
+┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┫
+┃                                                                                                          ┃
+┃  ╔═══════════════════════════╦═══════════════╦══════════════════════════════════════════════════════════╗┃
+┃  ║ TOOL                      ║ STATUS        ║ SECURITY NOTES                                           ║┃
+┃  ╠═══════════════════════════╬═══════════════╬══════════════════════════════════════════════════════════╣┃
+┃  ║ QrGenerator               ║ [✓] SECURE    ║ Canvas-based generation, no user input rendering         ║┃
+┃  ║ Base64Tool                ║ [◐] MEDIUM    ║ No validation on decoded content                         ║┃
+┃  ║ JsonFormatter             ║ [✓] SECURE    ║ Uses escapeHtml() for error display                      ║┃
+┃  ║ TextCase                  ║ [✓] SECURE    ║ Pure text transformation                                 ║┃
+┃  ║ WordCounter               ║ [✓] SECURE    ║ Pure text analysis                                       ║┃
+┃  ║ LoremIpsum                ║ [✓] SECURE    ┃ Static text generation                                   ║┃
+┃  ║ HashGenerator             ║ [✓] SECURE    ║ Uses Web Crypto API correctly                            ║┃
+┃  ║ ColorConverter            ║ [i] LOW       ║ No input validation but no security impact               ║┃
+┃  ║ PasswordGenerator         ║ [i] LOW       ║ Math.random() fallback present                           ║┃
+┃  ║ QrReader                  ║ [◐] MEDIUM    ║ No sanitization on decoded QR content                    ║┃
+┃  ║ UnitConverter             ║ [✓] SECURE    ║ Pure mathematical operations                             ║┃
+┃  ║ CodeBeautifier            ║ [✓] SECURE    ║ Uses security.ts utilities                               ║┃
+┃  ║ SvgEditor                 ║ [✓] SECURE    ║ Uses DOMPurify + security.ts                             ║┃
+┃  ║ MarkdownEditor            ║ [✓] SECURE    ║ Uses DOMPurify + security.ts                             ║┃
+┃  ╚═══════════════════════════╩═══════════════╩══════════════════════════════════════════════════════════╝┃
+┃                                                                                                          ┃
+┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+
+╭──────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│  EXTERNAL LIBRARIES ANALYSIS                                                                             │
+├──────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                                          │
+│  HIGH RISK LIBRARIES (No integrity verification):                                                        │
+│  ├── @tensorflow-models/coco-ssd (ObjectDetection)                                                      │
+│  ├── @xenova/transformers (ImageCaptioning, ImageUpscaler)                                              │
+│  ├── @huggingface/transformers (Whisper-based tools)                                                    │
+│  ├── jsqr (QrReader)                                                                                    │
+│  ├── prettier (CodeBeautifier)                                                                          │
+│  ├── sql-formatter (CodeBeautifier)                                                                     │
+│  └── jspdf (MarkdownEditor)                                                                             │
+│                                                                                                          │
+│  RECOMMENDATION: Implement Subresource Integrity (SRI) checks for all CDN-loaded libraries.             │
+│                                                                                                          │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+
+╭──────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│  REMEDIATION ROADMAP                                                                                     │
+├──────────────────────────────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                                          │
+│  PHASE 1 - IMMEDIATE (HIGH severity):                                                                    │
+│  ├── 1. Add escapeHtml() to SubtitleGenerator output rendering                                          │
+│  ├── 2. Add escapeHtml() to ImageCaptioning AI output display                                           │
+│  ├── 3. Add escapeHtml() to TextSummarization output rendering                                          │
+│  ├── 4. Add escapeHtml() to GrammarChecker output rendering                                             │
+│  └── 5. Add escapeHtml() to SentimentAnalysis output rendering                                          │
+│                                                                                                          │
+│  PHASE 2 - SHORT TERM (MEDIUM severity):                                                                 │
+│  ├── 1. Add SRI integrity checks to all dynamic imports                                                 │
+│  ├── 2. Add output sanitization to QrReader                                                             │
+│  ├── 3. Add CORS validation to ObjectRemover canvas operations                                          │
+│  └── 4. Add base64 content validation to Base64Tool                                                     │
+│                                                                                                          │
+│  PHASE 3 - LONG TERM (LOW severity):                                                                     │
+│  ├── 1. Remove Math.random() fallback from PasswordGenerator                                            │
+│  └── 2. Add input validation to ColorConverter                                                          │
+│                                                                                                          │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+
+╔══════════════════════════════════════════════════════════════════════════════════════════════════════════╗
+║  SECURITY REFERENCES                                                                                     ║
+╠══════════════════════════════════════════════════════════════════════════════════════════════════════════╣
+║  [1] apps/web/src/lib/security.ts - Core security utilities                                              ║
+║  [2] apps/web/src/components/tools/MarkdownEditor.tsx - DOMPurify example implementation                 ║
+║  [3] apps/web/src/components/tools/DiffChecker.tsx - escapeHtml() example implementation                 ║
+║  [4] OWASP XSS Prevention Cheat Sheet - https://cheatsheetseries.owasp.org/cheatsheets/XSS_Filter_Evasion ║
+║  [5] MDN Subresource Integrity - https://developer.mozilla.org/en-US/docs/Web/Security/Subresource_Integrity ║
+╚══════════════════════════════════════════════════════════════════════════════════════════════════════════╝
+
+═══════════════════════════════════════════════════════════════════════════════════════════════════════════
+                                              END OF REPORT
+                           Generated: 2026-02-01 | Model: Claude Opus 4.5 | v2.0
+                              Nlife_somo Repository - 25 Tools Security Audit
+═══════════════════════════════════════════════════════════════════════════════════════════════════════════
