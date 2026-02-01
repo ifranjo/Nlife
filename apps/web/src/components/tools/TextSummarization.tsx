@@ -1,5 +1,6 @@
 import { useState, useRef } from 'react';
 import { copyToClipboard } from '../../lib/clipboard';
+import { escapeHtml } from '../../lib/security';
 import UpgradePrompt, { UsageIndicator, useToolUsage } from '../ui/UpgradePrompt';
 
 type ModelStatus = 'idle' | 'loading' | 'ready' | 'summarizing' | 'error';
@@ -236,7 +237,7 @@ export default function TextSummarization() {
             </button>
           </div>
           <p className="text-cyan-400 leading-relaxed text-lg">
-            {summary}
+            {escapeHtml(summary)}
           </p>
         </div>
       )}

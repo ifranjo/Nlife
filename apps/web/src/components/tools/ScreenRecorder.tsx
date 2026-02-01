@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
+import { sanitizeFilename } from '../../lib/security';
 import ToolFeedback from '../ui/ToolFeedback';
 import UpgradePrompt, { UsageIndicator, useToolUsage } from '../ui/UpgradePrompt';
 
@@ -197,9 +198,10 @@ export default function ScreenRecorder() {
   const handleDownload = () => {
     if (!outputUrl) return;
     const timestamp = new Date().toISOString().slice(0, 19).replace(/[:-]/g, '');
+    const sanitizedTimestamp = sanitizeFilename(`recording-${timestamp}`);
     const a = document.createElement('a');
     a.href = outputUrl;
-    a.download = `screen-recording-${timestamp}.webm`;
+    a.download = `${sanitizedTimestamp}.webm`;
     a.click();
   };
 

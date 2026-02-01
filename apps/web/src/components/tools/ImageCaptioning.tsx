@@ -1,5 +1,6 @@
 import { useState, useRef } from 'react';
 import { copyToClipboard } from '../../lib/clipboard';
+import { escapeHtml } from '../../lib/security';
 import UpgradePrompt, { UsageIndicator, useToolUsage } from '../ui/UpgradePrompt';
 
 type ModelStatus = 'idle' | 'loading' | 'ready' | 'captioning' | 'error';
@@ -223,7 +224,7 @@ export default function ImageCaptioning() {
                 </button>
               </div>
               <p className="text-lg text-cyan-400 leading-relaxed">
-                {caption}
+                {escapeHtml(caption)}
               </p>
               <div className="mt-4 pt-4 border-t border-white/10">
                 <p className="text-xs text-[var(--text-muted)]">

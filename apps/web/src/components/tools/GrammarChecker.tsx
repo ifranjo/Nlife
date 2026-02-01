@@ -1,5 +1,6 @@
 import { useState, useRef } from 'react';
 import { copyToClipboard } from '../../lib/clipboard';
+import { escapeHtml } from '../../lib/security';
 import UpgradePrompt, { UsageIndicator, useToolUsage } from '../ui/UpgradePrompt';
 
 type ModelStatus = 'idle' | 'loading' | 'ready' | 'checking' | 'error';
@@ -364,12 +365,12 @@ export default function GrammarChecker() {
                       </span>
                     </div>
                     <p className="text-sm">
-                      <span className="line-through opacity-60">{correction.original}</span>
+                      <span className="line-through opacity-60">{escapeHtml(correction.original)}</span>
                       <span className="mx-2">→</span>
-                      <span className="font-medium">{correction.corrected}</span>
+                      <span className="font-medium">{escapeHtml(correction.corrected)}</span>
                     </p>
                     <p className="text-xs text-[var(--text-muted)] mt-1">
-                      {correction.explanation}
+                      {escapeHtml(correction.explanation)}
                     </p>
                   </div>
                   <button
@@ -401,7 +402,7 @@ export default function GrammarChecker() {
             </div>
           </div>
           <p className="text-green-400 leading-relaxed">
-            {correctedText}
+            {escapeHtml(correctedText)}
           </p>
         </div>
       )}
@@ -423,7 +424,7 @@ export default function GrammarChecker() {
             </button>
           </div>
           <p className="text-cyan-400 leading-relaxed">
-            {correctedText}
+            {escapeHtml(correctedText)}
           </p>
         </div>
       )}

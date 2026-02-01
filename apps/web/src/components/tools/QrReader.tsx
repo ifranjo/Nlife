@@ -1,6 +1,7 @@
 // npm install jsqr
 import { useState, useRef, useEffect } from 'react';
 import { copyToClipboard } from '../../lib/clipboard';
+import { validateFile } from '../../lib/security';
 import UpgradePrompt, { UsageIndicator, useToolUsage } from '../ui/UpgradePrompt';
 
 type InputMode = 'upload' | 'camera';
@@ -100,6 +101,13 @@ export default function QrReader() {
 
   const handleImageUpload = async (file: File) => {
     if (!checkUsage()) {
+      return;
+    }
+
+    // Validate file with security checks
+    const validation = await validateFile(file, 'image');
+    if (!validation.valid) {
+      setError(validation.error || 'Invalid file. Please upload an image file (PNG, JPEG, WebP, GIF).');
       return;
     }
 

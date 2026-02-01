@@ -1,4 +1,5 @@
 import { useState, useCallback, useRef } from 'react';
+import { validateFile } from '../../lib/security';
 import UpgradePrompt, { UsageIndicator, useToolUsage } from '../ui/UpgradePrompt';
 
 interface ImageDimensions {
@@ -29,8 +30,13 @@ export default function ImageResize() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  const handleFileSelect = useCallback((file: File) => {
-    if (!file.type.startsWith('image/')) return;
+  const handleFileSelect = useCallback(async (file: File) => {
+    // Validate file with security checks
+    const validation = await validateFile(file, 'image');
+    if (!validation.valid) {
+      console.error('Invalid file:', validation.error);
+      return;
+    }
 
     const reader = new FileReader();
     reader.onload = (e) => {
