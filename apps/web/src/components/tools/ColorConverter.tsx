@@ -83,6 +83,23 @@ function hslToRgb(h: number, s: number, l: number): RGB {
   };
 }
 
+function hexToRgb(hex: string): RGB | null {
+  const sanitized = sanitizeTextContent(hex, 20).replace('#', '');
+  if (!HEX_PATTERN.test(hex)) return null;
+
+  let fullHex = sanitized;
+  if (sanitized.length === 3) {
+    fullHex = sanitized.split('').map(c => c + c).join('');
+  }
+
+  const result = /^([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(fullHex);
+  return result ? {
+    r: parseInt(result[1], 16),
+    g: parseInt(result[2], 16),
+    b: parseInt(result[3], 16),
+  } : null;
+}
+
 function getContrastColor(hex: string): string {
   const rgb = hexToRgb(hex);
   if (!rgb) return '#ffffff';

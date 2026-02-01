@@ -206,7 +206,7 @@ export default function CodeBeautifier() {
     } finally {
       setIsFormatting(false);
     }
-  }, [input, language, indentType, loadPrettier, loadSqlFormatter, checkUsage, recordUsage]);
+  }, [input, language, indentType, loadPrettier, loadSqlFormatter]);
 
   // Minify code (JS/CSS only)
   const minifyCode = useCallback(async () => {
@@ -275,7 +275,7 @@ export default function CodeBeautifier() {
     } finally {
       setIsFormatting(false);
     }
-  }, [input, language, loadPrettier, checkUsage, recordUsage]);
+  }, [input, language, loadPrettier]);
 
   // Handle file upload
   const handleFileUpload = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {

@@ -149,11 +149,6 @@ export default function PdfToJpg() {
   const convertToImages = async () => {
     if (!file || selectedCount === 0) return;
 
-    // Check usage limits for free tier
-    if (!checkUsage()) {
-      return; // Prompt will be shown automatically
-    }
-
     setIsProcessing(true);
     setError(null);
     setProgress('Preparing conversion...');

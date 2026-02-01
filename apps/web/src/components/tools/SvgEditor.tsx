@@ -255,7 +255,7 @@ export default function SvgEditor() {
     } finally {
       setIsProcessing(false);
     }
-  }, [inputSvg, isValidSvg, optimizeSvg, applyColorChanges, applyScaleChanges, checkUsage, recordUsage]);
+  }, [inputSvg, isValidSvg, optimizeSvg, applyColorChanges, applyScaleChanges]);
 
   // Handle file upload
   const handleFileUpload = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {

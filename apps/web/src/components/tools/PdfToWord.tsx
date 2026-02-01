@@ -33,10 +33,6 @@ export default function PdfToWord() {
   const handleConvert = async () => {
     if (!pdfFile) return;
 
-    if (!checkUsage()) {
-      return; // Prompt will be shown automatically
-    }
-
     setStatus('processing');
     setError(null);
 

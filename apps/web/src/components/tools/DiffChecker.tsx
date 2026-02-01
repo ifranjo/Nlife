@@ -136,7 +136,7 @@ export default function DiffChecker() {
     setDiff(result);
     setStats(calculateStats(result));
     setHasCompared(true);
-      }, [original, modified, diffMode, checkUsage, recordUsage]);
+      }, [original, modified, diffMode]);
 
   const handleSwap = useCallback(() => {
     setOriginal(modified);

@@ -214,11 +214,6 @@ export default function PdfMerge() {
       return;
     }
 
-    // Check usage limits for free tier
-    if (!checkUsage()) {
-      return; // Prompt will be shown automatically
-    }
-
     setIsProcessing(true);
     setError(null);
     announce(`Merging ${files.length} PDF files`);

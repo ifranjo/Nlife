@@ -166,7 +166,7 @@ export default function HashGenerator() {
     } finally {
       setIsProcessing(false);
     }
-  }, [input, checkUsage, recordUsage]);
+  }, [input]);
 
   const handleCopy = async (algo: HashAlgorithm) => {
     if (!hashes[algo]) return;

@@ -86,7 +86,7 @@ export default function Base64Tool() {
     } finally {
       setIsProcessing(false);
     }
-  }, [textInput, mode, checkUsage, recordUsage]);
+  }, [textInput, mode]);
 
   // Handle file selection
   const handleFileSelect = useCallback((file: File) => {
@@ -132,7 +132,7 @@ export default function Base64Tool() {
     } finally {
       setIsProcessing(false);
     }
-  }, [selectedFile, checkUsage, recordUsage]);
+  }, [selectedFile]);
 
   // Process file decoding
   const processFileDecode = useCallback(() => {

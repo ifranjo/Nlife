@@ -185,10 +185,6 @@ export default function JpgToPdf() {
   const convertToPdf = async () => {
     if (images.length === 0) return;
 
-    if (!checkUsage()) {
-      return; // Prompt will be shown automatically
-    }
-
     setIsProcessing(true);
     setError(null);
     setProgress('Creating PDF...');

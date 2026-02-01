@@ -181,11 +181,6 @@ export default function PdfCompress() {
       return;
     }
 
-    // Check usage limits for free tier
-    if (!checkUsage()) {
-      return; // Prompt will be shown automatically
-    }
-
     setIsProcessing(true);
     setError(null);
 

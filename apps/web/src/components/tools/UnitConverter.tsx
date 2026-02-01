@@ -373,7 +373,7 @@ function validateNumericInput(input: string): { valid: boolean; sanitized: strin
   }
 
   // Check for too many significant digits (precision attack)
-  if (sanitized.replace(/[.-+eE]/g, '').length > MAX_PRECISION_DIGITS) {
+  if (sanitized.replace(/[.+eE-]/g, '').length > MAX_PRECISION_DIGITS) {
     return { valid: false, sanitized: '', error: 'Too many digits' };
   }
 

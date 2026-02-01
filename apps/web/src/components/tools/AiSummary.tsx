@@ -536,7 +536,7 @@ export default function AiSummary() {
     } finally {
       setIsProcessing(false);
     }
-  }, [hasContent, currentText, summaryMode, summaryLength, summaryFormat, summaryFocus, apiSettings, checkUsage, recordUsage]);
+  }, [hasContent, currentText, summaryMode, summaryLength, summaryFormat, summaryFocus, apiSettings]);
 
   // Copy summary to clipboard
   const handleCopy = useCallback(async () => {

@@ -203,7 +203,7 @@ ${htmlContent}
     link.click();
     document.body.removeChild(link);
     URL.revokeObjectURL(url);
-      }, [htmlContent, checkUsage, recordUsage]);
+      }, [htmlContent]);
 
   const exportAsPdf = useCallback(async () => {
         setIsExporting(true);
@@ -250,7 +250,7 @@ ${htmlContent}
       setError(createSafeErrorMessage(err, 'Failed to export PDF. Try exporting as HTML instead.'));
       setIsExporting(false);
     }
-  }, [htmlContent, checkUsage, recordUsage]);
+  }, [htmlContent]);
 
   const handleExport = useCallback((format: ExportFormat) => {
     if (format === 'html') {

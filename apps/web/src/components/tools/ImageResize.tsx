@@ -121,7 +121,7 @@ export default function ImageResize() {
       `image/${format}`,
       quality / 100
     );
-  }, [originalImage, targetDimensions, format, quality, previewUrl, recordUsage, checkUsage]);
+  }, [originalImage, targetDimensions, format, quality, previewUrl]);
 
   const downloadImage = useCallback(() => {
     if (!canvasRef.current) return;

@@ -102,7 +102,7 @@ export default function JsonFormatter() {
       setIsValid(false);
       setOutput('');
     }
-  }, [input, indentType, parseJson, checkUsage, recordUsage]);
+  }, [input, indentType, parseJson]);
 
   // Minify JSON
   const minifyJson = useCallback(() => {
@@ -125,7 +125,7 @@ export default function JsonFormatter() {
       setIsValid(false);
       setOutput('');
     }
-  }, [input, parseJson, checkUsage, recordUsage]);
+  }, [input, parseJson]);
 
   // Validate JSON without formatting
   const validateJson = useCallback(() => {

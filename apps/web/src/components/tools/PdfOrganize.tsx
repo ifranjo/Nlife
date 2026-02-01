@@ -184,10 +184,6 @@ export default function PdfOrganize() {
   const savePdf = async () => {
     if (!file || pages.length === 0) return;
 
-    if (!checkUsage()) {
-      return; // Prompt will be shown automatically
-    }
-
     setIsProcessing(true);
     setError(null);
     setProgress('Processing...');

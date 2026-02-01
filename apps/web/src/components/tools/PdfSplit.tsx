@@ -116,11 +116,6 @@ export default function PdfSplit() {
   const splitPdf = async () => {
     if (!file || pageCount === 0) return;
 
-    // Check usage limits for free tier
-    if (!checkUsage()) {
-      return; // Prompt will be shown automatically
-    }
-
     setIsProcessing(true);
     setError(null);
     setProgress('Processing...');

@@ -112,7 +112,7 @@ export default function PasswordGenerator() {
     const newPassword = generateSecurePassword(options);
     setPassword(newPassword);
     setCopied(false);
-      }, [options, checkUsage, recordUsage]);
+      }, [options]);
 
   // Generate initial password on mount
   useEffect(() => {
