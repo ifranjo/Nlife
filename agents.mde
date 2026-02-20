@@ -1,0 +1,306 @@
+# ChatGPT Version - agents.mde
+
+## Complex Skills Hooks
+# AGENTS.md instructions for C:\Users\ifranjo\scripts\newlife
+
+<INSTRUCTIONS>
+## Skills
+A skill is a set of local instructions to follow that is stored in a `SKILL.md` file. Below is the list of skills that can be used. Each entry includes a name, description, and file path so you can open the source for full instructions when using a specific skill.
+### Available skills
+- skill-creator: Guide for creating effective skills. This skill should be used when users want to create a new skill (or update an existing skill) that extends Codex's capabilities with specialized knowledge, workflows, or tool integrations. (file: C:/Users/ifranjo/.codex/skills/.system/skill-creator/SKILL.md)
+- skill-installer: Install Codex skills into $CODEX_HOME/skills from a curated list or a GitHub repo path. Use when a user asks to list installable skills, install a curated skill, or install a skill from another repo (including private repos). (file: C:/Users/ifranjo/.codex/skills/.system/skill-installer/SKILL.md)
+### How to use skills
+- Discovery: The list above is the skills available in this session (name + description + file path). Skill bodies live on disk at the listed paths.
+- Trigger rules: If the user names a skill (with `$SkillName` or plain text) OR the task clearly matches a skill's description shown above, you must use that skill for that turn. Multiple mentions mean use them all. Do not carry skills across turns unless re-mentioned.
+- Missing/blocked: If a named skill isn't in the list or the path can't be read, say so briefly and continue with the best fallback.
+- How to use a skill (progressive disclosure):
+  1) After deciding to use a skill, open its `SKILL.md`. Read only enough to follow the workflow.
+  2) If `SKILL.md` points to extra folders such as `references/`, load only the specific files needed for the request; don't bulk-load everything.
+  3) If `scripts/` exist, prefer running or patching them instead of retyping large code blocks.
+  4) If `assets/` or templates exist, reuse them instead of recreating from scratch.
+- Coordination and sequencing:
+  - If multiple skills apply, choose the minimal set that covers the request and state the order you'll use them.
+  - Announce which skill(s) you're using and why (one short line). If you skip an obvious skill, say why.
+- Context hygiene:
+  - Keep context small: summarize long sections instead of pasting them; only load extra files when needed.
+  - Avoid deep reference-chasing: prefer opening only files directly linked from `SKILL.md` unless you're blocked.
+  - When variants exist (frameworks, providers, domains), pick only the relevant reference file(s) and note that choice.
+- Safety and fallback: If a skill can't be applied cleanly (missing files, unclear instructions), state the issue, pick the next-best approach, and continue.
+</INSTRUCTIONS>
+
+## CLAUDE.md
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+## Project Overview
+
+New Life Solutions - Monorepo for browser-based utility tools (PDF, images, AI).
+
+**Live site**: https://www.newlifesolutions.dev
+
+All processing is 100% client-side. Files never leave the user's browser.
+
+## Commands
+
+```bash
+# From project root
+npm run dev          # Dev server localhost:4321
+npm run build        # Production build
+npm run check        # TypeScript/Astro validation
+
+# Testing (from apps/web/)
+cd apps/web
+npx playwright test                          # All tests (5 browsers)
+npx playwright test --project=chromium       # Single browser (fastest)
+npx playwright test -g "PDF Merge"           # Pattern match
+npx playwright test tests/guides-and-seo.spec.ts  # Single file
+npx playwright test --ui                     # Interactive UI mode
+```
+
+**Windows note**: Use PowerShell for Playwright commands. The webServer auto-starts dev on port 4321.
+
+## Architecture
+
+```
+NEW_LIFE/
+├── apps/web/                 ← Astro frontend
+│   └── src/
+│       ├── pages/
+│       │   ├── tools/*.astro     ← Tool pages (24 tools)
+│       │   ├── guides/*.astro    ← SEO guide pages
+│       │   └── use-cases/*.astro ← Programmatic landing pages
+│       ├── components/
+│       │   ├── tools/*.tsx       ← React tool components
+│       │   ├── ui/*.astro        ← Shared UI (Navbar, Footer, ToolCard)
+│       │   └── seo/*.astro       ← SEO (AnswerBox, SchemaMarkup, QASections)
+│       └── lib/
+│           ├── tools.ts          ← Tool registry (source of truth)
+│           └── security.ts       ← File validation utilities
+├── packages/                 ← Shared code
+└── docs/                     ← Documentation
+```
+
+### Key Patterns
+
+**Tool Registry** (`lib/tools.ts`): Central registry defining all tools with metadata, SEO fields, and FAQs. Every tool page reads from this.
+
+**Astro + React Hybrid**: Astro pages (`.astro`) for static shell/SEO, React components (`.tsx`) with `client:load` for interactive tools.
+
+**Heavy Library Loading**: Dynamic imports for large libs (FFmpeg ~50MB, Whisper ~50MB, Background Removal ~180MB):
+```typescript
+const { PDFDocument } = await import('pdf-lib');
+```
+
+## Adding a New Tool
+
+1. **Register** in `lib/tools.ts` with id, name, category, SEO metadata, FAQs
+2. **Create React component** `components/tools/YourTool.tsx` using security utilities
+3. **Create Astro page** `pages/tools/your-tool.astro` with Layout, SEO components
+4. **Add thumbnail** SVG in `public/thumbnails/`
+5. **Add test** in `apps/web/tests/`
+
+## Security (`lib/security.ts`)
+
+**Required for all file-handling tools:**
+
+```typescript
+import { validateFile, sanitizeFilename, createSafeErrorMessage } from '../../lib/security';
+
+// Validates size, MIME type, and magic bytes
+await validateFile(file, 'pdf');    // 50MB max
+await validateFile(file, 'image');  // 10MB max
+validateVideoFile(file);            // 500MB max
+validateAudioFile(file);            // 100MB max
+
+// Always sanitize filenames and error messages
+const safeName = sanitizeFilename(file.name);
+setError(createSafeErrorMessage(err, 'Processing failed'));
+```
+
+## Testing Conventions
+
+Tests run across 5 browsers: Chromium, Firefox, WebKit, Mobile Chrome, Mobile Safari.
+
+**Important**: A debug overlay can create duplicate h1 elements. Always use specific selectors:
+```typescript
+// ✅ Correct
+const h1 = page.locator('main h1').first();
+
+// ❌ Wrong - may find debug overlay h1
+const h1 = page.locator('h1');
+```
+
+Test patterns:
+```typescript
+test('tool page loads', async ({ page }) => {
+  await page.goto('/tools/pdf-merge');
+  await page.waitForLoadState('networkidle');
+
+  await expect(page).toHaveTitle(/PDF Merge/i);
+  const main = page.locator('main');
+  await expect(main).toBeVisible();
+
+  // Check schema markup exists
+  const schema = page.locator('script[type="application/ld+json"]');
+  await expect(schema.first()).toBeAttached();
+});
+```
+
+## Design System
+
+### CSS Classes (`styles/global.css`)
+
+| Class | Usage |
+|-------|-------|
+| `glass-card` | Card with blur + border |
+| `drop-zone` | File upload area (add `drag-over` when dragging) |
+| `btn-primary` | Primary action button |
+| `btn-secondary` | Secondary button |
+| `tool-card` | Hub grid tool cards |
+
+### CSS Variables
+
+```css
+--bg: #0a0a0a    --text: #e0e0e0    --border: #222222
+--success: #00ff00    --warning: #ffaa00    --error: #ff4444
+```
+
+## SEO Structure
+
+Tool pages use three components for AI/search optimization:
+
+| Component | Purpose |
+|-----------|---------|
+| `AnswerBox.astro` | TL;DR (50-70 words) for AI extraction |
+| `QASections.astro` | Semantic Q&A sections |
+| `SchemaMarkup.astro` | JSON-LD (SoftwareApplication, HowTo, FAQPage) |
+
+Guide pages (`/guides/*`) and use-case pages (`/use-cases/*`) target long-tail keywords with HowTo schema.
+
+## CI/CD
+
+```
+PUSH → BUILD + TYPE CHECK + SECURITY AUDIT → DEPLOY (Vercel)
+```
+
+- Triggers on push to `main`/`master`
+- Security audit blocks on high/critical vulnerabilities
+- Vercel secrets: `VERCEL_TOKEN`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID`
+
+## Accessibility (WCAG 2.1 AA)
+
+All 40 tool pages pass axe-core WCAG 2.1 AA compliance tests. Follow these guidelines:
+
+### Color Contrast Requirements
+
+| Element Type | Minimum Ratio | Notes |
+|--------------|---------------|-------|
+| Normal text | 4.5:1 | Text < 18pt or < 14pt bold |
+| Large text | 3:1 | Text ≥ 18pt or ≥ 14pt bold |
+| UI components | 3:1 | Buttons, form borders, icons |
+
+**Theme-aware colors**: Use CSS variables for colors that need different values in dark/light modes:
+
+```css
+/* Dark theme (default) */
+--success: #00ff00;  /* Bright green on dark backgrounds */
+
+/* Clean/light theme */
+--success: #166534;  /* green-800: 5.5:1 on light backgrounds */
+```
+
+**Problematic colors to avoid**:
+- `#28a745` on light backgrounds (only 2.97:1)
+- `#22c55e` on light backgrounds (only 2.12:1)
+- White text on mid-range blues like `#3b82f6` (only 3.67:1)
+
+### Form Accessibility Patterns
+
+**Every form input MUST have an accessible name**. Use one of:
+
+```tsx
+// Option 1: htmlFor + id (preferred for visible labels)
+<label htmlFor="my-input">Label Text</label>
+<input id="my-input" type="text" />
+
+// Option 2: aria-label (for inputs without visible labels)
+<input type="range" aria-label="Volume control" />
+
+// Option 3: aria-labelledby (reference existing element)
+<span id="size-label">Size: 256px</span>
+<input type="range" aria-labelledby="size-label" />
+```
+
+**Common inputs that need labels**:
+- `<select>` elements
+- `<input type="range">` sliders
+- `<input type="color">` pickers
+- `<input type="number">` fields
+
+### Link Accessibility
+
+Links within text blocks must be distinguishable without relying on color alone:
+
+```css
+.prose a {
+  color: #818cf8;
+  text-decoration: underline;  /* Required for WCAG */
+}
+```
+
+### Running Accessibility Tests
+
+```bash
+cd apps/web
+
+# All accessibility tests (40 tools × 6 checks = 240 tests)
+npx playwright test tests/accessibility-comprehensive.spec.ts --project=chromium
+
+# Single tool
+npx playwright test --grep "PDF Merge - axe"
+
+# Quick check during development
+npx playwright test --grep "axe accessibility scan" --project=chromium
+```
+
+### Recent Accessibility Fixes (2025-01-02)
+
+| Component | Issue | Fix |
+|-----------|-------|-----|
+| ComparisonTable | Green text 3.39:1 on dark bg | Theme-aware: `#22c55e` dark, `#166534` light |
+| QASections | `#00ff00` fails on light bg | Use `var(--success)` |
+| ColorConverter | White on blue 3.67:1 | Lower luminance threshold to 0.4 |
+| global.css | `--success` 2.97:1 light mode | Changed to `#166534` (5.5:1) |
+| Navbar beta badge | 1.26:1 light mode | Theme-aware `.beta-badge` class |
+| 8 tool components | Missing form labels | Added `id`/`htmlFor` or `aria-label` |
+| MarkdownEditor | Links not distinguishable | Added `text-decoration: underline` |
+
+## Tech Stack
+
+| Layer | Tech |
+|-------|------|
+| Frontend | Astro 5, React 19, Tailwind CSS v4 |
+| Testing | Playwright, axe-core |
+| Deploy | Vercel |
+| Node | >=20.0.0 |
+
+### Browser Libraries
+
+| Library | Purpose |
+|---------|---------|
+| `pdf-lib` | PDF manipulation |
+| `pdfjs-dist` | PDF rendering/text extraction |
+| `@ffmpeg/ffmpeg` | Video/audio processing |
+| `@huggingface/transformers` | Whisper AI transcription |
+| `@imgly/background-removal` | AI background removal |
+| `tesseract.js` | OCR |
+
+## Changelog
+
+### 2025-01-02
+- **fix(a11y)**: Resolved all WCAG 2.1 AA accessibility violations
+  - Fixed color contrast in 5 components (ComparisonTable, QASections, ColorConverter, global.css, Navbar)
+  - Added form labels to 13 elements across 8 tool components
+  - Added link underlines in MarkdownEditor prose
+  - All 40 axe-core accessibility tests now pass

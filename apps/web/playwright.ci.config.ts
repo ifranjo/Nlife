@@ -1,12 +1,13 @@
 import { defineConfig, devices } from '@playwright/test';
 
 /**
- * Playwright CI Configuration
+ * Optimized Playwright configuration for CI/CD pipeline
  *
- * This config is used in GitHub Actions where:
- * - The preview server is already running (started by CI)
- * - We want fast, reliable tests
- * - No need to start webServer ourselves
+ * Features:
+ * - Parallel execution optimized for CI
+ * - Reduced retries for faster feedback
+ * - Optimized reporter for GitHub Actions
+ * - Smart test sharding
  */
 export default defineConfig({
   testDir: './tests',
@@ -14,29 +15,37 @@ export default defineConfig({
   /* Run tests in files in parallel */
   fullyParallel: true,
 
+  /* Fail fast on CI */
+  maxFailures: process.env.CI ? 10 : undefined,
+
   /* Fail the build on CI if you accidentally left test.only */
-  forbidOnly: true,
+  forbidOnly: !!process.env.CI,
 
-  /* Retry failed tests to handle flakiness */
-  retries: 2,
+  /* Retry on CI only */
+  retries: process.env.CI ? 1 : 0,
 
-  /* Use 50% of available CPUs */
-  workers: '50%',
+  /* Optimize workers for CI environment */
+  workers: process.env.CI ? 3 : undefined,
 
-  /* Global timeout per test - generous for CI */
-  timeout: 60 * 1000,
+  /* Reduce timeout for faster feedback */
+  timeout: process.env.CI ? 20000 : 30000,
 
-  /* Expect timeout */
-  expect: {
-    timeout: 10 * 1000,
-  },
-
-  /* Reporter for CI */
+  /* Reporter optimized for CI */
   reporter: [
     ['github'],
-    ['html', { open: 'never' }],
+    ['junit', { outputFile: 'test-results/junit.xml' }],
     ['json', { outputFile: 'test-results/results.json' }],
+    ['html', { open: 'never', outputFolder: 'playwright-report' }]
   ],
+
+  /* Visual regression snapshot settings */
+  expect: {
+    toHaveScreenshot: {
+      maxDiffPixelRatio: 0.002,
+      animations: 'disabled',
+      scale: 'css',
+    },
+  },
 
   /* Shared settings */
   use: {
@@ -44,13 +53,13 @@ export default defineConfig({
     baseURL: 'http://localhost:4321',
 
     /* Collect trace on retry */
-    trace: 'on-first-retry',
+    trace: 'retain-on-failure',
 
     /* Screenshot on failure */
     screenshot: 'only-on-failure',
 
     /* Video on failure for debugging */
-    video: 'on-first-retry',
+    video: 'retain-on-failure',
 
     /* Increase action timeout for CI */
     actionTimeout: 15 * 1000,
@@ -59,11 +68,15 @@ export default defineConfig({
     navigationTimeout: 30 * 1000,
   },
 
-  /* Only test Chromium in CI for speed */
+  /* Run only Chromium in CI for speed */
   projects: [
     {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
+    },
+    {
+      name: 'Mobile Chrome',
+      use: { ...devices['Pixel 5'] },
     },
   ],
 

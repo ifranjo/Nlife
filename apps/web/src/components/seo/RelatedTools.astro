@@ -4,7 +4,7 @@
  *
  * Displays related tools based on category and tag similarity.
  * Implements hub-spoke internal linking for SEO improvement.
- * Includes schema.org ItemList markup.
+ * Includes schema.org ItemList markup and UTM parameters.
  */
 
 interface Props {
@@ -13,6 +13,7 @@ interface Props {
 }
 
 import { getRelatedTools } from '../../lib/tools';
+import { addUTMParams, getUTMForLinkType } from '../../lib/analytics';
 
 const { currentToolId, maxItems = 6 } = Astro.props;
 const relatedTools = getRelatedTools(currentToolId, maxItems);
@@ -43,6 +44,10 @@ const itemListSchema = {
     }
   }))
 };
+
+// Add UTM parameters to track link performance
+const utmParams = getUTMForLinkType('related_tools', currentToolId);
+const getTrackedUrl = (href: string) => addUTMParams(href, utmParams);
 ---
 
 {relatedTools.length > 0 && (
@@ -51,8 +56,10 @@ const itemListSchema = {
 
     <div class="tools-grid">
       {relatedTools.map((tool) => (
-        <a href={tool.href} class="tool-link glass-card" data-tool-id={tool.id}>
-          <div class="tool-icon" aria-hidden="true">{tool.icon}</div>
+        <a href={getTrackedUrl(tool.href)} class="tool-link glass-card" data-tool-id={tool.id}>
+          <div class="tool-icon">
+            <img src={tool.thumbnail} alt={`${tool.name} icon`} loading="lazy" decoding="async" />
+          </div>
           <div class="tool-content">
             <h3 class="tool-name">{tool.name}</h3>
             <p class="tool-desc">{tool.description}</p>
@@ -103,14 +110,14 @@ const itemListSchema = {
     color: var(--text);
     transition: all 0.2s ease;
     border: 1px solid var(--border);
-    background: rgba(255, 255, 255, 0.02);
+    background: var(--bg-secondary);
+    box-shadow: var(--glow-subtle);
   }
 
   .tool-link:hover {
     transform: translateY(-2px);
-    border-color: rgba(255, 255, 255, 0.2);
-    background: rgba(255, 255, 255, 0.05);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    border-color: var(--border-hover);
+    box-shadow: var(--glow-hover);
   }
 
   .tool-link:focus-visible {
@@ -119,15 +126,20 @@ const itemListSchema = {
   }
 
   .tool-icon {
-    font-size: 2rem;
     flex-shrink: 0;
     width: 3rem;
     height: 3rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 8px;
+    background: var(--bg);
+    border-radius: 10px;
+    border: 1px solid var(--border);
+  }
+
+  .tool-icon img {
+    width: 70%;
+    height: 70%;
   }
 
   .tool-content {

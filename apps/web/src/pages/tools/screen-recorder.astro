@@ -38,9 +38,9 @@ const seoContent = {
 
   // TL;DR Answer Box (50-70 words - this is what AI extracts)
   answerBox: {
-    title: 'Screen Recorder — Free, Private, Browser-Based',
-    queryTarget: 'How to Record Screen Online Free',
-    tldr: `Record your screen instantly without installing any software. Choose to capture your entire screen, a specific window, or a browser tab. Select video quality (720p, 1080p, or source), optionally include system audio, then preview and download your recording as WebM. All processing happens in your browser—your screen content never uploads anywhere.`,
+    title: toolData.seo?.h1 || 'Summarize Text & Documents with AI',
+    queryTarget: toolData.seo?.keywords?.[0] || 'How to Summarize Documents Online Free',
+    tldr: toolData.answer || `Paste text, upload a PDF/DOCX/TXT file, or enter a URL to generate an instant summary. Choose from brief, standard, or detailed lengths. Select bullet points, paragraphs, or key takeaways format. Use extractive mode for 100% local processing, or connect your own OpenAI/Claude API key for AI-powered summaries. Free, private, no signup required.`,
     trustSignals: [
       'No software to install',
       'No server upload',

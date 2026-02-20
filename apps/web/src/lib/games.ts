@@ -152,8 +152,78 @@ export const games: Game[] = [
   },
 
   // ===============================================
+  // LOGIC GAMES
+  // ===============================================
+  {
+    id: 'binary-puzzle',
+    name: 'Binary Puzzle',
+    description: 'Solve binary grid puzzles with logic. Fill the grid with 0s and 1s following simple rules. Perfect brain training for developers.',
+    thumbnail: '/thumbnails/games/binary-puzzle.svg',
+    category: 'puzzle',
+    status: 'live',
+    href: '/games/binary-puzzle',
+    isNew: true,
+    releaseDate: '2026-01-11',
+    stats: [
+      { label: 'Difficulty', value: 'Easy/Hard' },
+      { label: 'Grid size', value: '6x6 to 10x10' },
+      { label: 'Mode', value: 'Single player' }
+    ],
+    seo: {
+      title: 'Binary Puzzle - Free Logic Game | New Life Games',
+      metaDescription: 'Solve binary logic puzzles. Fill grids with 0s and 1s following simple rules. Free brain training game for developers and logic lovers.',
+      h1: 'Binary Puzzle - Logic Grid Game',
+      keywords: ['binary puzzle', 'logic game', 'brain training', 'developer game', 'binary grid', 'logic puzzle']
+    }
+  },
+  {
+    id: 'word-search',
+    name: 'Word Search',
+    description: 'Find hidden tech-related words in the grid! Search for programming terms, developer jargon, and technology vocabulary.',
+    thumbnail: '/thumbnails/games/word-search.svg',
+    category: 'puzzle',
+    status: 'live',
+    href: '/games/word-search',
+    isNew: true,
+    releaseDate: '2026-01-11',
+    stats: [
+      { label: 'Difficulty', value: '3 levels' },
+      { label: 'Word types', value: 'Tech vocabulary' },
+      { label: 'Mode', value: 'Single player' }
+    ],
+    seo: {
+      title: 'Word Search - Free Tech Word Game | New Life Games',
+      metaDescription: 'Find hidden tech-related words in the grid! Free word search game with programming terms and technology vocabulary.',
+      h1: 'Word Search - Tech Vocabulary Puzzle',
+      keywords: ['word search', 'tech words', 'programming vocabulary', 'word game', 'developer game']
+    }
+  },
+
+  // ===============================================
   // ARCADE GAMES
   // ===============================================
+  {
+    id: 'fibonacci-2048',
+    name: 'Fibonacci 2048',
+    description: 'Merge Fibonacci numbers in this twist on the classic 2048 game! Swipe to combine 1, 1, 2, 3, 5, 8... How high can you reach?',
+    thumbnail: '/thumbnails/games/fibonacci-2048.svg',
+    category: 'arcade',
+    status: 'live',
+    href: '/games/fibonacci-2048',
+    isNew: true,
+    releaseDate: '2026-01-11',
+    stats: [
+      { label: 'Goal', value: 'Reach 144' },
+      { label: 'Mode', value: 'Single player' },
+      { label: 'Controls', value: 'Swipe or Keyboard' }
+    ],
+    seo: {
+      title: 'Fibonacci 2048 - Free Number Game | New Life Games',
+      metaDescription: 'Merge Fibonacci numbers in this 2048 twist! Swipe to combine tiles. Free brain-teasing puzzle game with mathematical elegance.',
+      h1: 'Fibonacci 2048 - Merge Numbers Strategically',
+      keywords: ['2048 game', 'fibonacci', 'number puzzle', 'math game', 'strategy game', 'browser game']
+    }
+  },
   {
     id: 'typing-speed',
     name: 'Typing Speed',

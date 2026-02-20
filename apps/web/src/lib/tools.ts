@@ -11,6 +11,8 @@ export interface Tool {
   tags?: string[];
   popular?: boolean;
   releaseDate?: string;
+  /** 50-70 word optimized answer for AI extraction (HAMBREDEVICTORIA Protocol) */
+  answer?: string;
   seo?: {
     title: string;           // Optimized page title (50-60 chars)
     metaDescription: string; // Meta description (150-160 chars)
@@ -44,6 +46,7 @@ export const tools: Tool[] = [
     tags: ['pdf', 'merge', 'combine', 'document'],
     popular: true,
     releaseDate: '2024-12-01',
+    answer: 'PDF Merge combines multiple PDF files into one document instantly in your browser. Unlike server-based tools, it processes files locally without uploads, ensuring complete privacy. Upload PDFs, arrange them in order, and download your merged file in seconds. Free, no signup, unlimited usage.',
     seo: {
       title: 'Merge PDF Online Free - No Upload Required | New Life',
       metaDescription: 'Combine multiple PDF files into one document instantly. 100% free, no sign up, no file upload to servers. Your PDFs never leave your browser.',
@@ -84,6 +87,7 @@ export const tools: Tool[] = [
     tags: ['pdf', 'compress', 'reduce', 'optimize', 'size'],
     popular: true,
     releaseDate: '2024-12-24',
+    answer: 'PDF Compress reduces file size by up to 90% using intelligent compression algorithms. It removes unnecessary metadata, flattens forms, and optimizes images while preserving quality. Process files locally in your browser with zero server uploads. Free, unlimited, no watermarks.',
     seo: {
       title: 'Compress PDF Online Free - Reduce Size 90% | New Life',
       metaDescription: 'Compress PDF files up to 90% smaller instantly. Remove metadata, flatten forms. 100% free, no upload to servers. Works offline.',
@@ -123,6 +127,7 @@ export const tools: Tool[] = [
     tags: ['pdf', 'split', 'extract', 'pages'],
     popular: true,
     releaseDate: '2024-12-05',
+    answer: 'PDF Split extracts individual pages or specific page ranges from PDF documents. Upload your PDF, select pages to extract, and download them as separate files or a ZIP archive. Works entirely in your browser with no server uploads. Free, fast, and preserves original quality.',
     seo: {
       title: 'Split PDF Online Free - Extract Pages Instantly | New Life',
       metaDescription: 'Split PDF into separate pages or extract specific page ranges. Free, no watermark, no signup. Download individual pages as ZIP.',
@@ -159,6 +164,7 @@ export const tools: Tool[] = [
     tier: 'free',
     href: '/tools/pdf-redactor',
     color: 'from-red-500 to-rose-500',
+    answer: 'PDF Redactor permanently removes sensitive information from PDF documents. It auto-detects SSNs, emails, phone numbers, and credit cards for redaction. All processing happens locally in your browser with zero server uploads, ensuring GDPR and HIPAA compliance. Free and irreversible.',
     seo: {
       title: 'Redact PDF Online Free - Remove Sensitive Info | New Life',
       metaDescription: 'Permanently redact sensitive information from PDFs. Auto-detect SSN, emails, phone numbers. GDPR compliant - files never leave your browser.',
@@ -195,6 +201,7 @@ export const tools: Tool[] = [
     tier: 'free',
     href: '/tools/pdf-form-filler',
     color: 'from-emerald-500 to-teal-500',
+    answer: 'PDF Form Filler lets you complete PDF forms and add electronic signatures without uploading files to servers. Supports fillable AcroForms and non-fillable PDFs. Draw, type, or upload signature images. HIPAA-compliant with 100% client-side processing. Free, no watermarks, unlimited use.',
     seo: {
       title: 'Fill PDF Forms Online Free - Add Signature | New Life',
       metaDescription: 'Fill out PDF forms and add electronic signatures online. HIPAA-safe, no upload required. Your documents stay private on your device.',
@@ -233,6 +240,7 @@ export const tools: Tool[] = [
     color: 'from-cyan-500 to-blue-500',
     tags: ['ocr', 'text extraction', 'pdf', 'image', 'scan', 'document', 'batch'],
     popular: true,
+    answer: 'OCR Text Extractor uses AI-powered Tesseract.js to convert images and PDFs into editable text. Supports 15+ languages, multi-page PDFs, and batch processing of up to 20 files. Export as TXT, DOCX, or searchable PDF. 100% client-side processing ensures complete privacy.',
     seo: {
       title: 'Free OCR Online - Extract Text from Images & PDFs | New Life',
       metaDescription: 'Extract text from images and multi-page PDFs with AI-powered OCR. Batch processing, export to TXT/DOCX/PDF. 100% free, works offline, supports 15+ languages.',
@@ -284,6 +292,7 @@ export const tools: Tool[] = [
     tier: 'free',
     href: '/tools/document-scanner',
     color: 'from-violet-500 to-purple-500',
+    answer: 'Document Scanner turns your phone or webcam into a portable scanner. AI automatically detects document edges, corrects perspective, and enhances image quality. Scan multiple pages and export as a single PDF. Works entirely offline in your browser - no app installation needed.',
     seo: {
       title: 'Free Document Scanner Online - Camera to PDF | New Life',
       metaDescription: 'Scan documents with your phone or webcam. Auto edge detection, perspective correction, PDF export. Works offline, no app install needed.',
@@ -321,6 +330,7 @@ export const tools: Tool[] = [
     href: '/tools/pdf-to-word',
     color: 'from-blue-500 to-indigo-500',
     popular: true,
+    answer: 'PDF to Word converts PDF documents into fully editable Word files (.docx) instantly. It extracts text, preserves formatting, and maintains document structure. All processing happens locally in your browser with zero server uploads. Free, unlimited, no email required.',
     seo: {
       title: 'PDF to Word Converter Free Online - No Upload | New Life',
       metaDescription: 'Convert PDF to editable Word document (.docx) instantly. 100% free, no email required, no file upload. Works offline in your browser.',
@@ -358,6 +368,7 @@ export const tools: Tool[] = [
     href: '/tools/resume-builder',
     color: 'from-emerald-500 to-green-500',
     popular: true,
+    answer: 'Resume Builder creates professional, ATS-friendly resumes in minutes. Choose from multiple modern templates, fill in your information, and download as PDF instantly. All data stays in your browser - no server uploads. Free, no signup, unlimited downloads.',
     seo: {
       title: 'Free Resume Builder Online - PDF Download | New Life',
       metaDescription: 'Create a professional resume in minutes. Multiple ATS-friendly templates, instant PDF download. 100% free, no signup or watermark.',
@@ -397,6 +408,7 @@ export const tools: Tool[] = [
     tags: ['pdf', 'organize', 'reorder', 'pages', 'arrange'],
     popular: false,
     releaseDate: '2024-12-31',
+    answer: 'PDF Organize lets you reorder, delete, and rearrange PDF pages with an intuitive drag-and-drop interface. View page thumbnails, select multiple pages, and reorganize your document structure. All processing happens locally with zero server uploads. Free and unlimited.',
     seo: {
       title: 'Organize PDF Pages Free Online - Reorder & Delete | New Life',
       metaDescription: 'Reorder, delete, and rearrange PDF pages with drag and drop. Visual thumbnails for easy organization. 100% free, no upload to servers.',
@@ -427,6 +439,7 @@ export const tools: Tool[] = [
     tags: ['image', 'pdf', 'convert', 'jpg', 'png', 'photo'],
     popular: true,
     releaseDate: '2024-12-31',
+    answer: 'JPG to PDF converts image files (JPG, PNG, WebP, GIF) into PDF documents instantly. Upload single or multiple images, customize page size and orientation, and download as a single PDF. All processing happens locally in your browser with zero server uploads. Free and unlimited.',
     seo: {
       title: 'JPG to PDF Converter Free Online - Image to PDF | New Life',
       metaDescription: 'Convert JPG, PNG, WebP images to PDF instantly. Multiple images, custom page sizes. 100% free, no upload required.',
@@ -457,6 +470,7 @@ export const tools: Tool[] = [
     tags: ['pdf', 'image', 'convert', 'jpg', 'png', 'export'],
     popular: true,
     releaseDate: '2024-12-31',
+    answer: 'PDF to JPG converts PDF pages into high-quality JPG or PNG images. Select individual pages, specific ranges, or convert the entire document. Customize image quality and resolution. All processing happens locally in your browser with zero server uploads. Free and unlimited.',
     seo: {
       title: 'PDF to JPG Converter Free Online - Export Pages as Images | New Life',
       metaDescription: 'Convert PDF pages to JPG or PNG images. Choose quality, select pages. 100% free, no upload to servers.',
@@ -491,6 +505,7 @@ export const tools: Tool[] = [
     tags: ['image', 'compress', 'optimize', 'png', 'jpeg', 'webp'],
     popular: true,
     releaseDate: '2024-12-10',
+    answer: 'Image Compress reduces image file sizes by 60-90% using intelligent compression algorithms. Supports PNG, JPEG, and WebP formats with batch processing of up to 20 images. Maintains visual quality while maximizing size reduction. All processing happens locally with zero server uploads.',
     seo: {
       title: 'Compress Images Online Free - Reduce Size 90% | New Life',
       metaDescription: 'Compress PNG, JPEG, WebP images up to 90% smaller without losing quality. Batch processing, ZIP download. No upload to servers.',
@@ -530,6 +545,7 @@ export const tools: Tool[] = [
     tags: ['heic', 'jpg', 'png', 'webp', 'convert', 'iphone', 'image'],
     popular: true,
     releaseDate: '2024-12-24',
+    answer: 'Image Converter transforms between popular image formats including HEIC to JPG, PNG to WebP, and more. Perfect for iPhone photos and web optimization. Batch convert up to 20 files with ZIP download. 100% client-side processing ensures privacy.',
     seo: {
       title: 'HEIC to JPG Converter Free Online - Convert iPhone Photos | New Life',
       metaDescription: 'Convert HEIC to JPG/PNG instantly. Free online image converter for iPhone photos. Also converts WebP, PNG, BMP to JPG/PNG/WebP. No upload, 100% private.',
@@ -568,6 +584,7 @@ export const tools: Tool[] = [
     tier: 'free',
     href: '/tools/background-remover',
     color: 'from-fuchsia-500 to-pink-500',
+    answer: 'Background Remover uses AI to instantly remove image backgrounds and create transparent PNGs. Perfect for product photos, profile pictures, and graphics. The 180MB AI model runs entirely in your browser with zero server uploads. Free, unlimited, no watermarks.',
     seo: {
       title: 'Remove Background from Image Free - AI Powered | New Life',
       metaDescription: 'Remove image backgrounds instantly with AI. 100% free, no signup. Works offline - your photos never leave your device. PNG download.',
@@ -607,6 +624,7 @@ export const tools: Tool[] = [
     tags: ['exif', 'metadata', 'gps', 'privacy', 'location', 'photo'],
     popular: true,
     releaseDate: '2024-12-24',
+    answer: 'EXIF Metadata Editor views, edits, and strips photo metadata including GPS location, camera info, and dates. Protect your privacy by removing location data before sharing photos online. Works entirely in your browser with zero server uploads. Free and unlimited.',
     seo: {
       title: 'Remove GPS from Photos Free - EXIF Metadata Editor | New Life',
       metaDescription: 'Strip GPS location and metadata from photos before sharing. View and edit EXIF data including camera info, dates, location. 100% private, browser-based.',
@@ -645,6 +663,7 @@ export const tools: Tool[] = [
     href: '/tools/video-to-mp3',
     color: 'from-purple-500 to-indigo-500',
     tags: ['video', 'audio', 'mp3', 'convert', 'extract'],
+    answer: 'Video to MP3 extracts audio from video files and converts it to high-quality MP3 format. Supports MP4, WebM, MOV, AVI, and most video formats. Extracts audio at 192kbps with preserved original quality. All processing happens locally in your browser with zero server uploads.',
     seo: {
       title: 'Extract Audio from Video Free - Video to MP3 | New Life',
       metaDescription: 'Convert video to MP3 audio instantly. Extract audio from MP4, WebM, MOV files. 100% free, no upload needed, works offline.',
@@ -682,6 +701,7 @@ export const tools: Tool[] = [
     href: '/tools/video-compressor',
     color: 'from-green-500 to-teal-500',
     tags: ['video', 'compress', 'reduce', 'size', 'h264'],
+    answer: 'Video Compressor reduces video file sizes by 50-90% using H.264 encoding via FFmpeg.wasm. Perfect for Discord, email, and WhatsApp sharing. Maintains visual quality while maximizing compression. Batch processing supported with files up to 500MB. 100% client-side processing.',
     seo: {
       title: 'Compress Video Online Free - Reduce Size 90% | New Life',
       metaDescription: 'Compress video files up to 90% smaller for Discord, email, WhatsApp. H.264 encoding in browser. No upload, no watermark.',
@@ -719,6 +739,7 @@ export const tools: Tool[] = [
     href: '/tools/video-trimmer',
     color: 'from-orange-500 to-red-500',
     tags: ['video', 'trim', 'cut', 'clip', 'edit'],
+    answer: 'Video Trimmer cuts and trims video clips with frame-accurate precision. Set start/end times, preview your selection, and download the trimmed video with no quality loss. Supports MP4, WebM, MOV, AVI formats. All processing happens locally in your browser.',
     seo: {
       title: 'Trim Video Online Free - Cut & Clip Videos | New Life',
       metaDescription: 'Cut and trim video clips instantly. Set precise start/end times, preview before saving. No quality loss, no watermark, 100% free.',
@@ -756,6 +777,7 @@ export const tools: Tool[] = [
     href: '/tools/gif-maker',
     color: 'from-purple-500 to-pink-500',
     tags: ['video', 'gif', 'convert', 'animation', 'meme'],
+    answer: 'GIF Maker converts video clips into animated GIFs with customizable frame rates and sizes. Perfect for memes, reactions, and social media. Set start/end times, adjust FPS (5-30), and control output dimensions. FFmpeg-powered encoding ensures high quality.',
     seo: {
       title: 'Video to GIF Converter Free Online - No Upload | New Life',
       metaDescription: 'Convert video clips to high-quality GIFs in your browser. Set start/end times, frame rate, and width. 100% free, no upload required.',
@@ -793,6 +815,7 @@ export const tools: Tool[] = [
     href: '/tools/remove-vocals',
     color: 'from-pink-500 to-rose-500',
     tags: ['audio', 'vocals', 'karaoke', 'instrumental', 'music'],
+    answer: 'Vocal Remover uses phase cancellation technology to create instrumental versions of songs for karaoke and remixing. Works best on professionally mixed stereo tracks. All processing happens locally in your browser with zero server uploads. Free and unlimited.',
     seo: {
       title: 'Remove Vocals from Song Free - Karaoke Maker | New Life',
       metaDescription: 'Remove vocals from any song to create instrumentals or karaoke tracks. Free, works offline, no upload required. Phase cancellation technology.',
@@ -831,6 +854,7 @@ export const tools: Tool[] = [
     color: 'from-blue-500 to-cyan-500',
     tags: ['audio', 'transcription', 'speech', 'text', 'whisper', 'ai'],
     popular: true,
+    answer: 'Audio Transcription converts speech to text using Whisper AI with 95%+ accuracy. Supports 10+ languages with automatic detection. Processes audio files up to 100MB entirely in your browser - no server uploads. Free, unlimited, and privacy-focused.',
     seo: {
       title: 'Transcribe Audio to Text Free - AI Speech Recognition | New Life',
       metaDescription: 'Convert speech to text with Whisper AI. Transcribe audio files in 10+ languages. 100% free, runs locally, no upload required.',
@@ -868,6 +892,7 @@ export const tools: Tool[] = [
     href: '/tools/subtitle-generator',
     color: 'from-indigo-500 to-purple-500',
     tags: ['subtitles', 'captions', 'srt', 'vtt', 'whisper', 'ai', 'video'],
+    answer: 'Subtitle Generator creates accurate SRT and VTT subtitle files from video or audio using Whisper AI. Auto-generate timestamps and export for YouTube, TikTok, or any platform. Supports 10+ languages with automatic detection. 100% client-side processing for privacy.',
     seo: {
       title: 'Generate Subtitles Free - AI SRT/VTT Export | New Life',
       metaDescription: 'Create subtitles from video or audio using Whisper AI. Export as SRT or VTT. 100% free, no upload, runs in browser.',
@@ -1103,6 +1128,7 @@ export const tools: Tool[] = [
     tags: ['qr', 'code', 'generator', 'barcode'],
     popular: true,
     releaseDate: '2024-12-15',
+    answer: 'QR Generator creates customizable QR codes for URLs, text, WiFi, contact cards, email, and phone numbers. Choose custom colors and sizes, then download as high-resolution PNG. Works entirely in your browser with zero server uploads. Free, unlimited, and print-ready.',
     seo: {
       title: 'Free QR Code Generator Online - Custom Colors | New Life',
       metaDescription: 'Generate QR codes for URLs, text, WiFi, contact info. Customize colors and size. Download as PNG. 100% free, no signup required.',
@@ -1139,6 +1165,7 @@ export const tools: Tool[] = [
     tier: 'free',
     href: '/tools/base64',
     color: 'from-slate-500 to-gray-500',
+    answer: 'Base64 Encoder/Decoder converts text and files to/from Base64 format instantly using bidirectional conversion. Supports any file type. Secure Web Crypto API ensures data never leaves your browser. Free developer tool for embedding data in HTML/CSS/JSON.',
     seo: {
       title: 'Base64 Encode Decode Online Free | New Life',
       metaDescription: 'Encode or decode Base64 data instantly. Convert text, images, files to/from Base64. Free developer tool, no signup.',
@@ -1174,6 +1201,7 @@ export const tools: Tool[] = [
     tier: 'free',
     href: '/tools/json-formatter',
     color: 'from-amber-500 to-yellow-500',
+    answer: 'JSON Formatter formats, validates, and beautifies JSON data with real-time syntax error detection. Toggle between prettified and minified output with syntax highlighting. Color-coded structure makes JSON easy to read. Works entirely in your browser with zero server uploads.',
     seo: {
       title: 'JSON Formatter & Validator Online Free | New Life',
       metaDescription: 'Format, beautify, and validate JSON data online. Minify or prettify with syntax highlighting. Free developer tool.',
@@ -1209,6 +1237,7 @@ export const tools: Tool[] = [
     tier: 'free',
     href: '/tools/text-case',
     color: 'from-teal-500 to-cyan-500',
+    answer: 'Text Case Converter transforms text between UPPERCASE, lowercase, Title Case, Sentence case, camelCase, PascalCase, snake_case, and kebab-case. Real-time conversion with no character limits. Works entirely in your browser for instant text transformation.',
     seo: {
       title: 'Text Case Converter Online - UPPER lower Title | New Life',
       metaDescription: 'Convert text to UPPERCASE, lowercase, Title Case, camelCase, snake_case, kebab-case. Free instant text transformation.',
@@ -1244,6 +1273,7 @@ export const tools: Tool[] = [
     tier: 'free',
     href: '/tools/word-counter',
     color: 'from-blue-500 to-indigo-500',
+    answer: 'Word Counter analyzes text and provides word count, characters (with/without spaces), sentences, paragraphs, and estimated reading time. Shows keyword density with most frequent words and percentages. Ideal for writers, students, and content creators.',
     seo: {
       title: 'Word Counter Online Free - Characters & Reading Time | New Life',
       metaDescription: 'Count words, characters, sentences, paragraphs instantly. See reading time and keyword density. Free tool for writers.',
@@ -1279,6 +1309,7 @@ export const tools: Tool[] = [
     tier: 'free',
     href: '/tools/lorem-ipsum',
     color: 'from-violet-500 to-purple-500',
+    answer: 'Lorem Ipsum Generator creates placeholder text for designs and mockups. Generate paragraphs, sentences, or words with customizable amounts. One-click copy to clipboard. Essential for designers, developers, and content creators. Works entirely in your browser.',
     seo: {
       title: 'Lorem Ipsum Generator Free - Placeholder Text | New Life',
       metaDescription: 'Generate Lorem Ipsum placeholder text for designs. Create paragraphs, sentences, or words. Copy with one click. Free.',
@@ -1314,6 +1345,7 @@ export const tools: Tool[] = [
     tier: 'free',
     href: '/tools/hash-generator',
     color: 'from-rose-500 to-red-500',
+    answer: 'Hash Generator creates MD5, SHA-1, SHA-256, SHA-384, and SHA-512 hashes from text or files using secure Web Crypto API. Generate checksums for file verification and data integrity. Works entirely in your browser - data never leaves your device.',
     seo: {
       title: 'Hash Generator Online - MD5 SHA256 SHA512 Free | New Life',
       metaDescription: 'Generate MD5, SHA-1, SHA-256, SHA-512 hashes from text or files. Secure Web Crypto API. Free developer tool.',
@@ -1350,6 +1382,7 @@ export const tools: Tool[] = [
     tier: 'free',
     href: '/tools/color-converter',
     color: 'from-pink-500 to-rose-500',
+    answer: 'Color Converter transforms colors between HEX, RGB, RGBA, HSL, and HSLA formats instantly with live visual preview. Includes color picker and copy-ready CSS output. Essential tool for designers and developers. Works entirely in your browser.',
     seo: {
       title: 'Color Converter - HEX RGB HSL Free Online | New Life',
       metaDescription: 'Convert colors between HEX, RGB, HSL formats instantly. Live preview, CSS output, color picker. Free tool for designers.',
@@ -1387,6 +1420,7 @@ export const tools: Tool[] = [
     color: 'from-emerald-500 to-cyan-500',
     tags: ['password', 'security', 'generator', 'random', 'crypto'],
     popular: true,
+    answer: 'Password Generator creates cryptographically secure random passwords from 8-128 characters using Web Crypto API. Customize uppercase, lowercase, numbers, and symbols. Generates uncrackable passwords with strength indicator. Data never leaves your browser.',
     seo: {
       title: 'Password Generator Free Online - Secure Random | New Life',
       metaDescription: 'Generate strong, secure random passwords instantly. Customize length (8-128), character types. Uses Web Crypto API. 100% private.',
@@ -1425,6 +1459,7 @@ export const tools: Tool[] = [
     color: 'from-purple-500 to-indigo-500',
     tags: ['qr', 'scan', 'decode', 'reader', 'camera', 'barcode'],
     popular: true,
+    answer: 'QR Code Reader scans and decodes QR codes from images or camera. Extract URLs, text, WiFi credentials, vCards, email, and phone numbers instantly. Uses device camera or image upload. Works entirely in your browser with zero server uploads. Free and unlimited.',
     seo: {
       title: 'QR Code Reader Online Free - Scan from Image or Camera | New Life',
       metaDescription: 'Scan QR codes from images or camera instantly. Extract URLs, text, WiFi credentials. 100% free, no app install needed.',
@@ -1454,6 +1489,7 @@ export const tools: Tool[] = [
     color: 'from-orange-500 to-amber-500',
     tags: ['convert', 'units', 'length', 'weight', 'temperature', 'calculator'],
     popular: true,
+    answer: 'Unit Converter converts between 8 categories with 100+ units including length, weight, temperature, volume, area, speed, time, and digital storage. Uses precise conversion factors with up to 10 decimal places. Instant calculations with all related units displayed.',
     seo: {
       title: 'Unit Converter Online Free - Length, Weight, Temperature | New Life',
       metaDescription: 'Convert between units instantly. Length, weight, temperature, volume, area, speed, time. Free online converter, no signup required.',
@@ -1487,6 +1523,7 @@ export const tools: Tool[] = [
     color: 'from-pink-500 to-rose-500',
     tags: ['ai', 'sentiment', 'text', 'emotion', 'analysis', 'nlp'],
     popular: true,
+    answer: 'AI Sentiment Analysis uses DistilBERT neural network to detect positive, negative, or neutral emotion in text. Runs entirely in your browser with zero server uploads. ~70MB model loads once and works offline. Perfect for analyzing reviews, feedback, and social media.',
     seo: {
       title: 'AI Sentiment Analysis Free Online - Analyze Text Emotion | New Life',
       metaDescription: 'Analyze text sentiment with AI. Detect positive, negative, neutral emotions. 100% free, runs in browser, no data uploaded.',
@@ -1516,6 +1553,7 @@ export const tools: Tool[] = [
     color: 'from-green-500 to-emerald-500',
     tags: ['ai', 'object detection', 'image', 'recognition', 'computer vision'],
     popular: true,
+    answer: 'AI Object Detection identifies and labels 80+ common objects in images with bounding boxes. Uses state-of-the-art DETR transformer model. Click the image to see detected objects. Runs entirely in your browser with zero server uploads. Free and unlimited.',
     seo: {
       title: 'AI Object Detection Free Online - Identify Objects in Images | New Life',
       metaDescription: 'Detect and identify objects in images with AI. Draw bounding boxes, label items. 100% free, runs in browser, no upload needed.',
@@ -1546,6 +1584,7 @@ export const tools: Tool[] = [
     tags: ['ai', 'caption', 'description', 'alt text', 'accessibility', 'vision'],
     popular: true,
     releaseDate: '2025-01-07',
+    answer: 'AI Image Captioning generates natural language descriptions for images using ViT-GPT2 vision-language model. Perfect for creating alt text for accessibility, social media captions, and SEO. The AI understands objects, scenes, actions, and context. Runs entirely in your browser.',
     seo: {
       title: 'AI Image Captioning Free - Generate Alt Text & Descriptions | New Life',
       metaDescription: 'Generate image descriptions with AI. Create alt text for accessibility, social media captions, and SEO. 100% browser-based, private.',
@@ -1577,6 +1616,7 @@ export const tools: Tool[] = [
     tags: ['ai', 'summarize', 'text', 'tldr', 'condense', 'nlp'],
     popular: true,
     releaseDate: '2025-01-07',
+    answer: 'AI Text Summarization condenses long articles and documents into concise summaries using DistilBART model. Perfect for creating TL;DR versions of content. Runs entirely in your browser with zero server uploads. ~300MB model loads once for unlimited use.',
     seo: {
       title: 'AI Text Summarization Free Online - Summarize Articles Instantly | New Life',
       metaDescription: 'Summarize long articles, documents, and text with AI. Get concise TL;DR summaries instantly. 100% browser-based, private, no upload.',
@@ -1607,6 +1647,7 @@ export const tools: Tool[] = [
     tags: ['ai', 'grammar', 'spelling', 'punctuation', 'writing', 'proofreading'],
     popular: true,
     releaseDate: '2025-01-07',
+    answer: 'AI Grammar Checker analyzes text for grammar, spelling, and punctuation errors using Flan-T5 language model. Get suggestions with explanations to improve your writing. Runs entirely in your browser with zero server uploads. Free and unlimited.',
     seo: {
       title: 'AI Grammar Checker Free Online - Fix Writing Errors | New Life',
       metaDescription: 'Check grammar, spelling, and punctuation with AI. Get suggestions with explanations. 100% browser-based, private, no upload.',
@@ -1637,6 +1678,7 @@ export const tools: Tool[] = [
     tags: ['ai', 'upscale', 'enlarge', 'enhance', 'resolution', 'esrgan'],
     popular: true,
     releaseDate: '2024-12-24',
+    answer: 'AI Image Upscaler enlarges images 2x or 4x using ESRGAN neural network with intelligent detail enhancement. Produces sharper results than traditional resizing. Perfect for printing, presentations, and improving low-resolution images. Runs entirely in your browser with zero server uploads.',
     seo: {
       title: 'AI Image Upscaler Free Online - Enlarge 2x/4x | New Life',
       metaDescription: 'Upscale images 2x or 4x with AI. ESRGAN neural network runs in browser. No upload, no watermark. Free photo enhancement tool.',
@@ -1676,6 +1718,7 @@ export const tools: Tool[] = [
     color: 'from-cyan-500 to-blue-500',
     tags: ['ai', 'object removal', 'photo edit', 'erase', 'remove'],
     popular: false,
+    answer: 'AI Object Remover uses Segment Anything Model (SAM) to click-select and erase unwanted objects from photos. Content-aware fill seamlessly fills the removed area. Perfect for removing people, text, logos, and distractions. Runs entirely in your browser with zero server uploads.',
     seo: {
       title: 'Remove Objects from Photos Free - AI Object Remover | New Life',
       metaDescription: 'Remove unwanted objects from photos using AI. Click on any object to erase it. 100% private, runs in browser. No signup, no watermarks.',
@@ -1713,6 +1756,7 @@ export const tools: Tool[] = [
     href: '/tools/diff-checker',
     color: 'from-cyan-500 to-teal-500',
     tags: ['diff', 'compare', 'text', 'code', 'difference'],
+    answer: 'Diff Checker compares two texts and highlights differences with line-by-line or word-by-word mode. Color-coded additions and deletions with statistics. Perfect for code review and document comparison. Works entirely in your browser with zero server uploads.',
     seo: {
       title: 'Diff Checker Online Free - Compare Text | New Life',
       metaDescription: 'Compare two texts and find differences instantly. Line-by-line or word-by-word mode. Color-coded additions and deletions. Free, private, browser-based.',
@@ -1751,6 +1795,7 @@ export const tools: Tool[] = [
     color: 'from-violet-500 to-indigo-500',
     tags: ['code', 'format', 'beautify', 'prettier', 'minify', 'javascript', 'css', 'html', 'sql'],
     popular: true,
+    answer: 'Code Beautifier formats JavaScript, TypeScript, CSS, HTML, JSON, and SQL using Prettier and sql-formatter. Includes minify option for production compression. Syntax validation and error detection. Works entirely in your browser with zero server uploads.',
     seo: {
       title: 'Code Beautifier & Formatter Online Free - JS CSS HTML SQL | New Life',
       metaDescription: 'Format and beautify JavaScript, TypeScript, CSS, HTML, JSON, SQL code online. Minify option, syntax validation. Uses Prettier. Free, no signup.',
@@ -1790,6 +1835,7 @@ export const tools: Tool[] = [
     color: 'from-orange-500 to-amber-500',
     tags: ['svg', 'optimize', 'compress', 'edit', 'vector', 'icon'],
     popular: false,
+    answer: 'SVG Editor optimizes SVG files by 10-50% by removing unnecessary data. Edit colors globally and scale dimensions from 10%-500% while maintaining crisp vector quality. All processing happens locally in your browser.',
     seo: {
       title: 'SVG Editor & Optimizer Online Free - Compress, Edit Colors | New Life',
       metaDescription: 'Optimize and edit SVG files online. Reduce file size, change colors, scale dimensions. 100% free, browser-based, no upload required.',
@@ -1829,6 +1875,7 @@ export const tools: Tool[] = [
     color: 'from-indigo-500 to-purple-500',
     tags: ['markdown', 'editor', 'preview', 'html', 'pdf', 'documentation'],
     popular: true,
+    answer: 'Markdown Editor provides real-time GitHub Flavored Markdown preview with syntax highlighting for code blocks. Full GFM support including tables, lists, and blockquotes. Export to HTML or PDF. Perfect for writing README files and documentation.',
     seo: {
       title: 'Markdown Editor with Live Preview Free Online | New Life',
       metaDescription: 'Write and preview markdown in real-time with syntax highlighting. Export to HTML or PDF. Free, browser-based, no signup required.',
@@ -1869,6 +1916,7 @@ export const tools: Tool[] = [
     tags: ['ai', 'summary', 'summarize', 'pdf', 'text', 'document', 'tldr'],
     popular: true,
     releaseDate: '2024-12-27',
+    answer: 'AI Summary summarizes documents and text with multiple formats and lengths. Supports PDF, TXT, DOCX, and URL input. Choose brief, standard, or detailed summaries. Privacy-first with local processing options. Free and unlimited.',
     seo: {
       title: 'AI Text Summarizer Free Online - Summarize Documents | New Life',
       metaDescription: 'Summarize documents, PDFs, and text with AI. Choose summary length and format. Privacy-first with local processing options. Free, no signup required.',

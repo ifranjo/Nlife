@@ -1,0 +1,100 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/ui/Navbar.astro';
+import Footer from '../../components/ui/Footer.astro';
+import Fibonacci2048Game from '../../components/games/Fibonacci2048Game';
+
+const title = 'Fibonacci 2048 - Strategy Game | New Life Games';
+const description = 'Merge Fibonacci numbers in this twist on the classic 2048 game! Swipe to combine 1, 1, 2, 3, 5, 8... How high can you reach? Free brain-teasing puzzle game.';
+---
+
+<Layout title={title} description={description} canonicalUrl="https://www.newlifesolutions.dev/games/fibonacci-2048/" theme="default">
+  <Navbar />
+  <main class="pt-16">
+    <!-- Hero Section -->
+    <section class="py-8 px-6 border-b border-[var(--border)]">
+      <div class="max-w-4xl mx-auto text-center">
+        <a href="/games" class="text-xs text-[var(--text-muted)] uppercase tracking-wider hover:text-[var(--accent)] transition-colors mb-4 inline-block">
+          ← Back to Games
+        </a>
+        <div class="text-4xl mb-4">🔢</div>
+        <h1 class="text-2xl uppercase tracking-[0.3em] mb-4">Fibonacci 2048</h1>
+        <p class="text-[var(--text-dim)] text-sm max-w-xl mx-auto leading-relaxed">
+          A twist on the classic 2048 game with Fibonacci numbers! Swipe to merge tiles following the Fibonacci sequence. Reach 144 to win!
+        </p>
+      </div>
+    </section>
+
+    <!-- Game Section -->
+    <section class="py-6 px-4">
+      <Fibonacci2048Game client:load />
+    </section>
+
+    <!-- How to Play -->
+    <section class="py-12 px-6 border-t border-[var(--border)]">
+      <div class="max-w-2xl mx-auto">
+        <h2 class="text-lg uppercase tracking-[0.2em] text-center mb-8">How to Play</h2>
+
+        <div class="grid gap-6 sm:grid-cols-2">
+          <div class="glass-card p-6 rounded-lg">
+            <div class="text-2xl mb-3">👆</div>
+            <h3 class="font-bold mb-2 text-[var(--text)]">Swipe or Arrows</h3>
+            <p class="text-sm text-[var(--text-dim)]">
+              Use arrow keys (or WASD) or swipe on mobile to move all tiles in one direction.
+            </p>
+          </div>
+
+          <div class="glass-card p-6 rounded-lg">
+            <div class="text-2xl mb-3">🔄</div>
+            <h3 class="font-bold mb-2 text-[var(--text)]">Fibonacci Merge</h3>
+            <p class="text-sm text-[var(--text-dim)]">
+              Tiles combine when they sum to the next Fibonacci number (1+1=2, 1+2=3, 2+3=5, etc).
+            </p>
+          </div>
+
+          <div class="glass-card p-6 rounded-lg">
+            <div class="text-2xl mb-3">🎯</div>
+            <h3 class="font-bold mb-2 text-[var(--text)]">Win Condition</h3>
+            <p class="text-sm text-[var(--text-dim)]">
+              Create a tile with value 144 (F₁₂) to win. The higher you go, the more points you score!
+            </p>
+          </div>
+
+          <div class="glass-card p-6 rounded-lg">
+            <div class="text-2xl mb-3">💾</div>
+            <h3 class="font-bold mb-2 text-[var(--text)]">Strategy</h3>
+            <p class="text-sm text-[var(--text-dim)]">
+              Plan your moves carefully! Once the grid fills up with no valid merges, the game ends.
+            </p>
+          </div>
+        </div>
+
+        <div class="mt-8 glass-card p-4 rounded-lg">
+          <h3 class="font-bold mb-3 text-[var(--text)]">Fibonacci Sequence</h3>
+          <p class="text-sm text-[var(--text-dim)] leading-relaxed mb-3">
+            The Fibonacci sequence appears throughout nature, mathematics, and computer science.
+            Each number is the sum of the two preceding ones: 1, 1, 2, 3, 5, 8, 13, 21...
+          </p>
+          <div class="text-center text-xs text-[var(--text-muted)] font-mono">
+            1 + 1 = 2 | 1 + 2 = 3 | 2 + 3 = 5 | 3 + 5 = 8 | 5 + 8 = 13 | 8 + 13 = 21 ...
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>
+
+<!-- JSON-LD -->
+<script type="application/ld+json" set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "VideoGame",
+  "name": "Fibonacci 2048",
+  "description": description,
+  "url": "https://www.newlifesolutions.dev/games/fibonacci-2048",
+  "genre": ["Puzzle", "Strategy", "Math"],
+  "playMode": "SinglePlayer",
+  "applicationCategory": "Game",
+  "operatingSystem": "Web Browser",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+})} />

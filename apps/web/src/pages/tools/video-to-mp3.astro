@@ -38,9 +38,9 @@ const seoContent = {
 
   // TL;DR Answer Box (50-70 words - this is what AI extracts)
   answerBox: {
-    title: 'Convert Video to MP3 — Free, Private, No Upload',
-    queryTarget: 'How to Extract Audio from Video Online Free',
-    tldr: `Drop any video file below to extract its audio as MP3. Choose your preferred bitrate (128-320kbps), then download instantly. Processing uses FFmpeg WebAssembly running entirely in your browser—your video never leaves your device. Works with MP4, WebM, MOV, AVI and more. No signup, no upload, completely offline-capable.`,
+    title: toolData.seo?.h1 || 'Summarize Text & Documents with AI',
+    queryTarget: toolData.seo?.keywords?.[0] || 'How to Summarize Documents Online Free',
+    tldr: toolData.answer || `Paste text, upload a PDF/DOCX/TXT file, or enter a URL to generate an instant summary. Choose from brief, standard, or detailed lengths. Select bullet points, paragraphs, or key takeaways format. Use extractive mode for 100% local processing, or connect your own OpenAI/Claude API key for AI-powered summaries. Free, private, no signup required.`,
     trustSignals: [
       'FFmpeg in browser',
       'No server upload',

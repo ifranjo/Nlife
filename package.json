@@ -9,7 +9,13 @@
     "preview": "cd apps/web && npm run preview",
     "check": "cd apps/web && npm run check",
     "install:web": "cd apps/web && npm install",
-    "install:all": "npm run install:web"
+    "install:all": "npm run install:web",
+    "create-tool": "node scripts/create-new-tool.js",
+    "validate-tool": "node scripts/validate-new-tool.js",
+    "test:all": "cd apps/web && npm run test",
+    "test:accessibility": "cd apps/web && npx playwright test tests/accessibility",
+    "test:visual": "cd apps/web && npx playwright test tests/visual",
+    "test:functional": "cd apps/web && npx playwright test tests/*.spec.ts --grep -v accessibility --grep -v visual"
   },
   "engines": {
     "node": ">=20.0.0"

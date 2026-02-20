@@ -15,12 +15,18 @@ import AnswerBox from '../../components/seo/AnswerBox.astro';
 import QASections from '../../components/seo/QASections.astro';
 import RelatedTools from '../../components/seo/RelatedTools.astro';
 import { getToolById } from '../../lib/tools';
+import { getCompetitorData } from '../../lib/competitors';
 import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
-import BackgroundRemoverComponent from '../../components/tools/BackgroundRemover';
+import ComparisonTable from '../../components/seo/ComparisonTable.astro';
+import AuthorBio from '../../components/seo/AuthorBio.astro';
+import BackgroundRemover from '../../components/tools/BackgroundRemover';
 
 // Get tool data from Single Source of Truth (tools.ts)
 const toolData = getToolById('background-remover');
 if (!toolData) throw new Error('Tool not found: background-remover');
+
+// Get competitor data
+const competitorData = getCompetitorData('background-remover');
 
 // Tool metadata derived from registry
 const tool = {
@@ -38,9 +44,9 @@ const seoContent = {
 
   // TL;DR Answer Box (50-70 words - this is what AI extracts)
   answerBox: {
-    title: 'Remove Image Backgrounds — Free AI Tool, No Upload',
-    queryTarget: 'How to Remove Background from Image Online Free',
-    tldr: `Drop your image below to instantly remove the background using AI. Works on portraits, product photos, logos, and any image. The AI model runs entirely in your browser—your photos are never uploaded to any server. Download as PNG with transparent background. No signup, no watermarks, unlimited free use. First load downloads the AI model (~40MB).`,
+    title: toolData.seo?.h1 || 'Summarize Text & Documents with AI',
+    queryTarget: toolData.seo?.keywords?.[0] || 'How to Summarize Documents Online Free',
+    tldr: toolData.answer || `Paste text, upload a PDF/DOCX/TXT file, or enter a URL to generate an instant summary. Choose from brief, standard, or detailed lengths. Select bullet points, paragraphs, or key takeaways format. Use extractive mode for 100% local processing, or connect your own OpenAI/Claude API key for AI-powered summaries. Free, private, no signup required.`,
     trustSignals: [
       'AI-powered accuracy',
       'No file uploads',
@@ -135,9 +141,23 @@ const schemaData = {
 
       <!-- Tool Component -->
       <section class="tool-section" aria-label="Background Remover Tool">
-        <BackgroundRemoverComponent client:load />
+        <BackgroundRemover client:load />
         <TrustBar signals={seoContent.answerBox.trustSignals} />
       </section>
+
+      <!-- Comparison Table: GEO optimization (32% of AI citations) -->
+      <ComparisonTable
+        toolName={tool.name}
+        competitors={competitorData.competitors}
+        ourFeatures={competitorData.ourFeatures || {
+          price: "Free forever",
+          privacy: "100% local browser processing",
+          accountRequired: "No signup needed",
+          usageLimits: "Unlimited usage",
+          watermarks: "No watermarks",
+          worksOffline: "Yes, fully offline capable"
+        }}
+      />
 
       <!-- Q&A Sections: Semantic structure for AI -->
       <QASections
@@ -155,6 +175,7 @@ const schemaData = {
     </div>
   </main>
 
+  <AuthorBio />
   <Footer />
 </Layout>
 

@@ -17,14 +17,27 @@ All processing is 100% client-side. Files never leave the user's browser.
 npm run dev          # Dev server localhost:4321
 npm run build        # Production build
 npm run check        # TypeScript/Astro validation
+npm run preview      # Preview production build
 
 # Testing (from apps/web/)
 cd apps/web
 npx playwright test                          # All tests (5 browsers)
 npx playwright test --project=chromium       # Single browser (fastest)
-npx playwright test -g "PDF Merge"           # Pattern match
-npx playwright test tests/guides-and-seo.spec.ts  # Single file
+npx playwright test -g "PDF Merge"           # Pattern match	npx playwright test tests/guides-and-seo.spec.ts  # Single file
 npx playwright test --ui                     # Interactive UI mode
+npx playwright test tests/accessibility-comprehensive.spec.ts --project=chromium  # All accessibility tests
+npx playwright test --grep "axe accessibility scan" --project=chromium  # Quick a11y check
+
+# Visual regression testing
+npm run test:visual     # Run visual regression tests
+npm run test:percy      # Run Percy visual testing
+npm run test:percy:local # Dry run Percy locally
+
+# Test sharding for CI
+npm run test:shard:1    # Run 1/4 of tests
+npm run test:shard:2    # Run 2/4 of tests
+npm run test:shard:3    # Run 3/4 of tests
+npm run test:shard:4    # Run 4/4 of tests
 ```
 
 **Windows note**: Use PowerShell for Playwright commands. The webServer auto-starts dev on port 4321.
@@ -38,16 +51,29 @@ NEW_LIFE/
 │       ├── pages/
 │       │   ├── tools/*.astro     ← Tool pages (24 tools)
 │       │   ├── guides/*.astro    ← SEO guide pages
-│       │   └── use-cases/*.astro ← Programmatic landing pages
+│       │   ├── use-cases/*.astro ← Programmatic landing pages
+│       │   ├── admin/*.astro     ← Admin dashboards (ai-analytics)
+│       │   └── hub.astro         ← Main hub page
 │       ├── components/
 │       │   ├── tools/*.tsx       ← React tool components
 │       │   ├── ui/*.astro        ← Shared UI (Navbar, Footer, ToolCard)
-│       │   └── seo/*.astro       ← SEO (AnswerBox, SchemaMarkup, QASections)
-│       └── lib/
-│           ├── tools.ts          ← Tool registry (source of truth)
-│           └── security.ts       ← File validation utilities
-├── packages/                 ← Shared code
-└── docs/                     ← Documentation
+│       │   ├── seo/*.astro       ← SEO (AnswerBox, SchemaMarkup, QASections)
+│       │   └── dashboard/        ← Admin dashboard components
+│       ├── lib/
+│       │   ├── tools.ts          ← Tool registry (source of truth)
+│       │   ├── security.ts       ← File validation utilities
+│       │   ├── ai-detection.ts   ← AI traffic detection (HAMBREDEVICTORIA)
+│       │   ├── dynamic-adaptation.ts ← Content adaptation for AI
+│       │   ├── performance-optimizer.ts ← AI crawler optimizations
+│       │   ├── personalization-layer.ts ← Unified personalization API
+│       │   ├── ai-analytics.ts   ← Real-time AI traffic analytics
+│       │   ├── geo-ab-testing.ts ← A/B testing framework for GEO
+│       │   └── geo-feedback-loops.ts ← Automated optimization rules
+│       ├── layouts/              ← Astro layout templates
+│       └── styles/               ← Global CSS with design system
+├── packages/                   ← Shared code
+├── docs/geo-system/            ← HAMBREDEVICTORIA Protocol documentation
+└── tests/                      ← Playwright E2E tests
 ```
 
 ### Key Patterns
@@ -60,6 +86,8 @@ NEW_LIFE/
 ```typescript
 const { PDFDocument } = await import('pdf-lib');
 ```
+
+**HAMBREDEVICTORIA Protocol**: 7-week GEO optimization system with AI traffic detection, content adaptation, performance optimization, analytics, and A/B testing.
 
 ## Adding a New Tool
 
@@ -86,6 +114,26 @@ validateAudioFile(file);            // 100MB max
 const safeName = sanitizeFilename(file.name);
 setError(createSafeErrorMessage(err, 'Processing failed'));
 ```
+
+## HAMBREDEVICTORIA Protocol
+
+7-week systematic GEO optimization strategy for AI platforms (Claude, GPT-4, Gemini, Perplexity):
+
+- **Week 1-2**: Foundation & Core Implementation
+- **Week 3**: Advanced Content Strategy
+- **Week 4**: GEO Authority & Distribution (Personalization)
+- **Week 5**: Continuous Optimization & Measurement (Analytics)
+- **Week 6-7**: Advanced Optimization & Scale
+
+**Key Components:**
+- `ai-detection.ts` - Multi-signal AI crawler detection
+- `dynamic-adaptation.ts` - Platform-specific content rules
+- `performance-optimizer.ts` - 50-70% faster extraction for AI
+- `ai-analytics.ts` - Real-time traffic monitoring with privacy
+- `geo-ab-testing.ts` - Statistical A/B testing framework
+- `geo-feedback-loops.ts` - Automated optimization rules
+
+**Analytics Dashboard**: `/admin/ai-analytics` - Real-time monitoring of AI traffic, conversion rates, platform distribution.
 
 ## Testing Conventions
 
@@ -147,16 +195,6 @@ Tool pages use three components for AI/search optimization:
 
 Guide pages (`/guides/*`) and use-case pages (`/use-cases/*`) target long-tail keywords with HowTo schema.
 
-## CI/CD
-
-```
-PUSH → BUILD + TYPE CHECK + SECURITY AUDIT → DEPLOY (Vercel)
-```
-
-- Triggers on push to `main`/`master`
-- Security audit blocks on high/critical vulnerabilities
-- Vercel secrets: `VERCEL_TOKEN`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID`
-
 ## Accessibility (WCAG 2.1 AA)
 
 All 40 tool pages pass axe-core WCAG 2.1 AA compliance tests. Follow these guidelines:
@@ -178,11 +216,6 @@ All 40 tool pages pass axe-core WCAG 2.1 AA compliance tests. Follow these guide
 /* Clean/light theme */
 --success: #166534;  /* green-800: 5.5:1 on light backgrounds */
 ```
-
-**Problematic colors to avoid**:
-- `#28a745` on light backgrounds (only 2.97:1)
-- `#22c55e` on light backgrounds (only 2.12:1)
-- White text on mid-range blues like `#3b82f6` (only 3.67:1)
 
 ### Form Accessibility Patterns
 
@@ -233,43 +266,64 @@ npx playwright test --grep "PDF Merge - axe"
 npx playwright test --grep "axe accessibility scan" --project=chromium
 ```
 
-### Recent Accessibility Fixes (2025-01-02)
+## CI/CD
 
-| Component | Issue | Fix |
-|-----------|-------|-----|
-| ComparisonTable | Green text 3.39:1 on dark bg | Theme-aware: `#22c55e` dark, `#166534` light |
-| QASections | `#00ff00` fails on light bg | Use `var(--success)` |
-| ColorConverter | White on blue 3.67:1 | Lower luminance threshold to 0.4 |
-| global.css | `--success` 2.97:1 light mode | Changed to `#166534` (5.5:1) |
-| Navbar beta badge | 1.26:1 light mode | Theme-aware `.beta-badge` class |
-| 8 tool components | Missing form labels | Added `id`/`htmlFor` or `aria-label` |
-| MarkdownEditor | Links not distinguishable | Added `text-decoration: underline` |
+```
+PUSH → BUILD + TYPE CHECK + SECURITY AUDIT → DEPLOY (Vercel)
+```
+
+- Triggers on push to `main`/`master`
+- Security audit blocks on high/critical vulnerabilities
+- Vercel secrets: `VERCEL_TOKEN`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID`
 
 ## Tech Stack
 
 | Layer | Tech |
 |-------|------|
 | Frontend | Astro 5, React 19, Tailwind CSS v4 |
-| Testing | Playwright, axe-core |
+| Testing | Playwright, axe-core, Percy |
 | Deploy | Vercel |
 | Node | >=20.0.0 |
 
 ### Browser Libraries
 
-| Library | Purpose |
-|---------|---------|
-| `pdf-lib` | PDF manipulation |
-| `pdfjs-dist` | PDF rendering/text extraction |
-| `@ffmpeg/ffmpeg` | Video/audio processing |
-| `@huggingface/transformers` | Whisper AI transcription |
-| `@imgly/background-removal` | AI background removal |
-| `tesseract.js` | OCR |
+| Library | Purpose | Size |
+|---------|---------|------|
+| `pdf-lib` | PDF manipulation | ~2MB |
+| `pdfjs-dist` | PDF rendering/text extraction | ~4MB |
+| `@ffmpeg/ffmpeg` | Video/audio processing | ~50MB |
+| `@huggingface/transformers` | Whisper AI transcription | ~50MB |
+| `@imgly/background-removal` | AI background removal | ~180MB |
+| `tesseract.js` | OCR | ~30MB |
 
-## Changelog
+**Note**: Large libraries use dynamic imports to avoid blocking initial page load.
 
-### 2025-01-02
-- **fix(a11y)**: Resolved all WCAG 2.1 AA accessibility violations
-  - Fixed color contrast in 5 components (ComparisonTable, QASections, ColorConverter, global.css, Navbar)
-  - Added form labels to 13 elements across 8 tool components
-  - Added link underlines in MarkdownEditor prose
-  - All 40 axe-core accessibility tests now pass
+## Common Development Tasks
+
+### Running a Single Test
+```bash
+cd apps/web
+npx playwright test -g "exact test name" --project=chromium --headed
+```
+
+### Debugging AI Analytics
+Visit `/admin/ai-analytics` to see real-time AI traffic data. Check browser console for "📊 AI Analytics batch" logs.
+
+### Testing AI Personalization
+Use browser dev tools to simulate AI platforms:
+```javascript
+// Simulate Claude
+window.navigator.userAgent = 'Mozilla/5.0 (compatible; Claude/1.0; +https://www.anthropic.com/claude';
+window.location.reload();
+```
+
+### Updating Tool Registry
+After modifying `lib/tools.ts`, restart dev server to see changes. The registry is read at build time.
+
+## Performance Considerations
+
+- All tools must work offline after initial load
+- File processing happens in Web Workers when possible
+- Large files are processed in chunks with progress indicators
+- Memory usage is monitored and cleaned up after processing
+- Safari requires special handling for certain file types (HEIC, video codecs)

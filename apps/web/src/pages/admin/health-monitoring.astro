@@ -1,0 +1,71 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import HealthMonitoringDashboard from '../../components/dashboard/HealthMonitoringDashboard';
+import { initializeHealthMonitoring } from '../../lib/health-monitoring-integration';
+
+// Initialize health monitoring on server side
+initializeHealthMonitoring();
+
+// SEO metadata
+const title = "Health Monitoring Dashboard - HAMBREDEVICTORIA Protocol";
+const description = "Real-time monitoring of all HAMBREDEVICTORIA protocol metrics and system health.";
+
+// JSON-LD structured data
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": title,
+  "description": description,
+  "url": "https://www.newlifesolutions.dev/admin/health-monitoring"
+};
+---
+
+<Layout title={title} description={description} structuredData={structuredData}>
+  <HealthMonitoringDashboard client:load />
+</Layout>
+
+<script>
+  // Initialize health monitoring integration
+  import { initializeHealthMonitoring } from '../../lib/health-monitoring-integration';
+
+  // Initialize on client side
+  initializeHealthMonitoring();
+</script>
+
+<style>
+  /* Additional dashboard styles */
+  :global(.glass-card) {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+  }
+
+  :global(.btn-primary) {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+    font-weight: 500;
+    transition: all 0.2s;
+  }
+
+  :global(.btn-primary:hover) {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+  }
+
+  :global(.btn-secondary) {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+    font-weight: 500;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.2s;
+  }
+
+  :global(.btn-secondary:hover) {
+    background: rgba(255, 255, 255, 0.15);
+  }
+</style>

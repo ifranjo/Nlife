@@ -13,6 +13,11 @@ export default function ImageCaptioning() {
   const [loadingProgress, setLoadingProgress] = useState(0);
   const [copied, setCopied] = useState(false);
 
+  // Preload transformers on component mount
+  useEffect(() => {
+    preloadTransformers();
+  }, []);
+
   const fileInputRef = useRef<HTMLInputElement>(null);
   const captionerRef = useRef<any>(null);
 
@@ -65,7 +70,7 @@ export default function ImageCaptioning() {
     setLoadingProgress(0);
 
     try {
-      const { pipeline } = await import('@huggingface/transformers');
+      const transcriber = await initPipeline;
 
       const progressCallback = (progress: any) => {
         if (progress.status === 'progress' && progress.progress) {
@@ -73,7 +78,7 @@ export default function ImageCaptioning() {
         }
       };
 
-      captionerRef.current = await pipeline(
+      captionerRef.current = await initPipeline(
         'image-to-text',
         'Xenova/vit-gpt2-image-captioning',
         { progress_callback: progressCallback }

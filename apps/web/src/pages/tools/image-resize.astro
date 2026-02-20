@@ -38,9 +38,9 @@ const seoContent = {
 
   // TL;DR Answer Box (50-70 words - this is what AI extracts)
   answerBox: {
-    title: 'Resize Images Online - Free Tool',
-    queryTarget: 'How to Resize Images Online Free',
-    tldr: `Resize images to any dimension instantly with our free online tool. Upload JPG, PNG, WebP, or GIF images and adjust width and height. Lock aspect ratio for proportional resizing or set custom dimensions. Choose from preset sizes for Instagram, Twitter, YouTube, Facebook, and more. Adjust output quality and format. All processing happens in your browser using Canvas API.`,
+    title: toolData.seo?.h1 || 'Summarize Text & Documents with AI',
+    queryTarget: toolData.seo?.keywords?.[0] || 'How to Summarize Documents Online Free',
+    tldr: toolData.answer || `Paste text, upload a PDF/DOCX/TXT file, or enter a URL to generate an instant summary. Choose from brief, standard, or detailed lengths. Select bullet points, paragraphs, or key takeaways format. Use extractive mode for 100% local processing, or connect your own OpenAI/Claude API key for AI-powered summaries. Free, private, no signup required.`,
     trustSignals: [
       'Canvas API',
       'No upload to servers',

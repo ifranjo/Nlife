@@ -1,0 +1,96 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/ui/Navbar.astro';
+import Footer from '../../components/ui/Footer.astro';
+import BinaryPuzzleGame from '../../components/games/BinaryPuzzleGame';
+
+const title = 'Binary Puzzle - Logic Game | New Life Games';
+const description = 'Solve binary grid puzzles with logic. Fill the grid with 0s and 1s following simple rules. Perfect brain training for developers and logic lovers.';
+---
+
+<Layout title={title} description={description} canonicalUrl="https://www.newlifesolutions.dev/games/binary-puzzle/" theme="default">
+  <Navbar />
+  <main class="pt-16">
+    <!-- Hero Section -->
+    <section class="py-8 px-6 border-b border-[var(--border)]">
+      <div class="max-w-4xl mx-auto text-center">
+        <a href="/games" class="text-xs text-[var(--text-muted)] uppercase tracking-wider hover:text-[var(--accent)] transition-colors mb-4 inline-block">
+          ← Back to Games
+        </a>
+        <div class="text-4xl mb-4">🔢</div>
+        <h1 class="text-2xl uppercase tracking-[0.3em] mb-4">Binary Puzzle</h1>
+        <p class="text-[var(--text-dim)] text-sm max-w-xl mx-auto leading-relaxed">
+          Fill the grid with 0s and 1s following three simple rules. Each puzzle has a unique solution that requires logic, not guessing.
+        </p>
+      </div>
+    </section>
+
+    <!-- Game Section -->
+    <section class="py-6 px-4">
+      <BinaryPuzzleGame client:load />
+    </section>
+
+    <!-- How to Play -->
+    <section class="py-12 px-6 border-t border-[var(--border)]">
+      <div class="max-w-2xl mx-auto">
+        <h2 class="text-lg uppercase tracking-[0.2em] text-center mb-8">How to Play</h2>
+
+        <div class="grid gap-6 sm:grid-cols-2">
+          <div class="glass-card p-6 rounded-lg">
+            <div class="text-2xl mb-3">🚫</div>
+            <h3 class="font-bold mb-2 text-[var(--text)]">No Triples</h3>
+            <p class="text-sm text-[var(--text-dim)]">
+              No more than two of the same number can be adjacent horizontally or vertically.
+            </p>
+          </div>
+
+          <div class="glass-card p-6 rounded-lg">
+            <div class="text-2xl mb-3">⚖️</div>
+            <h3 class="font-bold mb-2 text-[var(--text)]">Balance</h3>
+            <p class="text-sm text-[var(--text-dim)]">
+              Each row and column must have an equal number of 0s and 1s.
+            </p>
+          </div>
+
+          <div class="glass-card p-6 rounded-lg">
+            <div class="text-2xl mb-3">🔄</div>
+            <h3 class="font-bold mb-2 text-[var(--text)]">Unique Lines</h3>
+            <p class="text-sm text-[var(--text-dim)]">
+              No two rows and no two columns can be identical.
+            </p>
+          </div>
+
+          <div class="glass-card p-6 rounded-lg">
+            <div class="text-2xl mb-3">▶️</div>
+            <h3 class="font-bold mb-2 text-[var(--text)]">Easy Controls</h3>
+            <p class="text-sm text-[var(--text-dim)]">
+              Click a cell and press 0 or 1 to fill. Gray cells are fixed and cannot be changed.
+            </p>
+          </div>
+        </div>
+
+        <div class="mt-8 glass-card p-4 rounded-lg">
+          <h3 class="font-bold mb-3 text-[var(--text)]">Perfect for Developers</h3>
+          <p class="text-sm text-[var(--text-dim)] leading-relaxed">
+            Binary puzzles use the same logical thinking as debugging code. Each decision creates constraints that lead to the solution. It's like solving a binary search tree in your head!
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>
+
+<!-- JSON-LD -->
+<script type="application/ld+json" set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "VideoGame",
+  "name": "Binary Puzzle",
+  "description": description,
+  "url": "https://www.newlifesolutions.dev/games/binary-puzzle",
+  "genre": ["Logic Puzzle", "Brain Training"],
+  "playMode": "SinglePlayer",
+  "applicationCategory": "Game",
+  "operatingSystem": "Web Browser",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+})} />

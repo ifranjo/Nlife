@@ -1,0 +1,134 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/ui/Navbar.astro';
+import Footer from '../../components/ui/Footer.astro';
+import ToolCard from '../../components/ui/ToolCard.astro';
+import { getToolsByCategory } from '../../lib/tools';
+
+const tools = getToolsByCategory('document').filter(tool =>
+  tool.name.toLowerCase().includes('ocr') ||
+  tool.name.toLowerCase().includes('scanner') ||
+  tool.name.toLowerCase().includes('resume') ||
+  tool.tags?.some(tag => ['ocr', 'scanner', 'document', 'text'].includes(tag.toLowerCase()))
+);
+
+// SEO metadata
+const title = 'Free Document Tools Online | OCR, Scanner, Resume Builder';
+const description = 'Complete document toolkit - OCR text extraction, document scanning, resume building. 100% browser-based, no uploads required.';
+---
+
+<Layout title={title} description={description} canonicalUrl="https://www.newlifesolutions.dev/hub/document-tools">
+
+  <Navbar />
+  <main class="pt-16">
+    <!-- Hero Section -->
+    <section class="py-20 px-6">
+      <div class="max-w-4xl mx-auto text-center">
+        <div class="text-[0.625rem] uppercase tracking-[0.3em] text-[var(--text-muted)] mb-4">Document Tools Hub</div>
+
+        <h1 class="text-3xl sm:text-4xl font-semibold mb-6">
+          Complete Document Toolkit
+        </h1>
+
+        <p class="text-[var(--text-dim)] text-base max-w-2xl mx-auto leading-relaxed mb-8">
+          Everything you need to work with documents - extract text from images with OCR,
+          scan documents with automatic enhancement, build professional resumes, and convert
+          between document formats. All processing happens in your browser for maximum privacy.
+        </p>
+
+        <div class="flex flex-wrap justify-center gap-4 text-[0.625rem] text-[var(--text-muted)] uppercase tracking-[0.15em]">
+          <span>No File Uploads</span>
+          <span>AI-Powered OCR</span>
+          <span>Professional Templates</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tools Grid -->
+    <section id="tools" class="py-20 px-6 border-t border-[var(--border)]">
+      <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-16">
+          <h2 class="text-2xl sm:text-3xl font-semibold mb-4">
+            {tools.length} Document Tools Available
+          </h2>
+          <p class="text-[var(--text-dim)] text-sm max-w-2xl mx-auto leading-relaxed">
+            Click any tool to start processing your documents immediately. All tools support PDF, images, and various document formats.
+          </p>
+        </div>
+
+        <div class="tool-grid">
+          {tools.map(tool => (
+            <ToolCard tool={tool} />
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section id="benefits" class="py-20 px-6 border-t border-[var(--border)]">
+      <div class="max-w-4xl mx-auto">
+        <div class="text-center mb-16">
+          <h2 class="text-2xl sm:text-3xl font-semibold mb-6">Why Choose Our Document Tools?</h2>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-8">
+          <div class="glass-card p-8">
+            <h3 class="text-lg font-semibold mb-4">Advanced OCR Technology</h3>
+            <p class="text-[var(--text-dim)] text-sm leading-relaxed">
+              State-of-the-art optical character recognition extracts text from images and PDFs with high accuracy.
+              Supports multiple languages and preserves document formatting and structure.
+            </p>
+          </div>
+
+          <div class="glass-card p-8">
+            <h3 class="text-lg font-semibold mb-4">Smart Document Scanning</h3>
+            <p class="text-[var(--text-dim)] text-sm leading-relaxed">
+              Automatic edge detection, perspective correction, and enhancement for document photos.
+              Transform phone photos into clean, professional-looking documents instantly.
+            </p>
+          </div>
+
+          <div class="glass-card p-8">
+            <h3 class="text-lg font-semibold mb-4">Professional Templates</h3>
+            <p class="text-[var(--text-dim)] text-sm leading-relaxed">
+              Resume builder includes modern, ATS-friendly templates designed by career experts.
+              Customizable layouts that help you stand out while passing applicant tracking systems.
+            </p>
+          </div>
+
+          <div class="glass-card p-8">
+            <h3 class="text-lg font-semibold mb-4">Privacy Guaranteed</h3>
+            <p class="text-[var(--text-dim)] text-sm leading-relaxed">
+              Your documents never leave your device. All processing happens locally using
+              WebAssembly technology. No cloud servers, no data transmission, complete privacy.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>
+
+<!-- JSON-LD Structured Data for SEO -->
+<script type="application/ld+json" set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": title,
+  "description": description,
+  "url": "https://www.newlifesolutions.dev/hub/document-tools",
+  "about": {
+    "@type": "Thing",
+    "name": "Document Tools"
+  },
+  "mainEntity": {
+    "@type": "ItemList",
+    "itemListElement": tools.slice(0, 10).map((tool, index) => ({
+      "@type": "ListItem",
+      "position": index + 1,
+      "name": tool.name,
+      "description": tool.description,
+      "url": `https://www.newlifesolutions.dev${tool.href}`
+    }))
+  }
+})} />

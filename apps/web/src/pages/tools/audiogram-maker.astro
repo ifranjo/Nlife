@@ -32,9 +32,9 @@ const seoContent = {
   description: toolData.seo?.metaDescription || toolData.description,
 
   answerBox: {
-    title: 'Create Audiogram Videos - Free Online Tool',
-    queryTarget: 'How to Create Audiogram Videos Free',
-    tldr: `Upload your audio file to create animated waveform videos for social media. Customize colors, waveform style (bars, line, circular), add your podcast artwork, and export in 1:1, 9:16, or 16:9 aspect ratios. All processing happens in your browser—files never leave your device. Perfect for promoting podcasts on Instagram, TikTok, and YouTube.`,
+    title: toolData.seo?.h1 || 'Summarize Text & Documents with AI',
+    queryTarget: toolData.seo?.keywords?.[0] || 'How to Summarize Documents Online Free',
+    tldr: toolData.answer || `Paste text, upload a PDF/DOCX/TXT file, or enter a URL to generate an instant summary. Choose from brief, standard, or detailed lengths. Select bullet points, paragraphs, or key takeaways format. Use extractive mode for 100% local processing, or connect your own OpenAI/Claude API key for AI-powered summaries. Free, private, no signup required.`,
     trustSignals: [
       '100% browser-based',
       'No file uploads',

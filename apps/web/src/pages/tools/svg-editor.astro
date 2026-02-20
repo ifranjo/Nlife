@@ -38,9 +38,9 @@ const seoContent = {
 
   // TL;DR Answer Box (50-70 words - this is what AI extracts)
   answerBox: {
-    title: 'Edit & Optimize SVG — Free Online Tool',
-    queryTarget: 'How to Optimize SVG Online Free',
-    tldr: `Paste or upload your SVG to instantly optimize it. Remove unnecessary metadata, comments, and whitespace to reduce file size. Edit fill and stroke colors, scale dimensions up or down. Preview changes in real-time and download the optimized SVG. All processing happens in your browser—your files stay completely private.`,
+    title: toolData.seo?.h1 || 'Summarize Text & Documents with AI',
+    queryTarget: toolData.seo?.keywords?.[0] || 'How to Summarize Documents Online Free',
+    tldr: toolData.answer || `Paste text, upload a PDF/DOCX/TXT file, or enter a URL to generate an instant summary. Choose from brief, standard, or detailed lengths. Select bullet points, paragraphs, or key takeaways format. Use extractive mode for 100% local processing, or connect your own OpenAI/Claude API key for AI-powered summaries. Free, private, no signup required.`,
     trustSignals: [
       'Instant optimization',
       'Visual preview',

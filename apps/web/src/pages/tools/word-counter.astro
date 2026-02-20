@@ -38,9 +38,9 @@ const seoContent = {
 
   // TL;DR Answer Box (50-70 words - this is what AI extracts)
   answerBox: {
-    title: 'Count Words & Characters — Free Online Tool',
-    queryTarget: 'How to Count Words in Text Online Free',
-    tldr: `Paste your text below to instantly count words, characters, sentences, and paragraphs. See estimated reading time and speaking time. Get keyword density analysis for SEO. Stats update as you type—no button needed. All processing happens in your browser. Free, private, no signup required.`,
+    title: toolData.seo?.h1 || 'Summarize Text & Documents with AI',
+    queryTarget: toolData.seo?.keywords?.[0] || 'How to Summarize Documents Online Free',
+    tldr: toolData.answer || `Paste text, upload a PDF/DOCX/TXT file, or enter a URL to generate an instant summary. Choose from brief, standard, or detailed lengths. Select bullet points, paragraphs, or key takeaways format. Use extractive mode for 100% local processing, or connect your own OpenAI/Claude API key for AI-powered summaries. Free, private, no signup required.`,
     trustSignals: [
       'Real-time counting',
       'Reading time estimate',

@@ -38,9 +38,9 @@ const seoContent = {
 
   // TL;DR Answer Box (50-70 words - this is what AI extracts)
   answerBox: {
-    title: 'Build Your Resume — Free, Private, Instant PDF',
-    queryTarget: 'How to Create Resume Online Free',
-    tldr: `Create a professional resume by filling out the form below. Add your contact info, work experience, education, and skills. Choose from Modern, Classic, or Minimal templates. Click generate to instantly download a polished PDF resume. All processing happens in your browser—your personal data never uploads anywhere.`,
+    title: toolData.seo?.h1 || 'Summarize Text & Documents with AI',
+    queryTarget: toolData.seo?.keywords?.[0] || 'How to Summarize Documents Online Free',
+    tldr: toolData.answer || `Paste text, upload a PDF/DOCX/TXT file, or enter a URL to generate an instant summary. Choose from brief, standard, or detailed lengths. Select bullet points, paragraphs, or key takeaways format. Use extractive mode for 100% local processing, or connect your own OpenAI/Claude API key for AI-powered summaries. Free, private, no signup required.`,
     trustSignals: [
       '3 professional templates',
       'Instant PDF download',

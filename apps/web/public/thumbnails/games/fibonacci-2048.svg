@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- Background -->
+  <rect width="200" height="200" fill="#0a0a0a"/>
+
+  <!-- Grid -->
+  <g fill="#fff" font-family="Arial, sans-serif" font-weight="bold" text-anchor="middle" dominant-baseline="central">
+    <!-- Row 1 -->
+    <rect x="20" y="20" width="35" height="35" rx="4" fill="#111827"/>
+    <text x="37.5" y="37.5" font-size="14">1</text>
+
+    <rect x="60" y="20" width="35" height="35" rx="4" fill="#111827"/>
+    <text x="77.5" y="37.5" font-size="14">1</text>
+
+    <rect x="100" y="20" width="35" height="35" rx="4" fill="#2d1b69"/>
+    <text x="117.5" y="37.5" font-size="14">2</text>
+
+    <rect x="140" y="20" width="35" height="35" rx="4" fill="#312e81"/>
+    <text x="157.5" y="37.5" font-size="14">3</text>
+
+    <!-- Row 2 -->
+    <rect x="20" y="60" width="35" height="35" rx="4" fill="#1f2937"/>
+    <text x="37.5" y="77.5" font-size="14"></text>
+
+    <rect x="60" y="60" width="35" height="35" rx="4" fill="#1f2937"/>
+    <text x="77.5" y="77.5" font-size="14"></text>
+
+    <rect x="100" y="60" width="35" height="35" rx="4" fill="#1e40af"/>
+    <text x="117.5" y="77.5" font-size="14">5</text>
+
+    <rect x="140" y="60" width="35" height="35" rx="4" fill="#1f2937"/>
+    <text x="157.5" y="77.5" font-size="14"></text>
+
+    <!-- Row 3 -->
+    <rect x="20" y="100" width="35" height="35" rx="4" fill="#1f2937"/>
+    <text x="37.5" y="117.5" font-size="14"></text>
+
+    <rect x="60" y="100" width="35" height="35" rx="4" fill="#164e63"/>
+    <text x="77.5" y="117.5" font-size="14">8</text>
+
+    <rect x="100" y="100" width="35" height="35" rx="4" fill="#1f2937"/>
+    <text x="117.5" y="117.5" font-size="14"></text>
+
+    <rect x="140" y="100" width="35" height="35" rx="4" fill="#1f2937"/>
+    <text x="157.5" y="117.5" font-size="14"></text>
+
+    <!-- Row 4 -->
+    <rect x="20" y="140" width="35" height="35" rx="4" fill="#a16207"/>
+    <text x="37.5" y="157.5" font-size="14">13</text>
+
+    <rect x="60" y="140" width="35" height="35" rx="4" fill="#1f2937"/>
+    <text x="77.5" y="157.5" font-size="14"></text>
+
+    <rect x="100" y="140" width="35" height="35" rx="4" fill="#1f2937"/>
+    <text x="117.5" y="157.5" font-size="14"></text>
+
+    <rect x="140" y="140" width="35" height="35" rx="4" fill="#1f2937"/>
+    <text x="157.5" y="157.5" font-size="14"></text>
+  </g>
+
+  <!-- Fibonacci spiral -->
+  <g stroke="#7c3aed" stroke-width="2" fill="none" opacity="0.3">
+    <path d="M 120 180 A 60 60 0 0 1 60 120 L 120 120"/>
+  </g>
+
+  <!-- 2048 text -->
+  <text x="100" y="190" font-family="monospace" font-size="12" fill="#666" text-anchor="middle">FIBONACCI</text>
+</svg>

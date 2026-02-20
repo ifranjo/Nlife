@@ -38,6 +38,11 @@ export default function SubtitleGenerator() {
   const [language, setLanguage] = useState('en');
   const [currentTime, setCurrentTime] = useState(0);
   const [activeSubtitleIndex, setActiveSubtitleIndex] = useState(-1);
+
+  // Preload transformers on component mount
+  useEffect(() => {
+    preloadTransformers();
+  }, []);
   const pipelineRef = useRef<any>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
 
@@ -136,12 +141,12 @@ export default function SubtitleGenerator() {
     setError(null);
 
     try {
-      const { pipeline } = await import('@huggingface/transformers');
+      const transcriber = await initPipeline;
 
       if (!pipelineRef.current) {
         setProgressText('Downloading model (first time ~150MB)...');
 
-        pipelineRef.current = await pipeline(
+        pipelineRef.current = await initPipeline(
           'automatic-speech-recognition',
           'Xenova/whisper-tiny',
           {

@@ -50,6 +50,11 @@ export default function SentimentAnalysis() {
   const [classifier, setClassifier] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
 
+  // Preload transformers on component mount
+  useEffect(() => {
+    preloadTransformers();
+  }, []);
+
   const loadModel = async () => {
     if (classifier) return classifier;
 
@@ -58,10 +63,10 @@ export default function SentimentAnalysis() {
     setError(null);
 
     try {
-      const { pipeline } = await import('@huggingface/transformers');
+      const transcriber = await initPipeline;
 
       // Show progress during model download
-      const loadedClassifier = await pipeline('sentiment-analysis', 'Xenova/distilbert-base-uncased-finetuned-sst-2-english', {
+      const loadedClassifier = await initPipeline('sentiment-analysis', 'Xenova/distilbert-base-uncased-finetuned-sst-2-english', {
         progress_callback: (progress: any) => {
           if (progress.status === 'downloading') {
             const percent = Math.round((progress.loaded / progress.total) * 100);

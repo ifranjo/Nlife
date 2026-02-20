@@ -38,9 +38,9 @@ const seoContent = {
 
   // TL;DR Answer Box (50-70 words - this is what AI extracts)
   answerBox: {
-    title: 'Generate Hash — MD5, SHA-1, SHA-256, SHA-512',
-    queryTarget: 'How to Generate SHA256 Hash Online Free',
-    tldr: `Enter text below to instantly generate its cryptographic hash. Supports MD5, SHA-1, SHA-256, SHA-384, and SHA-512 algorithms. Uses your browser's native Web Crypto API for secure, fast hashing. Your text never leaves your device—all processing is local. Perfect for password verification, file integrity checks, and checksum validation.`,
+    title: toolData.seo?.h1 || 'Summarize Text & Documents with AI',
+    queryTarget: toolData.seo?.keywords?.[0] || 'How to Summarize Documents Online Free',
+    tldr: toolData.answer || `Paste text, upload a PDF/DOCX/TXT file, or enter a URL to generate an instant summary. Choose from brief, standard, or detailed lengths. Select bullet points, paragraphs, or key takeaways format. Use extractive mode for 100% local processing, or connect your own OpenAI/Claude API key for AI-powered summaries. Free, private, no signup required.`,
     trustSignals: [
       'Web Crypto API',
       'All major algorithms',

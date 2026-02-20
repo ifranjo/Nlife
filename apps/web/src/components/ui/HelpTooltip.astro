@@ -79,7 +79,7 @@ const sizeClass = size === 'sm' ? 'help-sm' : 'help-md';
     width: max-content;
     max-width: 20rem;
     padding: 0.75rem 1rem;
-    background: rgba(20, 20, 20, 0.98);
+    background: var(--bg-secondary);
     border: 1px solid var(--border);
     border-radius: 0.25rem;
     font-size: 0.8125rem;
@@ -87,6 +87,7 @@ const sizeClass = size === 'sm' ? 'help-sm' : 'help-md';
     color: var(--text-dim);
     text-align: left;
     z-index: 100;
+    box-shadow: var(--glow-subtle);
 
     /* Hidden by default but in DOM for SEO */
     opacity: 0;
@@ -103,7 +104,7 @@ const sizeClass = size === 'sm' ? 'help-sm' : 'help-md';
     transform: translateX(-50%) rotate(45deg);
     width: 0.625rem;
     height: 0.625rem;
-    background: rgba(20, 20, 20, 0.98);
+    background: var(--bg-secondary);
     border-left: 1px solid var(--border);
     border-top: 1px solid var(--border);
   }

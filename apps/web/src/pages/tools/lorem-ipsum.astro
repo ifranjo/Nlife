@@ -38,9 +38,9 @@ const seoContent = {
 
   // TL;DR Answer Box (50-70 words - this is what AI extracts)
   answerBox: {
-    title: 'Generate Lorem Ipsum — Free Placeholder Text',
-    queryTarget: 'How to Generate Lorem Ipsum Text Online Free',
-    tldr: `Choose how many paragraphs, sentences, or words you need below, then click generate. Get classic lorem ipsum placeholder text instantly for your designs, mockups, and prototypes. Copy with one click. All processing happens in your browser—works offline after loading. No limits, no signup, completely free.`,
+    title: toolData.seo?.h1 || 'Summarize Text & Documents with AI',
+    queryTarget: toolData.seo?.keywords?.[0] || 'How to Summarize Documents Online Free',
+    tldr: toolData.answer || `Paste text, upload a PDF/DOCX/TXT file, or enter a URL to generate an instant summary. Choose from brief, standard, or detailed lengths. Select bullet points, paragraphs, or key takeaways format. Use extractive mode for 100% local processing, or connect your own OpenAI/Claude API key for AI-powered summaries. Free, private, no signup required.`,
     trustSignals: [
       'Classic lorem ipsum',
       'Paragraphs or words',

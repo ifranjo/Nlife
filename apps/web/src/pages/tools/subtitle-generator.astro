@@ -38,9 +38,9 @@ const seoContent = {
 
   // TL;DR Answer Box (50-70 words - this is what AI extracts)
   answerBox: {
-    title: 'Generate Subtitles with AI — Free SRT & VTT Export',
-    queryTarget: 'How to Generate Subtitles from Video for Free',
-    tldr: `Upload a video or audio file to automatically generate timestamped subtitles using OpenAI's Whisper AI. Choose from 10+ languages, then export as SRT for video editors or VTT for web players. Preview subtitles synced with video playback. All processing runs in your browser—your media never uploads to any server.`,
+    title: toolData.seo?.h1 || 'Summarize Text & Documents with AI',
+    queryTarget: toolData.seo?.keywords?.[0] || 'How to Summarize Documents Online Free',
+    tldr: toolData.answer || `Paste text, upload a PDF/DOCX/TXT file, or enter a URL to generate an instant summary. Choose from brief, standard, or detailed lengths. Select bullet points, paragraphs, or key takeaways format. Use extractive mode for 100% local processing, or connect your own OpenAI/Claude API key for AI-powered summaries. Free, private, no signup required.`,
     trustSignals: [
       'Whisper AI model',
       'SRT & VTT export',

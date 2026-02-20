@@ -38,9 +38,9 @@ const seoContent = {
 
   // TL;DR Answer Box (50-70 words - this is what AI extracts)
   answerBox: {
-    title: 'AI Text Summarization - Free Online Tool',
-    queryTarget: 'How to Summarize Text with AI Free',
-    tldr: `Summarize long articles and documents with our free AI-powered tool. The DistilBART model condenses text into concise summaries while preserving key information. Paste your text, click summarize, and get a TL;DR version instantly. The AI runs 100% in your browser - your text never leaves your device. First load downloads ~300MB model (cached for future use).`,
+    title: toolData.seo?.h1 || 'Summarize Text & Documents with AI',
+    queryTarget: toolData.seo?.keywords?.[0] || 'How to Summarize Documents Online Free',
+    tldr: toolData.answer || `Paste text, upload a PDF/DOCX/TXT file, or enter a URL to generate an instant summary. Choose from brief, standard, or detailed lengths. Select bullet points, paragraphs, or key takeaways format. Use extractive mode for 100% local processing, or connect your own OpenAI/Claude API key for AI-powered summaries. Free, private, no signup required.`,
     trustSignals: [
       'DistilBART AI',
       '100% private',

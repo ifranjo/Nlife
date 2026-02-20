@@ -5,131 +5,52 @@ import { tools } from '../../lib/tools';
 const freeTools = tools.filter(t => t.tier === 'free');
 const toolCount = freeTools.length;
 ---
-
-<section class="hero relative min-h-screen flex items-center justify-center px-8 py-24">
-  <!-- Gradient overlay - subtle depth -->
-  <div class="hero-gradient"></div>
-
-  <div class="hero-content relative z-10 text-center max-w-4xl mx-auto">
-    <!-- Status badge -->
-    <div class="hero-status inline-flex items-center gap-2 px-4 py-2 border border-[var(--border)] mb-12">
-      <span class="status-dot w-1.5 h-1.5 rounded-full bg-[var(--success)]"></span>
-      <span class="text-[0.625rem] tracking-[0.2em] uppercase text-[var(--text-muted)]">100% Client-Side Processing</span>
+<section class="relative pt-28 pb-16 px-6">
+  <div class="max-w-5xl mx-auto text-center">
+    <div class="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-[var(--border)] bg-[var(--bg-secondary)] text-[0.625rem] uppercase tracking-[0.3em] text-[var(--text-dim)]">
+      New Life Solutions
     </div>
 
-    <!-- Symbol (pulsing) -->
-    <div class="hero-symbol text-7xl mb-8 text-[var(--cyan)] symbol-float" aria-hidden="true">◈</div>
+    <h2 class="mt-6 text-3xl sm:text-4xl font-semibold text-[var(--text)] tracking-tight">
+      Free online tools that keep your files private.
+    </h2>
 
-    <!-- Brand Name (glitch effect) -->
-    <h1 class="hero-title font-display text-3xl sm:text-4xl font-semibold tracking-[0.05em] uppercase mb-6">
-      Your Files.<br/>
-      Your Privacy.
-    </h1>
-
-    <!-- 7 Dots (staggered pulse) -->
-    <div class="hero-dots flex justify-center gap-2 mb-8" aria-hidden="true">
-      {[0, 1, 2, 3, 4, 5, 6].map((i) => (
-        <span
-          class="dot w-1 h-1 bg-[var(--border)]"
-          style={`animation: dotPulseEnigmatic 2.5s infinite; animation-delay: ${i * 0.35}s`}
-        />
-      ))}
-    </div>
-
-    <!-- Subtitle -->
-    <p class="hero-subtitle text-base text-[var(--text-dim)] max-w-lg mx-auto mb-12 tracking-wide leading-relaxed">
-      {toolCount}+ powerful tools that run entirely in your browser.
-      No servers. No uploads. Complete privacy.
+    <p class="text-[var(--text-dim)] max-w-2xl mx-auto mt-4 text-sm sm:text-base leading-relaxed">
+      Merge PDFs, compress images, trim video, and generate files in seconds.
+      Everything runs in your browser with no uploads, no accounts, and no limits.
     </p>
 
-    <!-- Stats: 43+ | 100% | $0 -->
-    <div class="hero-stats flex justify-center gap-16 mb-12">
-      <div class="stat text-center">
-        <div class="stat-value font-display text-4xl font-semibold text-[var(--text)] mb-1">{toolCount}+</div>
-        <div class="stat-label text-[0.625rem] text-[var(--text-muted)] tracking-[0.2em] uppercase">Free Tools</div>
-      </div>
-      <div class="stat text-center">
-        <div class="stat-value font-display text-4xl font-semibold text-[var(--text)] mb-1">100%</div>
-        <div class="stat-label text-[0.625rem] text-[var(--text-muted)] tracking-[0.2em] uppercase">Private</div>
-      </div>
-      <div class="stat text-center">
-        <div class="stat-value font-display text-4xl font-semibold text-[var(--text)] mb-1">$0</div>
-        <div class="stat-label text-[0.625rem] text-[var(--text-muted)] tracking-[0.2em] uppercase">Forever</div>
-      </div>
-    </div>
-
-    <!-- CTA Buttons -->
-    <div class="hero-ctas flex justify-center gap-4 flex-wrap">
-      <a href="#tools" class="btn-primary border-[var(--cyan)] text-[var(--cyan)] hover:bg-[var(--cyan)] hover:text-[var(--void)]">
-        <span>Explore Tools</span>
-        <span>→</span>
+    <div class="mt-8 flex flex-wrap justify-center gap-4">
+      <a href="#tools" class="btn-primary">
+        <span>Browse All Tools</span>
+        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 12h14M13 6l6 6-6 6" />
+        </svg>
       </a>
-      <button class="btn-secondary" onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})">
-        <span>Learn More</span>
-      </button>
+      <a href="/pdf-tools" class="btn-secondary">
+        PDF Tools
+      </a>
     </div>
-  </div>
 
-  <!-- Scroll indicator -->
-  <div class="scroll-indicator">
-    <span>Scroll</span>
-    <div class="scroll-line"></div>
+    <div class="mt-12 grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-4xl mx-auto">
+      <div class="glass-card p-5 text-left">
+        <div class="text-xs uppercase tracking-[0.2em] text-[var(--text-muted)]">Private by design</div>
+        <p class="mt-2 text-sm text-[var(--text-dim)]">
+          Files never leave your device. No uploads, no tracking, no storage.
+        </p>
+      </div>
+      <div class="glass-card p-5 text-left">
+        <div class="text-xs uppercase tracking-[0.2em] text-[var(--text-muted)]">Fast and offline</div>
+        <p class="mt-2 text-sm text-[var(--text-dim)]">
+          Everything runs locally in your browser, even without an internet connection.
+        </p>
+      </div>
+      <div class="glass-card p-5 text-left">
+        <div class="text-xs uppercase tracking-[0.2em] text-[var(--text-muted)]">Always free</div>
+        <p class="mt-2 text-sm text-[var(--text-dim)]">
+          {toolCount}+ tools with no accounts, no limits, and no hidden paywalls.
+        </p>
+      </div>
+    </div>
   </div>
 </section>
-
-<style>
-  .hero {
-    position: relative;
-  }
-
-  .hero-gradient {
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(ellipse at 50% 30%, var(--cyan-subtle) 0%, transparent 60%);
-    z-index: 1;
-    pointer-events: none;
-  }
-
-  .hero-symbol {
-    filter: drop-shadow(0 0 40px var(--cyan-glow));
-  }
-
-  .hero-title {
-    font-family: var(--font-display);
-    line-height: 1.1;
-  }
-
-  .hero-status {
-    animation: fadeIn 0.5s ease-out;
-  }
-
-  .status-dot {
-    animation: statusBlink 2s infinite;
-  }
-
-  @keyframes statusBlink {
-    0%, 100% { opacity: 1; box-shadow: 0 0 8px var(--success); }
-    50% { opacity: 0.4; box-shadow: none; }
-  }
-
-  @keyframes dotPulseEnigmatic {
-    0%, 100% { background: var(--border); }
-    50% { background: var(--cyan); box-shadow: 0 0 8px var(--cyan); }
-  }
-
-  /* Responsive */
-  @media (max-width: 768px) {
-    .hero-stats {
-      gap: 2rem;
-    }
-
-    .stat-value {
-      font-size: 2rem;
-    }
-
-    .hero-ctas {
-      flex-direction: column;
-      align-items: center;
-    }
-  }
-</style>

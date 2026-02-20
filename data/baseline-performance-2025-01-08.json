@@ -1,0 +1,73 @@
+{
+  "audit_type": "performance",
+  "baseline_mode": true,
+  "timestamp": "2025-01-08 10:45:00 UTC",
+  "url_tested": "https://www.newlifesolutions.dev",
+  "audit_source": "placeholder_not_measured",
+  "data_quality": "unverified",
+  "note": "This file contains placeholders only. Run scripts/monitoring/measure-performance.ps1 to generate real Lighthouse data.",
+  "tools": {
+    "pdf-merge": {
+      "status": "not_measured",
+      "desktop_lcp_ms": null,
+      "desktop_cls": null,
+      "desktop_tbt_ms": null,
+      "desktop_score": null,
+      "mobile_lcp_ms": null,
+      "mobile_cls": null,
+      "mobile_tbt_ms": null,
+      "mobile_score": null
+    },
+    "image-compress": {
+      "status": "not_measured",
+      "desktop_lcp_ms": null,
+      "desktop_cls": null,
+      "desktop_tbt_ms": null,
+      "desktop_score": null,
+      "mobile_lcp_ms": null,
+      "mobile_cls": null,
+      "mobile_tbt_ms": null,
+      "mobile_score": null
+    },
+    "video-compressor": {
+      "status": "not_measured",
+      "desktop_lcp_ms": null,
+      "desktop_cls": null,
+      "desktop_tbt_ms": null,
+      "desktop_score": null,
+      "mobile_lcp_ms": null,
+      "mobile_cls": null,
+      "mobile_tbt_ms": null,
+      "mobile_score": null
+    },
+    "audio-transcription": {
+      "status": "not_measured",
+      "desktop_lcp_ms": null,
+      "desktop_cls": null,
+      "desktop_tbt_ms": null,
+      "desktop_score": null,
+      "mobile_lcp_ms": null,
+      "mobile_cls": null,
+      "mobile_tbt_ms": null,
+      "mobile_score": null
+    },
+    "json-formatter": {
+      "status": "not_measured",
+      "desktop_lcp_ms": null,
+      "desktop_cls": null,
+      "desktop_tbt_ms": null,
+      "desktop_score": null,
+      "mobile_lcp_ms": null,
+      "mobile_cls": null,
+      "mobile_tbt_ms": null,
+      "mobile_score": null
+    }
+  },
+  "summary": {
+    "status": "not_measured",
+    "average_desktop_lcp_ms": null,
+    "average_mobile_lcp_ms": null,
+    "average_desktop_score": null,
+    "average_mobile_score": null
+  }
+}

@@ -1,0 +1,125 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/ui/Navbar.astro';
+import Footer from '../../components/ui/Footer.astro';
+import ToolCard from '../../components/ui/ToolCard.astro';
+import { getToolsByCategory } from '../../lib/tools';
+
+const tools = getToolsByCategory('ai');
+
+// SEO metadata
+const title = 'Free AI Tools Online | Transcription, Summarization, Analysis';
+const description = 'Powerful AI tools - transcribe audio/video, summarize text, detect sentiment, identify objects, generate content. 100% browser-based, no data uploads.';
+---
+
+<Layout title={title} description={description} canonicalUrl="https://www.newlifesolutions.dev/hub/ai-tools">
+  <Navbar />
+  <main class="pt-16">
+    <!-- Hero Section -->
+    <section class="py-20 px-6">
+      <div class="max-w-4xl mx-auto text-center">
+        <div class="text-[0.625rem] uppercase tracking-[0.3em] text-[var(--text-muted)] mb-4">AI Tools Hub</div>
+        <h1 class="text-3xl sm:text-4xl font-semibold mb-6">
+          AI-Powered Toolkit
+        </h1>
+        <p class="text-[var(--text-dim)] text-base max-w-2xl mx-auto leading-relaxed mb-8">
+          Harness the power of artificial intelligence directly in your browser - transcribe audio and video,
+          summarize long documents, analyze sentiment, detect objects in images, and generate content.
+          All AI models run locally for complete privacy.
+        </p>
+        <div class="flex flex-wrap justify-center gap-4 text-[0.625rem] text-[var(--text-muted)] uppercase tracking-[0.15em]">
+          <span>Local AI Models</span>
+          <span>No Data Uploads</span>
+          <span>Whisper & Transformers</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tools Grid -->
+    <section id="tools" class="py-20 px-6 border-t border-[var(--border)]">
+      <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-16">
+          <h2 class="text-2xl sm:text-3xl font-semibold mb-4">
+            {tools.length} AI Tools Available
+          </h2>
+          <p class="text-[var(--text-dim)] text-sm max-w-2xl mx-auto leading-relaxed">
+            Click any tool to start using AI immediately. All models run locally in your browser - no API keys or subscriptions needed.
+          </p>
+        </div>
+
+        <div class="tool-grid">
+          {tools.map(tool => (
+            <ToolCard tool={tool} />
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section id="benefits" class="py-20 px-6 border-t border-[var(--border)]">
+      <div class="max-w-4xl mx-auto">
+        <div class="text-center mb-16">
+          <h2 class="text-2xl sm:text-3xl font-semibold mb-6">Why Choose Our AI Tools?</h2>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-8">
+          <div class="glass-card p-8">
+            <h3 class="text-lg font-semibold mb-4">Privacy-First AI</h3>
+            <p class="text-[var(--text-dim)] text-sm leading-relaxed">
+              Unlike cloud-based AI services, our models run entirely in your browser.
+              Your data never leaves your device, ensuring complete privacy and security for sensitive content.
+            </p>
+          </div>
+
+          <div class="glass-card p-8">
+            <h3 class="text-lg font-semibold mb-4">State-of-the-Art Models</h3>
+            <p class="text-[var(--text-dim)] text-sm leading-relaxed">
+              Powered by Hugging Face Transformers and OpenAI Whisper for industry-leading accuracy.
+              Get professional-quality results without expensive subscriptions or API costs.
+            </p>
+          </div>
+
+          <div class="glass-card p-8">
+            <h3 class="text-lg font-semibold mb-4">No Installation Required</h3>
+            <p class="text-[var(--text-dim)] text-sm leading-relaxed">
+              Access powerful AI capabilities directly in your browser. No software downloads,
+              no Python environments, no technical setup - just open and start using AI instantly.
+            </p>
+          </div>
+
+          <div class="glass-card p-8">
+            <h3 class="text-lg font-semibold mb-4">Completely Free</h3>
+            <p class="text-[var(--text-dim)] text-sm leading-relaxed">
+              Unlimited usage with no hidden costs. No API rate limits, no subscription tiers,
+              no usage quotas. Use cutting-edge AI as much as you want, whenever you need.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>
+
+<!-- JSON-LD Structured Data for SEO -->
+<script type="application/ld+json" set:html={JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": title,
+  "description": description,
+  "url": "https://www.newlifesolutions.dev/hub/ai-tools",
+  "about": {
+    "@type": "Thing",
+    "name": "AI Tools"
+  },
+  "mainEntity": {
+    "@type": "ItemList",
+    "itemListElement": tools.slice(0, 10).map((tool, index) => ({
+      "@type": "ListItem",
+      "position": index + 1,
+      "name": tool.name,
+      "description": tool.description,
+      "url": `https://www.newlifesolutions.dev${tool.href}`
+    }))
+  }
+})} />

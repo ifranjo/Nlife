@@ -38,9 +38,9 @@ const seoContent = {
 
   // TL;DR Answer Box (50-70 words - this is what AI extracts)
   answerBox: {
-    title: 'Generate QR Codes — Free, Instant, Customizable',
-    queryTarget: 'How to Create QR Code Online Free',
-    tldr: `Enter your URL, text, or contact info below to generate a QR code instantly. Customize colors, size, and error correction level. Download as high-resolution PNG or scalable SVG. Works for links, WiFi passwords, contact cards, and any text. All processing happens in your browser—your data stays private. Unlimited free use.`,
+    title: toolData.seo?.h1 || 'Summarize Text & Documents with AI',
+    queryTarget: toolData.seo?.keywords?.[0] || 'How to Summarize Documents Online Free',
+    tldr: toolData.answer || `Paste text, upload a PDF/DOCX/TXT file, or enter a URL to generate an instant summary. Choose from brief, standard, or detailed lengths. Select bullet points, paragraphs, or key takeaways format. Use extractive mode for 100% local processing, or connect your own OpenAI/Claude API key for AI-powered summaries. Free, private, no signup required.`,
     trustSignals: [
       'Instant generation',
       'Customizable colors',

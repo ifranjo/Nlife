@@ -2,7 +2,6 @@
 import Layout from '../layouts/Layout.astro';
 import Navbar from '../components/ui/Navbar.astro';
 import Hero from '../components/ui/Hero.astro';
-import DocumentSuite from '../components/ui/DocumentSuite.astro';
 import { ToolHub } from '../components/tools/ToolHub';
 import Footer from '../components/ui/Footer.astro';
 import { tools } from '../lib/tools';
@@ -14,7 +13,7 @@ const gamesAsTools = liveGames.map(game => ({
   id: game.id,
   name: game.name,
   description: game.description,
-  icon: '🎮',
+  icon: 'Game',
   thumbnail: game.thumbnail,
   category: 'games' as const,
   tier: 'free' as const,
@@ -31,8 +30,101 @@ const gamesAsTools = liveGames.map(game => ({
 const allHubItems = [...tools, ...gamesAsTools];
 
 // SEO metadata
-const title = 'New Life Solutions - Free Privacy-First Browser Tools';
-const description = 'Free online tools for developers and creatives. Merge PDFs, compress images, generate QR codes, and more. 100% browser-based, private, and secure. No signup required.';
+const title = 'Free Online Tools for PDF, Images, Video | New Life Solutions';
+const description = 'Merge PDFs, compress images, trim video, and more with privacy-first tools that run entirely in your browser. No uploads, no signup, works offline.';
+const baseUrl = 'https://www.newlifesolutions.dev';
+const currentDate = new Date().toISOString().split('T')[0];
+const lastUpdated = new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+
+const faqs = [
+  {
+    question: 'Are these tools really free?',
+    answer: 'Yes. All core tools are free to use with no sign-up, no watermarks, and no daily limits.'
+  },
+  {
+    question: 'Do you upload my files to a server?',
+    answer: 'No. All processing happens in your browser. Files stay on your device and are never uploaded.'
+  },
+  {
+    question: 'Can I use the tools offline?',
+    answer: 'Yes. After the first load, most tools work offline because the required code is cached in your browser.'
+  },
+  {
+    question: 'What file size limits should I expect?',
+    answer: 'Typical limits are PDF 50MB, images 10MB, video 500MB, and audio 100MB. Performance can vary by device.'
+  },
+  {
+    question: 'Which browsers are supported?',
+    answer: 'Chrome, Edge, Firefox, and Safari are supported. For best results, use the latest version.'
+  }
+];
+
+const hubSchema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Organization',
+      '@id': `${baseUrl}#org`,
+      name: 'New Life Solutions',
+      url: baseUrl,
+      logo: `${baseUrl}/favicon.svg`,
+      sameAs: ['https://github.com/newlifesolutions']
+    },
+    {
+      '@type': 'WebSite',
+      '@id': `${baseUrl}#website`,
+      url: baseUrl,
+      name: 'New Life Solutions',
+      publisher: { '@id': `${baseUrl}#org` },
+      inLanguage: 'en-US',
+      potentialAction: {
+        '@type': 'SearchAction',
+        target: `${baseUrl}/hub?q={search_term_string}`,
+        'query-input': 'required name=search_term_string'
+      }
+    },
+    {
+      '@type': ['WebPage', 'CollectionPage'],
+      '@id': `${baseUrl}/hub#webpage`,
+      url: `${baseUrl}/hub`,
+      name: title,
+      description,
+      dateModified: currentDate,
+      inLanguage: 'en-US',
+      isPartOf: { '@id': `${baseUrl}#website` },
+      about: { '@id': `${baseUrl}#org` },
+      mainEntity: { '@id': `${baseUrl}/hub#itemlist` }
+    },
+    {
+      '@type': 'ItemList',
+      '@id': `${baseUrl}/hub#itemlist`,
+      name: 'Free online tools',
+      numberOfItems: allHubItems.length,
+      itemListElement: allHubItems.slice(0, 10).map((tool, index) => ({
+        '@type': 'ListItem',
+        position: index + 1,
+        name: tool.name,
+        description: tool.description,
+        url: `${baseUrl}${tool.href}`
+      }))
+    },
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: baseUrl },
+        { '@type': 'ListItem', position: 2, name: 'Tool Hub', item: `${baseUrl}/hub` }
+      ]
+    },
+    {
+      '@type': 'FAQPage',
+      mainEntity: faqs.map((faq) => ({
+        '@type': 'Question',
+        name: faq.question,
+        acceptedAnswer: { '@type': 'Answer', text: faq.answer }
+      }))
+    }
+  ]
+};
 ---
 
 <Layout title={title} description={description} canonicalUrl="https://www.newlifesolutions.dev/">
@@ -40,35 +132,49 @@ const description = 'Free online tools for developers and creatives. Merge PDFs,
   <main class="pt-16">
     <Hero />
 
-    <!-- Document Suite - PDF/Word/JPG grouped tools -->
-    <DocumentSuite />
-
-    <!-- Section Divider -->
-    <div class="section-divider">
-      <span class="divider-symbol">◇</span>
-    </div>
-
-    <!-- Category Nav Pills -->
-    <section class="category-nav py-12 px-8">
-      <div class="flex justify-center gap-4 flex-wrap" id="category-pills">
-        <button class="category-pill active" data-category="all">All Tools</button>
-        <button class="category-pill" data-category="pdf">Document</button>
-        <button class="category-pill" data-category="media">Media</button>
-        <button class="category-pill" data-category="ai">AI-Powered</button>
-        <button class="category-pill" data-category="utility">Utility</button>
+    <section class="py-16 px-6 border-t border-[var(--border)]">
+      <div class="max-w-5xl mx-auto">
+        <div class="text-center mb-10">
+          <div class="text-[0.625rem] uppercase tracking-[0.3em] text-[var(--text-muted)] mb-4">How it works</div>
+          <h2 class="text-xl sm:text-2xl font-semibold mb-4">Three steps, all in your browser</h2>
+          <p class="text-[var(--text-dim)] text-sm max-w-2xl mx-auto leading-relaxed">
+            Pick a tool, add your files, and download the result. Nothing is uploaded to a server.
+          </p>
+        </div>
+        <ol class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-left">
+          <li class="glass-card p-5">
+            <div class="text-[0.625rem] uppercase tracking-[0.2em] text-[var(--text-muted)]">Step 1</div>
+            <h3 class="mt-3 text-sm font-semibold text-[var(--text)]">Choose a tool</h3>
+            <p class="mt-2 text-sm text-[var(--text-dim)]">Find the PDF, image, video, or AI tool you need.</p>
+          </li>
+          <li class="glass-card p-5">
+            <div class="text-[0.625rem] uppercase tracking-[0.2em] text-[var(--text-muted)]">Step 2</div>
+            <h3 class="mt-3 text-sm font-semibold text-[var(--text)]">Add your files</h3>
+            <p class="mt-2 text-sm text-[var(--text-dim)]">Drag and drop or select files. Processing stays local.</p>
+          </li>
+          <li class="glass-card p-5">
+            <div class="text-[0.625rem] uppercase tracking-[0.2em] text-[var(--text-muted)]">Step 3</div>
+            <h3 class="mt-3 text-sm font-semibold text-[var(--text)]">Download instantly</h3>
+            <p class="mt-2 text-sm text-[var(--text-dim)]">Save results right away. No accounts, no waiting.</p>
+          </li>
+        </ol>
       </div>
     </section>
 
     <!-- Tool Hub with Search and Filters -->
-    <section id="tools" class="py-24 px-8">
+    <section id="tools" class="py-20 px-6">
       <div class="max-w-7xl mx-auto">
         <!-- SEO-friendly heading structure -->
         <div class="text-center mb-16">
-          <div class="text-[0.625rem] text-[var(--cyan)] tracking-[0.3em] uppercase mb-4">// Tool Hub</div>
-          <h1 class="font-display text-2xl uppercase tracking-[0.1em] mb-4">Everything You Need</h1>
+          <div class="text-[0.625rem] uppercase tracking-[0.3em] text-[var(--text-muted)] mb-4">Tool Hub</div>
+          <h1 class="text-2xl sm:text-3xl font-semibold mb-4">
+            Free online tools for PDFs, images, video, and more
+          </h1>
           <p class="text-[var(--text-dim)] text-sm max-w-2xl mx-auto leading-relaxed">
-            Browse our collection of {allHubItems.length} free browser-based tools and games. Search, filter by category,
-            or sort by popularity to find exactly what you need.
+            Search {allHubItems.length} privacy-first tools and games. Filter by category, sort by popularity, and work entirely in your browser.
+          </p>
+          <p class="text-[0.625rem] uppercase tracking-[0.2em] text-[var(--text-muted)] mt-4">
+            Updated {lastUpdated}
           </p>
         </div>
 
@@ -77,159 +183,44 @@ const description = 'Free online tools for developers and creatives. Merge PDFs,
       </div>
     </section>
 
-    <!-- Section Divider -->
-    <div class="section-divider">
-      <span class="divider-symbol rotating">∞</span>
-    </div>
-
-    <!-- Privacy/Trust Section -->
-    <section id="about" class="py-32 px-8">
-      <div class="max-w-6xl mx-auto">
-        <div class="grid md:grid-cols-2 gap-16 items-center">
-          <!-- Content -->
-          <div class="privacy-content">
-            <div class="text-[0.625rem] text-[var(--cyan)] tracking-[0.3em] uppercase mb-4">// Privacy First</div>
-            <h2 class="font-display text-2xl uppercase tracking-[0.1em] mb-6 leading-tight">
-              Your Data Never<br/>Leaves Your Device
-            </h2>
-            <p class="text-[var(--text-dim)] mb-8 leading-relaxed">
-              Every tool runs entirely in your browser using WebAssembly and modern APIs.
-              We can't see your files because they never touch our servers.
-            </p>
-
-            <div class="space-y-6">
-              <div class="flex gap-4 items-start">
-                <div class="w-10 h-10 flex items-center justify-center border border-[var(--border)] text-[var(--text-dim)] shrink-0">⬡</div>
-                <div>
-                  <h4 class="font-display font-medium text-sm mb-1">Client-Side Processing</h4>
-                  <p class="text-xs text-[var(--text-muted)]">All computation happens in your browser using WebAssembly</p>
-                </div>
-              </div>
-
-              <div class="flex gap-4 items-start">
-                <div class="w-10 h-10 flex items-center justify-center border border-[var(--border)] text-[var(--text-dim)] shrink-0">⊘</div>
-                <div>
-                  <h4 class="font-display font-medium text-sm mb-1">No Upload Required</h4>
-                  <p class="text-xs text-[var(--text-muted)]">Files are processed locally - nothing is sent to any server</p>
-                </div>
-              </div>
-
-              <div class="flex gap-4 items-start">
-                <div class="w-10 h-10 flex items-center justify-center border border-[var(--border)] text-[var(--text-dim)] shrink-0">○</div>
-                <div>
-                  <h4 class="font-display font-medium text-sm mb-1">Works Offline</h4>
-                  <p class="text-xs text-[var(--text-muted)]">PWA support means tools work even without internet</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Visual -->
-          <div class="privacy-visual order-first md:order-last">
-            <div class="privacy-orb"></div>
-            <div class="privacy-rings">
-              <div class="ring"></div>
-              <div class="ring"></div>
-              <div class="ring"></div>
-            </div>
-            <div class="privacy-lock">◈</div>
-          </div>
+    <!-- About Section -->
+    <section id="about" class="py-20 px-6 border-t border-[var(--border)]">
+      <div class="max-w-2xl mx-auto text-center">
+        <div class="text-[0.625rem] uppercase tracking-[0.3em] text-[var(--text-muted)] mb-4">About</div>
+        <h2 class="text-xl sm:text-2xl font-semibold mb-6">About Our Tools</h2>
+        <p class="text-[var(--text-dim)] text-sm leading-relaxed mb-8">
+          New Life Solutions provides browser-based tools that respect your privacy.
+          All processing happens locally on your device. Your files never leave your browser.
+          No accounts. No tracking. No data collection.
+        </p>
+        <div class="flex flex-wrap justify-center gap-6 text-[0.625rem] text-[var(--text-muted)] uppercase tracking-[0.15em]">
+          <span>Browser-Based</span>
+          <span>No Uploads</span>
+          <span>100% Private</span>
         </div>
       </div>
     </section>
 
-    <!-- From the Developer Section -->
-    <section id="developer" class="py-32 px-8 border-t border-[var(--border)]">
+    <section id="faq" class="py-20 px-6 border-t border-[var(--border)]">
       <div class="max-w-4xl mx-auto">
-        <div class="text-center mb-12">
-          <div class="text-[0.625rem] text-[var(--cyan)] tracking-[0.3em] uppercase mb-4">// From the Developer</div>
-          <h2 class="font-display text-2xl uppercase tracking-[0.1em] mb-6">Why I Built This</h2>
-        </div>
-
-        <div class="prose prose-invert mx-auto">
-          <div class="bg-[var(--surface)] border border-[var(--border)] p-8 md:p-12 relative">
-            <!-- Quote mark -->
-            <div class="absolute -top-4 left-8 text-6xl text-[var(--cyan)] opacity-20 font-serif">"</div>
-
-            <div class="space-y-6 text-[var(--text-dim)] leading-relaxed">
-              <p>
-                I was frustrated. Every time I needed to quickly merge a PDF or compress an image,
-                I faced the same dilemma: use a sketchy online tool that uploads my files to unknown servers,
-                or download bloated software I'd use once a year.
-              </p>
-
-              <p>
-                As a developer, I knew there had to be a better way. Modern browsers are incredibly powerful
-                - they can run complex software directly on your device using technologies like WebAssembly.
-                So I asked myself: <em class="text-[var(--text)]">what if we could have professional-grade tools
-                that never touch a server?</em>
-              </p>
-
-              <p>
-                That's New Life Solutions. Every tool processes your files <strong class="text-[var(--text)]">100% locally in your browser</strong>.
-                No uploads. No accounts. No tracking. Your sensitive documents, photos, and videos stay on your device -
-                where they belong.
-              </p>
-
-              <p>
-                Whether you're a lawyer redacting confidential contracts, a doctor handling patient records,
-                or just someone who values privacy - these tools were built with you in mind.
-              </p>
-            </div>
-
-            <!-- Signature -->
-            <div class="mt-8 pt-6 border-t border-[var(--border)] flex items-center gap-4">
-              <div class="w-12 h-12 rounded-full bg-gradient-to-br from-[var(--cyan)] to-[var(--cat-ai)] flex items-center justify-center text-[var(--void)] font-bold text-lg">
-                D
-              </div>
-              <div>
-                <div class="font-display text-sm text-[var(--text)]">The Developer</div>
-                <div class="text-xs text-[var(--text-muted)]">Building privacy-first tools since 2024</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Trust indicators -->
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mt-12">
-          <div class="text-center p-4 border border-[var(--border)] bg-[var(--surface)]">
-            <div class="text-2xl font-display text-[var(--cyan)] mb-1">57+</div>
-            <div class="text-xs text-[var(--text-muted)] uppercase tracking-wider">Free Tools</div>
-          </div>
-          <div class="text-center p-4 border border-[var(--border)] bg-[var(--surface)]">
-            <div class="text-2xl font-display text-[var(--cyan)] mb-1">0</div>
-            <div class="text-xs text-[var(--text-muted)] uppercase tracking-wider">Files Uploaded</div>
-          </div>
-          <div class="text-center p-4 border border-[var(--border)] bg-[var(--surface)]">
-            <div class="text-2xl font-display text-[var(--cyan)] mb-1">100%</div>
-            <div class="text-xs text-[var(--text-muted)] uppercase tracking-wider">Browser-Based</div>
-          </div>
-          <div class="text-center p-4 border border-[var(--border)] bg-[var(--surface)]">
-            <div class="text-2xl font-display text-[var(--cyan)] mb-1">$0</div>
-            <div class="text-xs text-[var(--text-muted)] uppercase tracking-wider">Forever Free</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Section Divider -->
-    <div class="section-divider">
-      <span class="divider-symbol">◆</span>
-    </div>
-
-    <!-- CTA Section -->
-    <section class="py-24 px-8">
-      <div class="max-w-4xl mx-auto">
-        <div class="cta-box p-16 border border-[var(--border)] text-center relative overflow-hidden">
-          <div class="cta-gradient"></div>
-          <h2 class="font-display text-xl uppercase tracking-[0.1em] mb-4 relative z-10">Ready to Get Started?</h2>
-          <p class="text-[var(--text-dim)] mb-8 max-w-md mx-auto relative z-10">
-            Join thousands of users who trust New Life for their daily file processing needs. Free forever.
+        <div class="text-center mb-10">
+          <div class="text-[0.625rem] uppercase tracking-[0.3em] text-[var(--text-muted)] mb-4">FAQ</div>
+          <h2 class="text-xl sm:text-2xl font-semibold mb-4">Common questions</h2>
+          <p class="text-[var(--text-dim)] text-sm max-w-2xl mx-auto leading-relaxed">
+            Quick answers about privacy, offline use, and browser support.
           </p>
-          <a href="#tools" class="btn-primary border-[var(--cyan)] text-[var(--cyan)] hover:bg-[var(--cyan)] hover:text-[var(--void)] relative z-10">
-            <span>Launch Tool Hub</span>
-            <span>→</span>
-          </a>
+        </div>
+        <div class="faq-list" itemscope itemtype="https://schema.org/FAQPage">
+          {faqs.map((faq) => (
+            <details class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+              <summary itemprop="name" class="faq-question">
+                {faq.question}
+              </summary>
+              <div itemprop="acceptedAnswer" itemscope itemtype="https://schema.org/Answer" class="faq-answer">
+                <p itemprop="text">{faq.answer}</p>
+              </div>
+            </details>
+          ))}
         </div>
       </div>
     </section>
@@ -237,131 +228,52 @@ const description = 'Free online tools for developers and creatives. Merge PDFs,
   <Footer />
 </Layout>
 
-<style>
-  .cta-gradient {
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(ellipse at 50% 0%, var(--cyan-subtle) 0%, transparent 60%);
-    pointer-events: none;
-  }
+<!-- JSON-LD Structured Data for SEO -->
+<script type="application/ld+json" set:html={JSON.stringify(hubSchema)} />
 
-  /* Privacy visual positioning */
-  .privacy-visual {
-    position: relative;
-    aspect-ratio: 1;
+<style>
+  .faq-list {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    max-width: 400px;
+    flex-direction: column;
+    gap: 0.75rem;
+    max-width: 48rem;
     margin: 0 auto;
   }
 
-  @media (max-width: 768px) {
-    .privacy-visual {
-      max-width: 280px;
-    }
+  .faq-item {
+    border: 1px solid var(--border);
+    background: var(--bg-secondary);
+  }
+
+  .faq-question {
+    padding: 1rem 1.25rem;
+    font-size: 0.875rem;
+    color: var(--text);
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .faq-question::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-question::after {
+    content: '+';
+    font-size: 1rem;
+    color: var(--text-muted);
+  }
+
+  .faq-item[open] .faq-question::after {
+    content: '-';
+  }
+
+  .faq-answer {
+    padding: 0 1.25rem 1rem;
+    font-size: 0.8125rem;
+    line-height: 1.6;
+    color: var(--text-dim);
   }
 </style>
-
-<!-- JSON-LD Structured Data for SEO + GEO -->
-<script type="application/ld+json" set:html={JSON.stringify({
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "CollectionPage",
-      "@id": "https://www.newlifesolutions.dev/#collection",
-      "name": title,
-      "description": description,
-      "url": "https://www.newlifesolutions.dev/",
-      "inLanguage": "en-US",
-      "isPartOf": { "@id": "https://www.newlifesolutions.dev/#website" },
-      "about": {
-        "@type": "Thing",
-        "name": "Privacy-First Browser Tools",
-        "description": "Free online tools that process files locally in your browser"
-      },
-      "mainEntity": {
-        "@type": "ItemList",
-        "numberOfItems": allHubItems.length,
-        "itemListElement": tools.slice(0, 10).map((tool, index) => ({
-          "@type": "ListItem",
-          "position": index + 1,
-          "item": {
-            "@type": "SoftwareApplication",
-            "name": tool.name,
-            "description": tool.description,
-            "url": `https://www.newlifesolutions.dev${tool.href}`,
-            "applicationCategory": tool.category === 'pdf' ? 'ProductivityApplication' : tool.category === 'ai' ? 'UtilitiesApplication' : 'MultimediaApplication',
-            "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
-            "operatingSystem": "Any (Browser-based)"
-          }
-        }))
-      }
-    },
-    {
-      "@type": "WebSite",
-      "@id": "https://www.newlifesolutions.dev/#website",
-      "url": "https://www.newlifesolutions.dev",
-      "name": "New Life Solutions",
-      "description": "Free privacy-first browser tools for PDF, images, video, and more",
-      "publisher": { "@id": "https://www.newlifesolutions.dev/#org" },
-      "potentialAction": {
-        "@type": "SearchAction",
-        "target": {
-          "@type": "EntryPoint",
-          "urlTemplate": "https://www.newlifesolutions.dev/hub?q={search_term_string}"
-        },
-        "query-input": "required name=search_term_string"
-      }
-    },
-    {
-      "@type": "Organization",
-      "@id": "https://www.newlifesolutions.dev/#org",
-      "name": "New Life Solutions",
-      "url": "https://www.newlifesolutions.dev",
-      "logo": {
-        "@type": "ImageObject",
-        "url": "https://www.newlifesolutions.dev/favicon.svg"
-      },
-      "sameAs": ["https://github.com/newlifesolutions"],
-      "contactPoint": {
-        "@type": "ContactPoint",
-        "contactType": "customer support",
-        "availableLanguage": ["English"]
-      }
-    },
-    {
-      "@type": "BreadcrumbList",
-      "itemListElement": [
-        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.newlifesolutions.dev" },
-        { "@type": "ListItem", "position": 2, "name": "Tool Hub", "item": "https://www.newlifesolutions.dev/hub" }
-      ]
-    },
-    {
-      "@type": "WebPage",
-      "speakable": {
-        "@type": "SpeakableSpecification",
-        "cssSelector": ["h1", ".hero-subtitle", "meta[name='description']"]
-      }
-    }
-  ]
-})} />
-
-<script>
-  // Category pill filtering (connects to ToolHub)
-  document.addEventListener('DOMContentLoaded', () => {
-    const pills = document.querySelectorAll('.category-pill');
-
-    pills.forEach(pill => {
-      pill.addEventListener('click', () => {
-        // Update active state
-        pills.forEach(p => p.classList.remove('active'));
-        pill.classList.add('active');
-
-        // Emit custom event for ToolHub to listen to
-        const category = (pill as HTMLElement).dataset.category;
-        window.dispatchEvent(new CustomEvent('categoryFilter', { detail: { category } }));
-      });
-    });
-  });
-</script>

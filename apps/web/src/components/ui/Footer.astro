@@ -2,61 +2,47 @@
 const year = new Date().getFullYear();
 ---
 
-<footer class="border-t border-[var(--border)] py-16 px-8">
-  <div class="max-w-6xl mx-auto">
-    <!-- Main Footer -->
-    <div class="flex flex-col md:flex-row justify-between items-start gap-12 mb-16">
-      <!-- Brand -->
-      <div class="max-w-xs">
-        <a href="/" class="flex items-center gap-3 group mb-4">
-          <span class="text-xl text-[var(--cyan)] symbol-pulse">◈</span>
-          <span class="font-display text-sm tracking-[0.1em] uppercase text-[var(--text-dim)] group-hover:text-[var(--text)] transition-colors">
-            New Life
+<footer class="border-t border-[var(--border)] py-8 px-6">
+  <div class="max-w-5xl mx-auto">
+    <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+      <!-- Left -->
+      <div class="flex items-center gap-3">
+        <span class="inline-flex items-center justify-center w-8 h-8 rounded-lg border border-[var(--border)] bg-[var(--bg-secondary)] text-[10px] font-semibold tracking-[0.35em] text-[var(--text)] cursor-default group relative">
+          NL
+          <!-- Easter egg: learning project badge -->
+          <span class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-2
+                       bg-[var(--bg)]/95 border border-[var(--border)] rounded-lg
+                       opacity-0 group-hover:opacity-100 transition-opacity duration-300
+                       pointer-events-none whitespace-nowrap text-[0.5rem] uppercase tracking-[0.15em]
+                       text-[var(--text-muted)] shadow-xl backdrop-blur-sm z-50">
+            <span class="block text-[var(--text-dim)] mb-1">Learning Project</span>
+            <span class="block text-[0.45rem] text-[var(--text-muted)]">Astro 5 | React 19 | Tailwind v4 | TypeScript</span>
           </span>
-        </a>
-        <p class="text-xs text-[var(--text-muted)] leading-relaxed">
-          Browser-based privacy tools for everyone. No accounts. No uploads. No tracking.
-        </p>
+        </span>
+        <span class="text-[0.625rem] text-[var(--text-muted)] uppercase tracking-[0.2em]">
+          New Life Solutions
+        </span>
       </div>
 
-      <!-- Links -->
-      <div class="flex flex-wrap gap-16">
-        <div>
-          <h5 class="font-display text-[0.625rem] font-medium tracking-[0.15em] uppercase mb-4">Tools</h5>
-          <ul class="space-y-2">
-            <li><a href="/hub" class="text-xs text-[var(--text-muted)] hover:text-[var(--cyan)] transition-colors">Document</a></li>
-            <li><a href="/hub" class="text-xs text-[var(--text-muted)] hover:text-[var(--cyan)] transition-colors">Media</a></li>
-            <li><a href="/hub" class="text-xs text-[var(--text-muted)] hover:text-[var(--cyan)] transition-colors">AI-Powered</a></li>
-            <li><a href="/hub" class="text-xs text-[var(--text-muted)] hover:text-[var(--cyan)] transition-colors">Utility</a></li>
-          </ul>
-        </div>
+      <!-- Center (44px+ touch targets for WCAG compliance) -->
+      <div class="flex items-center gap-2 sm:gap-6 text-[0.625rem] text-[var(--text-muted)] uppercase tracking-[0.15em]">
+        <a href="/hub" class="hover:text-[var(--text)] transition-colors min-h-[44px] flex items-center px-3">Tools</a>
+        <a href="/hub#about" class="hover:text-[var(--text)] transition-colors min-h-[44px] flex items-center px-3">About</a>
+      </div>
 
-        <div>
-          <h5 class="font-display text-[0.625rem] font-medium tracking-[0.15em] uppercase mb-4">Resources</h5>
-          <ul class="space-y-2">
-            <li><a href="/hub#about" class="text-xs text-[var(--text-muted)] hover:text-[var(--cyan)] transition-colors">About</a></li>
-            <li><a href="/games" class="text-xs text-[var(--text-muted)] hover:text-[var(--cyan)] transition-colors">Games</a></li>
-          </ul>
-        </div>
-
-        <div>
-          <h5 class="font-display text-[0.625rem] font-medium tracking-[0.15em] uppercase mb-4">Legal</h5>
-          <ul class="space-y-2">
-            <li><a href="/privacy" class="text-xs text-[var(--text-muted)] hover:text-[var(--cyan)] transition-colors">Privacy Policy</a></li>
-            <li><a href="/terms" class="text-xs text-[var(--text-muted)] hover:text-[var(--cyan)] transition-colors">Terms</a></li>
-          </ul>
-        </div>
+      <!-- Right -->
+      <div class="flex items-center gap-4 text-[0.625rem] text-[var(--text-muted)]">
+        <span class="uppercase tracking-[0.15em]">v0.0.1</span>
+        <span class="opacity-40">|</span>
+        <span class="coords">41.40N 2.17E</span>
       </div>
     </div>
 
-    <!-- Bottom -->
-    <div class="flex flex-col sm:flex-row justify-between items-center gap-4 pt-8 border-t border-[var(--border)]">
-      <div class="flex items-center gap-8 text-[0.5rem] text-[var(--text-muted)] tracking-[0.2em] uppercase">
-        <span>&copy; {year} NEW LIFE SOLUTIONS</span>
-        <span class="coords">41.40°N 2.17°E</span>
-        <span>v1.0.0</span>
-      </div>
-      <div class="text-lg text-[var(--cyan)] opacity-50 rotate-slow">∞</div>
+    <!-- Copyright -->
+    <div class="mt-6 text-center">
+      <p class="text-[0.5rem] text-[var(--text-muted)] uppercase tracking-[0.2em]">
+        &copy; {year} New Life Solutions. All rights reserved.
+      </p>
     </div>
   </div>
 </footer>

@@ -14,14 +14,19 @@ import Footer from '../../components/ui/Footer.astro';
 import AnswerBox from '../../components/seo/AnswerBox.astro';
 import QASections from '../../components/seo/QASections.astro';
 import { getToolById } from '../../lib/tools';
+import { getCompetitorData } from '../../lib/competitors';
 import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
 import RelatedTools from '../../components/seo/RelatedTools.astro';
 import ComparisonTable from '../../components/seo/ComparisonTable.astro';
-import ImageCompressComponent from '../../components/tools/ImageCompress';
+import AuthorBio from '../../components/seo/AuthorBio.astro';
+import ImageCompress from '../../components/tools/ImageCompress';
 
 // Get tool data from Single Source of Truth (tools.ts)
 const toolData = getToolById('image-compress');
 if (!toolData) throw new Error('Tool not found: image-compress');
+
+// Get competitor data
+const competitorData = getCompetitorData('image-compress');
 
 // Tool metadata derived from registry
 const tool = {
@@ -39,9 +44,9 @@ const seoContent = {
 
   // TL;DR Answer Box (50-70 words - this is what AI extracts)
   answerBox: {
-    title: 'Compress Images Online — Free, Private, No Upload',
-    queryTarget: 'How to Compress Images Online Free',
-    tldr: `Drop your images below to compress them up to 90% smaller while maintaining quality. All compression happens directly in your browser—files never leave your device. Supports PNG, JPEG, and WebP formats. Adjust quality settings, preview results, then download optimized images instantly. No signup required, no file limits, completely free.`,
+    title: toolData.seo?.h1 || 'Summarize Text & Documents with AI',
+    queryTarget: toolData.seo?.keywords?.[0] || 'How to Summarize Documents Online Free',
+    tldr: toolData.answer || `Paste text, upload a PDF/DOCX/TXT file, or enter a URL to generate an instant summary. Choose from brief, standard, or detailed lengths. Select bullet points, paragraphs, or key takeaways format. Use extractive mode for 100% local processing, or connect your own OpenAI/Claude API key for AI-powered summaries. Free, private, no signup required.`,
     trustSignals: [
       '100% browser-based',
       'Files never uploaded',
@@ -135,55 +140,21 @@ const schemaData = {
 
       <!-- Tool Component -->
       <section class="tool-section" aria-label="Image Compress Tool">
-        <ImageCompressComponent client:only="react" />
+        <ImageCompress client:only="react" />
         <TrustBar signals={seoContent.answerBox.trustSignals} />
       </section>
 
       <!-- Comparison Table: GEO optimization (32% of AI citations) -->
       <ComparisonTable
-        toolName="Image Compress"
-        competitors={[
-          {
-            name: "TinyPNG",
-            features: {
-              price: "$25/year",
-              privacy: "Cloud upload",
-              accountRequired: "Optional",
-              usageLimits: "500 images/month (free)",
-              watermarks: "None",
-              worksOffline: "No"
-            }
-          },
-          {
-            name: "Squoosh (Google)",
-            features: {
-              price: "Free",
-              privacy: "100% local",
-              accountRequired: "No",
-              usageLimits: "1 image at a time",
-              watermarks: "None",
-              worksOffline: "Yes"
-            }
-          },
-          {
-            name: "iLoveIMG",
-            features: {
-              price: "$6/month",
-              privacy: "Cloud upload",
-              accountRequired: "Optional",
-              usageLimits: "15 images/batch (free)",
-              watermarks: "None",
-              worksOffline: "No"
-            }
-          }
-        ]}
-        ourFeatures={{
+        toolName={tool.name}
+        competitors={competitorData.competitors}
+        ourFeatures={competitorData.ourFeatures || {
           price: "Free forever",
-          privacy: "100% local",
-          accountRequired: "No",
-          usageLimits: "Unlimited",
-          watermarks: "None",
-          worksOffline: "Yes"
+          privacy: "100% local browser processing",
+          accountRequired: "No signup needed",
+          usageLimits: "Unlimited usage",
+          watermarks: "No watermarks",
+          worksOffline: "Yes, fully offline capable"
         }}
       />
 
@@ -203,6 +174,7 @@ const schemaData = {
     </div>
   </main>
 
+  <AuthorBio />
   <Footer />
 </Layout>
 

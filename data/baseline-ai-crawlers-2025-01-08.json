@@ -1,0 +1,79 @@
+{
+  "audit_type": "ai_crawler_access",
+  "timestamp": "2025-01-08 10:50:00 UTC",
+  "domain": "newlifesolutions.dev",
+  "robots_txt_url": "https://www.newlifesolutions.dev/robots.txt",
+  "llms_txt_url": "https://www.newlifesolutions.dev/llms.txt",
+  "verification_method": "robots_txt_check_only",
+  "data_quality": "config_only",
+  "bots": {
+    "GPTBot": {
+      "status": "configured_only",
+      "last_access": null,
+      "access_count": 0,
+      "robots_txt_entry": "User-agent: GPTBot\nAllow: /",
+      "notes": "Allowed in robots.txt; access not verified"
+    },
+    "ClaudeBot": {
+      "status": "configured_only",
+      "last_access": null,
+      "access_count": 0,
+      "robots_txt_entry": "User-agent: ClaudeBot\nAllow: /",
+      "notes": "Allowed in robots.txt; access not verified"
+    },
+    "PerplexityBot": {
+      "status": "configured_only",
+      "last_access": null,
+      "access_count": 0,
+      "robots_txt_entry": "User-agent: PerplexityBot\nAllow: /",
+      "notes": "Allowed in robots.txt; access not verified"
+    },
+    "OAI-SearchBot": {
+      "status": "configured_only",
+      "last_access": null,
+      "access_count": 0,
+      "robots_txt_entry": "User-agent: OAI-SearchBot\nAllow: /",
+      "notes": "Allowed in robots.txt; access not verified"
+    },
+    "ChatGPT-User": {
+      "status": "configured_only",
+      "last_access": null,
+      "access_count": 0,
+      "robots_txt_entry": "User-agent: ChatGPT-User\nAllow: /",
+      "notes": "Allowed in robots.txt; access not verified"
+    },
+    "Google-Extended": {
+      "status": "configured_only",
+      "last_access": null,
+      "access_count": 0,
+      "robots_txt_entry": "User-agent: Google-Extended\nAllow: /",
+      "notes": "Allowed in robots.txt; access not verified"
+    }
+  },
+  "robots_txt_status": "configured_only",
+  "llms_txt_status": "present",
+  "validation_checks": {
+    "robots_txt_accessible": true,
+    "llms_txt_accessible": true,
+    "ai_bots_configured": 6,
+    "ai_bots_verified": 0
+  },
+  "recommendations": [
+    {
+      "priority": "high",
+      "action": "Monitor access logs",
+      "description": "Crawler access must be verified in server logs before counting citations or traffic.",
+      "timeline": "Check weekly"
+    },
+    {
+      "priority": "medium",
+      "action": "Submit sitemap",
+      "description": "Submit the sitemap index in search consoles to accelerate discovery.",
+      "resources": [
+        "https://search.google.com/search-console/"
+      ]
+    }
+  ],
+  "next_verification": "2025-02-08",
+  "baseline_established": false
+}

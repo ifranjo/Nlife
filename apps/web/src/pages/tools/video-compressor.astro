@@ -15,12 +15,18 @@ import AnswerBox from '../../components/seo/AnswerBox.astro';
 import QASections from '../../components/seo/QASections.astro';
 import RelatedTools from '../../components/seo/RelatedTools.astro';
 import { getToolById } from '../../lib/tools';
+import { getCompetitorData } from '../../lib/competitors';
 import SchemaMarkup from '../../components/seo/SchemaMarkup.astro';
-import VideoCompressorComponent from '../../components/tools/VideoCompressor';
+import ComparisonTable from '../../components/seo/ComparisonTable.astro';
+import AuthorBio from '../../components/seo/AuthorBio.astro';
+import VideoCompressor from '../../components/tools/VideoCompressor';
 
 // Get tool data from Single Source of Truth (tools.ts)
 const toolData = getToolById('video-compressor');
 if (!toolData) throw new Error('Tool not found: video-compressor');
+
+// Get competitor data
+const competitorData = getCompetitorData('video-compressor');
 
 // Tool metadata derived from registry
 const tool = {
@@ -38,9 +44,9 @@ const seoContent = {
 
   // TL;DR Answer Box (50-70 words - this is what AI extracts)
   answerBox: {
-    title: 'Compress Video Files — Free, Private, No Upload',
-    queryTarget: 'How to Compress Video Online Free',
-    tldr: `Drop your video below to compress it using H.264 encoding. Choose from three quality presets: Low (smallest file), Medium (balanced), or High (best quality). Processing uses FFmpeg WebAssembly entirely in your browser—your video never uploads to any server. See real-time compression ratio and download instantly. No signup required.`,
+    title: toolData.seo?.h1 || 'Summarize Text & Documents with AI',
+    queryTarget: toolData.seo?.keywords?.[0] || 'How to Summarize Documents Online Free',
+    tldr: toolData.answer || `Paste text, upload a PDF/DOCX/TXT file, or enter a URL to generate an instant summary. Choose from brief, standard, or detailed lengths. Select bullet points, paragraphs, or key takeaways format. Use extractive mode for 100% local processing, or connect your own OpenAI/Claude API key for AI-powered summaries. Free, private, no signup required.`,
     trustSignals: [
       'H.264 encoding',
       'Up to 90% smaller',
@@ -134,9 +140,23 @@ const schemaData = {
 
       <!-- Tool Component -->
       <section class="tool-section" aria-label="Video Compressor Tool">
-        <VideoCompressorComponent client:load />
+        <VideoCompressor client:load />
         <TrustBar signals={seoContent.answerBox.trustSignals} />
       </section>
+
+      <!-- Comparison Table: GEO optimization (32% of AI citations) -->
+      <ComparisonTable
+        toolName={tool.name}
+        competitors={competitorData.competitors}
+        ourFeatures={competitorData.ourFeatures || {
+          price: "Free forever",
+          privacy: "100% local browser processing",
+          accountRequired: "No signup needed",
+          usageLimits: "Unlimited usage",
+          watermarks: "No watermarks",
+          worksOffline: "Yes, fully offline capable"
+        }}
+      />
 
       <!-- Q&A Sections: Semantic structure for AI -->
       <QASections
@@ -154,6 +174,7 @@ const schemaData = {
     </div>
   </main>
 
+  <AuthorBio />
   <Footer />
 </Layout>
 
