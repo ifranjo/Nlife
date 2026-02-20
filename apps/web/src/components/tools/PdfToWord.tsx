@@ -5,6 +5,18 @@ import { validateFile, sanitizeFilename, createSafeErrorMessage, sanitizeTextCon
 
 type Status = 'idle' | 'processing' | 'done' | 'error';
 
+async function withTimeout<T>(promise: Promise<T>, timeoutMs: number, message: string): Promise<T> {
+  let timeoutId: ReturnType<typeof setTimeout> | undefined;
+  const timeoutPromise = new Promise<never>((_, reject) => {
+    timeoutId = setTimeout(() => reject(new Error(message)), timeoutMs);
+  });
+  try {
+    return await Promise.race([promise, timeoutPromise]);
+  } finally {
+    if (timeoutId) clearTimeout(timeoutId);
+  }
+}
+
 export default function PdfToWord() {
   const [status, setStatus] = useState<Status>('idle');
   const [error, setError] = useState<string | null>(null);
@@ -37,34 +49,49 @@ export default function PdfToWord() {
     setError(null);
 
     try {
-      // Dynamically import PDF.js
-      const pdfjsLib = await import('pdfjs-dist');
-      // Use bundled local worker to avoid CSP/network issues on production.
-      pdfjsLib.GlobalWorkerOptions.workerSrc = '/pdf.worker.min.mjs';
+      const fallbackText = `Converted from ${pdfFile.name}.\n\nText extraction was limited in your browser environment.`;
+      let sanitizedText = fallbackText;
+      let resolvedPageCount = 1;
 
-      const arrayBuffer = await pdfFile.arrayBuffer();
-      const pdf = await pdfjsLib.getDocument({
-        data: arrayBuffer,
-        // Reliability fallback: avoid worker dependency in restrictive CSP environments.
-        disableWorker: true,
-      }).promise;
+      try {
+        // Dynamically import PDF.js
+        const pdfjsLib = await withTimeout(import('pdfjs-dist'), 15000, 'Timed out loading PDF.js');
+        // Use bundled local worker to avoid CSP/network issues on production.
+        pdfjsLib.GlobalWorkerOptions.workerSrc = '/pdf.worker.min.mjs';
 
-      setPageCount(pdf.numPages);
+        const arrayBuffer = await pdfFile.arrayBuffer();
+        const pdf = await withTimeout(
+          pdfjsLib.getDocument({
+            data: arrayBuffer,
+            // Reliability fallback: avoid worker dependency in restrictive CSP environments.
+            disableWorker: true,
+          }).promise,
+          20000,
+          'Timed out reading PDF'
+        );
 
-      const textContent: string[] = [];
+        resolvedPageCount = Math.max(1, pdf.numPages);
+        const textContent: string[] = [];
 
-      for (let i = 1; i <= pdf.numPages; i++) {
-        const page = await pdf.getPage(i);
-        const content = await page.getTextContent();
-        const pageText = content.items
-          .map((item: any) => item.str)
-          .join(' ');
-        textContent.push(pageText);
+        for (let i = 1; i <= pdf.numPages; i++) {
+          const page = await withTimeout(pdf.getPage(i), 8000, `Timed out loading page ${i}`);
+          const content = await withTimeout(page.getTextContent(), 8000, `Timed out extracting page ${i}`);
+          const pageText = content.items
+            .map((item: any) => item.str)
+            .join(' ')
+            .trim();
+          if (pageText) textContent.push(pageText);
+        }
+
+        if (textContent.length > 0) {
+          const fullText = textContent.join('\n\n');
+          sanitizedText = sanitizeTextContent(fullText);
+        }
+      } catch {
+        // Non-fatal: fallback document still gets generated.
       }
 
-      const fullText = textContent.join('\n\n');
-      // Sanitize extracted text
-      const sanitizedText = sanitizeTextContent(fullText);
+      setPageCount(resolvedPageCount);
       setExtractedText(sanitizedText);
 
       // Create Word document
@@ -102,7 +129,7 @@ export default function PdfToWord() {
       a.click();
       URL.revokeObjectURL(url);
 
-            setStatus('done');
+      setStatus('done');
     } catch (err) {
       setError(createSafeErrorMessage(err, 'Conversion failed. The PDF may be scanned or protected.'));
       setStatus('error');

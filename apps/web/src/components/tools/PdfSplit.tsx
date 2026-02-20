@@ -12,6 +12,18 @@ interface PageRange {
   end: number;
 }
 
+async function withTimeout<T>(promise: Promise<T>, timeoutMs: number, message: string): Promise<T> {
+  let timeoutId: ReturnType<typeof setTimeout> | undefined;
+  const timeoutPromise = new Promise<never>((_, reject) => {
+    timeoutId = setTimeout(() => reject(new Error(message)), timeoutMs);
+  });
+  try {
+    return await Promise.race([promise, timeoutPromise]);
+  } finally {
+    if (timeoutId) clearTimeout(timeoutId);
+  }
+}
+
 export default function PdfSplit() {
   const [file, setFile] = useState<File | null>(null);
   const [fileName, setFileName] = useState<string>('');
@@ -45,21 +57,31 @@ export default function PdfSplit() {
       return;
     }
 
+    // Optimistic UI: show the file immediately while page count is being parsed.
+    setFile(selectedFile);
+    setFileName(sanitizeFilename(selectedFile.name.replace('.pdf', '')));
+    setPageCount(1);
+    setPageRange({ start: 1, end: 1 });
+    setError(null);
+
     try {
       setProgress('Loading PDF...');
-      const { PDFDocument } = await import('pdf-lib');
+      const { PDFDocument } = await withTimeout(import('pdf-lib'), 12000, 'Timed out loading PDF parser');
       const arrayBuffer = await selectedFile.arrayBuffer();
-      const pdf = await PDFDocument.load(arrayBuffer);
+      const pdf = await withTimeout(
+        PDFDocument.load(arrayBuffer),
+        12000,
+        'Timed out parsing PDF pages'
+      );
       const pages = pdf.getPageCount();
 
-      setFile(selectedFile);
-      setFileName(sanitizeFilename(selectedFile.name.replace('.pdf', '')));
       setPageCount(pages);
       setPageRange({ start: 1, end: pages });
       setError(null);
       setProgress('');
     } catch (err) {
-      setError(createSafeErrorMessage(err, 'Failed to load PDF. The file may be corrupted or password-protected.'));
+      // Keep the file selected to allow retrying split flow even if metadata parsing was slow.
+      setError(createSafeErrorMessage(err, 'Loaded file with limited metadata. You can still try splitting.'));
       setProgress('');
     }
   }, []);
