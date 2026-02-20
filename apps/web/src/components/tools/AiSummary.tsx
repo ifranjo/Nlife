@@ -64,6 +64,9 @@ function extractiveSummarize(
     'who', 'when', 'where', 'why', 'how', 'all', 'each', 'every', 'both',
     'few', 'more', 'most', 'other', 'some', 'such', 'no', 'not', 'only',
     'own', 'same', 'so', 'than', 'too', 'very', 'just', 'as', 'if',
+    'then', 'also', 'into', 'out', 'up', 'down', 'over', 'under', 'again',
+    'because', 'before', 'after', 'while', 'during', 'through', 'about',
+    'against', 'between', 'among', 'can', 'will', 'don', 't', 's', 'll', 've',
   ]);
 
   // Focus-specific boost words
@@ -80,7 +83,7 @@ function extractiveSummarize(
     }
   }
 
-  // Score sentences
+  // Score sentences with improved algorithm
   const scoredSentences = sentences.map((sentence, index) => {
     const words = sentence.toLowerCase().match(/\b[a-z]{3,}\b/g) || [];
     let score = 0;
@@ -98,9 +101,22 @@ function extractiveSummarize(
     // Normalize by sentence length
     score = words.length > 0 ? score / Math.sqrt(words.length) : 0;
 
-    // Boost first few sentences (usually important)
+    // Position-based scoring: First and last sentences are usually important
+    const totalSentences = sentences.length;
     if (index < 3) {
-      score *= 1.5;
+      score *= 1.5; // Boost intro
+    } else if (index >= totalSentences - 2) {
+      score *= 1.3; // Boost conclusion
+    }
+
+    // Bonus for sentences with numbers (often factual)
+    if (/\d+/.test(sentence)) {
+      score *= 1.2;
+    }
+
+    // Bonus for longer sentences (usually more content)
+    if (words.length > 15) {
+      score *= 1.15;
     }
 
     return { sentence, score, index };
@@ -729,7 +745,7 @@ export default function AiSummary() {
       {/* Summary Options */}
       <div className="bg-white/5 border border-white/10 rounded-xl p-4 space-y-4">
         <div className="flex items-center justify-between">
-          <h3 className="text-sm font-medium text-white">Summary Options</h3>
+          <h2 className="text-sm font-medium text-white">Summary Options</h2>
           <button
             onClick={() => setShowSettings(!showSettings)}
             className="text-xs text-[var(--text-muted)] hover:text-white transition-colors flex items-center gap-1"
@@ -904,7 +920,7 @@ export default function AiSummary() {
       {summary && (
         <div className="bg-white/5 border border-white/10 rounded-xl p-6 space-y-4">
           <div className="flex items-center justify-between">
-            <h3 className="text-sm font-medium text-white uppercase tracking-wider">Summary</h3>
+            <h2 className="text-sm font-medium text-white uppercase tracking-wider">Summary</h2>
             <button
               onClick={handleCopy}
               className="flex items-center gap-1 text-xs text-[var(--text-muted)] hover:text-white transition-colors"

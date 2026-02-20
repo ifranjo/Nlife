@@ -18,7 +18,7 @@ interface ImageFile {
   error?: string;
 }
 
-type OutputFormat = 'original' | 'webp' | 'jpeg';
+type OutputFormat = 'original' | 'webp' | 'jpeg' | 'avif' | 'png';
 
 const MAX_FILES = 20;
 const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB per image
@@ -96,19 +96,23 @@ export default function ImageCompress() {
   const getOutputMimeType = (file: File, format: OutputFormat): string => {
     if (format === 'webp') return 'image/webp';
     if (format === 'jpeg') return 'image/jpeg';
-    // For 'original', keep the same type but fallback to jpeg for unsupported canvas output types
-    if (file.type === 'image/png' || file.type === 'image/jpeg' || file.type === 'image/webp') {
-      return file.type;
-    }
+    if (format === 'avif') return 'image/avif';
+    if (format === 'png') return 'image/png';
+    // For 'original', keep the same type but preserve transparency
+    if (file.type === 'image/png') return 'image/png';
+    if (file.type === 'image/webp') return 'image/webp';
+    if (file.type === 'image/jpeg' || file.type === 'image/jpg') return 'image/jpeg';
     return 'image/jpeg'; // Fallback for GIF etc.
   };
 
   const getOutputExtension = (file: File, format: OutputFormat): string => {
     if (format === 'webp') return 'webp';
     if (format === 'jpeg') return 'jpg';
+    if (format === 'avif') return 'avif';
+    if (format === 'png') return 'png';
     // Extract from original filename
     const ext = file.name.split('.').pop()?.toLowerCase();
-    if (ext === 'png' || ext === 'jpg' || ext === 'jpeg' || ext === 'webp') {
+    if (ext === 'png' || ext === 'jpg' || ext === 'jpeg' || ext === 'webp' || ext === 'avif') {
       return ext;
     }
     return 'jpg';
@@ -444,9 +448,9 @@ export default function ImageCompress() {
         />
 
         <div className="text-5xl mb-4">🖼️</div>
-        <h3 className="text-xl font-semibold text-white mb-2">
+        <h2 className="text-xl font-semibold text-white mb-2">
           Drop images here or click to browse
-        </h3>
+        </h2>
         <p className="text-[var(--text-muted)] text-sm">
           Supports PNG, JPEG, WebP, GIF. Max 10MB per image, up to 20 images.
         </p>
@@ -491,7 +495,7 @@ export default function ImageCompress() {
                 Output Format
               </label>
               <div className="flex gap-2">
-                {(['original', 'webp', 'jpeg'] as OutputFormat[]).map((format) => (
+                {(['original', 'avif', 'webp', 'jpeg', 'png'] as OutputFormat[]).map((format) => (
                   <button
                     key={format}
                     onClick={() => setOutputFormat(format)}
@@ -728,7 +732,7 @@ export default function ImageCompress() {
             {/* Header with filename and close button */}
             <div className="flex items-center justify-between p-4 border-b border-slate-700">
               <div>
-                <h3 className="text-white font-medium">{previewImage.name}</h3>
+                <h2 className="text-white font-medium">{previewImage.name}</h2>
                 <p className="text-[var(--text-muted)] text-sm">
                   {formatFileSize(previewImage.originalSize)}
                   {previewImage.compressedSize && (

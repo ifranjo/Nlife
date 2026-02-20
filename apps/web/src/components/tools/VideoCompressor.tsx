@@ -42,9 +42,11 @@ export default function VideoCompressor() {
   }, []);
 
   const qualitySettings: Record<string, { crf: string; preset: string; label: string }> = {
+    ultra: { crf: '38', preset: 'ultrafast', label: 'Ultra (Fastest, smallest)' },
     low: { crf: '32', preset: 'fast', label: 'Low (Smallest file)' },
     medium: { crf: '26', preset: 'medium', label: 'Medium (Balanced)' },
     high: { crf: '20', preset: 'slow', label: 'High (Better quality)' },
+    max: { crf: '15', preset: 'veryslow', label: 'Maximum (Best quality)' },
   };
 
   const loadFFmpeg = async () => {
@@ -192,7 +194,7 @@ export default function VideoCompressor() {
           <div className="flex items-start gap-4">
             <span className="text-3xl">⚠️</span>
             <div className="space-y-3">
-              <h3 className="text-amber-400 font-semibold text-lg">Browser Feature Not Available</h3>
+              <h2 className="text-amber-400 font-semibold text-lg">Browser Feature Not Available</h2>
               <p className="text-[var(--text)]">
                 Your browser does not support <code className="bg-[var(--bg-secondary)] px-1.5 py-0.5 rounded text-sm">SharedArrayBuffer</code>,
                 which is required for video processing with FFmpeg.
