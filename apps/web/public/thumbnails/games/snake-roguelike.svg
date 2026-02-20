@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+  <rect width="200" height="200" fill="#0a0a0a"/>
+  <!-- Grid hint -->
+  <rect x="30" y="30" width="140" height="140" rx="6" fill="#1a1a2e" stroke="#2a2a4a" stroke-width="1"/>
+  <!-- Snake body -->
+  <rect x="50" y="90" width="16" height="16" rx="3" fill="#22c55e"/>
+  <rect x="66" y="90" width="16" height="16" rx="3" fill="#22c55e"/>
+  <rect x="82" y="90" width="16" height="16" rx="3" fill="#22c55e"/>
+  <rect x="98" y="90" width="16" height="16" rx="3" fill="#16a34a"/>
+  <rect x="114" y="90" width="16" height="16" rx="3" fill="#15803d"/>
+  <!-- Snake head -->
+  <rect x="34" y="90" width="16" height="16" rx="3" fill="#4ade80"/>
+  <circle cx="39" cy="96" r="2" fill="#0a0a0a"/>
+  <circle cx="45" cy="96" r="2" fill="#0a0a0a"/>
+  <!-- Food -->
+  <circle cx="60" cy="55" r="6" fill="#ef4444"/>
+  <!-- Relic icon -->
+  <text x="130" y="62" font-family="system-ui" font-size="20">⚡</text>
+  <!-- Floor indicator -->
+  <text x="100" y="150" font-family="system-ui" font-size="12" font-weight="bold" fill="#fbbf24" text-anchor="middle">FLOOR 3/7</text>
+  <!-- Title -->
+  <text x="100" y="185" font-family="system-ui" font-size="11" fill="#9ca3af" text-anchor="middle" letter-spacing="0.05em">SNAKE ROGUELIKE</text>
+</svg>

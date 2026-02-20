@@ -556,9 +556,9 @@ export default function PdfRedactor() {
             />
 
             <div className="text-5xl mb-4">🔒</div>
-            <h3 className="text-xl font-semibold text-white mb-2">
+            <h2 className="text-xl font-semibold text-white mb-2">
               Drop PDF here or click to browse
-            </h3>
+            </h2>
             <p className="text-[var(--text-muted)] text-sm">
               Permanently redact sensitive information from PDFs
             </p>
@@ -631,9 +631,9 @@ export default function PdfRedactor() {
               <div className="glass-card p-4">
                 <div className="flex flex-wrap items-center justify-between gap-4">
                   <div>
-                    <h3 className="text-white font-medium mb-1">
+                    <h2 className="text-white font-medium mb-1">
                       {sanitizeFilename(file.name)}
-                    </h3>
+                    </h2>
                     <p className="text-[var(--text-muted)] text-sm">
                       {pages.length} page{pages.length !== 1 ? 's' : ''} •{' '}
                       {detectedPII.length} PII item{detectedPII.length !== 1 ? 's' : ''}{' '}

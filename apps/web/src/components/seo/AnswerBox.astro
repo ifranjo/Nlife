@@ -23,7 +23,7 @@ const { title, tldr, toolName } = Astro.props;
   <a href="/hub" class="back-link">Back to Tools</a>
 
   <div class="title-row">
-    <h1 class="answer-title">{title}</h1>
+    <h1 class="answer-title tldr">{title}</h1>
     <HelpTooltip content={tldr} id={`${toolName.toLowerCase().replace(/\s+/g, '-')}-help`} />
   </div>
 

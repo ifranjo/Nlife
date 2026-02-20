@@ -199,10 +199,10 @@ export default function ImageCaptioning() {
           {caption && (
             <div className="bg-white/5 border border-white/10 rounded-xl p-6">
               <div className="flex items-start justify-between gap-4 mb-3">
-                <h3 className="text-white font-semibold flex items-center gap-2">
+                <h2 className="text-white font-semibold flex items-center gap-2">
                   <span className="text-2xl">✨</span>
                   Generated Caption
-                </h3>
+                </h2>
                 <button
                   onClick={handleCopy}
                   className={`px-4 py-2 rounded-lg text-sm font-medium transition-all

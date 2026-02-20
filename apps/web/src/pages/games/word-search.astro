@@ -3,9 +3,13 @@ import Layout from '../../layouts/Layout.astro';
 import Navbar from '../../components/ui/Navbar.astro';
 import Footer from '../../components/ui/Footer.astro';
 import WordSearchGame from '../../components/games/WordSearchGame';
+import { getGameById } from '../../lib/games';
 
-const title = 'Word Search - Free Tech Word Game | New Life Games';
-const description = 'Find hidden tech-related words in the grid! Search for programming terms, developer jargon, and technology vocabulary in this classic word search game.';
+const game = getGameById('word-search');
+if (!game) throw new Error('Game not found: word-search');
+
+const title = game.seo?.title || `${game.name} | New Life Games`;
+const description = game.seo?.metaDescription || game.description;
 ---
 
 <Layout title={title} description={description} canonicalUrl="https://www.newlifesolutions.dev/games/word-search/" theme="default">
@@ -17,10 +21,10 @@ const description = 'Find hidden tech-related words in the grid! Search for prog
         <a href="/games" class="text-xs text-[var(--text-muted)] uppercase tracking-wider hover:text-[var(--accent)] transition-colors mb-4 inline-block">
           ← Back to Games
         </a>
-        <div class="text-4xl mb-4">🔍</div>
-        <h1 class="text-2xl uppercase tracking-[0.3em] mb-4">Word Search</h1>
+        <div class="text-4xl mb-4">{game.emoji}</div>
+        <h1 class="text-2xl uppercase tracking-[0.3em] mb-4">{game.seo?.h1 || game.name}</h1>
         <p class="text-[var(--text-dim)] text-sm max-w-xl mx-auto leading-relaxed">
-          Find hidden tech-related words in the letter grid. Search horizontally, vertically, or diagonally to discover programming terms and developer vocabulary.
+          {game.description}
         </p>
       </div>
     </section>
@@ -31,57 +35,34 @@ const description = 'Find hidden tech-related words in the grid! Search for prog
     </section>
 
     <!-- How to Play -->
-    <section class="py-12 px-6 border-t border-[var(--border)]">
-      <div class="max-w-2xl mx-auto">
-        <h2 class="text-lg uppercase tracking-[0.2em] text-center mb-8">How to Play</h2>
-
-        <div class="grid gap-6 sm:grid-cols-2">
-          <div class="glass-card p-6 rounded-lg">
-            <div class="text-2xl mb-3">👆</div>
-            <h3 class="font-bold mb-2 text-[var(--text)]">Click & Drag</h3>
-            <p class="text-sm text-[var(--text-dim)]">
-              Click on a letter and drag to select consecutive letters that form a word.
-            </p>
+    {game.howToPlay && (
+      <section class="py-12 px-6 border-t border-[var(--border)]">
+        <div class="max-w-2xl mx-auto">
+          <h2 class="text-lg uppercase tracking-[0.2em] text-center mb-8">How to Play</h2>
+          <div class="grid gap-6 sm:grid-cols-2">
+            {game.howToPlay.map(card => (
+              <div class="glass-card p-6 rounded-lg">
+                <div class="text-2xl mb-3">{card.emoji}</div>
+                <h3 class="font-bold mb-2 text-[var(--text)]">{card.title}</h3>
+                <p class="text-sm text-[var(--text-dim)]">{card.description}</p>
+              </div>
+            ))}
           </div>
 
-          <div class="glass-card p-6 rounded-lg">
-            <div class="text-2xl mb-3">➡️</div>
-            <h3 class="font-bold mb-2 text-[var(--text)]">Any Direction</h3>
-            <p class="text-sm text-[var(--text-dim)]">
-              Words can be horizontal, vertical, or diagonal - forwards or backwards.
-            </p>
-          </div>
-
-          <div class="glass-card p-6 rounded-lg">
-            <div class="text-2xl mb-3">💻</div>
-            <h3 class="font-bold mb-2 text-[var(--text)]">Tech Vocabulary</h3>
-            <p class="text-sm text-[var(--text-dim)]">
-              Find programming terms, developer tools, and technology-related words.
-            </p>
-          </div>
-
-          <div class="glass-card p-6 rounded-lg">
-            <div class="text-2xl mb-3">🏁</div>
-            <h3 class="font-bold mb-2 text-[var(--text)]">Find All Words</h3>
-            <p class="text-sm text-[var(--text-dim)]">
-              Race against time to find all hidden words and complete the puzzle.
-            </p>
+          <div class="mt-8 glass-card p-4 rounded-lg">
+            <h3 class="font-bold mb-3 text-[var(--text)]">Tech Word Categories</h3>
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 text-sm text-[var(--text-dim)]">
+              <div>• Programming languages</div>
+              <div>• Development tools</div>
+              <div>• Frameworks & libraries</div>
+              <div>• Operating systems</div>
+              <div>• Version control</div>
+              <div>• Testing & debugging</div>
+            </div>
           </div>
         </div>
-
-        <div class="mt-8 glass-card p-4 rounded-lg">
-          <h3 class="font-bold mb-3 text-[var(--text)]">Tech Word Categories</h3>
-          <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 text-sm text-[var(--text-dim)]">
-            <div>• Programming languages</div>
-            <div>• Development tools</div>
-            <div>• Frameworks & libraries</div>
-            <div>• Operating systems</div>
-            <div>• Version control</div>
-            <div>• Testing & debugging</div>
-          </div>
-        </div>
-      </div>
-    </section>
+      </section>
+    )}
   </main>
   <Footer />
 </Layout>
@@ -90,9 +71,9 @@ const description = 'Find hidden tech-related words in the grid! Search for prog
 <script type="application/ld+json" set:html={JSON.stringify({
   "@context": "https://schema.org",
   "@type": "VideoGame",
-  "name": "Word Search",
+  "name": game.name,
   "description": description,
-  "url": "https://www.newlifesolutions.dev/games/word-search",
+  "url": `https://www.newlifesolutions.dev${game.href}`,
   "genre": ["Word Puzzle", "Educational"],
   "playMode": "SinglePlayer",
   "applicationCategory": "Game",

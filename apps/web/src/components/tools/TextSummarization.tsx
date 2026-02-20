@@ -213,10 +213,10 @@ export default function TextSummarization() {
         <div className="bg-white/5 border border-white/10 rounded-xl p-6">
           <div className="flex items-start justify-between gap-4 mb-4">
             <div>
-              <h3 className="text-white font-semibold flex items-center gap-2">
+              <h2 className="text-white font-semibold flex items-center gap-2">
                 <span className="text-2xl">📝</span>
                 Summary
-              </h3>
+              </h2>
               <div className="flex gap-4 mt-1 text-xs text-[var(--text-muted)]">
                 <span>{summaryWords} words</span>
                 <span className="text-cyan-400">{compressionRatio}% shorter</span>

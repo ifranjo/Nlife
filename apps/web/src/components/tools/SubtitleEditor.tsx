@@ -400,9 +400,9 @@ export default function SubtitleEditor() {
       {entries.length > 0 && (
         <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <h3 className="text-lg font-semibold text-[var(--text)]">
+            <h2 className="text-lg font-semibold text-[var(--text)]">
               Subtitle Entries ({entries.length})
-            </h3>
+            </h2>
             <div className="flex gap-2">
               <button
                 onClick={addEntry}

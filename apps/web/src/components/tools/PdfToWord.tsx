@@ -39,10 +39,15 @@ export default function PdfToWord() {
     try {
       // Dynamically import PDF.js
       const pdfjsLib = await import('pdfjs-dist');
-      pdfjsLib.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjsLib.version}/build/pdf.worker.min.mjs`;
+      // Use bundled local worker to avoid CSP/network issues on production.
+      pdfjsLib.GlobalWorkerOptions.workerSrc = '/pdf.worker.min.mjs';
 
       const arrayBuffer = await pdfFile.arrayBuffer();
-      const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+      const pdf = await pdfjsLib.getDocument({
+        data: arrayBuffer,
+        // Reliability fallback: avoid worker dependency in restrictive CSP environments.
+        disableWorker: true,
+      }).promise;
 
       setPageCount(pdf.numPages);
 

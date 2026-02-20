@@ -3,9 +3,13 @@ import Layout from '../../layouts/Layout.astro';
 import Navbar from '../../components/ui/Navbar.astro';
 import Footer from '../../components/ui/Footer.astro';
 import PokerRoguelikeGame from '../../components/games/PokerRoguelikeGame';
+import { getGameById } from '../../lib/games';
 
-const title = 'Poker Roguelike - Free Card Game | New Life Games';
-const description = 'Play poker hands to beat the blinds! Collect Jokers with special powers, build your deck, and climb to victory. Free browser roguelike card game.';
+const game = getGameById('poker-roguelike');
+if (!game) throw new Error('Game not found: poker-roguelike');
+
+const title = game.seo?.title || `${game.name} | New Life Games`;
+const description = game.seo?.metaDescription || game.description;
 ---
 
 <Layout title={title} description={description} canonicalUrl="https://www.newlifesolutions.dev/games/poker-roguelike/" theme="default">
@@ -17,10 +21,10 @@ const description = 'Play poker hands to beat the blinds! Collect Jokers with sp
         <a href="/games" class="text-xs text-[var(--text-muted)] uppercase tracking-wider hover:text-[var(--accent)] transition-colors mb-4 inline-block">
           ← Back to Games
         </a>
-        <div class="text-4xl mb-4">🃏</div>
-        <h1 class="text-2xl uppercase tracking-[0.3em] mb-4">Poker Roguelike</h1>
+        <div class="text-4xl mb-4">{game.emoji}</div>
+        <h1 class="text-2xl uppercase tracking-[0.3em] mb-4">{game.seo?.h1 || game.name}</h1>
         <p class="text-[var(--text-dim)] text-sm max-w-xl mx-auto leading-relaxed">
-          Play poker hands to score points and beat the blinds. Collect Jokers with special multipliers and powers. How far can you go?
+          {game.description}
         </p>
       </div>
     </section>
@@ -31,45 +35,22 @@ const description = 'Play poker hands to beat the blinds! Collect Jokers with sp
     </section>
 
     <!-- How to Play -->
-    <section class="py-12 px-6 border-t border-[var(--border)]">
-      <div class="max-w-2xl mx-auto">
-        <h2 class="text-lg uppercase tracking-[0.2em] text-center mb-8">How to Play</h2>
-
-        <div class="grid gap-6 sm:grid-cols-2">
-          <div class="glass-card p-6 rounded-lg">
-            <div class="text-2xl mb-3">🎯</div>
-            <h3 class="font-bold mb-2 text-[var(--text)]">Goal</h3>
-            <p class="text-sm text-[var(--text-dim)]">
-              Score enough points to beat each Blind. Defeat all 7 Blinds to win!
-            </p>
-          </div>
-
-          <div class="glass-card p-6 rounded-lg">
-            <div class="text-2xl mb-3">🃏</div>
-            <h3 class="font-bold mb-2 text-[var(--text)]">Jokers</h3>
-            <p class="text-sm text-[var(--text-dim)]">
-              Buy Jokers between rounds. They add multipliers and special effects to your hands.
-            </p>
-          </div>
-
-          <div class="glass-card p-6 rounded-lg">
-            <div class="text-2xl mb-3">✋</div>
-            <h3 class="font-bold mb-2 text-[var(--text)]">Hands</h3>
-            <p class="text-sm text-[var(--text-dim)]">
-              Select 1-5 cards to play poker hands. Better hands = more chips × multiplier.
-            </p>
-          </div>
-
-          <div class="glass-card p-6 rounded-lg">
-            <div class="text-2xl mb-3">🔄</div>
-            <h3 class="font-bold mb-2 text-[var(--text)]">Discards</h3>
-            <p class="text-sm text-[var(--text-dim)]">
-              Use discards to swap bad cards. Plan carefully - they're limited!
-            </p>
+    {game.howToPlay && (
+      <section class="py-12 px-6 border-t border-[var(--border)]">
+        <div class="max-w-2xl mx-auto">
+          <h2 class="text-lg uppercase tracking-[0.2em] text-center mb-8">How to Play</h2>
+          <div class="grid gap-6 sm:grid-cols-2">
+            {game.howToPlay.map(card => (
+              <div class="glass-card p-6 rounded-lg">
+                <div class="text-2xl mb-3">{card.emoji}</div>
+                <h3 class="font-bold mb-2 text-[var(--text)]">{card.title}</h3>
+                <p class="text-sm text-[var(--text-dim)]">{card.description}</p>
+              </div>
+            ))}
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    )}
   </main>
   <Footer />
 </Layout>
@@ -78,9 +59,9 @@ const description = 'Play poker hands to beat the blinds! Collect Jokers with sp
 <script type="application/ld+json" set:html={JSON.stringify({
   "@context": "https://schema.org",
   "@type": "VideoGame",
-  "name": "Poker Roguelike",
+  "name": game.name,
   "description": description,
-  "url": "https://www.newlifesolutions.dev/games/poker-roguelike",
+  "url": `https://www.newlifesolutions.dev${game.href}`,
   "genre": ["Card Game", "Roguelike"],
   "playMode": "SinglePlayer",
   "applicationCategory": "Game",

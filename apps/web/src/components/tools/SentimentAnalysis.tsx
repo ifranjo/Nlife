@@ -206,7 +206,7 @@ export default function SentimentAnalysis() {
       {/* Results */}
       {result && (
         <div className="bg-white/5 border border-white/10 rounded-xl p-6 space-y-6">
-          <h3 className="text-lg font-semibold text-white">Analysis Results</h3>
+          <h2 className="text-lg font-semibold text-white">Analysis Results</h2>
 
           {/* Overall Sentiment */}
           <div className={`p-6 rounded-xl border ${getSentimentConfig(result.label).bgColor} ${getSentimentConfig(result.label).borderColor}`}>
@@ -261,7 +261,7 @@ export default function SentimentAnalysis() {
 
       {/* Sample Texts */}
       <div className="bg-white/5 border border-white/10 rounded-xl p-6 space-y-4">
-        <h3 className="text-sm font-semibold text-white">Try Sample Texts</h3>
+        <h2 className="text-sm font-semibold text-white">Try Sample Texts</h2>
         <div className="space-y-2">
           {SAMPLE_TEXTS.map((sample, index) => (
             <button

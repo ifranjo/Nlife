@@ -437,9 +437,9 @@ export default function Base64Tool() {
             />
 
             <div className="text-5xl mb-4">📎</div>
-            <h3 className="text-xl font-semibold text-white mb-2">
+            <h2 className="text-xl font-semibold text-white mb-2">
               {selectedFile ? selectedFile.name : 'Drop file here or click to browse'}
-            </h3>
+            </h2>
             <p className="text-[var(--text-muted)] text-sm">
               {selectedFile
                 ? `${(selectedFile.size / 1024).toFixed(2)} KB`
@@ -514,9 +514,9 @@ export default function Base64Tool() {
       {/* Decode to File */}
       {inputType === 'text' && mode === 'decode' && textOutput && (
         <div className="glass-card p-6 mt-6">
-          <h3 className="text-sm font-medium text-[var(--text-muted)] mb-3">
+          <h2 className="text-sm font-medium text-[var(--text-muted)] mb-3">
             Download as File
-          </h3>
+          </h2>
           <button
             onClick={processFileDecode}
             disabled={isProcessing}

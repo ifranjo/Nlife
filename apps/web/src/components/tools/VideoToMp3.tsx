@@ -177,7 +177,7 @@ export default function VideoToMp3() {
           <div className="flex items-start gap-4">
             <span className="text-3xl">⚠️</span>
             <div className="space-y-3">
-              <h3 className="text-amber-400 font-semibold text-lg">Browser Feature Not Available</h3>
+              <h2 className="text-amber-400 font-semibold text-lg">Browser Feature Not Available</h2>
               <p className="text-[var(--text)]">
                 Your browser does not support <code className="bg-[var(--bg-secondary)] px-1.5 py-0.5 rounded text-sm">SharedArrayBuffer</code>,
                 which is required for video processing with FFmpeg.

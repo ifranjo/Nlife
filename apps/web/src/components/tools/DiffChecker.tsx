@@ -240,7 +240,7 @@ export default function DiffChecker() {
         {/* Original Text */}
         <div className="glass-card p-6">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-white font-medium">Original</h3>
+            <h2 className="text-white font-medium">Original</h2>
             <span className="text-xs text-[var(--text-muted)]">
               {original.split('\n').length} lines
             </span>
@@ -260,7 +260,7 @@ export default function DiffChecker() {
         {/* Modified Text */}
         <div className="glass-card p-6">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-white font-medium">Modified</h3>
+            <h2 className="text-white font-medium">Modified</h2>
             <span className="text-xs text-[var(--text-muted)]">
               {modified.split('\n').length} lines
             </span>
@@ -382,7 +382,7 @@ export default function DiffChecker() {
       {/* Statistics */}
       {stats && hasCompared && (
         <div className="glass-card p-6 mt-6">
-          <h3 className="text-white font-medium mb-4">Statistics</h3>
+          <h2 className="text-white font-medium mb-4">Statistics</h2>
           <div className="grid grid-cols-3 gap-4">
             <div className="bg-green-500/20 border border-green-500/30 rounded-lg p-4 text-center">
               <div className="text-3xl font-bold text-green-400">
@@ -415,7 +415,7 @@ export default function DiffChecker() {
       {/* Diff Output */}
       {hasCompared && (
         <div className="glass-card p-6 mt-6">
-          <h3 className="text-white font-medium mb-4">Differences</h3>
+          <h2 className="text-white font-medium mb-4">Differences</h2>
           <div className="max-h-[500px] overflow-auto bg-slate-900 rounded-lg border border-slate-700">
             {renderDiffContent()}
           </div>

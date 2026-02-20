@@ -212,7 +212,7 @@ export default function JsonFormatter() {
         {/* Input Panel */}
         <div className="glass-card p-6">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-white font-medium">Input</h3>
+            <h2 className="text-white font-medium">Input</h2>
             <div className="flex items-center gap-2">
               <button
                 onClick={() => fileInputRef.current?.click()}
@@ -337,7 +337,7 @@ export default function JsonFormatter() {
         {/* Output Panel */}
         <div className="glass-card p-6">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-white font-medium">Output</h3>
+            <h2 className="text-white font-medium">Output</h2>
             <div className="flex items-center gap-2">
               {output && (
                 <>

@@ -54,12 +54,12 @@ const { toolName, whatIs, howItWorks, whyBrowserBased, faqs, stats } = Astro.pro
   )}
 
   <!-- What is [Tool]? -->
-  <article class="qa-block" itemscope itemtype="https://schema.org/Question">
-    <h2 itemprop="name" class="qa-heading">
+  <article class="qa-block">
+    <h2 class="qa-heading">
       What is {toolName}?
     </h2>
-    <div itemprop="acceptedAnswer" itemscope itemtype="https://schema.org/Answer">
-      <p itemprop="text" class="qa-answer">
+    <div>
+      <p class="qa-answer">
         {whatIs.answer}
       </p>
       {whatIs.context && (
@@ -69,15 +69,15 @@ const { toolName, whatIs, howItWorks, whyBrowserBased, faqs, stats } = Astro.pro
   </article>
 
   <!-- How does it work? -->
-  <article class="qa-block" itemscope itemtype="https://schema.org/HowTo">
-    <h2 itemprop="name" class="qa-heading">
+  <article class="qa-block">
+    <h2 class="qa-heading">
       How does {toolName} work?
     </h2>
-    <ol class="steps-list" itemprop="step" itemscope itemtype="https://schema.org/HowToStep">
+    <ol class="steps-list">
       {howItWorks.steps.map((step, index) => (
         <li class="step-item">
           <span class="step-number">{String(index + 1).padStart(2, '0')}</span>
-          <span itemprop="text">{step}</span>
+          <span>{step}</span>
         </li>
       ))}
     </ol>
@@ -100,17 +100,17 @@ const { toolName, whatIs, howItWorks, whyBrowserBased, faqs, stats } = Astro.pro
     </ul>
   </article>
 
-  <!-- FAQs with Schema -->
+  <!-- FAQs -->
   <article class="qa-block faq-block">
     <h2 class="qa-heading">Common Questions</h2>
-    <div class="faq-list" itemscope itemtype="https://schema.org/FAQPage">
+    <div class="faq-list">
       {faqs.map((faq) => (
-        <details class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
-          <summary itemprop="name" class="faq-question">
+        <details class="faq-item">
+          <summary class="faq-question">
             {faq.question}
           </summary>
-          <div itemprop="acceptedAnswer" itemscope itemtype="https://schema.org/Answer" class="faq-answer">
-            <p itemprop="text">{faq.answer}</p>
+          <div class="faq-answer">
+            <p>{faq.answer}</p>
             {faq.listItems && (
               <ul class="faq-list-items">
                 {faq.listItems.map((item) => (

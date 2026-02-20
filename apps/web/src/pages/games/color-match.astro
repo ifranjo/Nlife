@@ -28,7 +28,7 @@ const description = game?.seo?.metaDescription || 'Match colors as fast as you c
         <a href="/games" class="text-xs text-[var(--text-muted)] uppercase tracking-wider hover:text-[var(--accent)] transition-colors mb-4 inline-block">
           ← Back to Games
         </a>
-        <div class="text-4xl mb-4">🎮</div>
+        <div class="text-4xl mb-4">{game?.emoji || '🎮'}</div>
         <h1 class="text-2xl uppercase tracking-[0.3em] mb-4">{game?.seo?.h1 || 'Color Match'}</h1>
         <p class="text-[var(--text-dim)] text-sm max-w-xl mx-auto leading-relaxed">
           {game?.description || 'Follow the color sequence and test your memory! A classic Simon Says style game.'}
@@ -49,37 +49,13 @@ const description = game?.seo?.metaDescription || 'Match colors as fast as you c
         <h2 class="text-lg uppercase tracking-[0.2em] text-center mb-8">How to Play</h2>
 
         <div class="grid gap-6 sm:grid-cols-2">
-          <div class="glass-card p-6 rounded-lg">
-            <div class="text-2xl mb-3">👀</div>
-            <h3 class="font-bold mb-2 text-[var(--text)]">Watch</h3>
-            <p class="text-sm text-[var(--text-dim)]">
-              Pay attention as the colors light up in sequence. Each round adds one more color to remember.
-            </p>
-          </div>
-
-          <div class="glass-card p-6 rounded-lg">
-            <div class="text-2xl mb-3">👆</div>
-            <h3 class="font-bold mb-2 text-[var(--text)]">Repeat</h3>
-            <p class="text-sm text-[var(--text-dim)]">
-              Click the colors in the same order. Get it right to advance. One mistake and it's game over!
-            </p>
-          </div>
-
-          <div class="glass-card p-6 rounded-lg">
-            <div class="text-2xl mb-3">⚡</div>
-            <h3 class="font-bold mb-2 text-[var(--text)]">Speed Up</h3>
-            <p class="text-sm text-[var(--text-dim)]">
-              As you progress, the sequence plays faster. Stay focused and keep your rhythm!
-            </p>
-          </div>
-
-          <div class="glass-card p-6 rounded-lg">
-            <div class="text-2xl mb-3">🔥</div>
-            <h3 class="font-bold mb-2 text-[var(--text)]">Hard Mode</h3>
-            <p class="text-sm text-[var(--text-dim)]">
-              Reach level 11 to unlock Hard Mode with 6 colors instead of 4. Can you master it?
-            </p>
-          </div>
+          {game?.howToPlay?.map(card => (
+            <div class="glass-card p-6 rounded-lg">
+              <div class="text-2xl mb-3">{card.emoji}</div>
+              <h3 class="font-bold mb-2 text-[var(--text)]">{card.title}</h3>
+              <p class="text-sm text-[var(--text-dim)]">{card.description}</p>
+            </div>
+          ))}
         </div>
       </div>
     </section>

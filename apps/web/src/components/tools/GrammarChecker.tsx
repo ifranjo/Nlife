@@ -335,10 +335,10 @@ export default function GrammarChecker() {
       {corrections.length > 0 && (
         <div className="bg-white/5 border border-white/10 rounded-xl p-6">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-white font-semibold flex items-center gap-2">
+            <h2 className="text-white font-semibold flex items-center gap-2">
               <span className="text-2xl">✏️</span>
               {corrections.length} Issue{corrections.length !== 1 ? 's' : ''} Found
-            </h3>
+            </h2>
             <button
               onClick={applyAllCorrections}
               className="px-4 py-2 bg-green-500/20 hover:bg-green-500/30 text-green-400
@@ -389,10 +389,10 @@ export default function GrammarChecker() {
         <div className="bg-white/5 border border-white/10 rounded-xl p-6">
           <div className="flex items-start justify-between gap-4 mb-4">
             <div>
-              <h3 className="text-white font-semibold flex items-center gap-2">
+              <h2 className="text-white font-semibold flex items-center gap-2">
                 <span className="text-2xl">✅</span>
                 No Issues Found
-              </h3>
+              </h2>
               <p className="text-xs text-[var(--text-muted)] mt-1">
                 Your text looks good!
               </p>
@@ -408,7 +408,7 @@ export default function GrammarChecker() {
       {correctedText && corrections.length > 0 && (
         <div className="bg-white/5 border border-white/10 rounded-xl p-6">
           <div className="flex items-start justify-between gap-4 mb-4">
-            <h3 className="text-white font-semibold">Corrected Version</h3>
+            <h2 className="text-white font-semibold">Corrected Version</h2>
             <button
               onClick={handleCopy}
               className={`px-4 py-2 rounded-lg text-sm font-medium transition-all

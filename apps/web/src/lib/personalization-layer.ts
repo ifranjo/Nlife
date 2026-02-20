@@ -8,6 +8,7 @@
 import { AITrafficDetector, type PersonalizationContext } from './ai-detection';
 import { DynamicAdaptationEngine } from './dynamic-adaptation';
 import { PerformanceOptimizer } from './performance-optimizer';
+import { geoABTesting } from './geo-ab-testing';
 
 interface PersonalizationEvent {
   type: 'ai_detected' | 'content_adapted' | 'optimization_applied' | 'interaction';
@@ -468,10 +469,7 @@ if (typeof window !== 'undefined') {
 }
 
 // Export types
-export type {
-  PersonalizationEvent,
-  PersonalizationSession,
-  PersonalizationConfig
-};
-// Export types
 export type { PersonalizationContext, PersonalizationEvent, PersonalizationSession, PersonalizationConfig };
+
+// Re-export A/B testing for unified API access
+export { geoABTesting };

@@ -121,9 +121,9 @@ export default function WordCounter() {
       {/* Keyword Density (if text exists) */}
       {stats.words >= 10 && (
         <div className="bg-white/5 border border-white/10 rounded-xl p-4">
-          <h3 className="text-xs text-[var(--text-muted)] uppercase tracking-wider mb-3">
+          <h2 className="text-xs text-[var(--text-muted)] uppercase tracking-wider mb-3">
             Top Keywords
-          </h3>
+          </h2>
           <div className="flex flex-wrap gap-2">
             {getTopKeywords(text).map(({ word, count }) => (
               <span

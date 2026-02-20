@@ -362,7 +362,7 @@ export default function ResumeBuilder() {
 
       {/* Personal Info */}
       <div className="bg-[var(--bg-secondary)] rounded-lg p-4 space-y-3">
-        <h3 className="text-sm font-medium text-[var(--text)]">Personal Information</h3>
+        <h2 className="text-sm font-medium text-[var(--text)]">Personal Information</h2>
         <input
           type="text"
           placeholder="Full Name"
@@ -405,7 +405,7 @@ export default function ResumeBuilder() {
       {/* Experience - Roving tabindex for keyboard navigation */}
       <div className="bg-[var(--bg-secondary)] rounded-lg p-4 space-y-3">
         <div className="flex justify-between items-center">
-          <h3 className="text-sm font-medium text-[var(--text)]">Experience</h3>
+          <h2 className="text-sm font-medium text-[var(--text)]">Experience</h2>
           <button
             onClick={addExperience}
             className="text-xs text-[var(--accent)] hover:underline"
@@ -499,7 +499,7 @@ export default function ResumeBuilder() {
       {/* Education - Roving tabindex for keyboard navigation */}
       <div className="bg-[var(--bg-secondary)] rounded-lg p-4 space-y-3">
         <div className="flex justify-between items-center">
-          <h3 className="text-sm font-medium text-[var(--text)]">Education</h3>
+          <h2 className="text-sm font-medium text-[var(--text)]">Education</h2>
           <button
             onClick={addEducation}
             className="text-xs text-[var(--accent)] hover:underline"
@@ -585,7 +585,7 @@ export default function ResumeBuilder() {
 
       {/* Skills */}
       <div className="bg-[var(--bg-secondary)] rounded-lg p-4 space-y-3">
-        <h3 className="text-sm font-medium text-[var(--text)]">Skills</h3>
+        <h2 className="text-sm font-medium text-[var(--text)]">Skills</h2>
         <textarea
           placeholder="List your skills (e.g., JavaScript, React, Project Management, Communication)"
           value={data.skills}

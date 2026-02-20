@@ -1,0 +1,134 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/ui/Navbar.astro';
+import Footer from '../components/ui/Footer.astro';
+
+const title = 'Accessibility Statement - New Life Solutions';
+const description = 'New Life Solutions is committed to WCAG 2.1 AA accessibility. Learn about our testing methodology, supported browsers, and how to report issues.';
+---
+
+<Layout title={title} description={description}>
+  <Navbar />
+
+  <main class="min-h-screen pt-24 pb-16">
+    <div class="max-w-3xl mx-auto px-4">
+
+      <header class="text-center mb-12">
+        <div class="inline-block px-4 py-1 mb-6 text-xs uppercase tracking-widest border border-[var(--border)] rounded-full text-[var(--text-muted)]">
+          Accessibility
+        </div>
+        <h1 class="text-4xl md:text-5xl font-light mb-4">
+          Accessibility Statement
+        </h1>
+        <p class="text-[var(--text-muted)] max-w-xl mx-auto">
+          We believe tools should be usable by everyone, regardless of ability.
+        </p>
+      </header>
+
+      <div class="space-y-10 text-sm leading-relaxed text-[var(--text-dim)]">
+
+        <section>
+          <h2 class="text-lg font-semibold text-[var(--text)] mb-4">Our Commitment</h2>
+          <p>
+            New Life Solutions is committed to ensuring digital accessibility for people with disabilities.
+            We continually improve the user experience for everyone and apply the relevant accessibility standards.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-lg font-semibold text-[var(--text)] mb-4">Conformance Status</h2>
+          <p class="mb-3">
+            We aim to conform to the <strong class="text-[var(--text)]">Web Content Accessibility Guidelines (WCAG) 2.1 Level AA</strong>.
+            These guidelines explain how to make web content more accessible to people with a wide array of disabilities.
+          </p>
+          <p>
+            All 40+ tool pages are tested against WCAG 2.1 AA criteria using automated scanning and manual review.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-lg font-semibold text-[var(--text)] mb-4">Testing Methodology</h2>
+          <ul class="space-y-2 list-disc list-inside">
+            <li><strong class="text-[var(--text)]">Automated testing:</strong> axe-core accessibility engine integrated into our Playwright test suite</li>
+            <li><strong class="text-[var(--text)]">Cross-browser testing:</strong> Chromium, Firefox, WebKit, Mobile Chrome, and Mobile Safari</li>
+            <li><strong class="text-[var(--text)]">Continuous integration:</strong> Accessibility tests run on every code change before deployment</li>
+            <li><strong class="text-[var(--text)]">Color contrast:</strong> All text meets 4.5:1 ratio (normal) or 3:1 ratio (large text) in both dark and light themes</li>
+            <li><strong class="text-[var(--text)]">Keyboard navigation:</strong> All interactive elements are reachable and operable via keyboard</li>
+            <li><strong class="text-[var(--text)]">Screen readers:</strong> Semantic HTML, ARIA labels, and live regions for dynamic content</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2 class="text-lg font-semibold text-[var(--text)] mb-4">Supported Browsers</h2>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <div class="glass-card p-4 text-center">
+              <div class="text-[var(--text)] font-medium">Chrome</div>
+              <div class="text-[0.625rem] text-[var(--text-muted)] mt-1">Latest</div>
+            </div>
+            <div class="glass-card p-4 text-center">
+              <div class="text-[var(--text)] font-medium">Firefox</div>
+              <div class="text-[0.625rem] text-[var(--text-muted)] mt-1">Latest</div>
+            </div>
+            <div class="glass-card p-4 text-center">
+              <div class="text-[var(--text)] font-medium">Safari</div>
+              <div class="text-[0.625rem] text-[var(--text-muted)] mt-1">Latest</div>
+            </div>
+            <div class="glass-card p-4 text-center">
+              <div class="text-[var(--text)] font-medium">Edge</div>
+              <div class="text-[0.625rem] text-[var(--text-muted)] mt-1">Latest</div>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h2 class="text-lg font-semibold text-[var(--text)] mb-4">Known Limitations</h2>
+          <p class="mb-3">
+            While we strive for full accessibility, some limitations may exist:
+          </p>
+          <ul class="space-y-2 list-disc list-inside">
+            <li>Some third-party libraries (FFmpeg, Tesseract) may produce status messages not fully announced by screen readers</li>
+            <li>Drag-and-drop file upload areas have keyboard alternatives but may not be equally intuitive</li>
+            <li>Very large file processing may cause temporary UI unresponsiveness on low-powered devices</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2 class="text-lg font-semibold text-[var(--text)] mb-4">Feedback</h2>
+          <p class="mb-3">
+            We welcome your feedback on the accessibility of New Life Solutions. If you encounter barriers, please contact us:
+          </p>
+          <div class="glass-card p-6">
+            <p><strong class="text-[var(--text)]">Email:</strong> <a href="mailto:accessibility@newlifesolutions.dev" class="text-indigo-400 underline hover:text-indigo-300">accessibility@newlifesolutions.dev</a></p>
+            <p class="mt-2 text-[0.625rem] text-[var(--text-muted)] uppercase tracking-[0.15em]">We aim to respond within 5 business days</p>
+          </div>
+        </section>
+
+        <section>
+          <h2 class="text-lg font-semibold text-[var(--text)] mb-4">Technical Specifications</h2>
+          <p>
+            The accessibility of this site relies on the following technologies:
+            HTML, CSS, JavaScript, WAI-ARIA, and SVG. These technologies are relied upon for conformance with WCAG 2.1.
+          </p>
+        </section>
+
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+</Layout>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "Accessibility Statement",
+  "description": "WCAG 2.1 AA accessibility conformance statement for New Life Solutions",
+  "url": "https://www.newlifesolutions.dev/accessibility",
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "New Life Solutions",
+    "url": "https://www.newlifesolutions.dev"
+  }
+}
+</script>

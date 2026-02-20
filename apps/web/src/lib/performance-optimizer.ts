@@ -5,6 +5,8 @@
  * to improve indexation speed and extraction efficiency
  */
 
+import { AITrafficDetector, type PersonalizationContext } from './ai-detection';
+
 interface PerformanceMetrics {
   pageLoadTime: number;
   renderTime: number;
@@ -28,14 +30,6 @@ interface OptimizationConfig {
 class PerformanceOptimizer {
   private metrics: Partial<PerformanceMetrics> = {};
   private optimizationsApplied: string[] = [];
-  private readonly AI_BOT_PRIORITIES = {
-    'Claude': 1,
-    'GPT-4': 2,
-    'Gemini': 3,
-    'Perplexity': 4,
-    'Copilot': 5,
-    'Bard': 6
-  };
 
   /**
    * Initialize performance optimization for AI crawlers
@@ -59,33 +53,16 @@ class PerformanceOptimizer {
   }
 
   /**
-   * Detect AI crawler from various signals
+   * Detect AI crawler - delegates to AITrafficDetector for centralized detection
    */
   private detectAICrawler(): string | null {
-    const signals = [
-      navigator.userAgent,
-      document.referrer,
-      (window as any).navigator?.userAgentData?.platform,
-      new URLSearchParams(window.location.search).get('ai_crawler')
-    ];
+    // Use centralized detection from ai-detection.ts
+    const detector = new AITrafficDetector();
+    const context: PersonalizationContext = detector.detectAITraffic();
 
-    const aiPatterns = {
-      'Claude': /anthropic|claude/i,
-      'GPT-4': /openai|gpt-4|chatgpt/i,
-      'Gemini': /google.*ai|gemini/i,
-      'Perplexity': /perplexity/i,
-      'Copilot': /bingbot|microsoft.*bot/i
-    };
-
-    for (const signal of signals) {
-      if (!signal) continue;
-
-      for (const [platform, pattern] of Object.entries(aiPatterns)) {
-        if (pattern.test(signal)) {
-          document.documentElement.classList.add(`ai-crawler-${platform.toLowerCase()}`);
-          return platform;
-        }
-      }
+    if (context.isAI && context.platform !== 'Unknown') {
+      document.documentElement.classList.add(`ai-crawler-${context.platform.toLowerCase()}`);
+      return context.platform;
     }
 
     return null;

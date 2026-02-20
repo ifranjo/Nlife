@@ -568,9 +568,9 @@ export default function ObjectRemover() {
           />
 
           <div className="text-5xl mb-4">&#x1F3AF;</div>
-          <h3 className="text-xl font-semibold text-white mb-2">
+          <h2 className="text-xl font-semibold text-white mb-2">
             Drop an image here or click to browse
-          </h3>
+          </h2>
           <p className="text-[var(--text-muted)] text-sm">
             Supports PNG, JPEG, WebP. Click on objects to remove them.
           </p>

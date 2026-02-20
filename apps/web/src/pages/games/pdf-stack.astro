@@ -9,9 +9,13 @@ import Layout from '../../layouts/Layout.astro';
 import Navbar from '../../components/ui/Navbar.astro';
 import Footer from '../../components/ui/Footer.astro';
 import PdfStackGame from '../../components/games/PdfStackGame';
+import { getGameById } from '../../lib/games';
 
-const title = 'PDF Stack - Free Browser Game | New Life Solutions';
-const description = 'Stack PDFs as high as you can in this addictive browser game. Daily challenges with shareable results. 100% free, no download required.';
+const game = getGameById('pdf-stack');
+if (!game) throw new Error('Game not found: pdf-stack');
+
+const title = game.seo?.title || `${game.name} | New Life Games`;
+const description = game.seo?.metaDescription || game.description;
 
 // Get current date for daily challenge display
 const today = new Date();
@@ -28,9 +32,9 @@ const dateString = today.toLocaleDateString('en-US', {
   <script type="application/ld+json" slot="head" set:html={JSON.stringify({
     "@context": "https://schema.org",
     "@type": "VideoGame",
-    "name": "PDF Stack",
+    "name": game.name,
     "description": description,
-    "url": "https://www.newlifesolutions.dev/games/pdf-stack",
+    "url": `https://www.newlifesolutions.dev${game.href}`,
     "genre": ["Casual", "Puzzle", "Arcade"],
     "gamePlatform": ["Web Browser"],
     "operatingSystem": "Any",
@@ -55,13 +59,13 @@ const dateString = today.toLocaleDateString('en-US', {
       <!-- Header -->
       <header class="text-center mb-8">
         <div class="inline-flex items-center gap-2 mb-4">
-          <span class="text-3xl">📄</span>
+          <span class="text-3xl">{game.emoji}</span>
           <h1 class="text-2xl sm:text-3xl font-bold tracking-wider text-[var(--text)]">
-            PDF STACK
+            {(game.seo?.h1 || game.name).toUpperCase()}
           </h1>
         </div>
         <p class="text-[var(--text-muted)] text-sm max-w-md mx-auto">
-          Stack PDFs as high as possible without toppling. A new challenge every day.
+          {game.description}
         </p>
 
         <!-- Daily Challenge Badge -->
@@ -74,44 +78,37 @@ const dateString = today.toLocaleDateString('en-US', {
       </header>
 
       <!-- Game Component -->
-      <section class="game-container mb-8" aria-label="PDF Stack Game">
+      <section class="game-container mb-8" aria-label={`${game.name} Game`}>
         <PdfStackGame client:load />
       </section>
 
       <!-- How to Play -->
-      <section class="glass-card p-6 rounded-lg mb-8" aria-labelledby="how-to-play">
-        <h2 id="how-to-play" class="text-lg font-bold text-[var(--text)] mb-4 tracking-wider">
-          HOW TO PLAY
-        </h2>
-        <ol class="space-y-3 text-sm text-[var(--text-dim)]">
-          <li class="flex items-start gap-3">
-            <span class="flex-shrink-0 w-6 h-6 flex items-center justify-center bg-[var(--bg-hover)] rounded text-xs text-[var(--text)]">1</span>
-            <span>Watch the PDF document move back and forth across the screen</span>
-          </li>
-          <li class="flex items-start gap-3">
-            <span class="flex-shrink-0 w-6 h-6 flex items-center justify-center bg-[var(--bg-hover)] rounded text-xs text-[var(--text)]">2</span>
-            <span>Tap the screen or press <kbd class="px-1.5 py-0.5 bg-[var(--bg-secondary)] border border-[var(--border)] rounded text-xs">SPACE</kbd> to drop it</span>
-          </li>
-          <li class="flex items-start gap-3">
-            <span class="flex-shrink-0 w-6 h-6 flex items-center justify-center bg-[var(--bg-hover)] rounded text-xs text-[var(--text)]">3</span>
-            <span>Stack PDFs on top of each other - center them for bonus points!</span>
-          </li>
-          <li class="flex items-start gap-3">
-            <span class="flex-shrink-0 w-6 h-6 flex items-center justify-center bg-[var(--bg-hover)] rounded text-xs text-[var(--text)]">4</span>
-            <span>Miss the stack and the game is over. Share your score to challenge friends!</span>
-          </li>
-        </ol>
+      {game.howToPlay && (
+        <section class="glass-card p-6 rounded-lg mb-8" aria-labelledby="how-to-play">
+          <h2 id="how-to-play" class="text-lg font-bold text-[var(--text)] mb-4 tracking-wider">
+            HOW TO PLAY
+          </h2>
+          <div class="grid gap-6 sm:grid-cols-2">
+            {game.howToPlay.map(card => (
+              <div class="glass-card p-6 rounded-lg">
+                <div class="text-2xl mb-3">{card.emoji}</div>
+                <h3 class="font-bold mb-2 text-[var(--text)]">{card.title}</h3>
+                <p class="text-sm text-[var(--text-dim)]">{card.description}</p>
+              </div>
+            ))}
+          </div>
 
-        <!-- Tips -->
-        <div class="mt-6 pt-4 border-t border-[var(--border)]">
-          <h3 class="text-xs uppercase tracking-wider text-[var(--text-muted)] mb-2">Pro Tips</h3>
-          <ul class="text-xs text-[var(--text-dim)] space-y-1">
-            <li>- Perfect drops (centered) give <span class="text-[var(--success)]">2x points</span></li>
-            <li>- Speed increases as you stack higher</li>
-            <li>- Same challenge worldwide each day - compare with friends!</li>
-          </ul>
-        </div>
-      </section>
+          <!-- Tips -->
+          <div class="mt-6 pt-4 border-t border-[var(--border)]">
+            <h3 class="text-xs uppercase tracking-wider text-[var(--text-muted)] mb-2">Pro Tips</h3>
+            <ul class="text-xs text-[var(--text-dim)] space-y-1">
+              <li>- Perfect drops (centered) give <span class="text-[var(--success)]">2x points</span></li>
+              <li>- Speed increases as you stack higher</li>
+              <li>- Same challenge worldwide each day - compare with friends!</li>
+            </ul>
+          </div>
+        </section>
+      )}
 
       <!-- Leaderboard Teaser -->
       <section class="text-center py-6 border-t border-[var(--border)]">
@@ -150,7 +147,6 @@ const dateString = today.toLocaleDateString('en-US', {
 
 <style>
   .game-container {
-    /* Ensure game is centered and properly contained */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -160,7 +156,6 @@ const dateString = today.toLocaleDateString('en-US', {
     font-family: var(--font-mono);
   }
 
-  /* Pulse animation for daily challenge indicator */
   @keyframes pulse-glow {
     0%, 100% {
       box-shadow: 0 0 5px rgba(0, 255, 0, 0.3);

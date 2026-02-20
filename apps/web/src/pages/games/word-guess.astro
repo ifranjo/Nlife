@@ -10,10 +10,14 @@ import Navbar from '../../components/ui/Navbar.astro';
 import Footer from '../../components/ui/Footer.astro';
 import WordGuessGame from '../../components/games/WordGuessGame';
 import { getGameNumber } from '../../lib/wordlist';
+import { getGameById } from '../../lib/games';
+
+const game = getGameById('word-guess');
+if (!game) throw new Error('Game not found: word-guess');
 
 const gameNumber = getGameNumber();
-const title = 'Word Guess - Daily Word Game | New Life Solutions';
-const description = 'Guess the hidden 5-letter word in 6 tries. New puzzle every day! Free word game with streak tracking and shareable results.';
+const title = game.seo?.title || `${game.name} | New Life Games`;
+const description = game.seo?.metaDescription || game.description;
 
 // Get current date for daily challenge display
 const today = new Date();
@@ -30,9 +34,9 @@ const dateString = today.toLocaleDateString('en-US', {
   <script type="application/ld+json" slot="head" set:html={JSON.stringify({
     "@context": "https://schema.org",
     "@type": "VideoGame",
-    "name": "Word Guess",
+    "name": game.name,
     "description": description,
-    "url": "https://www.newlifesolutions.dev/games/word-guess",
+    "url": `https://www.newlifesolutions.dev${game.href}`,
     "genre": ["Word Game", "Puzzle", "Daily Challenge"],
     "gamePlatform": ["Web Browser"],
     "operatingSystem": "Any",
@@ -58,7 +62,7 @@ const dateString = today.toLocaleDateString('en-US', {
   <script type="application/ld+json" slot="head" set:html={JSON.stringify({
     "@context": "https://schema.org",
     "@type": "HowTo",
-    "name": "How to Play Word Guess",
+    "name": `How to Play ${game.name}`,
     "description": "Learn how to play the daily word guessing game",
     "step": [
       {
@@ -97,13 +101,13 @@ const dateString = today.toLocaleDateString('en-US', {
       <!-- Header -->
       <header class="text-center mb-6">
         <div class="inline-flex items-center gap-2 mb-3">
-          <span class="text-2xl">W</span>
+          <span class="text-2xl">{game.emoji}</span>
           <h1 class="text-xl sm:text-2xl font-bold tracking-[0.2em] text-[var(--text)] uppercase">
-            Word Guess
+            {game.seo?.h1 || game.name}
           </h1>
         </div>
         <p class="text-[var(--text-muted)] text-sm max-w-md mx-auto">
-          Guess the hidden word in 6 tries. A new puzzle every day.
+          {game.description}
         </p>
 
         <!-- Daily Challenge Badge -->
@@ -116,53 +120,46 @@ const dateString = today.toLocaleDateString('en-US', {
       </header>
 
       <!-- Game Component -->
-      <section class="game-container mb-8" aria-label="Word Guess Game">
+      <section class="game-container mb-8" aria-label={`${game.name} Game`}>
         <WordGuessGame client:load />
       </section>
 
       <!-- How to Play -->
-      <section class="glass-card p-6 rounded-lg mb-8" aria-labelledby="how-to-play">
-        <h2 id="how-to-play" class="text-lg font-bold text-[var(--text)] mb-4 tracking-wider uppercase">
-          How to Play
-        </h2>
-        <ol class="space-y-3 text-sm text-[var(--text-dim)]">
-          <li class="flex items-start gap-3">
-            <span class="flex-shrink-0 w-6 h-6 flex items-center justify-center bg-[var(--bg-hover)] rounded text-xs text-[var(--text)]">1</span>
-            <span>Type a 5-letter word and press <kbd class="px-1.5 py-0.5 bg-[var(--bg-secondary)] border border-[var(--border)] rounded text-xs font-mono">ENTER</kbd></span>
-          </li>
-          <li class="flex items-start gap-3">
-            <span class="flex-shrink-0 w-6 h-6 flex items-center justify-center bg-[var(--bg-hover)] rounded text-xs text-[var(--text)]">2</span>
-            <span>Each guess reveals clues about the hidden word</span>
-          </li>
-          <li class="flex items-start gap-3">
-            <span class="flex-shrink-0 w-6 h-6 flex items-center justify-center bg-[var(--bg-hover)] rounded text-xs text-[var(--text)]">3</span>
-            <span>Use the feedback to narrow down possibilities</span>
-          </li>
-          <li class="flex items-start gap-3">
-            <span class="flex-shrink-0 w-6 h-6 flex items-center justify-center bg-[var(--bg-hover)] rounded text-xs text-[var(--text)]">4</span>
-            <span>You have 6 attempts to guess the word correctly</span>
-          </li>
-        </ol>
+      {game.howToPlay && (
+        <section class="glass-card p-6 rounded-lg mb-8" aria-labelledby="how-to-play">
+          <h2 id="how-to-play" class="text-lg font-bold text-[var(--text)] mb-4 tracking-wider uppercase">
+            How to Play
+          </h2>
+          <div class="grid gap-6 sm:grid-cols-2">
+            {game.howToPlay.map(card => (
+              <div class="glass-card p-6 rounded-lg">
+                <div class="text-2xl mb-3">{card.emoji}</div>
+                <h3 class="font-bold mb-2 text-[var(--text)]">{card.title}</h3>
+                <p class="text-sm text-[var(--text-dim)]">{card.description}</p>
+              </div>
+            ))}
+          </div>
 
-        <!-- Color Legend -->
-        <div class="mt-6 pt-4 border-t border-[var(--border)]">
-          <h3 class="text-xs uppercase tracking-wider text-[var(--text-muted)] mb-3">Color Guide</h3>
-          <div class="space-y-2 text-sm">
-            <div class="flex items-center gap-3">
-              <span class="w-8 h-8 bg-[#538d4e] rounded flex items-center justify-center text-white font-bold">A</span>
-              <span class="text-[var(--text-dim)]">Letter is in the correct spot</span>
-            </div>
-            <div class="flex items-center gap-3">
-              <span class="w-8 h-8 bg-[#b59f3b] rounded flex items-center justify-center text-white font-bold">B</span>
-              <span class="text-[var(--text-dim)]">Letter is in the word but wrong spot</span>
-            </div>
-            <div class="flex items-center gap-3">
-              <span class="w-8 h-8 bg-[#3a3a3c] rounded flex items-center justify-center text-white font-bold">C</span>
-              <span class="text-[var(--text-dim)]">Letter is not in the word</span>
+          <!-- Color Legend -->
+          <div class="mt-6 pt-4 border-t border-[var(--border)]">
+            <h3 class="text-xs uppercase tracking-wider text-[var(--text-muted)] mb-3">Color Guide</h3>
+            <div class="space-y-2 text-sm">
+              <div class="flex items-center gap-3">
+                <span class="w-8 h-8 bg-[#538d4e] rounded flex items-center justify-center text-white font-bold">A</span>
+                <span class="text-[var(--text-dim)]">Letter is in the correct spot</span>
+              </div>
+              <div class="flex items-center gap-3">
+                <span class="w-8 h-8 bg-[#b59f3b] rounded flex items-center justify-center text-white font-bold">B</span>
+                <span class="text-[var(--text-dim)]">Letter is in the word but wrong spot</span>
+              </div>
+              <div class="flex items-center gap-3">
+                <span class="w-8 h-8 bg-[#3a3a3c] rounded flex items-center justify-center text-white font-bold">C</span>
+                <span class="text-[var(--text-dim)]">Letter is not in the word</span>
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       <!-- Tips Section -->
       <section class="glass-card p-6 rounded-lg mb-8" aria-labelledby="tips">
@@ -251,7 +248,6 @@ const dateString = today.toLocaleDateString('en-US', {
     display: none;
   }
 
-  /* Pulse animation for daily challenge indicator */
   @keyframes pulse-glow {
     0%, 100% {
       box-shadow: 0 0 5px rgba(0, 255, 0, 0.3);

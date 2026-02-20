@@ -469,9 +469,9 @@ export default function DocumentScanner() {
       {!isCameraActive ? (
         <div className="glass-card p-12 text-center">
           <div className="text-6xl mb-6">📷</div>
-          <h3 className="text-2xl font-semibold text-white mb-3">
+          <h2 className="text-2xl font-semibold text-white mb-3">
             Ready to Scan Documents
-          </h3>
+          </h2>
           <p className="text-[var(--text-muted)] mb-6">
             Use your device camera to scan documents with automatic edge detection
           </p>

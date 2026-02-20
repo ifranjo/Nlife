@@ -1033,9 +1033,9 @@ export default function BackgroundRemover() {
         />
 
         <div className="text-5xl mb-4">✂️</div>
-        <h3 className="text-xl font-semibold text-white mb-2">
+        <h2 className="text-xl font-semibold text-white mb-2">
           Drop images here or click to browse
-        </h3>
+        </h2>
         <p className="text-[var(--text-muted)] text-sm">
           Supports PNG, JPEG, WebP. AI processing runs in your browser.
         </p>
@@ -1370,7 +1370,7 @@ export default function BackgroundRemover() {
             {/* Header with toggle and close */}
             <div className="flex items-center justify-between p-4 border-b border-slate-700">
               <div className="flex items-center gap-4">
-                <h3 className="text-white font-medium">{previewImage.originalName}</h3>
+                <h2 className="text-white font-medium">{previewImage.originalName}</h2>
                 {previewImage.processedUrl && (
                   <div className="flex items-center gap-1 bg-slate-800 rounded-lg p-1">
                     <button

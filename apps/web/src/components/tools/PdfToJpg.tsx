@@ -61,7 +61,11 @@ export default function PdfToJpg() {
       pdfjs.GlobalWorkerOptions.workerSrc = '/pdf.worker.min.mjs';
 
       const arrayBuffer = await selectedFile.arrayBuffer();
-      const pdf = await pdfjs.getDocument({ data: arrayBuffer }).promise;
+      const pdf = await pdfjs.getDocument({
+        data: arrayBuffer,
+        // Reliability fallback: run without worker if worker loading is blocked.
+        disableWorker: true,
+      }).promise;
       const pageCount = pdf.numPages;
 
       setProgress(`Generating previews (0/${pageCount})...`);
@@ -158,7 +162,11 @@ export default function PdfToJpg() {
       pdfjs.GlobalWorkerOptions.workerSrc = '/pdf.worker.min.mjs';
 
       const arrayBuffer = await file.arrayBuffer();
-      const pdf = await pdfjs.getDocument({ data: arrayBuffer }).promise;
+      const pdf = await pdfjs.getDocument({
+        data: arrayBuffer,
+        // Reliability fallback: run without worker if worker loading is blocked.
+        disableWorker: true,
+      }).promise;
 
       const selectedPages = pages.filter(p => p.selected);
       const { scale, quality: imageQuality } = QUALITY_MAP[quality];
@@ -269,9 +277,9 @@ export default function PdfToJpg() {
           />
 
           <div className="text-5xl mb-4">📄 → 🖼️</div>
-          <h3 className="text-xl font-semibold text-white mb-2">
+          <h2 className="text-xl font-semibold text-white mb-2">
             Drop a PDF here or click to browse
-          </h3>
+          </h2>
           <p className="text-[var(--text-muted)] text-sm">
             Convert PDF pages to JPG or PNG images
           </p>

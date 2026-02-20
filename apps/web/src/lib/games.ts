@@ -8,6 +8,12 @@ export interface Game {
   href: string;
   isNew?: boolean;
   releaseDate?: string;
+  emoji?: string;
+  howToPlay?: Array<{
+    emoji: string;
+    title: string;
+    description: string;
+  }>;
   stats?: Array<{
     label: string;
     value: string;
@@ -38,6 +44,13 @@ export const games: Game[] = [
     href: '/games/pdf-stack',
     isNew: true,
     releaseDate: '2025-01-01',
+    emoji: '📄',
+    howToPlay: [
+      { emoji: '👀', title: 'Watch', description: 'Watch the PDF document move back and forth across the screen.' },
+      { emoji: '👆', title: 'Drop', description: 'Tap the screen or press SPACE to drop it onto the stack.' },
+      { emoji: '📚', title: 'Stack', description: 'Stack PDFs on top of each other — center them for bonus points!' },
+      { emoji: '🏆', title: 'Challenge', description: 'Miss the stack and the game is over. Share your score to challenge friends!' }
+    ],
     stats: [
       { label: 'Difficulty', value: 'Easy to Hard' },
       { label: 'Levels', value: '10+ challenges' },
@@ -64,6 +77,13 @@ export const games: Game[] = [
     href: '/games/word-guess',
     isNew: true,
     releaseDate: '2026-01-01',
+    emoji: '📝',
+    howToPlay: [
+      { emoji: '📝', title: 'Guess', description: 'Type a 5-letter word and press ENTER to submit your guess.' },
+      { emoji: '🟩', title: 'Clues', description: 'Each guess reveals color-coded clues about the hidden word.' },
+      { emoji: '🧠', title: 'Narrow Down', description: 'Use the feedback to eliminate possibilities and narrow your guesses.' },
+      { emoji: '🎯', title: '6 Attempts', description: 'You have 6 attempts to guess the word correctly.' }
+    ],
     stats: [
       { label: 'Type', value: 'Daily challenge' },
       { label: 'Difficulty', value: 'Medium' },
@@ -90,6 +110,13 @@ export const games: Game[] = [
     href: '/games/color-match',
     isNew: true,
     releaseDate: '2026-01-01',
+    emoji: '🎮',
+    howToPlay: [
+      { emoji: '👀', title: 'Watch', description: 'Pay attention as the colors light up in sequence. Each round adds one more color to remember.' },
+      { emoji: '👆', title: 'Repeat', description: 'Click the colors in the same order. Get it right to advance. One mistake and it\'s game over!' },
+      { emoji: '⚡', title: 'Speed Up', description: 'As you progress, the sequence plays faster. Stay focused and keep your rhythm!' },
+      { emoji: '🔥', title: 'Hard Mode', description: 'Reach level 11 to unlock Hard Mode with 6 colors instead of 4. Can you master it?' }
+    ],
     stats: [
       { label: 'Mode', value: 'Endless + Hard Mode' },
       { label: 'Difficulty', value: 'Progressive (4→6 colors)' },
@@ -116,6 +143,13 @@ export const games: Game[] = [
     href: '/games/poker-roguelike',
     isNew: true,
     releaseDate: '2026-01-01',
+    emoji: '🃏',
+    howToPlay: [
+      { emoji: '🎯', title: 'Goal', description: 'Score enough points to beat each Blind. Defeat all 7 Blinds to win!' },
+      { emoji: '🃏', title: 'Jokers', description: 'Buy Jokers between rounds. They add multipliers and special effects to your hands.' },
+      { emoji: '✋', title: 'Hands', description: 'Select 1-5 cards to play poker hands. Better hands = more chips × multiplier.' },
+      { emoji: '🔄', title: 'Discards', description: 'Use discards to swap bad cards. Plan carefully — they\'re limited!' }
+    ],
     stats: [
       { label: 'Type', value: 'Roguelike Deck-Builder' },
       { label: 'Rounds', value: '7 Blinds' },
@@ -138,6 +172,13 @@ export const games: Game[] = [
     href: '/games/solitaire',
     isNew: true,
     releaseDate: '2026-01-01',
+    emoji: '🃏',
+    howToPlay: [
+      { emoji: '🎯', title: 'Goal', description: 'Move all cards to the four foundation piles, building each from Ace to King by suit.' },
+      { emoji: '📚', title: 'Tableau', description: 'Stack cards in descending order, alternating colors (red on black, black on red).' },
+      { emoji: '👆', title: 'Controls', description: 'Drag cards to move. Double-click to auto-move to foundation. Click stock to draw.' },
+      { emoji: '👑', title: 'Empty Columns', description: 'Only Kings can be placed on empty tableau columns.' }
+    ],
     stats: [
       { label: 'Type', value: 'Classic Klondike' },
       { label: 'Tracking', value: 'Moves & Time' },
@@ -164,6 +205,13 @@ export const games: Game[] = [
     href: '/games/binary-puzzle',
     isNew: true,
     releaseDate: '2026-01-11',
+    emoji: '🔢',
+    howToPlay: [
+      { emoji: '🚫', title: 'No Triples', description: 'No more than two of the same number can be adjacent horizontally or vertically.' },
+      { emoji: '⚖️', title: 'Balance', description: 'Each row and column must have an equal number of 0s and 1s.' },
+      { emoji: '🔄', title: 'Unique Lines', description: 'No two rows and no two columns can be identical.' },
+      { emoji: '▶️', title: 'Easy Controls', description: 'Click a cell and press 0 or 1 to fill. Gray cells are fixed and cannot be changed.' }
+    ],
     stats: [
       { label: 'Difficulty', value: 'Easy/Hard' },
       { label: 'Grid size', value: '6x6 to 10x10' },
@@ -186,6 +234,13 @@ export const games: Game[] = [
     href: '/games/word-search',
     isNew: true,
     releaseDate: '2026-01-11',
+    emoji: '🔍',
+    howToPlay: [
+      { emoji: '👆', title: 'Click & Drag', description: 'Click on a letter and drag to select consecutive letters that form a word.' },
+      { emoji: '➡️', title: 'Any Direction', description: 'Words can be horizontal, vertical, or diagonal — forwards or backwards.' },
+      { emoji: '💻', title: 'Tech Vocabulary', description: 'Find programming terms, developer tools, and technology-related words.' },
+      { emoji: '🏁', title: 'Find All Words', description: 'Race against time to find all hidden words and complete the puzzle.' }
+    ],
     stats: [
       { label: 'Difficulty', value: '3 levels' },
       { label: 'Word types', value: 'Tech vocabulary' },
@@ -212,6 +267,13 @@ export const games: Game[] = [
     href: '/games/fibonacci-2048',
     isNew: true,
     releaseDate: '2026-01-11',
+    emoji: '🔢',
+    howToPlay: [
+      { emoji: '👆', title: 'Swipe or Arrows', description: 'Use arrow keys (or WASD) or swipe on mobile to move all tiles in one direction.' },
+      { emoji: '🔄', title: 'Fibonacci Merge', description: 'Tiles combine when they sum to the next Fibonacci number (1+1=2, 1+2=3, 2+3=5, etc).' },
+      { emoji: '🎯', title: 'Win Condition', description: 'Create a tile with value 144 (F₁₂) to win. The higher you go, the more points you score!' },
+      { emoji: '💾', title: 'Strategy', description: 'Plan your moves carefully! Once the grid fills up with no valid merges, the game ends.' }
+    ],
     stats: [
       { label: 'Goal', value: 'Reach 144' },
       { label: 'Mode', value: 'Single player' },
@@ -225,6 +287,35 @@ export const games: Game[] = [
     }
   },
   {
+    id: 'snake-roguelike',
+    name: 'Snake Roguelike',
+    description: 'Guide your snake through 7 floors, collect relics with game-changing powers, and beat escalating score targets. A roguelike run inspired by Balatro.',
+    thumbnail: '/thumbnails/games/snake-roguelike.svg',
+    category: 'arcade',
+    status: 'live',
+    href: '/games/snake-roguelike',
+    isNew: true,
+    releaseDate: '2026-02-20',
+    emoji: '🐍',
+    howToPlay: [
+      { emoji: '🎯', title: 'Goal', description: 'Reach the score target on each floor before time runs out. Clear all 7 floors to win the run!' },
+      { emoji: '🎮', title: 'Controls', description: 'Arrow keys or WASD to move. Swipe on mobile. Space to activate Shrink Ray (if owned).' },
+      { emoji: '💎', title: 'Relics', description: 'After each floor, pick 1 of 3 relics. They modify gameplay — some are powerful, some are risky.' },
+      { emoji: '❤️', title: 'Lives', description: 'You have 3 lives. Wall or self-collision costs 1 life. Lose all 3 and the run ends.' }
+    ],
+    stats: [
+      { label: 'Type', value: 'Roguelike Run' },
+      { label: 'Floors', value: '7 to conquer' },
+      { label: 'Relics', value: '10 to discover' }
+    ],
+    seo: {
+      title: 'Snake Roguelike - Free Arcade Roguelike | New Life Games',
+      metaDescription: 'Play snake with roguelike progression! Collect relics, beat 7 floors, and survive. Free browser game with 10 unique power-ups.',
+      h1: 'Snake Roguelike - Arcade Roguelike Game',
+      keywords: ['snake game', 'roguelike', 'arcade game', 'browser game', 'snake roguelike', 'free game']
+    }
+  },
+  {
     id: 'typing-speed',
     name: 'Typing Speed',
     description: 'Test and improve your typing speed. Race against the clock and track your WPM improvement over time.',
@@ -234,6 +325,13 @@ export const games: Game[] = [
     href: '/games/typing-speed',
     isNew: true,
     releaseDate: '2026-01-01',
+    emoji: '⌨️',
+    howToPlay: [
+      { emoji: '⏱️', title: 'Choose Mode', description: 'Select your time mode (15s, 30s, 60s) or paste custom text.' },
+      { emoji: '📝', title: 'Type Words', description: 'Type the highlighted words as fast and accurately as possible.' },
+      { emoji: '⎵', title: 'Next Word', description: 'Press SPACE after each word to move to the next one.' },
+      { emoji: '📊', title: 'Results', description: 'View your WPM, accuracy, and share your results!' }
+    ],
     stats: [
       { label: 'Metrics', value: 'WPM, accuracy, errors' },
       { label: 'Modes', value: '15s, 30s, 60s, custom' },

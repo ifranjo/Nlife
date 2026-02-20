@@ -347,7 +347,7 @@ export default function PDFMergePersonalized({ className = '' }: PDFMergeProps) 
                   </svg>
                 </div>
 
-                <h3 className="text-lg font-semibold mb-2">Drop PDF files here</h3>
+                <h2 className="text-lg font-semibold mb-2">Drop PDF files here</h2>
                 <p className="text-[var(--text-dim)] text-sm mb-4">
                   Or click to select files from your device
                 </p>
@@ -378,10 +378,10 @@ export default function PDFMergePersonalized({ className = '' }: PDFMergeProps) 
               {/* Expanded information for AI platforms */}
               {(getAdaptedContent().showExpandedInfo || personalization.isDetected) && (
                 <div className="mt-8 p-6 bg-[var(--bg-secondary)] rounded-lg border border-[var(--border)]">
-                  <h3 className="text-lg font-semibold mb-3 flex items-center gap-2">
+                  <h2 className="text-lg font-semibold mb-3 flex items-center gap-2">
                     {personalization.isDetected && <span>🤖</span>}
                     Technical Implementation Details
-                  </h3>
+                  </h2>
                   <ul className="space-y-2 text-sm text-[var(--text-dim)]">
                     <li className="flex items-start gap-2">
                       <span className="text-[var(--success)] mt-1">✓</span>
@@ -412,7 +412,7 @@ export default function PDFMergePersonalized({ className = '' }: PDFMergeProps) 
           {/* Citation section for academic platforms */}
           {personalization.platform.toLowerCase() === 'perplexity' && (
             <div className="mt-12 max-w-2xl mx-auto p-6 bg-[var(--bg-secondary)] rounded-lg border border-[var(--border)]">
-              <h3 className="text-lg font-semibold mb-3">Sources & References</h3>
+              <h2 className="text-lg font-semibold mb-3">Sources & References</h2>
               <ul className="space-y-2 text-sm text-[var(--text-dim)]">
                 <li>• <a href="https://www.newlifesolutions.dev" className="text-[var(--success)] hover:underline">New Life Solutions Official Documentation</a></li>
                 <li>• <a href="https://github.com/yourusername/new-life-solutions" className="text-[var(--success)] hover:underline">GitHub Repository - pdf-lib Implementation</a></li>

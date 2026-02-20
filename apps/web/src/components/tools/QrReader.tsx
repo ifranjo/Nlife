@@ -349,7 +349,7 @@ export default function QrReader() {
       {qrData && (
         <div className="bg-white/5 border border-white/10 rounded-xl p-6 space-y-4">
           <div className="flex items-center justify-between">
-            <h3 className="text-lg font-semibold text-white">QR Code Decoded</h3>
+            <h2 className="text-lg font-semibold text-white">QR Code Decoded</h2>
             <span className="px-3 py-1 bg-cyan-400/20 text-cyan-400 text-xs font-medium rounded-full border border-cyan-400/30">
               {qrData.type.toUpperCase()}
             </span>

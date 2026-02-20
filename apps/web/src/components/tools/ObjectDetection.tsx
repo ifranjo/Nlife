@@ -307,9 +307,9 @@ export default function ObjectDetection() {
           {/* Results List */}
           {detections.length > 0 && (
             <div className="bg-white/5 border border-white/10 rounded-xl p-6">
-              <h3 className="text-white font-semibold mb-4">
+              <h2 className="text-white font-semibold mb-4">
                 Detected Objects ({detections.length})
-              </h3>
+              </h2>
               <div className="space-y-2 max-h-64 overflow-y-auto">
                 {detections.map((det, idx) => (
                   <div

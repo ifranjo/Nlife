@@ -17,10 +17,18 @@ export async function waitForReactHydration(
   selector: string = 'input[type="file"]',
   timeout: number = 10000
 ): Promise<void> {
-  // With client:only, the element doesn't exist initially (no SSR)
-  // With client:load, the element exists but needs hydration
-  // In both cases, we need to wait for the element to be VISIBLE (rendered by React)
-  await page.locator(selector).waitFor({ state: 'visible', timeout });
+  // With client:only, the element doesn't exist initially (no SSR).
+  // With client:load, the element may exist before React event handlers are attached.
+  // Wait for the element to exist, then wait until React hydration markers are present.
+  const element = page.locator(selector).first();
+  await element.waitFor({ state: 'attached', timeout });
+  await page.waitForFunction((sel) => {
+    const node = document.querySelector(sel) as Record<string, unknown> | null;
+    if (!node) return false;
+    return Object.keys(node).some(
+      (key) => key.startsWith('__reactFiber') || key.startsWith('__reactProps')
+    );
+  }, selector, { timeout });
 }
 
 /**

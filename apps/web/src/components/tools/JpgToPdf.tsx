@@ -312,9 +312,9 @@ export default function JpgToPdf() {
         />
 
         <div className="text-4xl mb-3">🖼️ → 📄</div>
-        <h3 className="text-lg font-semibold text-white mb-1">
+        <h2 className="text-lg font-semibold text-white mb-1">
           Drop images here or click to browse
-        </h3>
+        </h2>
         <p className="text-[var(--text-muted)] text-sm">
           Supports JPG, PNG, WebP, GIF • Multiple files allowed
         </p>

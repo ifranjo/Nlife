@@ -461,9 +461,9 @@ export default function PdfMerge() {
         />
 
         <div className="text-5xl mb-4" aria-hidden="true">📄</div>
-        <h3 className="text-xl font-semibold text-white mb-2">
+        <h2 className="text-xl font-semibold text-white mb-2">
           Drop PDFs here or click to browse
-        </h3>
+        </h2>
         <p className="text-[var(--text-muted)] text-sm">
           {batchMode
             ? 'Add PDFs for a merge group, then click "Add to Queue"'

@@ -233,9 +233,9 @@ export default function PdfSplit() {
           />
 
           <div className="text-5xl mb-4">✂️</div>
-          <h3 className="text-xl font-semibold text-white mb-2">
+          <h2 className="text-xl font-semibold text-white mb-2">
             Drop a PDF here or click to browse
-          </h3>
+          </h2>
           <p className="text-[var(--text-muted)] text-sm">
             Upload a PDF to split into multiple files
           </p>

@@ -594,9 +594,9 @@ export default function PdfFormFiller() {
             />
 
             <div className="text-5xl mb-4">✍️</div>
-            <h3 className="text-xl font-semibold text-white mb-2">
+            <h2 className="text-xl font-semibold text-white mb-2">
               Drop PDF here or click to browse
-            </h3>
+            </h2>
             <p className="text-[var(--text-muted)] text-sm">
               Fill forms, add signatures, and annotate PDFs
             </p>
@@ -716,7 +716,7 @@ export default function PdfFormFiller() {
           <div className="grid lg:grid-cols-2 gap-6">
             {/* Left: PDF Preview */}
             <div className="glass-card p-6">
-              <h3 className="text-lg font-semibold text-white mb-4">PDF Preview</h3>
+              <h2 className="text-lg font-semibold text-white mb-4">PDF Preview</h2>
 
               <div
                 className="border border-slate-600 rounded-lg overflow-hidden bg-slate-800 cursor-crosshair"
@@ -756,7 +756,7 @@ export default function PdfFormFiller() {
               {/* Form Fields */}
               {formFields.length > 0 && (
                 <div className="glass-card p-6">
-                  <h3 className="text-lg font-semibold text-white mb-4">Form Fields</h3>
+                  <h2 className="text-lg font-semibold text-white mb-4">Form Fields</h2>
                   <div className="space-y-3 max-h-96 overflow-y-auto">
                     {formFields.map((field, index) => (
                       <div key={index} className="space-y-1">
@@ -794,7 +794,7 @@ export default function PdfFormFiller() {
               {/* Annotations List */}
               {annotations.length > 0 && (
                 <div className="glass-card p-6">
-                  <h3 className="text-lg font-semibold text-white mb-4">Annotations</h3>
+                  <h2 className="text-lg font-semibold text-white mb-4">Annotations</h2>
                   <div className="space-y-2 max-h-48 overflow-y-auto">
                     {annotations.map((ann) => (
                       <div key={ann.id} className="flex items-center justify-between p-2 bg-slate-700/50 rounded">
@@ -818,7 +818,7 @@ export default function PdfFormFiller() {
               {/* Signatures List */}
               {signatures.length > 0 && (
                 <div className="glass-card p-6">
-                  <h3 className="text-lg font-semibold text-white mb-4">Signatures</h3>
+                  <h2 className="text-lg font-semibold text-white mb-4">Signatures</h2>
                   <div className="space-y-2 max-h-48 overflow-y-auto">
                     {signatures.map((sig) => (
                       <div key={sig.id} className="flex items-center justify-between p-2 bg-slate-700/50 rounded">
@@ -897,7 +897,7 @@ export default function PdfFormFiller() {
       {showSignatureModal && (
         <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-6">
           <div className="glass-card max-w-2xl w-full p-6">
-            <h3 className="text-xl font-semibold text-white mb-4">Add Signature</h3>
+            <h2 className="text-xl font-semibold text-white mb-4">Add Signature</h2>
 
             {/* Signature mode tabs */}
             <div className="flex gap-2 mb-4">

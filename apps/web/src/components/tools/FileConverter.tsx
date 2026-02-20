@@ -477,9 +477,9 @@ export default function FileConverter() {
         />
 
         <div className="text-5xl mb-4">🔄</div>
-        <h3 className="text-xl font-semibold text-white mb-2">
+        <h2 className="text-xl font-semibold text-white mb-2">
           Drop images here or click to browse
-        </h3>
+        </h2>
         <p className="text-[var(--text-muted)] text-sm">
           Supports <span className="text-cyan-400 font-medium">HEIC</span> (iPhone), PNG, JPG, WebP, BMP, GIF
         </p>

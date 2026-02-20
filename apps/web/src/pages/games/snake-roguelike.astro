@@ -2,17 +2,17 @@
 import Layout from '../../layouts/Layout.astro';
 import Navbar from '../../components/ui/Navbar.astro';
 import Footer from '../../components/ui/Footer.astro';
-import SolitaireGame from '../../components/games/SolitaireGame';
+import SnakeRoguelikeGame from '../../components/games/SnakeRoguelikeGame';
 import { getGameById } from '../../lib/games';
 
-const game = getGameById('solitaire');
-if (!game) throw new Error('Game not found: solitaire');
+const game = getGameById('snake-roguelike');
+if (!game) throw new Error('Game not found: snake-roguelike');
 
 const title = game.seo?.title || `${game.name} | New Life Games`;
 const description = game.seo?.metaDescription || game.description;
 ---
 
-<Layout title={title} description={description} canonicalUrl="https://www.newlifesolutions.dev/games/solitaire/" theme="default">
+<Layout title={title} description={description} canonicalUrl="https://www.newlifesolutions.dev/games/snake-roguelike/" theme="default">
   <Navbar />
   <main class="pt-16">
     <!-- Hero Section -->
@@ -31,7 +31,7 @@ const description = game.seo?.metaDescription || game.description;
 
     <!-- Game Section -->
     <section class="py-6 px-4">
-      <SolitaireGame client:load />
+      <SnakeRoguelikeGame client:load />
     </section>
 
     <!-- How to Play -->
@@ -62,7 +62,7 @@ const description = game.seo?.metaDescription || game.description;
   "name": game.name,
   "description": description,
   "url": `https://www.newlifesolutions.dev${game.href}`,
-  "genre": "Card Game",
+  "genre": ["Arcade", "Roguelike"],
   "playMode": "SinglePlayer",
   "applicationCategory": "Game",
   "operatingSystem": "Web Browser",

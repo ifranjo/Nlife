@@ -846,9 +846,9 @@ export default function OcrExtractor() {
             />
 
             <div className="text-5xl mb-4">📝</div>
-            <h3 className="text-xl font-semibold text-white mb-2">
+            <h2 className="text-xl font-semibold text-white mb-2">
               Drop images or PDFs here
-            </h3>
+            </h2>
             <p className="text-[var(--text-muted)] text-sm">
               Supports PNG, JPEG, WebP, PDF. Multiple files supported. Max 50MB each.
             </p>

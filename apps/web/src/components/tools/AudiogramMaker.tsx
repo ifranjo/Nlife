@@ -549,7 +549,7 @@ export default function AudiogramMaker() {
         <div className="space-y-6">
           {/* Preview */}
           <div className="bg-[var(--bg-secondary)] rounded-lg p-4">
-            <h3 className="text-sm text-[var(--text-muted)] mb-3">Preview</h3>
+            <h2 className="text-sm text-[var(--text-muted)] mb-3">Preview</h2>
             <div className="flex justify-center bg-black rounded-lg overflow-hidden">
               <canvas
                 ref={previewCanvasRef}
@@ -563,7 +563,7 @@ export default function AudiogramMaker() {
           <div className="grid md:grid-cols-2 gap-6">
             {/* Text & Images */}
             <div className="bg-[var(--bg-secondary)] rounded-lg p-4 space-y-4">
-              <h3 className="text-sm text-[var(--text-muted)]">Content</h3>
+              <h2 className="text-sm text-[var(--text-muted)]">Content</h2>
 
               <div>
                 <label className="text-xs text-[var(--text-muted)] block mb-1">Title (optional)</label>
@@ -600,7 +600,7 @@ export default function AudiogramMaker() {
 
             {/* Visual Settings */}
             <div className="bg-[var(--bg-secondary)] rounded-lg p-4 space-y-4">
-              <h3 className="text-sm text-[var(--text-muted)]">Appearance</h3>
+              <h2 className="text-sm text-[var(--text-muted)]">Appearance</h2>
 
               <div>
                 <label className="text-xs text-[var(--text-muted)] block mb-2">Aspect Ratio</label>
@@ -666,7 +666,7 @@ export default function AudiogramMaker() {
 
           {/* Timing Controls */}
           <div className="bg-[var(--bg-secondary)] rounded-lg p-4 space-y-4">
-            <h3 className="text-sm text-[var(--text-muted)]">Duration</h3>
+            <h2 className="text-sm text-[var(--text-muted)]">Duration</h2>
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="text-xs text-[var(--text-muted)] block mb-1">

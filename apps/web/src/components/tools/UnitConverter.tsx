@@ -554,7 +554,7 @@ export default function UnitConverter() {
 
       {/* Results */}
       <div className="bg-white/5 border border-white/10 rounded-xl p-6">
-        <h3 className="text-sm text-white mb-4">Converted Values</h3>
+        <h2 className="text-sm text-white mb-4">Converted Values</h2>
         {conversions.length === 0 || inputValidationError ? (
           <p className="text-[var(--text-muted)] text-sm text-center py-8">
             {inputValidationError

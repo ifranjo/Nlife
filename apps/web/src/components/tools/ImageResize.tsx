@@ -203,7 +203,7 @@ export default function ImageResize() {
           {/* Dimensions */}
           <div className="bg-white/5 border border-white/10 rounded-xl p-6 space-y-4">
             <div className="flex items-center justify-between">
-              <h3 className="text-white font-medium">Target Dimensions</h3>
+              <h2 className="text-white font-medium">Target Dimensions</h2>
               <button
                 onClick={() => setAspectRatioLocked(!aspectRatioLocked)}
                 className={`p-2 rounded-lg transition-all ${
@@ -253,7 +253,7 @@ export default function ImageResize() {
 
           {/* Presets */}
           <div className="bg-white/5 border border-white/10 rounded-xl p-6">
-            <h3 className="text-white font-medium mb-3">Preset Sizes</h3>
+            <h2 className="text-white font-medium mb-3">Preset Sizes</h2>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
               {PRESET_SIZES.map((preset) => (
                 <button
@@ -344,7 +344,7 @@ export default function ImageResize() {
           {/* Preview */}
           {previewUrl && (
             <div className="bg-white/5 border border-white/10 rounded-xl p-6">
-              <h3 className="text-white font-medium mb-4">Preview</h3>
+              <h2 className="text-white font-medium mb-4">Preview</h2>
               <div className="flex justify-center">
                 <img
                   src={previewUrl}

@@ -197,7 +197,7 @@ export default function QrGenerator() {
       <div className="grid md:grid-cols-2 gap-6">
         {/* Input Panel */}
         <div className="glass-card p-6">
-          <h3 className="text-white font-medium mb-4">Content</h3>
+          <h2 className="text-white font-medium mb-4">Content</h2>
 
           {/* Input Type Selector */}
           <div className="grid grid-cols-4 gap-2 mb-6">
@@ -390,7 +390,7 @@ export default function QrGenerator() {
 
         {/* Preview Panel */}
         <div className="glass-card p-6">
-          <h3 className="text-white font-medium mb-4">Preview</h3>
+          <h2 className="text-white font-medium mb-4">Preview</h2>
 
           {/* QR Code Canvas */}
           <div className="flex items-center justify-center p-4 bg-white rounded-lg mb-6">

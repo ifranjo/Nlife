@@ -213,19 +213,61 @@ class DynamicAdaptationEngine {
 
   /**
    * Emphasize priority keywords for AI platforms that scan for them
+   * Uses TreeWalker to safely iterate text nodes without breaking event listeners
    */
   private emphasizePriorityKeywords(): void {
     if (!this.context) return;
 
     const keywords = this.context.priorityKeywords;
-    const bodyText = document.body.innerHTML;
+    if (keywords.length === 0) return;
 
-    keywords.forEach(keyword => {
-      const regex = new RegExp(`(\\b${keyword}\\b)`, 'gi');
-      document.body.innerHTML = bodyText.replace(regex,
-        '<mark class="ai-keyword" data-keyword="$1">$1</mark>'
-      );
-    });
+    // Use TreeWalker to iterate only text nodes (skip script, style, etc.)
+    const walker = document.createTreeWalker(
+      document.body,
+      NodeFilter.SHOW_TEXT,
+      {
+        acceptNode: (node: Text) => {
+          const parent = node.parentElement;
+          if (!parent) return NodeFilter.FILTER_REJECT;
+          // Skip script, style, and elements with user-generated content
+          const tag = parent.tagName.toLowerCase();
+          if (['script', 'style', 'noscript', 'textarea', 'input'].includes(tag)) {
+            return NodeFilter.FILTER_REJECT;
+          }
+          return NodeFilter.FILTER_ACCEPT;
+        }
+      }
+    );
+
+    const textNodes: Text[] = [];
+    let node: Text | null;
+    while (node = walker.nextNode() as Text) {
+      textNodes.push(node);
+    }
+
+    // Process each text node safely
+    for (const textNode of textNodes) {
+      let content = textNode.textContent || '';
+      let modified = false;
+
+      for (const keyword of keywords) {
+        // Escape regex special characters in keyword
+        const escapedKeyword = keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const regex = new RegExp(`(\\b${escapedKeyword}\\b)`, 'gi');
+
+        if (regex.test(content)) {
+          content = content.replace(regex, '<mark class="ai-keyword" data-keyword="$1">$1</mark>');
+          modified = true;
+        }
+      }
+
+      if (modified) {
+        // Replace text node with HTML span
+        const span = document.createElement('span');
+        span.innerHTML = content;
+        textNode.parentNode?.replaceChild(span, textNode);
+      }
+    }
   }
 
   /**
@@ -349,17 +391,6 @@ export { DynamicAdaptationEngine };
 export { type AdaptationRules };
 export const adaptationEngine = new DynamicAdaptationEngine();
 
-// Auto-initialize when DOM is ready
-if (typeof window !== 'undefined') {
-  const initAdaptations = () => {
-    adaptationEngine.initialize();
-    console.log('AI Personalization Engine Initialized');
-  };
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initAdaptations);
-  } else {
-    initAdaptations();
-  }
-}
+// NOTE: Initialization is controlled by PersonalizationLayer
+// Do NOT auto-initialize here - it causes race conditions with multiple modules
 
