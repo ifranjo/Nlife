@@ -9,28 +9,10 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { fileURLToPath } from 'url';
 import { waitForReactHydration } from './test-utils';
-import type { Page } from '@playwright/test';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const fixturesDir = path.join(__dirname, 'fixtures');
-
-async function disableServiceWorker(page: Page): Promise<void> {
-  await page.addInitScript(() => {
-    const nav = navigator as Navigator & {
-      serviceWorker?: {
-        register?: (...args: unknown[]) => Promise<unknown>;
-        getRegistration?: (...args: unknown[]) => Promise<unknown>;
-        getRegistrations?: (...args: unknown[]) => Promise<unknown[]>;
-      };
-    };
-    if (!nav.serviceWorker) return;
-
-    nav.serviceWorker.register = async () => ({ scope: location.origin });
-    nav.serviceWorker.getRegistration = async () => undefined;
-    nav.serviceWorker.getRegistrations = async () => [];
-  });
-}
 
 // ============================================================================
 // AI SUMMARY - Real text processing
@@ -114,16 +96,11 @@ test.describe('AI Summary - Functional', () => {
 // ============================================================================
 test.describe('PDF Merge - Functional', () => {
   test('uploads PDF and shows in list', async ({ page }) => {
-    await disableServiceWorker(page);
     await page.goto('/tools/pdf-merge');
-
-    const dropZone = page.getByRole('button', { name: /upload pdf files/i });
-    await expect(dropZone).toBeVisible({ timeout: 10000 });
-    const [chooser] = await Promise.all([
-      page.waitForEvent('filechooser'),
-      dropZone.click()
-    ]);
-    await chooser.setFiles(path.join(fixturesDir, 'test-document.pdf'));
+    await waitForReactHydration(page, 'input[type="file"][accept*="pdf"]');
+    const fileInput = page.locator('input[type="file"][accept*="pdf"]').first();
+    await expect(fileInput).toBeAttached({ timeout: 10000 });
+    await fileInput.setInputFiles(path.join(fixturesDir, 'test-document.pdf'));
 
     // Wait for file to appear in list
     await expect(page.locator('body')).toContainText(/test-document|pdf|1 file/i, {
@@ -136,7 +113,6 @@ test.describe('PDF Merge - Functional', () => {
   });
 
   test('merges multiple PDFs and downloads result', async ({ page }) => {
-    await disableServiceWorker(page);
     await page.goto('/tools/pdf-merge');
 
     const dropZone = page.getByRole('button', { name: /upload pdf files/i });
@@ -170,7 +146,6 @@ test.describe('PDF Merge - Functional', () => {
 // ============================================================================
 test.describe('PDF Split - Functional', () => {
   test('splits PDF and downloads ZIP', async ({ page }) => {
-    await disableServiceWorker(page);
     await page.goto('/tools/pdf-split');
 
     await waitForReactHydration(page, 'input[type="file"][accept*="pdf"]');
@@ -205,7 +180,6 @@ test.describe('PDF Split - Functional', () => {
 test.describe('PDF to Word - Functional', () => {
   test('converts PDF and downloads DOCX', async ({ page }) => {
     test.setTimeout(90000);
-    await disableServiceWorker(page);
     await page.goto('/tools/pdf-to-word');
 
     const uploadLabel = page.getByText('Drop PDF file or click to browse').first();
@@ -216,7 +190,7 @@ test.describe('PDF to Word - Functional', () => {
     ]);
     await chooser.setFiles(path.join(fixturesDir, 'plain-text.pdf'));
 
-    await expect(page.locator('body')).toContainText(/test-document\.pdf|KB|MB/i, { timeout: 10000 });
+    await expect(page.locator('body')).toContainText(/plain-text\.pdf|KB|MB/i, { timeout: 10000 });
     const convertBtn = page.getByRole('button', { name: /convert to word/i });
     await expect(convertBtn).toBeVisible({ timeout: 10000 });
 

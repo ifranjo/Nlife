@@ -24,6 +24,7 @@ interface AdaptationRules {
     cacheResponses: boolean; // Cache API responses for faster access
     enablePrefetching: boolean; // Prefetch related content
   };
+  customModifications?: Record<string, unknown>; // For A/B test variants
 }
 
 class DynamicAdaptationEngine {

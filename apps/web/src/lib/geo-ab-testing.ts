@@ -195,7 +195,9 @@ class GEOABTestingFramework {
           rules: {
             contentFormat: {
               expandTLDR: true,
-              emphasizeKeywords: false
+              emphasizeKeywords: false,
+              structureData: true,
+              addCitations: false
             }
           }
         });
@@ -217,6 +219,9 @@ class GEOABTestingFramework {
           weight: 0.33,
           rules: {
             contentFormat: {
+              expandTLDR: false,
+              emphasizeKeywords: false,
+              structureData: true,
               addCitations: true
             }
           }
@@ -229,6 +234,9 @@ class GEOABTestingFramework {
           weight: 0.34,
           rules: {
             contentFormat: {
+              expandTLDR: false,
+              emphasizeKeywords: false,
+              structureData: true,
               addCitations: true
             },
             customModifications: {
@@ -254,7 +262,10 @@ class GEOABTestingFramework {
           weight: 0.25,
           rules: {
             contentFormat: {
-              emphasizeKeywords: true
+              expandTLDR: false,
+              emphasizeKeywords: true,
+              structureData: true,
+              addCitations: true
             }
           }
         });
@@ -266,7 +277,10 @@ class GEOABTestingFramework {
           weight: 0.25,
           rules: {
             contentFormat: {
-              emphasizeKeywords: true
+              expandTLDR: false,
+              emphasizeKeywords: true,
+              structureData: true,
+              addCitations: true
             }
           }
         });
@@ -278,7 +292,10 @@ class GEOABTestingFramework {
           weight: 0.25,
           rules: {
             contentFormat: {
-              emphasizeKeywords: true
+              expandTLDR: false,
+              emphasizeKeywords: true,
+              structureData: true,
+              addCitations: true
             },
             customModifications: {
               useDataAttributes: true
@@ -303,7 +320,10 @@ class GEOABTestingFramework {
           weight: 0.5,
           rules: {
             contentFormat: {
-              expandTLDR: false
+              expandTLDR: false,
+              emphasizeKeywords: false,
+              structureData: false,
+              addCitations: false
             }
           }
         });
@@ -416,7 +436,8 @@ class GEOABTestingFramework {
         testId,
         period: { start: Date.now(), end: Date.now() },
         totalSessions: 0,
-        variants: {}
+        variants: {},
+        statisticalSignificance: {}
       });
     }
 
