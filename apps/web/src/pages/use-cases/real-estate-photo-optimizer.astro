@@ -1,0 +1,228 @@
+---
+/**
+ * Programmatic SEO: Real Estate Photo Optimization
+ * Target: "real estate photo compression", "MLS photo requirements", "remove GPS from listing photos"
+ */
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/ui/Navbar.astro';
+import Footer from '../../components/ui/Footer.astro';
+
+const howToSchema = {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "How to Optimize Real Estate Listing Photos",
+  "description": "Learn how real estate agents compress photos for MLS, create white backgrounds, and remove GPS location data before sharing property listings online.",
+  "step": [
+    { "@type": "HowToStep", "text": "Compress high-resolution property photos to meet MLS upload limits" },
+    { "@type": "HowToStep", "text": "Remove backgrounds to create clean white backgrounds for professional listings" },
+    { "@type": "HowToStep", "text": "Strip GPS coordinates and metadata to protect property and client privacy" },
+    { "@type": "HowToStep", "text": "Download optimized photos ready for MLS, Zillow, and marketing materials" }
+  ]
+};
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What are MLS photo size requirements?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Most MLS systems limit photos to 1-5MB per image with maximum dimensions around 2048x2048 pixels. Our image compressor reduces file sizes by 60-90% while maintaining quality, ensuring your listing photos meet upload limits without sacrificing visual appeal."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why should I remove GPS from listing photos?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Listing photos contain exact GPS coordinates that reveal property locations before they're officially listed. Removing GPS protects seller privacy, prevents premature location disclosure, and ensures you control when and where property information is shared."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I create white backgrounds for MLS photos?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Use the background remover to extract property images and place them on clean white backgrounds. This creates professional, MLS-compliant photos that highlight the property while meeting platform requirements."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I batch process multiple listing photos?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Upload up to 20 photos at once for batch compression. Download all processed images as a single ZIP file, ready to upload to your MLS system or listing platform."
+      }
+    }
+  ]
+};
+---
+
+<Layout
+  title="Real Estate Photo Optimization - Compress, White Background, Remove GPS | New Life"
+  description="Free browser-based tools for real estate agents. Compress listing photos for MLS, create white backgrounds, remove GPS metadata. 100% private - files never leave your device."
+>
+  <script type="application/ld+json" set:html={JSON.stringify(howToSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  <Navbar />
+
+  <main class="pt-20 pb-16 px-6 min-h-screen">
+    <article class="max-w-3xl mx-auto">
+      <nav class="text-sm text-[var(--text-muted)] mb-6">
+        <a href="/" class="hover:text-[var(--accent)]">Home</a>
+        <span class="mx-2">/</span>
+        <span>Real Estate Tools</span>
+      </nav>
+
+      <header class="mb-8">
+        <span class="inline-block px-3 py-1 bg-emerald-500/20 text-emerald-400 rounded text-sm font-medium mb-4">
+          Real Estate Marketing
+        </span>
+        <h1 class="text-4xl font-bold text-[var(--text)] mb-4">
+          Optimize Real Estate Listing Photos
+        </h1>
+        <p class="text-xl text-[var(--text-muted)]">
+          Compress photos for MLS, create professional white backgrounds, and remove GPS metadata. 100% browser-based - your listings never leave your device.
+        </p>
+      </header>
+
+      <div class="bg-emerald-500/10 border border-emerald-500/30 rounded-xl p-6 mb-8">
+        <h2 class="text-lg font-semibold text-emerald-400 mb-2">Professional Listing Photos in Seconds</h2>
+        <p class="text-[var(--text)]">
+          Prepare property photos for MLS, Zillow, Realtor.com, and marketing materials. Compress to meet upload limits, create clean backgrounds, and protect seller privacy by removing location data.
+        </p>
+      </div>
+
+      <section class="mb-10">
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-4">Common Real Estate Photo Tasks</h2>
+        <div class="grid md:grid-cols-2 gap-4">
+          <div class="bg-[var(--bg-secondary)] rounded-lg p-4 border border-[var(--border)]">
+            <h3 class="font-semibold text-[var(--text)] mb-2">Compress for MLS Upload</h3>
+            <p class="text-sm text-[var(--text-muted)]">Reduce photo file sizes by 60-90% to meet strict MLS upload limits while maintaining the visual quality that attracts buyers.</p>
+          </div>
+          <div class="bg-[var(--bg-secondary)] rounded-lg p-4 border border-[var(--border)]">
+            <h3 class="font-semibold text-[var(--text)] mb-2">White Background Photos</h3>
+            <p class="text-sm text-[var(--text-muted)]">Remove backgrounds from interior shots, amenities, or floor plans and replace with clean white backgrounds for professional listings.</p>
+          </div>
+          <div class="bg-[var(--bg-secondary)] rounded-lg p-4 border border-[var(--border)]">
+            <h3 class="font-semibold text-[var(--text)] mb-2">Remove GPS Coordinates</h3>
+            <p class="text-sm text-[var(--text-muted)]">Strip location metadata from listing photos to protect seller privacy and control when property information becomes public.</p>
+          </div>
+          <div class="bg-[var(--bg-secondary)] rounded-lg p-4 border border-[var(--border)]">
+            <h3 class="font-semibold text-[var(--text)] mb-2">Batch Process Listings</h3>
+            <p class="text-sm text-[var(--text-muted)]">Process entire photo sets for multiple listings at once. Download optimized photos as ZIP files ready for upload.</p>
+          </div>
+        </div>
+      </section>
+
+      <div class="bg-[var(--bg-secondary)] rounded-xl p-8 text-center mb-10 border border-[var(--border)]">
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-4">Start Optimizing Listing Photos</h2>
+        <p class="text-[var(--text-muted)] mb-6">100% private - your photos never leave your device</p>
+        <div class="flex flex-wrap gap-4 justify-center">
+          <a
+            href="/tools/image-compress"
+            class="inline-block px-6 py-3 bg-[var(--accent)] text-[var(--bg)] rounded-lg font-semibold hover:opacity-90 transition-opacity"
+          >
+            Image Compress
+          </a>
+          <a
+            href="/tools/background-remover"
+            class="inline-block px-6 py-3 bg-[var(--bg-secondary)] text-[var(--text)] rounded-lg font-semibold border border-[var(--border)] hover:border-[var(--accent)] transition-colors"
+          >
+            Background Remover
+          </a>
+          <a
+            href="/tools/exif-editor"
+            class="inline-block px-6 py-3 bg-[var(--bg-secondary)] text-[var(--text)] rounded-lg font-semibold border border-[var(--border)] hover:border-[var(--accent)] transition-colors"
+          >
+            Remove GPS
+          </a>
+        </div>
+      </div>
+
+      <section class="mb-10">
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-4">Real Estate Photo Workflow</h2>
+        <ol class="space-y-4 text-[var(--text-muted)]">
+          <li class="flex gap-3">
+            <span class="flex-shrink-0 w-8 h-8 bg-[var(--accent)] text-[var(--bg)] rounded-full flex items-center justify-center font-bold text-sm">1</span>
+            <span><strong class="text-[var(--text)]">Remove GPS First</strong> - Strip location metadata and EXIF data immediately after shooting to protect seller privacy and prevent unintended location sharing.</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="flex-shrink-0 w-8 h-8 bg-[var(--accent)] text-[var(--bg)] rounded-full flex items-center justify-center font-bold text-sm">2</span>
+            <span><strong class="text-[var(--text)]">Create White Backgrounds (Optional)</strong> - Use AI background remover for amenity photos, floor plans, or product shots that need clean white backgrounds.</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="flex-shrink-0 w-8 h-8 bg-[var(--accent)] text-[var(--bg)] rounded-full flex items-center justify-center font-bold text-sm">3</span>
+            <span><strong class="text-[var(--text)]">Compress for Upload Limits</strong> - Batch compress all photos to meet MLS size requirements while maintaining quality that showcases the property.</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="flex-shrink-0 w-8 h-8 bg-[var(--accent)] text-[var(--bg)] rounded-full flex items-center justify-center font-bold text-sm">4</span>
+            <span><strong class="text-[var(--text)]">Upload to MLS</strong> - Download optimized photos and upload directly to your MLS system, Zillow, or real estate marketing platforms.</span>
+          </li>
+        </ol>
+      </section>
+
+      <section class="mb-10">
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-4">Why Real Estate Agents Use Browser-Based Tools</h2>
+        <div class="bg-[var(--bg-secondary)] rounded-lg p-6 border border-[var(--border)] space-y-4">
+          <div>
+            <h3 class="font-semibold text-[var(--text)] mb-2">MLS Compliance Made Easy</h3>
+            <p class="text-sm text-[var(--text-muted)]">Meet strict MLS photo requirements without expensive software. Compress, resize, and format photos directly in your browser before uploading.</p>
+          </div>
+          <div>
+            <h3 class="font-semibold text-[var(--text)] mb-2">Protect Seller Privacy</h3>
+            <p class="text-sm text-[var(--text-muted)]">Remove GPS coordinates before photos go online. Control when property locations become public and protect your clients' security during active listings.</p>
+          </div>
+          <div>
+            <h3 class="font-semibold text-[var(--text)] mb-2">Professional Results on Deadline</h3>
+            <p class="text-sm text-[var(--text-muted)]">Process photos from anywhere - office, home, or mobile. No software installation required. Get listings live faster with professional-quality photos.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="mb-10">
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-4">Frequently Asked Questions</h2>
+        <div class="space-y-4">
+          <div class="bg-[var(--bg-secondary)] rounded-lg p-5 border border-[var(--border)]">
+            <h3 class="font-semibold text-[var(--text)] mb-2">What are MLS photo size requirements?</h3>
+            <p class="text-sm text-[var(--text-muted)]">Most MLS systems limit photos to 1-5MB per image with maximum dimensions around 2048x2048 pixels. Our image compressor reduces file sizes by 60-90% while maintaining quality, ensuring your listing photos meet upload limits without sacrificing visual appeal.</p>
+          </div>
+          <div class="bg-[var(--bg-secondary)] rounded-lg p-5 border border-[var(--border)]">
+            <h3 class="font-semibold text-[var(--text)] mb-2">Why should I remove GPS from listing photos?</h3>
+            <p class="text-sm text-[var(--text-muted)]">Listing photos contain exact GPS coordinates that reveal property locations before they're officially listed. Removing GPS protects seller privacy, prevents premature location disclosure, and ensures you control when and where property information is shared.</p>
+          </div>
+          <div class="bg-[var(--bg-secondary)] rounded-lg p-5 border border-[var(--border)]">
+            <h3 class="font-semibold text-[var(--text)] mb-2">Can I create white backgrounds for MLS photos?</h3>
+            <p class="text-sm text-[var(--text-muted)]">Yes. Use the background remover to extract property images and place them on clean white backgrounds. This creates professional, MLS-compliant photos that highlight the property while meeting platform requirements.</p>
+          </div>
+          <div class="bg-[var(--bg-secondary)] rounded-lg p-5 border border-[var(--border)]">
+            <h3 class="font-semibold text-[var(--text)] mb-2">How do I batch process multiple listing photos?</h3>
+            <p class="text-sm text-[var(--text-muted)]">Upload up to 20 photos at once for batch compression. Download all processed images as a single ZIP file, ready to upload to your MLS system or listing platform.</p>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-4">Related Real Estate Tools</h2>
+        <div class="flex flex-wrap gap-3">
+          <a href="/tools/image-compress" class="px-4 py-2 bg-[var(--bg-secondary)] rounded-lg text-[var(--text-muted)] hover:text-[var(--accent)] border border-[var(--border)]">
+            Image Compress
+          </a>
+          <a href="/tools/background-remover" class="px-4 py-2 bg-[var(--bg-secondary)] rounded-lg text-[var(--text-muted)] hover:text-[var(--accent)] border border-[var(--border)]">
+            Background Remover
+          </a>
+          <a href="/tools/exif-editor" class="px-4 py-2 bg-[var(--bg-secondary)] rounded-lg text-[var(--text-muted)] hover:text-[var(--accent)] border border-[var(--border)]">
+            EXIF Metadata Editor
+          </a>
+          <a href="/tools/file-converter" class="px-4 py-2 bg-[var(--bg-secondary)] rounded-lg text-[var(--text-muted)] hover:text-[var(--accent)] border border-[var(--border)]">
+            Image Converter
+          </a>
+        </div>
+      </section>
+    </article>
+  </main>
+
+  <Footer />
+</Layout>

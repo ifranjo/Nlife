@@ -1,0 +1,234 @@
+---
+/**
+ * Programmatic SEO: Teacher Classroom Tools
+ * Target: "teacher PDF tools", "classroom document tools", "education PDF merge"
+ */
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/ui/Navbar.astro';
+import Footer from '../../components/ui/Footer.astro';
+
+const howToSchema = {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "How to Prepare Classroom Materials with Free PDF Tools",
+  "description": "Learn how teachers and educators combine worksheets, convert teaching materials, and scan student work using browser-based tools.",
+  "step": [
+    { "@type": "HowToStep", "text": "Merge multiple worksheets and handouts into single PDF packets" },
+    { "@type": "HowToStep", "text": "Convert PDF teaching materials to editable Word documents for customization" },
+    { "@type": "HowToStep", "text": "Compress large PDF files for easy sharing via email or learning platforms" },
+    { "@type": "HowToStep", "text": "Scan student work and paper assignments directly to digital PDF format" }
+  ]
+};
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Can I combine multiple worksheets into one PDF?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Merge multiple worksheets, handouts, and activity pages into a single PDF packet. Students download one file instead of multiple attachments. Perfect for daily lesson packets, homework assignments, and study guides."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I convert PDF worksheets to editable format?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Use PDF to Word converter to transform static PDF worksheets into editable DOCX files. Customize content for your students, add school branding, or modify difficulty levels for differentiated instruction."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why compress PDF files for classroom use?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Large PDF files with images and graphics can exceed email attachment limits and take up valuable cloud storage. Compressing PDFs by 50-90% makes them faster to upload to Google Classroom, Canvas, Schoology, and easier for students to download on any device."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I scan student assignments directly to PDF?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Use the document scanner with your phone to capture student work, written assignments, or paper quizzes. Auto edge detection and perspective correction create clean PDFs perfect for digital grading or portfolio storage."
+      }
+    }
+  ]
+};
+---
+
+<Layout
+  title="Teacher Classroom Tools - Merge, Convert, Scan PDFs | New Life"
+  description="Free browser-based tools for teachers and educators. Merge worksheets, convert PDFs to Word, compress classroom materials, scan student work. 100% private."
+>
+  <script type="application/ld+json" set:html={JSON.stringify(howToSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  <Navbar />
+
+  <main class="pt-20 pb-16 px-6 min-h-screen">
+    <article class="max-w-3xl mx-auto">
+      <nav class="text-sm text-[var(--text-muted)] mb-6">
+        <a href="/" class="hover:text-[var(--accent)]">Home</a>
+        <span class="mx-2">/</span>
+        <span>Teacher Tools</span>
+      </nav>
+
+      <header class="mb-8">
+        <span class="inline-block px-3 py-1 bg-blue-500/20 text-blue-400 rounded text-sm font-medium mb-4">
+          Education & Classroom
+        </span>
+        <h1 class="text-4xl font-bold text-[var(--text)] mb-4">
+          PDF Tools for Teachers & Educators
+        </h1>
+        <p class="text-xl text-[var(--text-muted)]">
+          Merge worksheets, convert materials to editable format, compress for easy sharing, and scan student work. 100% browser-based - works on school networks.
+        </p>
+      </header>
+
+      <div class="bg-blue-500/10 border border-blue-500/30 rounded-xl p-6 mb-8">
+        <h2 class="text-lg font-semibold text-blue-400 mb-2">Free Classroom Document Tools</h2>
+        <p class="text-[var(--text)]">
+          Prepare teaching materials, organize student resources, and digitize paper assignments. All tools run in your browser with no software installation - perfect for classrooms with restricted IT permissions.
+        </p>
+      </div>
+
+      <section class="mb-10">
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-4">Common Classroom Tasks</h2>
+        <div class="grid md:grid-cols-2 gap-4">
+          <div class="bg-[var(--bg-secondary)] rounded-lg p-4 border border-[var(--border)]">
+            <h3 class="font-semibold text-[var(--text)] mb-2">Create Lesson Packets</h3>
+            <p class="text-sm text-[var(--text-muted)]">Combine worksheets, readings, and activities into single PDF files. Students receive organized packets instead of scattered downloads.</p>
+          </div>
+          <div class="bg-[var(--bg-secondary)] rounded-lg p-4 border border-[var(--border)]">
+            <h3 class="font-semibold text-[var(--text)] mb-2">Customize Teaching Materials</h3>
+            <p class="text-sm text-[var(--text-muted)]">Convert PDF resources to editable Word documents. Modify content for your curriculum, add school branding, or adjust for different learning levels.</p>
+          </div>
+          <div class="bg-[var(--bg-secondary)] rounded-lg p-4 border border-[var(--border)]">
+            <h3 class="font-semibold text-[var(--text)] mb-2">Share Materials Easily</h3>
+            <p class="text-sm text-[var(--text-muted)]">Compress large PDFs with images and graphics to speed up uploads to learning management systems and make downloads faster for students.</p>
+          </div>
+          <div class="bg-[var(--bg-secondary)] rounded-lg p-4 border border-[var(--border)]">
+            <h3 class="font-semibold text-[var(--text)] mb-2">Digitize Student Work</h3>
+            <p class="text-sm text-[var(--text-muted)]">Scan handwritten assignments, artwork, or paper quizzes directly to PDF. Build digital portfolios and create backup copies of student work.</p>
+          </div>
+        </div>
+      </section>
+
+      <div class="bg-[var(--bg-secondary)] rounded-xl p-8 text-center mb-10 border border-[var(--border)]">
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-4">Start Preparing Classroom Materials</h2>
+        <p class="text-[var(--text-muted)] mb-6">100% free - no school budget required</p>
+        <div class="flex flex-wrap gap-4 justify-center">
+          <a
+            href="/tools/pdf-merge"
+            class="inline-block px-6 py-3 bg-[var(--accent)] text-[var(--bg)] rounded-lg font-semibold hover:opacity-90 transition-opacity"
+          >
+            PDF Merge
+          </a>
+          <a
+            href="/tools/pdf-to-word"
+            class="inline-block px-6 py-3 bg-[var(--bg-secondary)] text-[var(--text)] rounded-lg font-semibold border border-[var(--border)] hover:border-[var(--accent)] transition-colors"
+          >
+            PDF to Word
+          </a>
+          <a
+            href="/tools/pdf-compress"
+            class="inline-block px-6 py-3 bg-[var(--bg-secondary)] text-[var(--text)] rounded-lg font-semibold border border-[var(--border)] hover:border-[var(--accent)] transition-colors"
+          >
+            PDF Compress
+          </a>
+          <a
+            href="/tools/document-scanner"
+            class="inline-block px-6 py-3 bg-[var(--bg-secondary)] text-[var(--text)] rounded-lg font-semibold border border-[var(--border)] hover:border-[var(--accent)] transition-colors"
+          >
+            Document Scanner
+          </a>
+        </div>
+      </div>
+
+      <section class="mb-10">
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-4">Teacher Document Workflow</h2>
+        <ol class="space-y-4 text-[var(--text-muted)]">
+          <li class="flex gap-3">
+            <span class="flex-shrink-0 w-8 h-8 bg-[var(--accent)] text-[var(--bg)] rounded-full flex items-center justify-center font-bold text-sm">1</span>
+            <span><strong class="text-[var(--text)]">Convert & Customize</strong> - Transform PDF teaching materials into editable Word documents. Customize content for your students and curriculum needs.</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="flex-shrink-0 w-8 h-8 bg-[var(--accent)] text-[var(--bg)] rounded-full flex items-center justify-center font-bold text-sm">2</span>
+            <span><strong class="text-[var(--text)]">Combine Materials</strong> - Merge worksheets, handouts, and activities into organized lesson packets. Single PDF downloads are easier for students to manage.</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="flex-shrink-0 w-8 h-8 bg-[var(--accent)] text-[var(--bg)] rounded-full flex items-center justify-center font-bold text-sm">3</span>
+            <span><strong class="text-[var(--text)]">Optimize for Sharing</strong> - Compress PDF files to reduce size by 50-90%. Upload faster to Google Classroom, Canvas, or Schoology. Students download quickly on any device.</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="flex-shrink-0 w-8 h-8 bg-[var(--accent)] text-[var(--bg)] rounded-full flex items-center justify-center font-bold text-sm">4</span>
+            <span><strong class="text-[var(--text)]">Digitize Student Work</strong> - Scan completed assignments, artwork, or paper quizzes using your phone camera. Create digital portfolios and backup copies for assessment.</span>
+          </li>
+        </ol>
+      </section>
+
+      <section class="mb-10">
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-4">Why Teachers Choose Browser-Based Tools</h2>
+        <div class="bg-[var(--bg-secondary)] rounded-lg p-6 border border-[var(--border)] space-y-4">
+          <div>
+            <h3 class="font-semibold text-[var(--text)] mb-2">No Software Installation Required</h3>
+            <p class="text-sm text-[var(--text-muted)]">Works on any computer with a web browser. No IT permissions needed, no school software licenses, compatible with classroom computers, personal laptops, and tablets.</p>
+          </div>
+          <div>
+            <h3 class="font-semibold text-[var(--text)] mb-2">Works on School Networks</h3>
+            <p class="text-sm text-[var(--text-muted)]">All processing happens locally in your browser. Bypasses network restrictions that block file uploads to external services. Prepare materials even with limited internet access.</p>
+          </div>
+          <div>
+            <h3 class="font-semibold text-[var(--text)] mb-2">Free for Educators</h3>
+            <p class="text-sm text-[var(--text-muted)]">No subscription fees, no usage limits. Use all tools as much as needed without requesting budget approval or spending personal money on classroom resources.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="mb-10">
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-4">Frequently Asked Questions</h2>
+        <div class="space-y-4">
+          <div class="bg-[var(--bg-secondary)] rounded-lg p-5 border border-[var(--border)]">
+            <h3 class="font-semibold text-[var(--text)] mb-2">Can I combine multiple worksheets into one PDF?</h3>
+            <p class="text-sm text-[var(--text-muted)]">Yes. Merge multiple worksheets, handouts, and activity pages into a single PDF packet. Students download one file instead of multiple attachments. Perfect for daily lesson packets, homework assignments, and study guides.</p>
+          </div>
+          <div class="bg-[var(--bg-secondary)] rounded-lg p-5 border border-[var(--border)]">
+            <h3 class="font-semibold text-[var(--text)] mb-2">How do I convert PDF worksheets to editable format?</h3>
+            <p class="text-sm text-[var(--text-muted)]">Use PDF to Word converter to transform static PDF worksheets into editable DOCX files. Customize content for your students, add school branding, or modify difficulty levels for differentiated instruction.</p>
+          </div>
+          <div class="bg-[var(--bg-secondary)] rounded-lg p-5 border border-[var(--border)]">
+            <h3 class="font-semibold text-[var(--text)] mb-2">Why compress PDF files for classroom use?</h3>
+            <p class="text-sm text-[var(--text-muted)]">Large PDF files with images and graphics can exceed email attachment limits and take up valuable cloud storage. Compressing PDFs by 50-90% makes them faster to upload to Google Classroom, Canvas, Schoology, and easier for students to download on any device.</p>
+          </div>
+          <div class="bg-[var(--bg-secondary)] rounded-lg p-5 border border-[var(--border)]">
+            <h3 class="font-semibold text-[var(--text)] mb-2">Can I scan student assignments directly to PDF?</h3>
+            <p class="text-sm text-[var(--text-muted)]">Yes. Use the document scanner with your phone to capture student work, written assignments, or paper quizzes. Auto edge detection and perspective correction create clean PDFs perfect for digital grading or portfolio storage.</p>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-4">Related Classroom Tools</h2>
+        <div class="flex flex-wrap gap-3">
+          <a href="/tools/pdf-merge" class="px-4 py-2 bg-[var(--bg-secondary)] rounded-lg text-[var(--text-muted)] hover:text-[var(--accent)] border border-[var(--border)]">
+            PDF Merge
+          </a>
+          <a href="/tools/pdf-to-word" class="px-4 py-2 bg-[var(--bg-secondary)] rounded-lg text-[var(--text-muted)] hover:text-[var(--accent)] border border-[var(--border)]">
+            PDF to Word
+          </a>
+          <a href="/tools/pdf-compress" class="px-4 py-2 bg-[var(--bg-secondary)] rounded-lg text-[var(--text-muted)] hover:text-[var(--accent)] border border-[var(--border)]">
+            PDF Compress
+          </a>
+          <a href="/tools/document-scanner" class="px-4 py-2 bg-[var(--bg-secondary)] rounded-lg text-[var(--text-muted)] hover:text-[var(--accent)] border border-[var(--border)]">
+            Document Scanner
+          </a>
+        </div>
+      </section>
+    </article>
+  </main>
+
+  <Footer />
+</Layout>

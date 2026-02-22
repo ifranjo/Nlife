@@ -1,0 +1,228 @@
+---
+/**
+ * Programmatic SEO: Job Seeker Toolkit
+ * Target: "resume builder free", "job application PDF tools", "combine resume documents"
+ */
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/ui/Navbar.astro';
+import Footer from '../../components/ui/Footer.astro';
+
+const howToSchema = {
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "How to Prepare Job Application Documents",
+  "description": "Learn how job seekers create professional resumes, convert documents for online applications, and combine cover letters with resumes.",
+  "step": [
+    { "@type": "HowToStep", "text": "Build a professional resume using ATS-friendly templates" },
+    { "@type": "HowToStep", "text": "Convert resume to required formats (PDF, Word) for different job applications" },
+    { "@type": "HowToStep", "text": "Merge cover letter, resume, and references into single PDF document" },
+    { "@type": "HowToStep", "text": "Download and submit - your data stays private on your device" }
+  ]
+};
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Are these resume templates ATS-friendly?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. All resume templates are designed to pass Applicant Tracking Systems (ATS) used by employers. Clean formatting, standard fonts, and proper section ordering ensure your resume gets parsed correctly by hiring software."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I convert my resume to different formats?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Build your resume once and download as PDF or convert to Word format. Different employers require different formats - have both ready. PDF preserves formatting, Word allows easy editing."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Should I combine my cover letter and resume?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Many employers prefer single PDF uploads. Use PDF merge to combine your cover letter, resume, and references into one professional document. Ensures hiring managers see everything in order and prevents file separation."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is my resume data kept private?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Absolutely. Your resume data stays in your browser only. Nothing is uploaded to servers or stored in databases. Your personal information remains completely private and secure on your device."
+      }
+    }
+  ]
+};
+---
+
+<Layout
+  title="Job Seeker Toolkit - Resume Builder, Convert, Merge | New Life"
+  description="Free tools for job seekers. Build professional resumes, convert to PDF/Word, combine cover letters and references. 100% private - your data never leaves your device."
+>
+  <script type="application/ld+json" set:html={JSON.stringify(howToSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  <Navbar />
+
+  <main class="pt-20 pb-16 px-6 min-h-screen">
+    <article class="max-w-3xl mx-auto">
+      <nav class="text-sm text-[var(--text-muted)] mb-6">
+        <a href="/" class="hover:text-[var(--accent)]">Home</a>
+        <span class="mx-2">/</span>
+        <span>Job Seeker Tools</span>
+      </nav>
+
+      <header class="mb-8">
+        <span class="inline-block px-3 py-1 bg-indigo-500/20 text-indigo-400 rounded text-sm font-medium mb-4">
+          Career & Job Search
+        </span>
+        <h1 class="text-4xl font-bold text-[var(--text)] mb-4">
+          Document Toolkit for Job Seekers
+        </h1>
+        <p class="text-xl text-[var(--text-muted)]">
+          Build professional resumes, convert application documents, and combine materials into single PDFs. 100% free - your personal data stays private.
+        </p>
+      </header>
+
+      <div class="bg-indigo-500/10 border border-indigo-500/30 rounded-xl p-6 mb-8">
+        <h2 class="text-lg font-semibold text-indigo-400 mb-2">Professional Job Application Materials</h2>
+        <p class="text-[var(--text)]">
+          Create ATS-friendly resumes, prepare documents for online applications, and combine cover letters with resumes. All tools work in your browser with no signup or hidden fees.
+        </p>
+      </div>
+
+      <section class="mb-10">
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-4">Common Job Application Tasks</h2>
+        <div class="grid md:grid-cols-2 gap-4">
+          <div class="bg-[var(--bg-secondary)] rounded-lg p-4 border border-[var(--border)]">
+            <h3 class="font-semibold text-[var(--text)] mb-2">Build Professional Resumes</h3>
+            <p class="text-sm text-[var(--text-muted)]">Choose from multiple ATS-friendly templates. Add experience, education, skills. Download as professional PDF ready for any job application.</p>
+          </div>
+          <div class="bg-[var(--bg-secondary)] rounded-lg p-4 border border-[var(--border)]">
+            <h3 class="font-semibold text-[var(--text)] mb-2">Convert to Required Formats</h3>
+            <p class="text-sm text-[var(--text-muted)]">Different employers want different formats. Convert between PDF and Word to match application requirements. Always have the right format ready.</p>
+          </div>
+          <div class="bg-[var(--bg-secondary)] rounded-lg p-4 border border-[var(--border)]">
+            <h3 class="font-semibold text-[var(--text)] mb-2">Combine Application Materials</h3>
+            <p class="text-sm text-[var(--text-muted)]">Merge cover letter, resume, and references into single PDF. Professional presentation ensures hiring managers see everything in correct order.</p>
+          </div>
+          <div class="bg-[var(--bg-secondary)] rounded-lg p-4 border border-[var(--border)]">
+            <h3 class="font-semibold text-[var(--text)] mb-2">Customize for Each Application</h3>
+            <p class="text-sm text-[var(--text-muted)]">Edit and tailor your resume for specific jobs. Convert between formats to match employer requirements. Download unlimited versions.</p>
+          </div>
+        </div>
+      </section>
+
+      <div class="bg-[var(--bg-secondary)] rounded-xl p-8 text-center mb-10 border border-[var(--border)]">
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-4">Start Your Job Application Toolkit</h2>
+        <p class="text-[var(--text-muted)] mb-6">100% free - no subscriptions, no limits</p>
+        <div class="flex flex-wrap gap-4 justify-center">
+          <a
+            href="/tools/resume-builder"
+            class="inline-block px-6 py-3 bg-[var(--accent)] text-[var(--bg)] rounded-lg font-semibold hover:opacity-90 transition-opacity"
+          >
+            Resume Builder
+          </a>
+          <a
+            href="/tools/pdf-to-word"
+            class="inline-block px-6 py-3 bg-[var(--bg-secondary)] text-[var(--text)] rounded-lg font-semibold border border-[var(--border)] hover:border-[var(--accent)] transition-colors"
+          >
+            PDF to Word
+          </a>
+          <a
+            href="/tools/pdf-merge"
+            class="inline-block px-6 py-3 bg-[var(--bg-secondary)] text-[var(--text)] rounded-lg font-semibold border border-[var(--border)] hover:border-[var(--accent)] transition-colors"
+          >
+            PDF Merge
+          </a>
+        </div>
+      </div>
+
+      <section class="mb-10">
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-4">Job Application Document Workflow</h2>
+        <ol class="space-y-4 text-[var(--text-muted)]">
+          <li class="flex gap-3">
+            <span class="flex-shrink-0 w-8 h-8 bg-[var(--accent)] text-[var(--bg)] rounded-full flex items-center justify-center font-bold text-sm">1</span>
+            <span><strong class="text-[var(--text)]">Build Your Resume</strong> - Use ATS-friendly templates to create a professional resume. Add your experience, education, skills, and customize sections for your industry.</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="flex-shrink-0 w-8 h-8 bg-[var(--accent)] text-[var(--bg)] rounded-full flex items-center justify-center font-bold text-sm">2</span>
+            <span><strong class="text-[var(--text)]">Convert as Needed</strong> - Download as PDF for applications or convert to Word for easy editing. Have multiple format versions ready for different employer requirements.</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="flex-shrink-0 w-8 h-8 bg-[var(--accent)] text-[var(--bg)] rounded-full flex items-center justify-center font-bold text-sm">3</span>
+            <span><strong class="text-[var(--text)]">Create Cover Letter</strong> - Write a tailored cover letter for each position. Combine with resume and references into a single professional PDF document.</span>
+          </li>
+          <li class="flex gap-3">
+            <span class="flex-shrink-0 w-8 h-8 bg-[var(--accent)] text-[var(--bg)] rounded-full flex items-center justify-center font-bold text-sm">4</span>
+            <span><strong class="text-[var(--text)]">Submit Application</strong> - Upload your combined PDF to job boards, company websites, or email directly to hiring managers. Professional formatting makes a strong impression.</span>
+          </li>
+        </ol>
+      </section>
+
+      <section class="mb-10">
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-4">Why Job Seekers Use Browser-Based Tools</h2>
+        <div class="bg-[var(--bg-secondary)] rounded-lg p-6 border border-[var(--border)] space-y-4">
+          <div>
+            <h3 class="font-semibold text-[var(--text)] mb-2">ATS-Friendly Templates</h3>
+            <p class="text-sm text-[var(--text-muted)]">Resumes are designed to pass Applicant Tracking Systems used by 99% of Fortune 500 companies. Clean formatting ensures your qualifications get noticed, not rejected by software.</p>
+          </div>
+          <div>
+            <h3 class="font-semibold text-[var(--text)] mb-2">Complete Data Privacy</h3>
+            <p class="text-sm text-[var(--text-muted)]">Your personal information stays on your device. No account creation, no data collection, no security breaches. You control your resume data at all times.</p>
+          </div>
+          <div>
+            <h3 class="font-semibold text-[var(--text)] mb-2">Unlimited Free Use</h3>
+            <p class="text-sm text-[var(--text-muted)]">Create unlimited resumes, convert unlimited documents, no subscriptions, no hidden fees. Job searching is expensive enough - your document tools should be free.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="mb-10">
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-4">Frequently Asked Questions</h2>
+        <div class="space-y-4">
+          <div class="bg-[var(--bg-secondary)] rounded-lg p-5 border border-[var(--border)]">
+            <h3 class="font-semibold text-[var(--text)] mb-2">Are these resume templates ATS-friendly?</h3>
+            <p class="text-sm text-[var(--text-muted)]">Yes. All resume templates are designed to pass Applicant Tracking Systems (ATS) used by employers. Clean formatting, standard fonts, and proper section ordering ensure your resume gets parsed correctly by hiring software.</p>
+          </div>
+          <div class="bg-[var(--bg-secondary)] rounded-lg p-5 border border-[var(--border)]">
+            <h3 class="font-semibold text-[var(--text)] mb-2">Can I convert my resume to different formats?</h3>
+            <p class="text-sm text-[var(--text-muted)]">Yes. Build your resume once and download as PDF or convert to Word format. Different employers require different formats - have both ready. PDF preserves formatting, Word allows easy editing.</p>
+          </div>
+          <div class="bg-[var(--bg-secondary)] rounded-lg p-5 border border-[var(--border)]">
+            <h3 class="font-semibold text-[var(--text)] mb-2">Should I combine my cover letter and resume?</h3>
+            <p class="text-sm text-[var(--text-muted)]">Many employers prefer single PDF uploads. Use PDF merge to combine your cover letter, resume, and references into one professional document. Ensures hiring managers see everything in order and prevents file separation.</p>
+          </div>
+          <div class="bg-[var(--bg-secondary)] rounded-lg p-5 border border-[var(--border)]">
+            <h3 class="font-semibold text-[var(--text)] mb-2">Is my resume data kept private?</h3>
+            <p class="text-sm text-[var(--text-muted)]">Absolutely. Your resume data stays in your browser only. Nothing is uploaded to servers or stored in databases. Your personal information remains completely private and secure on your device.</p>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-4">Related Job Search Tools</h2>
+        <div class="flex flex-wrap gap-3">
+          <a href="/tools/resume-builder" class="px-4 py-2 bg-[var(--bg-secondary)] rounded-lg text-[var(--text-muted)] hover:text-[var(--accent)] border border-[var(--border)]">
+            Resume Builder
+          </a>
+          <a href="/tools/pdf-to-word" class="px-4 py-2 bg-[var(--bg-secondary)] rounded-lg text-[var(--text-muted)] hover:text-[var(--accent)] border border-[var(--border)]">
+            PDF to Word
+          </a>
+          <a href="/tools/pdf-merge" class="px-4 py-2 bg-[var(--bg-secondary)] rounded-lg text-[var(--text-muted)] hover:text-[var(--accent)] border border-[var(--border)]">
+            PDF Merge
+          </a>
+          <a href="/tools/pdf-compress" class="px-4 py-2 bg-[var(--bg-secondary)] rounded-lg text-[var(--text-muted)] hover:text-[var(--accent)] border border-[var(--border)]">
+            PDF Compress
+          </a>
+        </div>
+      </section>
+    </article>
+  </main>
+
+  <Footer />
+</Layout>

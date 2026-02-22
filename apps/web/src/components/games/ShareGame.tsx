@@ -13,7 +13,6 @@ export const ShareGame: React.FC<ShareGameProps> = ({
   gameName,
   score,
   scoreLabel = 'Score',
-  text = "Check out this awesome browser game!",
   customMessage,
   className = ''
 }) => {
@@ -65,21 +64,14 @@ export const ShareGame: React.FC<ShareGameProps> = ({
   }, [gameName, shareMessage]);
 
   // Track share event
-  const trackShare = useCallback((method: 'native' | 'clipboard') => {
+  const trackShare = useCallback((_method: 'native' | 'clipboard') => {
     // Simple analytics - could be expanded
-    const payload = {
-      game: gameName,
-      score: score,
-      method: method,
-      url: window.location.href
-    };
-
     // Try to use analytics if available
     try {
       // @ts-ignore - analytics might not be imported
       if (window.analytics || window.gtag) {
         // Use existing analytics
-        // trackGameShare(payload); // Future implementation
+        // trackGameShare(gameName, score, method); // Future implementation
       }
 
       // Analytics tracking - silent in production

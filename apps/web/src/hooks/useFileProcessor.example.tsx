@@ -7,8 +7,8 @@
  */
 
 import { useState } from 'react';
-import { useFileProcessor } from '../hooks';
-import { useToolUsage, UsageIndicator } from '../ui/UpgradePrompt';
+import { useFileProcessor } from './useFileProcessor';
+import { useToolUsage, UsageIndicator } from '../components/ui/UpgradePrompt';
 
 interface CompressedImageMetadata {
   originalSize: number;
@@ -21,9 +21,9 @@ export default function SimpleImageCompressor() {
   const [quality, setQuality] = useState(80);
 
   // Usage limits integration
-  const { checkUsage, recordUsage, dismissPrompt, showPrompt } = useToolUsage('image-compress');
+  const { checkUsage, recordUsage } = useToolUsage('image-compress');
 
-  const { state, handlers, utils, refs, computed } = useFileProcessor<unknown, CompressedImageMetadata>({
+  const { state, handlers, utils, refs, computed } = useFileProcessor<CompressedImageMetadata>({
     fileCategory: 'image',
     maxFiles: 20,
     processor: async (file) => {

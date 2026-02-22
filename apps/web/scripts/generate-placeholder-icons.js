@@ -66,7 +66,6 @@ function createSVG(size) {
 // Convert SVG to PNG using simple data URI approach
 async function generateIcon(size) {
   const svg = createSVG(size);
-  const outputPath = join(OUTPUT_DIR, `icon-${size}x${size}.png`);
 
   // For Node.js environment, we'll save SVG as intermediate format
   // In browser or with proper tooling, this would be converted to PNG

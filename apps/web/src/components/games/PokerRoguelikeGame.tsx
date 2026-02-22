@@ -346,8 +346,7 @@ export default function PokerRoguelikeGame() {
   const [hand, setHand] = useState<Card[]>([]);
   const [heldCards, setHeldCards] = useState<Card[]>([]);
   const [jokers, setJokers] = useState<Joker[]>([]);
-  const [money, setMoney] = useState(2); // Reduced starting money
-  const [score, setScore] = useState(0);
+  const [money, setMoney] = useState(4);
   const [roundScore, setRoundScore] = useState(0);
   const [blindIndex, setBlindIndex] = useState(0);
   const [handsLeft, setHandsLeft] = useState(3); // Reduced
@@ -368,8 +367,7 @@ export default function PokerRoguelikeGame() {
     setHand(newDeck.slice(0, 8).map(c => ({ ...c, selected: false })));
     setHeldCards([]);
     setJokers([]);
-    setMoney(2); // Hard mode: start with $2
-    setScore(0);
+    setMoney(4);
     setRoundScore(0);
     setBlindIndex(0);
     setHandsLeft(3);

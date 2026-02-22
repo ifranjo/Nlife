@@ -475,7 +475,6 @@ Play at newlifesolutions.dev/games/typing-speed`;
 
   // Render word with character highlighting
   const renderWord = useCallback((word: string, index: number) => {
-    const isCurrent = index === currentWordIndex;
     const isPast = index < currentWordIndex;
     const isFuture = index > currentWordIndex;
 

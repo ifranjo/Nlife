@@ -1,0 +1,253 @@
+---
+/**
+ * Guide: How to Compress PDF for Email
+ * Target query: "compress pdf for email", "reduce pdf size", "pdf compressor online"
+ */
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/ui/Navbar.astro';
+import Footer from '../../components/ui/Footer.astro';
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How much can PDF files be compressed?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Compression varies by content. Image-heavy PDFs see 50-90% reduction. Text-only PDFs see 10-30% reduction."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Will compression reduce PDF quality?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "We use lossless techniques. Text and vectors stay sharp. Choose High Quality preset for minimal impact."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is my PDF uploaded to a server?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. All compression happens in your browser using pdf-lib. Your files never leave your device."
+      }
+    }
+  ]
+};
+---
+
+<Layout
+  title="Compress PDF for Email Free - Reduce Size 90% | New Life"
+  description="Compress PDF files up to 90% smaller for email attachments. 100% free, no upload to servers. Remove metadata, works offline in your browser."
+>
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+
+  <Navbar />
+
+  <main class="pt-20 pb-16 px-6 min-h-screen">
+    <article class="max-w-3xl mx-auto">
+
+      <!-- Breadcrumb -->
+      <nav class="text-sm text-[var(--text-muted)] mb-6">
+        <a href="/" class="hover:text-[var(--accent)]">Home</a>
+        <span class="mx-2">/</span>
+        <a href="/guides" class="hover:text-[var(--accent)]">Guides</a>
+        <span class="mx-2">/</span>
+        <span>Compress PDF for Email</span>
+      </nav>
+
+      <!-- Header -->
+      <header class="mb-8">
+        <span class="inline-block px-3 py-1 bg-amber-500/20 text-amber-400 rounded text-sm font-medium mb-4">
+          PDF Guide
+        </span>
+        <h1 class="text-4xl font-bold text-[var(--text)] mb-4">
+          How to Compress PDF for Email
+        </h1>
+        <p class="text-xl text-[var(--text-muted)]">
+          Reduce PDF file size up to 90% to meet email attachment limits. No quality loss, completely private.
+        </p>
+      </header>
+
+      <!-- Quick Answer -->
+      <div class="bg-amber-500/10 border border-amber-500/30 rounded-xl p-6 mb-8">
+        <h2 class="text-lg font-semibold text-amber-400 mb-2">Quick Answer</h2>
+        <p class="text-[var(--text)]">
+          Use our <a href="/tools/pdf-compress" class="text-amber-400 underline">free PDF compressor</a>. Upload your PDF, choose compression level, and download the smaller file instantly. No upload required.
+        </p>
+      </div>
+
+      <!-- What is PDF Compression -->
+      <section class="mb-10">
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-4">What is PDF Compression?</h2>
+        <p class="text-[var(--text-muted)] mb-4">
+          <strong class="text-[var(--text)]">PDF compression</strong> reduces file size by optimizing images, removing unnecessary data, and flattening form fields while keeping the document readable.
+        </p>
+        <div class="bg-[var(--bg-secondary)] rounded-xl p-6 border border-[var(--border)]">
+          <h3 class="font-semibold text-[var(--text)] mb-3">Why compress PDFs for email:</h3>
+          <ul class="space-y-2 text-[var(--text-muted)]">
+            <li class="flex gap-3">
+              <span class="text-amber-400">1.</span>
+              <span>Meet email attachment limits (usually 20-25MB)</span>
+            </li>
+            <li class="flex gap-3">
+              <span class="text-amber-400">2.</span>
+              <span>Faster upload and download speeds</span>
+            </li>
+            <li class="flex gap-3">
+              <span class="text-amber-400">3.</span>
+              <span>Save storage space on your device</span>
+            </li>
+            <li class="flex gap-3">
+              <span class="text-amber-400">4.</span>
+              <span>Remove sensitive metadata automatically</span>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Steps -->
+      <section class="mb-10">
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-6">Step-by-Step Instructions</h2>
+
+        <div class="space-y-6">
+          <div class="flex gap-4">
+            <div class="flex-shrink-0 w-10 h-10 bg-[var(--accent)] text-[var(--bg)] rounded-full flex items-center justify-center font-bold">
+              1
+            </div>
+            <div>
+              <h3 class="text-lg font-semibold text-[var(--text)] mb-2">Upload Your PDF</h3>
+              <p class="text-[var(--text-muted)]">
+                Go to the <a href="/tools/pdf-compress" class="text-[var(--accent)]">PDF compress tool</a>. Drop your PDF file or click to browse. Supports PDFs up to 50MB.
+              </p>
+            </div>
+          </div>
+
+          <div class="flex gap-4">
+            <div class="flex-shrink-0 w-10 h-10 bg-[var(--accent)] text-[var(--bg)] rounded-full flex items-center justify-center font-bold">
+              2
+            </div>
+            <div>
+              <h3 class="text-lg font-semibold text-[var(--text)] mb-2">Choose Compression Level</h3>
+              <p class="text-[var(--text-muted)]">
+                Select from preset levels: Maximum (smallest size), High, Medium, or Low (best quality). Preview shows estimated size reduction.
+              </p>
+            </div>
+          </div>
+
+          <div class="flex gap-4">
+            <div class="flex-shrink-0 w-10 h-10 bg-[var(--accent)] text-[var(--bg)] rounded-full flex items-center justify-center font-bold">
+              3
+            </div>
+            <div>
+              <h3 class="text-lg font-semibold text-[var(--text)] mb-2">Download Compressed PDF</h3>
+              <p class="text-[var(--text-muted)]">
+                Click "Compress PDF" and download instantly. For multiple files, use batch mode to get all compressed PDFs in a ZIP archive.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <div class="bg-[var(--bg-secondary)] rounded-xl p-8 text-center mb-10 border border-[var(--border)]">
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-4">Compress PDF Now</h2>
+        <p class="text-[var(--text-muted)] mb-6">
+          Free, private, up to 90% size reduction.
+        </p>
+        <a
+          href="/tools/pdf-compress"
+          class="inline-block px-8 py-4 bg-[var(--accent)] text-[var(--bg)] rounded-lg font-semibold hover:opacity-90 transition-opacity text-lg"
+        >
+          Open PDF Compressor
+        </a>
+      </div>
+
+      <!-- Tips -->
+      <section class="mb-10">
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-4">Tips for Best Results</h2>
+        <div class="grid md:grid-cols-2 gap-4">
+          <div class="bg-green-500/10 border border-green-500/30 rounded-lg p-4">
+            <h3 class="font-semibold text-green-400 mb-2">Do</h3>
+            <ul class="text-sm text-[var(--text-muted)] space-y-1">
+              <li>Use Maximum compression for email attachments</li>
+              <li>Enable "Remove Metadata" for privacy</li>
+              <li>Batch compress multiple PDFs at once</li>
+              <li>Check preview before downloading</li>
+            </ul>
+          </div>
+          <div class="bg-red-500/10 border border-red-500/30 rounded-lg p-4">
+            <h3 class="font-semibold text-red-400 mb-2">Avoid</h3>
+            <ul class="text-sm text-[var(--text-muted)] space-y-1">
+              <li>Compressing already-compressed PDFs</li>
+              <li>Using Low quality for print documents</li>
+              <li>Expecting 90% reduction on text-only PDFs</li>
+              <li>Compressing password-protected PDFs</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- FAQ -->
+      <section class="mb-10">
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-6">Frequently Asked Questions</h2>
+        <div class="space-y-4">
+          <details class="bg-[var(--bg-secondary)] rounded-lg border border-[var(--border)]">
+            <summary class="px-6 py-4 cursor-pointer font-medium text-[var(--text)]">
+              How much can PDF files be compressed?
+            </summary>
+            <p class="px-6 pb-4 text-[var(--text-muted)]">
+              Compression varies by content. Image-heavy PDFs see 50-90% reduction. Text-only PDFs see 10-30% reduction.
+            </p>
+          </details>
+          <details class="bg-[var(--bg-secondary)] rounded-lg border border-[var(--border)]">
+            <summary class="px-6 py-4 cursor-pointer font-medium text-[var(--text)]">
+              Will compression reduce PDF quality?
+            </summary>
+            <p class="px-6 pb-4 text-[var(--text-muted)]">
+              We use lossless techniques. Text and vectors stay sharp. Choose High Quality preset for minimal impact.
+            </p>
+          </details>
+          <details class="bg-[var(--bg-secondary)] rounded-lg border border-[var(--border)]">
+            <summary class="px-6 py-4 cursor-pointer font-medium text-[var(--text)]">
+              Is my PDF uploaded to a server?
+            </summary>
+            <p class="px-6 pb-4 text-[var(--text-muted)]">
+              No. All compression happens in your browser using pdf-lib. Your files never leave your device.
+            </p>
+          </details>
+          <details class="bg-[var(--bg-secondary)] rounded-lg border border-[var(--border)]">
+            <summary class="px-6 py-4 cursor-pointer font-medium text-[var(--text)]">
+              What does removing metadata do?
+            </summary>
+            <p class="px-6 pb-4 text-[var(--text-muted)]">
+              Strips author, creation date, and document properties. Reduces size and enhances privacy by removing hidden information.
+            </p>
+          </details>
+        </div>
+      </section>
+
+      <!-- Related -->
+      <section>
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-4">Related Tools</h2>
+        <div class="flex flex-wrap gap-3">
+          <a href="/tools/pdf-merge" class="px-4 py-2 bg-[var(--bg-secondary)] rounded-lg text-[var(--text-muted)] hover:text-[var(--accent)] border border-[var(--border)]">
+            PDF Merge
+          </a>
+          <a href="/tools/pdf-split" class="px-4 py-2 bg-[var(--bg-secondary)] rounded-lg text-[var(--text-muted)] hover:text-[var(--accent)] border border-[var(--border)]">
+            PDF Split
+          </a>
+          <a href="/tools/image-compress" class="px-4 py-2 bg-[var(--bg-secondary)] rounded-lg text-[var(--text-muted)] hover:text-[var(--accent)] border border-[var(--border)]">
+            Image Compress
+          </a>
+        </div>
+      </section>
+
+    </article>
+  </main>
+
+  <Footer />
+</Layout>

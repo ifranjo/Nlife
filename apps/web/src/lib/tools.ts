@@ -51,7 +51,7 @@ export const tools: Tool[] = [
       title: 'Merge PDF Online Free - No Upload Required | New Life',
       metaDescription: 'Combine multiple PDF files into one document instantly. 100% free, no sign up, no file upload to servers. Your PDFs never leave your browser.',
       h1: 'Merge PDF Files Online - Free & Private',
-      keywords: ['merge pdf', 'combine pdf', 'pdf merge online free', 'join pdf files', 'secure document compilation', 'confidential PDF merge']
+      keywords: [["merge pdf", "combine pdf", "pdf merge online free", "join pdf files", "secure document compilation", "confidential PDF merge", "merge pdf without signup", "combine pdf no watermark", "merge pdf offline", "pdf merger vs smallpdf", "merge pdf for email", "join pdf files free unlimited", "no registration pdf merge", "merge pdf no account needed", "combine pdf anonymously"]]
     },
     faq: [
       { question: 'Is this PDF merger really free?', answer: 'Yes, 100% free with no hidden fees, watermarks, or signup required.' },
@@ -92,7 +92,7 @@ export const tools: Tool[] = [
       title: 'Compress PDF Online Free - Reduce Size 90% | New Life',
       metaDescription: 'Compress PDF files up to 90% smaller instantly. Remove metadata, flatten forms. 100% free, no upload to servers. Works offline.',
       h1: 'Compress PDF Files Online - Free & Private',
-      keywords: ['compress pdf', 'reduce pdf size', 'pdf compressor online', 'shrink pdf free', 'remove PDF metadata', 'strip PDF properties', 'eDiscovery PDF preparation']
+      keywords: [["compress pdf", "reduce pdf size", "pdf compressor online", "shrink pdf free", "remove PDF metadata", "strip PDF properties", "eDiscovery PDF preparation", "compress pdf without signup", "reduce pdf size no watermark", "compress pdf offline", "compress pdf for email", "compress pdf unlimited", "compress pdf no registration", "shrink pdf no account", "pdf compressor vs adobe"]]
     },
     faq: [
       { question: 'How much can PDF files be compressed?', answer: 'Compression varies by content. Image-heavy PDFs see 50-90% reduction. Text-only PDFs see 10-30% reduction.' },
@@ -132,7 +132,7 @@ export const tools: Tool[] = [
       title: 'Split PDF Online Free - Extract Pages Instantly | New Life',
       metaDescription: 'Split PDF into separate pages or extract specific page ranges. Free, no watermark, no signup. Download individual pages as ZIP.',
       h1: 'Split PDF Into Separate Pages - Free Online Tool',
-      keywords: ['split pdf', 'extract pdf pages', 'separate pdf pages', 'pdf splitter free']
+      keywords: [["split pdf", "extract pdf pages", "separate pdf pages", "pdf splitter free", "split pdf without signup", "extract pages no watermark", "split pdf offline", "split pdf for email", "split pdf unlimited", "extract pdf pages free no account", "pdf splitter vs ilovepdf", "separate pdf no registration"]]
     },
     faq: [
       { question: 'Can I extract specific pages from a PDF?', answer: 'Yes, select any page range (e.g., pages 1-3, 5, 7-10) to extract exactly what you need.' },
@@ -169,7 +169,7 @@ export const tools: Tool[] = [
       title: 'Redact PDF Online Free - Remove Sensitive Info | New Life',
       metaDescription: 'Permanently redact sensitive information from PDFs. Auto-detect SSN, emails, phone numbers. GDPR compliant - files never leave your browser.',
       h1: 'Redact Sensitive Information from PDFs',
-      keywords: ['redact pdf', 'remove sensitive info pdf', 'pdf redaction tool', 'black out pdf text', 'HIPAA PDF redaction', 'remove PII from PDF', 'HR document redaction', 'legal document sanitization']
+      keywords: [["redact pdf", "remove sensitive info pdf", "pdf redaction tool", "black out pdf text", "HIPAA PDF redaction", "remove PII from PDF", "HR document redaction", "legal document sanitization", "redact pdf without signup", "redact pdf offline", "black out pdf no watermark", "GDPR compliant pdf redaction", "redact pdf for legal", "sanitize pdf no account"]]
     },
     faq: [
       { question: 'Is PDF redaction permanent?', answer: 'Yes, redacted content is permanently removed and cannot be recovered.' },
@@ -206,7 +206,7 @@ export const tools: Tool[] = [
       title: 'Fill PDF Forms Online Free - Add Signature | New Life',
       metaDescription: 'Fill out PDF forms and add electronic signatures online. HIPAA-safe, no upload required. Your documents stay private on your device.',
       h1: 'Fill PDF Forms & Add Signatures Online',
-      keywords: ['fill pdf form', 'pdf form filler', 'sign pdf online', 'electronic signature pdf']
+      keywords: [["fill pdf form", "pdf form filler", "sign pdf online", "electronic signature pdf", "fill pdf without signup", "sign pdf no watermark", "fill pdf forms offline", "HIPAA safe pdf filler", "fill and sign pdf anonymously", "pdf form filler no account", "electronic signature free unlimited", "fill pdf for legal", "HIPAA compliant form filler"]]
     },
     faq: [
       { question: 'Can I add my signature to PDFs?', answer: 'Yes, draw or type your signature and place it anywhere on the document.' },
@@ -245,7 +245,7 @@ export const tools: Tool[] = [
       title: 'Free OCR Online - Extract Text from Images & PDFs | New Life',
       metaDescription: 'Extract text from images and multi-page PDFs with AI-powered OCR. Batch processing, export to TXT/DOCX/PDF. 100% free, works offline, supports 15+ languages.',
       h1: 'OCR Text Extractor - Image to Text Free',
-      keywords: ['ocr online', 'image to text', 'extract text from image', 'pdf ocr free', 'multi-page pdf ocr', 'batch ocr', 'scanned pdf to text', 'tesseract online']
+      keywords: [["ocr online", "image to text", "extract text from image", "pdf ocr free", "multi-page pdf ocr", "batch ocr", "scanned pdf to text", "tesseract online", "ocr without signup", "image to text offline", "extract text no watermark", "ocr unlimited pages", "ocr no registration", "ocr for documents", "ocr vs adobe"]]
     },
     faq: [
       { question: 'What languages does the OCR support?', answer: 'We support 15+ languages including English, Spanish, French, German, Portuguese, Italian, Chinese (Simplified & Traditional), Japanese, Korean, Arabic, Hindi, Russian, Dutch, and Polish. Language data is loaded dynamically for faster performance.' },
@@ -297,7 +297,7 @@ export const tools: Tool[] = [
       title: 'Free Document Scanner Online - Camera to PDF | New Life',
       metaDescription: 'Scan documents with your phone or webcam. Auto edge detection, perspective correction, PDF export. Works offline, no app install needed.',
       h1: 'Scan Documents to PDF with Your Camera',
-      keywords: ['document scanner online', 'scan to pdf', 'camera scanner', 'phone document scanner']
+      keywords: [["document scanner online", "scan to pdf", "camera scanner", "phone document scanner", "scan document without app", "scan to pdf offline", "document scanner no signup", "scan documents for email", "mobile document scanner free", "scan pdf unlimited", "camera to pdf no watermark"]]
     },
     faq: [
       { question: 'Do I need to install an app?', answer: 'No, it works directly in your browser using your device camera.' },
@@ -335,7 +335,7 @@ export const tools: Tool[] = [
       title: 'PDF to Word Converter Free Online - No Upload | New Life',
       metaDescription: 'Convert PDF to editable Word document (.docx) instantly. 100% free, no email required, no file upload. Works offline in your browser.',
       h1: 'Convert PDF to Word Online - Free & Private',
-      keywords: ['pdf to word', 'pdf to docx', 'convert pdf to word free', 'pdf converter online']
+      keywords: [["pdf to word", "pdf to docx", "convert pdf to word free", "pdf converter online", "pdf to word without signup", "pdf to word no watermark", "convert pdf to docx offline", "pdf to word unlimited", "pdf to docx no account", "pdf converter vs smallpdf", "convert pdf for editing"]]
     },
     faq: [
       { question: 'Do I need Microsoft Word installed?', answer: 'No, the converter creates a standard .docx file that opens in Word, Google Docs, or any word processor.' },
@@ -373,7 +373,7 @@ export const tools: Tool[] = [
       title: 'Free Resume Builder Online - PDF Download | New Life',
       metaDescription: 'Create a professional resume in minutes. Multiple ATS-friendly templates, instant PDF download. 100% free, no signup or watermark.',
       h1: 'Build Your Resume Free - Professional Templates',
-      keywords: ['resume builder free', 'cv maker online', 'free resume template', 'create resume pdf']
+      keywords: [["resume builder free", "cv maker online", "free resume template", "create resume pdf", "resume builder without signup", "resume no watermark", "ats friendly resume", "professional resume offline", "resume maker no account", "create cv unlimited", "resume template vs canva", "job resume free"]]
     },
     faq: [
       { question: 'Are the resume templates ATS-friendly?', answer: 'Yes, all templates are designed to pass Applicant Tracking Systems used by employers.' },
@@ -413,7 +413,7 @@ export const tools: Tool[] = [
       title: 'Organize PDF Pages Free Online - Reorder & Delete | New Life',
       metaDescription: 'Reorder, delete, and rearrange PDF pages with drag and drop. Visual thumbnails for easy organization. 100% free, no upload to servers.',
       h1: 'Organize PDF Pages - Reorder & Delete Free',
-      keywords: ['organize pdf', 'reorder pdf pages', 'rearrange pdf', 'delete pdf pages', 'pdf page organizer']
+      keywords: [["organize pdf", "reorder pdf pages", "rearrange pdf", "delete pdf pages", "pdf page organizer", "reorder pdf without signup", "organize pdf no watermark", "rearrange pdf offline", "delete pdf pages unlimited", "pdf organizer no account", "reorder pages vs ilovepdf"]]
     },
     faq: [
       { question: 'How do I reorder PDF pages?', answer: 'Simply drag and drop page thumbnails to rearrange them in any order you want.' },
@@ -444,7 +444,7 @@ export const tools: Tool[] = [
       title: 'JPG to PDF Converter Free Online - Image to PDF | New Life',
       metaDescription: 'Convert JPG, PNG, WebP images to PDF instantly. Multiple images, custom page sizes. 100% free, no upload required.',
       h1: 'Convert Images to PDF - Free Online Tool',
-      keywords: ['jpg to pdf', 'image to pdf', 'png to pdf', 'photo to pdf', 'convert image to pdf free']
+      keywords: [["jpg to pdf", "image to pdf", "png to pdf", "photo to pdf", "convert image to pdf free", "jpg to pdf without signup", "image to pdf no watermark", "convert jpg to pdf offline", "jpg to pdf unlimited", "image to pdf no account", "jpg to pdf converter vs smallpdf"]]
     },
     faq: [
       { question: 'What image formats are supported?', answer: 'JPG, JPEG, PNG, WebP, and GIF images can be converted to PDF.' },
@@ -475,7 +475,7 @@ export const tools: Tool[] = [
       title: 'PDF to JPG Converter Free Online - Export Pages as Images | New Life',
       metaDescription: 'Convert PDF pages to JPG or PNG images. Choose quality, select pages. 100% free, no upload to servers.',
       h1: 'Convert PDF to Images - Free Online Tool',
-      keywords: ['pdf to jpg', 'pdf to image', 'pdf to png', 'convert pdf to image', 'export pdf pages']
+      keywords: [["pdf to jpg", "pdf to image", "pdf to png", "convert pdf to image", "export pdf pages", "pdf to jpg without signup", "pdf to image no watermark", "convert pdf to jpg offline", "pdf to jpg unlimited", "export pdf no account", "pdf to jpg vs adobe"]]
     },
     faq: [
       { question: 'What image formats can I export to?', answer: 'Export as JPG (smaller file size) or PNG (lossless quality).' },
@@ -510,7 +510,7 @@ export const tools: Tool[] = [
       title: 'Compress Images Online Free - Reduce Size 90% | New Life',
       metaDescription: 'Compress PNG, JPEG, WebP images up to 90% smaller without losing quality. Batch processing, ZIP download. No upload to servers.',
       h1: 'Compress Images Online - Free & Fast',
-      keywords: ['compress image', 'reduce image size', 'image compressor online', 'optimize images for web', 'batch product photo optimization', 'marketplace image compression']
+      keywords: [["compress image", "reduce image size", "image compressor online", "optimize images for web", "batch product photo optimization", "marketplace image compression", "compress image without signup", "reduce image size no watermark", "compress images offline", "compress images for amazon", "compress images for etsy", "optimize product photos", "image compression unlimited"]]
     },
     faq: [
       { question: 'How much can images be compressed?', answer: 'Typically 60-90% size reduction while maintaining visual quality.' },
@@ -550,7 +550,7 @@ export const tools: Tool[] = [
       title: 'HEIC to JPG Converter Free Online - Convert iPhone Photos | New Life',
       metaDescription: 'Convert HEIC to JPG/PNG instantly. Free online image converter for iPhone photos. Also converts WebP, PNG, BMP to JPG/PNG/WebP. No upload, 100% private.',
       h1: 'Convert HEIC to JPG - Free Online Image Converter',
-      keywords: ['heic to jpg', 'convert heic to jpg', 'heic converter', 'iphone photo converter', 'webp to jpg', 'png to jpg', 'product photo format conversion', 'WEBP to PNG ecommerce']
+      keywords: [["heic to jpg", "convert heic to jpg", "heic converter", "iphone photo converter", "webp to jpg", "png to jpg", "product photo format conversion", "WEBP to PNG ecommerce", "heic to jpg without signup", "convert iphone photos offline", "heic converter no watermark", "image converter unlimited", "convert photos for amazon", "convert photos for etsy"]]
     },
     faq: [
       { question: 'How do I convert HEIC files from my iPhone?', answer: 'Drop or select your HEIC files, choose JPG/PNG/WebP output format, click Convert. Files are processed in your browser - never uploaded.' },
@@ -589,7 +589,7 @@ export const tools: Tool[] = [
       title: 'Remove Background from Image Free - AI Powered | New Life',
       metaDescription: 'Remove image backgrounds instantly with AI. 100% free, no signup. Works offline - your photos never leave your device. PNG download.',
       h1: 'Remove Image Background - Free AI Tool',
-      keywords: ['remove background', 'background remover', 'transparent background', 'remove bg free', 'Amazon product photo background', 'Etsy listing photo', 'ecommerce product image', 'white background product photo']
+      keywords: [["remove background", "background remover", "transparent background", "remove bg free", "Amazon product photo background", "Etsy listing photo", "ecommerce product image", "white background product photo", "remove background without signup", "background remover offline", "remove bg no watermark", "product photo unlimited", "background remover vs remove.bg", "remove background for amazon"]]
     },
     faq: [
       { question: 'How does AI background removal work?', answer: 'AI automatically detects the subject and removes the background, creating a transparent PNG.' },
@@ -629,7 +629,7 @@ export const tools: Tool[] = [
       title: 'Remove GPS from Photos Free - EXIF Metadata Editor | New Life',
       metaDescription: 'Strip GPS location and metadata from photos before sharing. View and edit EXIF data including camera info, dates, location. 100% private, browser-based.',
       h1: 'Remove GPS Location from Photos - Privacy Protection',
-      keywords: ['remove gps from photo', 'exif editor', 'strip photo metadata', 'remove location from image', 'exif remover']
+      keywords: [["remove gps from photo", "exif editor", "strip photo metadata", "remove location from image", "exif remover", "remove gps without signup", "strip metadata offline", "privacy photo editor", "remove exif no watermark", "exif cleaner unlimited", "remove location before sharing"]]
     },
     faq: [
       { question: 'Why should I remove GPS data from photos?', answer: 'Photos contain your exact GPS coordinates. Sharing them online can reveal your home, workplace, or daily routines. Strip GPS for privacy.' },
@@ -668,7 +668,7 @@ export const tools: Tool[] = [
       title: 'Extract Audio from Video Free - Video to MP3 | New Life',
       metaDescription: 'Convert video to MP3 audio instantly. Extract audio from MP4, WebM, MOV files. 100% free, no upload needed, works offline.',
       h1: 'Extract Audio from Video - Free MP3 Converter',
-      keywords: ['video to mp3', 'extract audio from video', 'convert video to audio', 'mp4 to mp3']
+      keywords: [["video to mp3", "extract audio from video", "convert video to audio", "mp4 to mp3", "video to mp3 without signup", "extract audio no watermark", "convert video to mp3 offline", "video to mp3 unlimited", "audio extractor no account", "extract audio for youtube"]]
     },
     faq: [
       { question: 'What video formats can I convert?', answer: 'MP4, WebM, MOV, AVI, and most common video formats.' },
@@ -706,7 +706,7 @@ export const tools: Tool[] = [
       title: 'Compress Video Online Free - Reduce Size 90% | New Life',
       metaDescription: 'Compress video files up to 90% smaller for Discord, email, WhatsApp. H.264 encoding in browser. No upload, no watermark.',
       h1: 'Compress Video Online - Free & Fast',
-      keywords: ['compress video', 'reduce video size', 'video compressor online', 'compress video for discord']
+      keywords: [["compress video", "reduce video size", "video compressor online", "compress video for discord", "compress video without signup", "reduce video size no watermark", "compress video offline", "compress video for whatsapp", "compress video for email", "compress video for tiktok", "compress video unlimited"]]
     },
     faq: [
       { question: 'How much smaller will my video be?', answer: 'Typically 50-90% smaller depending on compression settings and original quality.' },
@@ -744,7 +744,7 @@ export const tools: Tool[] = [
       title: 'Trim Video Online Free - Cut & Clip Videos | New Life',
       metaDescription: 'Cut and trim video clips instantly. Set precise start/end times, preview before saving. No quality loss, no watermark, 100% free.',
       h1: 'Trim & Cut Videos Online - Free Tool',
-      keywords: ['trim video', 'cut video online', 'video trimmer', 'clip video free']
+      keywords: [["trim video", "cut video online", "video trimmer", "clip video free", "trim video without signup", "cut video no watermark", "trim video offline", "trim video for tiktok", "trim video for youtube", "video trimmer unlimited"]]
     },
     faq: [
       { question: 'Will trimming reduce video quality?', answer: 'No, we use lossless cutting that preserves original quality.' },
@@ -782,7 +782,7 @@ export const tools: Tool[] = [
       title: 'Video to GIF Converter Free Online - No Upload | New Life',
       metaDescription: 'Convert video clips to high-quality GIFs in your browser. Set start/end times, frame rate, and width. 100% free, no upload required.',
       h1: 'Convert Video to GIF Online - Free Tool',
-      keywords: ['video to gif', 'gif maker', 'convert video to gif', 'gif converter online free']
+      keywords: [["video to gif", "gif maker", "convert video to gif", "gif converter online free", "video to gif without signup", "gif maker no watermark", "create gif offline", "gif maker for discord", "gif maker for slack", "create gif unlimited", "video to gif no account"]]
     },
     faq: [
       { question: 'How do I get a smaller GIF file size?', answer: 'Use shorter clips, lower frame rate (10-15 FPS), and smaller width (320-480px).' },
@@ -820,7 +820,7 @@ export const tools: Tool[] = [
       title: 'Remove Vocals from Song Free - Karaoke Maker | New Life',
       metaDescription: 'Remove vocals from any song to create instrumentals or karaoke tracks. Free, works offline, no upload required. Phase cancellation technology.',
       h1: 'Remove Vocals from Songs - Free Instrumental Maker',
-      keywords: ['remove vocals', 'vocal remover', 'karaoke maker', 'instrumental creator', 'remove singing from song']
+      keywords: [["remove vocals", "vocal remover", "karaoke maker", "instrumental creator", "remove singing from song", "vocal remover without signup", "karaoke maker offline", "remove vocals no watermark", "instrumental maker unlimited", "karaoke creator no account"]]
     },
     faq: [
       { question: 'How does vocal removal work?', answer: 'Uses phase cancellation to remove center-panned vocals while preserving instrumentals.' },
@@ -859,7 +859,7 @@ export const tools: Tool[] = [
       title: 'Transcribe Audio to Text Free - AI Speech Recognition | New Life',
       metaDescription: 'Convert speech to text with Whisper AI. Transcribe audio files in 10+ languages. 100% free, runs locally, no upload required.',
       h1: 'Transcribe Audio to Text - Free AI Tool',
-      keywords: ['transcribe audio', 'speech to text', 'audio transcription free', 'whisper ai transcription', 'podcast transcription free', 'episode transcript generator', 'show notes from audio']
+      keywords: [["transcribe audio", "speech to text", "audio transcription free", "whisper ai transcription", "podcast transcription free", "episode transcript generator", "show notes from audio", "transcribe without signup", "speech to text offline", "audio transcription no watermark", "podcast transcription unlimited", "transcribe audio for youtube"]]
     },
     faq: [
       { question: 'What languages are supported?', answer: 'English, Spanish, French, German, Italian, Portuguese, Chinese, Japanese, Korean, Russian, and more.' },
@@ -897,7 +897,7 @@ export const tools: Tool[] = [
       title: 'Generate Subtitles Free - AI SRT/VTT Export | New Life',
       metaDescription: 'Create subtitles from video or audio using Whisper AI. Export as SRT or VTT. 100% free, no upload, runs in browser.',
       h1: 'Generate Subtitles with AI - Free SRT & VTT Export',
-      keywords: ['subtitle generator', 'generate subtitles', 'srt generator', 'vtt generator', 'auto subtitles free', 'YouTube subtitle generator', 'TikTok caption maker', 'course video subtitles', 'SRT file creator', 'accessibility captions']
+      keywords: [["subtitle generator", "generate subtitles", "srt generator", "vtt generator", "auto subtitles free", "YouTube subtitle generator", "TikTok caption maker", "course video subtitles", "SRT file creator", "accessibility captions", "subtitle generator without signup", "auto subtitles offline", "subtitle maker unlimited"]]
     },
     faq: [
       { question: 'What subtitle formats are supported?', answer: 'Export as SRT (universal, works everywhere) or VTT (web standard for HTML5 video players).' },
@@ -936,7 +936,7 @@ export const tools: Tool[] = [
       title: 'Audio Editor Online Free - Trim & Edit with Waveform | New Life',
       metaDescription: 'Edit audio with visual waveform. Trim, add fade in/out, export as MP3 or WAV. 100% free, no upload to servers. Works offline.',
       h1: 'Audio Waveform Editor - Trim & Edit Audio Free',
-      keywords: ['audio editor online', 'trim audio', 'audio waveform editor', 'cut audio free', 'audio trimmer']
+      keywords: [["audio editor online", "trim audio", "audio waveform editor", "cut audio free", "audio trimmer", "audio editor without signup", "trim audio no watermark", "audio editor offline", "cut audio unlimited", "audio trimmer no account"]]
     },
     faq: [
       { question: 'What audio formats are supported?', answer: 'Input: MP3, WAV, M4A, OGG, FLAC. Export as MP3 (compressed) or WAV (lossless).' },
@@ -975,7 +975,7 @@ export const tools: Tool[] = [
       title: 'Screen Recorder Online Free - No Install | New Life',
       metaDescription: 'Record your screen directly in your browser. Capture screen, window, or tab with audio. No software install, no upload. Download as WebM.',
       h1: 'Record Screen Online - Free Browser Tool',
-      keywords: ['screen recorder', 'record screen online', 'screen capture', 'screen recording free', 'browser screen recorder']
+      keywords: [["screen recorder", "record screen online", "screen capture", "screen recording free", "browser screen recorder", "screen recorder without signup", "record screen no install", "screen capture no watermark", "record screen offline", "screen recording unlimited"]]
     },
     faq: [
       { question: 'Do I need to install software?', answer: 'No, it works directly in your browser using the native MediaRecorder API. No downloads or plugins required.' },
@@ -1015,7 +1015,7 @@ export const tools: Tool[] = [
       title: 'Free Audiogram Maker Online - Create Waveform Videos | New Life',
       metaDescription: 'Create animated waveform videos from audio clips for social media. Free audiogram maker with customizable colors, styles, and aspect ratios. Perfect for podcast promotion.',
       h1: 'Create Audiogram Videos - Free Online Tool',
-      keywords: ['audiogram maker', 'podcast clip maker', 'waveform video generator', 'audio to video', 'social media audiogram']
+      keywords: [["audiogram maker", "podcast clip maker", "waveform video generator", "audio to video", "social media audiogram", "audiogram without signup", "waveform video no watermark", "audiogram for instagram", "audiogram for tiktok", "podcast promotion"]]
     },
     faq: [
       { question: 'What is an audiogram?', answer: 'An audiogram is a video that visualizes audio waveforms, typically used to promote podcast episodes or audio content on social media platforms like Instagram, TikTok, and Twitter.' },
@@ -1058,7 +1058,7 @@ export const tools: Tool[] = [
       title: 'SRT VTT Subtitle Editor Online Free - Edit Captions | New Life',
       metaDescription: 'Edit SRT and VTT subtitle files online. Fix timing, edit text, add or remove captions. Convert between SRT and VTT formats. 100% free, browser-based.',
       h1: 'Edit SRT & VTT Subtitles Online - Free Tool',
-      keywords: ['srt editor', 'vtt editor', 'subtitle editor online', 'edit captions', 'fix subtitle timing', 'srt to vtt converter']
+      keywords: [["srt editor", "vtt editor", "subtitle editor online", "edit captions", "fix subtitle timing", "srt to vtt converter", "subtitle editor without signup", "edit captions no watermark", "fix subtitles offline", "subtitle editor unlimited"]]
     },
     faq: [
       { question: 'What subtitle formats are supported?', answer: 'Both SRT (SubRip) and VTT (WebVTT) formats. Upload either format, edit, and download as SRT or VTT.' },
@@ -1098,12 +1098,17 @@ export const tools: Tool[] = [
       title: 'Resize Image Online Free - Change Dimensions | New Life',
       metaDescription: 'Resize images to any dimension instantly. Maintain aspect ratio, set custom sizes. Supports JPG, PNG, WebP. 100% free, browser-based.',
       h1: 'Resize Images Online - Free Tool',
-      keywords: ['resize image', 'image resizer', 'change image size', 'scale image', 'photo resize']
+      keywords: [["resize image", "image resizer", "change image size", "scale image", "photo resize", "resize image without signup", "image resizer no watermark", "resize photos offline", "resize image unlimited", "change image size no account"]]
     },
     faq: [
       { question: 'Can I maintain the aspect ratio?', answer: 'Yes, lock the aspect ratio to resize proportionally, or unlock to set custom dimensions.' },
       { question: 'What formats are supported?', answer: 'JPG, JPEG, PNG, WebP, and GIF images can be resized and downloaded.' },
-      { question: 'Is there a size limit?', answer: 'No hard limit. Large images may take longer to process in browser.' }
+      { question: 'Is there a size limit?', answer: 'No hard limit. Large images may take longer to process in browser.' },
+      { question: 'Can I resize multiple images at once?', answer: 'Currently, you can resize one image at a time. Download your resized image, then upload another for batch processing.' },
+      { question: 'Will resizing reduce image quality?', answer: 'When enlarging images, quality may decrease since new pixels are estimated. Reducing size maintains quality better.' },
+      { question: 'Is my image uploaded anywhere?', answer: 'No. All processing happens 100% in your browser. Your images never leave your device.' },
+      { question: 'Can I use this on mobile?', answer: 'Yes, the tool works on any device with a modern browser, including smartphones and tablets.' },
+      { question: 'What if my image does not resize?', answer: 'Make sure your image format is supported (JPG, PNG, WebP, GIF) and your browser has enough memory. Try refreshing if it hangs.' }
     ],
     stats: [
       { label: 'Formats supported', value: 'JPG, PNG, WebP, GIF' },
@@ -1133,12 +1138,18 @@ export const tools: Tool[] = [
       title: 'Free QR Code Generator Online - Custom Colors | New Life',
       metaDescription: 'Generate QR codes for URLs, text, WiFi, contact info. Customize colors and size. Download as PNG. 100% free, no signup required.',
       h1: 'Generate QR Codes Free - Custom & Downloadable',
-      keywords: ['qr code generator', 'create qr code', 'free qr code', 'qr code maker']
+      keywords: [["qr code generator", "create qr code", "free qr code", "qr code maker", "qr generator without signup", "create qr code no watermark", "qr code offline", "custom qr code unlimited", "qr maker no account"]]
     },
     faq: [
       { question: 'What can I create QR codes for?', answer: 'URLs, plain text, WiFi credentials, contact cards (vCard), email, phone numbers.' },
       { question: 'Can I customize QR code colors?', answer: 'Yes, choose custom foreground and background colors.' },
-      { question: 'What format is the download?', answer: 'PNG image at high resolution, perfect for printing.' }
+      { question: 'What format is the download?', answer: 'PNG image at high resolution, perfect for printing.' },
+      { question: 'Will colored QR codes still scan?', answer: 'Most scanners read colored QR codes fine. Use high contrast between foreground and background for best results.' },
+      { question: 'Is there a limit on QR code size?', answer: 'The more data you add, the larger and more complex the QR code becomes. Keep URLs short for cleaner codes.' },
+      { question: 'Can I use QR codes for WiFi login?', answer: 'Yes, generate a WiFi QR code and users can scan to join your network without typing the password.' },
+      { question: 'Are my QR codes stored anywhere?', answer: 'No. QR codes are generated entirely in your browser. Nothing is uploaded to any server.' },
+      { question: 'Do QR codes expire?', answer: 'No, once generated, QR codes work forever. However, the content they link to (like a website) may change.' },
+      { question: 'Why would I use this instead of other QR generators?', answer: 'Unlike most tools, we are 100% private (no server uploads), work offline, and are completely free with no watermarks.' }
     ],
     stats: [
       {
@@ -1170,11 +1181,17 @@ export const tools: Tool[] = [
       title: 'Base64 Encode Decode Online Free | New Life',
       metaDescription: 'Encode or decode Base64 data instantly. Convert text, images, files to/from Base64. Free developer tool, no signup.',
       h1: 'Base64 Encoder & Decoder Online',
-      keywords: ['base64 encode', 'base64 decode', 'base64 converter', 'text to base64']
+      keywords: [["base64 encode", "base64 decode", "base64 converter", "text to base64", "base64 without signup", "base64 converter no watermark", "base64 offline", "encode base64 unlimited"]]
     },
     faq: [
       { question: 'What is Base64 encoding?', answer: 'Base64 converts binary data to ASCII text, commonly used for embedding data in HTML/CSS/JSON.' },
-      { question: 'Can I encode files?', answer: 'Yes, upload any file to convert it to Base64 string.' }
+      { question: 'Can I encode files?', answer: 'Yes, upload any file to convert it to Base64 string.' },
+      { question: 'Why would I use Base64 encoding?', answer: 'Common uses include embedding images in HTML/CSS, transmitting binary data over text-only protocols, and storing complex data in JSON/XML.' },
+      { question: 'Is there a file size limit?', answer: 'Large files (over 10MB) may cause browser slowdowns since encoding happens in your browser memory.' },
+      { question: 'What if my Base64 string does not decode?', answer: 'Make sure there are no extra spaces or line breaks. Some Base64 strings include a data URL prefix (data:image/png;base64,) which should be removed for pure decoding.' },
+      { question: 'Is my data uploaded anywhere?', answer: 'Absolutely not. All encoding/decoding happens 100% in your browser. Your files and data never leave your device.' },
+      { question: 'Can I decode Base64 from the clipboard?', answer: 'Yes, paste any Base64 string into the decoder input. The tool works with text or file-generated Base64.' },
+      { question: 'What is the difference between Base64 and Base64URL?', answer: 'Base64URL replaces + and / with - and _ to make URLs safe. This tool handles standard Base64.' }
     ],
     stats: [
       {
@@ -1206,11 +1223,17 @@ export const tools: Tool[] = [
       title: 'JSON Formatter & Validator Online Free | New Life',
       metaDescription: 'Format, beautify, and validate JSON data online. Minify or prettify with syntax highlighting. Free developer tool.',
       h1: 'JSON Formatter & Validator - Free Online Tool',
-      keywords: ['json formatter', 'json validator', 'beautify json', 'json prettify', 'minify json']
+      keywords: [["json formatter", "json validator", "beautify json", "json prettify", "minify json", "json formatter without signup", "json validator offline", "beautify json unlimited"]]
     },
     faq: [
       { question: 'Does it validate JSON syntax?', answer: 'Yes, invalid JSON is highlighted with error location.' },
-      { question: 'Can I minify JSON?', answer: 'Yes, switch between prettified and minified output.' }
+      { question: 'Can I minify JSON?', answer: 'Yes, switch between prettified and minified output.' },
+      { question: 'Why does my JSON show as invalid?', answer: 'Common issues include trailing commas, unquoted keys, single quotes instead of double quotes, or missing brackets. The error indicator shows where problems are.' },
+      { question: 'Can I format JSON from API responses?', answer: 'Yes, paste any minified JSON (from APIs, files, or clipboard) and it will be formatted automatically.' },
+      { question: 'Is there a size limit for JSON?', answer: 'Very large JSON files (over 50MB) may be slow. For most use cases, the tool handles API responses and config files easily.' },
+      { question: 'Does this work with JSON5 or JSONC?', answer: 'This tool follows strict JSON standards. JSON5/JSONC features like comments and trailing commas will need to be removed before validation.' },
+      { question: 'Is my JSON data sent anywhere?', answer: 'No, all formatting happens locally in your browser. Your data stays private on your device.' },
+      { question: 'Can I save formatted JSON directly?', answer: 'Use the copy button to get the formatted JSON, then paste it into your editor. The tool does not directly edit files.' }
     ],
     stats: [
       {
@@ -1242,11 +1265,17 @@ export const tools: Tool[] = [
       title: 'Text Case Converter Online - UPPER lower Title | New Life',
       metaDescription: 'Convert text to UPPERCASE, lowercase, Title Case, camelCase, snake_case, kebab-case. Free instant text transformation.',
       h1: 'Convert Text Case Online - Free Tool',
-      keywords: ['text case converter', 'uppercase converter', 'lowercase converter', 'title case', 'camelcase converter']
+      keywords: [["text case converter", "uppercase converter", "lowercase converter", "title case", "camelcase converter", "case converter without signup", "text converter offline", "change text case unlimited"]]
     },
     faq: [
       { question: 'What case formats are supported?', answer: 'UPPERCASE, lowercase, Title Case, Sentence case, camelCase, PascalCase, snake_case, kebab-case.' },
-      { question: 'Is there a character limit?', answer: 'No practical limit for browser-based processing.' }
+      { question: 'Is there a character limit?', answer: 'No practical limit for browser-based processing.' },
+      { question: 'What is the difference between camelCase and PascalCase?', answer: 'camelCase starts with a lowercase letter (myVariable), while PascalCase starts with uppercase (MyVariable). Use camelCase for variables and PascalCase for classes in many languages.' },
+      { question: 'Can I convert code with this tool?', answer: 'Yes, but be careful. This converts all text, so only paste the specific identifiers you want converted, not entire code files.' },
+      { question: 'Why would I use different cases?', answer: 'Different programming languages and style guides prefer different cases: snake_case for Python, camelCase for JavaScript, SCREAMING_SNAKE_CASE for constants.' },
+      { question: 'Does it handle special characters and numbers?', answer: 'Yes, numbers and special characters are preserved. Only alphabetic characters are converted between cases.' },
+      { question: 'Can I convert case in place?', answer: 'Type or paste your text, then click any case button to instantly convert. The original text is replaced.' },
+      { question: 'Is my text stored or tracked?', answer: 'No. All conversion happens instantly in your browser. We do not save, transmit, or track any text you process.' }
     ],
     stats: [
       {
@@ -1278,7 +1307,7 @@ export const tools: Tool[] = [
       title: 'Word Counter Online Free - Characters & Reading Time | New Life',
       metaDescription: 'Count words, characters, sentences, paragraphs instantly. See reading time and keyword density. Free tool for writers.',
       h1: 'Word & Character Counter - Free Online Tool',
-      keywords: ['word counter', 'character counter', 'word count online', 'reading time calculator']
+      keywords: [["word counter", "character counter", "word count online", "reading time calculator", "word counter without signup", "count words offline", "word count unlimited", "character counter free"]]
     },
     faq: [
       { question: 'What does it count?', answer: 'Words, characters (with/without spaces), sentences, paragraphs, and estimated reading time.' },
@@ -1314,7 +1343,7 @@ export const tools: Tool[] = [
       title: 'Lorem Ipsum Generator Free - Placeholder Text | New Life',
       metaDescription: 'Generate Lorem Ipsum placeholder text for designs. Create paragraphs, sentences, or words. Copy with one click. Free.',
       h1: 'Lorem Ipsum Generator - Free Placeholder Text',
-      keywords: ['lorem ipsum generator', 'placeholder text', 'dummy text generator', 'lipsum']
+      keywords: [["lorem ipsum generator", "placeholder text", "dummy text generator", "lipsum", "lorem ipsum without signup", "placeholder text offline", "generate lorem ipsum unlimited"]]
     },
     faq: [
       { question: 'What is Lorem Ipsum?', answer: 'Placeholder text used in design and typesetting to demonstrate layout without meaningful content.' },
@@ -1350,7 +1379,7 @@ export const tools: Tool[] = [
       title: 'Hash Generator Online - MD5 SHA256 SHA512 Free | New Life',
       metaDescription: 'Generate MD5, SHA-1, SHA-256, SHA-512 hashes from text or files. Secure Web Crypto API. Free developer tool.',
       h1: 'Generate Hash Online - MD5, SHA-256, SHA-512',
-      keywords: ['hash generator', 'md5 generator', 'sha256 hash', 'sha512 online', 'checksum generator']
+      keywords: [["hash generator", "md5 generator", "sha256 hash", "sha512 online", "checksum generator", "hash generator without signup", "md5 offline", "generate hash unlimited"]]
     },
     faq: [
       { question: 'What hash algorithms are supported?', answer: 'MD5, SHA-1, SHA-256, SHA-384, and SHA-512.' },
@@ -1387,7 +1416,7 @@ export const tools: Tool[] = [
       title: 'Color Converter - HEX RGB HSL Free Online | New Life',
       metaDescription: 'Convert colors between HEX, RGB, HSL formats instantly. Live preview, CSS output, color picker. Free tool for designers.',
       h1: 'Color Converter - HEX, RGB, HSL Online',
-      keywords: ['color converter', 'hex to rgb', 'rgb to hex', 'hsl converter', 'color picker']
+      keywords: [["color converter", "hex to rgb", "rgb to hex", "hsl converter", "color picker", "color converter without signup", "hex to rgb offline", "color picker unlimited"]]
     },
     faq: [
       { question: 'What color formats are supported?', answer: 'HEX, RGB, RGBA, HSL, HSLA with instant conversion between all formats.' },
@@ -1425,7 +1454,7 @@ export const tools: Tool[] = [
       title: 'Password Generator Free Online - Secure Random | New Life',
       metaDescription: 'Generate strong, secure random passwords instantly. Customize length (8-128), character types. Uses Web Crypto API. 100% private.',
       h1: 'Generate Secure Passwords - Free Online Tool',
-      keywords: ['password generator', 'random password', 'secure password', 'strong password generator']
+      keywords: [["password generator", "random password", "secure password", "strong password generator", "password generator without signup", "random password offline", "generate password unlimited", "secure password no account"]]
     },
     faq: [
       { question: 'How secure are the generated passwords?', answer: 'Extremely secure. We use Web Crypto API (crypto.getRandomValues) for cryptographically secure random generation.' },
@@ -1464,7 +1493,7 @@ export const tools: Tool[] = [
       title: 'QR Code Reader Online Free - Scan from Image or Camera | New Life',
       metaDescription: 'Scan QR codes from images or camera instantly. Extract URLs, text, WiFi credentials. 100% free, no app install needed.',
       h1: 'QR Code Scanner & Reader - Free Online Tool',
-      keywords: ['qr code reader', 'qr scanner', 'scan qr code', 'decode qr', 'qr code scanner online']
+      keywords: [["qr code reader", "qr scanner", "scan qr code", "decode qr", "qr code scanner online", "qr reader without signup", "scan qr code no app", "qr scanner offline", "decode qr unlimited"]]
     },
     faq: [
       { question: 'Can I scan from a screenshot?', answer: 'Yes, upload any image containing a QR code and it will be decoded instantly.' },
@@ -1494,7 +1523,7 @@ export const tools: Tool[] = [
       title: 'Unit Converter Online Free - Length, Weight, Temperature | New Life',
       metaDescription: 'Convert between units instantly. Length, weight, temperature, volume, area, speed, time. Free online converter, no signup required.',
       h1: 'Unit Converter - Free Online Tool',
-      keywords: ['unit converter', 'convert units', 'length converter', 'weight converter', 'temperature converter']
+      keywords: [["unit converter", "convert units", "length converter", "weight converter", "temperature converter", "unit converter without signup", "convert units offline", "conversion unlimited"]]
     },
     faq: [
       { question: 'What units can I convert?', answer: 'Length, weight/mass, temperature, volume, area, speed, time, and digital storage.' },
@@ -1528,7 +1557,7 @@ export const tools: Tool[] = [
       title: 'AI Sentiment Analysis Free Online - Analyze Text Emotion | New Life',
       metaDescription: 'Analyze text sentiment with AI. Detect positive, negative, neutral emotions. 100% free, runs in browser, no data uploaded.',
       h1: 'AI Sentiment Analysis - Free Online Tool',
-      keywords: ['sentiment analysis', 'text emotion', 'ai sentiment', 'analyze sentiment', 'positive negative text']
+      keywords: [["sentiment analysis", "text emotion", "ai sentiment", "analyze sentiment", "positive negative text", "sentiment analysis without signup", "ai sentiment offline", "analyze text emotion unlimited"]]
     },
     faq: [
       { question: 'How does AI sentiment analysis work?', answer: 'A neural network model analyzes text patterns to determine emotional tone - positive, negative, or neutral.' },
@@ -1558,7 +1587,7 @@ export const tools: Tool[] = [
       title: 'AI Object Detection Free Online - Identify Objects in Images | New Life',
       metaDescription: 'Detect and identify objects in images with AI. Draw bounding boxes, label items. 100% free, runs in browser, no upload needed.',
       h1: 'AI Object Detection - Free Online Tool',
-      keywords: ['object detection', 'ai image analysis', 'detect objects', 'image recognition', 'computer vision']
+      keywords: [["object detection", "ai image analysis", "detect objects", "image recognition", "computer vision", "object detection without signup", "ai image recognition offline", "detect objects unlimited"]]
     },
     faq: [
       { question: 'What objects can it detect?', answer: 'The model can identify 80+ common objects including people, animals, vehicles, furniture, and everyday items.' },
@@ -1589,7 +1618,7 @@ export const tools: Tool[] = [
       title: 'AI Image Captioning Free - Generate Alt Text & Descriptions | New Life',
       metaDescription: 'Generate image descriptions with AI. Create alt text for accessibility, social media captions, and SEO. 100% browser-based, private.',
       h1: 'AI Image Captioning - Generate Image Descriptions Free',
-      keywords: ['ai image captioning', 'generate alt text', 'image description generator', 'accessibility alt text', 'auto caption images']
+      keywords: [["ai image captioning", "generate alt text", "image description generator", "accessibility alt text", "auto caption images", "caption generator without signup", "alt text generator offline", "image captioning unlimited"]]
     },
     faq: [
       { question: 'What is AI image captioning?', answer: 'AI image captioning uses vision-language models to analyze images and generate natural language descriptions. It understands objects, scenes, actions, and context.' },
@@ -1621,7 +1650,7 @@ export const tools: Tool[] = [
       title: 'AI Text Summarization Free Online - Summarize Articles Instantly | New Life',
       metaDescription: 'Summarize long articles, documents, and text with AI. Get concise TL;DR summaries instantly. 100% browser-based, private, no upload.',
       h1: 'AI Text Summarization - Free Online Tool',
-      keywords: ['ai text summarization', 'summarize article', 'tldr generator', 'text condenser', 'ai summary tool']
+      keywords: [["ai text summarization", "summarize article", "tldr generator", "text condenser", "ai summary tool", "summarize without signup", "text summarizer offline", "ai summary unlimited"]]
     },
     faq: [
       { question: 'How does AI text summarization work?', answer: 'The DistilBART model analyzes your text, identifies key information, and generates a condensed version that captures the main points.' },
@@ -1652,7 +1681,7 @@ export const tools: Tool[] = [
       title: 'AI Grammar Checker Free Online - Fix Writing Errors | New Life',
       metaDescription: 'Check grammar, spelling, and punctuation with AI. Get suggestions with explanations. 100% browser-based, private, no upload.',
       h1: 'AI Grammar Checker - Free Online Tool',
-      keywords: ['ai grammar checker', 'grammar check free', 'spelling checker', 'proofreading tool', 'fix grammar errors']
+      keywords: [["ai grammar checker", "grammar check free", "spelling checker", "proofreading tool", "fix grammar errors", "grammar checker without signup", "check grammar offline", "proofreading unlimited"]]
     },
     faq: [
       { question: 'How does AI grammar checking work?', answer: 'The AI model analyzes your text for grammar, spelling, and punctuation errors, then suggests corrections with explanations.' },
@@ -1683,7 +1712,7 @@ export const tools: Tool[] = [
       title: 'AI Image Upscaler Free Online - Enlarge 2x/4x | New Life',
       metaDescription: 'Upscale images 2x or 4x with AI. ESRGAN neural network runs in browser. No upload, no watermark. Free photo enhancement tool.',
       h1: 'AI Image Upscaler - Enlarge Photos 2x or 4x Free',
-      keywords: ['ai image upscaler', 'upscale image', 'enlarge photo', 'esrgan online', 'image enhancer free']
+      keywords: [["ai image upscaler", "upscale image", "enlarge photo", "esrgan online", "image enhancer free", "upscaler without signup", "upscale image offline", "enlarge photo no watermark", "image upscaler unlimited"]]
     },
     faq: [
       { question: 'What is AI image upscaling?', answer: 'AI upscaling uses ESRGAN neural networks to intelligently add detail when enlarging images, producing sharper results than traditional resizing.' },
@@ -1723,7 +1752,7 @@ export const tools: Tool[] = [
       title: 'Remove Objects from Photos Free - AI Object Remover | New Life',
       metaDescription: 'Remove unwanted objects from photos using AI. Click on any object to erase it. 100% private, runs in browser. No signup, no watermarks.',
       h1: 'AI Object Remover - Erase Unwanted Objects from Photos',
-      keywords: ['remove object from photo', 'erase object', 'object remover', 'ai photo editor', 'remove people from photo']
+      keywords: [["remove object from photo", "erase object", "object remover", "ai photo editor", "remove people from photo", "object remover without signup", "erase objects offline", "photo editor unlimited"]]
     },
     faq: [
       { question: 'How does AI object removal work?', answer: 'Click on any object and AI (Segment Anything Model) automatically selects it. Then content-aware fill seamlessly removes it.' },
@@ -1761,7 +1790,7 @@ export const tools: Tool[] = [
       title: 'Diff Checker Online Free - Compare Text | New Life',
       metaDescription: 'Compare two texts and find differences instantly. Line-by-line or word-by-word mode. Color-coded additions and deletions. Free, private, browser-based.',
       h1: 'Compare Text & Find Differences Online',
-      keywords: ['diff checker', 'compare text', 'text diff', 'find differences', 'code compare']
+      keywords: [["diff checker", "compare text", "text diff", "find differences", "code compare", "diff checker without signup", "compare text offline", "text diff unlimited"]]
     },
     faq: [
       { question: 'What is the difference between line and word mode?', answer: 'Line mode compares entire lines (best for code). Word mode highlights individual word changes (best for prose).' },
@@ -1800,7 +1829,7 @@ export const tools: Tool[] = [
       title: 'Code Beautifier & Formatter Online Free - JS CSS HTML SQL | New Life',
       metaDescription: 'Format and beautify JavaScript, TypeScript, CSS, HTML, JSON, SQL code online. Minify option, syntax validation. Uses Prettier. Free, no signup.',
       h1: 'Code Beautifier & Formatter - Free Online Tool',
-      keywords: ['code beautifier', 'code formatter', 'prettier online', 'beautify javascript', 'format css', 'sql formatter']
+      keywords: [["code beautifier", "code formatter", "prettier online", "beautify javascript", "format css", "sql formatter", "beautifier without signup", "code formatter offline", "format code unlimited"]]
     },
     faq: [
       { question: 'What languages are supported?', answer: 'JavaScript, TypeScript, CSS, HTML, JSON, and SQL. JSX and TSX are also supported.' },
@@ -1840,7 +1869,7 @@ export const tools: Tool[] = [
       title: 'SVG Editor & Optimizer Online Free - Compress, Edit Colors | New Life',
       metaDescription: 'Optimize and edit SVG files online. Reduce file size, change colors, scale dimensions. 100% free, browser-based, no upload required.',
       h1: 'SVG Editor & Optimizer - Free Online Tool',
-      keywords: ['svg editor', 'svg optimizer', 'compress svg', 'optimize svg online', 'edit svg colors', 'svg compressor']
+      keywords: [["svg editor", "svg optimizer", "compress svg", "optimize svg online", "edit svg colors", "svg compressor", "svg editor without signup", "optimize svg offline", "svg editor unlimited"]]
     },
     faq: [
       { question: 'How much can SVG files be optimized?', answer: 'SVGs from design tools often contain 30-50% unnecessary data. Simple icons may see 10-20% reduction.' },
@@ -1880,7 +1909,7 @@ export const tools: Tool[] = [
       title: 'Markdown Editor with Live Preview Free Online | New Life',
       metaDescription: 'Write and preview markdown in real-time with syntax highlighting. Export to HTML or PDF. Free, browser-based, no signup required.',
       h1: 'Markdown Editor with Live Preview - Free Online Tool',
-      keywords: ['markdown editor', 'markdown preview', 'markdown to html', 'markdown to pdf', 'online markdown editor']
+      keywords: [["markdown editor", "markdown preview", "markdown to html", "markdown to pdf", "online markdown editor", "markdown editor without signup", "preview markdown offline", "markdown to html unlimited"]]
     },
     faq: [
       { question: 'What markdown features are supported?', answer: 'Full GitHub Flavored Markdown: headings, bold, italic, links, images, code blocks, tables, blockquotes, lists, and more.' },
@@ -1921,7 +1950,7 @@ export const tools: Tool[] = [
       title: 'AI Text Summarizer Free Online - Summarize Documents | New Life',
       metaDescription: 'Summarize documents, PDFs, and text with AI. Choose summary length and format. Privacy-first with local processing options. Free, no signup required.',
       h1: 'AI Text Summarizer - Summarize Documents Free',
-      keywords: ['ai summarizer', 'text summarizer', 'summarize pdf', 'document summary', 'tldr generator', 'ai summary tool']
+      keywords: [["ai summarizer", "text summarizer", "summarize pdf", "document summary", "tldr generator", "ai summary tool", "summarizer without signup", "ai summary offline", "summarize documents unlimited"]]
     },
     faq: [
       { question: 'What input formats are supported?', answer: 'Paste text directly, upload PDF/TXT/DOCX files, or enter a URL to fetch and summarize web content.' },

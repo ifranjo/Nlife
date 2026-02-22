@@ -1,0 +1,253 @@
+---
+/**
+ * Guide: How to Remove Background from Photo
+ * Target query: "remove background from photo", "background remover", "transparent background"
+ */
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/ui/Navbar.astro';
+import Footer from '../../components/ui/Footer.astro';
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How does AI background removal work?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "AI automatically detects the subject in your photo and separates it from the background, creating a transparent PNG file."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is my photo uploaded to a server?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No, all AI processing happens locally in your browser using @imgly/background-removal. Your photos stay private."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What image formats are supported?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "PNG, JPEG, and WebP input formats. Output is always PNG with transparency to preserve the removed background."
+      }
+    }
+  ]
+};
+---
+
+<Layout
+  title="Remove Background from Photo Free - AI Powered | New Life"
+  description="Remove image backgrounds instantly with AI. 100% free, no signup. Works offline - your photos never leave your device. Download as PNG."
+>
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+
+  <Navbar />
+
+  <main class="pt-20 pb-16 px-6 min-h-screen">
+    <article class="max-w-3xl mx-auto">
+
+      <!-- Breadcrumb -->
+      <nav class="text-sm text-[var(--text-muted)] mb-6">
+        <a href="/" class="hover:text-[var(--accent)]">Home</a>
+        <span class="mx-2">/</span>
+        <a href="/guides" class="hover:text-[var(--accent)]">Guides</a>
+        <span class="mx-2">/</span>
+        <span>Remove Background from Photo</span>
+      </nav>
+
+      <!-- Header -->
+      <header class="mb-8">
+        <span class="inline-block px-3 py-1 bg-fuchsia-500/20 text-fuchsia-400 rounded text-sm font-medium mb-4">
+          Image Guide
+        </span>
+        <h1 class="text-4xl font-bold text-[var(--text)] mb-4">
+          How to Remove Background from Photo
+        </h1>
+        <p class="text-xl text-[var(--text-muted)]">
+          Remove image backgrounds instantly with AI. Create transparent PNGs for product photos, profiles, and designs.
+        </p>
+      </header>
+
+      <!-- Quick Answer -->
+      <div class="bg-fuchsia-500/10 border border-fuchsia-500/30 rounded-xl p-6 mb-8">
+        <h2 class="text-lg font-semibold text-fuchsia-400 mb-2">Quick Answer</h2>
+        <p class="text-[var(--text)]">
+          Use our <a href="/tools/background-remover" class="text-fuchsia-400 underline">free background remover</a>. Upload any photo, AI automatically detects the subject and removes the background. Download as transparent PNG.
+        </p>
+      </div>
+
+      <!-- What is Background Removal -->
+      <section class="mb-10">
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-4">What is AI Background Removal?</h2>
+        <p class="text-[var(--text-muted)] mb-4">
+          <strong class="text-[var(--text)]">Background removal</strong> uses artificial intelligence to separate the main subject from the background in an image, creating a transparent PNG file that can be layered over any background.
+        </p>
+        <div class="bg-[var(--bg-secondary)] rounded-xl p-6 border border-[var(--border)]">
+          <h3 class="font-semibold text-[var(--text)] mb-3">Common uses:</h3>
+          <ul class="space-y-2 text-[var(--text-muted)]">
+            <li class="flex gap-3">
+              <span class="text-fuchsia-400">1.</span>
+              <span>Product photos for Amazon, Etsy, eBay</span>
+            </li>
+            <li class="flex gap-3">
+              <span class="text-fuchsia-400">2.</span>
+              <span>Professional profile pictures and headshots</span>
+            </li>
+            <li class="flex gap-3">
+              <span class="text-fuchsia-400">3.</span>
+              <span>Graphic design and marketing materials</span>
+            </li>
+            <li class="flex gap-3">
+              <span class="text-fuchsia-400">4.</span>
+              <span>Social media content and thumbnails</span>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Steps -->
+      <section class="mb-10">
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-6">Step-by-Step Instructions</h2>
+
+        <div class="space-y-6">
+          <div class="flex gap-4">
+            <div class="flex-shrink-0 w-10 h-10 bg-[var(--accent)] text-[var(--bg)] rounded-full flex items-center justify-center font-bold">
+              1
+            </div>
+            <div>
+              <h3 class="text-lg font-semibold text-[var(--text)] mb-2">Upload Your Photo</h3>
+              <p class="text-[var(--text-muted)]">
+                Go to the <a href="/tools/background-remover" class="text-[var(--accent)]">background remover tool</a>. Drop an image (PNG, JPEG, WebP) or click to browse. Works with photos up to 10MB.
+              </p>
+            </div>
+          </div>
+
+          <div class="flex gap-4">
+            <div class="flex-shrink-0 w-10 h-10 bg-[var(--accent)] text-[var(--bg)] rounded-full flex items-center justify-center font-bold">
+              2
+            </div>
+            <div>
+              <h3 class="text-lg font-semibold text-[var(--text)] mb-2">Wait for AI Processing</h3>
+              <p class="text-[var(--text-muted)]">
+                The AI model (180MB) loads on first use and processes your image locally. The model detects your subject and separates it from the background automatically.
+              </p>
+            </div>
+          </div>
+
+          <div class="flex gap-4">
+            <div class="flex-shrink-0 w-10 h-10 bg-[var(--accent)] text-[var(--bg)] rounded-full flex items-center justify-center font-bold">
+              3
+            </div>
+            <div>
+              <h3 class="text-lg font-semibold text-[var(--text)] mb-2">Download Transparent PNG</h3>
+              <p class="text-[var(--text-muted)]">
+                Preview the result and download your transparent PNG. Use it in any design tool, website, or document. The subject is ready to be placed on any background.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <div class="bg-[var(--bg-secondary)] rounded-xl p-8 text-center mb-10 border border-[var(--border)]">
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-4">Remove Background Now</h2>
+        <p class="text-[var(--text-muted)] mb-6">
+          Free, AI-powered, 100% private processing.
+        </p>
+        <a
+          href="/tools/background-remover"
+          class="inline-block px-8 py-4 bg-[var(--accent)] text-[var(--bg)] rounded-lg font-semibold hover:opacity-90 transition-opacity text-lg"
+        >
+          Open Background Remover
+        </a>
+      </div>
+
+      <!-- Tips -->
+      <section class="mb-10">
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-4">Tips for Best Results</h2>
+        <div class="grid md:grid-cols-2 gap-4">
+          <div class="bg-green-500/10 border border-green-500/30 rounded-lg p-4">
+            <h3 class="font-semibold text-green-400 mb-2">Do</h3>
+            <ul class="text-sm text-[var(--text-muted)] space-y-1">
+              <li>Use photos with clear subject separation</li>
+              <li>Ensure good lighting and contrast</li>
+              <li>Use high-resolution images for best results</li>
+              <li>Test on simple backgrounds first</li>
+            </ul>
+          </div>
+          <div class="bg-red-500/10 border border-red-500/30 rounded-lg p-4">
+            <h3 class="font-semibold text-red-400 mb-2">Avoid</h3>
+            <ul class="text-sm text-[var(--text-muted)] space-y-1">
+              <li>Blurred or low-quality photos</li>
+              <li>Similar colors between subject and background</li>
+              <li>Complex backgrounds with many details</li>
+              <li>Multiple subjects without clear separation</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- FAQ -->
+      <section class="mb-10">
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-6">Frequently Asked Questions</h2>
+        <div class="space-y-4">
+          <details class="bg-[var(--bg-secondary)] rounded-lg border border-[var(--border)]">
+            <summary class="px-6 py-4 cursor-pointer font-medium text-[var(--text)]">
+              How does AI background removal work?
+            </summary>
+            <p class="px-6 pb-4 text-[var(--text-muted)]">
+              AI uses semantic segmentation to detect the main subject in your photo and create a precise mask, separating it from the background. The result is a transparent PNG.
+            </p>
+          </details>
+          <details class="bg-[var(--bg-secondary)] rounded-lg border border-[var(--border)]">
+            <summary class="px-6 py-4 cursor-pointer font-medium text-[var(--text)]">
+              Is my photo uploaded to a server?
+            </summary>
+            <p class="px-6 pb-4 text-[var(--text-muted)]">
+              No, all AI processing happens locally in your browser using @imgly/background-removal. Your photos never leave your device and are completely private.
+            </p>
+          </details>
+          <details class="bg-[var(--bg-secondary)] rounded-lg border border-[var(--border)]">
+            <summary class="px-6 py-4 cursor-pointer font-medium text-[var(--text)]">
+              What image formats are supported?
+            </summary>
+            <p class="px-6 pb-4 text-[var(--text-muted)]">
+              PNG, JPEG, and WebP input formats are supported. The output is always PNG with transparency to preserve the removed background effect.
+            </p>
+          </details>
+          <details class="bg-[var(--bg-secondary)] rounded-lg border border-[var(--border)]">
+            <summary class="px-6 py-4 cursor-pointer font-medium text-[var(--text)]">
+              Why does first use take longer?
+            </summary>
+            <p class="px-6 pb-4 text-[var(--text-muted)]">
+              The AI model (180MB) downloads to your browser on first use. Subsequent uses are much faster as the model is cached locally.
+            </p>
+          </details>
+        </div>
+      </section>
+
+      <!-- Related -->
+      <section>
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-4">Related Tools</h2>
+        <div class="flex flex-wrap gap-3">
+          <a href="/tools/image-compress" class="px-4 py-2 bg-[var(--bg-secondary)] rounded-lg text-[var(--text-muted)] hover:text-[var(--accent)] border border-[var(--border)]">
+            Image Compress
+          </a>
+          <a href="/tools/exif-editor" class="px-4 py-2 bg-[var(--bg-secondary)] rounded-lg text-[var(--text-muted)] hover:text-[var(--accent)] border border-[var(--border)]">
+            EXIF Metadata Editor
+          </a>
+          <a href="/tools/resize-image" class="px-4 py-2 bg-[var(--bg-secondary)] rounded-lg text-[var(--text-muted)] hover:text-[var(--accent)] border border-[var(--border)]">
+            Image Resize
+          </a>
+        </div>
+      </section>
+
+    </article>
+  </main>
+
+  <Footer />
+</Layout>

@@ -17,6 +17,86 @@ const guides = [
     tool: '/tools/pdf-merge'
   },
   {
+    title: 'How to Compress PDF for Email',
+    description: 'Reduce PDF file size up to 90% to meet email attachment limits. No quality loss, completely private.',
+    href: '/guides/compress-pdf-for-email',
+    category: 'PDF',
+    readTime: '3 min',
+    tool: '/tools/pdf-compress'
+  },
+  {
+    title: 'How to Split PDF and Extract Pages',
+    description: 'Separate PDF into individual pages or extract specific page ranges. No watermarks, completely free.',
+    href: '/guides/split-pdf-extract-pages',
+    category: 'PDF',
+    readTime: '3 min',
+    tool: '/tools/pdf-split'
+  },
+  {
+    title: 'How to Redact PDF Sensitive Information',
+    description: 'Permanently remove sensitive data from PDFs. Auto-detect PII like SSN, emails, and phone numbers.',
+    href: '/guides/redact-pdf-sensitive-info',
+    category: 'PDF',
+    readTime: '4 min',
+    tool: '/tools/pdf-redactor'
+  },
+  {
+    title: 'How to Convert PDF to Word Online',
+    description: 'Convert PDF files to editable Word documents (.docx). Preserve formatting, works offline, completely free.',
+    href: '/guides/convert-pdf-to-word-online',
+    category: 'Document',
+    readTime: '3 min',
+    tool: '/tools/pdf-to-word'
+  },
+  {
+    title: 'How to Compress Images for Web',
+    description: 'Reduce image file size up to 90% for faster website loading. Maintain quality while optimizing for the web.',
+    href: '/guides/compress-images-for-web',
+    category: 'Media',
+    readTime: '3 min',
+    tool: '/tools/image-compress'
+  },
+  {
+    title: 'How to Remove Background from Photo',
+    description: 'Remove image backgrounds instantly with AI. Create transparent PNGs for product photos, profiles, and designs.',
+    href: '/guides/remove-background-from-photo',
+    category: 'Media',
+    readTime: '3 min',
+    tool: '/tools/background-remover'
+  },
+  {
+    title: 'How to Remove GPS from Photos',
+    description: 'Protect your privacy by stripping GPS location and metadata from photos before sharing online.',
+    href: '/guides/remove-gps-from-photos',
+    category: 'Media',
+    readTime: '3 min',
+    tool: '/tools/exif-editor'
+  },
+  {
+    title: 'How to Create QR Code Free',
+    description: 'Generate customizable QR codes for links, text, WiFi, and contact info. Download as PNG, print-ready.',
+    href: '/guides/create-qr-code-free',
+    category: 'Utility',
+    readTime: '3 min',
+    tool: '/tools/qr-generator'
+  },
+  {
+    title: 'How to Generate Secure Password',
+    description: 'Create strong, uncrackable passwords instantly. Customize length and character types for maximum security.',
+    href: '/guides/generate-secure-password',
+    category: 'Security',
+    readTime: '3 min',
+    tool: '/tools/password-generator'
+  },
+  {
+    title: 'How to Create Resume Online Free',
+    description: 'Build a professional resume in minutes with ATS-friendly templates. No signup, no watermark, instant PDF.',
+    href: '/guides/create-resume-online-free',
+    category: 'Career',
+    readTime: '4 min',
+    tool: '/tools/resume-builder'
+  },
+  {
     title: 'How to Compress Video for Discord',
     description: 'Learn how to reduce video file size under 8MB for Discord free tier without losing quality.',
     href: '/guides/compress-video-for-discord',
@@ -50,12 +130,38 @@ const guides = [
   }
 ];
 
+const comparisons = [
+  {
+    title: 'Browser-Based vs Server-Based PDF Tools',
+    description: 'Compare client-side tools (no upload) vs server-based solutions like Smallpdf, Adobe, iLovePDF. Privacy, security, and speed advantages.',
+    href: '/guides/vs/browser-vs-server-pdf-tools',
+    category: 'Comparison'
+  },
+  {
+    title: 'Free vs Paid PDF Tools',
+    description: 'Compare free tools against paid solutions like Adobe Acrobat Pro and Nitro. Feature comparison and cost analysis.',
+    href: '/guides/vs/free-vs-paid-pdf-tools',
+    category: 'Comparison'
+  },
+  {
+    title: 'Online vs Desktop Software',
+    description: 'Compare browser-based tools with installed desktop software. Convenience, cross-platform compatibility, and offline capabilities.',
+    href: '/guides/vs/online-vs-desktop-software',
+    category: 'Comparison'
+  }
+];
+
 const categoryColors: Record<string, string> = {
   'PDF': 'bg-red-500/20 text-red-400',
   'Video': 'bg-purple-500/20 text-purple-400',
   'Audio': 'bg-pink-500/20 text-pink-400',
   'AI': 'bg-blue-500/20 text-blue-400',
-  'Document': 'bg-orange-500/20 text-orange-400'
+  'Document': 'bg-orange-500/20 text-orange-400',
+  'Media': 'bg-green-500/20 text-green-400',
+  'Utility': 'bg-indigo-500/20 text-indigo-400',
+  'Security': 'bg-rose-500/20 text-rose-400',
+  'Career': 'bg-emerald-500/20 text-emerald-400',
+  'Comparison': 'bg-cyan-500/20 text-cyan-400'
 };
 ---
 
@@ -107,6 +213,37 @@ const categoryColors: Record<string, string> = {
           </article>
         ))}
       </div>
+
+      <!-- Comparisons Section -->
+      <section class="mt-12">
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-6">Tool Comparisons</h2>
+        <div class="grid gap-6">
+          {comparisons.map((comparison) => (
+            <article class="bg-[var(--bg-secondary)] rounded-xl p-6 hover:bg-[var(--bg-secondary)]/80 transition-colors border border-[var(--border)]">
+              <a href={comparison.href} class="block">
+                <div class="flex items-start justify-between gap-4">
+                  <div class="flex-1">
+                    <div class="flex items-center gap-3 mb-2">
+                      <span class={`px-2 py-1 rounded text-xs font-medium ${categoryColors[comparison.category]}`}>
+                        {comparison.category}
+                      </span>
+                    </div>
+                    <h2 class="text-xl font-semibold text-[var(--text)] mb-2 hover:text-[var(--accent)] transition-colors">
+                      {comparison.title}
+                    </h2>
+                    <p class="text-[var(--text-muted)]">
+                      {comparison.description}
+                    </p>
+                  </div>
+                  <div class="text-[var(--text-muted)] text-2xl">
+                    &rarr;
+                  </div>
+                </div>
+              </a>
+            </article>
+          ))}
+        </div>
+      </section>
 
       <!-- CTA -->
       <div class="mt-12 text-center">

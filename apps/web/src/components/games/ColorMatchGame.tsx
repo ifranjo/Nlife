@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import ShareGame from './ShareGame';
-import { trackToolUse, trackConversion, trackToolError, trackPerformance } from '../../lib/analytics';
+import { trackToolUse, trackConversion } from '../../lib/analytics';
 
 // ============================================
 // TYPES
@@ -56,21 +56,13 @@ const SPEED_LEVELS = {
   hard: { base: 500, min: 200, decrease: 25 },
 } as const;
 
-// Audio settings
-const AUDIO_CONFIG = {
-  CORRECT_TONE_DURATION: 0.2,
-  SEQUENCE_TONE_DURATION: 0.3,
-  ERROR_TONE_DURATION: 0.5,
-  TONE_FADE_OUT: 0.01
-} as const;
-
-// Animation timings
-const ANIMATION_CONFIG = {
-  BUTTON_ACTIVE_DURATION: 200,
-  SEQUENCE_DELAY: 500,
-  BETWEEN_TONES_DELAY: 300,
-  SUCCESS_NEXT_ROUND_DELAY: 1000
-} as const;
+// Audio settings (reserved for future use)
+// const AUDIO_CONFIG = {
+//   CORRECT_TONE_DURATION: 0.2,
+//   SEQUENCE_TONE_DURATION: 0.3,
+//   ERROR_TONE_DURATION: 0.5,
+//   TONE_FADE_OUT: 0.01
+// } as const;
 
 // ============================================
 // SOUND MANAGER - Lazily initialized with fallback

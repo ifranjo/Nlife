@@ -79,7 +79,7 @@ async function addToRecentTools(toolId) {
 /**
  * Create a tool button element
  */
-function createToolButton(toolId, isRecent = false) {
+function createToolButton(toolId) {
   const meta = TOOL_META[toolId];
   if (!meta) return null;
 
@@ -122,7 +122,7 @@ async function renderRecentTools() {
 
   // Add recent tool buttons
   recentTools.forEach((toolId) => {
-    const btn = createToolButton(toolId, true);
+    const btn = createToolButton(toolId);
     if (btn) {
       container.appendChild(btn);
     }

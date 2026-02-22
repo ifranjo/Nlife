@@ -49,7 +49,7 @@ interface WorkerResponse {
 }
 
 // Generate unique ID for message tracking
-const generateId = () => `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+const generateId = () => `${Date.now()}-${Math.random().toString(36).substring(2, 11)}`;
 
 export function useFFmpegWorker() {
   const workerRef = useRef<Worker | null>(null);

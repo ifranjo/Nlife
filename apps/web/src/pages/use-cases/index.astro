@@ -50,6 +50,41 @@ const useCases: UseCase[] = [
     href: "/use-cases/ocr-screenshot",
     tool: "OCR Extractor",
     color: "orange"
+  },
+  {
+    title: "Legal Professional Document Tools",
+    description: "Redact PII from PDFs, scan contracts, extract text from legal documents. 100% private.",
+    href: "/use-cases/legal-professional-document-tools",
+    tool: "Legal Tools",
+    color: "amber"
+  },
+  {
+    title: "Real Estate Photo Optimizer",
+    description: "Compress listing photos for MLS, create white backgrounds, remove GPS metadata.",
+    href: "/use-cases/real-estate-photo-optimizer",
+    tool: "Real Estate Tools",
+    color: "emerald"
+  },
+  {
+    title: "Teacher Classroom Tools",
+    description: "Merge worksheets, convert PDFs to Word, compress materials, scan student work.",
+    href: "/use-cases/teacher-classroom-tools",
+    tool: "Education Tools",
+    color: "blue"
+  },
+  {
+    title: "Job Seeker Toolkit",
+    description: "Build professional resumes, convert application documents, combine cover letters.",
+    href: "/use-cases/job-seeker-toolkit",
+    tool: "Career Tools",
+    color: "indigo"
+  },
+  {
+    title: "Social Media Content Tools",
+    description: "Compress video for TikTok/Reels, generate AI captions, remove image backgrounds.",
+    href: "/use-cases/social-media-content-tools",
+    tool: "Creator Tools",
+    color: "pink"
   }
 ];
 
@@ -58,13 +93,16 @@ const colorClasses: Record<string, { bg: string; text: string; border: string }>
   blue: { bg: "bg-blue-500/20", text: "text-blue-400", border: "border-blue-500/30" },
   green: { bg: "bg-green-500/20", text: "text-green-400", border: "border-green-500/30" },
   purple: { bg: "bg-purple-500/20", text: "text-purple-400", border: "border-purple-500/30" },
-  orange: { bg: "bg-orange-500/20", text: "text-orange-400", border: "border-orange-500/30" }
+  orange: { bg: "bg-orange-500/20", text: "text-orange-400", border: "border-orange-500/30" },
+  amber: { bg: "bg-amber-500/20", text: "text-amber-400", border: "border-amber-500/30" },
+  indigo: { bg: "bg-indigo-500/20", text: "text-indigo-400", border: "border-indigo-500/30" },
+  pink: { bg: "bg-pink-500/20", text: "text-pink-400", border: "border-pink-500/30" }
 };
 ---
 
 <Layout
   title="Use Cases - Tool Solutions for Common Tasks | New Life"
-  description="Discover how to use our free tools for specific tasks: merge invoices, compress videos for email/WhatsApp, create WiFi QR codes, extract text from screenshots."
+  description="Discover how to use our free tools for specific tasks and industries: legal documents, real estate photos, classroom materials, job applications, social media content."
 >
   <Navbar />
 

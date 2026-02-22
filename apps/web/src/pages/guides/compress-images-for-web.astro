@@ -1,0 +1,253 @@
+---
+/**
+ * Guide: How to Compress Images for Web
+ * Target query: "compress images for web", "reduce image size", "image compressor online"
+ */
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/ui/Navbar.astro';
+import Footer from '../../components/ui/Footer.astro';
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How much can images be compressed?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Typically 60-90% size reduction while maintaining visual quality. Exact results depend on image content and format."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I compress multiple images at once?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, batch upload supported. Process multiple images and download all compressed files as a ZIP archive."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does compression reduce image quality?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "We use smart compression that minimizes visible quality loss while maximizing size reduction. Choose quality level based on your needs."
+      }
+    }
+  ]
+};
+---
+
+<Layout
+  title="Compress Images for Web Free - Reduce Size 90% | New Life"
+  description="Compress PNG, JPEG, WebP images up to 90% smaller for faster web loading. Batch processing, no upload to servers. Works offline."
+>
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+
+  <Navbar />
+
+  <main class="pt-20 pb-16 px-6 min-h-screen">
+    <article class="max-w-3xl mx-auto">
+
+      <!-- Breadcrumb -->
+      <nav class="text-sm text-[var(--text-muted)] mb-6">
+        <a href="/" class="hover:text-[var(--accent)]">Home</a>
+        <span class="mx-2">/</span>
+        <a href="/guides" class="hover:text-[var(--accent)]">Guides</a>
+        <span class="mx-2">/</span>
+        <span>Compress Images for Web</span>
+      </nav>
+
+      <!-- Header -->
+      <header class="mb-8">
+        <span class="inline-block px-3 py-1 bg-green-500/20 text-green-400 rounded text-sm font-medium mb-4">
+          Image Guide
+        </span>
+        <h1 class="text-4xl font-bold text-[var(--text)] mb-4">
+          How to Compress Images for Web
+        </h1>
+        <p class="text-xl text-[var(--text-muted)]">
+          Reduce image file size up to 90% for faster website loading. Maintain quality while optimizing for the web.
+        </p>
+      </header>
+
+      <!-- Quick Answer -->
+      <div class="bg-green-500/10 border border-green-500/30 rounded-xl p-6 mb-8">
+        <h2 class="text-lg font-semibold text-green-400 mb-2">Quick Answer</h2>
+        <p class="text-[var(--text)]">
+          Use our <a href="/tools/image-compress" class="text-green-400 underline">free image compressor</a>. Upload PNG, JPEG, or WebP images, choose quality level, and download optimized files instantly.
+        </p>
+      </div>
+
+      <!-- What is Image Compression -->
+      <section class="mb-10">
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-4">What is Image Compression?</h2>
+        <p class="text-[var(--text-muted)] mb-4">
+          <strong class="text-[var(--text)]">Image compression</strong> reduces file size by optimizing image data and removing unnecessary information while maintaining visual quality. Smaller images load faster on websites and use less bandwidth.
+        </p>
+        <div class="bg-[var(--bg-secondary)] rounded-xl p-6 border border-[var(--border)]">
+          <h3 class="font-semibold text-[var(--text)] mb-3">Why compress images for web:</h3>
+          <ul class="space-y-2 text-[var(--text-muted)]">
+            <li class="flex gap-3">
+              <span class="text-green-400">1.</span>
+              <span>Faster page load times and better UX</span>
+            </li>
+            <li class="flex gap-3">
+              <span class="text-green-400">2.</span>
+              <span>Improved SEO rankings (Core Web Vitals)</span>
+            </li>
+            <li class="flex gap-3">
+              <span class="text-green-400">3.</span>
+              <span>Reduced bandwidth and hosting costs</span>
+            </li>
+            <li class="flex gap-3">
+              <span class="text-green-400">4.</span>
+              <span>Better mobile experience for users</span>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Steps -->
+      <section class="mb-10">
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-6">Step-by-Step Instructions</h2>
+
+        <div class="space-y-6">
+          <div class="flex gap-4">
+            <div class="flex-shrink-0 w-10 h-10 bg-[var(--accent)] text-[var(--bg)] rounded-full flex items-center justify-center font-bold">
+              1
+            </div>
+            <div>
+              <h3 class="text-lg font-semibold text-[var(--text)] mb-2">Upload Your Images</h3>
+              <p class="text-[var(--text-muted)]">
+                Go to the <a href="/tools/image-compress" class="text-[var(--accent)]">image compress tool</a>. Drop one or more images (PNG, JPEG, WebP). Supports batch upload of multiple files.
+              </p>
+            </div>
+          </div>
+
+          <div class="flex gap-4">
+            <div class="flex-shrink-0 w-10 h-10 bg-[var(--accent)] text-[var(--bg)] rounded-full flex items-center justify-center font-bold">
+              2
+            </div>
+            <div>
+              <h3 class="text-lg font-semibold text-[var(--text)] mb-2">Choose Quality Level</h3>
+              <p class="text-[var(--text-muted)]">
+                Select compression preset: Maximum (smallest), High (recommended for web), Medium, or Low (best quality). Preview shows estimated size reduction.
+              </p>
+            </div>
+          </div>
+
+          <div class="flex gap-4">
+            <div class="flex-shrink-0 w-10 h-10 bg-[var(--accent)] text-[var(--bg)] rounded-full flex items-center justify-center font-bold">
+              3
+            </div>
+            <div>
+              <h3 class="text-lg font-semibold text-[var(--text)] mb-2">Download Optimized Images</h3>
+              <p class="text-[var(--text-muted)]">
+                Click "Compress Images" to process. Download individual files or get all compressed images in a ZIP archive for batch operations.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <div class="bg-[var(--bg-secondary)] rounded-xl p-8 text-center mb-10 border border-[var(--border)]">
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-4">Compress Images Now</h2>
+        <p class="text-[var(--text-muted)] mb-6">
+          Free, batch processing, up to 90% reduction.
+        </p>
+        <a
+          href="/tools/image-compress"
+          class="inline-block px-8 py-4 bg-[var(--accent)] text-[var(--bg)] rounded-lg font-semibold hover:opacity-90 transition-opacity text-lg"
+        >
+          Open Image Compressor
+        </a>
+      </div>
+
+      <!-- Tips -->
+      <section class="mb-10">
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-4">Tips for Best Results</h2>
+        <div class="grid md:grid-cols-2 gap-4">
+          <div class="bg-green-500/10 border border-green-500/30 rounded-lg p-4">
+            <h3 class="font-semibold text-green-400 mb-2">Do</h3>
+            <ul class="text-sm text-[var(--text-muted)] space-y-1">
+              <li>Use WebP format for better compression</li>
+              <li>Batch process product photos for marketplaces</li>
+              <li>Choose High quality for most web images</li>
+              <li>Test visual quality before publishing</li>
+            </ul>
+          </div>
+          <div class="bg-red-500/10 border border-red-500/30 rounded-lg p-4">
+            <h3 class="font-semibold text-red-400 mb-2">Avoid</h3>
+            <ul class="text-sm text-[var(--text-muted)] space-y-1">
+              <li>Over-compressing (visible artifacts)</li>
+              <li>Using Low quality for detailed graphics</li>
+              <li>Compressing already compressed images</li>
+              <li>Excessive compression for print materials</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- FAQ -->
+      <section class="mb-10">
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-6">Frequently Asked Questions</h2>
+        <div class="space-y-4">
+          <details class="bg-[var(--bg-secondary)] rounded-lg border border-[var(--border)]">
+            <summary class="px-6 py-4 cursor-pointer font-medium text-[var(--text)]">
+              How much can images be compressed?
+            </summary>
+            <p class="px-6 pb-4 text-[var(--text-muted)]">
+              Typically 60-90% size reduction while maintaining visual quality. Exact results depend on image content, original format, and chosen quality level.
+            </p>
+          </details>
+          <details class="bg-[var(--bg-secondary)] rounded-lg border border-[var(--border)]">
+            <summary class="px-6 py-4 cursor-pointer font-medium text-[var(--text)]">
+              Can I compress multiple images at once?
+            </summary>
+            <p class="px-6 pb-4 text-[var(--text-muted)]">
+              Yes, batch upload is supported. Upload multiple images, compress them all at once, and download as a ZIP archive for easy management.
+            </p>
+          </details>
+          <details class="bg-[var(--bg-secondary)] rounded-lg border border-[var(--border)]">
+            <summary class="px-6 py-4 cursor-pointer font-medium text-[var(--text)]">
+              Does compression reduce image quality?
+            </summary>
+            <p class="px-6 pb-4 text-[var(--text-muted)]">
+              We use smart compression algorithms that minimize visible quality loss while maximizing size reduction. Choose the quality level that balances size and visual quality for your needs.
+            </p>
+          </details>
+          <details class="bg-[var(--bg-secondary)] rounded-lg border border-[var(--border)]">
+            <summary class="px-6 py-4 cursor-pointer font-medium text-[var(--text)]">
+              Which image format should I use for web?
+            </summary>
+            <p class="px-6 pb-4 text-[var(--text-muted)]">
+              WebP offers the best compression-to-quality ratio. JPEG is good for photos, PNG for graphics with transparency. Modern browsers support all three formats.
+            </p>
+          </details>
+        </div>
+      </section>
+
+      <!-- Related -->
+      <section>
+        <h2 class="text-2xl font-bold text-[var(--text)] mb-4">Related Tools</h2>
+        <div class="flex flex-wrap gap-3">
+          <a href="/tools/background-remover" class="px-4 py-2 bg-[var(--bg-secondary)] rounded-lg text-[var(--text-muted)] hover:text-[var(--accent)] border border-[var(--border)]">
+            Background Remover
+          </a>
+          <a href="/tools/exif-editor" class="px-4 py-2 bg-[var(--bg-secondary)] rounded-lg text-[var(--text-muted)] hover:text-[var(--accent)] border border-[var(--border)]">
+            EXIF Metadata Editor
+          </a>
+          <a href="/tools/pdf-compress" class="px-4 py-2 bg-[var(--bg-secondary)] rounded-lg text-[var(--text-muted)] hover:text-[var(--accent)] border border-[var(--border)]">
+            PDF Compress
+          </a>
+        </div>
+      </section>
+
+    </article>
+  </main>
+
+  <Footer />
+</Layout>

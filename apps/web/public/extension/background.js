@@ -107,7 +107,7 @@ chrome.runtime.onInstalled.addListener(() => {
 });
 
 // Handle context menu clicks
-chrome.contextMenus.onClicked.addListener((info, tab) => {
+chrome.contextMenus.onClicked.addListener((info, _tab) => {
   const toolMap = {
     'nl-merge-pdf': 'pdf-merge',
     'nl-compress-pdf': 'pdf-compress',
@@ -126,7 +126,7 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
 });
 
 // Handle extension icon click (in case action popup fails)
-chrome.action.onClicked.addListener((tab) => {
+chrome.action.onClicked.addListener((_tab) => {
   // This only fires if there's no popup defined
   // Since we have a popup, this is a fallback
   chrome.tabs.create({
