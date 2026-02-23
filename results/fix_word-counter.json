@@ -1,0 +1,5 @@
+{
+  "tool": "word-counter",
+  "changes": ["added sanitizeTextContent", "added escapeHtml"],
+  "file_updated": true
+}

@@ -1,0 +1,181 @@
+---
+import { getCollection } from 'astro:content';
+
+interface Props {
+  currentPath: string;
+}
+
+const { currentPath } = Astro.props;
+
+// Get all docs, sorted by category and order
+const allDocs = await getCollection('docs', ({ data }) => !data.draft);
+
+const docsByCategory = allDocs.reduce((acc, doc) => {
+  const cat = doc.data.category;
+  if (!acc[cat]) acc[cat] = [];
+  acc[cat].push(doc);
+  return acc;
+}, {} as Record<string, typeof allDocs>);
+
+// Sort each category by order
+Object.keys(docsByCategory).forEach(cat => {
+  docsByCategory[cat].sort((a, b) => a.data.order - b.data.order);
+});
+
+const categoryLabels: Record<string, string> = {
+  'getting-started': 'Getting Started',
+  'tools': 'Tools',
+  'api': 'API Reference',
+  'troubleshooting': 'Troubleshooting',
+  'advanced': 'Advanced Topics',
+};
+
+const categoryOrder = ['getting-started', 'tools', 'api', 'troubleshooting', 'advanced'];
+---
+
+<nav class="docs-nav" aria-label="Documentation">
+  <div class="nav-header">
+    <a href="/docs" class="nav-home">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+        <polyline points="9 22 9 12 15 12 15 22"/>
+      </svg>
+      Documentation
+    </a>
+  </div>
+
+  <div class="nav-sections">
+    {categoryOrder.map(category => {
+      const docs = docsByCategory[category];
+      if (!docs || docs.length === 0) return null;
+
+      return (
+        <div class="nav-section">
+          <h3 class="nav-section-title">{categoryLabels[category]}</h3>
+          <ul class="nav-list">
+            {docs.map(doc => {
+              const href = `/docs/${doc.slug}`;
+              const isActive = currentPath === href || currentPath.startsWith(`${href}/`);
+
+              return (
+                <li>
+                  <a href={href} class={`nav-link ${isActive ? 'active' : ''}`}>
+                    {doc.data.title}
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      );
+    })}
+  </div>
+
+  <div class="nav-footer">
+    <a href="/" class="nav-back">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="19" y1="12" x2="5" y2="12"/>
+        <polyline points="12 19 5 12 12 5"/>
+      </svg>
+      Back to Tools
+    </a>
+  </div>
+</nav>
+
+<style>
+  .docs-nav {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .nav-header {
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid var(--border, #333);
+  }
+
+  .nav-home {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    color: var(--text, #e0e0e0);
+    text-decoration: none;
+    font-size: 1rem;
+  }
+
+  .nav-home:hover {
+    color: #00d4ff;
+  }
+
+  .nav-sections {
+    flex: 1;
+    overflow-y: auto;
+  }
+
+  .nav-section {
+    margin-bottom: 1.5rem;
+  }
+
+  .nav-section-title {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted, #888);
+    margin: 0 0 0.75rem;
+    padding: 0 0.5rem;
+  }
+
+  .nav-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .nav-list li {
+    margin: 0;
+  }
+
+  .nav-link {
+    display: block;
+    padding: 0.5rem;
+    border-radius: 6px;
+    color: var(--text-muted, #888);
+    text-decoration: none;
+    font-size: 0.875rem;
+    line-height: 1.4;
+    transition: all 0.15s;
+  }
+
+  .nav-link:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text, #e0e0e0);
+  }
+
+  .nav-link.active {
+    background: rgba(0, 212, 255, 0.1);
+    color: #00d4ff;
+    font-weight: 500;
+  }
+
+  .nav-footer {
+    margin-top: auto;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border, #333);
+  }
+
+  .nav-back {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    color: var(--text-muted, #888);
+    text-decoration: none;
+  }
+
+  .nav-back:hover {
+    color: var(--text, #e0e0e0);
+  }
+</style>

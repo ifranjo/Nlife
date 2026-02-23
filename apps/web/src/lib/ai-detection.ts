@@ -7,11 +7,12 @@
 
 interface AITrafficProfile {
   userAgent: string;
-  platform: 'Claude' | 'GPT-4' | 'Gemini' | 'Perplexity' | 'Copilot' | 'Bard' | 'Unknown';
+  platform: 'Claude' | 'GPT-4' | 'Gemini' | 'Perplexity' | 'Copilot' | 'Bard' | 'Grok' | 'DeepSeek' | 'Unknown';
   requestPattern: 'single' | 'multiple' | 'sequential';
   timestamp: number;
   pageDepth: number;
   referrer?: string;
+  tabId?: string;
 }
 
 interface PersonalizationContext {
@@ -29,7 +30,9 @@ class AITrafficDetector {
     'Gemini': /Gemini|Google-Extended/i,
     'Perplexity': /PerplexityBot/i,
     'Copilot': /bingbot|BingPreview/i,
-    'Bard': /Googlebot|Googlebot-Image/i
+    'Bard': /Googlebot|Googlebot-Image/i,
+    'Grok': /Grok|xai/i,
+    'DeepSeek': /DeepSeek/i
   };
 
   private static readonly AI_REFERRERS = {
@@ -39,19 +42,43 @@ class AITrafficDetector {
     'Gemini': ['gemini.google.com', 'bard.google.com']
   };
 
+  // URL patterns for fallback detection when referrer is empty
+  private static readonly AI_URL_PATTERNS = {
+    'Claude': [/claude\.ai\/chat/i, /anthropic\.com\/claude/i],
+    'GPT-4': [/openai\.com\/gpt/i, /chatgpt\.com/i],
+    'Perplexity': [/perplexity\.ai\/search/i],
+    'Gemini': [/gemini\.google\.com/i]
+  };
+
+  // Debounce tracking
+  private lastDetectTime = 0;
+  private readonly DEBOUNCE_MS = 1000;
+
   private sessionProfiles: Map<string, AITrafficProfile[]> = new Map();
   private readonly SESSION_TIMEOUT = 30 * 60 * 1000; // 30 minutes
+  private tabId: string;
 
   /**
    * Detect AI traffic from user agent and referrer patterns
    */
   detectAITraffic(): PersonalizationContext {
+    // Debounce: prevent multiple calls within 1 second
+    const now = Date.now();
+    if (now - this.lastDetectTime < this.DEBOUNCE_MS) {
+      const cached = AITrafficDetector.getPersonalizationContext();
+      if (cached) return cached;
+    }
+    this.lastDetectTime = now;
+
+    // Initialize tab ID for cross-tab isolation
+    this.tabId = this.getTabId();
+
     const userAgent = navigator.userAgent || '';
     const referrer = document.referrer || '';
     const currentUrl = window.location.href;
 
     // Check user agent patterns
-    const detectedPlatform = this.identifyPlatform(userAgent, referrer);
+    const detectedPlatform = this.identifyPlatform(userAgent, referrer, currentUrl);
 
     // Analyze request patterns
     const requestPattern = this.analyzeRequestPattern();
@@ -63,20 +90,32 @@ class AITrafficDetector {
       requestPattern,
       timestamp: Date.now(),
       pageDepth: this.getPageDepth(),
-      referrer
+      referrer,
+      tabId: this.tabId
     };
 
     // Store for analysis
     this.storeProfile(profile);
+
+    // Log Unknown platforms for debugging/monitoring
+    if (profile.platform === 'Unknown' && import.meta.env.DEV) {
+      console.log('[AI Detection] Unknown platform detected:', {
+        userAgent: userAgent.substring(0, 100),
+        referrer: referrer.substring(0, 50),
+        url: currentUrl,
+        requestPattern,
+        pageDepth: profile.pageDepth
+      });
+    }
 
     // Return personalization context
     return this.createPersonalizationContext(profile);
   }
 
   /**
-   * Identify AI platform from user agent and referrer
+   * Identify AI platform from user agent, referrer, and URL
    */
-  private identifyPlatform(userAgent: string, referrer: string): AITrafficProfile['platform'] {
+  private identifyPlatform(userAgent: string, referrer: string, currentUrl: string): AITrafficProfile['platform'] {
     // Check user agent patterns
     for (const [platform, pattern] of Object.entries(AITrafficDetector.AI_USER_AGENTS)) {
       if (pattern.test(userAgent)) {
@@ -93,12 +132,35 @@ class AITrafficDetector {
       }
     }
 
+    // Fallback: Check URL patterns when referrer is empty
+    if (!referrer) {
+      for (const [platform, patterns] of Object.entries(AITrafficDetector.AI_URL_PATTERNS)) {
+        for (const pattern of patterns) {
+          if (pattern.test(currentUrl)) {
+            return platform as AITrafficProfile['platform'];
+          }
+        }
+      }
+    }
+
     // Check for patterns that indicate AI crawling
     if (this.isRapidNavigation()) {
       return 'Unknown';
     }
 
     return 'Unknown';
+  }
+
+  /**
+   * Get unique tab identifier for cross-tab isolation
+   */
+  private getTabId(): string {
+    let tabId = sessionStorage.getItem('ai_tab_id');
+    if (!tabId) {
+      tabId = `tab_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+      sessionStorage.setItem('ai_tab_id', tabId);
+    }
+    return tabId;
   }
 
   /**
@@ -186,12 +248,14 @@ class AITrafficDetector {
   }
 
   /**
-   * Get navigation history from session storage
+   * Get navigation history from session storage (filtered by current tab)
    */
   private getNavigationHistory(): AITrafficProfile[] {
     try {
       const storage = sessionStorage.getItem('ai_detection_history');
-      return storage ? JSON.parse(storage) : [];
+      const allHistory: AITrafficProfile[] = storage ? JSON.parse(storage) : [];
+      // Filter by current tab ID for cross-tab isolation
+      return allHistory.filter(h => !h.tabId || h.tabId === this.tabId);
     } catch {
       return [];
     }
@@ -266,7 +330,9 @@ class AITrafficDetector {
       'Claude': ['ethical AI', 'constitutional AI', 'safety', 'alignment', 'anthropic'],
       'GPT-4': ['OpenAI', 'language model', 'reasoning', 'accuracy', 'performance'],
       'Gemini': ['Google', 'multimodal', 'integration', 'search', 'knowledge'],
-      'Perplexity': ['research', 'citations', 'sources', 'academic', 'verification']
+      'Perplexity': ['research', 'citations', 'sources', 'academic', 'verification'],
+      'Grok': ['xAI', 'real-time', 'web search', 'up-to-date'],
+      'DeepSeek': ['reasoning', 'open source', 'efficiency', 'cost-effective']
     };
 
     return [...baseKeywords, ...(platformKeywords[profile.platform] || [])];
@@ -282,7 +348,9 @@ class AITrafficDetector {
       'Gemini': 'concise',
       'Perplexity': 'structured',
       'Copilot': 'concise',
-      'Bard': 'concise'
+      'Bard': 'concise',
+      'Grok': 'detailed',
+      'DeepSeek': 'structured'
     };
 
     return formatMap[profile.platform] || 'structured';
@@ -297,7 +365,10 @@ class AITrafficDetector {
       'GPT-4': 'casual',
       'Gemini': 'academic',
       'Perplexity': 'academic',
-      'Copilot': 'technical'
+      'Copilot': 'technical',
+      'Bard': 'academic',
+      'Grok': 'casual',
+      'DeepSeek': 'technical'
     };
 
     return citationMap[profile.platform] || 'technical';
@@ -322,6 +393,7 @@ class AITrafficDetector {
     sessionStorage.removeItem('ai_detection_history');
     sessionStorage.removeItem('ai_personalization_context');
     sessionStorage.removeItem('session_id');
+    sessionStorage.removeItem('ai_tab_id');
   }
 }
 

@@ -1,0 +1,97 @@
+{
+  "worker": "W6",
+  "task": "Dependencies audit",
+  "dependencies": {
+    "pdf-lib": [
+      "pdf-merge",
+      "pdf-split",
+      "pdf-organize",
+      "pdf-compress",
+      "pdf-form-filler",
+      "pdf-redactor",
+      "jpg-to-pdf",
+      "document-scanner",
+      "ocr-extractor"
+    ],
+    "pdfjs-dist": [
+      "pdf-to-jpg",
+      "pdf-to-word",
+      "pdf-organize",
+      "pdf-redactor",
+      "ai-summary",
+      "ocr-extractor"
+    ],
+    "@ffmpeg/ffmpeg": [
+      "video-compressor",
+      "video-to-mp3",
+      "video-trimmer",
+      "gif-maker",
+      "audiogram-maker",
+      "audio-waveform-editor"
+    ],
+    "@huggingface/transformers": [
+      "audio-transcription",
+      "subtitle-generator",
+      "text-summarization",
+      "sentiment-analysis",
+      "grammar-checker",
+      "image-captioning",
+      "object-detection",
+      "ocr-extractor"
+    ],
+    "@imgly/background-removal": [
+      "background-remover"
+    ],
+    "tesseract.js": [
+      "ocr-extractor"
+    ],
+    "qrcode": [
+      "qr-generator"
+    ],
+    "jsqr": [
+      "qr-reader"
+    ],
+    "jspdf": [
+      "markdown-editor",
+      "resume-builder"
+    ],
+    "docx": [
+      "pdf-to-word",
+      "ocr-extractor"
+    ],
+    "jszip": [
+      "pdf-merge",
+      "pdf-split",
+      "pdf-compress",
+      "pdf-to-jpg",
+      "pdf-organize",
+      "image-compress",
+      "image-upscaler",
+      "file-converter",
+      "document-scanner",
+      "ocr-extractor",
+      "ai-summary",
+      "background-remover"
+    ],
+    "heic2any": [
+      "file-converter"
+    ],
+    "piexifjs": [
+      "exif-editor"
+    ],
+    "upscaler": [
+      "image-upscaler"
+    ]
+  },
+  "audit_summary": {
+    "total_tools": 51,
+    "total_dependencies": 15,
+    "heaviest_deps": {
+      "pdf-lib": "9 tools",
+      "jszip": "12 tools",
+      "@huggingface/transformers": "8 tools",
+      "pdfjs-dist": "6 tools",
+      "@ffmpeg/ffmpeg": "6 tools"
+    }
+  }
+}

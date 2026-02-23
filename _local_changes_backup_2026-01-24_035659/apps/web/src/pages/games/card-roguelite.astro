@@ -1,0 +1,207 @@
+---
+/**
+ * Card Roguelite - Balatro-style Card Game
+ *
+ * A browser-based roguelike deck-builder inspired by Balatro.
+ * Built with Godot 4.3, exported for web.
+ */
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/ui/Navbar.astro';
+import Footer from '../../components/ui/Footer.astro';
+
+const title = 'Card Roguelite - Free Poker Roguelike Game';
+const description = 'Play Card Roguelite, a free browser-based roguelike deck-builder inspired by Balatro. Build powerful poker hands, collect jokers, and beat the blinds. No download required.';
+---
+
+<Layout title={title} description={description}>
+  <Navbar />
+
+  <main class="min-h-screen pt-20 pb-16">
+    <div class="container mx-auto px-4">
+
+      <!-- Header -->
+      <header class="text-center mb-8">
+        <h1 class="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-amber-400 via-orange-500 to-red-500 bg-clip-text text-transparent">
+          Card Roguelite
+        </h1>
+        <p class="text-lg text-[var(--text-muted)] max-w-2xl mx-auto">
+          A poker roguelike deck-builder. Score big hands, collect jokers, survive the blinds.
+        </p>
+      </header>
+
+      <!-- Game Container -->
+      <div class="game-wrapper max-w-5xl mx-auto">
+        <div class="game-container glass-card rounded-2xl overflow-hidden">
+          <iframe
+            id="game-frame"
+            src="/games/card-roguelite/card-roguelite.html"
+            class="game-iframe"
+            allowfullscreen
+            loading="lazy"
+            title="Card Roguelite Game"
+          ></iframe>
+        </div>
+
+        <!-- Controls -->
+        <div class="flex justify-center gap-4 mt-4">
+          <button id="fullscreen-btn" class="btn-secondary flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M3 4a1 1 0 011-1h4a1 1 0 010 2H6.414l2.293 2.293a1 1 0 01-1.414 1.414L5 6.414V8a1 1 0 01-2 0V4zm9 1a1 1 0 010-2h4a1 1 0 011 1v4a1 1 0 01-2 0V6.414l-2.293 2.293a1 1 0 01-1.414-1.414L13.586 5H12zm-9 9a1 1 0 012 0v1.586l2.293-2.293a1 1 0 011.414 1.414L6.414 15H8a1 1 0 010 2H4a1 1 0 01-1-1v-4zm13-1a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 010-2h1.586l-2.293-2.293a1 1 0 011.414-1.414L15 13.586V12a1 1 0 011-1z" clip-rule="evenodd" />
+            </svg>
+            Fullscreen
+          </button>
+        </div>
+      </div>
+
+      <!-- How to Play -->
+      <section class="max-w-3xl mx-auto mt-12">
+        <h2 class="text-2xl font-bold mb-6 text-center">How to Play</h2>
+
+        <div class="grid md:grid-cols-2 gap-6">
+          <div class="glass-card p-6 rounded-xl">
+            <h3 class="text-lg font-semibold mb-3 text-amber-400">Objective</h3>
+            <p class="text-[var(--text-muted)]">
+              Score enough points to beat each blind. Build poker hands from your cards,
+              enhanced by jokers and consumables. Survive 8 antes to win.
+            </p>
+          </div>
+
+          <div class="glass-card p-6 rounded-xl">
+            <h3 class="text-lg font-semibold mb-3 text-amber-400">Scoring</h3>
+            <p class="text-[var(--text-muted)]">
+              <strong>Chips x Mult = Score</strong>. Better poker hands give more chips and mult.
+              Jokers add bonuses. Planet cards level up your hands permanently.
+            </p>
+          </div>
+
+          <div class="glass-card p-6 rounded-xl">
+            <h3 class="text-lg font-semibold mb-3 text-amber-400">Controls</h3>
+            <ul class="text-[var(--text-muted)] space-y-1">
+              <li>Click cards to select (up to 5)</li>
+              <li><strong>PLAY</strong> - Score selected cards</li>
+              <li><strong>DISCARD</strong> - Remove selected, draw new</li>
+              <li>Click jokers/consumables to use them</li>
+            </ul>
+          </div>
+
+          <div class="glass-card p-6 rounded-xl">
+            <h3 class="text-lg font-semibold mb-3 text-amber-400">Strategy Tips</h3>
+            <ul class="text-[var(--text-muted)] space-y-1">
+              <li>Focus on 2-3 hand types to level up</li>
+              <li>Jokers with x-mult are powerful late game</li>
+              <li>Skip blinds for tags if you're ahead</li>
+              <li>Save money for interest ($5 = +$1/round)</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Hand Rankings -->
+      <section class="max-w-3xl mx-auto mt-12">
+        <h2 class="text-2xl font-bold mb-6 text-center">Poker Hand Rankings</h2>
+
+        <div class="glass-card rounded-xl overflow-hidden">
+          <table class="w-full text-sm">
+            <thead class="bg-white/5">
+              <tr>
+                <th class="text-left px-4 py-3 font-semibold">Hand</th>
+                <th class="text-center px-4 py-3 font-semibold">Base Chips</th>
+                <th class="text-center px-4 py-3 font-semibold">Base Mult</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-white/5">
+              <tr><td class="px-4 py-2">Royal Flush</td><td class="text-center text-blue-400">100</td><td class="text-center text-red-400">x8</td></tr>
+              <tr><td class="px-4 py-2">Straight Flush</td><td class="text-center text-blue-400">100</td><td class="text-center text-red-400">x8</td></tr>
+              <tr><td class="px-4 py-2">Four of a Kind</td><td class="text-center text-blue-400">60</td><td class="text-center text-red-400">x7</td></tr>
+              <tr><td class="px-4 py-2">Full House</td><td class="text-center text-blue-400">40</td><td class="text-center text-red-400">x4</td></tr>
+              <tr><td class="px-4 py-2">Flush</td><td class="text-center text-blue-400">35</td><td class="text-center text-red-400">x4</td></tr>
+              <tr><td class="px-4 py-2">Straight</td><td class="text-center text-blue-400">30</td><td class="text-center text-red-400">x4</td></tr>
+              <tr><td class="px-4 py-2">Three of a Kind</td><td class="text-center text-blue-400">30</td><td class="text-center text-red-400">x3</td></tr>
+              <tr><td class="px-4 py-2">Two Pair</td><td class="text-center text-blue-400">20</td><td class="text-center text-red-400">x2</td></tr>
+              <tr><td class="px-4 py-2">Pair</td><td class="text-center text-blue-400">10</td><td class="text-center text-red-400">x2</td></tr>
+              <tr><td class="px-4 py-2">High Card</td><td class="text-center text-blue-400">5</td><td class="text-center text-red-400">x1</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Mobile Warning -->
+      <div class="mobile-warning hidden max-w-xl mx-auto mt-8 p-4 rounded-xl bg-amber-500/10 border border-amber-500/30 text-center">
+        <p class="text-amber-400">
+          This game is best played on desktop. Mobile experience may be limited.
+        </p>
+      </div>
+
+    </div>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+  .game-wrapper {
+    aspect-ratio: 16 / 9;
+  }
+
+  .game-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+  }
+
+  .game-iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+  }
+
+  /* Fullscreen styles */
+  .game-container:fullscreen {
+    background: #0a0a0a;
+  }
+
+  .game-container:fullscreen .game-iframe {
+    width: 100vw;
+    height: 100vh;
+    object-fit: contain;
+  }
+
+  /* Mobile warning */
+  @media (max-width: 768px) {
+    .mobile-warning {
+      display: block !important;
+    }
+
+    .game-wrapper {
+      aspect-ratio: auto;
+      min-height: 400px;
+    }
+  }
+</style>
+
+<script>
+  // Fullscreen toggle
+  const fullscreenBtn = document.getElementById('fullscreen-btn');
+  const gameContainer = document.querySelector('.game-container');
+
+  fullscreenBtn?.addEventListener('click', () => {
+    if (!document.fullscreenElement) {
+      gameContainer?.requestFullscreen().catch(err => {
+        console.log('Fullscreen error:', err);
+      });
+    } else {
+      document.exitFullscreen();
+    }
+  });
+
+  // Update button text based on fullscreen state
+  document.addEventListener('fullscreenchange', () => {
+    if (fullscreenBtn) {
+      const isFullscreen = !!document.fullscreenElement;
+      fullscreenBtn.innerHTML = isFullscreen
+        ? `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5 10a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1z" clip-rule="evenodd" /></svg> Exit Fullscreen`
+        : `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 4a1 1 0 011-1h4a1 1 0 010 2H6.414l2.293 2.293a1 1 0 01-1.414 1.414L5 6.414V8a1 1 0 01-2 0V4zm9 1a1 1 0 010-2h4a1 1 0 011 1v4a1 1 0 01-2 0V6.414l-2.293 2.293a1 1 0 01-1.414-1.414L13.586 5H12zm-9 9a1 1 0 012 0v1.586l2.293-2.293a1 1 0 011.414 1.414L6.414 15H8a1 1 0 010 2H4a1 1 0 01-1-1v-4zm13-1a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 010-2h1.586l-2.293-2.293a1 1 0 011.414-1.414L15 13.586V12a1 1 0 011-1z" clip-rule="evenodd" /></svg> Fullscreen`;
+    }
+  });
+</script>

@@ -164,33 +164,10 @@ export default function PdfStackGame() {
     ctx.fillStyle = pdf.color;
     ctx.fillRect(-pdf.width/2, -pdf.height/2, pdf.width, pdf.height);
 
-<<<<<<< HEAD
     // Draw border
     ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
     ctx.lineWidth = 2;
     ctx.strokeRect(-pdf.width/2, -pdf.height/2, pdf.width, pdf.height);
-=======
-    // Game Scene - extends Phaser.Scene (loaded from CDN)
-    // @ts-ignore - Phaser is loaded at runtime via CDN
-    class GameScene extends Phaser.Scene {
-      [key: string]: any; // Allow any Phaser.Scene properties
-      private platforms!: any; // Phaser.Physics.Arcade.StaticGroup
-      private fallingPdf: any = null; // Phaser.GameObjects.Container
-      private pdfs: any[] = []; // Phaser.GameObjects.Container[]
-      private rng!: SeededRandom;
-      private score = 0;
-      private perfectDrops = 0;
-      private gameOver = false;
-      private moveDirection = 1;
-      private moveSpeed = 3;
-      private pdfWidth = 80;
-      private pdfHeight = 20;
-      private baseY!: number;
-      private lastDropX = 0;
-      private cameraTarget = 0;
-      private startY!: number;
-      private lowestY!: number;
->>>>>>> d72b0f3 (feat(seo): Add 18 new pages, expand FAQs, fix TypeScript errors)
 
     // Draw PDF text
     ctx.fillStyle = '#ffffff';

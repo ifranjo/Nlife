@@ -30,6 +30,7 @@ import InstallPrompt from './InstallPrompt';
         id="mobile-menu-btn" 
         class="sm:hidden p-2 -mr-2 text-[var(--text-muted)] hover:text-[var(--text)] transition-colors"
         aria-label="Toggle navigation menu"
+        aria-controls="mobile-menu"
         aria-expanded="false"
       >
         <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -56,6 +57,7 @@ import InstallPrompt from './InstallPrompt';
   <div
     id="mobile-menu"
     class="hidden sm:hidden border-t border-[var(--border)] bg-[var(--bg)]/95 backdrop-blur-sm absolute left-0 right-0 px-6 py-4 space-y-4 shadow-2xl"
+    aria-hidden="true"
   >
     <a href="/hub" class="block py-3 text-[var(--text)] text-sm uppercase tracking-widest hover:text-[var(--accent)] transition-colors">
       Tools
@@ -148,17 +150,50 @@ import InstallPrompt from './InstallPrompt';
   const menu = document.getElementById('mobile-menu');
 
   if (btn && menu) {
-    btn.addEventListener('click', () => {
-      const isExpanded = btn.getAttribute('aria-expanded') === 'true';
-      btn.setAttribute('aria-expanded', (!isExpanded).toString());
-      menu.classList.toggle('hidden');
-      
-      // Animate entry
-      if (!menu.classList.contains('hidden')) {
-        menu.classList.add('animate-fadeInUp');
-      } else {
-        menu.classList.remove('animate-fadeInUp');
+    const links = menu.querySelectorAll('a');
+
+    const openMenu = () => {
+      btn.setAttribute('aria-expanded', 'true');
+      menu.classList.remove('hidden');
+      menu.classList.add('animate-fadeInUp');
+      menu.setAttribute('aria-hidden', 'false');
+    };
+
+    const closeMenu = (returnFocus = false) => {
+      btn.setAttribute('aria-expanded', 'false');
+      menu.classList.add('hidden');
+      menu.classList.remove('animate-fadeInUp');
+      menu.setAttribute('aria-hidden', 'true');
+      if (returnFocus) {
+        (btn as HTMLButtonElement).focus();
       }
+    };
+
+    btn.addEventListener('click', (event) => {
+      event.stopPropagation();
+      const isExpanded = btn.getAttribute('aria-expanded') === 'true';
+      if (isExpanded) {
+        closeMenu();
+      } else {
+        openMenu();
+      }
+    });
+
+    links.forEach((link) => {
+      link.addEventListener('click', () => closeMenu());
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && btn.getAttribute('aria-expanded') === 'true') {
+        closeMenu(true);
+      }
+    });
+
+    document.addEventListener('click', (event) => {
+      if (btn.getAttribute('aria-expanded') !== 'true') return;
+      if (!(event.target instanceof Node)) return;
+      if (menu.contains(event.target) || btn.contains(event.target)) return;
+      closeMenu();
     });
   }
 </script>

@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#e0e0e0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Grid of tiles showing merge concept -->
+  <!-- Top-left 2 -->
+  <rect x="3" y="3" width="7" height="7" rx="1" />
+  <text x="6.5" y="8.5" font-size="4" fill="#e0e0e0" text-anchor="middle">2</text>
+
+  <!-- Top-right 2 -->
+  <rect x="14" y="3" width="7" height="7" rx="1" />
+  <text x="17.5" y="8.5" font-size="4" fill="#e0e0e0" text-anchor="middle">2</text>
+
+  <!-- Center merged 4 -->
+  <rect x="8" y="11" width="8" height="8" rx="1" />
+  <text x="12" y="17" font-size="5" fill="#e0e0e0" text-anchor="middle">4</text>
+
+  <!-- Arrow showing merge direction -->
+  <path d="M9 2 L12 2 L12 0.5 L15 2 L12 3.5 L12 2" stroke="#e0e0e0" stroke-width="1" fill="none"/>
+</svg>

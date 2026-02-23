@@ -1,0 +1,35 @@
+{
+  "worker": "T2",
+  "timestamp": "2026-02-01T12:00:00Z",
+  "subcategories": [
+    {
+      "name": "Text & Data Processing",
+      "tools": [
+        "base64",
+        "json-formatter",
+        "text-case",
+        "word-counter",
+        "hash-generator",
+        "color-converter",
+        "diff-checker",
+        "code-beautifier",
+        "svg-editor",
+        "markdown-editor"
+      ],
+      "useCase": "Transformar, formatear, codificar y procesar texto, codigo, datos y documentos",
+      "justification": "Estas herramientas manipulan contenido existente transformandolo a diferentes formatos, validando sintaxis, analizando texto o optimizando archivos sin generar contenido nuevo. Incluyen codificadores, formateadores, beautifiers y editores de texto/codigo."
+    },
+    {
+      "name": "Generators & Converters",
+      "tools": [
+        "qr-generator",
+        "qr-reader",
+        "password-generator",
+        "lorem-ipsum",
+        "unit-converter"
+      ],
+      "useCase": "Generar nuevo contenido, crear codigos o convertir entre unidades y formatos",
+      "justification": "Estas herramientas crean contenido original desde cero o convierten valores entre unidades/formatos diferentes. Incluyen generadores de QR, passwords, texto placeholder, y conversores de unidades de medida."
+    }
+  ]
+}

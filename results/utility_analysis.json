@@ -1,0 +1,33 @@
+{
+  "group": "UTILITY",
+  "worker": "T4",
+  "subcategories": [
+    {
+      "name": "GENERATORS",
+      "tools": [
+        "qr-generator",
+        "lorem-ipsum",
+        "password-generator"
+      ],
+      "reason": "Crean contenido completamente nuevo desde cero sin basarse en datos de entrada preexistentes del usuario."
+    },
+    {
+      "name": "PROCESSING",
+      "tools": [
+        "base64",
+        "json-formatter",
+        "text-case",
+        "word-counter",
+        "hash-generator",
+        "color-converter",
+        "qr-reader",
+        "unit-converter",
+        "diff-checker",
+        "code-beautifier",
+        "svg-editor",
+        "markdown-editor"
+      ],
+      "reason": "Toman datos de entrada existentes y los transforman, formatean, analizan o manipulan de alguna manera."
+    }
+  ]
+}

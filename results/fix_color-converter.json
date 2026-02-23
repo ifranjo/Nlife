@@ -1,0 +1,5 @@
+{
+  "tool": "color-converter",
+  "changes": ["added sanitizeTextContent", "added input validation"],
+  "file_updated": true
+}

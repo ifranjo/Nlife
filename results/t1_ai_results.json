@@ -1,0 +1,30 @@
+{
+  "worker": "T1",
+  "timestamp": "2026-02-01T12:00:00Z",
+  "subcategories": [
+    {
+      "name": "NLP & Language Processing",
+      "tools": [
+        "audio-transcription",
+        "subtitle-generator",
+        "sentiment-analysis",
+        "text-summarization",
+        "grammar-checker",
+        "ai-summary"
+      ],
+      "technology": "Hugging Face Transformers (Whisper, DistilBERT, DistilBART, Flan-T5)",
+      "justification": "These 6 tools process text and audio content using language models. They convert speech to text, analyze emotional tone, summarize content, check grammar, and generate document summaries. All run locally using browser-based transformer models."
+    },
+    {
+      "name": "Computer Vision & Image Processing",
+      "tools": [
+        "object-detection",
+        "image-captioning",
+        "image-upscaler",
+        "object-remover"
+      ],
+      "technology": "Vision Models (DETR, ViT-GPT2, ESRGAN, Segment Anything Model)",
+      "justification": "These 4 tools work with visual content using computer vision models. They detect objects, generate image descriptions, upscale resolution, and remove unwanted elements from photos. Each leverages neural networks optimized for image analysis and manipulation."
+    }
+  ]
+}

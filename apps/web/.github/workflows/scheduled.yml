@@ -1,0 +1,87 @@
+name: Scheduled Tests
+
+on:
+  schedule:
+    # Run full regression every Sunday at 2 AM UTC
+    - cron: '0 2 * * 0'
+  workflow_dispatch:  # Allow manual trigger
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # Weekly full regression test
+  weekly-regression:
+    name: 📅 Weekly Full Regression
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright (all browsers)
+        run: npx playwright install
+
+      - name: Generate test fixtures
+        run: node tests/fixtures/generate-fixtures.cjs
+        working-directory: ./apps/web
+
+      - name: Run smoke tests (all browsers)
+        run: npx playwright test tools-smoke
+        working-directory: ./apps/web
+        continue-on-error: true
+
+      - name: Run critical path tests
+        run: npx playwright test critical-path --project=chromium
+        working-directory: ./apps/web
+        continue-on-error: true
+
+      - name: Upload full results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: weekly-regression-results
+          path: apps/web/playwright-report/
+          retention-days: 30
+
+  # Daily health check
+  daily-health:
+    name: 💚 Daily Health Check
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright
+        run: npx playwright install chromium
+
+      - name: Run lightning smoke tests
+        run: npx playwright test tools-smoke-light --project=chromium
+        working-directory: ./apps/web
+
+      - name: Check production site health
+        run: |
+          curl -s -o /dev/null -w "%{http_code}" https://www.newlifesolutions.dev/ | grep -q "200" && echo "✅ Site is up" || (echo "❌ Site is down" && exit 1)
+        continue-on-error: true

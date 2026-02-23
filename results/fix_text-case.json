@@ -1,0 +1,5 @@
+{
+  "tool": "text-case",
+  "changes": ["added sanitizeTextContent", "added escapeHtml"],
+  "file_updated": true
+}

@@ -1,0 +1,96 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/ui/Navbar.astro';
+import Footer from '../components/ui/Footer.astro';
+
+const title = 'Terms of Use - New Life Solutions';
+const description = 'Terms governing use of New Life Solutions browser-based tools.';
+const canonicalUrl = 'https://www.newlifesolutions.dev/terms';
+---
+
+<Layout title={title} description={description} canonicalUrl={canonicalUrl}>
+  <link rel="canonical" href={canonicalUrl} slot="head" />
+  <Navbar />
+
+  <main class="min-h-screen pt-24 pb-16">
+    <div class="max-w-3xl mx-auto px-4">
+      <header class="text-center mb-12">
+        <div class="inline-block px-4 py-1 mb-6 text-xs uppercase tracking-widest border border-[var(--border)] rounded-full text-[var(--text-muted)]">
+          Terms
+        </div>
+        <h1 class="text-4xl md:text-5xl font-light mb-4">Terms of Use</h1>
+        <p class="text-[var(--text-muted)] max-w-xl mx-auto">
+          Effective date: February 23, 2026
+        </p>
+      </header>
+
+      <div class="space-y-10 text-sm leading-relaxed text-[var(--text-dim)]">
+        <section>
+          <h2 class="text-lg font-semibold text-[var(--text)] mb-4">Acceptance of Terms</h2>
+          <p>
+            By accessing or using New Life Solutions, you agree to these terms. If you do not agree, do not use the service.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-lg font-semibold text-[var(--text)] mb-4">Service Description</h2>
+          <p>
+            New Life Solutions provides browser-based productivity tools. Core functionality is offered as-is and may change,
+            be limited, or be removed without notice.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-lg font-semibold text-[var(--text)] mb-4">Acceptable Use</h2>
+          <ul class="space-y-2 list-disc list-inside">
+            <li>Do not use the service for unlawful, abusive, or infringing activity</li>
+            <li>Do not attempt to disrupt, scrape, reverse-engineer, or overload the platform</li>
+            <li>Do not use the service to process content you are not authorized to use</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2 class="text-lg font-semibold text-[var(--text)] mb-4">Intellectual Property</h2>
+          <p>
+            The site, branding, and software are owned by New Life Solutions or licensors. You retain ownership of your input files and outputs.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-lg font-semibold text-[var(--text)] mb-4">Disclaimer</h2>
+          <p>
+            The service is provided "as is" without warranties of any kind. We do not guarantee uninterrupted service,
+            perfect accuracy, or fitness for a specific purpose.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-lg font-semibold text-[var(--text)] mb-4">Limitation of Liability</h2>
+          <p>
+            To the fullest extent permitted by law, New Life Solutions is not liable for indirect, incidental, special,
+            consequential, or punitive damages, or for data loss, business interruption, or loss of profits.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-lg font-semibold text-[var(--text)] mb-4">Changes to Terms</h2>
+          <p>
+            We may update these terms from time to time. Continued use of the service after updates means you accept the revised terms.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-lg font-semibold text-[var(--text)] mb-4">Contact</h2>
+          <p>
+            Questions about these terms can be sent to
+            <a href="mailto:legal@newlifesolutions.dev" class="text-indigo-400 underline hover:text-indigo-300">
+              legal@newlifesolutions.dev
+            </a>.
+          </p>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+</Layout>

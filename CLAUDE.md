@@ -10,6 +10,29 @@ New Life Solutions - Monorepo for browser-based utility tools (PDF, images, AI).
 
 All processing is 100% client-side. Files never leave the user's browser.
 
+## API Routes
+
+### Astro API Routes (`src/pages/api/`)
+
+| Endpoint | Method | Purpose |
+|----------|--------|---------|
+| `/api/tool-stats` | GET | Returns top 3 tools with views/uses (reads from KV) |
+| `/api/tool-usage` | POST | Tracks tool views, uses, downloads, hub_clicks |
+
+### Server API Routes (`api/`)
+
+| Endpoint | Method | Purpose |
+|----------|--------|---------|
+| `/api/stripe-webhook` | POST | Receives Stripe events (checkout, subscription changes) |
+| `/api/verify-subscription` | GET | Verifies subscription status via session_id |
+
+### Missing/Deprecated Endpoints
+
+| Endpoint | Status |
+|----------|--------|
+| `/api/purge-cache` | Referenced but NOT IMPLEMENTED |
+| `/api/errors` | Commented out in error-reporting.ts |
+
 ## Commands
 
 ```bash
@@ -47,13 +70,21 @@ npm run test:shard:4    # Run 4/4 of tests
 ```
 NEW_LIFE/
 ├── apps/web/                 ← Astro frontend
+│   ├── api/                 ← Server-side API routes (Vercel)
+│   │   ├── stripe-webhook.ts    ← Stripe webhook handler
+│   │   └── verify-subscription.ts ← Subscription verification
 │   └── src/
 │       ├── pages/
-│       │   ├── tools/*.astro     ← Tool pages (24 tools)
+│       │   ├── api/              ← Astro API routes
+│       │   │   ├── tool-stats.ts    ← GET tool analytics
+│       │   │   └── tool-usage.ts    ← POST track tool views/uses
+│       │   ├── tools/*.astro     ← Tool pages (40+ tools)
 │       │   ├── guides/*.astro    ← SEO guide pages
 │       │   ├── use-cases/*.astro ← Programmatic landing pages
-│       │   ├── admin/*.astro     ← Admin dashboards (ai-analytics)
+│       │   ├── docs/*.astro      ← Documentation pages
 │       │   └── hub.astro         ← Main hub page
+│       ├── content/
+│       │   └── docs/             ← Astro content collections (Markdown)
 │       ├── components/
 │       │   ├── tools/*.tsx       ← React tool components
 │       │   ├── ui/*.astro        ← Shared UI (Navbar, Footer, ToolCard)

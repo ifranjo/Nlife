@@ -1,0 +1,24 @@
+{
+  "worker": "T1",
+  "total_tools": 12,
+  "subcategories": [
+    {
+      "name": "PDF Manipulation",
+      "tools": ["pdf-merge", "pdf-compress", "pdf-split", "pdf-organize"],
+      "operationType": "manipulation",
+      "justification": "Estas herramientas operan directamente sobre archivos PDF existentes, modificando su estructura o contenido sin cambiar el formato de archivo. Incluyen fusionar, comprimir, dividir y organizar paginas."
+    },
+    {
+      "name": "PDF Conversion",
+      "tools": ["jpg-to-pdf", "pdf-to-jpg", "pdf-to-word"],
+      "operationType": "conversion",
+      "justification": "Estas herramientas convierten documentos entre diferentes formatos de archivo (imagen a PDF, PDF a imagen, PDF a Word). El proceso implica transformar la estructura interna del documento de un formato a otro."
+    },
+    {
+      "name": "Document AI & Forms",
+      "tools": ["ocr", "document-scanner", "pdf-redactor", "pdf-form-filler", "resume-builder"],
+      "operationType": "extraction",
+      "justification": "Estas herramientas utilizan inteligencia artificial o procesamiento avanzado para extraer informacion, escanear documentos, redactar informacion sensible, llenar formularios automaticamente o crear documentos complejos como CVs."
+    }
+  ]
+}

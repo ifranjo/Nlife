@@ -25,7 +25,7 @@ const {
   credentials = ["B.S. Computer Science, MIT", "50+ open source contributions"],
   linkedIn = "https://linkedin.com/in/sarahchen",
   github = "https://github.com/sarahchen",
-  image = "/images/authors/sarah-chen.jpg"
+  image // Optional - don't provide a default that doesn't exist
 } = Astro.props;
 
 const toolsCount = 40;
@@ -34,9 +34,15 @@ const filesProcessed = "5M+";
 
 <section class="author-bio" aria-labelledby="author-heading">
   <div class="author-content">
-    <div class="author-image">
-      <img src={image} alt={`${name}, ${role}`} width="120" height="120" loading="lazy" />
-    </div>
+    {image ? (
+      <div class="author-image">
+        <img src={image} alt={`${name}, ${role}`} width="120" height="120" loading="lazy" />
+      </div>
+    ) : (
+      <div class="author-avatar-placeholder">
+        <span class="avatar-initials">{name.split(' ').map(n => n[0]).join('')}</span>
+      </div>
+    )}
 
     <div class="author-details">
       <h2 id="author-heading" class="author-name">
@@ -138,6 +144,23 @@ const filesProcessed = "5M+";
     border-radius: 50%;
     object-fit: cover;
     border: 3px solid var(--border);
+  }
+
+  .author-avatar-placeholder {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), #667eea);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid var(--border);
+  }
+
+  .avatar-initials {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: white;
   }
 
   .author-name {

@@ -1,0 +1,107 @@
+---
+interface Props {
+  headings: { depth: number; slug: string; text: string }[];
+}
+
+const { headings } = Astro.props;
+
+// Filter to only h2 and h3 headings
+const tocHeadings = headings.filter(h => h.depth <= 3);
+---
+
+{tocHeadings.length > 0 && (
+  <nav class="toc-nav" aria-label="Table of contents">
+    <h4 class="toc-title">On this page</h4>
+    <ul class="toc-list">
+      {tocHeadings.map(heading => (
+        <li class={`toc-item depth-${heading.depth}`}>
+          <a href={`#${heading.slug}`} class="toc-link">
+            {heading.text}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+)}
+
+<style>
+  .toc-nav {
+    font-size: 0.875rem;
+  }
+
+  .toc-title {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted, #888);
+    margin: 0 0 1rem;
+  }
+
+  .toc-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-left: 1px solid var(--border, #333);
+  }
+
+  .toc-item {
+    margin: 0;
+  }
+
+  .toc-item.depth-2 {
+    padding-left: 0.75rem;
+  }
+
+  .toc-item.depth-3 {
+    padding-left: 1.5rem;
+  }
+
+  .toc-link {
+    display: block;
+    padding: 0.375rem 0;
+    color: var(--text-muted, #888);
+    text-decoration: none;
+    line-height: 1.5;
+    transition: color 0.15s;
+    border-left: 2px solid transparent;
+    margin-left: -1px;
+  }
+
+  .toc-link:hover {
+    color: var(--text, #e0e0e0);
+    border-left-color: var(--border-hover, #444);
+  }
+
+  .toc-link.active {
+    color: #00d4ff;
+    border-left-color: #00d4ff;
+  }
+</style>
+
+<script>
+  // Highlight current section on scroll
+  const observerOptions = {
+    root: null,
+    rootMargin: '-20% 0px -80% 0px',
+    threshold: 0
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        document.querySelectorAll('.toc-link').forEach(link => {
+          link.classList.remove('active');
+          if (link.getAttribute('href') === `#${id}`) {
+            link.classList.add('active');
+          }
+        });
+      }
+    });
+  }, observerOptions);
+
+  document.querySelectorAll('h2[id], h3[id]').forEach(heading => {
+    observer.observe(heading);
+  });
+</script>

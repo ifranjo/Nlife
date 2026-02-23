@@ -1,0 +1,14 @@
+{
+  "tool": "unit-converter",
+  "changes": [
+    "added sanitizeTextContent and escapeHtml imports",
+    "added numeric input validation with validateNumericInput function",
+    "added MAX_INPUT_LENGTH, MAX_ABS_VALUE, MAX_PRECISION_DIGITS constants",
+    "added inputValidationError state for user feedback",
+    "added accessible error display with aria-invalid and aria-describedby",
+    "escaped all user-facing output: unit names, symbols, formatted numbers, error messages",
+    "added overflow and NaN checks in conversions useMemo",
+    "sanitized targetUnit in handleSwap function"
+  ],
+  "file_updated": true
+}

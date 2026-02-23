@@ -1,0 +1,162 @@
+---
+import InstallPrompt from './InstallPrompt';
+---
+
+<nav class="fixed top-0 left-0 right-0 z-50 border-b border-[var(--border)] bg-[var(--bg)]/90 backdrop-blur-sm">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="flex items-center justify-between h-14">
+      <!-- Logo (44px+ touch target) -->
+      <a href="/" class="flex items-center gap-3 group min-h-[44px] py-2">
+        <span class="text-xl opacity-60 group-hover:opacity-100 transition-opacity">◈</span>
+        <span class="text-xs tracking-[0.3em] uppercase text-[var(--text-dim)] group-hover:text-[var(--text)] transition-colors">
+          New Life
+        </span>
+      </a>
+
+      <!-- Beta Badge -->
+      <div class="hidden sm:flex items-center">
+        <span
+          class="beta-badge inline-flex items-center gap-1 px-2 py-1 rounded-full text-[10px] font-semibold transition-all cursor-help"
+          title="Beta v0.0.1 - Security audit in progress. Please report any issues."
+        >
+          BETA v0.0.1
+        </span>
+      </div>
+
+      <!-- Mobile Menu Button -->
+      <button 
+        id="mobile-menu-btn" 
+        class="sm:hidden p-2 -mr-2 text-[var(--text-muted)] hover:text-[var(--text)] transition-colors"
+        aria-label="Toggle navigation menu"
+        aria-expanded="false"
+      >
+        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+
+      <!-- Desktop Nav -->
+      <div class="hidden sm:flex items-center gap-8">
+        <a href="/hub" class="nav-link min-h-[44px] flex items-center px-3 sm:px-2">Tools</a>
+        <a href="/games" class="nav-link min-h-[44px] flex items-center px-3 sm:px-2">Games</a>
+        <a href="/pricing" class="nav-link min-h-[44px] flex items-center px-3 sm:px-2">Pricing</a>
+        <a href="/hub#about" class="nav-link min-h-[44px] flex items-center px-3 sm:px-2">About</a>
+        <div class="flex items-center gap-2 text-[var(--text-muted)]" id="desktop-status" role="status" aria-live="polite">
+          <span class="status-dot"></span>
+          <span class="status-text text-[0.625rem] tracking-[0.15em] uppercase">Online</span>
+          <span class="cached-indicator hidden text-[0.625rem] text-[var(--text-muted)] ml-2" title="Cached for offline use">📦</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Menu (Hidden by default) -->
+  <div
+    id="mobile-menu"
+    class="hidden sm:hidden border-t border-[var(--border)] bg-[var(--bg)]/95 backdrop-blur-sm absolute left-0 right-0 px-6 py-4 space-y-4 shadow-2xl"
+  >
+    <a href="/hub" class="block py-3 text-[var(--text)] text-sm uppercase tracking-widest hover:text-[var(--accent)] transition-colors">
+      Tools
+    </a>
+    <a href="/games" class="block py-3 text-[var(--text)] text-sm uppercase tracking-widest hover:text-[var(--accent)] transition-colors">
+      Games
+    </a>
+    <a href="/pricing" class="block py-3 text-[var(--text)] text-sm uppercase tracking-widest hover:text-[var(--accent)] transition-colors">
+      Pricing
+    </a>
+    <a href="/hub#about" class="block py-3 text-[var(--text)] text-sm uppercase tracking-widest hover:text-[var(--accent)] transition-colors">
+      About
+    </a>
+    <div class="flex items-center gap-3 py-3 border-t border-[var(--border)] text-[var(--text-muted)]" role="status" aria-live="polite">
+      <span class="status-dot"></span>
+      <span class="status-text text-xs uppercase tracking-widest">Online</span>
+      <span class="cached-indicator hidden text-xs text-[var(--text-muted)]" title="Cached for offline use">📦</span>
+    </div>
+  </div>
+</nav>
+
+<!-- Install Prompt Component -->
+<InstallPrompt client:load />
+
+<script>
+  // Connection Status Logic
+  const updateStatus = async () => {
+    const isOnline = navigator.onLine;
+    const dots = document.querySelectorAll('.status-dot');
+    const texts = document.querySelectorAll('.status-text');
+    const cachedIndicators = document.querySelectorAll('.cached-indicator');
+
+    // Check if current page is cached
+    let isCached = false;
+    if ('caches' in window) {
+      try {
+        const cache = await caches.open('dynamic-v1');
+        const cachedResponse = await cache.match(window.location.pathname);
+        isCached = !!cachedResponse;
+      } catch (e) {
+        console.warn('Cache check failed:', e);
+      }
+    }
+
+    dots.forEach(dot => {
+      // Override default green if offline
+      if (!isOnline) {
+        (dot as HTMLElement).style.backgroundColor = 'var(--error)';
+        (dot as HTMLElement).style.animation = 'pulse 1s infinite';
+      } else {
+        (dot as HTMLElement).style.backgroundColor = 'var(--success)';
+        (dot as HTMLElement).style.animation = 'blink 2s infinite';
+      }
+    });
+
+    texts.forEach(text => {
+      text.textContent = isOnline ? 'Online' : 'Offline';
+      if (!isOnline) {
+        text.classList.add('text-red-400');
+      } else {
+        text.classList.remove('text-red-400');
+      }
+    });
+
+    // Show cached indicator when offline and page is cached
+    cachedIndicators.forEach(indicator => {
+      if (!isOnline && isCached) {
+        indicator.classList.remove('hidden');
+      } else {
+        indicator.classList.add('hidden');
+      }
+    });
+
+    // Announce status changes to screen readers
+    if (window.announce) {
+      window.announce(
+        isOnline ? 'You are back online' : 'You are offline. Cached content available.',
+        'polite'
+      );
+    }
+  };
+
+  window.addEventListener('online', updateStatus);
+  window.addEventListener('offline', updateStatus);
+  // Initial check
+  updateStatus();
+
+  // Mobile Menu Logic
+  const btn = document.getElementById('mobile-menu-btn');
+  const menu = document.getElementById('mobile-menu');
+
+  if (btn && menu) {
+    btn.addEventListener('click', () => {
+      const isExpanded = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', (!isExpanded).toString());
+      menu.classList.toggle('hidden');
+      
+      // Animate entry
+      if (!menu.classList.contains('hidden')) {
+        menu.classList.add('animate-fadeInUp');
+      } else {
+        menu.classList.remove('animate-fadeInUp');
+      }
+    });
+  }
+</script>

@@ -11,9 +11,15 @@ interface Props {
   theme?: 'default' | 'clean'; // Theme variant: default (hacker) or clean (professional)
 }
 
+const now = new Date();
+const currentDate = now.toISOString();
+const currentYear = now.getFullYear();
+const currentMonthYear = now.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+const verifiedDate = currentDate.split('T')[0];
+
 const {
-  title = 'New Life Solutions - Free Online Tools 2025',
-  description = 'Free browser-based tools for PDF, images, video & more. 100% private, no uploads. Works offline. Updated December 2025.',
+  title = `New Life Solutions - Free Online Tools (${currentYear})`,
+  description = `Free browser-based tools for PDF, images, video & more. Files stay on your device. Works offline. Updated ${currentMonthYear}.`,
   image = '/og-default.png',
   canonicalUrl,
   theme = 'clean'
@@ -23,9 +29,6 @@ const siteUrl = Astro.url.origin;
 // Use provided canonical or generate from current URL
 const canonical = canonicalUrl || Astro.url.href;
 
-// Current date for freshness signals (GEO 2025 best practice)
-const currentDate = new Date().toISOString();
-const currentYear = new Date().getFullYear();
 const themeColor = theme === 'clean' ? '#f8f9fa' : '#0a0a0a';
 ---
 
@@ -112,7 +115,7 @@ const themeColor = theme === 'clean' ? '#f8f9fa' : '#0a0a0a';
 
     <!-- Freshness signals specifically for AI (research shows these matter) -->
     <meta name="last-verified" content={currentDate} />
-    <meta name="content-accuracy" content="verified-december-2025" />
+    <meta name="content-accuracy" content={`verified-${verifiedDate}`} />
 
     <!-- Plausible Analytics (with custom events support) -->
     <script defer data-domain="newlifesolutions.dev" src="https://plausible.io/js/script.tagged-events.js"></script>
@@ -249,6 +252,25 @@ const themeColor = theme === 'clean' ? '#f8f9fa' : '#0a0a0a';
   <body>
     <!-- Skip link for keyboard navigation (WCAG 2.4.1) -->
     <a href="#main-content" class="skip-link">Skip to main content</a>
+    <script is:inline>
+      // Ensure skip-link target exists even on pages that forgot the id.
+      const ensureSkipTarget = () => {
+        const main = document.querySelector('main');
+        if (!main) return;
+        if (!main.id) {
+          main.id = 'main-content';
+        }
+        if (!main.hasAttribute('tabindex')) {
+          main.setAttribute('tabindex', '-1');
+        }
+      };
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', ensureSkipTarget, { once: true });
+      } else {
+        ensureSkipTarget();
+      }
+    </script>
 
     <!-- Background effects (hidden for clean theme) -->
     <div class="grid-bg"></div>

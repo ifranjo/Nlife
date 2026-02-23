@@ -1,0 +1,5 @@
+{
+  "tool": "object-detection",
+  "changes": ["added validateImageFileExtended", "added sanitizeFilename"],
+  "file_updated": true
+}

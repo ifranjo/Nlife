@@ -1,0 +1,9 @@
+{
+  "worker": "W8",
+  "task": "Thumbnails check",
+  "total_thumbnails": 52,
+  "total_tools": 51,
+  "missing_thumbnails": [],
+  "extra_thumbnails": ["ocr-extractor"],
+  "notes": "ocr-extractor.svg exists but tool id is 'ocr' with thumbnail '/thumbnails/ocr.svg'. Both svg files exist but one may be orphaned."
+}

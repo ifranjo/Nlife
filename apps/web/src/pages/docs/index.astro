@@ -1,0 +1,265 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import DocsSearch from '../../components/docs/DocsSearch.astro';
+import { getCollection } from 'astro:content';
+
+const title = 'Documentation | New Life Solutions';
+const description = 'Complete documentation for New Life Solutions browser-based tools. Learn how to use our 50+ privacy-first tools.';
+
+const allDocs = await getCollection('docs', ({ data }) => !data.draft);
+
+const gettingStarted = allDocs
+  .filter(d => d.data.category === 'getting-started')
+  .sort((a, b) => a.data.order - b.data.order);
+
+const toolsDocs = allDocs
+  .filter(d => d.data.category === 'tools')
+  .sort((a, b) => a.data.order - b.data.order)
+  .slice(0, 6);
+---
+
+<Layout title={title} description={description}>
+  <main class="docs-home">
+    <div class="docs-hero">
+      <h1>Documentation</h1>
+      <p class="hero-description">
+        Learn how to use our 50+ browser-based tools. Everything is 100% private,
+        with no file uploads to any server.
+      </p>
+
+      <div class="search-container">
+        <DocsSearch />
+      </div>
+    </div>
+
+    <div class="docs-grid">
+      {/* Getting Started */}
+      <section class="docs-section">
+        <h2>Getting Started</h2>
+        <div class="card-grid">
+          {gettingStarted.map(doc => (
+            <a href={`/docs/${doc.slug}`} class="doc-card">
+              <h3>{doc.data.title}</h3>
+              <p>{doc.data.description}</p>
+            </a>
+          ))}
+
+          {gettingStarted.length === 0 && (
+            <>
+              <a href="/docs/getting-started/introduction" class="doc-card">
+                <h3>Introduction</h3>
+                <p>Overview of New Life Solutions and our privacy-first approach.</p>
+              </a>
+              <a href="/docs/getting-started/quick-start" class="doc-card">
+                <h3>Quick Start</h3>
+                <p>Get up and running with our tools in under 5 minutes.</p>
+              </a>
+              <a href="/docs/getting-started/privacy" class="doc-card">
+                <h3>Privacy & Security</h3>
+                <p>How we keep your data 100% private and secure.</p>
+              </a>
+            </>
+          )}
+        </div>
+      </section>
+
+      {/* Popular Tools */}
+      <section class="docs-section">
+        <h2>Popular Tools</h2>
+        <div class="card-grid">
+          <a href="/docs/tools/pdf-merge" class="doc-card">
+            <h3>PDF Merge</h3>
+            <p>Combine multiple PDF files into one document.</p>
+          </a>
+          <a href="/docs/tools/image-converter" class="doc-card">
+            <h3>Image Converter</h3>
+            <p>Convert between JPG, PNG, WebP, and more formats.</p>
+          </a>
+          <a href="/docs/tools/qr-generator" class="doc-card">
+            <h3>QR Code Generator</h3>
+            <p>Create custom QR codes for URLs, WiFi, and more.</p>
+          </a>
+          <a href="/docs/tools/background-remover" class="doc-card">
+            <h3>Background Remover</h3>
+            <p>Remove backgrounds from images using AI.</p>
+          </a>
+        </div>
+        <a href="/docs/tools" class="view-all">View all tools →</a>
+      </section>
+
+      {/* Help & Support */}
+      <section class="docs-section">
+        <h2>Help & Support</h2>
+        <div class="help-grid">
+          <div class="help-card">
+            <div class="help-icon">❓</div>
+            <h3>FAQ</h3>
+            <p>Common questions and answers about our tools.</p>
+            <a href="/docs/troubleshooting/faq">View FAQ</a>
+          </div>
+          <div class="help-card">
+            <div class="help-icon">🔧</div>
+            <h3>Troubleshooting</h3>
+            <p>Solutions to common issues and errors.</p>
+            <a href="/docs/troubleshooting/common-issues">Get help</a>
+          </div>
+          <div class="help-card">
+            <div class="help-icon">📧</div>
+            <h3>Contact Us</h3>
+            <p>Need more help? Get in touch with our team.</p>
+            <a href="mailto:support@newlifesolutions.dev">Email us</a>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <style>
+    .docs-home {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 3rem 1rem;
+    }
+
+    .docs-hero {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .docs-hero h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      margin: 0 0 1rem;
+      background: linear-gradient(135deg, #00d4ff, #7c3aed);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-description {
+      font-size: 1.25rem;
+      color: var(--text-muted, #888);
+      max-width: 600px;
+      margin: 0 auto 2rem;
+      line-height: 1.6;
+    }
+
+    .search-container {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .docs-section {
+      margin-bottom: 3rem;
+    }
+
+    .docs-section h2 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      color: var(--text, #e0e0e0);
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1rem;
+    }
+
+    .doc-card {
+      display: block;
+      background: var(--glass-bg, rgba(255, 255, 255, 0.05));
+      border: 1px solid var(--border, #333);
+      border-radius: 12px;
+      padding: 1.5rem;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .doc-card:hover {
+      border-color: #00d4ff;
+      transform: translateY(-2px);
+    }
+
+    .doc-card h3 {
+      font-size: 1.125rem;
+      font-weight: 600;
+      margin: 0 0 0.5rem;
+      color: var(--text, #e0e0e0);
+    }
+
+    .doc-card p {
+      font-size: 0.9375rem;
+      color: var(--text-muted, #888);
+      margin: 0;
+      line-height: 1.5;
+    }
+
+    .view-all {
+      display: inline-block;
+      margin-top: 1rem;
+      color: #00d4ff;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .view-all:hover {
+      text-decoration: underline;
+    }
+
+    .help-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+
+    .help-card {
+      background: var(--glass-bg, rgba(255, 255, 255, 0.05));
+      border: 1px solid var(--border, #333);
+      border-radius: 12px;
+      padding: 1.5rem;
+      text-align: center;
+    }
+
+    .help-icon {
+      font-size: 2rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .help-card h3 {
+      font-size: 1.125rem;
+      font-weight: 600;
+      margin: 0 0 0.5rem;
+      color: var(--text, #e0e0e0);
+    }
+
+    .help-card p {
+      font-size: 0.9375rem;
+      color: var(--text-muted, #888);
+      margin: 0 0 1rem;
+    }
+
+    .help-card a {
+      color: #00d4ff;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .help-card a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 768px) {
+      .docs-home {
+        padding: 2rem 1rem;
+      }
+
+      .docs-hero h1 {
+        font-size: 2rem;
+      }
+
+      .hero-description {
+        font-size: 1.125rem;
+      }
+    }
+  </style>
+</Layout>

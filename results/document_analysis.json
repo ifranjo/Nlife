@@ -1,0 +1,36 @@
+{
+  "group": "DOCUMENT",
+  "worker": "T1",
+  "subcategories": [
+    {
+      "name": "Manipulation",
+      "tools": [
+        "pdf-merge",
+        "pdf-compress",
+        "pdf-split",
+        "pdf-redactor",
+        "pdf-form-filler",
+        "pdf-organize"
+      ],
+      "reason": "Operan exclusivamente sobre archivos PDF, modificando su estructura o contenido sin convertir a formatos diferentes"
+    },
+    {
+      "name": "Conversion",
+      "tools": [
+        "pdf-to-word",
+        "jpg-to-pdf",
+        "pdf-to-jpg"
+      ],
+      "reason": "Transforman documentos entre formatos distintos (PDF ↔ Word, imagen ↔ PDF)"
+    },
+    {
+      "name": "AI",
+      "tools": [
+        "ocr",
+        "document-scanner",
+        "resume-builder"
+      ],
+      "reason": "Utilizan inteligencia artificial para procesamiento inteligente de documentos"
+    }
+  ]
+}

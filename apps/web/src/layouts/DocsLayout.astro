@@ -1,0 +1,276 @@
+---
+import Layout from './Layout.astro';
+import DocsSidebar from '../components/docs/DocsSidebar.astro';
+import DocsToc from '../components/docs/DocsToc.astro';
+import DocsSearch from '../components/docs/DocsSearch.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  headings?: { depth: number; slug: string; text: string }[];
+}
+
+const { title, description, headings = [] } = Astro.props;
+---
+
+<Layout title={`${title} | Documentation`} description={description}>
+  <div class="docs-layout">
+    {/* Mobile Search */}
+    <div class="docs-mobile-search">
+      <DocsSearch />
+    </div>
+
+    {/* Sidebar Navigation */}
+    <aside class="docs-sidebar">
+      <DocsSidebar currentPath={Astro.url.pathname} />
+    </aside>
+
+    {/* Main Content */}
+    <main class="docs-main">
+      <article class="docs-content">
+        <header class="docs-header">
+          <h1>{title}</h1>
+          <p class="docs-description">{description}</p>
+        </header>
+        <slot />
+      </article>
+
+      {/* Table of Contents - Desktop */}
+      {headings.length > 0 && (
+        <aside class="docs-toc">
+          <DocsToc headings={headings} />
+        </aside>
+      )}
+    </main>
+  </div>
+
+  <style>
+    .docs-layout {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      min-height: calc(100vh - 60px);
+      max-width: 1400px;
+      margin: 0 auto;
+      gap: 2rem;
+      padding: 0 1rem;
+    }
+
+    .docs-mobile-search {
+      display: none;
+      padding: 1rem;
+      border-bottom: 1px solid var(--border, #333);
+    }
+
+    .docs-sidebar {
+      position: sticky;
+      top: 80px;
+      height: calc(100vh - 100px);
+      overflow-y: auto;
+      padding: 1.5rem 0;
+      border-right: 1px solid var(--border, #333);
+    }
+
+    .docs-main {
+      display: grid;
+      grid-template-columns: 1fr 240px;
+      gap: 3rem;
+      padding: 2rem 0;
+    }
+
+    .docs-content {
+      max-width: 720px;
+    }
+
+    .docs-header {
+      margin-bottom: 2rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--border, #333);
+    }
+
+    .docs-header h1 {
+      font-size: 2.25rem;
+      font-weight: 700;
+      margin: 0 0 0.75rem;
+      color: var(--text, #e0e0e0);
+      line-height: 1.2;
+    }
+
+    .docs-description {
+      font-size: 1.125rem;
+      color: var(--text-muted, #888);
+      margin: 0;
+      line-height: 1.6;
+    }
+
+    .docs-toc {
+      position: sticky;
+      top: 100px;
+      height: fit-content;
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 1200px) {
+      .docs-main {
+        grid-template-columns: 1fr;
+      }
+
+      .docs-toc {
+        display: none;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .docs-layout {
+        grid-template-columns: 1fr;
+        gap: 0;
+        padding: 0;
+      }
+
+      .docs-mobile-search {
+        display: block;
+      }
+
+      .docs-sidebar {
+        display: none;
+        position: fixed;
+        top: 60px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 100;
+        background: var(--bg, #0a0a0a);
+        height: auto;
+        border-right: none;
+        padding: 1rem;
+      }
+
+      .docs-sidebar.open {
+        display: block;
+      }
+
+      .docs-main {
+        padding: 1rem;
+      }
+
+      .docs-header h1 {
+        font-size: 1.75rem;
+      }
+    }
+
+    /* Content Typography */
+    .docs-content :global(h2) {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin: 2.5rem 0 1rem;
+      color: var(--text, #e0e0e0);
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border, #333);
+    }
+
+    .docs-content :global(h3) {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin: 2rem 0 0.75rem;
+      color: var(--text, #e0e0e0);
+    }
+
+    .docs-content :global(h4) {
+      font-size: 1.125rem;
+      font-weight: 600;
+      margin: 1.5rem 0 0.5rem;
+      color: var(--text, #e0e0e0);
+    }
+
+    .docs-content :global(p) {
+      line-height: 1.8;
+      margin: 1rem 0;
+      color: var(--text, #e0e0e0);
+    }
+
+    .docs-content :global(ul, ol) {
+      margin: 1rem 0;
+      padding-left: 1.5rem;
+    }
+
+    .docs-content :global(li) {
+      margin: 0.5rem 0;
+      line-height: 1.7;
+    }
+
+    .docs-content :global(code) {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.875em;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 0.2em 0.4em;
+      border-radius: 4px;
+      color: #00d4ff;
+    }
+
+    .docs-content :global(pre) {
+      background: rgba(0, 0, 0, 0.3);
+      padding: 1rem;
+      border-radius: 8px;
+      overflow-x: auto;
+      margin: 1.5rem 0;
+      border: 1px solid var(--border, #333);
+    }
+
+    .docs-content :global(pre code) {
+      background: none;
+      padding: 0;
+      color: var(--text, #e0e0e0);
+    }
+
+    .docs-content :global(a) {
+      color: #00d4ff;
+      text-decoration: none;
+    }
+
+    .docs-content :global(a:hover) {
+      text-decoration: underline;
+    }
+
+    .docs-content :global(blockquote) {
+      border-left: 4px solid #00d4ff;
+      margin: 1.5rem 0;
+      padding: 1rem 1.5rem;
+      background: rgba(0, 212, 255, 0.05);
+      border-radius: 0 8px 8px 0;
+    }
+
+    .docs-content :global(blockquote p) {
+      margin: 0;
+    }
+
+    .docs-content :global(table) {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.5rem 0;
+    }
+
+    .docs-content :global(th, td) {
+      padding: 0.75rem;
+      text-align: left;
+      border-bottom: 1px solid var(--border, #333);
+    }
+
+    .docs-content :global(th) {
+      font-weight: 600;
+      color: var(--text, #e0e0e0);
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .docs-content :global(img) {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      margin: 1.5rem 0;
+    }
+
+    .docs-content :global(hr) {
+      border: none;
+      border-top: 1px solid var(--border, #333);
+      margin: 2rem 0;
+    }
+  </style>
+</Layout>

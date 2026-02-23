@@ -1,0 +1,5 @@
+{
+  "tool": "lorem-ipsum",
+  "changes": ["added escapeHtml", "added sanitizeFilename"],
+  "file_updated": true
+}

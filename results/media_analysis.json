@@ -1,0 +1,38 @@
+{
+  "group": "MEDIA",
+  "worker": "T2",
+  "subcategories": [
+    {
+      "name": "IMAGE",
+      "tools": [
+        "image-compress",
+        "file-converter",
+        "background-remover",
+        "exif-editor",
+        "image-resize"
+      ],
+      "reason": "Manipulacion directa de imagenes estaticas - compresion, conversion de formatos, edicion de metadatos y modificacion de propiedades visuales"
+    },
+    {
+      "name": "VIDEO",
+      "tools": [
+        "video-compressor",
+        "video-trimmer",
+        "video-to-mp3",
+        "gif-maker",
+        "subtitle-editor"
+      ],
+      "reason": "Procesamiento de archivos de video - compresion, recorte, extraccion de streams de audio y sincronizacion de subtitulos"
+    },
+    {
+      "name": "AUDIO_CAPTURE",
+      "tools": [
+        "remove-vocals",
+        "audio-editor",
+        "audiogram-maker",
+        "screen-recorder"
+      ],
+      "reason": "Audio puro y captura - manipulacion de streams de audio independientes, creacion de visualizaciones en video y grabacion de pantalla"
+    }
+  ]
+}

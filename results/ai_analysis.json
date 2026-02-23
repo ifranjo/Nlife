@@ -1,0 +1,28 @@
+{
+  "group": "AI",
+  "worker": "T3",
+  "subcategories": [
+    {
+      "name": "NLP/Language",
+      "tools": [
+        "audio-transcription",
+        "subtitle-generator",
+        "sentiment-analysis",
+        "text-summarization",
+        "grammar-checker",
+        "ai-summary"
+      ],
+      "reason": "Procesan texto o convierten audio a texto. Entrada principal: lenguaje natural en forma de texto o audio. Salida: texto procesado o estructurado."
+    },
+    {
+      "name": "Vision",
+      "tools": [
+        "object-detection",
+        "image-captioning",
+        "image-upscaler",
+        "object-remover"
+      ],
+      "reason": "Procesan imagenes como entrada principal. Operaciones visuales sobre pixeles: deteccion de objetos, enhancement, restauracion o modificacion de contenido visual."
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+# Security Policy for New Life Solutions
+# Last updated: 2026-02-22
+
+# Contact Information
+Contact: mailto:security@newlifesolutions.dev
+Contact: https://www.newlifesolutions.dev/contact
+
+# Acknowledgments
+Acknowledgments: https://www.newlifesolutions.dev/security/hall-of-fame
+
+# Policy
+Policy: https://www.newlifesolutions.dev/security/policy
+
+# Preferred Languages
+Preferred-Languages: en, es
+
+# Canonical URL
+Canonical: https://www.newlifesolutions.dev/.well-known/security.txt
+
+# Expiration
+Expires: 2027-02-22T00:00:00.000Z
+
+# Hiring
+Hiring: https://www.newlifesolutions.dev/careers
+
+# Encryption
+Encryption: https://www.newlifesolutions.dev/pgp-key.txt

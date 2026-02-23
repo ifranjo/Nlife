@@ -1,0 +1,5 @@
+{
+  "tool": "diff-checker",
+  "changes": ["added sanitizeTextContent", "added escapeHtml"],
+  "file_updated": true
+}

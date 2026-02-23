@@ -127,7 +127,7 @@ const schemaData = {
 ---
 
 <section
-  class="comparison-section"
+  class="comparison-section comparison-section--hide-mobile"
   aria-labelledby="comparison-heading"
   data-ai-citation="true"
   data-comparison-table="true"
@@ -253,6 +253,9 @@ const schemaData = {
     overflow-x: auto;
     border: 1px solid var(--border);
     background: var(--bg-card);
+    /* Ensure contained scrolling, no page-level scroll */
+    max-width: 100%;
+    -webkit-overflow-scrolling: touch;
   }
 
   .comparison-table {
@@ -403,37 +406,10 @@ const schemaData = {
     letter-spacing: 0.05em;
   }
 
-  /* Responsive */
-  @media (max-width: 768px) {
+  /* Responsive - Hide comparison table on smaller screens where it doesn't fit */
+  @media (max-width: 800px) {
     .comparison-section {
-      padding: 1.5rem 1rem;
-    }
-
-    .table-wrapper {
-      margin: 0 -1rem;
-      border-left: none;
-      border-right: none;
-    }
-
-    .comparison-table {
-      font-size: 0.75rem;
-    }
-
-    .comparison-table thead th,
-    .comparison-table td {
-      padding: 0.75rem 0.5rem;
-    }
-
-    .feature-col,
-    .our-col,
-    .competitor-col {
-      min-width: 120px;
-    }
-
-    .cell-content {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 0.25rem;
+      display: none;
     }
   }
 

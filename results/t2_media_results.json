@@ -1,0 +1,24 @@
+{
+  "worker": "T2",
+  "total_tools": 14,
+  "subcategories": [
+    {
+      "name": "Image Processing",
+      "tools": ["image-compress", "file-converter", "background-remover", "exif-editor", "image-resize"],
+      "mediaType": "image",
+      "justification": "Herramientas enfocadas en manipulacion de imagenes estaticas: compresion, conversion de formatos (HEIC/JPG/PNG/WebP), eliminacion de fondo mediante AI, edicion de metadatos EXIF y redimensionamiento. Todas operan sobre archivos de imagen individuales."
+    },
+    {
+      "name": "Video Processing & Subtitling",
+      "tools": ["video-to-mp3", "video-compressor", "video-trimmer", "gif-maker", "subtitle-editor"],
+      "mediaType": "video",
+      "justification": "Conjunto de herramientas para manipulacion de video: extraccion de audio, compresion, recorte temporal, conversion a GIF animado y edicion de subtitulos. Requieren procesamiento de secuencias de frames y sincronizacion temporal."
+    },
+    {
+      "name": "Audio & Capture",
+      "tools": ["remove-vocals", "audio-editor", "audiogram-maker", "screen-recorder"],
+      "mediaType": "cross-media",
+      "justification": "Herramientas de audio y captura: eliminacion de voces (AI), edicion de waveforms, creacion de visualizaciones de audio para redes sociales, y grabacion de pantalla. Involucran procesamiento de audio puro o captacion desde fuentes externas."
+    }
+  ]
+}
