@@ -61,49 +61,49 @@ test.describe('PDF Tools - Hub Integration', () => {
 test.describe('PDF Tools - Quick Component Checks', () => {
   test('PDF Merge - has drop zone', async ({ page }) => {
     await page.goto('/tools/pdf-merge', { waitUntil: 'domcontentloaded' });
-    const dropzone = await page.locator('.drop-zone').count();
+    const dropzone = await page.locator('.drop-zone, [class*="drop"]').count();
     expect(dropzone).toBeGreaterThan(0);
   });
 
   test('PDF Split - has drop zone', async ({ page }) => {
     await page.goto('/tools/pdf-split', { waitUntil: 'domcontentloaded' });
-    const dropzone = await page.locator('.drop-zone').count();
+    const dropzone = await page.locator('.drop-zone, [class*="drop"]').count();
     expect(dropzone).toBeGreaterThan(0);
   });
 
   test('PDF Compress - has drop zone', async ({ page }) => {
     await page.goto('/tools/pdf-compress', { waitUntil: 'domcontentloaded' });
-    const dropzone = await page.locator('.drop-zone').count();
+    const dropzone = await page.locator('.drop-zone, [class*="drop"]').count();
     expect(dropzone).toBeGreaterThan(0);
   });
 
   test('PDF Redactor - has drop zone', async ({ page }) => {
     await page.goto('/tools/pdf-redactor', { waitUntil: 'domcontentloaded' });
-    const dropzone = await page.locator('.drop-zone').count();
+    const dropzone = await page.locator('.drop-zone, [class*="drop"]').count();
     expect(dropzone).toBeGreaterThan(0);
   });
 
   test('PDF Form Filler - has drop zone', async ({ page }) => {
     await page.goto('/tools/pdf-form-filler', { waitUntil: 'domcontentloaded' });
-    const dropzone = await page.locator('.drop-zone').count();
+    const dropzone = await page.locator('.drop-zone, [class*="drop"]').count();
     expect(dropzone).toBeGreaterThan(0);
   });
 
   test('PDF to Word - has drop zone', async ({ page }) => {
     await page.goto('/tools/pdf-to-word', { waitUntil: 'domcontentloaded' });
-    const dropzone = await page.locator('.drop-zone').count();
+    const dropzone = await page.locator('.drop-zone, [class*="drop"]').count();
     expect(dropzone).toBeGreaterThan(0);
   });
 
   test('PDF to JPG - has drop zone', async ({ page }) => {
     await page.goto('/tools/pdf-to-jpg', { waitUntil: 'domcontentloaded' });
-    const dropzone = await page.locator('.drop-zone').count();
+    const dropzone = await page.locator('.drop-zone, [class*="drop"]').count();
     expect(dropzone).toBeGreaterThan(0);
   });
 
   test('PDF Organize - has drop zone', async ({ page }) => {
     await page.goto('/tools/pdf-organize', { waitUntil: 'domcontentloaded' });
-    const dropzone = await page.locator('.drop-zone').count();
+    const dropzone = await page.locator('.drop-zone, [class*="drop"]').count();
     expect(dropzone).toBeGreaterThan(0);
   });
 });

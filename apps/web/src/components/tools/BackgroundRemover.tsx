@@ -414,7 +414,6 @@ export default function BackgroundRemover() {
 
       // Load the processed image (with transparent background)
       const processedImg = new Image();
-      processedImg.crossOrigin = 'anonymous';
       await new Promise<void>((resolve, reject) => {
         processedImg.onload = () => resolve();
         processedImg.onerror = reject;
@@ -423,7 +422,6 @@ export default function BackgroundRemover() {
 
       // Load the original image for "add" mode
       const originalImg = new Image();
-      originalImg.crossOrigin = 'anonymous';
       await new Promise<void>((resolve, reject) => {
         originalImg.onload = () => resolve();
         originalImg.onerror = reject;
@@ -537,7 +535,6 @@ export default function BackgroundRemover() {
 
       // Load processed image (or edited mask)
       const img = new Image();
-      img.crossOrigin = 'anonymous';
       await new Promise((resolve, reject) => {
         img.onload = resolve;
         img.onerror = reject;
@@ -554,7 +551,6 @@ export default function BackgroundRemover() {
         ctx.drawImage(img, 0, 0);
       } else if (backgroundMode === 'image' && backgroundImage) {
         const bgImg = new Image();
-        bgImg.crossOrigin = 'anonymous';
         await new Promise((resolve, reject) => {
           bgImg.onload = resolve;
           bgImg.onerror = reject;
@@ -616,7 +612,6 @@ export default function BackgroundRemover() {
         if (!ctx) continue;
 
         const img = new Image();
-        img.crossOrigin = 'anonymous';
         await new Promise((resolve, reject) => {
           img.onload = resolve;
           img.onerror = reject;
@@ -632,7 +627,6 @@ export default function BackgroundRemover() {
           ctx.drawImage(img, 0, 0);
         } else if (backgroundMode === 'image' && backgroundImage) {
           const bgImg = new Image();
-          bgImg.crossOrigin = 'anonymous';
           await new Promise((resolve, reject) => {
             bgImg.onload = resolve;
             bgImg.onerror = reject;
@@ -691,7 +685,6 @@ export default function BackgroundRemover() {
     useEffect(() => {
       const loadImage = async () => {
         const img = new Image();
-        img.crossOrigin = 'anonymous';
         img.onload = () => {
           setImageSize({ width: img.width, height: img.height });
 

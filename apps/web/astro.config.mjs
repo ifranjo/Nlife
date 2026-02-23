@@ -11,6 +11,9 @@ export default defineConfig({
   site: 'https://www.newlifesolutions.dev',
   output: 'server',
   adapter: vercel(),
+  devToolbar: {
+    enabled: process.env.PW_DISABLE_ASTRO_TOOLBAR !== '1',
+  },
 
   build: {
     inlineStylesheets: 'never',

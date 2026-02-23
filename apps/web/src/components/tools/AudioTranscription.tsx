@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react';
 import { validateAudioFile, sanitizeFilename, createSafeErrorMessage, sanitizeTextContent } from '../../lib/security';
 import { copyToClipboard } from '../../lib/clipboard';
+import ToolFeedback from '../ui/ToolFeedback';
 
 type Status = 'idle' | 'loading' | 'transcribing' | 'done' | 'error';
 
@@ -27,11 +28,36 @@ export default function AudioTranscription() {
   const [transcript, setTranscript] = useState<string>('');
   const [language, setLanguage] = useState('en');
 
-  // Preload transformers on component mount
-  useEffect(() => {
-    preloadTransformers();
-  }, []);
+  // Pipeline ref for Whisper model
   const pipelineRef = useRef<any>(null);
+
+  // Load Whisper model
+  const loadPipeline = async () => {
+    if (pipelineRef.current) return pipelineRef.current;
+
+    const { pipeline, env } = await import('@huggingface/transformers');
+
+    // Configure for WebGPU/WASM if available
+    env.allowLocalModels = false;
+    env.useBrowserCache = true;
+
+    pipelineRef.current = await pipeline(
+      'automatic-speech-recognition',
+      'Xenova/whisper-tiny',
+      {
+        dtype: 'q8',
+        progress_callback: (progress: any) => {
+          if (progress.status === 'downloading') {
+            const pct = Math.round((progress.loaded / progress.total) * 100);
+            setProgress(pct);
+            setProgressText(`Downloading model: ${pct}%`);
+          }
+        }
+      }
+    );
+
+    return pipelineRef.current;
+  };
 
   const languages = [
     { code: 'en', name: 'English' },
@@ -76,25 +102,8 @@ export default function AudioTranscription() {
     setError(null);
 
     try {
-      const transcriber = await initPipeline;
-
-      if (!pipelineRef.current) {
-        setProgressText('Downloading model (first time ~150MB)...');
-
-        pipelineRef.current = await initPipeline(
-          'automatic-speech-recognition',
-          'Xenova/whisper-tiny',
-          {
-            progress_callback: (progress: any) => {
-              if (progress.status === 'downloading') {
-                const pct = Math.round((progress.loaded / progress.total) * 100);
-                setProgress(pct);
-                setProgressText(`Downloading model: ${pct}%`);
-              }
-            }
-          }
-        );
-      }
+      // Load Whisper model (handles download with progress)
+      await loadPipeline();
 
       setStatus('transcribing');
       setProgress(0);

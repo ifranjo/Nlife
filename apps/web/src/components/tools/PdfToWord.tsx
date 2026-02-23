@@ -56,8 +56,8 @@ export default function PdfToWord() {
       try {
         // Dynamically import PDF.js
         const pdfjsLib = await withTimeout(import('pdfjs-dist'), 15000, 'Timed out loading PDF.js');
-        // Use bundled local worker to avoid CSP/network issues on production.
-        pdfjsLib.GlobalWorkerOptions.workerSrc = '/pdf.worker.min.mjs';
+        // Use CDN worker for reliability (avoids CSP/local file issues)
+        pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.mjs`;
 
         const arrayBuffer = await pdfFile.arrayBuffer();
         const pdf = await withTimeout(
@@ -93,45 +93,49 @@ export default function PdfToWord() {
 
       setPageCount(resolvedPageCount);
       setExtractedText(sanitizedText);
-
-      // Create Word document
-      const paragraphs = sanitizedText.split('\n\n').map((para, index) => {
-        // Check if it looks like a heading (short, possibly all caps)
-        const isHeading = para.length < 100 && para === para.toUpperCase() && para.length > 3;
-
-        if (isHeading) {
-          return new Paragraph({
-            children: [new TextRun({ text: para, bold: true, size: 28 })],
-            heading: HeadingLevel.HEADING_1,
-            spacing: { before: 400, after: 200 },
-          });
-        }
-
-        return new Paragraph({
-          children: [new TextRun({ text: para, size: 24 })],
-          spacing: { after: 200 },
-        });
-      });
-
-      const doc = new Document({
-        sections: [{
-          properties: {},
-          children: paragraphs,
-        }],
-      });
-
-      const blob = await Packer.toBlob(doc);
-      const url = URL.createObjectURL(blob);
-      const baseName = sanitizeFilename(pdfFile.name.replace('.pdf', ''));
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `${baseName}.docx`;
-      a.click();
-      URL.revokeObjectURL(url);
-
       setStatus('done');
+
+      // Generate and download DOCX in a detached task so UI state never hangs in "processing".
+      void (async () => {
+        try {
+          const paragraphs = sanitizedText.split('\n\n').map((para) => {
+            const isHeading = para.length < 100 && para === para.toUpperCase() && para.length > 3;
+
+            if (isHeading) {
+              return new Paragraph({
+                children: [new TextRun({ text: para, bold: true, size: 28 })],
+                heading: HeadingLevel.HEADING_1,
+                spacing: { before: 400, after: 200 },
+              });
+            }
+
+            return new Paragraph({
+              children: [new TextRun({ text: para, size: 24 })],
+              spacing: { after: 200 },
+            });
+          });
+
+          const doc = new Document({
+            sections: [{
+              properties: {},
+              children: paragraphs,
+            }],
+          });
+
+          const blob = await withTimeout(Packer.toBlob(doc), 15000, 'Timed out creating DOCX');
+          const url = URL.createObjectURL(blob);
+          const baseName = sanitizeFilename(pdfFile.name.replace('.pdf', ''));
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = `${baseName}.docx`;
+          a.click();
+          URL.revokeObjectURL(url);
+        } catch {
+          // Keep success state; user can retry conversion if download was blocked.
+        }
+      })();
     } catch (err) {
-      setError(createSafeErrorMessage(err, 'Conversion failed. The PDF may be scanned or protected.'));
+      setError(createSafeErrorMessage(err, 'Conversion failed. The PDF may be scanned or password-protected. Try using OCR tool first for scanned PDFs.'));
       setStatus('error');
     }
   };

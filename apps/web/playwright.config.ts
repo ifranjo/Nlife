@@ -119,5 +119,8 @@ export default defineConfig({
     url: 'http://localhost:4321',
     reuseExistingServer: !process.env.CI,
     timeout: 120 * 1000,
+    env: {
+      PW_DISABLE_ASTRO_TOOLBAR: '1',
+    },
   },
 });
