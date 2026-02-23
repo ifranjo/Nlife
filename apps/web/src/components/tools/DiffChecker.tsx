@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
 import { sanitizeTextContent, escapeHtml } from '../../lib/security';
+import { copyToClipboard } from '../../lib/clipboard';
 
 type DiffMode = 'line' | 'word';
 
@@ -127,6 +128,7 @@ export default function DiffChecker() {
   const [diff, setDiff] = useState<DiffLine[]>([]);
   const [stats, setStats] = useState<DiffStats | null>(null);
   const [hasCompared, setHasCompared] = useState(false);
+  const [copied, setCopied] = useState(false);
   
   const handleCompare = useCallback(() => {
         // Sanitize inputs before processing
@@ -153,6 +155,19 @@ export default function DiffChecker() {
     setStats(null);
     setHasCompared(false);
   }, []);
+
+  const handleCopyDiff = useCallback(async () => {
+    if (!diff.length) return;
+    const text = diff.map(line => {
+      const prefix = line.type === 'added' ? '+' : line.type === 'removed' ? '-' : ' ';
+      return `${prefix} ${line.content}`;
+    }).join('\n');
+    const success = await copyToClipboard(text);
+    if (success) {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
+  }, [diff]);
 
   const renderDiffContent = () => {
     if (!hasCompared) return null;
@@ -415,7 +430,36 @@ export default function DiffChecker() {
       {/* Diff Output */}
       {hasCompared && (
         <div className="glass-card p-6 mt-6">
-          <h2 className="text-white font-medium mb-4">Differences</h2>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-white font-medium">Differences</h2>
+            <button
+              onClick={handleCopyDiff}
+              disabled={!diff.length}
+              className={`px-3 py-1.5 text-sm rounded-lg flex items-center gap-2 transition-all ${
+                !diff.length
+                  ? 'opacity-50 cursor-not-allowed bg-slate-800 text-[var(--text-muted)]'
+                  : copied
+                  ? 'bg-green-500/20 text-green-400 border border-green-500/30'
+                  : 'bg-slate-800 text-[var(--text)] hover:text-white border border-slate-700 hover:border-indigo-500'
+              }`}
+            >
+              {copied ? (
+                <>
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                  Copied!
+                </>
+              ) : (
+                <>
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                  </svg>
+                  Copy
+                </>
+              )}
+            </button>
+          </div>
           <div className="max-h-[500px] overflow-auto bg-slate-900 rounded-lg border border-slate-700">
             {renderDiffContent()}
           </div>

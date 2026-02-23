@@ -319,14 +319,12 @@ export default function Base64Tool() {
               </button>
               <button
                 onClick={() => setInputType('file')}
-                disabled={mode === 'decode'}
                 className={`
                   flex-1 px-4 py-2 rounded-lg font-medium transition-all
                   ${inputType === 'file'
                     ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/30'
                     : 'bg-slate-800/50 text-[var(--text-muted)] border border-slate-700/30 hover:border-slate-600/50'
                   }
-                  ${mode === 'decode' ? 'opacity-50 cursor-not-allowed' : ''}
                 `}
               >
                 File
@@ -505,6 +503,75 @@ export default function Base64Tool() {
               />
               <div className="text-xs text-[var(--text-muted)] mt-3">
                 {fileOutput.length.toLocaleString()} characters
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* File Decode Input */}
+      {inputType === 'file' && mode === 'decode' && (
+        <div className="space-y-6">
+          {/* File Drop Zone */}
+          <div
+            onDragOver={handleDragOver}
+            onDragLeave={handleDragLeave}
+            onDrop={handleDrop}
+            onClick={() => fileInputRef.current?.click()}
+            className={`
+              drop-zone rounded-2xl p-12 text-center cursor-pointer
+              ${isDragging ? 'drag-over' : ''}
+            `}
+          >
+            <input
+              ref={fileInputRef}
+              type="file"
+              onChange={handleFileInputChange}
+              className="hidden"
+            />
+
+            <div className="text-5xl mb-4">📎</div>
+            <h2 className="text-xl font-semibold text-white mb-2">
+              {selectedFile ? selectedFile.name : 'Drop Base64 file here or click to browse'}
+            </h2>
+            <p className="text-[var(--text-muted)] text-sm">
+              {selectedFile
+                ? `${(selectedFile.size / 1024).toFixed(2)} KB`
+                : `Maximum ${MAX_FILE_SIZE / (1024 * 1024)}MB`
+              }
+            </p>
+          </div>
+
+          {/* Process Button */}
+          {selectedFile && !fileOutput && (
+            <button
+              onClick={processFileDecode}
+              disabled={isProcessing}
+              className="w-full btn-primary py-3 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {isProcessing ? 'Decoding...' : 'Decode Base64 File'}
+            </button>
+          )}
+
+          {/* File Output */}
+          {fileOutput && (
+            <div className="glass-card p-6">
+              <div className="flex items-center justify-between mb-3">
+                <label className="block text-sm font-medium text-[var(--text-muted)]">
+                  Decoded File
+                </label>
+                <button
+                  onClick={() => downloadFile()}
+                  className="flex items-center gap-2 px-3 py-1.5 text-sm rounded-lg bg-slate-800/50 text-[var(--text)] border border-slate-700/30 hover:border-cyan-500/50 transition-all"
+                >
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                  </svg>
+                  <span>Download</span>
+                </button>
+              </div>
+              <div className="text-sm text-green-400">
+                File ready for download!
               </div>
             </div>
           )}
