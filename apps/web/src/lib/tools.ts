@@ -29,7 +29,20 @@ export interface Tool {
   }>;
 }
 
-export const tools: Tool[] = [
+const RETIRED_TOOL_IDS = new Set([
+  'base64',
+  'text-case',
+  'word-counter',
+  'lorem-ipsum',
+  'hash-generator',
+  'color-converter',
+  'diff-checker',
+  'code-beautifier',
+  'markdown-editor',
+  'ai-summary'
+]);
+
+const ALL_TOOLS: Tool[] = [
   // ═══════════════════════════════════════════════════════════════
   // DOCUMENT TOOLS
   // ═══════════════════════════════════════════════════════════════
@@ -1974,6 +1987,8 @@ export const tools: Tool[] = [
 ]
   },
 ];
+
+export const tools: Tool[] = ALL_TOOLS.filter((tool) => !RETIRED_TOOL_IDS.has(tool.id));
 
 export const getToolsByCategory = (category: Tool['category']) =>
   tools.filter(t => t.category === category);
