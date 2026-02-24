@@ -37,7 +37,7 @@ test.describe('Visual Screenshot Report - Media & Utility Tools Part 1', () => {
     const tools = [
       { path: '/tools/image-compress', name: 'image-compress' },
       { path: '/tools/qr-generator', name: 'qr-generator' },
-      { path:  name: 'base64' }
+      { path: '/tools/json-formatter', name: 'json-formatter' }
     ];
 
     for (const tool of tools) {
