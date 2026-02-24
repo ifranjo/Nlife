@@ -343,6 +343,34 @@ export const games: Game[] = [
       h1: 'Typing Speed Test - Measure Your WPM',
       keywords: ['typing test', 'wpm test', 'typing speed', 'typing game', 'keyboard speed test', 'online typing test']
     }
+  },
+  {
+    id: 'number-match',
+    name: 'Number Match',
+    description: 'Merge matching numbers to get higher values! A connect-2 style puzzle game.',
+    thumbnail: '/thumbnails/games/number-match.svg',
+    category: 'puzzle',
+    status: 'live',
+    href: '/games/number-match',
+    isNew: true,
+    releaseDate: '2026-01-15',
+    emoji: '🔢',
+    howToPlay: [
+      { emoji: '🎯', title: 'Merge Numbers', description: 'Click or tap two identical numbers to merge them into the next value.' },
+      { emoji: '🔗', title: 'Connect Tiles', description: 'Connect tiles horizontally or vertically (not diagonally).' },
+      { emoji: '📊', title: 'High Score', description: 'Get the highest number possible before running out of moves!' }
+    ],
+    stats: [
+      { label: 'Type', value: 'Connect-2 merge' },
+      { label: 'Goal', value: 'Highest number' },
+      { label: 'Strategy', value: 'Plan ahead' }
+    ],
+    seo: {
+      title: 'Number Match - Free Number Puzzle Game | New Life Games',
+      metaDescription: 'Merge matching numbers to get higher values! A connect-2 puzzle game. Free to play, no download required.',
+      h1: 'Number Match - Merge Puzzle Game',
+      keywords: ['number match', 'merge game', 'puzzle game', 'connect 2', 'number puzzle', 'free puzzle game']
+    }
   }
 ];
 
