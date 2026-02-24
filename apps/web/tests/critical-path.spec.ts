@@ -580,7 +580,7 @@ test.describe('🔥 CRITICAL PATH - Top 10 Tools', () => {
     test.setTimeout(30000);
     const { errors } = setupErrorCapture(page);
 
-    await page.goto('/tools/text-case');
+    await page.goto();
     await expect(page.locator('main h1')).toContainText('Case');
 
     // Enter text
@@ -604,7 +604,7 @@ test.describe('🔥 CRITICAL PATH - Top 10 Tools', () => {
     test.setTimeout(30000);
     const { errors } = setupErrorCapture(page);
 
-    await page.goto('/tools/word-counter');
+    await page.goto();
     await expect(page.locator('main h1')).toContainText('Word');
 
     // Enter text
@@ -628,7 +628,7 @@ test.describe('🔥 CRITICAL PATH - Top 10 Tools', () => {
     test.setTimeout(30000);
     const { errors } = setupErrorCapture(page);
 
-    await page.goto('/tools/lorem-ipsum');
+    await page.goto();
     await expect(page.locator('main h1')).toContainText('Lorem');
 
     // Generate text
@@ -650,7 +650,7 @@ test.describe('🔥 CRITICAL PATH - Top 10 Tools', () => {
     test.setTimeout(60000);
     const { errors } = setupErrorCapture(page);
 
-    await page.goto('/tools/hash-generator');
+    await page.goto();
     await expect(page.locator('main h1')).toContainText('Hash');
 
     // Enter text to hash
@@ -763,7 +763,7 @@ test.describe('🔥 CRITICAL PATH - Top 10 Tools', () => {
     test.setTimeout(30000);
     const { errors } = setupErrorCapture(page);
 
-    await page.goto('/tools/diff-checker');
+    await page.goto();
     await expect(page.locator('main h1')).toContainText('Diff');
 
     // Enter texts
@@ -804,14 +804,14 @@ test.describe('📊 Critical Path Summary', () => {
       '/tools/gif-maker',
       '/tools/audio-editor',
       '/tools/screen-recorder',
-      '/tools/text-case',
-      '/tools/word-counter',
-      '/tools/lorem-ipsum',
-      '/tools/hash-generator',
+      
+      
+      
+      
       '/tools/grammar-checker',
       '/tools/image-upscaler',
       '/tools/text-summarization',
-      '/tools/diff-checker',
+      
     ];
 
     const results: { path: string; loadTime: number; error?: string }[] = [];

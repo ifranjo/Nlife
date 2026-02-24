@@ -19,7 +19,7 @@ const TEST_PAGES = [
   { path: '/tools/pdf-merge', name: 'PDF Merge' },
   { path: '/tools/image-compress', name: 'Image Compress' },
   { path: '/tools/qr-generator', name: 'QR Generator' },
-  { path: '/tools/ai-summary', name: 'AI Summary' },
+
 ];
 
 // ============================================================================
@@ -400,7 +400,7 @@ test.describe('Keyboard Reachability - All Interactive Elements', () => {
   });
 
   test('AI Summary: Textarea and generate button are keyboard accessible', async ({ page }) => {
-    await page.goto('/tools/ai-summary');
+    await page.goto();
     await page.waitForLoadState('domcontentloaded');
 
     // Find textarea
@@ -681,7 +681,7 @@ test.describe('Arrow Keys - Navigation in Lists/Selects', () => {
   });
 
   test('Textarea: Arrow keys navigate lines', async ({ page }) => {
-    await page.goto('/tools/ai-summary');
+    await page.goto();
     await page.waitForLoadState('domcontentloaded');
 
     const textarea = page.locator('textarea').first();

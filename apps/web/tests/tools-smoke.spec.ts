@@ -43,18 +43,12 @@ const TOOLS = [
   // Utility Tools
   { id: 'qr-generator', name: 'QR Generator', category: 'utility', hasHeavyLib: false },
   { id: 'json-formatter', name: 'JSON Formatter', category: 'utility', hasHeavyLib: false },
-  { id: 'text-case', name: 'Text Case Converter', category: 'utility', hasHeavyLib: false },
-  { id: 'word-counter', name: 'Word Counter', category: 'utility', hasHeavyLib: false },
-  { id: 'lorem-ipsum', name: 'Lorem Ipsum', category: 'utility', hasHeavyLib: false },
-  { id: 'hash-generator', name: 'Hash Generator', category: 'utility', hasHeavyLib: false },
-  { id: 'color-converter', name: 'Color Converter', category: 'utility', hasHeavyLib: false },
+
   { id: 'password-generator', name: 'Password Generator', category: 'utility', hasHeavyLib: false },
   { id: 'qr-reader', name: 'QR Reader', category: 'utility', hasHeavyLib: false },
   { id: 'unit-converter', name: 'Unit Converter', category: 'utility', hasHeavyLib: false },
-  { id: 'diff-checker', name: 'Diff Checker', category: 'utility', hasHeavyLib: false },
-  { id: 'code-beautifier', name: 'Code Beautifier', category: 'utility', hasHeavyLib: false },
+
   { id: 'svg-editor', name: 'SVG Editor', category: 'utility', hasHeavyLib: false },
-  { id: 'markdown-editor', name: 'Markdown Editor', category: 'utility', hasHeavyLib: false },
 
   // AI Tools
   { id: 'sentiment-analysis', name: 'Sentiment Analysis', category: 'ai', hasHeavyLib: true },
@@ -64,7 +58,7 @@ const TOOLS = [
   { id: 'grammar-checker', name: 'Grammar Checker', category: 'ai', hasHeavyLib: true },
   { id: 'image-upscaler', name: 'Image Upscaler', category: 'ai', hasHeavyLib: true },
   { id: 'object-remover', name: 'Object Remover', category: 'ai', hasHeavyLib: true },
-  { id: 'ai-summary', name: 'AI Summary', category: 'ai', hasHeavyLib: true },
+
 ];
 
 // Test configuration

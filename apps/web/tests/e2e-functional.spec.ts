@@ -19,7 +19,7 @@ const fixturesDir = path.join(__dirname, 'fixtures');
 // ============================================================================
 test.describe('AI Summary - Functional', () => {
   test('processes pasted text and generates summary', async ({ page }) => {
-    await page.goto('/tools/ai-summary');
+    await page.goto();
 
     // Read test article
     const testText = fs.readFileSync(
@@ -55,7 +55,7 @@ test.describe('AI Summary - Functional', () => {
   });
 
   test('processes uploaded TXT file', async ({ page }) => {
-    await page.goto('/tools/ai-summary');
+    await page.goto();
 
     // Wait for React component to hydrate
     await waitForReactHydration(page);
@@ -409,7 +409,7 @@ test.describe('Background Remover - Functional', () => {
 // ============================================================================
 test.describe('Text Tools - Functional', () => {
   test('word counter counts words correctly', async ({ page }) => {
-    await page.goto('/tools/word-counter');
+    await page.goto();
 
     const textarea = page.locator('textarea').first();
     await expect(textarea).toBeVisible();
@@ -421,7 +421,7 @@ test.describe('Text Tools - Functional', () => {
   });
 
   test('text case converter changes case', async ({ page }) => {
-    await page.goto('/tools/text-case');
+    await page.goto();
 
     const textarea = page.locator('textarea').first();
     await expect(textarea).toBeVisible({ timeout: 10000 });
@@ -449,7 +449,7 @@ test.describe('Text Tools - Functional', () => {
   });
 
   test('lorem ipsum generates text', async ({ page }) => {
-    await page.goto('/tools/lorem-ipsum');
+    await page.goto();
 
     // Find generate button
     const generateBtn = page.getByRole('button', { name: /generate|create/i });

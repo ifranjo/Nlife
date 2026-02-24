@@ -119,13 +119,13 @@ test.describe('All Tool Pages Load', () => {
     '/tools/remove-vocals',
     '/tools/audio-transcription',
     '/tools/qr-generator',
-    '/tools/base64',
+    
     '/tools/json-formatter',
-    '/tools/text-case',
-    '/tools/word-counter',
-    '/tools/lorem-ipsum',
-    '/tools/hash-generator',
-    '/tools/color-converter',
+    
+    
+    
+    
+    
   ];
 
   for (const toolPath of toolPages) {

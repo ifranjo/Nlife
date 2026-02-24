@@ -21,7 +21,7 @@ const __dirname = path.dirname(__filename);
 // ============================================================================
 test.describe('AI Summary Tool', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/tools/ai-summary');
+    await page.goto();
   });
 
   test('page loads with correct structure', async ({ page }) => {
@@ -325,7 +325,7 @@ test.describe('Clean Theme', () => {
 test.describe('Integration - All Features', () => {
   test('all new tool pages load without errors', async ({ page }) => {
     const newPages = [
-      '/tools/ai-summary',
+      
       '/tools/background-remover',
       '/tools/pdf-merge',
       '/offline'
@@ -372,7 +372,7 @@ test.describe('Integration - All Features', () => {
 
   test('responsive design - mobile viewport', async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 667 });
-    await page.goto('/tools/ai-summary');
+    await page.goto();
 
     // Should still be usable on mobile
     await expect(page.getByRole('heading', { level: 1 })).toBeVisible();

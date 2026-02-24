@@ -287,7 +287,7 @@ test.describe('Oversized File Handling', () => {
 // ============================================================================
 test.describe('Network Interruption Handling', () => {
   test('Tool continues working after network restored', async ({ page }) => {
-    await page.goto('/tools/word-counter');
+    await page.goto();
 
     // Simulate offline
     await page.context().setOffline(true);
@@ -333,7 +333,7 @@ test.describe('Network Interruption Handling', () => {
 // ============================================================================
 test.describe('Browser Storage Full Handling', () => {
   test('App handles localStorage quota exceeded', async ({ page }) => {
-    await page.goto('/tools/word-counter');
+    await page.goto();
 
     // Fill localStorage to simulate quota exceeded
     await page.evaluate(() => {
@@ -369,7 +369,7 @@ test.describe('Browser Storage Full Handling', () => {
   });
 
   test('Tool handles failed localStorage write gracefully', async ({ page }) => {
-    await page.goto('/tools/lorem-ipsum');
+    await page.goto();
 
     // Mock localStorage.setItem to throw
     await page.evaluate(() => {

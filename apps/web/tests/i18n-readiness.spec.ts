@@ -120,7 +120,7 @@ test.describe('i18n - HTML Lang Attribute', () => {
   });
 
   test('lang attribute is present on all tool pages', async ({ page }) => {
-    const toolPages = ['/tools/pdf-merge', '/tools/word-counter', '/tools/qr-generator'];
+    const toolPages = ['/tools/pdf-merge',  '/tools/qr-generator'];
 
     for (const url of toolPages) {
       await page.goto(url);
@@ -415,7 +415,7 @@ test.describe('i18n - RTL Layout Support', () => {
 // ============================================================================
 test.describe('i18n - Unicode Handling', () => {
   test('Word Counter handles Unicode text correctly', async ({ page }) => {
-    await page.goto('/tools/word-counter');
+    await page.goto();
 
     const testStrings = [
       // Chinese

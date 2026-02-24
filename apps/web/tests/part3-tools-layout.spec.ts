@@ -23,7 +23,7 @@ test.describe('Part 3: Utility Tools Testing', () => {
 
   test.describe('Lorem Ipsum Generator', () => {
     test('should load page with correct title', async ({ page }) => {
-      await page.goto('/tools/lorem-ipsum');
+      await page.goto();
       await expect(page).toHaveTitle(/Lorem Ipsum/i);
     });
 
@@ -39,7 +39,7 @@ test.describe('Part 3: Utility Tools Testing', () => {
     });
 
     test('should have Navbar and Footer', async ({ page }) => {
-      await page.goto('/tools/lorem-ipsum');
+      await page.goto();
 
       // Check Navbar
       const navbar = page.locator('nav');
@@ -51,7 +51,7 @@ test.describe('Part 3: Utility Tools Testing', () => {
     });
 
     test('should have back button to /hub', async ({ page }) => {
-      await page.goto('/tools/lorem-ipsum');
+      await page.goto();
       await page.waitForLoadState('networkidle');
 
       // Just check that there's a link back to hub
@@ -60,7 +60,7 @@ test.describe('Part 3: Utility Tools Testing', () => {
     });
 
     test('should have generation controls with proper styling', async ({ page }) => {
-      await page.goto('/tools/lorem-ipsum');
+      await page.goto();
 
       // Look for typical Lorem Ipsum controls
       const controls = page.locator('select, input[type="number"], button').first();
@@ -78,7 +78,7 @@ test.describe('Part 3: Utility Tools Testing', () => {
 
   test.describe('Hash Generator', () => {
     test('should load page with correct title', async ({ page }) => {
-      await page.goto('/tools/hash-generator');
+      await page.goto();
       await expect(page).toHaveTitle(/Hash Generator/i);
     });
 
@@ -94,7 +94,7 @@ test.describe('Part 3: Utility Tools Testing', () => {
     });
 
     test('should have Navbar and Footer', async ({ page }) => {
-      await page.goto('/tools/hash-generator');
+      await page.goto();
 
       const navbar = page.locator('nav');
       await expect(navbar).toBeVisible();
@@ -104,14 +104,14 @@ test.describe('Part 3: Utility Tools Testing', () => {
     });
 
     test('should have back button to /hub', async ({ page }) => {
-      await page.goto('/tools/hash-generator');
+      await page.goto();
 
       const backButton = page.locator('a[href="/hub"]').first();
       await expect(backButton).toBeVisible();
     });
 
     test('should have hash output area with proper styling', async ({ page }) => {
-      await page.goto('/tools/hash-generator');
+      await page.goto();
 
       // Look for input area and hash output
       const textInputOrOutput = page.locator('textarea, input[type="text"], code, pre').first();
@@ -131,7 +131,7 @@ test.describe('Part 3: Utility Tools Testing', () => {
 
   test.describe('Color Converter', () => {
     test('should load page with correct title', async ({ page }) => {
-      await page.goto('/tools/color-converter');
+      await page.goto();
       await expect(page).toHaveTitle(/Color Converter/i);
     });
 
@@ -147,7 +147,7 @@ test.describe('Part 3: Utility Tools Testing', () => {
     });
 
     test('should have Navbar and Footer', async ({ page }) => {
-      await page.goto('/tools/color-converter');
+      await page.goto();
 
       const navbar = page.locator('nav');
       await expect(navbar).toBeVisible();
@@ -157,14 +157,14 @@ test.describe('Part 3: Utility Tools Testing', () => {
     });
 
     test('should have back button to /hub', async ({ page }) => {
-      await page.goto('/tools/color-converter');
+      await page.goto();
 
       const backButton = page.locator('a[href="/hub"]').first();
       await expect(backButton).toBeVisible();
     });
 
     test('should have color picker or input with proper styling', async ({ page }) => {
-      await page.goto('/tools/color-converter');
+      await page.goto();
 
       // Look for color input or text inputs for color values
       const colorControl = page.locator('input[type="color"], input[type="text"]').first();
@@ -183,17 +183,17 @@ test.describe('Part 3: Utility Tools Testing', () => {
 
 test.describe('Global Layout & Navigation', () => {
   const toolPages = [
-    '/tools/lorem-ipsum',
-    '/tools/hash-generator',
-    '/tools/color-converter',
+    
+    
+    
     '/tools/pdf-merge',
     '/tools/pdf-split',
     '/tools/qr-generator',
     '/tools/image-compress',
-    '/tools/base64',
+    
     '/tools/json-formatter',
-    '/tools/text-case',
-    '/tools/word-counter',
+    
+    
   ];
 
   test('all tool pages should have Navbar', async ({ page }) => {
@@ -342,7 +342,7 @@ test.describe('Thumbnails Directory Validation', () => {
 
 test.describe('Accessibility Validation', () => {
   test('tool pages should have proper heading hierarchy', async ({ page }) => {
-    await page.goto('/tools/lorem-ipsum');
+    await page.goto();
     await page.waitForLoadState('networkidle');
 
     // Check H1 in main content (excluding debug overlays)
@@ -364,7 +364,7 @@ test.describe('Accessibility Validation', () => {
   });
 
   test('interactive elements should be keyboard accessible', async ({ page }) => {
-    await page.goto('/tools/lorem-ipsum');
+    await page.goto();
 
     // All buttons and links should be focusable
     const interactiveElements = page.locator('button, a[href], input, select, textarea');

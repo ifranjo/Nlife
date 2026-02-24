@@ -22,14 +22,14 @@ const TOOL_PATHS = [
   '/tools/screen-recorder', '/tools/audiogram-maker', '/tools/subtitle-editor',
   '/tools/image-resize',
   // Utility (15)
-  '/tools/qr-generator', '/tools/json-formatter', '/tools/text-case', '/tools/word-counter',
-  '/tools/lorem-ipsum', '/tools/hash-generator', '/tools/color-converter',
+  '/tools/qr-generator', '/tools/json-formatter',  
+    
   '/tools/password-generator', '/tools/qr-reader', '/tools/unit-converter',
-  '/tools/diff-checker', '/tools/code-beautifier', '/tools/svg-editor', '/tools/markdown-editor',
+    '/tools/svg-editor', 
   // AI (8)
   '/tools/sentiment-analysis', '/tools/object-detection', '/tools/image-captioning',
   '/tools/text-summarization', '/tools/grammar-checker', '/tools/image-upscaler',
-  '/tools/object-remover', '/tools/ai-summary',
+  '/tools/object-remover', 
 ];
 
 test.describe('⚡ Lightning Smoke Tests', () => {

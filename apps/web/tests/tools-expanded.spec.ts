@@ -308,7 +308,7 @@ test.describe('🛠️ Utility Tools (Extended)', () => {
     test.setTimeout(30000);
     const { errors } = setupErrorCapture(page);
 
-    await page.goto('/tools/base64');
+    await page.goto();
     await expect(page.locator('main h1')).toContainText('Base64');
 
     // Enter text to encode
@@ -333,7 +333,7 @@ test.describe('🛠️ Utility Tools (Extended)', () => {
     test.setTimeout(30000);
     const { errors } = setupErrorCapture(page);
 
-    await page.goto('/tools/color-converter');
+    await page.goto();
     await expect(page.locator('main h1')).toContainText('Color');
 
     // Enter hex color
@@ -383,7 +383,7 @@ test.describe('🛠️ Utility Tools (Extended)', () => {
     test.setTimeout(30000);
     const { errors } = setupErrorCapture(page);
 
-    await page.goto('/tools/code-beautifier');
+    await page.goto();
     await expect(page.locator('main h1')).toContainText('Beautif');
 
     // Enter code
@@ -418,7 +418,7 @@ test.describe('🛠️ Utility Tools (Extended)', () => {
     test.setTimeout(30000);
     const { errors } = setupErrorCapture(page);
 
-    await page.goto('/tools/markdown-editor');
+    await page.goto();
     await expect(page.locator('main h1')).toContainText('Markdown');
 
     // Enter markdown
@@ -479,7 +479,7 @@ test.describe('🤖 AI Tools (Extended)', () => {
     test.setTimeout(120000);
     const { errors } = setupErrorCapture(page);
 
-    await page.goto('/tools/ai-summary');
+    await page.goto();
     await expect(page.locator('main h1')).toContainText('Summary');
 
     await waitForHeavyLibrary(page, { timeout: 60000 });

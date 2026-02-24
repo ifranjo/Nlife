@@ -57,19 +57,13 @@ const PAGES = {
     { path: '/tools/subtitle-editor', name: 'Subtitle Editor' },
     { path: '/tools/screen-recorder', name: 'Screen Recorder' },
     { path: '/tools/qr-generator', name: 'QR Generator' },
-    { path: '/tools/base64', name: 'Base64 Encoder' },
+
     { path: '/tools/json-formatter', name: 'JSON Formatter' },
-    { path: '/tools/text-case', name: 'Text Case Converter' },
-    { path: '/tools/word-counter', name: 'Word Counter' },
-    { path: '/tools/lorem-ipsum', name: 'Lorem Ipsum Generator' },
-    { path: '/tools/hash-generator', name: 'Hash Generator' },
-    { path: '/tools/color-converter', name: 'Color Converter' },
+
     { path: '/tools/password-generator', name: 'Password Generator' },
-    { path: '/tools/diff-checker', name: 'Diff Checker' },
-    { path: '/tools/code-beautifier', name: 'Code Beautifier' },
+
     { path: '/tools/svg-editor', name: 'SVG Editor' },
-    { path: '/tools/markdown-editor', name: 'Markdown Editor' },
-    { path: '/tools/ai-summary', name: 'AI Summary' },
+
     { path: '/tools/sentiment-analysis', name: 'AI Sentiment Analysis' },
     { path: '/tools/object-detection', name: 'AI Object Detection' },
     { path: '/tools/image-captioning', name: 'AI Image Captioning' },

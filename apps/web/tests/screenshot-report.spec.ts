@@ -7,7 +7,7 @@ test.describe('Visual Screenshot Report - Media & Utility Tools Part 1', () => {
     const tools = [
       { path: '/tools/image-compress', name: 'image-compress' },
       { path: '/tools/qr-generator', name: 'qr-generator' },
-      { path: '/tools/base64', name: 'base64' },
+
       { path: '/hub', name: 'hub-view' }
     ];
 
@@ -37,7 +37,7 @@ test.describe('Visual Screenshot Report - Media & Utility Tools Part 1', () => {
     const tools = [
       { path: '/tools/image-compress', name: 'image-compress' },
       { path: '/tools/qr-generator', name: 'qr-generator' },
-      { path: '/tools/base64', name: 'base64' }
+      { path:  name: 'base64' }
     ];
 
     for (const tool of tools) {

@@ -52,21 +52,15 @@ const TOOL_PAGES = [
 
   // Utility/Developer Tools
   { path: '/tools/qr-generator', name: 'QR Generator', category: 'utility' },
-  { path: '/tools/hash-generator', name: 'Hash Generator', category: 'utility' },
-  { path: '/tools/base64', name: 'Base64 Encoder/Decoder', category: 'utility' },
+
   { path: '/tools/json-formatter', name: 'JSON Formatter', category: 'utility' },
-  { path: '/tools/code-beautifier', name: 'Code Beautifier', category: 'utility' },
-  { path: '/tools/markdown-editor', name: 'Markdown Editor', category: 'utility' },
-  { path: '/tools/diff-checker', name: 'Diff Checker', category: 'utility' },
-  { path: '/tools/color-converter', name: 'Color Converter', category: 'utility' },
-  { path: '/tools/lorem-ipsum', name: 'Lorem Ipsum Generator', category: 'utility' },
+
   { path: '/tools/password-generator', name: 'Password Generator', category: 'utility' },
-  { path: '/tools/word-counter', name: 'Word Counter', category: 'utility' },
-  { path: '/tools/text-case', name: 'Text Case Converter', category: 'utility' },
+
   { path: '/tools/resume-builder', name: 'Resume Builder', category: 'utility' },
 
   // AI Tools
-  { path: '/tools/ai-summary', name: 'AI Summary', category: 'ai' },
+
   { path: '/tools/sentiment-analysis', name: 'AI Sentiment Analysis', category: 'ai' },
   { path: '/tools/object-detection', name: 'AI Object Detection', category: 'ai' },
   { path: '/tools/image-captioning', name: 'AI Image Captioning', category: 'ai' },

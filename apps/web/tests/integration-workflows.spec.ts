@@ -311,7 +311,7 @@ test.describe('AI Summary Workflow', () => {
     // Grant clipboard permissions
     await context.grantPermissions(['clipboard-read', 'clipboard-write']);
 
-    await page.goto('/tools/ai-summary');
+    await page.goto();
 
     // Step 1: Read test article
     const testText = fs.readFileSync(
@@ -360,7 +360,7 @@ test.describe('AI Summary Workflow', () => {
   });
 
   test('handles file upload input', async ({ page }) => {
-    await page.goto('/tools/ai-summary');
+    await page.goto();
 
     // Look for file tab
     const fileTab = page.getByRole('button', { name: /file|upload|document/i }).first();

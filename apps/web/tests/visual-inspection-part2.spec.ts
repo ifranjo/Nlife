@@ -48,7 +48,7 @@ test.describe('Part 2: Visual Inspection & Console Errors', () => {
       }
     });
 
-    await page.goto('/tools/text-case');
+    await page.goto();
     await page.waitForLoadState('networkidle');
 
     // 1. Page title
@@ -87,7 +87,7 @@ test.describe('Part 2: Visual Inspection & Console Errors', () => {
       }
     });
 
-    await page.goto('/tools/word-counter');
+    await page.goto();
     await page.waitForLoadState('networkidle');
 
     // 1. Page title

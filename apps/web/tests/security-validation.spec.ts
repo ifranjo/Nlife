@@ -168,7 +168,7 @@ test.describe('Text Input XSS Protection - Grammar Checker', () => {
 
 test.describe('Text Processing Security - Word Counter', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/tools/word-counter');
+    await page.goto();
     await page.waitForLoadState('networkidle');
   });
 
@@ -185,7 +185,7 @@ test.describe('Text Processing Security - Word Counter', () => {
 
 test.describe('Text Processing Security - Text Case Converter', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/tools/text-case');
+    await page.goto();
     await page.waitForLoadState('networkidle');
   });
 
@@ -199,7 +199,7 @@ test.describe('Text Processing Security - Text Case Converter', () => {
 
 test.describe('Text Processing Security - Diff Checker', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/tools/diff-checker');
+    await page.goto();
     await page.waitForLoadState('networkidle');
   });
 
@@ -241,7 +241,7 @@ test.describe('Converter Input Validation - Unit Converter', () => {
 
 test.describe('Converter Input Validation - Color Converter', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/tools/color-converter');
+    await page.goto();
     await page.waitForLoadState('networkidle');
   });
 
@@ -271,7 +271,7 @@ test.describe('Converter Input Validation - Color Converter', () => {
 
 test.describe('Generator Output Safety - Lorem Ipsum', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/tools/lorem-ipsum');
+    await page.goto();
     await page.waitForLoadState('networkidle');
   });
 
@@ -315,12 +315,12 @@ test.describe('Error Message Security - All Tools', () => {
     '/tools/sentiment-analysis',
     '/tools/text-summarization',
     '/tools/grammar-checker',
-    '/tools/word-counter',
-    '/tools/text-case',
-    '/tools/diff-checker',
+    
+    
+    
     '/tools/unit-converter',
-    '/tools/color-converter',
-    '/tools/lorem-ipsum',
+    
+    
     '/tools/password-generator',
   ];
 

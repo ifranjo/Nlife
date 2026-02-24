@@ -174,7 +174,7 @@ test.describe('Media & Utility Tools - Part 1: Visual & Meta Testing', () => {
 
     test('should load SVG thumbnail correctly', async ({ page }) => {
       await page.goto(`${BASE_URL}/hub`);
-      const base64Tool = page.locator('[href="/tools/base64"]').first();
+      const base64Tool = page.locator('[href=]').first();
       await expect(base64Tool).toBeVisible();
 
       const svgIcon = base64Tool.locator('svg, img[src*="base64"]');
@@ -247,7 +247,7 @@ test.describe('Media & Utility Tools - Part 1: Visual & Meta Testing', () => {
       const tools = [
         '/tools/image-compress',
         '/tools/qr-generator',
-        '/tools/base64'
+        
       ];
 
       for (const toolPath of tools) {
@@ -274,7 +274,7 @@ test.describe('Media & Utility Tools - Part 1: Visual & Meta Testing', () => {
       const tools = [
         '/tools/image-compress',
         '/tools/qr-generator',
-        '/tools/base64'
+        
       ];
 
       const colors = [];
