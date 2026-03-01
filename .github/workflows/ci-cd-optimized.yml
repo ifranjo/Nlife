@@ -293,7 +293,7 @@ jobs:
           key: ${{ runner.os }}-playwright-${{ env.CACHE_VERSION }}-${{ env.PLAYWRIGHT_VERSION }}
 
       - name: Download Build Artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: build-output
           path: apps/web/dist
@@ -355,7 +355,7 @@ jobs:
           key: ${{ runner.os }}-playwright-${{ env.CACHE_VERSION }}-${{ env.PLAYWRIGHT_VERSION }}
 
       - name: Download Build Artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: build-output
           path: apps/web/dist
@@ -424,7 +424,7 @@ jobs:
           key: ${{ runner.os }}-playwright-${{ env.CACHE_VERSION }}-${{ env.PLAYWRIGHT_VERSION }}
 
       - name: Download Build Artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: build-output
           path: apps/web/dist
@@ -459,7 +459,7 @@ jobs:
           key: ${{ runner.os }}-node-${{ env.CACHE_VERSION }}-${{ hashFiles('package-lock.json', 'apps/web/package-lock.json') }}
 
       - name: Download Build Artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: build-output
           path: apps/web/dist
@@ -496,7 +496,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Download Build Artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: build-output
           path: apps/web/dist
@@ -527,7 +527,7 @@ jobs:
     if: always()
     steps:
       - name: Download All Test Results
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           pattern: test-results-*
           merge-multiple: true
