@@ -192,7 +192,7 @@ jobs:
           npm run analyze:bundles
 
       - name: Upload build artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: web-dist-${{ github.run_id }}
           path: apps/web/dist/
@@ -375,7 +375,7 @@ jobs:
 
       - name: Upload test results
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: test-results-${{ matrix.shard }}
           path: |
@@ -510,7 +510,7 @@ jobs:
           format: 'HTML'
 
       - name: Upload security report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: security-report
           path: reports/
@@ -589,7 +589,7 @@ jobs:
             });
 
       - name: Upload combined results
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: combined-test-results
           path: |
