@@ -1,320 +1,109 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Navbar from '../components/ui/Navbar.astro';
-import Hero from '../components/ui/Hero.astro';
-import { ToolHub } from '../components/tools/ToolHub';
-import Footer from '../components/ui/Footer.astro';
-import SocialProof from '../components/ui/SocialProof.astro';
-import { tools } from '../lib/tools';
-import { getLiveGames } from '../lib/games';
+/**
+ * Hub page - TAKEN DOWN
+ * Previous content preserved in git history (commit before this change)
+ */
+import '../styles/global.css';
 
-// Convert games to tools format so they appear in the hub
-const liveGames = getLiveGames();
-const gamesAsTools = liveGames.map(game => ({
-  id: game.id,
-  name: game.name,
-  description: game.description,
-  icon: 'Game',
-  thumbnail: game.thumbnail,
-  category: 'games' as const,
-  tier: 'free' as const,
-  href: game.href,
-  color: 'from-purple-500 to-pink-500',
-  tags: ['game', 'casual', 'puzzle', 'arcade'],
-  popular: game.isNew || false,
-  releaseDate: game.releaseDate || '2026-01-01',
-  seo: game.seo,
-  stats: game.stats
-}));
-
-// Combine tools and games
-const allHubItems = [...tools, ...gamesAsTools];
-
-// SEO metadata
-const title = 'Free Online Tools for PDF, Images, Video | New Life Solutions';
-const description = 'Merge PDFs, compress images, trim video, and more with privacy-first tools that run entirely in your browser. No uploads, no signup, works offline.';
-const baseUrl = 'https://www.newlifesolutions.dev';
-const currentDate = new Date().toISOString().split('T')[0];
-const lastUpdated = new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
-
-const faqs = [
-  {
-    question: 'Are these tools really free?',
-    answer: 'Yes. All core tools are free to use with no sign-up, no watermarks, and no daily limits.'
-  },
-  {
-    question: 'Do you upload my files to a server?',
-    answer: 'No. All processing happens in your browser. Files stay on your device and are never uploaded.'
-  },
-  {
-    question: 'Can I use the tools offline?',
-    answer: 'Yes. After the first load, most tools work offline because the required code is cached in your browser.'
-  },
-  {
-    question: 'What file size limits should I expect?',
-    answer: 'Typical limits are PDF 50MB, images 10MB, video 500MB, and audio 100MB. Performance can vary by device.'
-  },
-  {
-    question: 'Which browsers are supported?',
-    answer: 'Chrome, Edge, Firefox, and Safari are supported. For best results, use the latest version.'
-  }
-];
-
-const hubSchema = {
-  '@context': 'https://schema.org',
-  '@graph': [
-    {
-      '@type': 'Organization',
-      '@id': `${baseUrl}#org`,
-      name: 'New Life Solutions',
-      url: baseUrl,
-      logo: `${baseUrl}/favicon.svg`,
-      sameAs: ['https://github.com/newlifesolutions']
-    },
-    {
-      '@type': 'WebSite',
-      '@id': `${baseUrl}#website`,
-      url: baseUrl,
-      name: 'New Life Solutions',
-      publisher: { '@id': `${baseUrl}#org` },
-      inLanguage: 'en-US',
-      potentialAction: {
-        '@type': 'SearchAction',
-        target: `${baseUrl}/hub?q={search_term_string}`,
-        'query-input': 'required name=search_term_string'
-      }
-    },
-    {
-      '@type': ['WebPage', 'CollectionPage'],
-      '@id': `${baseUrl}/hub#webpage`,
-      url: `${baseUrl}/hub`,
-      name: title,
-      description,
-      dateModified: currentDate,
-      inLanguage: 'en-US',
-      isPartOf: { '@id': `${baseUrl}#website` },
-      about: { '@id': `${baseUrl}#org` },
-      mainEntity: { '@id': `${baseUrl}/hub#itemlist` }
-    },
-    {
-      '@type': 'ItemList',
-      '@id': `${baseUrl}/hub#itemlist`,
-      name: 'Free online tools',
-      numberOfItems: allHubItems.length,
-      itemListElement: allHubItems.slice(0, 10).map((tool, index) => ({
-        '@type': 'ListItem',
-        position: index + 1,
-        name: tool.name,
-        description: tool.description,
-        url: `${baseUrl}${tool.href}`
-      }))
-    },
-    {
-      '@type': 'BreadcrumbList',
-      itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'Home', item: baseUrl },
-        { '@type': 'ListItem', position: 2, name: 'Tool Hub', item: `${baseUrl}/hub` }
-      ]
-    },
-    {
-      '@type': 'FAQPage',
-      mainEntity: faqs.map((faq) => ({
-        '@type': 'Question',
-        name: faq.question,
-        acceptedAnswer: { '@type': 'Answer', text: faq.answer }
-      }))
-    }
-  ]
-};
+const title = 'New Life Solutions - Coming Soon';
+const description = 'New Life Solutions is currently undergoing maintenance. We will be back soon.';
 ---
 
-<Layout title={title} description={description} canonicalUrl="https://www.newlifesolutions.dev/hub">
-  <Navbar />
-  <main class="pt-16">
-    <Hero />
-    <SocialProof toolCount={allHubItems.length} />
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title}</title>
+    <style>
+      :root {
+        --bg: #0a0a0a;
+        --text: #e0e0e0;
+        --dim: #333333;
+        --muted: #666666;
+      }
 
-    <section class="py-16 px-6 border-t border-[var(--border)]">
-      <div class="max-w-5xl mx-auto">
-        <div class="text-center mb-10">
-          <div class="text-[0.625rem] uppercase tracking-[0.3em] text-[var(--text-muted)] mb-4">How it works</div>
-          <h2 class="text-xl sm:text-2xl font-semibold mb-4">Three steps, all in your browser</h2>
-          <p class="text-[var(--text-dim)] text-sm max-w-2xl mx-auto leading-relaxed">
-            Pick a tool, add your files, and download the result. Nothing is uploaded to a server.
-          </p>
-        </div>
-        <ol class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-left">
-          <li class="glass-card p-5">
-            <div class="text-[0.625rem] uppercase tracking-[0.2em] text-[var(--text-muted)]">Step 1</div>
-            <h3 class="mt-3 text-sm font-semibold text-[var(--text)]">Choose a tool</h3>
-            <p class="mt-2 text-sm text-[var(--text-dim)]">Find the PDF, image, video, or AI tool you need.</p>
-          </li>
-          <li class="glass-card p-5">
-            <div class="text-[0.625rem] uppercase tracking-[0.2em] text-[var(--text-muted)]">Step 2</div>
-            <h3 class="mt-3 text-sm font-semibold text-[var(--text)]">Add your files</h3>
-            <p class="mt-2 text-sm text-[var(--text-dim)]">Drag and drop or select files. Processing stays local.</p>
-          </li>
-          <li class="glass-card p-5">
-            <div class="text-[0.625rem] uppercase tracking-[0.2em] text-[var(--text-muted)]">Step 3</div>
-            <h3 class="mt-3 text-sm font-semibold text-[var(--text)]">Download instantly</h3>
-            <p class="mt-2 text-sm text-[var(--text-dim)]">Save results right away. No accounts, no waiting.</p>
-          </li>
-        </ol>
-      </div>
-    </section>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
 
-    <!-- Tool Hub with Search and Filters -->
-    <section id="tools" class="py-20 px-6">
-      <div class="max-w-7xl mx-auto">
-        <!-- SEO-friendly heading structure -->
-        <div class="text-center mb-16">
-          <div class="text-[0.625rem] uppercase tracking-[0.3em] text-[var(--text-muted)] mb-4">Tool Hub</div>
-          <h1 class="text-2xl sm:text-3xl font-semibold mb-4">
-            Free online tools for PDFs, images, video, and more
-          </h1>
-          <p class="text-[var(--text-dim)] text-sm max-w-2xl mx-auto leading-relaxed">
-            Search {allHubItems.length} privacy-first tools and games. Filter by category, sort by popularity, and work entirely in your browser.
-          </p>
-          <p class="text-[0.625rem] uppercase tracking-[0.2em] text-[var(--text-muted)] mt-4">
-            Updated {lastUpdated}
-          </p>
-        </div>
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: 'Courier New', monospace;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        position: relative;
+      }
 
-        <!-- Interactive Tool Hub Component -->
-        <ToolHub client:load tools={allHubItems} />
-      </div>
-    </section>
+      .grid-bg {
+        position: fixed;
+        inset: 0;
+        background-image:
+          linear-gradient(var(--dim) 1px, transparent 1px),
+          linear-gradient(90deg, var(--dim) 1px, transparent 1px);
+        background-size: 50px 50px;
+        opacity: 0.1;
+        z-index: 0;
+      }
 
-    <!-- Guides & Resources -->
-    <section class="py-20 px-6 border-t border-[var(--border)]">
-      <div class="max-w-5xl mx-auto">
-        <div class="text-center mb-10">
-          <div class="text-[0.625rem] uppercase tracking-[0.3em] text-[var(--text-muted)] mb-4">Resources</div>
-          <h2 class="text-xl sm:text-2xl font-semibold mb-4">Guides & Use Cases</h2>
-          <p class="text-[var(--text-dim)] text-sm max-w-2xl mx-auto leading-relaxed">
-            Step-by-step tutorials and real-world workflows to get the most out of our tools.
-          </p>
-        </div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          <a href="/guides/merge-pdf-online-free" class="glass-card p-5 hover:border-white/20 transition-colors group">
-            <div class="text-[0.625rem] uppercase tracking-[0.2em] text-[var(--text-muted)] mb-2">Guide</div>
-            <h3 class="text-sm font-semibold text-[var(--text)] group-hover:text-white transition-colors">Merge PDFs Online for Free</h3>
-            <p class="mt-2 text-[0.75rem] text-[var(--text-dim)]">Combine multiple PDF files into one document without uploading anything.</p>
-          </a>
-          <a href="/guides/compress-video-for-discord" class="glass-card p-5 hover:border-white/20 transition-colors group">
-            <div class="text-[0.625rem] uppercase tracking-[0.2em] text-[var(--text-muted)] mb-2">Guide</div>
-            <h3 class="text-sm font-semibold text-[var(--text)] group-hover:text-white transition-colors">Compress Video for Discord</h3>
-            <p class="mt-2 text-[0.75rem] text-[var(--text-dim)]">Reduce video file size to fit Discord's upload limit.</p>
-          </a>
-          <a href="/use-cases/hipaa-pdf-redaction" class="glass-card p-5 hover:border-white/20 transition-colors group">
-            <div class="text-[0.625rem] uppercase tracking-[0.2em] text-[var(--text-muted)] mb-2">Use Case</div>
-            <h3 class="text-sm font-semibold text-[var(--text)] group-hover:text-white transition-colors">HIPAA-Compliant PDF Redaction</h3>
-            <p class="mt-2 text-[0.75rem] text-[var(--text-dim)]">Redact sensitive health information without cloud processing.</p>
-          </a>
-        </div>
-        <div class="text-center mt-8 flex justify-center gap-6">
-          <a href="/guides" class="text-[0.6875rem] uppercase tracking-[0.15em] text-[var(--text-muted)] hover:text-[var(--text)] transition-colors">
-            All Guides &rarr;
-          </a>
-          <a href="/use-cases" class="text-[0.6875rem] uppercase tracking-[0.15em] text-[var(--text-muted)] hover:text-[var(--text)] transition-colors">
-            All Use Cases &rarr;
-          </a>
-        </div>
-      </div>
-    </section>
+      .container {
+        position: relative;
+        z-index: 10;
+        text-align: center;
+        padding: 2rem;
+        max-width: 480px;
+      }
 
-    <!-- About Section -->
-    <section id="about" class="py-20 px-6 border-t border-[var(--border)]">
-      <div class="max-w-2xl mx-auto text-center">
-        <div class="text-[0.625rem] uppercase tracking-[0.3em] text-[var(--text-muted)] mb-4">About</div>
-        <h2 class="text-xl sm:text-2xl font-semibold mb-6">About Our Tools</h2>
-        <p class="text-[var(--text-dim)] text-sm leading-relaxed mb-8">
-          New Life Solutions provides browser-based tools that respect your privacy.
-          All processing happens locally on your device. Your files never leave your browser.
-          No account required for core tools. We collect minimal, anonymous usage metrics
-          to improve reliability and performance, never your file contents.
-        </p>
-        <div class="flex flex-wrap justify-center gap-6 text-[0.625rem] text-[var(--text-muted)] uppercase tracking-[0.15em]">
-          <span>Browser-Based</span>
-          <span>No Uploads</span>
-          <span>100% Private</span>
-        </div>
-      </div>
-    </section>
+      .symbol {
+        font-size: 3rem;
+        margin-bottom: 2rem;
+        opacity: 0.5;
+        animation: pulse 4s ease-in-out infinite;
+      }
 
-    <section id="faq" class="py-20 px-6 border-t border-[var(--border)]">
-      <div class="max-w-4xl mx-auto">
-        <div class="text-center mb-10">
-          <div class="text-[0.625rem] uppercase tracking-[0.3em] text-[var(--text-muted)] mb-4">FAQ</div>
-          <h2 class="text-xl sm:text-2xl font-semibold mb-4">Common questions</h2>
-          <p class="text-[var(--text-dim)] text-sm max-w-2xl mx-auto leading-relaxed">
-            Quick answers about privacy, offline use, and browser support.
-          </p>
-        </div>
-        <div class="faq-list" itemscope itemtype="https://schema.org/FAQPage">
-          {faqs.map((faq) => (
-            <details class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
-              <summary itemprop="name" class="faq-question">
-                {faq.question}
-              </summary>
-              <div itemprop="acceptedAnswer" itemscope itemtype="https://schema.org/Answer" class="faq-answer">
-                <p itemprop="text">{faq.answer}</p>
-              </div>
-            </details>
-          ))}
-        </div>
-      </div>
-    </section>
-  </main>
-  <Footer />
-</Layout>
+      @keyframes pulse {
+        0%, 100% { opacity: 0.3; }
+        50% { opacity: 0.6; }
+      }
 
-<!-- JSON-LD Structured Data for SEO -->
-<script type="application/ld+json" set:html={JSON.stringify(hubSchema)} />
+      .title {
+        font-size: 1.2rem;
+        letter-spacing: 0.6em;
+        font-weight: 300;
+        text-transform: uppercase;
+        margin-bottom: 1.5rem;
+      }
 
-<style>
-  .faq-list {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-    max-width: 48rem;
-    margin: 0 auto;
-  }
+      .message {
+        font-size: 0.75rem;
+        color: var(--muted);
+        letter-spacing: 0.15em;
+        line-height: 1.8;
+        text-transform: uppercase;
+      }
 
-  .faq-item {
-    border: 1px solid var(--border);
-    background: var(--bg-secondary);
-  }
-
-  .faq-question {
-    padding: 1rem 1.25rem;
-    font-size: 0.875rem;
-    color: var(--text);
-    cursor: pointer;
-    list-style: none;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .faq-question::-webkit-details-marker {
-    display: none;
-  }
-
-  .faq-question::after {
-    content: '+';
-    font-size: 1rem;
-    color: var(--text-muted);
-  }
-
-  .faq-item[open] .faq-question::after {
-    content: '-';
-  }
-
-  .faq-answer {
-    padding: 0 1.25rem 1rem;
-    font-size: 0.8125rem;
-    line-height: 1.6;
-    color: var(--text-dim);
-  }
-</style>
+      .version {
+        position: fixed;
+        bottom: 2rem;
+        font-size: 0.625rem;
+        color: var(--dim);
+        letter-spacing: 0.2em;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="grid-bg"></div>
+    <div class="container">
+      <div class="symbol">◈</div>
+      <h1 class="title">New Life</h1>
+      <p class="message">This site is currently offline.<br />We'll be back soon.</p>
+    </div>
+    <div class="version">offline</div>
+  </body>
+</html>
