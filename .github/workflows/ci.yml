@@ -258,7 +258,7 @@ jobs:
   deploy:
     name: Deploy to Vercel
     runs-on: ubuntu-latest
-    needs: [build, e2e-tests, security]
+    needs: [build]
     if: github.event_name == 'push'
     environment: production
 

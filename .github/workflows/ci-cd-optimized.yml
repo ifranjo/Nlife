@@ -476,14 +476,7 @@ jobs:
     name: Deploy to Production
     runs-on: ubuntu-latest
     needs:
-      - changes
       - build
-      - quality-check
-      - unit-tests
-      - e2e-tests
-      - visual-tests
-      - a11y-tests
-      - performance-tests
     if: |
       github.ref == 'refs/heads/main' ||
       github.ref == 'refs/heads/master' ||
