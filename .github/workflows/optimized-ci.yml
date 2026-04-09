@@ -385,7 +385,7 @@ jobs:
 
       - name: Upload coverage data
         if: always()
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@v5
         with:
           directory: apps/web/coverage/
           flags: e2e-tests
